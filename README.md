@@ -4,8 +4,10 @@ L’objectif de ce projet est d’identifier automatiquement les catégories aux
 
 ## 1. Installation
 
-Télécharger et décompresser le dépôt, puis ouvrir un terminal à sa racine, dans le dossier contenant `cli.py`.
+Télécharger et décompresser l’[archive ZIP complète — modèles inclus](https://github.com/ybelghmi/codeforces-multilabel-classification/releases/download/v1.0.0/codeforces-multilabel-classification.zip), puis ouvrir un terminal à sa racine, dans le dossier contenant `cli.py`.
 Installer **Python 3.11.x** ; la version vérifiée est **3.11.11**, indiquée dans `.python-version`.
+
+L’archive de la Release contient tous les poids. Les gros modèles sont stockés avec Git LFS dans le dépôt : l’archive standard « Code → Download ZIP » peut ne contenir que leurs pointeurs. Pour télécharger le projet sans Git LFS, utiliser le lien ci-dessus.
 
 ### Créer l’environnement du projet
 

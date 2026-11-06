@@ -44,7 +44,6 @@ python -m pip check
 python -m pip install -r requirements-notebooks.txt
 python -m pip check
 python -m ipykernel install --sys-prefix --name code-classification --display-name "Code Classification (.venv)"
-python -m jupyterlab
 ```
 
 L’installation complète permet aussi d’utiliser la CLI. Vérifier que `pip check` affiche bien `No broken requirements found.` Pour les notebooks, choisir **Code Classification (.venv)** dans JupyterLab ou l’interpréteur `.venv` dans VS Code, puis exécuter les cellules des notebooks dans l’ordre, depuis la première. Conserver les versions des dépendances fournies.

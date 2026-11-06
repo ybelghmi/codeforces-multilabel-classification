@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"aca\", \"ac\", \"yaa\", \"baa\"]",
+    "src_uid": "ea2dc6309e704d04cfdd6c79161c67f7",
+    "prob_desc_notes": "NoteIn the first example the list of strings t of length 3, such that the set of letters of t is a subset of letters of s is as follows: aaa, aab, aac, aba, abb, abc, aca, acb, .... Among them, those are lexicographically greater than abc: aca, acb, .... Out of those the lexicographically smallest is aca.",
+    "prob_desc_description": "And where the are the phone numbers?You are given a string s consisting of lowercase English letters and an integer k. Find the lexicographically smallest string t of length k, such that its set of letters is a subset of the set of letters of s and s is lexicographically smaller than t.It's guaranteed that the answer exists.Note that the set of letters is a set, not a multiset. For example, the set of letters of abadaba is {a, b, d}.String p is lexicographically smaller than string q, if p is a prefix of q, is not equal to q or there exists i, such that pi &lt; qi and for all j &lt; i it is satisfied that pj = qj. For example, abc is lexicographically smaller than abcd , abd is lexicographically smaller than abec, afa is not lexicographically smaller than ab and a is not lexicographically smaller than a.",
+    "prob_desc_output_spec": "Output the string t conforming to the requirements above. It's guaranteed that the answer exists.",
+    "prob_desc_input_spec": "The first line of input contains two space separated integers n and k (1 ≤ n, k ≤ 100 000) — the length of s and the required length of t. The second line of input contains the string s consisting of n lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_012.jsonl",
+    "code_uid": "95d1290c2ba1c874b834082fe240b7da",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\nabc\", \"3 2\\nabc\", \"3 3\\nayy\", \"2 3\\nba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, input().split())\ns = input()\na = sorted(set(s))\nidx = {}\n\nfor i, j in enumerate(a):\n\tidx[j] = i\n\nif n < k:\n\tprint(s + a[0] * (k - n))\n\texit()\n\nt = [*s[:k]]\nz = len(idx)\nl = 0\n\nfor i in range(k - 1, -1, -1):\n\tr = (idx[s[i]] + 1) % z\n\tif r == 0:\n\t\tl = 1\n\telse:\n\t\tl = 0\n\tt[i] = a[r]\n\tif l == 0:\n\t\tbreak\n\nprint(''.join(t))",
+    "prob_desc_created_at": "1519464900",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

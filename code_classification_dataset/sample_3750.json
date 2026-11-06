@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\\nNo\\nYes\\nYes\\nNo\\nNo\"]",
+    "src_uid": "002129eec704af8976a2bf02cc532d59",
+    "prob_desc_notes": "NoteIn the first test case, one possible solution is as follows:  In the third test case, we can color all cells with pigment $$$1$$$.",
+    "prob_desc_description": "A picture can be represented as an $$$n\\times m$$$ grid ($$$n$$$ rows and $$$m$$$ columns) so that each of the $$$n \\cdot m$$$ cells is colored with one color. You have $$$k$$$ pigments of different colors. You have a limited amount of each pigment, more precisely you can color at most $$$a_i$$$ cells with the $$$i$$$-th pigment.A picture is considered beautiful if each cell has at least $$$3$$$ toroidal neighbors with the same color as itself.Two cells are considered toroidal neighbors if they toroidally share an edge. In other words, for some integers $$$1 \\leq x_1,x_2 \\leq n$$$ and $$$1 \\leq y_1,y_2 \\leq m$$$, the cell in the $$$x_1$$$-th row and $$$y_1$$$-th column is a toroidal neighbor of the cell in the $$$x_2$$$-th row and $$$y_2$$$-th column if one of following two conditions holds:  $$$x_1-x_2 \\equiv \\pm1 \\pmod{n}$$$ and $$$y_1=y_2$$$, or  $$$y_1-y_2 \\equiv \\pm1 \\pmod{m}$$$ and $$$x_1=x_2$$$. Notice that each cell has exactly $$$4$$$ toroidal neighbors. For example, if $$$n=3$$$ and $$$m=4$$$, the toroidal neighbors of the cell $$$(1, 2)$$$ (the cell on the first row and second column) are: $$$(3, 2)$$$, $$$(2, 2)$$$, $$$(1, 3)$$$, $$$(1, 1)$$$. They are shown in gray on the image below:  The gray cells show toroidal neighbors of $$$(1, 2)$$$. Is it possible to color all cells with the pigments provided and create a beautiful picture?",
+    "prob_desc_output_spec": "For each test case, print \"Yes\" (without quotes) if it is possible to color a beautiful picture. Otherwise, print \"No\" (without quotes).",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$). The description of the test cases follows. The first line of each test case contains three integers $$$n$$$, $$$m$$$, and $$$k$$$ ($$$3 \\leq n,m \\leq 10^9$$$, $$$1 \\leq k \\leq 10^5$$$) — the number of rows and columns of the picture and the number of pigments. The next line contains $$$k$$$ integers $$$a_1,a_2,\\dots, a_k$$$ ($$$1 \\leq a_i \\leq 10^9$$$) — $$$a_i$$$ is the maximum number of cells that can be colored with the $$$i$$$-th pigment. It is guaranteed that the sum of $$$k$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_083.jsonl",
+    "code_uid": "558c5bcfc7d891fa7f0becce8611e153",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\n4 6 3\\n\\n12 9 8\\n\\n3 3 2\\n\\n8 8\\n\\n3 3 2\\n\\n9 5\\n\\n4 5 2\\n\\n10 11\\n\\n5 4 2\\n\\n9 11\\n\\n10 10 3\\n\\n11 45 14\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "num_of_cases = int(input())\r\nres = ['' for _ in range(num_of_cases)]\r\n\r\nfor case in range(num_of_cases):\r\n    \r\n    R, C, k = [int(x) for x in input().split(' ')]\r\n    arr = [int(x) for x in input().split(' ')]\r\n    arr.sort(reverse=True)\r\n    res_found = False\r\n    \r\n    if R > 1 and C > 1:\r\n\r\n        #check_devide_by_row\r\n        count = R\r\n        buffer = 0\r\n        for num in arr:\r\n            if num >= C * 2:\r\n                tmp = num // C\r\n                buffer += tmp - 2\r\n                count -= 2\r\n                if count <= 1:\r\n                    break\r\n        if buffer >= count:\r\n            res_found = True\r\n        \r\n        \r\n        #check_devide_by_col\r\n        if not res_found:\r\n            count = C\r\n            buffer = 0\r\n            for num in arr:\r\n                if num >= R * 2:\r\n                    tmp = num // R\r\n                    buffer += tmp - 2\r\n                    count -= 2\r\n                    if count <= 1:\r\n                        break\r\n                    \r\n        if buffer >= count:\r\n            res_found = True\r\n                \r\n        \r\n    res[case] = 'Yes' if res_found else 'No'\r\n    \r\n    \r\nprint('\\n'.join(res))",
+    "prob_desc_created_at": "1658673300",
+    "tags": [
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

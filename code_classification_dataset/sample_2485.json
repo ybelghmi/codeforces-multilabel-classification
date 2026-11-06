@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"01011110\\n0101111\\n0011111\"]",
+    "src_uid": "d4b6bea78b80b0a94646cbaf048b473f",
+    "prob_desc_notes": "NoteIn the first example, you can change the string as follows: $$$1\\underline{10}11010 \\rightarrow \\underline{10}111010 \\rightarrow 0111\\underline{10}10 \\rightarrow 011\\underline{10}110 \\rightarrow 01\\underline{10}1110 \\rightarrow 01011110$$$. In the third example, there are enough operations to make the string sorted.",
+    "prob_desc_description": "You are given a binary string of length $$$n$$$ (i. e. a string consisting of $$$n$$$ characters '0' and '1').In one move you can swap two adjacent characters of the string. What is the lexicographically minimum possible string you can obtain from the given one if you can perform no more than $$$k$$$ moves? It is possible that you do not perform any moves at all.Note that you can swap the same pair of adjacent characters with indices $$$i$$$ and $$$i+1$$$ arbitrary (possibly, zero) number of times. Each such swap is considered a separate move.You have to answer $$$q$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer on it: the lexicographically minimum possible string of length $$$n$$$ you can obtain from the given one if you can perform no more than $$$k$$$ moves.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$q$$$ ($$$1 \\le q \\le 10^4$$$) — the number of test cases. The first line of the test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 10^6, 1 \\le k \\le n^2$$$) — the length of the string and the number of moves you can perform. The second line of the test case contains one string consisting of $$$n$$$ characters '0' and '1'. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^6$$$ ($$$\\sum n \\le 10^6$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_023.jsonl",
+    "code_uid": "c515aa4bfb113faef553a04ff0fc0dab",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n8 5\\n11011010\\n7 9\\n1111100\\n7 11\\n1111100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\nfor i in range(n):\n    n,k=map(int,input().split(' '))\n    stri=input()\n    result=['1']*n\n    t=0\n    for j in range(n):\n        if(stri[j]=='0'):\n            s=min(k,j-t)\n            k-=s\n            result[j-s]='0'\n            t+=1\n    print(\"\".join(result))",
+    "prob_desc_created_at": "1572873300",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

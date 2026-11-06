@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"0\", \"3\"]",
+    "src_uid": "2e8b44efdd442f3ae5962ec637749708",
+    "prob_desc_notes": "NoteIn the first example you can rearrange rows as following to get the $$$5$$$-acceptable traversal:5 310 84 39 9Then the sequence $$$s$$$ will be $$$[5, 10, 4, 9, 3, 8, 3, 9]$$$. Each pair of neighbouring elements have at least $$$k = 5$$$ difference between them.In the second example the maximum $$$k = 0$$$, any order is $$$0$$$-acceptable.In the third example the given order is already $$$3$$$-acceptable, you can leave it as it is.",
+    "prob_desc_description": "You are given a matrix $$$a$$$, consisting of $$$n$$$ rows and $$$m$$$ columns. Each cell contains an integer in it.You can change the order of rows arbitrarily (including leaving the initial order), but you can't change the order of cells in a row. After you pick some order of rows, you traverse the whole matrix the following way: firstly visit all cells of the first column from the top row to the bottom one, then the same for the second column and so on. During the traversal you write down the sequence of the numbers on the cells in the same order you visited them. Let that sequence be $$$s_1, s_2, \\dots, s_{nm}$$$. The traversal is $$$k$$$-acceptable if for all $$$i$$$ ($$$1 \\le i \\le nm - 1$$$) $$$|s_i - s_{i + 1}| \\ge k$$$.Find the maximum integer $$$k$$$ such that there exists some order of rows of matrix $$$a$$$ that it produces a $$$k$$$-acceptable traversal.",
+    "prob_desc_output_spec": "Print a single integer $$$k$$$ — the maximum number such that there exists some order of rows of matrix $$$a$$$ that it produces an $$$k$$$-acceptable traversal.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 16$$$, $$$1 \\le m \\le 10^4$$$, $$$2 \\le nm$$$) — the number of rows and the number of columns, respectively. Each of the next $$$n$$$ lines contains $$$m$$$ integers ($$$1 \\le a_{i, j} \\le 10^9$$$) — the description of the matrix.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_050.jsonl",
+    "code_uid": "dcd7c480a1c6c504da6e976cb780f4b7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n9 9\\n10 8\\n5 3\\n4 3\", \"2 4\\n1 2 3 4\\n10 3 7 3\", \"6 1\\n3\\n6\\n2\\n5\\n1\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom array import array  # noqa: F401\nfrom typing import List, Tuple, TypeVar, Generic, Sequence, Union  # noqa: F401\n\n\ndef input():\n    return sys.stdin.buffer.readline().decode('utf-8')\n\n\ndef solve(i, n, delta, delta2):\n    inf = 2 * 10**9\n    dp = [[-1] * n for _ in range(1 << n)]\n    dp[(1 << i)][i] = inf\n    stack = [(1 << i, i)]\n\n    for t in range(1, n + 1):\n        next_s = []\n        for bit, v in stack:\n            for dest in range(n):\n                if (1 << dest) & bit:\n                    continue\n                if dp[bit | (1 << dest)][dest] == -1:\n                    next_s.append((bit | (1 << dest), dest))\n                dp[bit | (1 << dest)][dest] = max(dp[bit | (1 << dest)][dest], min(dp[bit][v], delta[v][dest]))\n\n        stack = next_s\n\n    return max(min(delta2[j][i], dp[-1][j]) for j in range(n) if i != j)\n\n\ndef main():\n    n, m = map(int, input().split())\n    matrix = [tuple(map(int, input().split())) for _ in range(n)]\n\n    if n == 1:\n        print(min(abs(x - y) for x, y in zip(matrix[0], matrix[0][1:])))\n        exit()\n\n    delta = [[0] * n for _ in range(n)]\n    for i in range(n):\n        for j in range(i + 1, n):\n            delta[i][j] = delta[j][i] = min(abs(x - y) for x, y in zip(matrix[i], matrix[j]))\n    delta2 = [[0] * n for _ in range(n)]\n    for i in range(n):\n        for j in range(n):\n            delta2[i][j] = min((abs(x - y) for x, y in zip(matrix[i], matrix[j][1:])), default=2 * 10**9)\n\n    print(max(solve(i, n, delta, delta2) for i in range(n)))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1547044500",
+    "tags": [
+        "dp",
+        "graphs",
+        "bitmasks",
+        "binary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

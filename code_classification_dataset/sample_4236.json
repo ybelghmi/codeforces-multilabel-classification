@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n2\\n4\\n8\\n2\"]",
+    "src_uid": "5f8916876c2889cfe9265cd71905ad99",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Vlad has $$$n$$$ friends, for each of whom he wants to buy one gift for the New Year.There are $$$m$$$ shops in the city, in each of which he can buy a gift for any of his friends. If the $$$j$$$-th friend ($$$1 \\le j \\le n$$$) receives a gift bought in the shop with the number $$$i$$$ ($$$1 \\le i \\le m$$$), then the friend receives $$$p_{ij}$$$ units of joy. The rectangular table $$$p_{ij}$$$ is given in the input.Vlad has time to visit at most $$$n-1$$$ shops (where $$$n$$$ is the number of friends). He chooses which shops he will visit and for which friends he will buy gifts in each of them.Let the $$$j$$$-th friend receive $$$a_j$$$ units of joy from Vlad's gift. Let's find the value $$$\\alpha=\\min\\{a_1, a_2, \\dots, a_n\\}$$$. Vlad's goal is to buy gifts so that the value of $$$\\alpha$$$ is as large as possible. In other words, Vlad wants to maximize the minimum of the joys of his friends.For example, let $$$m = 2$$$, $$$n = 2$$$. Let the joy from the gifts that we can buy in the first shop: $$$p_{11} = 1$$$, $$$p_{12}=2$$$, in the second shop: $$$p_{21} = 3$$$, $$$p_{22}=4$$$.Then it is enough for Vlad to go only to the second shop and buy a gift for the first friend, bringing joy $$$3$$$, and for the second — bringing joy $$$4$$$. In this case, the value $$$\\alpha$$$ will be equal to $$$\\min\\{3, 4\\} = 3$$$Help Vlad choose gifts for his friends so that the value of $$$\\alpha$$$ is as high as possible. Please note that each friend must receive one gift. Vlad can visit at most $$$n-1$$$ shops (where $$$n$$$ is the number of friends). In the shop, he can buy any number of gifts.",
+    "prob_desc_output_spec": "Print $$$t$$$ lines, each line must contain the answer to the corresponding test case — the maximum possible value of $$$\\alpha$$$, where $$$\\alpha$$$ is the minimum of the joys from a gift for all of Vlad's friends.",
+    "prob_desc_input_spec": "The first line of the input contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the input. An empty line is written before each test case. Then there is a line containing integers $$$m$$$ and $$$n$$$ ($$$2 \\le n$$$, $$$2 \\le n \\cdot m \\le 10^5$$$) separated by a space — the number of shops and the number of friends, where $$$n \\cdot m$$$ is the product of $$$n$$$ and $$$m$$$. Then $$$m$$$ lines follow, each containing $$$n$$$ numbers. The number in the $$$i$$$-th row of the $$$j$$$-th column $$$p_{ij}$$$ ($$$1 \\le p_{ij} \\le 10^9$$$) is the joy of the product intended for friend number $$$j$$$ in shop number $$$i$$$. It is guaranteed that the sum of the values $$$n \\cdot m$$$ over all test cases in the test does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_093.jsonl",
+    "code_uid": "69ef7dada7cf4c8d04aa42b04542ff91",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n2 2\\n1 2\\n3 4\\n\\n4 3\\n1 3 1\\n3 1 1\\n1 2 2\\n1 1 3\\n\\n2 3\\n5 3 4\\n2 5 1\\n\\n4 2\\n7 9\\n8 1\\n9 6\\n10 8\\n\\n2 4\\n6 5 2 1\\n7 9 7 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, os\r\n\r\n#\r\n# Benchmarking weird pypy3\r\ninp = [int(x) for x in os.read(0, 10**7).split()]; ii = 0\r\n \r\nout = []\r\n \r\nt = inp[ii]; ii += 1\r\nfor _ in range(t):\r\n    n = inp[ii]; ii += 1\r\n    m = inp[ii]; ii += 1\r\n    A = inp[ii: ii + n * m]; ii += n * m\r\n \r\n    def solve(bound):\r\n        B = [+(a >= bound) for a in A]\r\n        \r\n        for j in range(m):\r\n            Bcol = [B[ind] for ind in range(j,n*m,m)]\r\n        \r\n            if not any(Bcol):\r\n                return False\r\n \r\n        for i in range(n):\r\n            Brow = [B[ind] for ind in range(i * m, i * m + m)]\r\n \r\n            if sum(Brow) >= 2:\r\n                return True\r\n        return False\r\n \r\n    l = 1\r\n    r = 10**9\r\n    while l < r:\r\n        mid = l + r + 1 >> 1\r\n        if not solve(mid):\r\n            r = mid - 1\r\n        else:\r\n            l = mid\r\n    \r\n    print(l)",
+    "prob_desc_created_at": "1640010900",
+    "tags": [
+        "binary search",
+        "greedy",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

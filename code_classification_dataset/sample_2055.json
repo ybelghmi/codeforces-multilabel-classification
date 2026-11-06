@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"cadb\\ngg\\ncodfoerces\\nNo answer\"]",
+    "src_uid": "d62d0a9d827444a671029407f6a4ad39",
+    "prob_desc_notes": "NoteIn the first example answer \"bdac\" is also correct.The second example showcases the fact that only neighbouring in alphabet letters are not allowed. The same letter is ok.There are lots of valid answers for the third example.",
+    "prob_desc_description": "You are given a string, consisting of lowercase Latin letters.A pair of neighbouring letters in a string is considered ugly if these letters are also neighbouring in a alphabet. For example, string \"abaca\" contains ugly pairs at positions $$$(1, 2)$$$ — \"ab\" and $$$(2, 3)$$$ — \"ba\". Letters 'a' and 'z' aren't considered neighbouring in a alphabet.Can you rearrange the letters of a given string so that there are no ugly pairs? You can choose any order of the letters of the given string but you can't add any new letters or remove the existing ones. You can also leave the order the same.If there are multiple answers, print any of them.You also have to answer $$$T$$$ separate queries.",
+    "prob_desc_output_spec": "Print $$$T$$$ lines. The $$$i$$$-th line should contain the answer to the $$$i$$$-th query. If the answer for the $$$i$$$-th query exists, then print such a rearrangment of letters of the given string that it contains no ugly pairs. You can choose any order of the letters of the given string but you can't add any new letters or remove the existing ones. You can also leave the order the same. If there are multiple answers, print any of them. Otherwise print \"No answer\" for that query.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$T$$$ ($$$1 \\le T \\le 100$$$) — the number of queries. Each of the next $$$T$$$ lines contains string $$$s$$$ $$$(1 \\le |s| \\le 100)$$$ — the string for the next query. It is guaranteed that it contains only lowercase Latin letters. Note that in hacks you have to set $$$T = 1$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_016.jsonl",
+    "code_uid": "2cad658f31049589fa58a0c5ec188842",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\nabcd\\ngg\\ncodeforces\\nabaca\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import collections\ndef add1(c):\n    return chr(ord(c)+1)\ndef sv():\n    m = collections.defaultdict(int)\n    for c in input():\n        m[c] += 1\n    m = list(m.items())\n    m.sort()\n    if len(m) == 2 and add1(m[0][0]) == m[1][0]: return False\n    if len(m) == 3:\n        if add1(m[0][0]) != m[1][0]:\n            pass\n        elif add1(m[1][0]) != m[2][0]:\n            m[0], m[2] = m[2], m[0]\n        else:\n            return False\n    for i in range(1,len(m),2):\n        print(m[i][0]*m[i][1], end='')\n    for i in range(0,len(m),2):\n        print(m[i][0]*m[i][1], end='')\n    print()\n    return True\nTC = int(input())\nfor tc in range(TC):\n    if not sv(): print('No answer')\n",
+    "prob_desc_created_at": "1556721300",
+    "tags": [
+        "greedy",
+        "implementation",
+        "sortings",
+        "dfs and similar",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

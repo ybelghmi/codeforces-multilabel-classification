@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n0\\n2\\n1\\n0\"]",
+    "src_uid": "c67c376c8dcb3b3901eaf45fc50cc752",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array $$$a$$$ of length $$$n$$$ consisting of integers. You can apply the following operation, consisting of several steps, on the array $$$a$$$ zero or more times:   you select two different numbers in the array $$$a_i$$$ and $$$a_j$$$;  you remove $$$i$$$-th and $$$j$$$-th elements from the array. For example, if $$$n=6$$$ and $$$a=[1, 6, 1, 1, 4, 4]$$$, then you can perform the following sequence of operations:   select $$$i=1, j=5$$$. The array $$$a$$$ becomes equal to $$$[6, 1, 1, 4]$$$;  select $$$i=1, j=2$$$. The array $$$a$$$ becomes equal to $$$[1, 4]$$$. What can be the minimum size of the array after applying some sequence of operations to it?",
+    "prob_desc_output_spec": "For each test case, output the minimum possible size of the array after applying some sequence of operations to it.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$). Then $$$t$$$ test cases follow. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) is length of the array $$$a$$$. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_101.jsonl",
+    "code_uid": "b9bd02ba25ea47461d93d994ec2ec2e4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n6\\n1 6 1 1 4 4\\n2\\n1 2\\n2\\n1 1\\n5\\n4 5 4 5 4\\n6\\n2 3 2 1 3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def transform(a):\r\n    f={}\r\n    for i in a:\r\n        if i not in f:\r\n            f[i]=1\r\n        else:\r\n            f[i]+=1\r\n    b=[]\r\n    for i in f:\r\n        b+=[f[i]]\r\n    m=max(b)\r\n    ff=[0 for i in range(m+1)]\r\n    present=[False for i in range(m+1)]\r\n    for i in b:\r\n        ff[i]+=1\r\n        present[i]=True\r\n    present=[i for i,j in enumerate(present) if j]\r\n    return ff,present\r\n\r\ndef solve(ff,present):\r\n    x=len(ff)-1\r\n    z=len(present)-2\r\n    flag=True\r\n    if z>=0:\r\n        y=present[z]\r\n    else: \r\n        flag=False\r\n    while x and flag and y>0:\r\n        #print(ff,x,y)\r\n        if y==0:\r\n            break\r\n        if ff[x]>1:\r\n            \r\n            ff[y]+=ff[x]-ff[x]%2\r\n            ff[x]=ff[x]%2\r\n            x+=ff[x]%2\r\n            \r\n        \r\n        else:\r\n            ff[x]=0\r\n            ff[x-1]+=1\r\n            ff[y]-=1\r\n            ff[y-1]+=1\r\n        if ff[x-1]>0:\r\n            x=x-1\r\n        else:\r\n            x=y\r\n        if x==y or ff[y]==0:\r\n            if ff[y-1]>0 or y==1:\r\n                y=y-1\r\n            else:\r\n                z-=1\r\n                y=present[z]\r\n        \r\n    if ff[x]>1:\r\n        return x%2 and ff[x]%2\r\n    else:\r\n        return x\r\n    \r\nt=int(input())\r\nfor i in range(t):\r\n    n=int(input())\r\n    inp=input()\r\n    #if t==10000 and i+1==9285:\r\n        #print(inp)\r\n    inp=inp.split(' ')\r\n    inp=[int(j) for j in inp]\r\n    ff,present=transform(inp)\r\n    #print(ff,present)\r\n    #if t==5:\r\n    print(solve(ff,present))\r\n",
+    "prob_desc_created_at": "1616682900",
+    "tags": [
+        "constructive algorithms",
+        "data structures",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

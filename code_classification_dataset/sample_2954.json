@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"7 8 9 4 5 6 1 2 3\"]",
+    "src_uid": "32077a3111c3f28ad56eab0c085a882d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a permutation of the numbers 1, 2, ..., n and m pairs of positions (aj, bj).At each step you can choose a pair from the given positions and swap the numbers in that positions. What is the lexicographically maximal permutation one can get?Let p and q be two permutations of the numbers 1, 2, ..., n. p is lexicographically smaller than the q if a number 1 ≤ i ≤ n exists, so pk = qk for 1 ≤ k &lt; i and pi &lt; qi.",
+    "prob_desc_output_spec": "Print the only line with n distinct integers p'i (1 ≤ p'i ≤ n) — the lexicographically maximal permutation one can get.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 106) — the length of the permutation p and the number of pairs of positions. The second line contains n distinct integers pi (1 ≤ pi ≤ n) — the elements of the permutation p. Each of the last m lines contains two integers (aj, bj) (1 ≤ aj, bj ≤ n) — the pairs of positions to swap. Note that you are given a positions, not the values to swap.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_036.jsonl",
+    "code_uid": "5f3adb1f8b18c3213117f90794273be5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9 6\\n1 2 3 4 5 6 7 8 9\\n1 4\\n4 7\\n2 5\\n5 8\\n3 6\\n6 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, raw_input().split())\nval = [_ for _ in map(int, raw_input().split())]\nadj = [[] for _ in range(n)]\n\nfor i in range(m):\n    a, b = map(int, raw_input().split())\n    adj[a - 1].append(b - 1)\n    adj[b - 1].append(a - 1)\n\nvis = [False for _ in range(n)]\n\nfor v in range(n):\n    if vis[v] or len(adj[v]) == 0:\n        continue\n\n    seen, cur = [v], 0\n    vis[v] = True\n\n    while cur < len(seen):\n        v = seen[cur]\n        cur += 1\n        for nv in adj[v]:\n            if not vis[nv]:\n                seen.append(nv)\n                vis[nv] = True\n\n    seen.sort()\n    num = [val[i] for i in seen]\n    num.sort()\n\n    for i in range(len(seen)):\n        val[seen[i]] = num[-i-1]\n\nprint(' '.join(map(str, val)))",
+    "prob_desc_created_at": "1468425600",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

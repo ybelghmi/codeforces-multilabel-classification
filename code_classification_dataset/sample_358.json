@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\nNNYY\\nNNYY\\nYYNN\\nYYNN\", \"8\\nNNYYYNNN\\nNNNNNYYY\\nYNNNNYYY\\nYNNNNYYY\\nYNNNNYYY\\nNYYYYNNN\\nNYYYYNNN\\nNYYYYNNN\", \"2\\nNY\\nYN\"]",
+    "src_uid": "30a8d761d5b5103a5b926290634c8fbe",
+    "prob_desc_notes": "NoteIn first example, there are 2 shortest paths: 1-3-2 and 1-4-2.In second example, there are 9 shortest paths: 1-3-6-2, 1-3-7-2, 1-3-8-2, 1-4-6-2, 1-4-7-2, 1-4-8-2, 1-5-6-2, 1-5-7-2, 1-5-8-2.",
+    "prob_desc_description": "Fox Ciel wants to write a task for a programming contest. The task is: \"You are given a simple undirected graph with n vertexes. Each its edge has unit length. You should calculate the number of shortest paths between vertex 1 and vertex 2.\"Same with some writers, she wants to make an example with some certain output: for example, her birthday or the number of her boyfriend. Can you help her to make a test case with answer equal exactly to k?",
+    "prob_desc_output_spec": "You should output a graph G with n vertexes (2 ≤ n ≤ 1000). There must be exactly k shortest paths between vertex 1 and vertex 2 of the graph. The first line must contain an integer n. Then adjacency matrix G with n rows and n columns must follow. Each element of the matrix must be 'N' or 'Y'. If Gij is 'Y', then graph G has a edge connecting vertex i and vertex j. Consider the graph vertexes are numbered from 1 to n. The graph must be undirected and simple: Gii = 'N' and Gij = Gji must hold. And there must be at least one path between vertex 1 and vertex 2. It's guaranteed that the answer exists. If there multiple correct answers, you can output any of them. ",
+    "prob_desc_input_spec": "The first line contains a single integer k (1 ≤ k ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_001.jsonl",
+    "code_uid": "bfa23404a37efcb9776920588ae7d692",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\", \"9\", \"1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "k = int(input())\n\n\nedges = [['N' for i in range(1010)] for j in range(1010)]\nvertices = 2\n\ndef add_edge(a, b):\n    global edges\n    edges[a][b] = edges[b][a] = 'Y'\n\n\nfor i in range(1, 29 + 1):\n    vertices += 3\n    add_edge(i * 3, i * 3 - 1)\n    add_edge(i * 3, i * 3 + 2)\n    add_edge(i * 3 + 1, i * 3 - 1)\n    add_edge(i * 3 + 1, i * 3 + 2)\n\n\nfor bit in range(30):\n    if (1 << bit) & k:\n        lst = 1\n        for i in range((29 - bit) * 2):\n            vertices += 1\n            add_edge(lst, vertices)\n            lst = vertices\n        add_edge(lst, 3 * bit + 2)\n\nprint(vertices)\n\nif 0:\n    for i in range(1, vertices + 1):\n        print(i, ':', '\\n\\t', end='')\n        for j in range(1, vertices + 1):\n            if edges[i][j] == 'Y':\n                print(j, end=' ')\n        print('')\nelse:\n    print('\\n'.join(map(lambda x: ''.join(x[1:vertices+1]), edges[1:vertices + 1])))\n",
+    "prob_desc_created_at": "1391442000",
+    "tags": [
+        "graphs",
+        "constructive algorithms",
+        "bitmasks",
+        "math",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

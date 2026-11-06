@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4 1\\n8 2\\n8 4\\n9 5\\n7 5\\n8 7\\n4 3\\n5 2\"]",
+    "src_uid": "6d5ecac49fe1320eef1391b6d5cf5f0d",
+    "prob_desc_notes": "NoteIn the first testcase there are only two pairs: $$$(1, 4)$$$ and $$$(4, 1)$$$. $$$\\left\\lfloor \\frac 2 2 \\right\\rfloor=1$$$, so we have to find one pair. $$$1~mod~4=1$$$, and $$$1$$$ appears in $$$a$$$, so that pair is invalid. Thus, the only possible answer is a pair $$$(4, 1)$$$.In the second testcase, we chose pairs $$$8~mod~2=0$$$ and $$$8~mod~4=0$$$. $$$0$$$ doesn't appear in $$$a$$$, so that answer is valid. There are multiple possible answers for that testcase.In the third testcase, the chosen pairs are $$$9~mod~5=4$$$ and $$$7~mod~5=2$$$. Neither $$$4$$$, nor $$$2$$$, appears in $$$a$$$, so that answer is valid.",
+    "prob_desc_description": "You are given a sequence $$$a_1, a_2, \\dots, a_n$$$ consisting of $$$n$$$ pairwise distinct positive integers.Find $$$\\left\\lfloor \\frac n 2 \\right\\rfloor$$$ different pairs of integers $$$x$$$ and $$$y$$$ such that:   $$$x \\neq y$$$;  $$$x$$$ and $$$y$$$ appear in $$$a$$$;  $$$x~mod~y$$$ doesn't appear in $$$a$$$. Note that some $$$x$$$ or $$$y$$$ can belong to multiple pairs.$$$\\lfloor x \\rfloor$$$ denotes the floor function — the largest integer less than or equal to $$$x$$$. $$$x~mod~y$$$ denotes the remainder from dividing $$$x$$$ by $$$y$$$.If there are multiple solutions, print any of them. It can be shown that at least one solution always exists.",
+    "prob_desc_output_spec": "The answer for each testcase should contain $$$\\left\\lfloor \\frac n 2 \\right\\rfloor$$$ different pairs of integers $$$x$$$ and $$$y$$$ such that $$$x \\neq y$$$, $$$x$$$ and $$$y$$$ appear in $$$a$$$ and $$$x~mod~y$$$ doesn't appear in $$$a$$$. Print the pairs one after another. You can print the pairs in any order. However, the order of numbers in the pair should be exactly such that the first number is $$$x$$$ and the second number is $$$y$$$. All pairs should be pairwise distinct. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. The first line of each testcase contains a single integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the length of the sequence. The second line of each testcase contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^6$$$). All numbers in the sequence are pairwise distinct. The sum of $$$n$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_090.jsonl",
+    "code_uid": "1c237733321bff3ec2cf8986c428f34a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2\\n1 4\\n4\\n2 8 3 4\\n5\\n3 8 5 9 7\\n6\\n2 7 5 3 4 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def real_input_generator():\r\n    while True:\r\n        yield input()\r\n\r\n\r\ndef example_input_generator(example):\r\n    for line in example.split('\\n'):\r\n        yield line\r\n\r\n\r\nexamples = [\"\"\"4\r\n2\r\n1 4\r\n4\r\n2 8 3 4\r\n5\r\n3 8 5 9 7\r\n6\r\n2 7 5 3 4 8\"\"\", '1\\n2\\n4 2']\r\n\r\n\r\ndef solve(test_case_num=-1):\r\n    if test_case_num < 0:\r\n        ig = real_input_generator()\r\n    else:\r\n        print('TESTING NOW')\r\n        ig = example_input_generator(examples[test_case_num])\r\n    t = int(next(ig))\r\n    for idx in range(t):\r\n        n = int(next(ig))\r\n        lst = list(map(int, next(ig).split()))\r\n        for pair in solution(n, lst):\r\n            print(' '.join(map(str, pair)))\r\n\r\n\r\ndef solution(n, lst):\r\n    lst.sort(reverse=True)\r\n    rst = []\r\n    mval = lst.pop()\r\n    for i in range(1, n // 2 + 1):\r\n        rst.append([lst[i - 1], mval])\r\n    return rst\r\n\r\n\r\nsolve()",
+    "prob_desc_created_at": "1638369300",
+    "tags": [
+        "greedy",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

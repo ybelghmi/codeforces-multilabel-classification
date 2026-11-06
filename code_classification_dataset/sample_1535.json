@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5 4 3 5 -1\", \"5 4 0 5 5\", \"5 1 4 5 5\", \"5 11 -5\"]",
+    "src_uid": "6db54c7de672a1fd0afd052894ce4ce8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Recently Maxim has found an array of n integers, needed by no one. He immediately come up with idea of changing it: he invented positive integer x and decided to add or subtract it from arbitrary array elements. Formally, by applying single operation Maxim chooses integer i (1 ≤ i ≤ n) and replaces the i-th element of array ai either with ai + x or with ai - x. Please note that the operation may be applied more than once to the same position.Maxim is a curious minimalis, thus he wants to know what is the minimum value that the product of all array elements (i.e. ) can reach, if Maxim would apply no more than k operations to it. Please help him in that.",
+    "prob_desc_output_spec": "Print n integers b1, b2, ..., bn in the only line — the array elements after applying no more than k operations to the array. In particular,  should stay true for every 1 ≤ i ≤ n, but the product of all array elements should be minimum possible. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains three integers n, k and x (1 ≤ n, k ≤ 200 000, 1 ≤ x ≤ 109) — the number of elements in the array, the maximum number of operations and the number invented by Maxim, respectively. The second line contains n integers a1, a2, ..., an () — the elements of the array found by Maxim.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_010.jsonl",
+    "code_uid": "6be30dff35813bc694c1ec8344d88615",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3 1\\n5 4 3 5 2\", \"5 3 1\\n5 4 3 5 5\", \"5 3 1\\n5 4 4 5 5\", \"3 2 7\\n5 4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq\n\nn, k, X = map(int, input().split())\na       = list(map(int, input().split()))\nQ       = []\nsit     = 0\n\nfor i, x in enumerate(a):\n    if x < 0:\n        sit += 1\n    heapq.heappush(Q, (abs(x), x, i))    \n        \nsit = sit % 2\n\nwhile k > 0:\n    (val, x, i) = heapq.heappop(Q)\n    change = None\n    \n    if x < 0:\n        if sit == 1:\n            change = x - X\n        else:\n            change = x + X\n    else:\n        if sit == 1:\n            change = x + X\n        else:\n            change = x - X\n    \n    if (x * change < 0) or (x < 0 and change == 0) or (x == 0 and change < 0):\n        sit = (sit+1) % 2\n        \n    heapq.heappush(Q, (abs(change), change, i))\n    k-=1\n    \nans = [0] * n\nfor (val, x, i) in Q:\n    ans[i] = str(x)\nprint(' '.join(ans))    \n\n#5 3 1\n#5 4 3 5 2\n\n#5 3 1\n#5 4 3 5 5\n\n#5 3 1\n#5 4 4 5 5\n\n#3 2 7\n#5 4 2",
+    "prob_desc_created_at": "1475244300",
+    "tags": [
+        "data structures",
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

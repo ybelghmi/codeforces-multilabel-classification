@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"0\", \"2\"]",
+    "src_uid": "62766ef9a0751cbe7987020144de7512",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Berland State University is hosting a ballroom dance in celebration of its 100500-th anniversary! n boys and m girls are already busy rehearsing waltz, minuet, polonaise and quadrille moves.We know that several boy&amp;girl pairs are going to be invited to the ball. However, the partners' dancing skill in each pair must differ by at most one.For each boy, we know his dancing skills. Similarly, for each girl we know her dancing skills. Write a code that can determine the largest possible number of pairs that can be formed from n boys and m girls.",
+    "prob_desc_output_spec": "Print a single number — the required maximum possible number of pairs.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 100) — the number of boys. The second line contains sequence a1, a2, ..., an (1 ≤ ai ≤ 100), where ai is the i-th boy's dancing skill. Similarly, the third line contains an integer m (1 ≤ m ≤ 100) — the number of girls. The fourth line contains sequence b1, b2, ..., bm (1 ≤ bj ≤ 100), where bj is the j-th girl's dancing skill.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_002.jsonl",
+    "code_uid": "c5c3451ae45286fdc7980b9601833257",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 4 6 2\\n5\\n5 1 5 7 9\", \"4\\n1 2 3 4\\n4\\n10 11 12 13\", \"5\\n1 1 1 1 1\\n3\\n1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def try_kuhn (v):\n\tif u[v]:\n\t\treturn False\n\tu[v] = 1\n\tfor to in g[v]:\n\t\tif mt[to] == -1 or try_kuhn(mt[to]):\n\t\t\tmt[to] = v\n\t\t\treturn True\n\treturn False\n \nn = int(input()) #размер 1 доли\nA = list(map(int, input().split()))\nm = int(input()) #размер 2 доли\nB = list(map(int, input().split()))\ng = [[] for i in range(n)]\nk = 0 #кол-во рёбер\nfor i in range(n) :\n\tfor j in range(m) :\n\t\tif abs(A[i] - B[j]) < 2:\n\t\t\tg[i].append(j)\n\t\t\tk += 1\nmt = [-1] * m #для каждой вершины 2-ой доли указывает вершину из 1-ой, с которой она соединена\nr = [0] * n #вершины, которые мы обойдём жадным способом (они уже будут в паросочетании, их больше трогать не надо)\nfor i in range(n):\n\tfor j in g[i]:\n\t\tif mt[j] == -1:\n\t\t\tmt[j] = i\n\t\t\tr[i] = 1\n\t\t\tbreak\nu = [0] * n\nfor v in range(n):\n\tif not r[v] and try_kuhn(v):\n\t\tu = [0] * n\n\t\no = 0\nfor i in range(m):\n\t\tif (mt[i] != -1):\n\t\t\to += 1\nprint(o)\n",
+    "prob_desc_created_at": "1416238500",
+    "tags": [
+        "dp",
+        "greedy",
+        "two pointers",
+        "graph matchings",
+        "sortings",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

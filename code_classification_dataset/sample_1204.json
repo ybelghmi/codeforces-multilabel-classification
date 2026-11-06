@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"abab\\n-1\\naaa\\nab\\nz\"]",
+    "src_uid": "8d4cdf75f726b59a8fcc374e1417374a",
+    "prob_desc_notes": "NoteThe first test case was explained in the statement.In the second test case, the answer does not exist.",
+    "prob_desc_description": "You are given $$$n$$$ strings $$$a_1, a_2, \\ldots, a_n$$$: all of them have the same length $$$m$$$. The strings consist of lowercase English letters.Find any string $$$s$$$ of length $$$m$$$ such that each of the given $$$n$$$ strings differs from $$$s$$$ in at most one position. Formally, for each given string $$$a_i$$$, there is no more than one position $$$j$$$ such that $$$a_i[j] \\ne s[j]$$$.Note that the desired string $$$s$$$ may be equal to one of the given strings $$$a_i$$$, or it may differ from all the given strings.For example, if you have the strings abac and zbab, then the answer to the problem might be the string abab, which differs from the first only by the last character, and from the second only by the first.",
+    "prob_desc_output_spec": "Print $$$t$$$ answers to the test cases. Each answer (if it exists) is a string of length $$$m$$$ consisting of lowercase English letters. If there are several answers, print any of them. If the answer does not exist, print \"-1\" (\"minus one\", without quotes).",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case starts with a line containing two positive integers $$$n$$$ ($$$1 \\le n \\le 10$$$) and $$$m$$$ ($$$1 \\le m \\le 10$$$) — the number of strings and their length. Then follow $$$n$$$ strings $$$a_i$$$, one per line. Each of them has length $$$m$$$ and consists of lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_007.jsonl",
+    "code_uid": "8611089238d9864067855d6f2391005d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 4\\nabac\\nzbab\\n2 4\\naaaa\\nbbbb\\n3 3\\nbaa\\naaa\\naab\\n2 2\\nab\\nbb\\n3 1\\na\\nb\\nc\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import string\nfor _ in range(int(input())):\n    n,m=map(int,input().split())\n    s=[input() for _ in range(n)]\n    totry=string.ascii_lowercase\n    for i in range(m):\n        t1=0\n        for l in totry:\n            ans=s[0][:i]+l+s[0][i+1:]\n            t=0\n            for st in s:\n                r=0\n                for tr in range(m):\n                    if st[tr]!=ans[tr]:\n                        if r:\n                            t=1\n                            break\n                        else:r+=1\n                if t:break\n            else:\n                print(ans)\n                t1=1\n                break\n        if t1:break\n    else:print(-1)\n'''\n2\n3 3\nbab\naba\nabb                \n3 3\nabc\nacb\nabc\n'''",
+    "prob_desc_created_at": "1590327300",
+    "tags": [
+        "dp",
+        "hashing",
+        "constructive algorithms",
+        "bitmasks",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

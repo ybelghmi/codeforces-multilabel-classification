@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"FHTAGN!\", \"NO\"]",
+    "src_uid": "4ecbfc792da55f458342c6eff2d5da5a",
+    "prob_desc_notes": "NoteLet us denote as a simple cycle a set of v vertices that can be numbered so that the edges will only exist between vertices number 1 and 2, 2 and 3, ..., v - 1 and v, v and 1.A tree is a connected undirected graph consisting of n vertices and n - 1 edges (n &gt; 0).A rooted tree is a tree where one vertex is selected to be the root.",
+    "prob_desc_description": "...Once upon a time a man came to the sea. The sea was stormy and dark. The man started to call for the little mermaid to appear but alas, he only woke up Cthulhu...Whereas on the other end of the world Pentagon is actively collecting information trying to predict the monster's behavior and preparing the secret super weapon. Due to high seismic activity and poor weather conditions the satellites haven't yet been able to make clear shots of the monster. The analysis of the first shot resulted in an undirected graph with n vertices and m edges. Now the world's best minds are about to determine whether this graph can be regarded as Cthulhu or not.To add simplicity, let's suppose that Cthulhu looks from the space like some spherical body with tentacles attached to it. Formally, we shall regard as Cthulhu such an undirected graph that can be represented as a set of three or more rooted trees, whose roots are connected by a simple cycle.It is guaranteed that the graph contains no multiple edges and self-loops.  ",
+    "prob_desc_output_spec": "Print \"NO\", if the graph is not Cthulhu and \"FHTAGN!\" if it is.",
+    "prob_desc_input_spec": "The first line contains two integers — the number of vertices n and the number of edges m of the graph (1 ≤ n ≤ 100, 0 ≤ m ≤ ). Each of the following m lines contains a pair of integers x and y, that show that an edge exists between vertices x and y (1 ≤ x, y ≤ n, x ≠ y). For each pair of vertices there will be at most one edge between them, no edge connects a vertex to itself.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_034.jsonl",
+    "code_uid": "77edf9b292ae441dd31c3b8416860ee6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 6\\n6 3\\n6 4\\n5 1\\n2 5\\n1 4\\n5 4\", \"6 5\\n5 6\\n4 6\\n3 1\\n5 1\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def findSet(u):\n    if parent[u] != u:\n        parent[u] = findSet(parent[u])\n    return parent[u]\n\ndef unionSet(u, v):\n    up = findSet(u)\n    vp = findSet(v)\n    if up == vp:\n        return\n    if ranks[up] > ranks[vp]:\n        parent[vp] = up\n    elif ranks[up] < ranks[vp]:\n        parent[up] = vp\n    else:\n        parent[up] = vp\n        ranks[vp] += 1\n\nn, m = list(map(int, input(\"\").split()))\n\n\nparent = [i for i in range(n+1)]\nranks = [0 for i in range(n+1)]\nfor _ in range(m):\n    u,v = tuple(map(int, input(\"\").split()))\n    unionSet(u,v)\nif n != m:\n    print('NO')\nelse:\n    cnt = 0\n    for i in range(1,n+1):\n        if i == parent[i]: # co 1 tap hop khi co duy nhat 1 phan tu co parent la chinh no\n            cnt += 1\n            \n        if cnt > 1:\n            break\n    # print(ranks)\n    if cnt == 1:\n        print('FHTAGN!')\n    else:\n        print('NO')\n        ",
+    "prob_desc_created_at": "1312714800",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

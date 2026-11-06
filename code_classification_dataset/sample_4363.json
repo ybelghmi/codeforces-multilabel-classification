@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"7\\n3\\n3\\n1\\n2\\n3\\n1\\n1073741823\"]",
+    "src_uid": "e83fa9011ace93a63b954f079e3387ba",
+    "prob_desc_notes": "NoteIn the first test case the array $$$a$$$ is$$$110_2, 001_2, 011_2, 010_2, 001_2$$$.That's why the answers for the queries are:  $$$[1; 2]$$$: $$$a_1 | a_2 = 110_2 | 001_2 = 111_2 = 7$$$;  $$$[2; 3]$$$: $$$a_2 | a_3 = 001_2 | 011_2 = 011_2 = 3$$$;  $$$[2; 4]$$$: $$$a_2 | a_3 = a_3 | a_4 = a_2 | a_4 = 011_2 = 3$$$;  $$$[2; 5]$$$: $$$a_2 | a_5 = 001_2 = 1$$$. In the second test case the array $$$a$$$ is$$$00_2, 10_2, 01_2, \\underbrace{11\\ldots 1_2}_{30}$$$ ($$$a_4 = 2^{30} - 1$$$).That's why the answers for the queries are:  $$$[1; 2]$$$: $$$a_1 | a_2 = 10_2 = 2$$$;  $$$[2; 3]$$$: $$$a_2 | a_3 = 11_2 = 3$$$;  $$$[1; 3]$$$: $$$a_1 | a_3 = 01_2 = 1$$$;  $$$[3; 4]$$$: $$$a_3 | a_4 = 01_2 | \\underbrace{11\\ldots 1_2}_{30} = 2^{30} - 1 = 1073741823$$$. ",
+    "prob_desc_description": "You are given an array $$$a$$$ of $$$n$$$ non-negative integers, numbered from $$$1$$$ to $$$n$$$.Let's define the cost of the array $$$a$$$ as $$$\\displaystyle \\min_{i \\neq j} a_i | a_j$$$, where $$$|$$$ denotes the bitwise OR operation.There are $$$q$$$ queries. For each query you are given two integers $$$l$$$ and $$$r$$$ ($$$l &lt; r$$$). For each query you should find the cost of the subarray $$$a_{l}, a_{l + 1}, \\ldots, a_{r}$$$.",
+    "prob_desc_output_spec": "For each test case print $$$q$$$ numbers, where the $$$j$$$-th number is the cost of array $$$a_{l_j}, a_{l_j + 1}, \\ldots, a_{r_j}$$$.",
+    "prob_desc_input_spec": "Each test case consists of several test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The first line of each test case contains an integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$) — the length array $$$a$$$. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\le a_i &lt; 2^{30}$$$) — the elements of $$$a$$$. The third line of each test case contains an integer $$$q$$$ ($$$1 \\le q \\le 10^5$$$) — the number of queries. Each of the next $$$q$$$ lines contains two integers $$$l_j$$$, $$$r_j$$$ ($$$1 \\le l_j &lt; r_j \\le n$$$) — the description of the $$$j$$$-th query. It is guaranteed that the sum of $$$n$$$ and the sum of $$$q$$$ over all test cases do not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_096.jsonl",
+    "code_uid": "77e2f9140064259c06683aed1b7e19bc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n5\\n\\n6 1 3 2 1\\n\\n4\\n\\n1 2\\n\\n2 3\\n\\n2 4\\n\\n2 5\\n\\n4\\n\\n0 2 1 1073741823\\n\\n4\\n\\n1 2\\n\\n2 3\\n\\n1 3\\n\\n3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io,os\nimport bisect \nimport sys \n\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\nclass Trienode(object):\n    def __init__(self):\n        self.indexes = []\n        self.children = {}\n\n\n\ndef construct(i,num,root):\n\n    p = root\n    for d in range(29,-1,-1):\n        digit = 0 \n        if (1<<d) & num > 0:  digit = 1\n        if 0 not in p.children:  p.children[0] = Trienode()\n        if 1 not in p.children:  p.children[1] = Trienode()\n\n\n        p = p.children[digit]\n        p.indexes.append(i)\n\n    return root\n\n\n\ndef query(root,front,rear,arr):\n    p = root\n    output = 0\n    addi = []\n    curr = 0\n    ans = 2147483647 \n   \n\n    for d in range(29,-1,-1):\n        if len(p.children)>0: \n            temp = p.children[0].indexes\n\n\n\n            f0 = bisect.bisect_left(temp,front)\n            l = len(temp)\n\n            if f0+1 < l  and temp[f0+1] <= rear: \n                p = p.children[0]\n            elif f0<l and temp[f0] <= rear:\n                addi.append(temp[f0])\n                p = p.children[1]\n                curr += (1<<d)\n            else:\n                p = p.children[1]\n                curr += (1<<d)\n\n            \n\n\n        else:\n            break\n\n    f = bisect.bisect_left(p.indexes,front)\n    r = bisect.bisect(p.indexes,rear)\n    if f!=r: \n        ans = curr\n        for i in range(len(addi)):\n            ans = min(ans, arr[addi[i]] | curr )\n\n\n    for i in range(len(addi)-1):\n        for j in range(i+1,len(addi)): \n            ans = min(ans,arr[addi[i]] | arr[addi[j]])\n\n\n    return ans\n            \n            \n            \n\n            \n            \n        \n\n\n\ndef main(t):\n\n\n    n = int(input())\n    arr = list(map(int,input().split()))\n\n    root = Trienode()\n\n    for i in range(n):\n        construct(i,arr[i],root)\n\n\n #   print(root)\n    \n\n    q = int(input())\n    for r in range(q):\n        front,rear = map(int,input().split())\n        ans = query(root,front-1,rear-1,arr)\n        if r>100000:  break\n        os.sys.stdout.write(str(ans) + '\\n')\n     #   print(ans)\n     #   sys.stdout\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nT = int(input())\nt = 1\nwhile t<=T:\n    main(t)\n    t += 1\n",
+    "prob_desc_created_at": "1649428500",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "data structures",
+        "divide and conquer",
+        "greedy",
+        "implementation",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

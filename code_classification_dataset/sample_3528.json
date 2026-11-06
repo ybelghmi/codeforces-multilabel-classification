@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\n2\\n0\\n4\\n0\", \"4\\n2\"]",
+    "src_uid": "c61f07f38156a6038a9bc57da9b65ea9",
+    "prob_desc_notes": "NoteThe bitwise-xor sum of the empty set is 0 and the bitwise-xor sum of a set containing one element is that element itself.",
+    "prob_desc_description": "Ehab has an array a of n integers. He likes the bitwise-xor operation and he likes to bother Mahmoud so he came up with a problem. He gave Mahmoud q queries. In each of them, he gave Mahmoud 2 integers l and x, and asked him to find the number of subsequences of the first l elements of the array such that their bitwise-xor sum is x. Can you help Mahmoud answer the queries?A subsequence can contain elements that are not neighboring.",
+    "prob_desc_output_spec": "For each query, output its answer modulo 109 + 7 in a newline.",
+    "prob_desc_input_spec": "The first line contains integers n and q (1 ≤ n, q ≤ 105), the number of elements in the array and the number of queries. The next line contains n integers a1, a2, ..., an (0 ≤ ai &lt; 220), the elements of the array. The next q lines, each contains integers l and x (1 ≤ l ≤ n, 0 ≤ x &lt; 220), representing the queries.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_066.jsonl",
+    "code_uid": "74ea04621b243e6589c7b03e436547bd",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5\\n0 1 2 3 4\\n4 3\\n2 0\\n3 7\\n5 7\\n5 8\", \"3 2\\n1 1 1\\n3 1\\n2 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nMOD = 10**9 + 7\ninp = [int(x) for x in sys.stdin.read().split()]; ii = 0\n\nn = inp[ii]; ii += 1\nq = inp[ii]; ii += 1\n\nA = inp[ii: ii + n]; ii += n\n\nzeros = [1]\nAbase = []\nbase = []\nfor i in range(n):\n    a = A[i]\n    for b in base:\n        if a ^ b < a:\n            a ^= b\n    if a:\n        base = list(base)\n        base.append(a)\n        base.sort(reverse = True)\n        zeros.append(zeros[-1])\n    else:\n        zeros.append(zeros[-1] * 2 % MOD)\n    Abase.append(base)\n\nout = []\nfor _ in range(q):\n    l = inp[ii] - 1; ii += 1\n    x = inp[ii]; ii += 1\n\n    for b in Abase[l]:\n        if x ^ b < x:\n            x ^= b\n\n    out.append(0 if x else zeros[l + 1])\n\nprint '\\n'.join(str(x) for x in out)\n",
+    "prob_desc_created_at": "1522771500",
+    "tags": [
+        "dp",
+        "bitmasks",
+        "math",
+        "matrices"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"6\", \"4\"]",
+    "src_uid": "20cbd67b7bfd8bb201f4113a09aae000",
+    "prob_desc_notes": "NoteIn the first sample, the optimal route is 0  →  10 (+1 gem)  →  19  →  27 (+2 gems)  → ...In the second sample, the optimal route is 0  →  8  →  15  →  21 →  28 (+1 gem)  →  36 (+1 gem)  →  45 (+1 gem)  →  55 (+1 gem)  →  66 (+1 gem)  →  78 (+1 gem)  → ...In the third sample, the optimal route is 0  →  7  →  13  →  18 (+1 gem)  →  24 (+2 gems)  →  30 (+1 gem)  → ...",
+    "prob_desc_description": "The Shuseki Islands are an archipelago of 30001 small islands in the Yutampo Sea. The islands are evenly spaced along a line, numbered from 0 to 30000 from the west to the east. These islands are known to contain many treasures. There are n gems in the Shuseki Islands in total, and the i-th gem is located on island pi.Mr. Kitayuta has just arrived at island 0. With his great jumping ability, he will repeatedly perform jumps between islands to the east according to the following process:   First, he will jump from island 0 to island d.  After that, he will continue jumping according to the following rule. Let l be the length of the previous jump, that is, if his previous jump was from island prev to island cur, let l = cur - prev. He will perform a jump of length l - 1, l or l + 1 to the east. That is, he will jump to island (cur + l - 1), (cur + l) or (cur + l + 1) (if they exist). The length of a jump must be positive, that is, he cannot perform a jump of length 0 when l = 1. If there is no valid destination, he will stop jumping. Mr. Kitayuta will collect the gems on the islands visited during the process. Find the maximum number of gems that he can collect.",
+    "prob_desc_output_spec": "Print the maximum number of gems that Mr. Kitayuta can collect.",
+    "prob_desc_input_spec": "The first line of the input contains two space-separated integers n and d (1 ≤ n, d ≤ 30000), denoting the number of the gems in the Shuseki Islands and the length of the Mr. Kitayuta's first jump, respectively. The next n lines describe the location of the gems. The i-th of them (1 ≤ i ≤ n) contains a integer pi (d ≤ p1 ≤ p2 ≤ ... ≤ pn ≤ 30000), denoting the number of the island that contains the i-th gem.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_034.jsonl",
+    "code_uid": "d993c095306f8b66c325186abea7fc9e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 10\\n10\\n21\\n27\\n27\", \"8 8\\n9\\n19\\n28\\n36\\n45\\n55\\n66\\n78\", \"13 7\\n8\\n8\\n9\\n16\\n17\\n17\\n18\\n21\\n23\\n24\\n24\\n26\\n30\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, d = map(int, raw_input().split())\ngem = [0]*30001\nfor i in xrange(n):\n    gem[int(raw_input())] += 1\n\ndp = [[0]*501 for i in xrange(30001)]\nfor i in xrange(30000, 0, -1):\n    for j in xrange(max(d-250, 0), d+250):\n        k = j + 250 - d\n        m = 0\n        if i+j <= 30000:\n            m = max(m, dp[i+j][k])\n        if i+j+1 <= 30000:\n            m = max(m, dp[i+j+1][k+1])\n        if j > 1 and i+j-1 <= 30000:\n            m = max(m, dp[i+j-1][k-1])\n        dp[i][k] = gem[i] + m\nprint dp[d][250]\n",
+    "prob_desc_created_at": "1421586000",
+    "tags": [
+        "dp",
+        "two pointers",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

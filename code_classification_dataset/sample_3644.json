@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "6 seconds",
+    "prob_desc_sample_outputs": "[\"Q 1 1 2\\nQ 1 2 3\\nQ 1 1 3\\nA 3 0 0\\n1 2 3\\n\\n\\nQ 1 1 3\\nQ 1 2 3\\nQ 1 1 2\\nA 2 0 1\\n1 3\\n\\n2\\nQ 3 1 2 3 4 5 6\\nQ 3 1 3 2 5 4 6\\nQ 3 1 4 2 6 3 5\\nQ 3 1 5 2 4 3 6\\nQ 3 1 6 2 3 4 5\\nA 2 2 2\\n1 4\\n2 5\\n3 6\"]",
+    "src_uid": "be45e6d2ebf425d22963e9f444181c67",
+    "prob_desc_notes": "NoteIn the example, there are three test cases.In the first test case, there are three coins. We ask about the pairs $$$(1,2)$$$, $$$(2,3)$$$, and $$$(1,3)$$$ in different batches and get that they are all the same color. Thus, we know all the coins are the same color, so we can put them all in one pile. Note that some piles can be empty and those are denoted with an empty line.In the second test case, there are three coins again. This time, we only get that $$$(1,3)$$$ are the same and $$$(1,2)$$$ and $$$(2,3)$$$ are different. So, one possible scenario is that coins $$$1$$$ and $$$3$$$ are red and coin $$$2$$$ is green.In the last case, there are $$$6$$$ coins. The case shows how to ask and receive answers for multiple pairs in one batch.",
+    "prob_desc_description": "Carl has $$$n$$$ coins of various colors, and he would like to sort them into piles. The coins are labeled $$$1,2,\\ldots,n$$$, and each coin is exactly one of red, green, or blue. He would like to sort the coins into three different piles so one pile contains all red coins, one pile contains all green coins, and one pile contains all blue coins.Unfortunately, Carl is colorblind, so this task is impossible for him. Luckily, he has a friend who can take a pair of coins and tell Carl if they are the same color or not. Using his friend, Carl believes he can now sort the coins. The order of the piles doesn't matter, as long as all same colored coins are in the one pile, and no two different colored coins are in the same pile.His friend will answer questions about multiple pairs of coins in batches, and will answer about all of those pairs in parallel. Each coin should be in at most one pair in each batch. The same coin can appear in different batches.Carl can use only $$$7$$$ batches. Help him find the piles of coins after sorting.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 3000,
+    "file_name": "train_076.jsonl",
+    "code_uid": "e24fdb6b19355ce71329e9519e56ed0d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3\\n1\\n1\\n1\\n3\\n1\\n0\\n0\\n6\\n000\\n010\\n100\\n001\\n000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nfor _ in range(t):\n    n=int(input())\n    print(\"Q\",n//2,\" \".join([str(i+1) for i in range(n//2*2)]))\n    s1=input()\n    print(\"Q\",n-n//2-1,\" \".join([str(i+2) for i in range((n-n//2-1)*2)]))\n    s2=input()\n    con=[0]*(n-1)\n    for i in range(n//2):\n        con[2*i]=int(s1[i])\n    for i in range(n-n//2-1):\n        con[2*i+1]=int(s2[i])\n    ints=[]\n    start=1\n    end=1\n    for guy in con:\n        if guy==0:\n            ints.append((start,end))\n            start,end=end+1,end+1\n        else:\n            end+=1\n    ints.append((start,end))\n    k=len(ints)\n    things=[]\n    for i in range(k-2):\n        if i%4==0 or i%4==1:\n            things.append(i)\n            things.append(i+2)\n    print(\"Q\",len(things)//2,\" \".join([str(ints[guy][0]) for guy in things]))\n    s1=input()\n    others=[]\n    for i in range(k-2):\n        if i%4==2 or i%4==3:\n            others.append(i)\n            others.append(i+2)\n    print(\"Q\",len(others)//2,\" \".join([str(ints[guy][0]) for guy in others]))\n    s2=input()\n    skips=[0]*(k-2)\n    for i in range(len(things)//2):\n        skips[things[2*i]]=int(s1[i])\n    for i in range(len(others)//2):\n        skips[others[2*i]]=int(s2[i])\n    cols=[0,1]\n    for i in range(k-2):\n        if skips[i]==1:\n            cols.append(cols[-2])\n        else:\n            cols.append(2*(cols[-1]+cols[-2])%3)\n    a=[]\n    b=[]\n    c=[]\n    for i in range(k):\n        if cols[i]==0:\n            for guy in range(ints[i][0],ints[i][1]+1):\n                a.append(guy)\n        elif cols[i]==1:\n            for guy in range(ints[i][0],ints[i][1]+1):\n                b.append(guy)\n        else:\n            for guy in range(ints[i][0],ints[i][1]+1):\n                c.append(guy)\n    print(\"A\",len(a),len(b),len(c))\n    print(*a)\n    print(*b)\n    print(*c)",
+    "prob_desc_created_at": "1556989500",
+    "tags": [
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

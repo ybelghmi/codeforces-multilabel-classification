@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\"]",
+    "src_uid": "53ae714f04fd29721b8bbf77576b7ccf",
+    "prob_desc_notes": "NoteIn first sample test we can increase factor of first badge by 1.In second sample test we can increase factors of the second and the third badge by 1.",
+    "prob_desc_description": "Colonel has n badges. He wants to give one badge to every of his n soldiers. Each badge has a coolness factor, which shows how much it's owner reached. Coolness factor can be increased by one for the cost of one coin. For every pair of soldiers one of them should get a badge with strictly higher factor than the second one. Exact values of their factors aren't important, they just need to have distinct factors. Colonel knows, which soldier is supposed to get which badge initially, but there is a problem. Some of badges may have the same factor of coolness. Help him and calculate how much money has to be paid for making all badges have different factors of coolness.",
+    "prob_desc_output_spec": "Output single integer — minimum amount of coins the colonel has to pay.",
+    "prob_desc_input_spec": "First line of input consists of one integer n (1 ≤ n ≤ 3000). Next line consists of n integers ai (1 ≤ ai ≤ n), which stand for coolness factor of each badge.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_002.jsonl",
+    "code_uid": "4ae06e3ee69d6929086854cd59b46e93",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 3 1 4\", \"5\\n1 2 3 2 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = [int(i) for i in input().split()]\nels = [0] * (2*n)\nfor i in a:\n    els[i-1] += 1\n\nans = 0\nfor i in range(2*n):\n    if els[i] == 0:\n        continue\n\n    while els[i] != 1:\n        els[i+1] += 1\n        els[i] -= 1\n        ans += 1 \n\nprint(ans)",
+    "prob_desc_created_at": "1432312200",
+    "tags": [
+        "implementation",
+        "sortings",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\nDDRR\"]",
+    "src_uid": "13c58291ab9cf7ad1b8c466c3e36aacf",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There is a square matrix n × n, consisting of non-negative integer numbers. You should find such a way on it that   starts in the upper left cell of the matrix;  each following cell is to the right or down from the current cell;  the way ends in the bottom right cell. Moreover, if we multiply together all the numbers along the way, the result should be the least \"round\". In other words, it should end in the least possible number of zeros.",
+    "prob_desc_output_spec": "In the first line print the least number of trailing zeros. In the second line print the correspondent way itself.",
+    "prob_desc_input_spec": "The first line contains an integer number n (2 ≤ n ≤ 1000), n is the size of the matrix. Then follow n lines containing the matrix elements (non-negative integer numbers not exceeding 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_004.jsonl",
+    "code_uid": "fce8911b7e6e06e7b36a7a2c9f5b4251",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\\n4 5 6\\n7 8 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nxr = range(n)\n\na5 = [list(map(int, input().split())) for _ in xr]\na2 = [[0 for _ in xr] for _ in xr]\ny = 0\nx0 = -1\n\nfor y in xr:\n    for x in xr:\n        i = a5[y][x]\n        m5 = 0\n        m2 = 0\n        \n        if i == 0:\n            x0 = x\n        \n        while i and i%2 == 0:\n            i/=2\n            m2+=1\n            \n        while i and i%5 == 0:\n            i/=5\n            m5+=1            \n            \n        if y == 0 and x == 0:\n            a5[y][x] = m5\n            a2[y][x] = m2\n            continue\n\n        left5 = a5[y][x-1]\n        left2 = a2[y][x-1]\n        up5 = a5[y-1][x]\n        up2 = a2[y-1][x]\n        \n        if y == 0:\n            a5[y][x] = left5 + m5\n            a2[y][x] = left2 + m2\n            continue\n        \n        if x == 0:\n            a5[y][x] = up5 + m5\n            a2[y][x] = up2 + m2\n            continue\n        \n        a5[y][x] = min(up5, left5) + m5\n        a2[y][x] = min(up2, left2) + m2\n    \ndef getpath(k):\n    p = ''\n    y = x = n-1\n    \n    while not (y == 0 and x == 0):\n        if y and x:\n            if k == 5:\n                if a5[y-1][x] < a5[y][x-1]:\n                    p+='D'\n                    y-=1\n                else:\n                    p+='R'\n                    x-=1\n            else:\n                if a2[y-1][x] < a2[y][x-1]:\n                    p+='D'\n                    y-=1\n                else:\n                    p+='R'\n                    x-=1\n        elif y == 0:\n            p+='R'\n            x-=1                    \n        elif x == 0:\n            p+='D'\n            y-=1                    \n        \n    return p[::-1]\n\nten = 0\npath = ''\nif a5[n-1][n-1] < a2[n-1][n-1]:\n    ten = a5[n-1][n-1]\n    path = getpath(5)\nelse:\n    ten = a2[n-1][n-1]\n    path = getpath(2)\n    \nif ten > 1 and x0 > -1:\n    ten = 1\n    path = 'R'*x0 + 'D'*(n-1) + 'R'*(n-1-x0)\n    \nprint(ten)\nprint(path)",
+    "prob_desc_created_at": "1267117200",
+    "tags": [
+        "dp",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

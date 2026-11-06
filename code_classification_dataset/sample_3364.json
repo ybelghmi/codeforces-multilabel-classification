@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n3\\n2\\n1\\n2\", \"9\\n1\\n10\\n6\\n0\\n2\"]",
+    "src_uid": "870720d864ce169db2037f19f029719c",
+    "prob_desc_notes": "NotePictures to the sample tests:The pieces that were eaten in the same action are painted the same color. The pieces lying on the anti-diagonal contain the numbers of the action as a result of which these pieces were eaten.In the second sample test the Andrewid tries to start eating chocolate for the second time during his fifth action, starting from the cell at the intersection of the 10-th column and the 1-st row, but this cell is already empty, so he does not eat anything.",
+    "prob_desc_description": "Andrewid the Android is a galaxy-known detective. Now he does not investigate any case and is eating chocolate out of boredom.A bar of chocolate can be presented as an n × n table, where each cell represents one piece of chocolate. The columns of the table are numbered from 1 to n from left to right and the rows are numbered from top to bottom. Let's call the anti-diagonal to be a diagonal that goes the lower left corner to the upper right corner of the table. First Andrewid eats all the pieces lying below the anti-diagonal. Then he performs the following q actions with the remaining triangular part: first, he chooses a piece on the anti-diagonal and either direction 'up' or 'left', and then he begins to eat all the pieces starting from the selected cell, moving in the selected direction until he reaches the already eaten piece or chocolate bar edge.After each action, he wants to know how many pieces he ate as a result of this action.",
+    "prob_desc_output_spec": "Print q lines, the i-th of them should contain the number of eaten pieces as a result of the i-th action.",
+    "prob_desc_input_spec": "The first line contains integers n (1 ≤ n ≤ 109) and q (1 ≤ q ≤ 2·105) — the size of the chocolate bar and the number of actions. Next q lines contain the descriptions of the actions: the i-th of them contains numbers xi and yi (1 ≤ xi, yi ≤ n, xi + yi = n + 1) — the numbers of the column and row of the chosen cell and the character that represents the direction (L — left, U — up).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_054.jsonl",
+    "code_uid": "4fe43b42e4c927a1bbe4256638ccdb5f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 5\\n3 4 U\\n6 1 L\\n2 5 L\\n1 6 U\\n4 3 U\", \"10 6\\n2 9 U\\n10 1 U\\n1 10 U\\n8 3 L\\n10 1 L\\n6 5 U\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom bisect import bisect\n\ndef input():\n\treturn sys.stdin.readline().strip()\n\ndef solve():\n\tn, q = map(int, input().split())\n\twas = set()\n\tQ = [None]*q\n\tall = [0]*(2*q)\n\tfor i in range(q):\n\t\tx, y, t = input().split()\n\t\tx, y = int(x), int(y)\n\t\tQ[i] = (x, y, t)\n\t\tall[2*i] = x\n\t\tall[2*i+1] = y\n\tall.sort()\n\tV = [0]*(4*q)\n\tH = [0]*(4*q)\n\tfor x, y, t in Q:\n\t\tif (x,y) in was:\n\t\t\tprint(0)\n\t\telse:\n\t\t\twas.add((x,y))\n\t\t\tif t == 'L':\n\t\t\t\tTA = H\n\t\t\t\tTB = V\n\t\t\telse:\n\t\t\t\tx, y = y, x\n\t\t\t\tTA = V\n\t\t\t\tTB = H\n\t\t\tv = bisect(all, y) - 1 + q + q\n\t\t\tr = 0\n\t\t\twhile v > 0:\n\t\t\t\tr = max(r, TA[v])\n\t\t\t\tv //= 2\n\t\t\tc = x - r\n\t\t\tprint(c)\n\t\t\tr = bisect(all, x) - 1 + q + q\n\t\t\tl = bisect(all, x - c) + q + q\n\t\t\twhile l <= r:\n\t\t\t\tif l % 2 == 1:\n\t\t\t\t\tTB[l] = max(TB[l], y)\n\t\t\t\tif r % 2 == 0:\n\t\t\t\t\tTB[r] = max(TB[r], y)\n\t\t\t\tl = (l+1)//2\n\t\t\t\tr = (r-1)//2\n\nsolve()\n",
+    "prob_desc_created_at": "1435414200",
+    "tags": [
+        "data structures",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

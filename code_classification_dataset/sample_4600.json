@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"4\", \"32347\"]",
+    "src_uid": "4840c4ddf8d9ca82c6e8fcf71802539a",
+    "prob_desc_notes": "NoteIn the first example, the only rated string is 11. So the answer is $$$1$$$.In the second example, the rated strings are:   111;  101, because we can perform an operation with $$$i = 1$$$ and $$$j = 3$$$.  So the answer is $$$2$$$.In the third sample, the rated strings are:   1001;  1111;  1011;  1101.  So the answer is $$$4$$$.",
+    "prob_desc_description": "Everyone was happy coding, until suddenly a power shortage happened and the best competitive programming site went down. Fortunately, a system administrator bought some new equipment recently, including some UPSs. Thus there are some servers that are still online, but we need all of them to be working in order to keep the round rated.Imagine the servers being a binary string $$$s$$$ of length $$$n$$$. If the $$$i$$$-th server is online, then $$$s_i = 1$$$, and $$$s_i = 0$$$ otherwise.A system administrator can do the following operation called electricity spread, that consists of the following phases:   Select two servers at positions $$$1 \\le i &lt; j \\le n$$$ such that both are online (i.e. $$$s_i=s_j=1$$$). The spread starts only from online servers.  Check if we have enough power to make the spread. We consider having enough power if the number of turned on servers in range $$$[i, j]$$$ is at least the number of turned off servers in range $$$[i, j]$$$. More formally, check whether $$$2 \\cdot (s_i + s_{i+1} + \\ldots + s_j) \\ge j - i + 1$$$. If the check is positive, turn on all the offline servers in range $$$[i, j]$$$. More formally, make $$$s_k := 1$$$ for all $$$k$$$ from $$$i$$$ to $$$j$$$. We call a binary string $$$s$$$ of length $$$n$$$ rated if we can turn on all servers (i.e. make $$$s_i = 1$$$ for $$$1 \\le i \\le n$$$) using the electricity spread operation any number of times (possibly, $$$0$$$). Your task is to find the number of rated strings of length $$$n$$$ modulo $$$m$$$.",
+    "prob_desc_output_spec": "Print a single integer — the number of rated binary strings of length $$$n$$$. Since this number can be large, print it modulo $$$m$$$.",
+    "prob_desc_input_spec": "The first and only line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 5000$$$, $$$10 \\le m \\le 10^9$$$) — the length of the string and the required module.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_101.jsonl",
+    "code_uid": "8bf39f50ddb903931f616461a4db3c00",
+    "prob_desc_memory_limit": "1024 megabytes",
+    "prob_desc_sample_inputs": "[\"2 100\", \"3 10\", \"4 3271890\", \"17 123456\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, input().split())\r\n\r\ndef modmul(a, b, c = 0):\r\n    return (a * b + c) % m\r\n\r\nhalf = [0, 0, 1] + [0] * (3 * n)\r\npref = [0, 0, 1] + [0] * (3 * n)\r\ngood = [-1, 1]\r\nbad =  [-1, 0]\r\n\r\nfor i in range(2, n + 1):\r\n    nb = 0\r\n    \r\n    for j in range(1, i):\r\n        prev = i - 2 * j - 1\r\n        if prev < 0:\r\n            continue\r\n\r\n        add = modmul(pref[prev], good[j])\r\n        nb += add\r\n\r\n        half[j + i] += add\r\n        half[j + i] %= m\r\n\r\n    pref[i] = (pref[i - 1] + half[i]) % m\r\n    nb %= m\r\n    \r\n    bad.append(nb)\r\n    tot = pow(2, i-2, m)\r\n    good.append((tot - nb) % m)\r\n\r\n    half[2 * i] += good[i]\r\nprint(good[n] % m)\r\n",
+    "prob_desc_created_at": "1667745300",
+    "tags": [
+        "combinatorics",
+        "dp",
+        "math",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

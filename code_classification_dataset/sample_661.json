@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 2\\n4 2\\n2 3\"]",
+    "src_uid": "d93a0574497b60bb77fb1c1dfe95090f",
+    "prob_desc_notes": "NoteThis is one possible solution of the example:   These are examples of wrong solutions:   The above solution is wrong because it doesn't use the minimum number of edges (4 vs 3). In addition, it also tries to construct a road between cities 1 and 3, while the input specifies that it is not allowed to construct a road between the pair.   The above solution is wrong because you need to traverse at least 3 roads to go from city 1 to city 3, whereas in your country it must be possible to go from any city to another by traversing at most 2 roads.   Finally, the above solution is wrong because it must be possible to go from any city to another, whereas it is not possible in this country to go from city 1 to 3, 2 to 3, and 4 to 3.",
+    "prob_desc_description": "A country has n cities. Initially, there is no road in the country. One day, the king decides to construct some roads connecting pairs of cities. Roads can be traversed either way. He wants those roads to be constructed in such a way that it is possible to go from each city to any other city by traversing at most two roads. You are also given m pairs of cities — roads cannot be constructed between these pairs of cities.Your task is to construct the minimum number of roads that still satisfy the above conditions. The constraints will guarantee that this is always possible.",
+    "prob_desc_output_spec": "You should print an integer s: the minimum number of roads that should be constructed, in the first line. Then s lines should follow, each consisting of two integers ai and bi (1 ≤ ai, bi ≤ n, ai ≠ bi), which means that a road should be constructed between cities ai and bi. If there are several solutions, you may print any of them.",
+    "prob_desc_input_spec": "The first line consists of two integers n and m . Then m lines follow, each consisting of two integers ai and bi (1 ≤ ai, bi ≤ n, ai ≠ bi), which means that it is not possible to construct a road connecting cities ai and bi. Consider the cities are numbered from 1 to n. It is guaranteed that every pair of cities will appear at most once in the input.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_003.jsonl",
+    "code_uid": "1ff475f43c832f48a89f372b6022995a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 1\\n1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#B. Road Construction\nn,m = map(int,input().split())\nedges = [0]*(n+1)\nfor _ in range(m):\n    x,y = map(int,input().split())\n    edges[x] = 1\n    edges[y] = 1\nfor i in range(1,n+1):\n    if edges[i] == 0:\n        break\nprint(n-1)\nfor j in range(1,n+1):\n    if i!=j:\n        print(i,j)",
+    "prob_desc_created_at": "1374327000",
+    "tags": [
+        "constructive algorithms",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

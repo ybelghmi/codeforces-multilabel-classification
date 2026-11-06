@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"2\", \"1\"]",
+    "src_uid": "a5d1a96fd8514840062d747e6fda2c37",
+    "prob_desc_notes": "NoteIn the first sample, Farmer John can book room 3 for himself, and rooms 1 and 4 for his cows. The distance to the farthest cow is 2. Note that it is impossible to make this distance 1, as there is no block of three consecutive unoccupied rooms.In the second sample, Farmer John can book room 1 for himself and room 3 for his single cow. The distance between him and his cow is 2.In the third sample, Farmer John books all three available rooms, taking the middle room for himself so that both cows are next to him. His distance from the farthest cow is 1.",
+    "prob_desc_description": "In an attempt to escape the Mischievous Mess Makers' antics, Farmer John has abandoned his farm and is traveling to the other side of Bovinia. During the journey, he and his k cows have decided to stay at the luxurious Grand Moo-dapest Hotel. The hotel consists of n rooms located in a row, some of which are occupied.Farmer John wants to book a set of k + 1 currently unoccupied rooms for him and his cows. He wants his cows to stay as safe as possible, so he wishes to minimize the maximum distance from his room to the room of his cow. The distance between rooms i and j is defined as |j - i|. Help Farmer John protect his cows by calculating this minimum possible distance.",
+    "prob_desc_output_spec": "Print the minimum possible distance between Farmer John's room and his farthest cow.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and k (1 ≤ k &lt; n ≤ 100 000) — the number of rooms in the hotel and the number of cows travelling with Farmer John. The second line contains a string of length n describing the rooms. The i-th character of the string will be '0' if the i-th room is free, and '1' if the i-th room is occupied. It is guaranteed that at least k + 1 characters of this string are '0', so there exists at least one possible choice of k + 1 rooms for Farmer John and his cows to stay in.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_013.jsonl",
+    "code_uid": "72906957d8cbbe06eece91da4f43a9a9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 2\\n0100100\", \"5 1\\n01010\", \"3 2\\n000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\nrooms_number, cows_number = map(int, input().split())\nrooms = input()\nfree_rooms = [i for i in range(rooms_number) if rooms[i] == '0']\ndef binary_search(left, right, item):\n    global free_rooms\n    while right - left > 1:\n        center = left + (right - left)//2\n        if free_rooms[center] > item:\n            right = center\n        else:\n            left = center\n    return left\nmin_distation_to_farthest_cow = 10**20\nbest_min_distation_to_farthest_cow = cows_number//2 + cows_number%2\nfor i in range(len(free_rooms) - cows_number):\n    left = free_rooms[i]\n    right = free_rooms[i + cows_number]\n    center = left + (right - left)//2\n    j = binary_search(i, i + cows_number, center)\n    if free_rooms[j] == center:\n        distation_to_farthest_cow = right - center\n    else:\n        distation_to_farthest_cow = min(right - free_rooms[j], free_rooms[j + 1] - left)\n    if min_distation_to_farthest_cow > distation_to_farthest_cow:\n        min_distation_to_farthest_cow = distation_to_farthest_cow\n    if distation_to_farthest_cow == best_min_distation_to_farthest_cow:\n        break\nprint(min_distation_to_farthest_cow)\n",
+    "prob_desc_created_at": "1458318900",
+    "tags": [
+        "two pointers",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

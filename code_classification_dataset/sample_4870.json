@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"13\\n9\\n3\"]",
+    "src_uid": "113a43af2f1c5303f83eb842ef532040",
+    "prob_desc_notes": "NoteIn the first testcase, it's enough to consider the following modified paths:   RD $$$\\rightarrow$$$ RRD $$$\\rightarrow$$$ RRRD $$$\\rightarrow$$$ RRRDD $$$\\rightarrow$$$ RRRDDD — this path visits cells $$$(1, 1)$$$, $$$(1, 2)$$$, $$$(1, 3)$$$, $$$(1, 4)$$$, $$$(2, 4)$$$, $$$(3, 4)$$$ and $$$(4, 4)$$$;  RD $$$\\rightarrow$$$ RRD $$$\\rightarrow$$$ RRDD $$$\\rightarrow$$$ RRDDD — this path visits cells $$$(1, 1)$$$, $$$(1, 2)$$$, $$$(1, 3)$$$, $$$(2, 3)$$$, $$$(3, 3)$$$ and $$$(4, 3)$$$;  RD $$$\\rightarrow$$$ RDD $$$\\rightarrow$$$ RDDD — this path visits cells $$$(1, 1)$$$, $$$(1, 2)$$$, $$$(2, 2)$$$, $$$(3, 2)$$$ and $$$(4, 2)$$$. Thus, the cells that are visited on at least one modified path are: $$$(1, 1)$$$, $$$(1, 2)$$$, $$$(1, 3)$$$, $$$(1, 4)$$$, $$$(2, 2)$$$, $$$(2, 3)$$$, $$$(2, 4)$$$, $$$(3, 2)$$$, $$$(3, 3)$$$, $$$(3, 4)$$$, $$$(4, 2)$$$, $$$(4, 3)$$$ and $$$(4, 4)$$$.In the second testcase, there is no way to modify the sequence without moving the robot outside the grid. So the only visited cells are the ones that are visited on the path DRDRDRDR.In the third testcase, the cells that are visited on at least one modified path are: $$$(1, 1)$$$, $$$(2, 1)$$$ and $$$(3, 1)$$$.Here are the cells for all testcases:  ",
+    "prob_desc_description": "Consider a grid of size $$$n \\times n$$$. The rows are numbered top to bottom from $$$1$$$ to $$$n$$$, the columns are numbered left to right from $$$1$$$ to $$$n$$$.The robot is positioned in a cell $$$(1, 1)$$$. It can perform two types of moves:  D — move one cell down;  R — move one cell right. The robot is not allowed to move outside the grid.You are given a sequence of moves $$$s$$$ — the initial path of the robot. This path doesn't lead the robot outside the grid.You are allowed to perform an arbitrary number of modifications to it (possibly, zero). With one modification, you can duplicate one move in the sequence. That is, replace a single occurrence of D with DD or a single occurrence of R with RR.Count the number of cells such that there exists at least one sequence of modifications that the robot visits this cell on the modified path and doesn't move outside the grid.",
+    "prob_desc_output_spec": "For each testcase, print a single integer — the number of cells such that there exists at least one sequence of modifications that the robot visits this cell on the modified path and doesn't move outside the grid.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. The first line of each testcase contains the single integer $$$n$$$ ($$$2 \\le n \\le 10^8$$$) — the number of rows and columns in the grid. The second line of each testcase contains a non-empty string $$$s$$$, consisting only of characters D and R, — the initial path of the robot. This path doesn't lead the robot outside the grid. The total length of strings $$$s$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_108.jsonl",
+    "code_uid": "93b24e422cf9bba138e4ee5d5b6a6be5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n4\\n\\nRD\\n\\n5\\n\\nDRDRDRDR\\n\\n3\\n\\nD\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nfrom array import array\r\nimport re\r\n\r\ninput = lambda: sys.stdin.buffer.readline().decode().strip()\r\ninp = lambda dtype: [dtype(x) for x in input().split()]\r\ninp_2d = lambda dtype, n: [dtype(input()) for _ in range(n)]\r\ninp_2ds = lambda dtype, n: [inp(dtype) for _ in range(n)]\r\nceil1 = lambda a, b: (a + b - 1) // b\r\ndebug = lambda *x: print(*x, file=sys.stderr)\r\nout = []\r\n\r\nfor _ in range(int(input())):\r\n    n, s = int(input()), input()\r\n    if len(set(s)) == 1:\r\n        out.append(n)\r\n        continue\r\n\r\n    ans = n * n\r\n    pred, prer = array('i', [0]), array('i', [0])\r\n\r\n    for i in range(len(s)):\r\n        pred.append(pred[-1] + (s[i] == 'D'))\r\n        prer.append(prer[-1] + (s[i] == 'R'))\r\n\r\n    for i, pat in enumerate(re.finditer('R+', s)):\r\n        l, r = pat.span()\r\n        ans -= (r - l) * pred[l]\r\n        if i == 0:\r\n            ans -= (n - prer[-1] - 1) * pred[l]\r\n\r\n    for i, pat in enumerate(re.finditer('D+', s)):\r\n        l, r = pat.span()\r\n        ans -= (r - l) * prer[l]\r\n        if i == 0:\r\n            ans -= (n - pred[-1] - 1) * prer[l]\r\n\r\n    out.append(ans)\r\n\r\nprint('\\n'.join(map(str, out)))\r\n",
+    "prob_desc_created_at": "1645540500",
+    "tags": [
+        "brute force",
+        "combinatorics",
+        "data structures",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

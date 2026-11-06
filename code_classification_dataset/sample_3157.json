@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"4\"]",
+    "src_uid": "b2bc51df4a2c05c56c211e8f33fe1b45",
+    "prob_desc_notes": "NoteIn the first sample n = 2 is a beautiful number.In the second sample n = 7 and Valera can decompose it into sum 23 + ( - 20).In the third sample n = 109 can be decomposed into the sum of four summands as follows: 27 + ( - 24) + ( - 22) + 20.",
+    "prob_desc_description": "Valera considers a number beautiful, if it equals 2k or -2k for some integer k (k ≥ 0). Recently, the math teacher asked Valera to represent number n as the sum of beautiful numbers. As Valera is really greedy, he wants to complete the task using as few beautiful numbers as possible. Help Valera and find, how many numbers he is going to need. In other words, if you look at all decompositions of the number n into beautiful summands, you need to find the size of the decomposition which has the fewest summands.",
+    "prob_desc_output_spec": "Print a single integer — the minimum amount of beautiful numbers that give a total of n.",
+    "prob_desc_input_spec": "The first line contains string s (1 ≤ |s| ≤ 106), that is the binary representation of number n without leading zeroes (n &gt; 0).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_044.jsonl",
+    "code_uid": "76c3466abdc3b452cf7ffb1b0c53bd4a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\", \"111\", \"1101101\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = input()\nj = t[0]\nd, s = 0, int(j)\nfor i in t[1: ]:\n    if j != i:\n        if d == 1: d, s = 0, s + 1\n        else: d = 1\n        j = i\n    else: d = 1\nprint(s + (d and j == '1'))",
+    "prob_desc_created_at": "1362411000",
+    "tags": [
+        "dp",
+        "greedy",
+        "number theory",
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n001100\\nNO\\nYES\\n01100110\\nYES\\n0110\", \"YES\\n0101100100\", \"YES\\n1010000011\"]",
+    "src_uid": "328291f7ef1de8407d8167a1881ec2bb",
+    "prob_desc_notes": "NoteHere are the graphs from the first example. The vertices in the lenient vertex covers are marked red.   ",
+    "prob_desc_description": "You are given a simple connected undirected graph, consisting of $$$n$$$ vertices and $$$m$$$ edges. The vertices are numbered from $$$1$$$ to $$$n$$$.A vertex cover of a graph is a set of vertices such that each edge has at least one of its endpoints in the set.Let's call a lenient vertex cover such a vertex cover that at most one edge in it has both endpoints in the set.Find a lenient vertex cover of a graph or report that there is none. If there are multiple answers, then print any of them.",
+    "prob_desc_output_spec": "For each testcase, the first line should contain YES if a lenient vertex cover exists, and NO otherwise. If it exists, the second line should contain a binary string $$$s$$$ of length $$$n$$$, where $$$s_i = 1$$$ means that vertex $$$i$$$ is in the vertex cover, and $$$s_i = 0$$$ means that vertex $$$i$$$ isn't. If there are multiple answers, then print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. The first line of each testcase contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n \\le 10^6$$$; $$$n - 1 \\le m \\le \\min(10^6, \\frac{n \\cdot (n - 1)}{2})$$$) — the number of vertices and the number of edges of the graph. Each of the next $$$m$$$ lines contains two integers $$$v$$$ and $$$u$$$ ($$$1 \\le v, u \\le n$$$; $$$v \\neq u$$$) — the descriptions of the edges. For each testcase, the graph is connected and doesn't have multiple edges. The sum of $$$n$$$ over all testcases doesn't exceed $$$10^6$$$. The sum of $$$m$$$ over all testcases doesn't exceed $$$10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_083.jsonl",
+    "code_uid": "f5fb58c7f9711e30e04b01aef52310f8",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n6 5\\n\\n1 3\\n\\n2 4\\n\\n3 4\\n\\n3 5\\n\\n4 6\\n\\n4 6\\n\\n1 2\\n\\n2 3\\n\\n3 4\\n\\n1 4\\n\\n1 3\\n\\n2 4\\n\\n8 11\\n\\n1 3\\n\\n2 4\\n\\n3 5\\n\\n4 6\\n\\n5 7\\n\\n6 8\\n\\n1 2\\n\\n3 4\\n\\n5 6\\n\\n7 8\\n\\n7 2\\n\\n4 5\\n\\n1 2\\n\\n2 3\\n\\n3 4\\n\\n1 3\\n\\n2 4\", \"1\\n\\n10 15\\n\\n9 4\\n\\n3 4\\n\\n6 4\\n\\n1 2\\n\\n8 2\\n\\n8 3\\n\\n7 2\\n\\n9 5\\n\\n7 8\\n\\n5 10\\n\\n1 4\\n\\n2 10\\n\\n5 3\\n\\n5 7\\n\\n2 9\", \"1\\n\\n10 19\\n\\n7 9\\n\\n5 3\\n\\n3 4\\n\\n1 6\\n\\n9 4\\n\\n1 4\\n\\n10 5\\n\\n7 1\\n\\n9 2\\n\\n8 3\\n\\n7 3\\n\\n10 9\\n\\n2 10\\n\\n9 8\\n\\n3 2\\n\\n1 5\\n\\n10 7\\n\\n9 5\\n\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "input = __import__('sys').stdin.readline\r\n\r\n\r\nDFS_IN = 0\r\nDFS_OUT = 1\r\n\r\n\r\ndef solve():\r\n    n, m = map(int, input().split())\r\n\r\n    adj = [[] for _ in range(n)]\r\n    for _ in range(m):\r\n        u, v = map(lambda x: int(x)-1, input().split())\r\n        adj[u].append(v)\r\n        adj[v].append(u)\r\n    \r\n    cnt_odd = 0\r\n    dfs_in = [0]*n\r\n    dfs_out = [0]*n\r\n    depth = [0]*n + [-1]\r\n    color = [-1]*n + [1]\r\n    removed_back_edge = None\r\n    dp = [[0]*2 for _ in range(n+1)]\r\n\r\n    i = 0\r\n    stack = [(0, -1, DFS_IN)]\r\n    while len(stack) > 0:\r\n        i += 1\r\n        u, par, state = stack.pop()\r\n        if state == DFS_IN:\r\n            if color[u] != -1:\r\n                continue\r\n            \r\n            dfs_in[u] = i\r\n            color[u] = color[par]^1\r\n            depth[u] = depth[par] + 1\r\n            stack.append((u, par, DFS_OUT))\r\n            for v in adj[u]:\r\n                if color[v] == -1:\r\n                    stack.append((v, u, DFS_IN))\r\n                elif depth[v] - depth[u] not in (-1, 1) and depth[u] > depth[v]:\r\n                    # back edge\r\n                    if color[u] == color[v]:\r\n                        if removed_back_edge is None:\r\n                            removed_back_edge = (u, v)\r\n                        else:\r\n                            removed_back_edge = (n, n)\r\n                    \r\n                    parity = color[u] ^ color[v] ^ 1\r\n                    dp[u][parity] += 1\r\n                    dp[v][parity] -= 1\r\n                    cnt_odd += parity\r\n\r\n        if state == DFS_OUT:\r\n            dfs_out[u] = i\r\n            \r\n            # update dp\r\n            dp[par][0] += dp[u][0]\r\n            dp[par][1] += dp[u][1]\r\n    \r\n    color.pop()\r\n    \r\n    if removed_back_edge is None or removed_back_edge != (n, n):\r\n        # remove back edge if possible\r\n        xor = 1 if removed_back_edge is not None and (color[removed_back_edge[0]], color[removed_back_edge[1]]) == (0, 0) else 0\r\n        print('YES')\r\n        print(''.join(str(x ^ xor) for x in color))\r\n        return\r\n    \r\n    # try removing a span edge\r\n    invert_node = next((u for u in range(1, n) if dp[u][1] == cnt_odd and dp[u][0] == 0), None)\r\n    if invert_node is None:\r\n        print('NO')\r\n        return\r\n\r\n    xor = color[invert_node]\r\n    xor_subtree = lambda u: dfs_in[invert_node] <= dfs_in[u] <= dfs_out[invert_node]\r\n    print('YES')\r\n    print(''.join(str(x ^ (1 if xor_subtree(u) else 0) ^ xor) for u, x in enumerate(color)))\r\n\r\n\r\nfor _ in range(int(input())):\r\n    solve()",
+    "prob_desc_created_at": "1652452500",
+    "tags": [
+        "dfs and similar",
+        "divide and conquer",
+        "dsu",
+        "graphs",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"even\", \"odd\", \"odd\", \"even\"]",
+    "src_uid": "ee105b664099808143a94a374d6d5daa",
+    "prob_desc_notes": "NoteIn the first example, $$$n = 3 \\cdot 13^2 + 2 \\cdot 13 + 7 = 540$$$, which is even.In the second example, $$$n = 123456789$$$ is odd.In the third example, $$$n = 32 \\cdot 99^4 + 92 \\cdot 99^3 + 85 \\cdot 99^2 + 74 \\cdot 99 + 4 = 3164015155$$$ is odd.In the fourth example $$$n = 2$$$.",
+    "prob_desc_description": "You are given an integer $$$n$$$ ($$$n \\ge 0$$$) represented with $$$k$$$ digits in base (radix) $$$b$$$. So,$$$$$$n = a_1 \\cdot b^{k-1} + a_2 \\cdot b^{k-2} + \\ldots a_{k-1} \\cdot b + a_k.$$$$$$For example, if $$$b=17, k=3$$$ and $$$a=[11, 15, 7]$$$ then $$$n=11\\cdot17^2+15\\cdot17+7=3179+255+7=3441$$$.Determine whether $$$n$$$ is even or odd.",
+    "prob_desc_output_spec": "Print \"even\" if $$$n$$$ is even, otherwise print \"odd\". You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line contains two integers $$$b$$$ and $$$k$$$ ($$$2\\le b\\le 100$$$, $$$1\\le k\\le 10^5$$$) — the base of the number and the number of digits. The second line contains $$$k$$$ integers $$$a_1, a_2, \\ldots, a_k$$$ ($$$0\\le a_i &lt; b$$$) — the digits of $$$n$$$. The representation of $$$n$$$ contains no unnecessary leading zero. That is, $$$a_1$$$ can be equal to $$$0$$$ only if $$$k = 1$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_008.jsonl",
+    "code_uid": "8ff31b782402842031891f689dd9b386",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"13 3\\n3 2 7\", \"10 9\\n1 2 3 4 5 6 7 8 9\", \"99 5\\n32 92 85 74 4\", \"2 2\\n1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "b, k = [int(i) for i in input().split()]\na = [int(i) for i in input().split()]\nn = 0\nfor i in range(0, k - 1):\n    n += a[i] * b\nif a[k - 1] % 2 != 0:\n    n += 1\nif n % 2 == 0:\n    print('even')\nelse:\n    print('odd')\n",
+    "prob_desc_created_at": "1549546500",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

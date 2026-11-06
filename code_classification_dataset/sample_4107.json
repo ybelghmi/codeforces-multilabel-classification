@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 2\\n3 3\", \"2 3\\n4 6\", \"1 1\\n2 2\", \"2 7\\n8 13\"]",
+    "src_uid": "23261cfebebe782715646c38992c48a6",
+    "prob_desc_notes": "NoteIn the first example $$$s[1;2] = 12$$$ and $$$s[3;3] = 5$$$, $$$12+5=17$$$.In the second example $$$s[2;3] = 54$$$ and $$$s[4;6] = 471$$$, $$$54+471=525$$$.In the third example $$$s[1;1] = 2$$$ and $$$s[2;2] = 3$$$, $$$2+3=5$$$.In the fourth example $$$s[2;7] = 218633$$$ and $$$s[8;13] = 757639$$$, $$$218633+757639=976272$$$.",
+    "prob_desc_description": "Let's call a positive integer good if there is no digit 0 in its decimal representation.For an array of a good numbers $$$a$$$, one found out that the sum of some two neighboring elements is equal to $$$x$$$ (i.e. $$$x = a_i + a_{i + 1}$$$ for some $$$i$$$). $$$x$$$ had turned out to be a good number as well.Then the elements of the array $$$a$$$ were written out one after another without separators into one string $$$s$$$. For example, if $$$a = [12, 5, 6, 133]$$$, then $$$s = 1256133$$$.You are given a string $$$s$$$ and a number $$$x$$$. Your task is to determine the positions in the string that correspond to the adjacent elements of the array that have sum $$$x$$$. If there are several possible answers, you can print any of them.",
+    "prob_desc_output_spec": "In the first line, print two integers $$$l_1$$$, $$$r_1$$$, meaning that the first term of the sum ($$$a_i$$$) is in the string $$$s$$$ from position $$$l_1$$$ to position $$$r_1$$$. In the second line, print two integers $$$l_2$$$, $$$r_2$$$, meaning that the second term of the sum ($$$a_{i + 1}$$$) is in the string $$$s$$$ from position $$$l_2$$$ to position $$$r_2$$$.",
+    "prob_desc_input_spec": "The first line contains the string $$$s$$$ ($$$2 \\le |s| \\le 5 \\cdot 10^5$$$). The second line contains an integer $$$x$$$ ($$$2 \\le x &lt; 10^{200000}$$$). An additional constraint on the input: the answer always exists, i.e you can always select two adjacent substrings of the string $$$s$$$ so that if you convert these substrings to integers, their sum is equal to $$$x$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 3200,
+    "file_name": "train_090.jsonl",
+    "code_uid": "2453a85f89f18fa1a6f787779ff48d24",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1256133\\n17\", \"9544715561\\n525\", \"239923\\n5\", \"1218633757639\\n976272\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ns = sys.stdin.readline().strip()\r\nx = sys.stdin.readline().strip()\r\nls, lx = len(s), len(x)\r\nMOD = 2**31-1 \r\nh = [0] * (ls+1)\r\np = [1] * (ls+1)\r\ndef gh(start, end):\r\n    return (h[end+1] - h[start] * p[end-start+1]) % MOD\r\n\r\ndef gen_z(s, zx = None, x=None):\r\n    z = [0]*len(s)\r\n    l, r, start = 0, -1, 0\r\n    if not zx: zx = z; x =s; z[0] = len(s); start = 1\r\n    for i in range(start, len(s)):\r\n        if i <= r: z[i] = min(zx[i - l], r - i + 1);\r\n        while i + z[i] < len(s) and z[i] < len(x) and s[i + z[i]] == x[z[i]]: z[i]+=1;\r\n        if i + z[i] - 1 > r:\r\n            l = i;\r\n            r = i + z[i] - 1;\r\n    return z\r\n\r\nzx = gen_z(x)\r\nzs = gen_z(s, zx, x)\r\n\r\nfor idx, i in enumerate(s):\r\n    h[idx+1] = (h[idx] * 10 + ord(i) - 48) % MOD\r\n    p[idx+1] = p[idx]*10 % MOD\r\ntarget = 0\r\nfor i in x: target = (target * 10 + ord(i) - 48) % MOD\r\n\r\ndef printresult(a, b, c):\r\n    sys.stdout.write(\"%d %d\\n%d %d\\n\" % (a+1, b, b+1, c+1))\r\n    sys.exit()\r\n\r\nif lx > 1:\r\n    for i in range(ls - lx - lx + 3):\r\n        if (gh(i, i+lx-2) + gh(i+lx-1, i+lx+lx-3)) % MOD == target: printresult(i, i+lx-1, i+lx+lx-3)\r\n\r\nfor i in range(ls - lx + 1):\r\n    j = lx - zs[i]\r\n    if j > 0:\r\n        if i+lx+j <= ls and (gh(i, i+lx-1) + gh(i+lx, i+lx+j-1)) % MOD == target: printresult(i, i+lx, i+lx+j-1)\r\n        if i-j >= 0 and (gh(i-j, i-1) + gh(i, i+lx-1)) % MOD == target: printresult(i-j, i, i+lx-1)\r\n    if j > 1:\r\n        if i+lx+j-1 <= ls and (gh(i, i+lx-1) + gh(i+lx, i+lx+j-2)) % MOD == target: printresult(i, i+lx, i+lx+j-2)\r\n        if i-j+1 >= 0 and (gh(i-j+1, i-1) + gh(i, i+lx-1)) % MOD == target: printresult(i-j+1, i, i+lx-1)\r\n",
+    "prob_desc_created_at": "1633856700",
+    "tags": [
+        "hashing",
+        "math",
+        "string suffix structures",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

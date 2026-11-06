@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\\nYES\\nYES\"]",
+    "src_uid": "cdd3179a68aab9e6ea36c9cf0c6bb687",
+    "prob_desc_notes": "NoteIn the first test case:   the first network station can provide $$$2$$$ connections to the first city and $$$1$$$ connection to the second city;  the second station can provide $$$2$$$ connections to the second city and $$$1$$$ connection to the third city;  the third station can provide $$$3$$$ connections to the third city. In the second test case:   the $$$1$$$-st station can provide $$$2$$$ connections to the $$$1$$$-st city;  the $$$2$$$-nd station can provide $$$3$$$ connections to the $$$2$$$-nd city;  the $$$3$$$-rd station can provide $$$3$$$ connections to the $$$3$$$-rd city and $$$1$$$ connection to the $$$1$$$-st station. In the third test case, the fourth city needs $$$5$$$ connections, but the third and the fourth station has $$$4$$$ connections in total.",
+    "prob_desc_description": "The government of Berland decided to improve network coverage in his country. Berland has a unique structure: the capital in the center and $$$n$$$ cities in a circle around the capital. The capital already has a good network coverage (so the government ignores it), but the $$$i$$$-th city contains $$$a_i$$$ households that require a connection.The government designed a plan to build $$$n$$$ network stations between all pairs of neighboring cities which will maintain connections only for these cities. In other words, the $$$i$$$-th network station will provide service only for the $$$i$$$-th and the $$$(i + 1)$$$-th city (the $$$n$$$-th station is connected to the $$$n$$$-th and the $$$1$$$-st city).All network stations have capacities: the $$$i$$$-th station can provide the connection to at most $$$b_i$$$ households.Now the government asks you to check can the designed stations meet the needs of all cities or not — that is, is it possible to assign each household a network station so that each network station $$$i$$$ provides the connection to at most $$$b_i$$$ households.",
+    "prob_desc_output_spec": "For each test case, print YES, if the designed stations can meet the needs of all cities, or NO otherwise (case insensitive).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The first line of each test case contains the single integer $$$n$$$ ($$$2 \\le n \\le 10^6$$$) — the number of cities and stations. The second line of each test case contains $$$n$$$ integers ($$$1 \\le a_i \\le 10^9$$$) — the number of households in the $$$i$$$-th city. The third line of each test case contains $$$n$$$ integers ($$$1 \\le b_i \\le 10^9$$$) — the capacities of the designed stations. It's guaranteed that the sum of $$$n$$$ over test cases doesn't exceed $$$10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_078.jsonl",
+    "code_uid": "78c1eb93e7a600d4d594de701b160b9f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3\\n2 3 4\\n3 3 3\\n3\\n3 3 3\\n2 3 4\\n4\\n2 3 4 5\\n3 7 2 2\\n4\\n4 5 2 3\\n2 3 2 7\\n2\\n1 1\\n10 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "'''import sys\ninput = sys.stdin.readline\nfor _ in range(int(input())):\n    n = int(input())\n    a = [int(x) for x in input().split()]\n    b = [int(x) for x in input().split()]\n    ok = False\n    w = 0\n    for i in range(1, n * 2):\n        w = max(0, w) + a[i % n] - b[(i - 1) % n]\n        if w > b[i % n]:\n            ok = True\n            break\n    ok |= sum(a) - sum(b) > 0\n    print(['YES', 'NO'][ok])'''\nfrom collections import defaultdict\nimport sys\ninput=sys.stdin.readline\ndef checker(a,b,pq):\n    if pq>b[-1]:\n        return(False)\n    for i in range(n):\n        if i==0:\n            x=max(0,min(b[i-1]-pq,a[i]-pq))\n            #print(x,pq)\n            b[i-1]-=x\n            a[i]-=x\n            y=min(a[i],b[i])\n            b[i]-=y\n            a[i]-=y\n        else:\n            x=min(b[i-1],a[i])\n            b[i-1]-=x\n            a[i]-=x\n            y=min(a[i],b[i])\n            b[i]-=y\n            a[i]-=y\n        #print(copy1,copy2,pq)\n    if set(copy1)=={0}:\n        return(True)\n    return(False)\n    \nt=int(input())\nfor ii in range(t):\n        n=int(input())\n        a=[int(i) for i in input().split() if i!='\\n']\n        b=[int(i) for i in input().split() if i!='\\n']\n        copy1=a[:]\n        copy2=b[:]\n        for i in range(n):\n                x=min(b[i-1],a[i])\n                b[i-1]-=x\n                a[i]-=x\n                y=min(a[i],b[i])\n                b[i]-=y\n                a[i]-=y\n        #print(a,b)\n        for i in range(len(a)):\n                if a[i]>0:\n                    if i==n-1:\n                        #print(a[i])\n                        if checker(copy1,copy2,a[-1]):\n                            #print('1')\n                            print('YES')\n                            break\n                        else:\n                            print('NO')\n                            break\n                    else:\n                        print(\"NO\")\n                        break\n        else:\n                print(\"YES\")\n                    \n\n",
+    "prob_desc_created_at": "1593095700",
+    "tags": [
+        "data structures",
+        "constructive algorithms",
+        "binary search",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

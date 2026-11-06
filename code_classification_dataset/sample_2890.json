@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\", \"No\", \"No\"]",
+    "src_uid": "e5f422a4247b90af7b42b64875a0f87e",
+    "prob_desc_notes": "NoteIn the first sample string t can occur in the string s as a subsequence in three ways: abab, abab and abab. In these occurrences each character of string s occurs at least once.In the second sample the 4-th character of the string s doesn't occur in any occurrence of string t.In the third sample there is no occurrence of string t in string s.",
+    "prob_desc_description": "A subsequence of length |x| of string s = s1s2... s|s| (where |s| is the length of string s) is a string x = sk1sk2... sk|x| (1 ≤ k1 &lt; k2 &lt; ... &lt; k|x| ≤ |s|).You've got two strings — s and t. Let's consider all subsequences of string s, coinciding with string t. Is it true that each character of string s occurs in at least one of these subsequences? In other words, is it true that for all i (1 ≤ i ≤ |s|), there is such subsequence x = sk1sk2... sk|x| of string s, that x = t and for some j (1 ≤ j ≤ |x|) kj = i.",
+    "prob_desc_output_spec": "Print \"Yes\" (without the quotes), if each character of the string s occurs in at least one of the described subsequences, or \"No\" (without the quotes) otherwise.",
+    "prob_desc_input_spec": "The first line contains string s, the second line contains string t. Each line consists only of lowercase English letters. The given strings are non-empty, the length of each string does not exceed 2·105.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_034.jsonl",
+    "code_uid": "6b329a3d711113132010b94250e12283",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"abab\\nab\", \"abacaba\\naba\", \"abc\\nba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import bisect\nimport string\n\ns = input()\nt = input()\n\nmax_match = [0 for i in range(len(s))]\nmin_match = [0 for i in range(len(s))]\nchar_idx = [0 for i in range(30)]\nchar_occur = [ [] for i in range(30) ]\n\nfor (i, ch) in enumerate(t):\n    idx = ord(ch) - ord('a')\n    char_occur[idx].append(i)\n\nfor ch in string.ascii_lowercase:\n    idx = ord(ch) - ord('a')\n    char_occur[idx].append(len(t)+1)\n\nmatched = -1\nfor (i, ch) in enumerate(s):\n    if matched==len(t)-1:\n        max_match[i] = matched\n    else:\n        if ch == t[matched+1]:\n            matched += 1\n        max_match[i] = matched\n\nmatched = len(t)\nfor (i, ch) in enumerate(s[::-1]):\n    i = len(s) - i - 1\n    if matched==0:\n        min_match[i] = matched\n    else:\n        if ch == t[matched-1]:\n            matched -= 1\n        min_match[i] = matched\n\nfor (i, ch) in enumerate(s):\n    low = min_match[i]\n    high = max_match[i]\n    \n    ch = ord(ch) - ord('a')\n    idx = char_idx[ch]\n    while idx<len(char_occur[ch]) and char_occur[ch][idx]<low:\n        idx += 1\n    char_idx[ch] = idx\n    \n    if idx == len(char_occur[ch]):\n        print(\"No\")\n        exit()\n    if char_occur[ch][idx] > high:\n        print(\"No\")\n        exit()\n\nprint(\"Yes\")",
+    "prob_desc_created_at": "1347809400",
+    "tags": [
+        "dp",
+        "data structures",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

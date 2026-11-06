@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"9\"]",
+    "src_uid": "d8d449d0fccf755822548ddf9d74b9ab",
+    "prob_desc_notes": "NoteAn optimal way — ride from the junction 1 to 2 (via junction 4), then from 2 to 3. It costs 7+2=9 bourles.",
+    "prob_desc_description": "Petya loves volleyball very much. One day he was running late for a volleyball match. Petya hasn't bought his own car yet, that's why he had to take a taxi. The city has n junctions, some of which are connected by two-way roads. The length of each road is defined by some positive integer number of meters; the roads can have different lengths.Initially each junction has exactly one taxi standing there. The taxi driver from the i-th junction agrees to drive Petya (perhaps through several intermediate junctions) to some other junction if the travel distance is not more than ti meters. Also, the cost of the ride doesn't depend on the distance and is equal to ci bourles. Taxis can't stop in the middle of a road. Each taxi can be used no more than once. Petya can catch taxi only in the junction, where it stands initially.At the moment Petya is located on the junction x and the volleyball stadium is on the junction y. Determine the minimum amount of money Petya will need to drive to the stadium.",
+    "prob_desc_output_spec": "If taxis can't drive Petya to the destination point, print \"-1\" (without the quotes). Otherwise, print the drive's minimum cost. Please do not use the %lld specificator to read or write 64-bit integers in С++. It is preferred to use cin, cout streams or the %I64d specificator.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n ≤ 1000, 0 ≤ m ≤ 1000). They are the number of junctions and roads in the city correspondingly. The junctions are numbered from 1 to n, inclusive. The next line contains two integers x and y (1 ≤ x, y ≤ n). They are the numbers of the initial and final junctions correspondingly. Next m lines contain the roads' description. Each road is described by a group of three integers ui, vi, wi (1 ≤ ui, vi ≤ n, 1 ≤ wi ≤ 109) — they are the numbers of the junctions connected by the road and the length of the road, correspondingly. The next n lines contain n pairs of integers ti and ci (1 ≤ ti, ci ≤ 109), which describe the taxi driver that waits at the i-th junction — the maximum distance he can drive and the drive's cost. The road can't connect the junction with itself, but between a pair of junctions there can be more than one road. All consecutive numbers in each line are separated by exactly one space character.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_054.jsonl",
+    "code_uid": "c45a37fbd17f6863314a0c411bb835f6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4\\n1 3\\n1 2 3\\n1 4 1\\n2 4 1\\n2 3 5\\n2 7\\n7 2\\n1 2\\n7 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from heapq import *\n\nf = lambda: map(int, input().split())\ninf = 1e13\n\nn, m = f()\nx, y = f()\np = [[] for i in range(n + 1)]\nfor j in range(m):\n    u, v, w = f()\n    p[u].append((v, w))\n    p[v].append((u, w))\nd = [(0, 0)] + [tuple(f()) for k in range(n)]\n\nC, T = {x: 0}, {x: 0}\nh = [(0, x, 0, 1)]\nwhile h:\n    c, u, t, q = heappop(h)\n    if u == y: exit(print(c))\n    dt, dc = d[u]\n    if t < dt and q: heappush(h, (c + dc, u, dt, 0))\n    for v, w in p[u]:\n        dt = t - w\n        if dt >= 0:\n            if c < C.get(v, inf) or dt > T.get(v, -1):\n                C[v], T[v] = c, dt\n                heappush(h, (c, v, dt, 1))\nprint(-1)",
+    "prob_desc_created_at": "1310137200",
+    "tags": [
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

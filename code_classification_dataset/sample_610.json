@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"15\", \"100\"]",
+    "src_uid": "2e6eafc13ff8dc91e6803deeaf2ecea5",
+    "prob_desc_notes": "NoteIn the first example coprime subsequences are:   1  1, 2  1, 3  1, 2, 3  2, 3 In the second example all subsequences are coprime.",
+    "prob_desc_description": "Let's call a non-empty sequence of positive integers a1, a2... ak coprime if the greatest common divisor of all elements of this sequence is equal to 1.Given an array a consisting of n positive integers, find the number of its coprime subsequences. Since the answer may be very large, print it modulo 109 + 7.Note that two subsequences are considered different if chosen indices are different. For example, in the array [1, 1] there are 3 different subsequences: [1], [1] and [1, 1].",
+    "prob_desc_output_spec": "Print the number of coprime subsequences of a modulo 109 + 7.",
+    "prob_desc_input_spec": "The first line contains one integer number n (1 ≤ n ≤ 100000). The second line contains n integer numbers a1, a2... an (1 ≤ ai ≤ 100000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_003.jsonl",
+    "code_uid": "f2af6ca66cc246f78a62522729f858e9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\", \"4\\n1 1 1 1\", \"7\\n1 3 5 15 3 105 35\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nmod = 10**9 + 7\n\ndef solve():\n    n = int(input())\n    a = [int(i) for i in input().split()]\n\n    cnt = [0]*(10**5 + 1)\n    pat = [0]*(10**5 + 1)\n\n    for ai in a:\n        cnt[ai] += 1\n\n    for i in range(1, 10**5 + 1):\n        for j in range(2*i, 10**5 + 1, i):\n            cnt[i] += cnt[j]\n        \n        pat[i] = (pow(2, cnt[i], mod) - 1)\n\n    for i in range(10**5, 0, -1):\n        for j in range(2*i, 10**5 + 1, i):\n            pat[i] = (pat[i] - pat[j]) % mod\n\n    ans = pat[1] % mod\n\n    print(ans)\n\nif __name__ == '__main__':\n    solve()",
+    "prob_desc_created_at": "1493391900",
+    "tags": [
+        "combinatorics",
+        "number theory",
+        "bitmasks"
+    ],
+    "hidden_unit_tests": ""
+}

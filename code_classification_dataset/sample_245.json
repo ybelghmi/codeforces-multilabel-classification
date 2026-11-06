@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0 5 3 4 1 4 2\", \"0 1 0\"]",
+    "src_uid": "1adb4675dc88208f8a05a2db49bb44cb",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little Bolek has found a picture with n mountain peaks painted on it. The n painted peaks are represented by a non-closed polyline, consisting of 2n segments. The segments go through 2n + 1 points with coordinates (1, y1), (2, y2), ..., (2n + 1, y2n + 1), with the i-th segment connecting the point (i, yi) and the point (i + 1, yi + 1). For any even i (2 ≤ i ≤ 2n) the following condition holds: yi - 1 &lt; yi and yi &gt; yi + 1. We shall call a vertex of a polyline with an even x coordinate a mountain peak.   The figure to the left shows the initial picture, the figure to the right shows what the picture looks like after Bolek's actions. The affected peaks are marked red, k = 2.  Bolek fancied a little mischief. He chose exactly k mountain peaks, rubbed out the segments that went through those peaks and increased each peak's height by one (that is, he increased the y coordinate of the corresponding points). Then he painted the missing segments to get a new picture of mountain peaks. Let us denote the points through which the new polyline passes on Bolek's new picture as (1, r1), (2, r2), ..., (2n + 1, r2n + 1).Given Bolek's final picture, restore the initial one.",
+    "prob_desc_output_spec": "Print 2n + 1 integers y1, y2, ..., y2n + 1 — the y coordinates of the vertices of the polyline on the initial picture. If there are multiple answers, output any one of them.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and k (1 ≤ k ≤ n ≤ 100). The next line contains 2n + 1 space-separated integers r1, r2, ..., r2n + 1 (0 ≤ ri ≤ 100) — the y coordinates of the polyline vertices on Bolek's picture. It is guaranteed that we can obtain the given picture after performing the described actions on some picture of mountain peaks.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_001.jsonl",
+    "code_uid": "5a7a716ab04b638515489e5300ed20bb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n0 5 3 5 1 5 2\", \"1 1\\n0 2 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, input().split())\nins = list(map(int, input().split()))\nfor i in range(1, 2*n + 1):\n    if ins[i] > ins[i - 1] and ins[i] > ins[i + 1] and k != 0\\\n            and (ins[i] - 1) > ins[i - 1] and (ins[i] - 1) > ins[i + 1]:\n        ins[i] -= 1\n        k -= 1\nprint(' '.join(str(x) for x in ins))",
+    "prob_desc_created_at": "1345273500",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

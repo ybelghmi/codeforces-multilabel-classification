@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"32\", \"-1\"]",
+    "src_uid": "ff69d22bc683e5d1d83438585224c774",
+    "prob_desc_notes": null,
+    "prob_desc_description": "As usual, Sereja has array a, its elements are integers: a[1], a[2], ..., a[n]. Let's introduce notation:A swap operation is the following sequence of actions:  choose two indexes i, j (i ≠ j);  perform assignments tmp = a[i], a[i] = a[j], a[j] = tmp. What maximum value of function m(a) can Sereja get if he is allowed to perform at most k swap operations?",
+    "prob_desc_output_spec": "In a single line print the maximum value of m(a) that Sereja can get if he is allowed to perform at most k swap operations.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n ≤ 200; 1 ≤ k ≤ 10). The next line contains n integers a[1], a[2], ..., a[n] ( - 1000 ≤ a[i] ≤ 1000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_038.jsonl",
+    "code_uid": "14652822a1f4b7f0de081b9a75cf0275",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 2\\n10 -1 2 2 2 2 2 2 -1 10\", \"5 10\\n-1 -1 -1 -1 -1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "read_line = lambda: [int(i) for i in input().split()]\nn, k = read_line()\nx = read_line()\nprint(max(sum(sorted(x[l:r] + sorted(x[:l] + x[r:])[-k:])[l-r:]) for l in range(n) for r in range(l + 1, n + 1)))\n",
+    "prob_desc_created_at": "1398612600",
+    "tags": [
+        "sortings",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

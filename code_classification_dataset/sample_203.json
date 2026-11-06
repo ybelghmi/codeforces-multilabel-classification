@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"32\"]",
+    "src_uid": "08b8dbb6e167db69dc965e8ad4835808",
+    "prob_desc_notes": "NoteIn the sample testcase, one optimum solution is to prepare the first problem on day 1 and print it on day 1, prepare the second problem on day 2 and print it on day 4, prepare the third problem on day 3 and print it on day 5, and prepare the fourth problem on day 6 and print it on day 8.",
+    "prob_desc_description": "The marmots need to prepare k problems for HC2 over n days. Each problem, once prepared, also has to be printed.The preparation of a problem on day i (at most one per day) costs ai CHF, and the printing of a problem on day i (also at most one per day) costs bi CHF. Of course, a problem cannot be printed before it has been prepared (but doing both on the same day is fine).What is the minimum cost of preparation and printing?",
+    "prob_desc_output_spec": "Output the minimum cost of preparation and printing k problems — that is, the minimum possible sum ai1 + ai2 + ... + aik + bj1 + bj2 + ... + bjk, where 1 ≤ i1 &lt; i2 &lt; ... &lt; ik ≤ n, 1 ≤ j1 &lt; j2 &lt; ... &lt; jk ≤ n and i1 ≤ j1, i2 ≤ j2, ..., ik ≤ jk.",
+    "prob_desc_input_spec": "The first line of input contains two space-separated integers n and k (1 ≤ k ≤ n ≤ 2200). The second line contains n space-separated integers a1, ..., an () — the preparation costs. The third line contains n space-separated integers b1, ..., bn () — the printing costs.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_001.jsonl",
+    "code_uid": "310dc096081dd15a9e2b17c39a3d1557",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8 4\\n3 8 7 9 9 4 6 8\\n2 5 9 4 3 8 9 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\nfrom heapq import heappop, heappush\n \nclass Edge(object):\n    __slots__ = ('x', 'y', 'cap', 'cost', 'inv')\n    def __repr__(self):\n        return '{e.x}-->{e.y} ({e.cap} , {e.cost})'.format(e=self)\n\nclass MCFP(list):\n    def add(G, x, y, cap, cost):\n        n = max(x, y) + 1\n        while len(G)<n: G.append([])\n        e = Edge() ; G[x].append(e)\n        w = Edge() ; G[y].append(w)\n        e.x=x ; e.y=y; e.cap=cap; e.cost=cost ; w.inv=e        \n        w.x=y ; w.y=x; w.cap=0; w.cost=-cost ; e.inv=w\n \n    def solve(G, src, tgt, flowStop=float('inf'), inf=float('inf')):\n        flowVal = flowCost = 0\n        n = len(G)\n        G.inQ = [0]*n\n        G.phi = h = [0]*n\n        G.prev = p = [None]*n\n        G.dist = d = [inf]*n\n        G.SPFA(src)\n        while p[tgt]!=None and flowVal<flowStop:\n            b = [] ; x = tgt\n            while x!=src: b.append(p[x]) ; x=p[x].x\n            z = min(e.cap for e in b)\n            for e in b: e.cap-=z ; e.inv.cap+=z\n            flowVal += z\n            flowCost += z * (d[tgt] - h[src] + h[tgt])\n            for i in range(n):\n                if p[i]!=None: h[i]+=d[i] ; d[i]=inf\n            p[tgt] = None\n            G.SPFA(src)\n        return flowVal, flowCost\n\n    def SPFA(G, src):\n        inQ = G.inQ ; prev = G.prev\n        d = G.dist ; h = G.phi\n        d[src] = 0\n        Q = deque([src])\n        while Q:\n            x = Q.popleft()\n            inQ[x] = 0\n            for e in G[x]:\n                if e.cap <= 0: continue\n                y = e.y ; dy = d[x] + h[x] + e.cost - h[y]\n                if dy < d[y]:\n                    d[y] = dy ; prev[y] = e\n                    if inQ[y]==0:\n                        inQ[y] = 1\n                        if not Q or dy > d[Q[0]]: Q.append(y)\n                        else: Q.appendleft(y)\n        return\n\nimport sys, random\nints = (int(x) for x in sys.stdin.read().split())\nsys.setrecursionlimit(3000)\n\ndef main():\n    n, k = (next(ints) for i in range(2))\n    a = [next(ints) for i in range(n)]\n    b = [next(ints) for i in range(n)]\n    G = MCFP()\n    src, tgt = 2*n+1, 2*n+2\n    for i in range(n):\n        G.add(src, i, 1, 0)\n        G.add(i, i+n, 1, a[i])\n        G.add(i+n, tgt, 1, b[i])\n        if i+1<n:\n            G.add(i, i+1, n, 0)\n            G.add(i+n, i+n+1, n, 0)\n    flowVal, ans = G.solve(src, tgt, k)\n    assert flowVal == k\n    print(ans)\n    #print(G)\n    return\n\ndef test(n,k):\n    R = random.Random(0)\n    yield n ; yield k\n    for i in range(n): yield R.randint(1, 10**9)\n    for i in range(n): yield R.randint(1, 10**9)\n\n#ints=test(1000, 800)\n\nmain()",
+    "prob_desc_created_at": "1495958700",
+    "tags": [
+        "binary search",
+        "flows",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

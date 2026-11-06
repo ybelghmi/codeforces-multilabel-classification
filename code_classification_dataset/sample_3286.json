@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 2\\n? 1 3\\n? 2 3\\n! 1 0 2\"]",
+    "src_uid": "66e86d612d676068689ae714b453ef32",
+    "prob_desc_notes": "NoteIn the first sample, the permutation is $$$[1,0,2]$$$. You start by asking about $$$p_1|p_2$$$ and Ehab replies with $$$1$$$. You then ask about $$$p_1|p_3$$$ and Ehab replies with $$$3$$$. Finally, you ask about $$$p_2|p_3$$$ and Ehab replies with $$$2$$$. You then guess the permutation.",
+    "prob_desc_description": "This is an interactive problem!Ehab has a hidden permutation $$$p$$$ of length $$$n$$$ consisting of the elements from $$$0$$$ to $$$n-1$$$. You, for some reason, want to figure out the permutation. To do that, you can give Ehab $$$2$$$ different indices $$$i$$$ and $$$j$$$, and he'll reply with $$$(p_i|p_j)$$$ where $$$|$$$ is the bitwise-or operation.Ehab has just enough free time to answer $$$4269$$$ questions, and while he's OK with answering that many questions, he's too lazy to play your silly games, so he'll fix the permutation beforehand and will not change it depending on your queries. Can you guess the permutation?",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The only line contains the integer $$$n$$$ $$$(3 \\le n \\le 2048)$$$ — the length of the permutation.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_051.jsonl",
+    "code_uid": "407c9f93c2fa8ff4df50edca364e596e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1\\n3\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from random import sample\nimport sys\n\nsys.setrecursionlimit(10 ** 6)\nint1 = lambda x: int(x) - 1\np2D = lambda x: print(*x, sep=\"\\n\")\ndef II(): return int(sys.stdin.readline())\ndef MI(): return map(int, sys.stdin.readline().split())\ndef LI(): return list(map(int, sys.stdin.readline().split()))\ndef LLI(rows_number): return [LI() for _ in range(rows_number)]\ndef SI(): return sys.stdin.readline()[:-1]\n\nmemo={}\ndef ask(i,j):\n    if i>j:i,j=j,i\n    if (i,j) in memo:return memo[i,j]\n    print(\"?\",i+1,j+1,flush=True)\n    res=II()\n    memo[i,j]=res\n    return res\n\nn=II()\na,b=0,1\nfor c in sample(range(2,n),n-2):\n    ab=ask(a,b)\n    bc=ask(b,c)\n    if ab==bc:b=c\n    if ab>bc:a=c\n\nab=ask(a,b)\nfor (i,j),v in memo.items():\n    if ab&v!=ab:\n        if i in [a,b]:i=j\n        if i in [a,b]:continue\n        ac = ask(a, i)\n        bc = ask(b, i)\n        if ac < bc: z = a\n        else: z = b\n        break\nelse:\n    for c in sample(range(n),n):\n        if a==c or b==c:continue\n        ac=ask(a,c)\n        bc=ask(b,c)\n        if ac==bc:continue\n        if ac<bc:z=a\n        else:z=b\n        break\n\nans=[]\nfor i in range(n):\n    if i==z:ans.append(0)\n    else:ans.append(ask(z,i))\nprint(\"!\",*ans,flush=True)\n",
+    "prob_desc_created_at": "1592060700",
+    "tags": [
+        "constructive algorithms",
+        "bitmasks",
+        "probabilities",
+        "divide and conquer",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

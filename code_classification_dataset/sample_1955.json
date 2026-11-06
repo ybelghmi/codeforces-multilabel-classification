@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4 1 2 3 4 \\n0\", \"1 1 \\n1 4\"]",
+    "src_uid": "0756d67a04b30e3924b0c8554ad872ad",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Harry Potter has a difficult homework. Given a rectangular table, consisting of n × m cells. Each cell of the table contains the integer. Harry knows how to use two spells: the first spell change the sign of the integers in the selected row, the second — in the selected column. Harry's task is to make non-negative the sum of the numbers in each row and each column using these spells.Alone, the boy can not cope. Help the young magician!",
+    "prob_desc_output_spec": "In the first line print the number a — the number of required applications of the first spell. Next print a space-separated integers — the row numbers, you want to apply a spell. These row numbers must be distinct! In the second line print the number b — the number of required applications of the second spell. Next print b space-separated integers — the column numbers, you want to apply a spell. These column numbers must be distinct! If there are several solutions are allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n,  m ≤ 100) — the number of rows and the number of columns.  Next n lines follow, each contains m integers: j-th integer in the i-th line is ai, j (|ai, j| ≤ 100), the number in the i-th row and j-th column of the table. The rows of the table numbered from 1 to n. The columns of the table numbered from 1 to m.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_015.jsonl",
+    "code_uid": "37b449923921f064c8e7be1a5e315a3a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 1\\n-1\\n-1\\n-1\\n-1\", \"2 4\\n-1 -1 -1 2\\n1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, raw_input().split())\nmat = [map(int, raw_input().split()) for i in xrange(n)]\nsum_row, sum_col = [0] * n, [0]  * m\ncg_row, cg_col = [False] * n, [False] * m\n\nfor i in xrange(n):\n    for j in xrange(m):\n        sum_row[i] += mat[i][j]\n        sum_col[j] += mat[i][j]\n\ndef find():\n    max_value, r, c = 10000000, -1, -1\n\n    for i in xrange(n):\n        if sum_row[i] < max_value:\n            max_value = sum_row[i]\n            r = i\n    for i in xrange(m):\n        if sum_col[i] < max_value:\n            max_value = sum_col[i]\n            c = i\n            r = -1\n    return (r, c)\n\nwhile(True):\n    r, c = find()\n    if r == -1:\n        if sum_col[c] >= 0: break\n        sum_col[c] = -sum_col[c]\n        cg_col[c] ^= 1\n        for i in xrange(n):\n            sum_row[i] -= 2 * mat[i][c]\n            mat[i][c] = -mat[i][c]\n    else:\n        if sum_row[r] >= 0: break\n        sum_row[r] = -sum_row[r]\n        cg_row[r] ^= 1\n        for i in xrange(m):\n            sum_col[i] -= 2 * mat[r][i]\n            mat[r][i] = -mat[r][i]\n\nans_row, ans_col = [], []\nfor i in xrange(n):\n    if cg_row[i]: ans_row.append(i + 1)\nfor i in xrange(m):\n    if cg_col[i]: ans_col.append(i + 1)\nprint ' '.join(map(str, [len(ans_row)] + ans_row))\nprint ' '.join(map(str, [len(ans_col)] + ans_col))",
+    "prob_desc_created_at": "1348500600",
+    "tags": [
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

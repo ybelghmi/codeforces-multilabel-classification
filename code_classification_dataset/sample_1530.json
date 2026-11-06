@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"3\", \"-1\"]",
+    "src_uid": "480db1d8e2fadc75fd07693c22254fc1",
+    "prob_desc_notes": "NoteIn the first example, the shortest cycle is $$$(9, 3, 6, 28)$$$.In the second example, the shortest cycle is $$$(5, 12, 9)$$$.The graph has no cycles in the third example.",
+    "prob_desc_description": "You are given $$$n$$$ integer numbers $$$a_1, a_2, \\dots, a_n$$$. Consider graph on $$$n$$$ nodes, in which nodes $$$i$$$, $$$j$$$ ($$$i\\neq j$$$) are connected if and only if, $$$a_i$$$ AND $$$a_j\\neq 0$$$, where AND denotes the bitwise AND operation.Find the length of the shortest cycle in this graph or determine that it doesn't have cycles at all.",
+    "prob_desc_output_spec": "If the graph doesn't have any cycles, output $$$-1$$$. Else output the length of the shortest cycle.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ $$$(1 \\le n \\le 10^5)$$$ — number of numbers. The second line contains $$$n$$$ integer numbers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 10^{18}$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_010.jsonl",
+    "code_uid": "071f4f0febb0e01dc089b1f41c972b34",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3 6 28 9\", \"5\\n5 12 9 16 48\", \"4\\n1 2 4 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nn = int(input())\ndat = [int(i) for i in input().split()]\n\n\ndata = [i  for i in dat if i != 0]\nn = len(data)\ndic = {}\nfor d in data:\n    if d in dic:\n        dic[d] += 1\n    else:\n        dic[d] = 1\n\nkeys = list(dic.keys())\nif len(keys) != len(data):\n    if len(data) > 200:\n        print(3)\n        sys.exit()\n    else:\n        data2 = []\n        for i in range(len(keys)):\n            k = keys[i]\n            if k != 0:\n                if dic[k] == 2:\n                    for j in range(len(keys)):\n                        if k & keys[j] and i != j:\n                            print(3)\n                            sys.exit()\n                elif dic[k] > 2:\n                    print(3)\n                    sys.exit()\n                else:\n                    data2.append(k)\n        data = data2\n        n = len(data)\n\n\n\n\ninf = 1 << 10\n\nif n > 100:\n    print(3)\n    sys.exit()\n\ndef bfs(a):\n    layer = {a}\n    parent = {a: -1}\n    cnt = 0\n    while len(layer) > 0:   \n        # print(a, layer)\n        cnt += 1\n        new = set()\n        ret = -1\n        for l in layer:\n            for v in data:\n                if l & v and v != l and parent[l] != v:\n                    if v in layer:\n                        return 2 * cnt - 1\n                    elif v in new:\n                        ret = 2 * cnt\n                    parent[v] = l\n                    new.add(v)\n                    # if v == a:\n                    #     print(l, v)\n                    #     print(parent)\n                    #     return cnt\n                    # 5\n                    # 5 12 9 16 48\n        layer = new\n        if ret != -1:\n            return ret\n    return inf\n\n\nans = inf\nfor d in data:\n    a2 = bfs(d)\n    # print(a2)\n    if a2 == inf:\n        continue\n    elif a2 == 3:\n        print(3)\n        sys.exit()\n    elif a2 < ans:\n        ans = a2\nif ans == inf:\n    print(-1)\nelse:\n    print(ans)\n\n",
+    "prob_desc_created_at": "1566135900",
+    "tags": [
+        "bitmasks",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

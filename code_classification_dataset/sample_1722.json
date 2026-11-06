@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n3 \\n-1\\n0\\n\\n2\\n1 2\"]",
+    "src_uid": "128fb67bf707590cb1b60bceeb7ce598",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Polycarp has $$$n$$$ different binary words. A word called binary if it contains only characters '0' and '1'. For example, these words are binary: \"0001\", \"11\", \"0\" and \"0011100\".Polycarp wants to offer his set of $$$n$$$ binary words to play a game \"words\". In this game, players name words and each next word (starting from the second) must start with the last character of the previous word. The first word can be any. For example, these sequence of words can be named during the game: \"0101\", \"1\", \"10\", \"00\", \"00001\".Word reversal is the operation of reversing the order of the characters. For example, the word \"0111\" after the reversal becomes \"1110\", the word \"11010\" after the reversal becomes \"01011\".Probably, Polycarp has such a set of words that there is no way to put them in the order correspondent to the game rules. In this situation, he wants to reverse some words from his set so that:  the final set of $$$n$$$ words still contains different words (i.e. all words are unique);  there is a way to put all words of the final set of words in the order so that the final sequence of $$$n$$$ words is consistent with the game rules. Polycarp wants to reverse minimal number of words. Please, help him.",
+    "prob_desc_output_spec": "Print answer for all of $$$t$$$ test cases in the order they appear. If there is no answer for the test case, print -1. Otherwise, the first line of the output should contain $$$k$$$ ($$$0 \\le k \\le n$$$) — the minimal number of words in the set which should be reversed. The second line of the output should contain $$$k$$$ distinct integers — the indexes of the words in the set which should be reversed. Words are numerated from $$$1$$$ to $$$n$$$ in the order they appear. If $$$k=0$$$ you can skip this line (or you can print an empty line). If there are many answers you can print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the input. Then $$$t$$$ test cases follow. The first line of a test case contains one integer $$$n$$$ ($$$1 \\le n \\le 2\\cdot10^5$$$) — the number of words in the Polycarp's set. Next $$$n$$$ lines contain these words. All of $$$n$$$ words aren't empty and contains only characters '0' and '1'. The sum of word lengths doesn't exceed $$$4\\cdot10^6$$$. All words are different. Guaranteed, that the sum of $$$n$$$ for all test cases in the input doesn't exceed $$$2\\cdot10^5$$$. Also, guaranteed that the sum of word lengths for all test cases in the input doesn't exceed $$$4\\cdot10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_012.jsonl",
+    "code_uid": "2154823c2da2f45b62b1e588ff11f789",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4\\n0001\\n1000\\n0011\\n0111\\n3\\n010\\n101\\n0\\n2\\n00000\\n00001\\n4\\n01\\n001\\n0001\\n00001\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "k = int(input())\nfor i in range(k):\n    is_t = set()\n    a = dict()\n    a['00'] = []\n    a['11'] = []\n    a['01'] = []\n    a['10'] = []    \n    n = int(input())\n    s = []\n    for i in range(n):\n        b = input()\n        a[b[0] + b[-1]].append(i)\n        s.append(b)\n        is_t.add(b)\n    c = len(a['10'])\n    d = len(a['01'])\n    if c + d == 0:\n        if len(a['00']) == 0 or len(a['11']) == 0:\n            print(0)\n        else:\n            print(-1)\n    elif c > d:\n        ans = []\n        i = 0\n        m = (d + c) // 2\n        while d != m and i < len(a['10']):\n            s1 = s[a['10'][i]]\n            if s1[::-1] not in is_t:\n                d += 1\n                ans.append(a['10'][i] + 1)\n            i += 1\n        if d != m:\n            print(-1)\n        else:\n            print(len(ans))\n            print(*ans)\n    else:\n        ans = []\n        i = 0\n        m = (d + c) // 2\n        while c != m and i < len(a['01']):\n            s1 = s[a['01'][i]]\n            if s1[::-1] not in is_t:\n                c += 1\n                ans.append(a['01'][i] + 1)\n            i += 1\n        if c != m:\n            print(-1)\n        else:\n            print(len(ans))\n            print(*ans)\n",
+    "prob_desc_created_at": "1576321500",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

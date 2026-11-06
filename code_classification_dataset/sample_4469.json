@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n0\\n2\\n18\"]",
+    "src_uid": "b017204679bab4c0573b03d35b8ae3f2",
+    "prob_desc_notes": "NoteIn the first testcase, you can apply the digital logarithm to $$$b_1$$$ twice.In the second testcase, the arrays are already similar to each other.In the third testcase, you can first apply the digital logarithm to $$$a_1$$$, then to $$$b_2$$$.",
+    "prob_desc_description": "Let's define $$$f(x)$$$ for a positive integer $$$x$$$ as the length of the base-10 representation of $$$x$$$ without leading zeros. I like to call it a digital logarithm. Similar to a digital root, if you are familiar with that.You are given two arrays $$$a$$$ and $$$b$$$, each containing $$$n$$$ positive integers. In one operation, you do the following:   pick some integer $$$i$$$ from $$$1$$$ to $$$n$$$;  assign either $$$f(a_i)$$$ to $$$a_i$$$ or $$$f(b_i)$$$ to $$$b_i$$$. Two arrays are considered similar to each other if you can rearrange the elements in both of them, so that they are equal (e. g. $$$a_i = b_i$$$ for all $$$i$$$ from $$$1$$$ to $$$n$$$).What's the smallest number of operations required to make $$$a$$$ and $$$b$$$ similar to each other?",
+    "prob_desc_output_spec": "For each testcase, print the smallest number of operations required to make $$$a$$$ and $$$b$$$ similar to each other.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. The first line of the testcase contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of elements in each of the arrays. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i &lt; 10^9$$$). The third line contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$1 \\le b_j &lt; 10^9$$$). The sum of $$$n$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_098.jsonl",
+    "code_uid": "204a68ba5723ed79a396f6152eb55194",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n1\\n\\n1\\n\\n1000\\n\\n4\\n\\n1 2 3 4\\n\\n3 1 4 2\\n\\n3\\n\\n2 9 3\\n\\n1 100 9\\n\\n10\\n\\n75019 709259 5 611271314 9024533 81871864 9 3 6 4865\\n\\n9503 2 371245467 6 7 37376159 8 364036498 52295554 169\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nfrom collections import defaultdict, deque\r\ninput = lambda : sys.stdin.readline().strip()\r\nmd = int(1e9+7)\r\n\r\nfrom heapq import heappush, heappop, heapify\r\nfor t in range(int(input())):\r\n    n = int(input())\r\n    a = list(map(int, input().split()))\r\n    b = list(map(int, input().split()))\r\n    c,d = [],[]\r\n    for i in range(n):\r\n        heappush(c, -a[i])\r\n        heappush(d, -b[i])\r\n    ans = 0\r\n    while c:\r\n        e1 = -heappop(c)\r\n        e2 = -heappop(d)\r\n        if e1 == e2:\r\n            continue\r\n        else:\r\n            if e1 > e2:\r\n                heappush(c, -len(str(e1)))\r\n                heappush(d, -e2)\r\n            else:\r\n                heappush(c, -e1)\r\n                heappush(d, -len(str(e2)))\r\n            ans += 1\r\n    print(ans)",
+    "prob_desc_created_at": "1662647700",
+    "tags": [
+        "data structures",
+        "greedy",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

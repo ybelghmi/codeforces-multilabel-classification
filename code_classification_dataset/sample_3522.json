@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"ORZ\", \"0\"]",
+    "src_uid": "391c2abbe862139733fcb997ba1629b8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In mathematics, a subsequence is a sequence that can be derived from another sequence by deleting some elements without changing the order of the remaining elements. For example, the sequence BDF is a subsequence of ABCDEF. A substring of a string is a continuous subsequence of the string. For example, BCD is a substring of ABCDEF.You are given two strings s1, s2 and another string called virus. Your task is to find the longest common subsequence of s1 and s2, such that it doesn't contain virus as a substring.",
+    "prob_desc_output_spec": "Output the longest common subsequence of s1 and s2 without virus as a substring. If there are multiple answers, any of them will be accepted.  If there is no valid common subsequence, output 0.",
+    "prob_desc_input_spec": "The input contains three strings in three separate lines: s1, s2 and virus (1 ≤ |s1|, |s2|, |virus| ≤ 100). Each string consists only of uppercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_065.jsonl",
+    "code_uid": "400644b8550135348931110e71de3267",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"AJKEQSLOBSROFGZ\\nOVGURWZLWVLUXTH\\nOZ\", \"AA\\nA\\nA\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a, b, v = input(), input(), input()\nt = [[-1] * len(b) for x in range(len(a))]\n\ndef g(i, j):\n    if i < 0 or j < 0: return ''\n    if t[i][j] == -1:\n        s = g(i - 1, j - 1)\n        if a[i] == b[j]: s += a[i]\n        t[i][j] = max(s, g(i - 1, j), g(i, j - 1), key=lambda q: len(q) - q.count(v))\n    return t[i][j]\n\ns = g(len(a) - 1, len(b) - 1)\nwhile v in s: s = min(s.replace(v, v[:-1]), s.replace(v, v[1:]), key=lambda q: q.count(v))\nprint(s if s else 0)\n",
+    "prob_desc_created_at": "1379691000",
+    "tags": [
+        "dp",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

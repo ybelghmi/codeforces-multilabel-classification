@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n61\\n6\"]",
+    "src_uid": "8db0c45990fd49245f537f7bea048307",
+    "prob_desc_notes": "NoteHere is the list of non-elegant numbers up to $$$10$$$:  $$$4 = 2^2, GCD = 2$$$;  $$$8 = 2^3, GCD = 3$$$;  $$$9 = 3^2, GCD = 2$$$. The rest have $$$GCD = 1$$$.",
+    "prob_desc_description": "Consider some positive integer $$$x$$$. Its prime factorization will be of form $$$x = 2^{k_1} \\cdot 3^{k_2} \\cdot 5^{k_3} \\cdot \\dots$$$Let's call $$$x$$$ elegant if the greatest common divisor of the sequence $$$k_1, k_2, \\dots$$$ is equal to $$$1$$$. For example, numbers $$$5 = 5^1$$$, $$$12 = 2^2 \\cdot 3$$$, $$$72 = 2^3 \\cdot 3^2$$$ are elegant and numbers $$$8 = 2^3$$$ ($$$GCD = 3$$$), $$$2500 = 2^2 \\cdot 5^4$$$ ($$$GCD = 2$$$) are not.Count the number of elegant integers from $$$2$$$ to $$$n$$$.Each testcase contains several values of $$$n$$$, for each of them you are required to solve the problem separately.",
+    "prob_desc_output_spec": "Print $$$T$$$ lines — the $$$i$$$-th line should contain the number of elegant numbers from $$$2$$$ to $$$n_i$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$T$$$ ($$$1 \\le T \\le 10^5$$$) — the number of values of $$$n$$$ in the testcase. Each of the next $$$T$$$ lines contains a single integer $$$n_i$$$ ($$$2 \\le n_i \\le 10^{18}$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_054.jsonl",
+    "code_uid": "e261d538d7d69514662d7c672ad3408d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4\\n2\\n72\\n10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, math\nfrom sys import stdin, stdout\nrem = 10 ** 9 + 7\nsys.setrecursionlimit(10 ** 6+5)\n#from resource import *; setrlimit(RLIMIT_STACK, (RLIM_INFINITY, RLIM_INFINITY))\ntake = lambda: map(int, stdin.readline().strip().split())\nfrom bisect import bisect_left,bisect_right\nfrom collections import deque\nfrom heapq import heapify,heappush,heappop\n\ndef help(n):\n    left=0\n    right=10**9 +10\n    while(left<=right):\n        #print left,right\n        mid=(left+right+1)/2\n        num=mid*mid\n        if num==n or left==right:\n            break\n        elif num>n:\n            right=mid-1\n        else :\n            left=mid\n    return mid\n\n\npf={}\nfor i in range(10**4):\n    pf[i*i]=1\n\nall=[]\ndone={}\nfor i in range(3,61,2):\n    p=1\n    for j in range(1,10**6+5):\n        num=pow(j,i)\n\n        if j in pf:\n            continue\n\n        if num>10**18:\n            break\n\n        if num not in done:\n            done[num]=1\n            all.append(num)\nall.sort()\n#print len(all)\nt=input()\nanss=[]\nfor q in range(t):\n    b=take()[0]\n    a=2\n    ans=bisect_right(all,b)-bisect_right(all,a-1)\n    ans+=help(b)-help(a-1)\n    anss.append(str(b-a+1-ans))\n\nprint '\\n'.join(anss)\n\n\n\n\n\n",
+    "prob_desc_created_at": "1536330900",
+    "tags": [
+        "combinatorics",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

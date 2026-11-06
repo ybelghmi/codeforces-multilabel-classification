@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\", \"4\"]",
+    "src_uid": "ad5ec7026cbefedca288df14c2bc58e5",
+    "prob_desc_notes": "NoteIn the first example the balls can be divided into sets like that: one set with 4 balls of the first color, two sets with 3 and 4 balls, respectively, of the second color, and two sets with 4 balls of the third color.",
+    "prob_desc_description": "There are n boxes with colored balls on the table. Colors are numbered from 1 to n. i-th box contains ai balls, all of which have color i. You have to write a program that will divide all balls into sets such that:  each ball belongs to exactly one of the sets,  there are no empty sets,  there is no set containing two (or more) balls of different colors (each set contains only balls of one color),  there are no two sets such that the difference between their sizes is greater than 1. Print the minimum possible number of sets.",
+    "prob_desc_output_spec": "Print one integer number — the minimum possible number of sets.",
+    "prob_desc_input_spec": "The first line contains one integer number n (1 ≤ n ≤ 500). The second line contains n integer numbers a1, a2, ... , an (1 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_050.jsonl",
+    "code_uid": "32dcdc039a97045a0616090e02ebd59d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4 7 8\", \"2\\n2 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# Returns the number of coins that is necessary for paying the amount\n# with the two types of coins that have value of coin and coin + 1\ndef pay(coin, amount):\n    if amount // coin < amount % coin:\n        return -1;\n    if amount < coin * (coin + 1):\n        return amount // coin\n    return (amount - 1) // (coin + 1) + 1;\n\ndef pay_all(coin):\n    sum = 0\n    for i in range(n):\n        p = pay(coin, a[i])\n        if p == -1:\n            return -1\n        sum += p\n    return sum\n\nn = int(input())\na = list(map(int, input().split()))\namin = min(a)\ncoin = amin\nk = 1\np = -1\nwhile p == -1:\n    p = pay_all(coin)\n    if p == -1 and amin % coin == 0:\n        p = pay_all(coin - 1)\n    k += 1\n    coin = amin // k\nprint(p)",
+    "prob_desc_created_at": "1490625300",
+    "tags": [
+        "number theory",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

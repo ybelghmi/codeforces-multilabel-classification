@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"9\\n000\\n01\", \"2\\n193\\n81\\n91\"]",
+    "src_uid": "37d906de85f173aca2a9a3559cbcf7a3",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are n phone numbers in Polycarp's contacts on his phone. Each number is a 9-digit integer, starting with a digit different from 0. All the numbers are distinct.There is the latest version of Berdroid OS installed on Polycarp's phone. If some number is entered, is shows up all the numbers in the contacts for which there is a substring equal to the entered sequence of digits. For example, is there are three phone numbers in Polycarp's contacts: 123456789, 100000000 and 100123456, then:  if he enters 00 two numbers will show up: 100000000 and 100123456,  if he enters 123 two numbers will show up 123456789 and 100123456,  if he enters 01 there will be only one number 100123456. For each of the phone numbers in Polycarp's contacts, find the minimum in length sequence of digits such that if Polycarp enters this sequence, Berdroid shows this only phone number.",
+    "prob_desc_output_spec": "Print exactly n lines: the i-th of them should contain the shortest non-empty sequence of digits, such that if Polycarp enters it, the Berdroid OS shows up only the i-th number from the contacts. If there are several such sequences, print any of them.",
+    "prob_desc_input_spec": "The first line contains single integer n (1 ≤ n ≤ 70000) — the total number of phone contacts in Polycarp's contacts. The phone numbers follow, one in each line. Each number is a positive 9-digit integer starting with a digit from 1 to 9. All the numbers are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_028.jsonl",
+    "code_uid": "350b2bb400a66f5cc1d89a3da85a9218",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n123456789\\n100000000\\n100123456\", \"4\\n123456789\\n193456789\\n134567819\\n934567891\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def add_subs(num, freq):\n  used = set()\n\n  for l in range(1, len(num) + 1):\n    for i in range(len(num) - l + 1):\n      end = i + l\n      sub = num[i : end]\n\n      if sub not in used:\n        used.add(sub)\n        if sub not in freq:\n          freq[sub] = 1\n        else:\n          freq[sub] += 1\n\ndef count_subs(nums):\n  freq = {}\n  for n in nums:\n    add_subs(n, freq)\n  return freq\n\ndef find_sub(num, freq):\n  for l in range(1, len(num)):\n    for i in range(len(num) - l + 1):\n      end = i + l\n      sub = num[i : end]\n      if freq[sub] == 1:\n        return sub\n  return num\n\ndef main():\n  n = int(input())\n  nums = [input() for i in range(n)]\n\n  freq = count_subs(nums)\n  for number in nums:\n    print(find_sub(number, freq))\n\nmain()\n",
+    "prob_desc_created_at": "1505653500",
+    "tags": [
+        "data structures",
+        "implementation",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"0\"]",
+    "src_uid": "55270ee4e6aae7fc0c9bb070fcbf5560",
+    "prob_desc_notes": "NoteIn the first sample Vanya can write 2 essays for the 3rd exam to raise his grade by 2 points and 2 essays for the 4th exam to raise his grade by 1 point.In the second sample, Vanya doesn't need to write any essays as his general point average already is above average.",
+    "prob_desc_description": "Vanya wants to pass n exams and get the academic scholarship. He will get the scholarship if the average grade mark for all the exams is at least avg. The exam grade cannot exceed r. Vanya has passed the exams and got grade ai for the i-th exam. To increase the grade for the i-th exam by 1 point, Vanya must write bi essays. He can raise the exam grade multiple times.What is the minimum number of essays that Vanya needs to write to get scholarship?",
+    "prob_desc_output_spec": "In the first line print the minimum number of essays.",
+    "prob_desc_input_spec": "The first line contains three integers n, r, avg (1 ≤ n ≤ 105, 1 ≤ r ≤ 109, 1 ≤ avg ≤ min(r, 106)) — the number of exams, the maximum grade and the required grade point average, respectively. Each of the following n lines contains space-separated integers ai and bi (1 ≤ ai ≤ r, 1 ≤ bi ≤ 106).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_002.jsonl",
+    "code_uid": "f0f9ef476a0cf0de9d28cec38a086b54",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5 4\\n5 2\\n4 7\\n3 1\\n3 2\\n2 5\", \"2 5 4\\n5 2\\n5 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport itertools\nimport math\nimport collections\nfrom collections import Counter\n\n#input = sys.stdin.readline\n\n#########################\n# imgur.com/Pkt7iIf.png #\n#########################\n\ndef sieve(n):\n    prime = [True for i in range(n + 1)]\n    p = 2\n    while (p * p <= n):\n        if (prime[p] == True):\n            for i in range(p * 2, n + 1, p):\n                prime[i] = False\n        p += 1\n    prime[0] = prime[1] = False\n    r = [p for p in range(n + 1) if prime[p]]\n    return r\ndef divs(n, start=1):\n    r = []\n    for i in range(start, int(math.sqrt(n) + 1)):\n        if (n % i == 0):\n            if (n / i == i):\n                r.append(i)\n            else:\n                r.extend([i, n // i])\n    return r\ndef flin(d, x, default = -1):\n    f = l = -1\n    for i in range(len(d)):\n        if d[i] == x:\n            if f == -1: f = i\n            l = i\n    if f == -1:\n        return (default, default)\n    else:\n        return (f, l)\ndef ceil(n, k): return n // k + (n % k != 0)\ndef ii(): return int(input())\ndef mi(): return map(int, input().split())\ndef li(): return list(map(int, input().split()))\ndef lcm(a, b): return abs(a * b) // math.gcd(a, b)\ndef prr(a, sep=' '): print(sep.join(map(str, a)))\ndef dd(): return collections.defaultdict(int)\n\nn, r, avg = mi()\nd = []\nm = 0\nfor _ in range(n):\n    x, y = mi()\n    m += x\n    d.append([y, x])\nd.sort()\n\nneed = max(0, avg*n - m)\nans = i = 0\nfor i in range(n):\n    if r != d[i][1]:\n        t = min(need, r - d[i][1])\n        need -= t\n        ans += t*d[i][0]\nprint(ans)\n\n\n",
+    "prob_desc_created_at": "1417451400",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n0\\n1\"]",
+    "src_uid": "98d9c44e460e141f062fcd6c345a4a1d",
+    "prob_desc_notes": "NoteIn the first test case, with the only ball, the game can go like this:$$$2 \\rightarrow 1 \\rightarrow 3 \\rightarrow 4 \\rightarrow 1 \\rightarrow 2 \\rightarrow 3 \\rightarrow 4 \\rightarrow 2 \\rightarrow 3 \\rightarrow 2$$$.In the second test case, there is no possible way to play the game with only one ball. One possible way to play with two balls:$$$2 \\rightarrow 1 \\rightarrow 2 \\rightarrow 3 \\rightarrow 2 \\rightarrow 1$$$.$$$2 \\rightarrow 3 \\rightarrow 2 \\rightarrow 1$$$In the third example, there were no passes, so $$$0$$$ balls are possible.",
+    "prob_desc_description": "Daniel is watching a football team playing a game during their training session. They want to improve their passing skills during that session.The game involves $$$n$$$ players, making multiple passes towards each other. Unfortunately, since the balls were moving too fast, after the session Daniel is unable to know how many balls were involved during the game. The only thing he knows is the number of passes delivered by each player during all the session.Find the minimum possible amount of balls that were involved in the game.",
+    "prob_desc_output_spec": "For each test case print a single integer — the answer to the problem.",
+    "prob_desc_input_spec": "There are several test cases in the input data. The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 5 \\cdot 10^4$$$) — the number of test cases. This is followed by the test cases description. The first line of each test case contains one integer $$$n$$$ ($$$2 \\leq n \\leq 10^5$$$) — the number of players. The second line of the test case contains a sequence of integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\leq a_i \\leq 10^9$$$), where $$$a_i$$$ is the number of passes delivered by the $$$i$$$-th player. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_091.jsonl",
+    "code_uid": "76ca9e184c612c113251c3197b0fa454",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4\\n2 3 3 2\\n3\\n1 5 2\\n2\\n0 0\\n4\\n1000000000 1000000000 1000000000 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\r\ninput = stdin.readline\r\n\r\nt = int(input())\r\nout = []\r\n     \r\nfor _ in range(t):\r\n    n = int(input())\r\n    arr = list(map(int, input().split()))\r\n     \r\n    if arr.count(0) == n:\r\n        out.append(\"0\\n\")\r\n    else:\r\n        out.append(str(max(1, max(arr)*2 - sum(arr))) + \"\\n\")\r\n     \r\nprint(\"\".join(out))",
+    "prob_desc_created_at": "1646560500",
+    "tags": [
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

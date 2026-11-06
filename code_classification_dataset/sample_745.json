@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12\", \"21\", \"0\"]",
+    "src_uid": "4c260e7c6fd9c573ee4f3b1822f3c7c3",
+    "prob_desc_notes": "NoteIn the first example Norge can print substrings $$$s[1\\ldots2]$$$, $$$s[2\\ldots3]$$$, $$$s[1\\ldots3]$$$, $$$s[1\\ldots1]$$$, $$$s[2\\ldots2]$$$, $$$s[3\\ldots3]$$$, $$$s[5\\ldots6]$$$, $$$s[6\\ldots7]$$$, $$$s[5\\ldots7]$$$, $$$s[5\\ldots5]$$$, $$$s[6\\ldots6]$$$, $$$s[7\\ldots7]$$$.",
+    "prob_desc_description": "Recently, Norge found a string $$$s = s_1 s_2 \\ldots s_n$$$ consisting of $$$n$$$ lowercase Latin letters. As an exercise to improve his typing speed, he decided to type all substrings of the string $$$s$$$. Yes, all $$$\\frac{n (n + 1)}{2}$$$ of them!A substring of $$$s$$$ is a non-empty string $$$x = s[a \\ldots b] = s_{a} s_{a + 1} \\ldots s_{b}$$$ ($$$1 \\leq a \\leq b \\leq n$$$). For example, \"auto\" and \"ton\" are substrings of \"automaton\".Shortly after the start of the exercise, Norge realized that his keyboard was broken, namely, he could use only $$$k$$$ Latin letters $$$c_1, c_2, \\ldots, c_k$$$ out of $$$26$$$.After that, Norge became interested in how many substrings of the string $$$s$$$ he could still type using his broken keyboard. Help him to find this number.",
+    "prob_desc_output_spec": "Print a single number — the number of substrings of $$$s$$$ that can be typed using only available letters $$$c_1, c_2, \\ldots, c_k$$$.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers $$$n$$$ and $$$k$$$ ($$$1 \\leq n \\leq 2 \\cdot 10^5$$$, $$$1 \\leq k \\leq 26$$$) — the length of the string $$$s$$$ and the number of Latin letters still available on the keyboard. The second line contains the string $$$s$$$ consisting of exactly $$$n$$$ lowercase Latin letters. The third line contains $$$k$$$ space-separated distinct lowercase Latin letters $$$c_1, c_2, \\ldots, c_k$$$ — the letters still available on the keyboard.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_004.jsonl",
+    "code_uid": "b7b3f01170f979fa64e6b70b1d7f8b97",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 2\\nabacaba\\na b\", \"10 3\\nsadfaasdda\\nf a d\", \"7 1\\naaaaaaa\\nb\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "X, S, K, T, A = list(map(int, input().split())), input(), input(), 0, 0\nfor i in range(X[0]):\n    if S[i] in K:\n        T += 1\n    else:\n        A += (T * (T + 1)) // 2\n        T = 0\nprint(A + (T * (T + 1)) // 2)\n",
+    "prob_desc_created_at": "1576157700",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

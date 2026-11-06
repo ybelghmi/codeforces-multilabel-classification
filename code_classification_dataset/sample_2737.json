@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n10 11\", \"0\\n5\\n14 9 28 11 16\"]",
+    "src_uid": "b5eb2bbdba138a4668eb9736fb5258ac",
+    "prob_desc_notes": "NoteOperation  represents the operation of bitwise exclusive OR. In other words, it is the XOR operation.",
+    "prob_desc_description": "Little Victor adores the sets theory. Let us remind you that a set is a group of numbers where all numbers are pairwise distinct. Today Victor wants to find a set of integers S that has the following properties:  for all x  the following inequality holds l ≤ x ≤ r;  1 ≤ |S| ≤ k;  lets denote the i-th element of the set S as si; value  must be as small as possible. Help Victor find the described set.",
+    "prob_desc_output_spec": "Print the minimum possible value of f(S). Then print the cardinality of set |S|. Then print the elements of the set in any order. If there are multiple optimal sets, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains three space-separated integers l, r, k (1 ≤ l ≤ r ≤ 1012; 1 ≤ k ≤ min(106, r - l + 1)).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_029.jsonl",
+    "code_uid": "8167425a4277409614cdf123d68ac905",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8 15 3\", \"8 30 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\n\nimport sys\n\n\n\n\n\ndef numbers_of_one(n):\n\tres=0\n\n\twhile n:\n\t\tif n&1:res+=1\n\t\tn>>=1\n\treturn res\n\n\n\n\ndef brute_force(l,r,k):\n\tnumbers=[i for i in range(l,r+1)]\n\tn=len(numbers)\n\taux=r<<2\n\tres=[]\n\t# import ipdb;ipdb.set_trace()\n\tfor subset in range(1,1<<(r-l+1)):\n\t\tif numbers_of_one(subset)<=k:\n\t\t\ttmp,tmp_l=0,[]\n\t\t\tfor j in range(n):\n\t\t\t\tif 1<<j&subset:\n\t\t\t\t\ttmp^=numbers[j]\n\t\t\t\t\ttmp_l.append(numbers[j])\n\t\t\tif tmp<aux:\n\t\t\t\taux=tmp\n\t\t\t\tres=tmp_l\n\treturn aux,len(res),res\n\n\n\n\n\n\n\ndef main():\n\n\tinName=''\n\toutName=''\n\tif inName is not '' :\n\t\tsys.stdin=open(inName,'r')\n\tif outName is not '':\n\t\tsys.stdout=open(outName,'w')\n\t\n\n\tl,r,k=map(int,raw_input().strip().split())\n\tif r-l<5:\n\t\tsol=brute_force(l,r,k)\n\telse:\n\t\tif k==1:\n\t\t\tsol=(l,1,[l])\n\t\tif k==2:\n\t\t\tsol=(1,2,[l,l+1] if l%2==0 else [l+1,l+2])\n\t\tif k>=4:\n\t\t\tif l%2==1:l+=1\t\t\t\n\t\t\tsol=(0,4,[l,l+1,l+2,l+3])\n\t\tif k==3:\n\t\t\tbl,br=bin(l),bin(r)\n\t\t\tszl,szr=len(bl)-2,len(br)-2\t\n\t\t\t\n\t\t\tispossible=False\n\n\t\t\tif szr>=szl+2:\n\t\t\t\tispossible=True\n\t\t\tif szr==szl+1 and br[3]=='1':\t\t\t\t\n\t\t\t\tispossible=True\n\n\t\t\tif ispossible:\n\t\t\t\taux=2**(szl)+2**(szl-1)\n\t\t\t\tsol=(0,3,[l,aux,l^aux])\n\t\t\telse:\n\t\t\t\tsol=(1,2,[l,l+1] if l%2==0 else [l+1,l+2])\n\txor,count,numbers=sol\n\tprint xor\n\tprint count\n\tprint \" \".join(map(str,numbers))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\n\n\n\nmain()",
+    "prob_desc_created_at": "1408548600",
+    "tags": [
+        "constructive algorithms",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

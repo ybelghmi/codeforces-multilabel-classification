@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"5\"]",
+    "src_uid": "41215d764f10c025bf18a70b6215aecf",
+    "prob_desc_notes": "NoteIn the first example, boxers should not change their weights — you can just make a team out of all of them.In the second example, one boxer with a weight of $$$1$$$ can be increased by one (get the weight of $$$2$$$), one boxer with a weight of $$$4$$$ can be reduced by one, and the other can be increased by one (resulting the boxers with a weight of $$$3$$$ and $$$5$$$, respectively). Thus, you can get a team consisting of boxers with weights of $$$5, 4, 3, 2, 1$$$.",
+    "prob_desc_description": "There are $$$n$$$ boxers, the weight of the $$$i$$$-th boxer is $$$a_i$$$. Each of them can change the weight by no more than $$$1$$$ before the competition (the weight cannot become equal to zero, that is, it must remain positive). Weight is always an integer number.It is necessary to choose the largest boxing team in terms of the number of people, that all the boxers' weights in the team are different (i.e. unique).Write a program that for given current values ​$$$a_i$$$ will find the maximum possible number of boxers in a team.It is possible that after some change the weight of some boxer is $$$150001$$$ (but no more).",
+    "prob_desc_output_spec": "Print a single integer — the maximum possible number of people in a team.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$1 \\le n \\le 150000$$$) — the number of boxers. The next line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$, where $$$a_i$$$ ($$$1 \\le a_i \\le 150000$$$) is the weight of the $$$i$$$-th boxer.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_011.jsonl",
+    "code_uid": "1395dce10c054cca0f1be9016da5b458",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3 2 4 1\", \"6\\n1 1 1 4 4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nA = list(map(int, input().split()))\nA.sort(reverse=True)\n\nif len(A) == len(set(A)):\n    print(n)\n    exit()\n\nS = set()\nfor a in A:\n    if a != 1:\n        if a+1 not in S:\n            S.add(a+1)\n        elif a not in S:\n            S.add(a)\n        elif a-1 not in S:\n            S.add(a-1)\n        else:\n            pass\n    else:\n        if a+1 not in S:\n            S.add(a+1)\n        elif a not in S:\n            S.add(a)\n        else:\n            pass\nprint(len(S))\n",
+    "prob_desc_created_at": "1565706900",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

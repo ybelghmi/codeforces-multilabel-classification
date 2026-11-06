@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"10\"]",
+    "src_uid": "3b42ca8bf066e9c5b6f5ff822cdc9214",
+    "prob_desc_notes": "NoteThe first example can be solved by transposing the graph and moving the token to vertex $$$4$$$, taking $$$2$$$ seconds.The best way to solve the second example is the following: transpose the graph, move the token to vertex $$$2$$$, transpose the graph again, move the token to vertex $$$3$$$, transpose the graph once more and move the token to vertex $$$4$$$.",
+    "prob_desc_description": "You are given a directed graph of $$$n$$$ vertices and $$$m$$$ edges. Vertices are numbered from $$$1$$$ to $$$n$$$. There is a token in vertex $$$1$$$.The following actions are allowed:   Token movement. To move the token from vertex $$$u$$$ to vertex $$$v$$$ if there is an edge $$$u \\to v$$$ in the graph. This action takes $$$1$$$ second.  Graph transposition. To transpose all the edges in the graph: replace each edge $$$u \\to v$$$ by an edge $$$v \\to u$$$. This action takes increasingly more time: $$$k$$$-th transposition takes $$$2^{k-1}$$$ seconds, i.e. the first transposition takes $$$1$$$ second, the second one takes $$$2$$$ seconds, the third one takes $$$4$$$ seconds, and so on. The goal is to move the token from vertex $$$1$$$ to vertex $$$n$$$ in the shortest possible time. Print this time modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_output_spec": "Print one integer: the minimum required time modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first line of input contains two integers $$$n, m$$$ ($$$1 \\le n, m \\le 200\\,000$$$). The next $$$m$$$ lines contain two integers each: $$$u, v$$$ ($$$1 \\le u, v \\le n; u \\ne v$$$), which represent the edges of the graph. It is guaranteed that all ordered pairs $$$(u, v)$$$ are distinct. It is guaranteed that it is possible to move the token from vertex $$$1$$$ to vertex $$$n$$$ using the actions above.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_020.jsonl",
+    "code_uid": "ac9b1fe8dc6cbe624a860dabccc1da64",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4\\n1 2\\n2 3\\n3 4\\n4 1\", \"4 3\\n2 1\\n2 3\\n4 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from heapq import heappush, heappop;mod = 998244353;N, M = map(int, input().split());E1 = [[] for _ in range(N)];E2 = [[] for _ in range(N)]\nfor _ in range(M):u, v = map(int, input().split());u -= 1;v -= 1;E1[u].append(v);E2[v].append(u)\nmask1 = (1<<23) - 1;mask2 = (1<<18) - 1;inf = 1<<62;dist = [inf] * (1<<23);start = 0;dist[start] = 0;q = [start]\nwhile q:\n    v = heappop(q);  dist_v = v >> 23;    v &= mask1; n_trans = v >> 18; v_node = v & mask2\n    if v_node == N-1:  print(dist_v % mod);   exit()\n    if n_trans > 20:        break\n    if dist[v] != dist_v:        continue\n    for u_node in (E1[v_node] if n_trans&1==0 else E2[v_node]):\n        u = n_trans<<18 | u_node;    dist_u = dist_v + 1\n        if dist_u < dist[u]:            dist[u] = dist_u;       heappush(q, dist_u<<23 | u)\n    u = n_trans+1<<18 | v_node;   dist_u = dist_v + (1<<n_trans)\n    if dist_u < dist[u]:        dist[u] = dist_u;        heappush(q, dist_u<<23 | u)\nmask1 = (1<<37) - 1;mask2 = (1<<19) - 1;mask3 = (1<<18)-1;REV = 1<<18;dist = [inf] * (1<<19);start = 0;dist[start] = 0;q = [start]\nwhile q:\n    v = heappop(q);dist_v = v >> 19;n_trans = dist_v >> 18;v &= mask2;v_node = v & mask3\n    if v_node == N-1:ans = pow(2, n_trans, mod) - 1 + (dist_v&mask3);print(ans);exit()\n    rev = v & REV\n    if dist[v] != dist_v:        continue\n    for u_node in (E1[v_node] if n_trans&1==0 else E2[v_node]):\n        u = rev | u_node;  dist_u = dist_v + 1\n        if dist_u < dist[u]:       dist[u] = dist_u;          heappush(q, dist_u<<19 | u)\n    u = v ^ REV; dist_u = dist_v + (1<<18)\n    if dist_u < dist[u]:  dist[u] = dist_u;   heappush(q, dist_u<<19 | u)\nassert False",
+    "prob_desc_created_at": "1604327700",
+    "tags": [
+        "graphs",
+        "dfs and similar",
+        "greedy",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

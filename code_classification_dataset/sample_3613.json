@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n3 3 3\", \"NO\"]",
+    "src_uid": "0b204773f8d06362b7569bd82224b218",
+    "prob_desc_notes": null,
+    "prob_desc_description": "We'll call an array of n non-negative integers a[1], a[2], ..., a[n] interesting, if it meets m constraints. The i-th of the m constraints consists of three integers li, ri, qi (1 ≤ li ≤ ri ≤ n) meaning that value  should be equal to qi. Your task is to find any interesting array of n elements or state that such array doesn't exist.Expression x&amp;y means the bitwise AND of numbers x and y. In programming languages C++, Java and Python this operation is represented as \"&amp;\", in Pascal — as \"and\".",
+    "prob_desc_output_spec": "If the interesting array exists, in the first line print \"YES\" (without the quotes) and in the second line print n integers a[1], a[2], ..., a[n] (0 ≤ a[i] &lt; 230) decribing the interesting array. If there are multiple answers, print any of them. If the interesting array doesn't exist, print \"NO\" (without the quotes) in the single line.",
+    "prob_desc_input_spec": "The first line contains two integers n, m (1 ≤ n ≤ 105, 1 ≤ m ≤ 105) — the number of elements in the array and the number of limits. Each of the next m lines contains three integers li, ri, qi (1 ≤ li ≤ ri ≤ n, 0 ≤ qi &lt; 230) describing the i-th limit.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_073.jsonl",
+    "code_uid": "56ff02deb056fa397f513143ff0e1027",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\n1 3 3\", \"3 2\\n1 3 3\\n1 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\nimport sys\nfrom io import BytesIO, IOBase\n\nBUFSIZE = 8192\n\n\nclass FastIO(IOBase):\n    newlines = 0\n\n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\n        self.write = self.buffer.write if self.writable else None\n\n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n\n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b\"\\n\") + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n\n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n\n\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\n\n\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\nMAX = 1000001\nbitscount = 30\n\nprefix_count = [[0]*(10**5+1) for i in range(30)]\n\n\ndef findPrefixCount(arr, n):\n    for i in range(0, bitscount):\n\n        prefix_count[i][0] = ((arr[0] >> i) & 1)\n\n        for j in range(1, n):\n            prefix_count[i][j] = ((arr[j] >> i) & 1)\n            prefix_count[i][j] += prefix_count[i][j - 1]\n\n\n\n\ndef rangeOr(l, r):\n    ans = 0\n    for i in range(bitscount):\n\n        x = 0\n\n        if (l == 0):\n            x = prefix_count[i][r]\n        else:\n            x = prefix_count[i][r] - prefix_count[i][l - 1]\n\n            # Condition for ith bit\n        # of answer to be set\n        if (x == r - l + 1):\n            ans = (ans | (1 << i))\n\n    return ans\n\n\n\n\n\n\n\n\n\n\nn, m = map(int, input().split())\na = [[0] * n for i in range(30)]\nquery = []\nfor i in range(m):\n    l, r, q = map(int, input().split())\n    query.append([l-1, r-1, q])\n    c = bin(q)[2:][::-1]\n    b = []\n    for j in c:\n        b.append(int(j))\n    j = 0\n    while (j < len(b)):\n        if b[j] == 1:\n            a[j][l - 1] += 1\n            if r != n:\n                a[j][r] -= 1\n        j += 1\nfor i in range(30):\n    j = 1\n    while (j < n):\n        a[i][j] += a[i][j - 1]\n        j += 1\n    j = 0\n    while (j < n):\n        if a[i][j] > 0:\n            a[i][j] = 1\n        j += 1\nres=[]\nfor i in range(n):\n    s = \"\"\n    j=29\n    while(j>=0):\n        s += str(a[j][i])\n        j+=-1\n    res.append(int(s,2))\nfindPrefixCount(res, n)\nf=0\nfor j in query:\n    if rangeOr(j[0],j[1])!=j[2]:\n        f=1\n        break\nif f==1:\n    print(\"NO\")\nelse:\n    print(\"YES\")\n    print(*res)\n\n\n\n\n\n\n\n\n\n\n",
+    "prob_desc_created_at": "1414170000",
+    "tags": [
+        "data structures",
+        "constructive algorithms",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

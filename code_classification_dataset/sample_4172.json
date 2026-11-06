@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"INF\\n-1\\nINF\\n-6\\n-18\"]",
+    "src_uid": "425a32606726f820c1256085ad2b86ef",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$. For any real number $$$t$$$, consider the complete weighted graph on $$$n$$$ vertices $$$K_n(t)$$$ with weight of the edge between vertices $$$i$$$ and $$$j$$$ equal to $$$w_{ij}(t) = a_i \\cdot a_j + t \\cdot (a_i + a_j)$$$. Let $$$f(t)$$$ be the cost of the minimum spanning tree of $$$K_n(t)$$$. Determine whether $$$f(t)$$$ is bounded above and, if so, output the maximum value it attains.",
+    "prob_desc_output_spec": "For each test case, print a single line with the maximum value of $$$f(t)$$$ (it can be shown that it is an integer), or INF if $$$f(t)$$$ is not bounded above. ",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$T$$$ ($$$1 \\leq T \\leq 10^4$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$2 \\leq n \\leq 2 \\cdot 10^5$$$) — the number of vertices of the graph. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$-10^6 \\leq a_i \\leq 10^6$$$). The sum of $$$n$$$ for all test cases is at most $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_092.jsonl",
+    "code_uid": "65f4c62274f59796afc8253341cfa934",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n2\\n\\n1 0\\n\\n2\\n\\n-1 1\\n\\n3\\n\\n1 -1 -2\\n\\n3\\n\\n3 -1 -2\\n\\n4\\n\\n1 2 3 -4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "h=10**9\r\nfor _ in range(int(input())):\r\n\tn=int(input());a=list(map(int,input().split()));a.sort();\r\n\tdef f(t):\r\n\t\tc=a[0]*a[-1]+t*(a[0]+a[-1])\r\n\t\tfor i in range(1,n-1):c+=min(a[0]*a[i]+t*(a[0]+a[i]),a[-1]*a[i]+t*(a[-1]+a[i]))\r\n\t\treturn c\r\n\tif f(h)>0 or f(-h)>0:print(\"INF\");\r\n\telse:\r\n\t\tl,r=-h,h\r\n\t\twhile r-l>3:\r\n\t\t\tp,q=(l*2+r)//3,(l+2*r)//3;\r\n\t\t\tif f(p)>f(q):r=q;\r\n\t\t\telse:l=p;\r\n\t\tz=-h*h\r\n\t\tfor i in range(l,r):z=max(z,f(i))\r\n\t\tprint(z)",
+    "prob_desc_created_at": "1648132500",
+    "tags": [
+        "binary search",
+        "constructive algorithms",
+        "graphs",
+        "greedy",
+        "math",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

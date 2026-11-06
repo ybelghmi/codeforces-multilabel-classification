@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n1 3\", \"2\\n3\\n2 3 4\", \"2\\n3\\n1 2 3\", \"1\\n1 4 5\"]",
+    "src_uid": "e87930c6bc4559806376b09c58e00dcc",
+    "prob_desc_notes": "NoteIn the first sample:Notice that printing the independent set $$$\\{2,4\\}$$$ is also OK, but printing the cycle $$$1-2-3-4$$$ isn't, because its length must be at most $$$3$$$.In the second sample:Notice that printing the independent set $$$\\{1,3\\}$$$ or printing the cycle $$$2-1-4$$$ is also OK.In the third sample:In the fourth sample:",
+    "prob_desc_description": "Given a connected undirected graph with $$$n$$$ vertices and an integer $$$k$$$, you have to either:  either find an independent set that has exactly $$$\\lceil\\frac{k}{2}\\rceil$$$ vertices. or find a simple cycle of length at most $$$k$$$. An independent set is a set of vertices such that no two of them are connected by an edge. A simple cycle is a cycle that doesn't contain any vertex twice. I have a proof that for any input you can always solve at least one of these problems, but it's left as an exercise for the reader.",
+    "prob_desc_output_spec": "If you choose to solve the first problem, then on the first line print $$$1$$$, followed by a line containing $$$\\lceil\\frac{k}{2}\\rceil$$$ distinct integers not exceeding $$$n$$$, the vertices in the desired independent set. If you, however, choose to solve the second problem, then on the first line print $$$2$$$, followed by a line containing one integer, $$$c$$$, representing the length of the found cycle, followed by a line containing $$$c$$$ distinct integers not exceeding $$$n$$$, the vertices in the desired cycle, in the order they appear in the cycle.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$m$$$, and $$$k$$$ ($$$3 \\le k \\le n \\le 10^5$$$, $$$n-1 \\le m \\le 2 \\cdot 10^5$$$) — the number of vertices and edges in the graph, and the parameter $$$k$$$ from the statement. Each of the next $$$m$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u,v \\le n$$$) that mean there's an edge between vertices $$$u$$$ and $$$v$$$. It's guaranteed that the graph is connected and doesn't contain any self-loops or multiple edges.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_016.jsonl",
+    "code_uid": "a8610cc9c19c129340515c9630d1014e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4 3\\n1 2\\n2 3\\n3 4\\n4 1\", \"4 5 3\\n1 2\\n2 3\\n3 4\\n4 1\\n2 4\", \"4 6 3\\n1 2\\n2 3\\n3 4\\n4 1\\n1 3\\n2 4\", \"5 4 5\\n1 2\\n1 3\\n2 4\\n2 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "L=[0]*200005\nO=[0]*200005\nF=[0]*200005\nC=[]\nczy=0\nW=[[] for _ in range(4)]\nP=[[] for _ in range(200005)]\nile=0;\ndef dfs(n,p):\n    stos=[]\n    stos.append((n,p))\n    global czy\n    while len(stos)>0:\n        n,p=stos[-1]\n        stos.pop()\n        if O[n]==1:\n            continue\n        O[n]=1\n        if L[n]<=k-1:\n            W[L[n]%2].append(n)\n        for v in P[n]:\n            #print(n,v,czy,L[n],L[v],O[v],p)\n            if  O[v]==0:\n                L[v]=L[n]+1;\n                F[v]=n\n                stos.append((v,n))\n            elif v!=p and czy==0 and L[n]>L[v] and L[n]-L[v]+1<=k:\n               # print(\"i am here\",n,v)\n                czy=1\n                x=n\n                while x!=v:\n                    C.append(x)\n                    x=F[x]\n                C.append(v)\nn,m,k=map(int,input().split())\nfor i in range(m):\n    a,b=map(int,input().split())\n    P[a].append(b)\n    P[b].append(a)\ndfs(1,0)\nif czy:\n    print(2)\n    print(len(C))\n    print(\" \".join(map(str,C)))\nelse:\n    print(1)\n    A=[]\n    if len(W[0])<len(W[1]):\n        A=W[1]\n    else:\n        A=W[0]\n    x=k//2\n    if k&1:\n        x+=1\n    s=\"\"\n    for i in range(0,x):\n        s+=str(A[i])+\" \"\n    print(s)\n#threading.Thread(target=main).start()",
+    "prob_desc_created_at": "1592060700",
+    "tags": [
+        "greedy",
+        "graphs",
+        "constructive algorithms",
+        "implementation",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

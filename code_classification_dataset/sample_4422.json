@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n32767\\n0\\n0\"]",
+    "src_uid": "356bd72aa9143681f1efd695969a8c8e",
+    "prob_desc_notes": "NoteIn the first test case the resulting value of d is hhahahaha.",
+    "prob_desc_description": "Polycarp came up with a new programming language. There are only two types of statements in it:   \"x := s\": assign the variable named x the value s (where s is a string). For example, the statement var := hello assigns the variable named var the value hello. Note that s is the value of a string, not the name of a variable. Between the variable name, the := operator and the string contains exactly one space each. \"x = a + b\": assign the variable named x the concatenation of values of two variables a and b. For example, if the program consists of three statements a := hello, b := world, c = a + b, then the variable c will contain the string helloworld. It is guaranteed that the program is correct and the variables a and b were previously defined. There is exactly one space between the variable names and the = and + operators. All variable names and strings only consist of lowercase letters of the English alphabet and do not exceed $$$5$$$ characters.The result of the program is the number of occurrences of string haha in the string that was written to the variable in the last statement.Polycarp was very tired while inventing that language. He asks you to implement it. Your task is — for given program statements calculate the number of occurrences of string haha in the last assigned variable.",
+    "prob_desc_output_spec": "For each set of input data, output the number of occurrences of the haha substring in the string that was written to the variable in the last statement.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 10^3$$$). Then $$$t$$$ test cases follow. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 50$$$) — the number of statements in the program. All variable names and strings are guaranteed to consist only of lowercase letters of the English alphabet and do not exceed $$$5$$$ characters. This is followed by $$$n$$$ lines describing the statements in the format described above. It is guaranteed that the program is correct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_097.jsonl",
+    "code_uid": "12828bf63b0ff3e74d77f7ea39882a6b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n6\\na := h\\nb := aha\\nc = a + b\\nc = c + c\\ne = c + c\\nd = a + c\\n15\\nx := haha\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\nx = x + x\\n1\\nhaha := hah\\n5\\nhaahh := aaaha\\nahhhh = haahh + haahh\\nhaahh = haahh + haahh\\nahhhh = ahhhh + haahh\\nahhaa = haahh + ahhhh\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\r\ndef naiveSolve():\r\n    \r\n    \r\n    \r\n    return\r\n\r\ndef countHaha(s):\r\n    n=len(s)\r\n    cnt=0\r\n    for i in range(n):\r\n        if s[i:i+4]=='haha':\r\n            cnt+=1\r\n    return cnt\r\n\r\ndef main():\r\n    \r\n    t=int(input())\r\n    allans=[]\r\n    for _ in range(t):\r\n        n=int(input())\r\n        d=dict() # var:[pre,suf,haha cnts]\r\n        for __ in range(n):\r\n            inn=input().split()\r\n            curr=inn[0]\r\n            if len(inn)==3: # assign\r\n                obj=[inn[2][:3],inn[2][-3:],countHaha(inn[2])]\r\n                d[curr]=obj\r\n            else:\r\n                obj1,obj2=d[inn[2]],d[inn[4]]\r\n                pre=(obj1[0]+obj2[0])[:3] # takes care of short string 1\r\n                suf=(obj1[1]+obj2[1])[-3:] # takes care of short string 2\r\n                hahaCnts=obj1[2]+obj2[2]+countHaha(obj1[1]+obj2[0])\r\n                newObj=[pre,suf,hahaCnts]\r\n                d[curr]=newObj\r\n        allans.append(d[curr][2])\r\n    multiLineArrayPrint(allans)\r\n                \r\n    \r\n    return\r\n\r\n\r\nimport sys\r\n# input=sys.stdin.buffer.readline #FOR READING PURE INTEGER INPUTS (space separation ok)\r\ninput=lambda: sys.stdin.readline().rstrip(\"\\r\\n\") #FOR READING STRING/TEXT INPUTS.\r\n \r\ndef oneLineArrayPrint(arr):\r\n    print(' '.join([str(x) for x in arr]))\r\ndef multiLineArrayPrint(arr):\r\n    print('\\n'.join([str(x) for x in arr]))\r\ndef multiLineArrayOfArraysPrint(arr):\r\n    print('\\n'.join([' '.join([str(x) for x in y]) for y in arr]))\r\n \r\ndef readIntArr():\r\n    return [int(x) for x in input().split()]\r\n# def readFloatArr():\r\n#     return [float(x) for x in input().split()]\r\n \r\ndef makeArr(defaultValFactory,dimensionArr): # eg. makeArr(lambda:0,[n,m])\r\n    dv=defaultValFactory;da=dimensionArr\r\n    if len(da)==1:return [dv() for _ in range(da[0])]\r\n    else:return [makeArr(dv,da[1:]) for _ in range(da[0])]\r\n \r\ndef queryInteractive(i,j):\r\n    print('? {} {}'.format(i,j))\r\n    sys.stdout.flush()\r\n    return int(input())\r\n \r\ndef answerInteractive(ans):\r\n    print('! {}'.format(' '.join([str(x) for x in ans])))\r\n    sys.stdout.flush()\r\n \r\ninf=float('inf')\r\nMOD=10**9+7\r\n# MOD=998244353\r\n \r\n \r\nfor _abc in range(1):\r\n    main()\r\n",
+    "prob_desc_created_at": "1623335700",
+    "tags": [
+        "data structures",
+        "hashing",
+        "implementation",
+        "matrices",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

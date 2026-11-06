@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\"]",
+    "src_uid": "a1631f068c8da218243a9ab0aced4f16",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little penguin Polo has got a tree — a non-directed connected acyclic graph, containing n nodes and n - 1 edges. We will consider the tree nodes numbered by integers from 1 to n.Today Polo wonders, how to find the number of pairs of paths that don't have common nodes. More formally, he should find the number of groups of four integers a, b, c and d such that:  1 ≤ a &lt; b ≤ n;  1 ≤ c &lt; d ≤ n;  there's no such node that lies on both the shortest path from node a to node b and from node c to node d. The shortest path betweem two nodes is the path that is shortest in the number of edges.Help Polo solve this problem.",
+    "prob_desc_output_spec": "In a single line print a single integer — the answer to the problem. Please do not use the %lld specificator to read or write 64-bit numbers in С++. It is recommended to use the cin, cout streams or the %I64d specificator.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 80000) — the number of tree nodes. Each of the following n - 1 lines contains a pair of integers ui and vi (1 ≤ ui, vi ≤ n; ui ≠ vi) — the i-th edge of the tree. It is guaranteed that the given graph is a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_035.jsonl",
+    "code_uid": "a3f396ce90df85dc8747e777579d7ee9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2\\n2 3\\n3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=input()\ne=[[] for i in range(0,n+10)]\nsz,f=[0]*(n+10),[0]*(n+10)\ns=[]\nans=n*n*(n-1)*(n-1)/4\nfor i in xrange(1,n):\n\tu,v=map(int,raw_input().split())\n\te[u].append(v)\n\te[v].append(u)\nq=[1]\nfor i in xrange(0,n):\n\tu=q[i]\n\tfor v in e[u]:\n\t\tif (v==f[u]): continue\n\t\tq.append(v)\n\t\tf[v]=u\nfor i in reversed(xrange(0,n)):\n\tu=q[i]\n\tsz[u]+=1\n\tsz[f[u]]+=sz[u]\n\tsu=sz[u]*(sz[u]-1)/2-sum(sz[v]*(sz[v]-1)/2 for v in e[u] if (v!=f[u]))\n\tans-=su*(su+2*(n-sz[u])*sz[u])\nprint ans\n\n",
+    "prob_desc_created_at": "1364916600",
+    "tags": [
+        "combinatorics",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

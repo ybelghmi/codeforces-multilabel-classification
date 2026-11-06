@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n5\"]",
+    "src_uid": "79d26192a25cd51d27e916adeb97f9d0",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Two soldiers are playing a game. At the beginning first of them chooses a positive integer n and gives it to the second soldier. Then the second one tries to make maximum possible number of rounds. Each round consists of choosing a positive integer x &gt; 1, such that n is divisible by x and replacing n with n / x. When n becomes equal to 1 and there is no more possible valid moves the game is over and the score of the second soldier is equal to the number of rounds he performed.To make the game more interesting, first soldier chooses n of form a! / b! for some positive integer a and b (a ≥ b). Here by k! we denote the factorial of k that is defined as a product of all positive integers not large than k.What is the maximum possible score of the second soldier?",
+    "prob_desc_output_spec": "For each game output a maximum score that the second soldier can get.",
+    "prob_desc_input_spec": "First line of input consists of single integer t (1 ≤ t ≤ 1 000 000) denoting number of games soldiers play. Then follow t lines, each contains pair of integers a and b (1 ≤ b ≤ a ≤ 5 000 000) defining the value of n for a game.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_046.jsonl",
+    "code_uid": "558a0fc300bf7ec1e48f99e794da4c31",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3 1\\n6 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "'''\ndef isPrime(n) : \n    # Corner cases \n    if (n <= 1) : \n        return False\n    if (n <= 3) : \n        return True\n  \n    # This is checked so that we can skip  \n    # middle five numbers in below loop \n    if (n % 2 == 0 or n % 3 == 0) : \n        return False\n  \n    i = 5\n    while(i * i <= n) : \n        if (n % i == 0 or n % (i + 2) == 0) : \n            return False\n        i = i + 6\n  \n    return True\n\ncnt = 0\n\nfor i in range(2,5*10**6+1):\n    if isPrime(i):\n        cnt+=1\n\nprint(cnt)\n'''\n\n'''\nn = 5*10**6+1\nN = 5*10**6\n\nprime = [False] * (N+1) \ns = [0] * (N+1) \n\ndef sieveOfEratosthenes(): \n      \n    # Create a boolean array  \n    # \"prime[0..n]\" and initialize \n    # all entries in it as false. \n    \n  \n    # Initializing smallest factor \n    # equal to 2 for all the even  \n    # numbers \n    for i in range(2, N+1, 2):  \n        s[i] = 2\n  \n    # For odd numbers less then  \n    # equal to n \n    for i in range(3, N+1, 2): \n        if (prime[i] == False): \n              \n            # s(i) for a prime is \n            # the number itself \n            s[i] = i \n  \n            # For all multiples of \n            # current prime number \n            for j in range(i, int(N / i) + 1, 2): \n                if (prime[i*j] == False): \n                    prime[i*j] = True\n  \n                    # i is the smallest  \n                    # prime factor for \n                    # number \"i*j\". \n                    s[i * j] = i \n  \n# Function to generate prime \n# factors and its power \ndef generatePrimeFactors(x): \n  \n    # s[i] is going to store \n    # smallest prime factor  \n    # of i. \n    # s = [0] * (N+1) \n  \n    # Filling values in s[]  \n    # using sieve \n    # sieveOfEratosthenes(N, s) \n  \n    # print(\"Factor Power\") \n  \n    # Current prime factor of N \n    curr = s[x] \n      \n    # Power of current prime factor \n    cnt = 1 \n  \n    # Printing prime factors and  \n    #their powers \n    ans = 0\n    while (x > 1): \n        x //= s[x] \n  \n        # N is now N/s[N]. If new N  \n        # als has smallest prime  \n        # factor as curr, increment \n        # power \n        if (curr == s[x]): \n            cnt += 1\n            continue\n        ans += cnt\n        # print(str(curr) + \"\\t\" + str(cnt)) \n  \n        # Update current prime factor \n        # as s[N] and initializing  \n        # count as 1. \n        curr = s[x] \n        cnt = 1\n        # print(x)\n    return ans\nsieveOfEratosthenes()\n# print(s[2],s[8],generatePrimeFactors(8))\ndp = [0]*n\nfor i in range(2,n):\n    dp[i] = generatePrimeFactors(i)\n    # if dp[i]!=0:\n    #     continue\n    # for j in range(i,n):\n    #     if i*j>=n:\n    #         break\n    #     if \n    #     dp[i*j] += 1\n    # dp[i]=1\n    dp[i]+=dp[i-1]\n\n# for i in range(1,10):\n#     print(dp[i],i)\n\n'''\nfrom sys import stdin, stdout\n\nr = map(int,stdin.read().split())\n\n\nn = 5*10**6+1\ndp = [0]*n\nfor i in range(2,n):\n    if dp[i]==0:\n        for j in range(i,n,i):\n            dp[j] = dp[j//i]+1\n\nfor i in range(1,n):\n    dp[i] += dp[i-1]\n\nt = next(r)\nwhile t>0:\n    t-=1\n    a = next(r)\n    b = next(r)\n    # print(dp[a],dp[b])\n    print(dp[a]-dp[b])",
+    "prob_desc_created_at": "1432312200",
+    "tags": [
+        "dp",
+        "constructive algorithms",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

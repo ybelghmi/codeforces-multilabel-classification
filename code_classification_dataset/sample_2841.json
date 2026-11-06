@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4 3 6 2\", \"42\", \"1 1\"]",
+    "src_uid": "71dc07f0ea8962f23457af1d6509aeee",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The GCD table G of size n × n for an array of positive integers a of length n is defined by formula   Let us remind you that the greatest common divisor (GCD) of two positive integers x and y is the greatest integer that is divisor of both x and y, it is denoted as . For example, for array a = {4, 3, 6, 2} of length 4 the GCD table will look as follows:  Given all the numbers of the GCD table G, restore array a.",
+    "prob_desc_output_spec": "In the single line print n positive integers — the elements of array a. If there are multiple possible solutions, you are allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains number n (1 ≤ n ≤ 500) — the length of array a. The second line contains n2 space-separated numbers — the elements of the GCD table of G for array a.  All the numbers in the table are positive integers, not exceeding 109. Note that the elements are given in an arbitrary order. It is guaranteed that the set of the input data corresponds to some array a.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_033.jsonl",
+    "code_uid": "e5831c25389a89dbda88183639885ac5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 1 2 3 4 3 2 6 1 1 2 2 1 2 3 2\", \"1\\n42\", \"2\\n1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def getDictionary(myList):\n    myDict = {}\n    for i in range(0, len(myList)):\n        if (myList[i] in myDict):\n            myDict[myList[i]] = myDict[myList[i]] + 1;\n        else:\n            myDict[myList[i]] = 1;\n    return myDict\n \ndef counting(sizeOfMother, myDict):\n    winTable = []\n    for i in range(0, sizeOfMother):\n        x = next(iter(myDict.keys()))\n \n        # Usun ten element\n        if (myDict[x] > 1):\n            myDict[x] = myDict[x] - 1;\n        else:\n            del myDict[x]\n \n        for j in range(0, len(winTable)):\n            gcd = searchNWD(x, winTable[j])\n            # Usun ten element\n            if (myDict[gcd] <= 2):\n                del myDict[gcd]\n            else:\n                myDict[gcd] = myDict[gcd] - 2;\n                \n        winTable.append(x)\n    return winTable\n \ndef searchNWD(a, b):\n    temporary = 0\n    while(a != 0) and (b != 0):\n        if(a > b):\n            a = a % b\n        else:\n            b = b % a\n    if(a > 0):\n        return a\n    else:\n        return b\n \n######################\nsizeOfMotherG = int(input())\nnumberInMotherG = list(map(int, input().split()))\nnumberInMotherG.sort(reverse=True)\nmyDictG = getDictionary(numberInMotherG)\n\nw = counting(sizeOfMotherG, myDictG)\n \nfor i in range(0, sizeOfMotherG):\n    print(w[i], end=\" \")",
+    "prob_desc_created_at": "1443890700",
+    "tags": [
+        "constructive algorithms",
+        "number theory",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

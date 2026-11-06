@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"16\", \"0\", \"13\"]",
+    "src_uid": "198b6e6b91c7b4655d133a78421ac249",
+    "prob_desc_notes": "NoteThe strange set with the maximum cost in the first example is $$$\\{1, 2, 4, 8, 9\\}$$$.The strange set with the maximum cost in the second example is empty.",
+    "prob_desc_description": "Note that the memory limit is unusual.You are given an integer $$$n$$$ and two sequences $$$a_1, a_2, \\dots, a_n$$$ and $$$b_1, b_2, \\dots, b_n$$$.Let's call a set of integers $$$S$$$ such that $$$S \\subseteq \\{1, 2, 3, \\dots, n\\}$$$ strange, if, for every element $$$i$$$ of $$$S$$$, the following condition is met: for every $$$j \\in [1, i - 1]$$$, if $$$a_j$$$ divides $$$a_i$$$, then $$$j$$$ is also included in $$$S$$$. An empty set is always strange.The cost of the set $$$S$$$ is $$$\\sum\\limits_{i \\in S} b_i$$$. You have to calculate the maximum possible cost of a strange set.",
+    "prob_desc_output_spec": "Print one integer — the maximum cost of a strange set.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 3000$$$). The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 100$$$). The third line contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$-10^5 \\le b_i \\le 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_106.jsonl",
+    "code_uid": "89ff19c5e0c641bcdf901cd45d9c039e",
+    "prob_desc_memory_limit": "32 megabytes",
+    "prob_desc_sample_inputs": "[\"9\\n4 7 3 4 5 6 7 8 13\\n-2 3 -19 5 -6 7 -8 9 1\", \"2\\n42 42\\n-37 13\", \"2\\n42 42\\n13 -37\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\r\nclass Dinic:\r\n    def __init__(self, N):\r\n        self.N = N\r\n        self.G = [[] for i in range(N)]\r\n\r\n    # 1方向\r\n    def add_edge(self, fr, to, cap):\r\n        forward = [to, cap, None]\r\n        forward[2] = backward = [fr, 0, forward]\r\n        self.G[fr].append(forward)\r\n        self.G[to].append(backward)\r\n\r\n    # 両方向\r\n    def add_multi_edge(self, v1, v2, cap1, cap2):\r\n        edge1 = [v2, cap1, None]\r\n        edge1[2] = edge2 = [v1, cap2, edge1]\r\n        self.G[v1].append(edge1)\r\n        self.G[v2].append(edge2)\r\n\r\n    def bfs(self, s, t):\r\n        self.level = level = [None]*self.N\r\n        deq = deque([s])\r\n        level[s] = 0\r\n        G = self.G\r\n        while deq:\r\n            v = deq.popleft()\r\n            lv = level[v] + 1\r\n            for w, cap, _ in G[v]:\r\n                if cap and level[w] is None:\r\n                    level[w] = lv\r\n                    deq.append(w)\r\n        return level[t] is not None\r\n\r\n    def dfs(self, v, t, f):\r\n        if v == t:\r\n            return f\r\n        level = self.level\r\n        for e in self.it[v]:\r\n            w, cap, rev = e\r\n            if cap and level[v] < level[w]:\r\n                d = self.dfs(w, t, min(f, cap))\r\n                if d:\r\n                    e[1] -= d\r\n                    rev[1] += d\r\n                    return d\r\n        return 0\r\n\r\n    def flow(self, s, t):\r\n        flow = 0\r\n        INF = 10**9 + 7\r\n        G = self.G\r\n        while self.bfs(s, t):\r\n            *self.it, = map(iter, self.G)\r\n            f = INF\r\n            while f:\r\n                f = self.dfs(s, t, INF)\r\n                flow += f\r\n        return flow\r\n\r\nimport sys\r\ninput = sys.stdin.readline\r\n\r\nn = int(input())\r\na = list(map(int,input().split()))\r\nb = list(map(int,input().split()))\r\n\r\n# s:n+1,g:0\r\nf = Dinic(n+2)\r\nINF = 10**15\r\n\r\nfor i in range(n):\r\n    if b[i] > 0:\r\n        f.add_edge(n+1,i+1,b[i])\r\n    elif b[i] < 0:\r\n        f.add_edge(i+1,0,-b[i])\r\n\r\nfor i in range(n):\r\n    used = [False]*101\r\n    for j in reversed(range(i)):\r\n        if a[i] % a[j] == 0 and not used[a[j]]:\r\n            f.add_edge(i+1,j+1,INF)\r\n            used[a[j]] = True\r\n\r\nans = sum(b[i]*(b[i] > 0) for i in range(n)) - f.flow(n+1,0)\r\nprint(ans)",
+    "prob_desc_created_at": "1610634900",
+    "tags": [
+        "flows",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

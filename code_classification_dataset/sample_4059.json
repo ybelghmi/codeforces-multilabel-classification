@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"25\", \"849\"]",
+    "src_uid": "79ee1ff924432a184d8659db5f960304",
+    "prob_desc_notes": "NoteThe tree in the second example is given below:  We have $$$21$$$ subsets of size $$$2$$$ in the given tree. Hence, $$$$$$S \\in \\left\\{\\{1, 2\\}, \\{1, 3\\}, \\{1, 4\\}, \\{1, 5\\}, \\{1, 6\\}, \\{1, 7\\}, \\{2, 3\\}, \\{2, 4\\}, \\{2, 5\\}, \\{2, 6\\}, \\{2, 7\\}, \\{3, 4\\}, \\{3, 5\\}, \\{3, 6\\}, \\{3, 7\\}, \\{4, 5\\}, \\{4, 6\\}, \\{4, 7\\}, \\{5, 6\\}, \\{5, 7\\}, \\{6, 7\\} \\right\\}.$$$$$$ And since we have $$$7$$$ vertices, $$$1 \\le r \\le 7$$$. We need to find the sum of $$$f(r, S)$$$ over all possible pairs of $$$r$$$ and $$$S$$$. Below we have listed the value of $$$f(r, S)$$$ for some combinations of $$$r$$$ and $$$S$$$.  $$$r = 1$$$, $$$S = \\{3, 7\\}$$$. The value of $$$f(r, S)$$$ is $$$5$$$ and the corresponding subtree is $$$\\{2, 3, 4, 6, 7\\}$$$.  $$$r = 1$$$, $$$S = \\{5, 4\\}$$$. The value of $$$f(r, S)$$$ is $$$7$$$ and the corresponding subtree is $$$\\{1, 2, 3, 4, 5, 6, 7\\}$$$.  $$$r = 1$$$, $$$S = \\{4, 6\\}$$$. The value of $$$f(r, S)$$$ is $$$3$$$ and the corresponding subtree is $$$\\{4, 6, 7\\}$$$. ",
+    "prob_desc_description": "You are given a tree $$$G$$$ with $$$n$$$ vertices and an integer $$$k$$$. The vertices of the tree are numbered from $$$1$$$ to $$$n$$$.For a vertex $$$r$$$ and a subset $$$S$$$ of vertices of $$$G$$$, such that $$$|S| = k$$$, we define $$$f(r, S)$$$ as the size of the smallest rooted subtree containing all vertices in $$$S$$$ when the tree is rooted at $$$r$$$. A set of vertices $$$T$$$ is called a rooted subtree, if all the vertices in $$$T$$$ are connected, and for each vertex in $$$T$$$, all its descendants belong to $$$T$$$.You need to calculate the sum of $$$f(r, S)$$$ over all possible distinct combinations of vertices $$$r$$$ and subsets $$$S$$$, where $$$|S| = k$$$. Formally, compute the following: $$$$$$\\sum_{r \\in V} \\sum_{S \\subseteq V, |S| = k} f(r, S),$$$$$$ where $$$V$$$ is the set of vertices in $$$G$$$.Output the answer modulo $$$10^9 + 7$$$.",
+    "prob_desc_output_spec": "Print the answer modulo $$$10^9 + 7$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$3 \\le n \\le 2 \\cdot 10^5$$$, $$$1 \\le k \\le n$$$). Each of the following $$$n - 1$$$ lines contains two integers $$$x$$$ and $$$y$$$ ($$$1 \\le x, y \\le n$$$), denoting an edge between vertex $$$x$$$ and $$$y$$$. It is guaranteed that the given edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_089.jsonl",
+    "code_uid": "548ab908d319fee1b75d8be50ac97f0d",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 2\\n1 3\", \"7 2\\n1 2\\n2 3\\n2 4\\n1 5\\n4 6\\n4 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nsys.setrecursionlimit(300000)\r\n\r\nimport faulthandler\r\nfaulthandler.enable()\r\n\r\nn, k = map(int, input().split())\r\nMOD = 10**9 + 7\r\n\r\nfact = [1 for i in range(n+1)]\r\nfor i in range(2, n+1):\r\n\tfact[i] = i*fact[i-1] % MOD\r\n\r\ninv_fact = [1 for i in range(n+1)]\r\ninv_fact[-1] = pow(fact[-1], MOD-2, MOD)\r\nfor i in range(1, n):\r\n\tinv_fact[n-i] = (n-i+1)*inv_fact[n-i+1] % MOD\r\n\r\ndef comb(a, b):\r\n\tif a < b:\r\n\t\treturn 0\r\n\treturn fact[a]*inv_fact[b]*inv_fact[a-b] % MOD\r\n\r\nedges = [[] for i in range(n)]\r\nfor _ in range(n-1):\r\n\tx, y = map(lambda a: int(a)-1, input().split())\r\n\tedges[x].append(y)\r\n\tedges[y].append(x)\r\n\r\nends = [[] for i in range(n)]\r\n\r\nvisited = [0 for i in range(n)]\r\ntotals = [1 for i in range(n)]\r\ndfs_stack = [0]\r\n\r\nwhile len(dfs_stack) > 0:\r\n\tnode = dfs_stack[-1]\r\n\r\n\tif visited[node] == 1:\r\n\t\tvisited[node] = 2\r\n\r\n\t\tfor next_node in edges[node]:\r\n\t\t\tif visited[next_node] == 2:\r\n\t\t\t\ttotals[node] += totals[next_node]\r\n\t\t\t\tends[node].append(totals[next_node])\r\n\r\n\t\tends[node].append(n-totals[node])\r\n\t\tdfs_stack.pop()\r\n\telse:\r\n\t\tvisited[node] = 1\r\n\r\n\t\tfor next_node in edges[node]:\r\n\t\t\tif visited[next_node] == 0:\r\n\t\t\t\tdfs_stack.append(next_node)\r\n\r\nz = n*n * comb(n, k) % MOD\r\nnode_v = [0 for i in range(n)]\r\n\r\nfor i in range(n):\r\n\tnode_v[i] = sum(comb(e, k) for e in ends[i]) % MOD\r\n\r\n\tfor e in ends[i]:\r\n\t\tz = (z - e*e * (comb(n-e, k) + comb(e, k) - node_v[i])) % MOD\r\n\r\nprint(z)",
+    "prob_desc_created_at": "1654007700",
+    "tags": [
+        "combinatorics",
+        "dfs and similar",
+        "dp",
+        "math",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

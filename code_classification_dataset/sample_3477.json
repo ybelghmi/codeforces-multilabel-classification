@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6\", \"3\"]",
+    "src_uid": "e2d33176db9779aebd6c769fab8d7bf6",
+    "prob_desc_notes": "NoteIn the first example the inadequate numbers in the string are $$$1, 2, 4, 21, 40, 402$$$. In the second example the inadequate numbers in the string are $$$1$$$ and $$$10$$$, and $$$1$$$ appears twice (on the first and on the second positions).",
+    "prob_desc_description": "Traveling around the world you noticed that many shop owners raise prices to inadequate values if the see you are a foreigner.You define inadequate numbers as follows:   all integers from $$$1$$$ to $$$9$$$ are inadequate;  for an integer $$$x \\ge 10$$$ to be inadequate, it is required that the integer $$$\\lfloor x / 10 \\rfloor$$$ is inadequate, but that's not the only condition. Let's sort all the inadequate integers. Let $$$\\lfloor x / 10 \\rfloor$$$ have number $$$k$$$ in this order. Then, the integer $$$x$$$ is inadequate only if the last digit of $$$x$$$ is strictly less than the reminder of division of $$$k$$$ by $$$11$$$. Here $$$\\lfloor x / 10 \\rfloor$$$ denotes $$$x/10$$$ rounded down.Thus, if $$$x$$$ is the $$$m$$$-th in increasing order inadequate number, and $$$m$$$ gives the remainder $$$c$$$ when divided by $$$11$$$, then integers $$$10 \\cdot x + 0, 10 \\cdot x + 1 \\ldots, 10 \\cdot x + (c - 1)$$$ are inadequate, while integers $$$10 \\cdot x + c, 10 \\cdot x + (c + 1), \\ldots, 10 \\cdot x + 9$$$ are not inadequate.The first several inadequate integers are $$$1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 21, 30, 31, 32 \\ldots$$$. After that, since $$$4$$$ is the fourth inadequate integer, $$$40, 41, 42, 43$$$ are inadequate, while $$$44, 45, 46, \\ldots, 49$$$ are not inadequate; since $$$10$$$ is the $$$10$$$-th inadequate number, integers $$$100, 101, 102, \\ldots, 109$$$ are all inadequate. And since $$$20$$$ is the $$$11$$$-th inadequate number, none of $$$200, 201, 202, \\ldots, 209$$$ is inadequate.You wrote down all the prices you have seen in a trip. Unfortunately, all integers got concatenated in one large digit string $$$s$$$ and you lost the bounds between the neighboring integers. You are now interested in the number of substrings of the resulting string that form an inadequate number. If a substring appears more than once at different positions, all its appearances are counted separately.",
+    "prob_desc_output_spec": "In the only line print the number of substrings of $$$s$$$ that form an inadequate number.",
+    "prob_desc_input_spec": "The only line contains the string $$$s$$$ ($$$1 \\le |s| \\le 10^5$$$), consisting only of digits. It is guaranteed that the first digit of $$$s$$$ is not zero.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_062.jsonl",
+    "code_uid": "ea70a2c61dd3e0a57d95ab2d35cab6b9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4021\", \"110\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python\nfrom __future__ import division, print_function\n\nimport os\nimport sys\nfrom io import IOBase\n\nif sys.version_info[0] < 3:\n    from __builtin__ import xrange as range\n    from cStringIO import StringIO\n    from future_builtins import ascii, filter, hex, map, oct, zip\nelse:\n    from io import BytesIO as StringIO\n\n\nclass FastI:\n    stream = StringIO()\n    newlines = 0\n\n    def readline(self):\n        while self.newlines == 0:\n            b, ptr = os.read(0, (1 << 13) + os.fstat(0).st_size), self.stream.tell()\n            self.stream.seek(0, 2), self.stream.write(b), self.stream.seek(ptr)\n            self.newlines += b.count(b'\\n') + (not b)\n\n        self.newlines -= 1\n        return self.stream.readline()\n\n\nclass FastO(IOBase):\n    def __init__(self):\n        stream = StringIO()\n        self.flush = lambda: os.write(1, stream.getvalue()) and not stream.truncate(0) and stream.seek(0)\n        self.write = stream.write if sys.version_info[0] < 3 else lambda b: stream.write(b.encode())\n\n\nclass ostream:\n    def __lshift__(self, a):\n        if a == endl:\n            sys.stdout.write('\\n')\n            sys.stdout.flush()\n        else:\n            sys.stdout.write(str(a))\n        return self\n\n\nsys.stdin, sys.stdout = FastI(), FastO()\ninput, flush = sys.stdin.readline, sys.stdout.flush\ncout, endl = ostream(), object()\n\n\ndef main():\n    D = map(int, sys.stdin.readline().strip())\n    Sum = 0\n    c = [0] * 11\n    for x in D:\n        cn = [0] * 11\n        if x != 0:\n            cn[x] += 1\n        for i in xrange(x + 1, 11):\n            cn[((i - 1) * i // 2 + x + 10) % 11] += c[i]\n        c = cn\n        Sum += sum(c)\n    cout << Sum << endl\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1553965800",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

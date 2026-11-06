@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"1\"]",
+    "src_uid": "ccdd28603921a99fa5f1f75d42f479a9",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Vasya is studying in the last class of school and soon he will take exams. He decided to study polynomials. Polynomial is a function P(x) = a0 + a1x1 + ... + anxn. Numbers ai are called coefficients of a polynomial, non-negative integer n is called a degree of a polynomial.Vasya has made a bet with his friends that he can solve any problem with polynomials. They suggested him the problem: \"Determine how many polynomials P(x) exist with integer non-negative coefficients so that , and , where  and b are given positive integers\"? Vasya does not like losing bets, but he has no idea how to solve this task, so please help him to solve the problem.",
+    "prob_desc_output_spec": "If there is an infinite number of such polynomials, then print \"inf\" without quotes, otherwise print the reminder of an answer modulo 109 + 7.",
+    "prob_desc_input_spec": "The input contains three integer positive numbers  no greater than 1018.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_057.jsonl",
+    "code_uid": "9895a1458ffdca40def4fe20a95142be",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2 2\", \"2 3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def dfs(t, a, b, s1, s2):\n    cnt = 0\n    is_inf = False\n\n    if s1 == s2:\n        if s1 < t or s2 < a:\n            return is_inf, 1\n        else:\n            cnt += 1\n\n    if s2 >= a and s1 >= t:\n        a0 = s2 % a\n        if (s1-a0) % t == 0 and (s2-a0) % a == 0:\n            ns1, ns2 = (s1-a0)/t, (s2-a0)/a\n            if ns1 == s1 and ns2 == s2:\n                if s1 == s2:\n                    is_inf = True\n            else:\n                is_inf, val = dfs(t, a, b, ns1, ns2)\n                cnt += val\n        return is_inf, cnt % int(1e9+7)\n    else:\n        return is_inf, 0\n\nt, a, b = map(int, raw_input().split())\nis_inf, val = dfs(t, a, b, a, b)\nif is_inf:\n    print 'inf'\nelse:\n    print val",
+    "prob_desc_created_at": "1417618800",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

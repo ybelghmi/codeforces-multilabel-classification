@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"3\", \"6\"]",
+    "src_uid": "bac276604d67fa573b61075c1024865a",
+    "prob_desc_notes": "NoteIn the first sample the maximum trail can be any of this trails: .In the second sample the maximum trail is .In the third sample the maximum trail is .",
+    "prob_desc_description": "Pashmak's homework is a problem about graphs. Although he always tries to do his homework completely, he can't solve this problem. As you know, he's really weak at graph theory; so try to help him in solving the problem.You are given a weighted directed graph with n vertices and m edges. You need to find a path (perhaps, non-simple) with maximum number of edges, such that the weights of the edges increase along the path. In other words, each edge of the path must have strictly greater weight than the previous edge in the path.Help Pashmak, print the number of edges in the required path.",
+    "prob_desc_output_spec": "Print a single integer — the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains two integers n, m (2 ≤ n ≤ 3·105; 1 ≤ m ≤ min(n·(n - 1), 3·105)). Then, m lines follows. The i-th line contains three space separated integers: ui, vi, wi (1 ≤ ui, vi ≤ n; 1 ≤ wi ≤ 105) which indicates that there's a directed edge with weight wi from vertex ui to vertex vi. It's guaranteed that the graph doesn't contain self-loops and multiple edges.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_013.jsonl",
+    "code_uid": "6a8a2fc1ea4da0935f8d88ffaca6f1f7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n1 2 1\\n2 3 1\\n3 1 1\", \"3 3\\n1 2 1\\n2 3 2\\n3 1 3\", \"6 7\\n1 2 1\\n3 2 5\\n2 4 2\\n2 5 2\\n2 6 9\\n5 4 3\\n4 3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom itertools import repeat, groupby\nfrom operator import itemgetter\ndef main():\n    n, m = map(int, stdin.readline().split())\n    d = [[] for _ in xrange(100001)]\n    IN = stdin.read().split()\n    IN = map(int, IN, repeat(10, len(IN)))\n    for i in xrange(0, 3*m, 3):\n        d[IN[i+2]].append((IN[i+1], IN[i]))\n    dp = [0] * (n + 10)\n    for dd in d:\n        dd.sort()\n        for u, v in [(x, max(dp[y[1]] for y in l)) for x, l in groupby(dd, key=itemgetter(0))]:\n            dp[u] = max(dp[u], v + 1)\n    print max(dp)\nmain()",
+    "prob_desc_created_at": "1408116600",
+    "tags": [
+        "dp",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

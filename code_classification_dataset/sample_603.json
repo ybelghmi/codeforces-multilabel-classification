@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"-1\"]",
+    "src_uid": "49c47ebfd710a3733ce7ecb3a3c134a7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Valera wanted to prepare a Codesecrof round. He's already got one problem and he wants to set a time limit (TL) on it.Valera has written n correct solutions. For each correct solution, he knows its running time (in seconds). Valera has also wrote m wrong solutions and for each wrong solution he knows its running time (in seconds).Let's suppose that Valera will set v seconds TL in the problem. Then we can say that a solution passes the system testing if its running time is at most v seconds. We can also say that a solution passes the system testing with some \"extra\" time if for its running time, a seconds, an inequality 2a ≤ v holds.As a result, Valera decided to set v seconds TL, that the following conditions are met:  v is a positive integer;  all correct solutions pass the system testing;  at least one correct solution passes the system testing with some \"extra\" time;  all wrong solutions do not pass the system testing;  value v is minimum among all TLs, for which points 1, 2, 3, 4 hold. Help Valera and find the most suitable TL or else state that such TL doesn't exist.",
+    "prob_desc_output_spec": "If there is a valid TL value, print it. Otherwise, print -1.",
+    "prob_desc_input_spec": "The first line contains two integers n, m (1 ≤ n, m ≤ 100). The second line contains n space-separated positive integers a1, a2, ..., an (1 ≤ ai ≤ 100) — the running time of each of the n correct solutions in seconds. The third line contains m space-separated positive integers b1, b2, ..., bm (1 ≤ bi ≤ 100) — the running time of each of m wrong solutions in seconds. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_003.jsonl",
+    "code_uid": "12f7181b7c91b4ba871415b6c7461800",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 6\\n4 5 2\\n8 9 6 10 7 11\", \"3 1\\n3 4 5\\n6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=map(int,input().split())\na=list(map(int,input().split()))\nz=list(map(int,input().split()))\nglag=0\nfor i in range(1,min(z)):\n    count=0\n    glag=0\n    for j in range(len(a)):\n        if(a[j]>i):\n            glag=1\n            break;\n        else:\n            if(a[j]*2<=i):\n                count+=1\n    if(count>=1 and glag==0):\n        print(i)\n        exit()\nprint(-1)\n        \n",
+    "prob_desc_created_at": "1380641400",
+    "tags": [
+        "implementation",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

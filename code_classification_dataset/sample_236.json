@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n0 3\\n4 2\", \"0\", \"1\\n0 1\"]",
+    "src_uid": "b3c6058893f935d88196113fab581cf8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In this problem your goal is to sort an array consisting of n integers in at most n swaps. For the given array find the sequence of swaps that makes the array sorted in the non-descending order. Swaps are performed consecutively, one after another.Note that in this problem you do not have to minimize the number of swaps — your task is to find any sequence that is no longer than n.",
+    "prob_desc_output_spec": "In the first line print k (0 ≤ k ≤ n) — the number of swaps. Next k lines must contain the descriptions of the k swaps, one per line. Each swap should be printed as a pair of integers i, j (0 ≤ i, j ≤ n - 1), representing the swap of elements ai and aj. You can print indices in the pairs in any order. The swaps are performed in the order they appear in the output, from the first to the last. It is allowed to print i = j and swap the same pair of elements multiple times. If there are multiple answers, print any of them. It is guaranteed that at least one answer exists.",
+    "prob_desc_input_spec": "The first line of the input contains integer n (1 ≤ n ≤ 3000) — the number of array elements. The second line contains elements of array: a0, a1, ..., an - 1 ( - 109 ≤ ai ≤ 109), where ai is the i-th element of the array. The elements are numerated from 0 to n - 1 from left to right. Some integers may appear in the array more than once.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "67a2e3415a82562a3a0f32d3cd61e42e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n5 2 5 1 4\", \"6\\n10 20 20 40 60 60\", \"2\\n101 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\na = map(int,raw_input().split())\ncnt = 0\nf1=[]\nf2=[]\nfor i in range(0,n):\n    tmp = a[i]\n    t = i\n    for j in range(i+1,n):\n        if(a[j] < tmp):\n            tmp = a[j]\n            t = j\n    if t > i:\n        f1.append(i)\n        f2.append(t)\n        tt = a[i]\n        a[i] = a[t]\n        a[t] = tt\n        cnt = cnt + 1\n\nprint cnt\nfor i in range(0,cnt):\n    print f1[i],f2[i]\n",
+    "prob_desc_created_at": "1416238500",
+    "tags": [
+        "implementation",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

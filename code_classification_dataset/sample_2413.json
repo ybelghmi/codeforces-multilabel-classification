@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n353\", \"4\\n1313\"]",
+    "src_uid": "646b898ae6b801f7403ad0e9984c88f6",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an integer $$$x$$$ of $$$n$$$ digits $$$a_1, a_2, \\ldots, a_n$$$, which make up its decimal notation in order from left to right.Also, you are given a positive integer $$$k &lt; n$$$.Let's call integer $$$b_1, b_2, \\ldots, b_m$$$ beautiful if $$$b_i = b_{i+k}$$$ for each $$$i$$$, such that $$$1 \\leq i \\leq m - k$$$.You need to find the smallest beautiful integer $$$y$$$, such that $$$y \\geq x$$$. ",
+    "prob_desc_output_spec": "In the first line print one integer $$$m$$$: the number of digits in $$$y$$$. In the next line print $$$m$$$ digits $$$b_1, b_2, \\ldots, b_m$$$ ($$$b_1 \\neq 0$$$, $$$0 \\leq b_i \\leq 9$$$): digits of $$$y$$$.",
+    "prob_desc_input_spec": "The first line of input contains two integers $$$n, k$$$ ($$$2 \\leq n \\leq 200\\,000, 1 \\leq k &lt; n$$$): the number of digits in $$$x$$$ and $$$k$$$. The next line of input contains $$$n$$$ digits $$$a_1, a_2, \\ldots, a_n$$$ ($$$a_1 \\neq 0$$$, $$$0 \\leq a_i \\leq 9$$$): digits of $$$x$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_022.jsonl",
+    "code_uid": "f66235162c3f9d8cf29e69bad834ef99",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n353\", \"4 2\\n1234\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k = list(map(int,input().split()))\nnum = input()\nnum = list(num)\nans = []\nwhile len(ans)<n:\n    ans+=num[:k:]\nans = ans[:n:]\n\nx = ''.join(ans)\ny = ''.join(num)\n\nif y>x:\n    for i in range(k-1,-1,-1):\n        if num[i]!='9':\n            num[i] = str(int(num[i])+1)\n            break\n        else:\n            num[i] = '0'\n\nans = []\nwhile len(ans)<n:\n    ans+=num[:k]\nans = ans[:n]\nprint(len(ans))\nprint(''.join(ans))",
+    "prob_desc_created_at": "1576926300",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

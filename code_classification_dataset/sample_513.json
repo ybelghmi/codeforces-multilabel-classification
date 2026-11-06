@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\\n141093479\"]",
+    "src_uid": "5c3eb78a7e15d9afe6d745e1a77d7451",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You've got two numbers. As long as they are both larger than zero, they go through the same operation: subtract the lesser number from the larger one. If they equal substract one number from the another. For example, one operation transforms pair (4,17) to pair (4,13), it transforms (5,5) to (0,5).You've got some number of pairs (ai, bi). How many operations will be performed for each of them?",
+    "prob_desc_output_spec": "Print the sought number of operations for each pair on a single line.",
+    "prob_desc_input_spec": "The first line contains the number of pairs n (1  ≤  n  ≤  1000). Then follow n lines, each line contains a pair of positive integers ai, bi (1  ≤  ai,  bi  ≤  109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_002.jsonl",
+    "code_uid": "87bff2ba34b4208ed96986b662590d89",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4 17\\n7 987654321\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def solve(a, b):\n  holder = [a, b]\n  times = 0\n  while holder[0] > 0 and holder[1] > 0:\n    smaller = 0 if holder[0] < holder[1] else 1\n    other = 1 - smaller\n\n    # how many times does smaller go into bigger?\n    times += holder[other] // holder[smaller]\n\n    # guaranteed to be smaller than `smaller` now\n    holder[other] = holder[other] % holder[smaller]\n  return times\n\ndef main():\n  cases = int(input())\n  for _ in range(cases):\n    a, b = map(int, input().split())\n    print(solve(a, b))\n\nif __name__ == \"__main__\":\n  main()\n",
+    "prob_desc_created_at": "1358002800",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"4\", \"0\"]",
+    "src_uid": "8cc22dc6e81bb49b64136e5ff7eb8caf",
+    "prob_desc_notes": "NoteIn the first example, first two characters are removed so the result is ardh.In the second example, $$$5$$$-th character is removed so the result is hhzawde.In the third example there's no need to remove anything.",
+    "prob_desc_description": "Vasya is preparing a contest, and now he has written a statement for an easy problem. The statement is a string of length $$$n$$$ consisting of lowercase Latin latters. Vasya thinks that the statement can be considered hard if it contains a subsequence hard; otherwise the statement is easy. For example, hard, hzazrzd, haaaaard can be considered hard statements, while har, hart and drah are easy statements. Vasya doesn't want the statement to be hard. He may remove some characters from the statement in order to make it easy. But, of course, some parts of the statement can be crucial to understanding. Initially the ambiguity of the statement is $$$0$$$, and removing $$$i$$$-th character increases the ambiguity by $$$a_i$$$ (the index of each character is considered as it was in the original statement, so, for example, if you delete character r from hard, and then character d, the index of d is still $$$4$$$ even though you delete it from the string had).Vasya wants to calculate the minimum ambiguity of the statement, if he removes some characters (possibly zero) so that the statement is easy. Help him to do it!Recall that subsequence is a sequence that can be derived from another sequence by deleting some elements without changing the order of the remaining elements.",
+    "prob_desc_output_spec": "Print minimum possible ambiguity of the statement after Vasya deletes some (possibly zero) characters so the resulting statement is easy.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the length of the statement. The second line contains one string $$$s$$$ of length $$$n$$$, consisting of lowercase Latin letters — the statement written by Vasya. The third line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 998244353$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_017.jsonl",
+    "code_uid": "0af06d5cd07e574a424cd092bc823c9a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\nhhardh\\n3 2 9 11 7 1\", \"8\\nhhzarwde\\n3 2 6 9 4 8 7 1\", \"6\\nhhaarr\\n1 2 3 4 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = input()\ns = raw_input()\na = map(int, raw_input().split())\nd = [[0] * 4 for i in range(n)]\n\nif s[0] == 'h': d[0][0] = a[0]\nfor i in range(1, n):\n    if s[i] == 'h':\n        d[i][0] = d[i - 1][0] + a[i]\n        d[i][1] = min(d[i - 1][1], d[i - 1][0])\n        d[i][2] = d[i - 1][2]\n        d[i][3] = d[i - 1][3]\n    elif s[i] == 'a':\n        d[i][0] = d[i - 1][0]\n        d[i][1] = d[i - 1][1] + a[i]\n        d[i][2] = min(d[i - 1][2], d[i - 1][1])\n        d[i][3] = d[i - 1][3]\n    elif s[i] == 'r':\n        d[i][0] = d[i - 1][0]\n        d[i][1] = d[i - 1][1]\n        d[i][2] = d[i - 1][2] + a[i]\n        d[i][3] = min(d[i - 1][3], d[i - 1][2])\n    elif s[i] == 'd':\n        d[i][0] = d[i - 1][0]\n        d[i][1] = d[i - 1][1]\n        d[i][2] = d[i - 1][2]\n        d[i][3] = d[i - 1][3] + a[i]\n    else:\n        d[i][0] = d[i - 1][0]\n        d[i][1] = d[i - 1][1]\n        d[i][2] = d[i - 1][2]\n        d[i][3] = d[i - 1][3]\n\n\nprint min(d[-1])\n",
+    "prob_desc_created_at": "1546007700",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

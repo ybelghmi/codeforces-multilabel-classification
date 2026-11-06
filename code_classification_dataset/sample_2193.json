@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"13\", \"5\", \"1\", \"6\", \"5\"]",
+    "src_uid": "886d8d7103f0a7403b06b80b914ee498",
+    "prob_desc_notes": "NoteIn the first example, we can choose the longest streak of $$$13$$$ days, since upon removing the last day out of the streak, all of the remaining colors $$$1$$$, $$$2$$$, $$$3$$$, and $$$4$$$ will have the same number of occurrences of $$$3$$$. Note that the streak can also be $$$10$$$ days (by removing the $$$10$$$-th day from this streak) but we are interested in the longest streak.In the fourth example, if we take the streak of the first $$$6$$$ days, we can remove the third day from this streak then all of the remaining colors $$$1$$$, $$$2$$$, $$$3$$$, $$$4$$$ and $$$5$$$ will occur exactly once.",
+    "prob_desc_description": "This problem is same as the previous one, but has larger constraints.Shiro's just moved to the new house. She wants to invite all friends of her to the house so they can play monopoly. However, her house is too small, so she can only invite one friend at a time.For each of the $$$n$$$ days since the day Shiro moved to the new house, there will be exactly one cat coming to the Shiro's house. The cat coming in the $$$i$$$-th day has a ribbon with color $$$u_i$$$. Shiro wants to know the largest number $$$x$$$, such that if we consider the streak of the first $$$x$$$ days, it is possible to remove exactly one day from this streak so that every ribbon color that has appeared among the remaining $$$x - 1$$$ will have the same number of occurrences.For example, consider the following sequence of $$$u_i$$$: $$$[2, 2, 1, 1, 5, 4, 4, 5]$$$. Then $$$x = 7$$$ makes a streak, since if we remove the leftmost $$$u_i = 5$$$, each ribbon color will appear exactly twice in the prefix of $$$x - 1$$$ days. Note that $$$x = 8$$$ doesn't form a streak, since you must remove exactly one day. Since Shiro is just a cat, she is not very good at counting and needs your help finding the longest streak.",
+    "prob_desc_output_spec": "Print a single integer $$$x$$$ — the largest possible streak of days.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 10^5$$$) — the total number of days. The second line contains $$$n$$$ integers $$$u_1, u_2, \\ldots, u_n$$$ ($$$1 \\leq u_i \\leq 10^5$$$) — the colors of the ribbons the cats wear. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_018.jsonl",
+    "code_uid": "14e973e7cf4039db364448a39bb0fcd2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"13\\n1 1 1 2 2 2 3 3 3 4 4 4 5\", \"5\\n10 100 20 200 1\", \"1\\n100000\", \"7\\n3 2 1 1 4 5 1\", \"6\\n1 1 1 2 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = input().split()\nb = {}\nc = []\nq = 1\nmax1 = 1\nprevmax = 0\ncountprev = 0\ncountmax = 1\ncountmin = 0\n\n\n\nfor i in range(n):\n    if max1 == prevmax and (i>n//max1+max1):\n        break\n   \n    if a[i] in b:\n        b[a[i]]+=1   \n        if b[a[i]]==2:\n            countmin-=1\n        if b[a[i]]==max1:\n            countmax += 1\n        elif b[a[i]]==prevmax:\n            countprev += 1\n        elif b[a[i]]>max1:\n            prevmax = max1\n            max1 = b[a[i]]\n            countprev = countmax-1\n            countmax = 1\n    \n            \n            \n        \n    else:\n        b[a[i]]=1\n        minb = 1\n        countmin +=1\n    if len(b) == i+1 or len(b)==i:\n        q = i+1\n    elif countprev == len(b)-1 and countmax ==1 and max1==prevmax+1 and max1 >1:\n        q = i+1\n    elif countmax == len(b)-1 and countmin ==1 and max1 >1:\n        q = i+1\nprint(q)",
+    "prob_desc_created_at": "1557414300",
+    "tags": [
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Adam Bob Bob Cpqepqwer Limak Adam Bob Adam\", \"R Q Ccccccccc Ccocc Ccc So Strong Samples Ccc\", \"Na Na Na\"]",
+    "src_uid": "046d6f213fe2d565bfa5ce537346da4f",
+    "prob_desc_notes": "NoteIn the first sample, there are 8 soldiers. For every 3 consecutive ones we know whether they would be an effective group. Let's analyze the provided sample output:  First three soldiers (i.e. Adam, Bob, Bob) wouldn't be an effective group because there are two Bobs. Indeed, the string s1 is \"NO\".  Soldiers 2 through 4 (Bob, Bob, Cpqepqwer) wouldn't be effective either, and the string s2 is \"NO\".  Soldiers 3 through 5 (Bob, Cpqepqwer, Limak) would be effective, and the string s3 is \"YES\".  ...,  Soldiers 6 through 8 (Adam, Bob, Adam) wouldn't be effective, and the string s6 is \"NO\". ",
+    "prob_desc_description": "In the army, it isn't easy to form a group of soldiers that will be effective on the battlefield. The communication is crucial and thus no two soldiers should share a name (what would happen if they got an order that Bob is a scouter, if there are two Bobs?).A group of soldiers is effective if and only if their names are different. For example, a group (John, Bob, Limak) would be effective, while groups (Gary, Bob, Gary) and (Alice, Alice) wouldn't.You are a spy in the enemy's camp. You noticed n soldiers standing in a row, numbered 1 through n. The general wants to choose a group of k consecutive soldiers. For every k consecutive soldiers, the general wrote down whether they would be an effective group or not.You managed to steal the general's notes, with n - k + 1 strings s1, s2, ..., sn - k + 1, each either \"YES\" or \"NO\".   The string s1 describes a group of soldiers 1 through k (\"YES\" if the group is effective, and \"NO\" otherwise).  The string s2 describes a group of soldiers 2 through k + 1.  And so on, till the string sn - k + 1 that describes a group of soldiers n - k + 1 through n. Your task is to find possible names of n soldiers. Names should match the stolen notes. Each name should be a string that consists of between 1 and 10 English letters, inclusive. The first letter should be uppercase, and all other letters should be lowercase. Names don't have to be existing names — it's allowed to print \"Xyzzzdj\" or \"T\" for example.Find and print any solution. It can be proved that there always exists at least one solution.",
+    "prob_desc_output_spec": "Find any solution satisfying all given conditions. In one line print n space-separated strings, denoting possible names of soldiers in the order. The first letter of each name should be uppercase, while the other letters should be lowercase. Each name should contain English letters only and has length from 1 to 10. If there are multiple valid solutions, print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and k (2 ≤ k ≤ n ≤ 50) — the number of soldiers and the size of a group respectively. The second line contains n - k + 1 strings s1, s2, ..., sn - k + 1. The string si is \"YES\" if the group of soldiers i through i + k - 1 is effective, and \"NO\" otherwise.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_003.jsonl",
+    "code_uid": "35212aed9849591c65692153915b25ef",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8 3\\nNO NO YES YES YES NO\", \"9 8\\nYES NO\", \"3 2\\nNO NO\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k = map(int,input().split())\na = list(input().split())\n\nmem = []\nmem2 = []\nfor i in 'abcdefghijklmnopqrstuvwxyz':\n    mem.append(i)\n    mem.append('a'+i)\n    mem2.append('b'+i)\n    mem2.append('c'+i)\ndp = [-1]*(n)\nc = 0\nc2 = 0\nfor i in range(len(a)):\n    if a[i] == \"NO\":\n        if dp[i] == -1:\n            dp[i] = mem2[c2]\n            dp[i+k-1] = mem2[c2]\n        else:    \n            dp[i+k-1] = dp[i]\n        c2 += 1\n    else:\n        for j in range(i,i+k):\n            if (dp[j] == -1):\n                dp[j] = mem[c]\n                c += 1\n\nfor i in range(n):\n    if dp[i] == -1:\n        dp[i] = 'a'\n            \nfor i in dp:\n    print(i[0].upper()+i[1:],end=' ')\n",
+    "prob_desc_created_at": "1489851300",
+    "tags": [
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

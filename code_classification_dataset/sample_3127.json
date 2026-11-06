@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"000\\n#0#\", \"5#1\\n511\\n55#\", \"-1\", \"##\"]",
+    "src_uid": "cee7f95ec969034af7d53e89539a9726",
+    "prob_desc_notes": "NoteIn the third sample, there is no way to fill a cell with no empty neighbours.In the forth sample, Woll does not have to fill anything, so we should output the field from the input.",
+    "prob_desc_description": "Physicist Woll likes to play one relaxing game in between his search of the theory of everything.Game interface consists of a rectangular n × m playing field and a dashboard. Initially some cells of the playing field are filled while others are empty. Dashboard contains images of all various connected (we mean connectivity by side) figures of 2, 3, 4 and 5 cells, with all their rotations and reflections. Player can copy any figure from the dashboard and place it anywhere at the still empty cells of the playing field. Of course any figure can be used as many times as needed.Woll's aim is to fill the whole field in such a way that there are no empty cells left, and also... just have some fun.Every initially empty cell should be filled with exactly one cell of some figure. Every figure should be entirely inside the board.  In the picture black cells stand for initially filled cells of the field, and one-colour regions represent the figures.",
+    "prob_desc_output_spec": "If there is no chance to win the game output the only number \"-1\" (without the quotes). Otherwise output any filling of the field by the figures in the following format: each figure should be represented by some digit and figures that touch each other by side should be represented by distinct digits. Every initially filled cell should be represented by \"#\".",
+    "prob_desc_input_spec": "First line contains integers n and m (1 ≤ n, m ≤ 1000) — the height and the width of the field correspondingly. Next n lines contain m symbols each. They represent the field in a natural way: j-th character of the i-th line is \"#\" if the corresponding cell is filled, and \".\" if it is empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_043.jsonl",
+    "code_uid": "e6b810c4a6387a4ea1401d98a7972d1b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\n...\\n#.#\", \"3 3\\n.#.\\n...\\n..#\", \"3 3\\n...\\n.##\\n.#.\", \"1 2\\n##\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nn,m = map(int,raw_input().split())\nf = [list(raw_input()+'#') for _ in xrange(n)]+['#'*(m+1)]\nfor i in xrange(n):\n    for j in xrange(m):\n        if f[i][j]!='.': continue\n        c=(i%3)+(j%3)*3\n        f[i][j]=c\n        if f[i][j+1]=='.':\n            f[i][j+1]=c\n        elif f[i+1][j]=='.':\n            f[i+1][j]=c\n        else:\n            if j and f[i][j-1]!='#': f[i][j]=f[i][j-1]\n            elif i and f[i-1][j]!='#': f[i][j]=f[i-1][j]\n            elif f[i][j+1]!='#': f[i][j]=f[i][j+1]\n            else:\n                print -1\n                sys.exit(0)\nfor l in f[:-1]:\n    print ''.join(map(str,l[:-1]))\n",
+    "prob_desc_created_at": "1306077000",
+    "tags": [
+        "constructive algorithms",
+        "graph matchings",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

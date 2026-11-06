@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"4\", \"5\"]",
+    "src_uid": "3ea1f3b2634fe32e8e0f7ee33033591a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given $$$n$$$ segments $$$[l_1, r_1], [l_2, r_2], \\dots, [l_n, r_n]$$$. Each segment has one of two colors: the $$$i$$$-th segment's color is $$$t_i$$$.Let's call a pair of segments $$$i$$$ and $$$j$$$ bad if the following two conditions are met:  $$$t_i \\ne t_j$$$;  the segments $$$[l_i, r_i]$$$ and $$$[l_j, r_j]$$$ intersect, embed or touch, i. e. there exists an integer $$$x$$$ such that $$$x \\in [l_i, r_i]$$$ and $$$x \\in [l_j, r_j]$$$. Calculate the maximum number of segments that can be selected from the given ones, so that there is no bad pair among the selected ones.",
+    "prob_desc_output_spec": "Print the maximum number of segments that can be selected, so that there is no bad pair among the selected segments.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — number of segments. The next $$$n$$$ lines contains three integers $$$l_i, r_i, t_i$$$ ($$$1 \\le l_i \\le r_i \\le 10^9; t_i \\in \\{1, 2\\}$$$) — description of the $$$i$$$-th segment.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_062.jsonl",
+    "code_uid": "0764f75d59332f0e053c94131893c956",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 3 1\\n4 6 2\\n2 5 1\", \"5\\n5 8 1\\n1 3 2\\n3 4 2\\n6 6 1\\n2 10 2\", \"7\\n19 20 1\\n13 15 2\\n6 11 2\\n4 10 1\\n14 17 1\\n13 13 2\\n5 9 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from operator import add\n\nclass LazySegmentTree():\n    def __init__(self,n,init,merge=max,merge_unit=-10**18,operate=add,operate_unit=0):\n        self.merge=merge\n        self.merge_unit=merge_unit\n        self.operate=operate\n        self.operate_unit=operate_unit\n\n        self.n=(n-1).bit_length()\n        self.data=[0 for i in range(1<<(self.n+1))]\n        self.lazy=[0 for i in range(1<<(self.n+1))]\n        for i in range(n):\n            self.data[2**self.n+i]=init[i]\n        for i in range(2**self.n-1,0,-1):\n            self.data[i]=self.merge(self.data[2*i],self.data[2*i+1])\n\n    def propagate_above(self,i):\n        m=i.bit_length()-1\n        for bit in range(m,0,-1):\n            v=i>>bit\n            add=self.lazy[v]\n            self.lazy[v]=0\n            self.data[2*v]=self.operate(self.data[2*v],add)\n            self.data[2*v+1]=self.operate(self.data[2*v+1],add)\n            self.lazy[2*v]=self.operate(self.lazy[2*v],add)\n            self.lazy[2*v+1]=self.operate(self.lazy[2*v+1],add)\n\n\n    def remerge_above(self,i):\n        while i:\n            i>>=1\n            self.data[i]=self.operate(self.merge(self.data[2*i],self.data[2*i+1]),self.lazy[i])\n\n    def update(self,l,r,x):\n        l+=1<<self.n\n        r+=1<<self.n\n        l0=l//(l&-l)\n        r0=r//(r&-r)-1\n        while l<r:\n            if l&1:\n                self.data[l]=self.operate(self.data[l],x)\n                self.lazy[l]=self.operate(self.lazy[l],x)\n                l+=1\n            if r&1:\n                self.data[r-1]=self.operate(self.data[r-1],x)\n                self.lazy[r-1]=self.operate(self.lazy[r-1],x)\n            l>>=1\n            r>>=1\n        self.remerge_above(l0)\n        self.remerge_above(r0)\n\n    def query(self,l,r):\n        l+=1<<self.n\n        r+=1<<self.n\n        l0=l//(l&-l)\n        r0=r//(r&-r)-1\n        self.propagate_above(l0)\n        self.propagate_above(r0)\n        res=self.merge_unit\n        while l<r:\n            if l&1:\n                res=self.merge(res,self.data[l])\n                l+=1\n            if r&1:\n                res=self.merge(res,self.data[r-1])\n            l>>=1\n            r>>=1\n        return res\n\nimport sys\n\ninput=sys.stdin.buffer.readline\n\nn=int(input())\na=[]\nb=[]\nval=set()\nfor i in range(n):\n    l,r,t=map(int,input().split())\n    if t==1:\n        a.append((l,r))\n    else:\n        b.append((l,r))\n    val.add(l)\n    val.add(r)\n\nval=sorted(list(val))\ncomp={i:e for e,i in enumerate(val)}\nN=len(val)\n\nquerya=[[] for i in range(N)]\nqueryb=[[] for i in range(N)]\nfor i in range(len(a)):\n    l,r=a[i]\n    a[i]=(comp[l],comp[r])\n    querya[comp[r]].append(comp[l])\nfor i in range(len(b)):\n    l,r=b[i]\n    b[i]=(comp[l],comp[r])\n    queryb[comp[r]].append(comp[l])\n\ninit=[0]*N\nLSTA=LazySegmentTree(N,init)\nLSTB=LazySegmentTree(N,init)\n\ndp=[0]*N\nfor i in range(N):\n    for l in querya[i]:\n        LSTA.update(0,l+1,1)\n    for l in queryb[i]:\n        LSTB.update(0,l+1,1)\n    temp1=LSTA.query(0,i+1)\n    temp2=LSTB.query(0,i+1)\n    dp[i]=max(temp1,temp2)\n    if i!=N-1:\n        LSTA.update(i+1,i+2,dp[i])\n        LSTB.update(i+1,i+2,dp[i])\n\nprint(dp[N-1])\n",
+    "prob_desc_created_at": "1596033300",
+    "tags": [
+        "dp",
+        "graph matchings",
+        "sortings",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

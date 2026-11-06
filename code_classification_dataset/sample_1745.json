@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n3\\n2\\n0\\n0\"]",
+    "src_uid": "04e2e1ce3f0b4efd2d4dda69748a0a25",
+    "prob_desc_notes": "NoteIn the first test case there is only one pair: $$$(4,7)$$$: for it $$$4$$$ $$$\\&amp;$$$ $$$7 = 4$$$, and $$$4 \\oplus 7 = 3$$$.In the second test case all pairs are good.In the third test case there are two pairs: $$$(6,5)$$$ and $$$(2,3)$$$.In the fourth test case there are no good pairs.",
+    "prob_desc_description": "  \"You must lift the dam. With a lever. I will give it to you.You must block the canal. With a rock. I will not give the rock to you.\" Danik urgently needs rock and lever! Obviously, the easiest way to get these things is to ask Hermit Lizard for them.Hermit Lizard agreed to give Danik the lever. But to get a stone, Danik needs to solve the following task.You are given a positive integer $$$n$$$, and an array $$$a$$$ of positive integers. The task is to calculate the number of such pairs $$$(i,j)$$$ that $$$i&lt;j$$$ and $$$a_i$$$ $$$\\&amp;$$$ $$$a_j \\ge a_i \\oplus a_j$$$, where $$$\\&amp;$$$ denotes the bitwise AND operation, and $$$\\oplus$$$ denotes the bitwise XOR operation.Danik has solved this task. But can you solve it?",
+    "prob_desc_output_spec": "For every test case print one non-negative integer — the answer to the problem.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains one positive integer $$$t$$$ ($$$1 \\le t \\le 10$$$) denoting the number of test cases. Description of the test cases follows. The first line of each test case contains one positive integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — length of the array. The second line contains $$$n$$$ positive integers $$$a_i$$$ ($$$1 \\le a_i \\le 10^9$$$) — elements of the array. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_012.jsonl",
+    "code_uid": "367b7532d3a271919a07eed2bc8fdc1b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n5\\n1 4 3 7 10\\n3\\n1 1 1\\n4\\n6 2 5 3\\n2\\n2 4\\n1\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# from bisect import bisect_left\nTC = int(input())\n\nfor tc in range(TC):\n    N = int(input())\n    A = list(map(int, input().split()))\n    B = [0 for _ in range(32)]\n\n    for i, a in enumerate(A):\n        B[a.bit_length()] += 1\n\n    result = 0\n    for b in B:\n        if b > 1:\n            result += b * (b - 1) // 2\n\n    print(result)\n",
+    "prob_desc_created_at": "1600958100",
+    "tags": [
+        "bitmasks",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

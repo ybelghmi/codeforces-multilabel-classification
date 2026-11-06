@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"1 1\", \"7 5\", \"-1\", \"22 111\"]",
+    "src_uid": "14916fbe9ee43946ec80a6d8d64dea2b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In Walrusland public transport tickets are characterized by two integers: by the number of the series and by the number of the ticket in the series. Let the series number be represented by a and the ticket number — by b, then a ticket is described by the ordered pair of numbers (a, b). The walruses believe that a ticket is lucky if a * b = rev(a) * rev(b). The function rev(x) reverses a number written in the decimal system, at that the leading zeroes disappear. For example, rev(12343) = 34321, rev(1200) = 21.The Public Transport Management Committee wants to release x series, each containing y tickets, so that at least w lucky tickets were released and the total number of released tickets (x * y) were minimum. The series are numbered from 1 to x inclusive. The tickets in each series are numbered from 1 to y inclusive. The Transport Committee cannot release more than maxx series and more than maxy tickets in one series.",
+    "prob_desc_output_spec": "Print on a single line two space-separated numbers, the x and the y. If there are several possible variants, print any of them. If such x and y do not exist, print a single number  - 1.",
+    "prob_desc_input_spec": "The first line contains three integers maxx, maxy, w (1 ≤ maxx, maxy ≤ 105, 1 ≤ w ≤ 107).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_054.jsonl",
+    "code_uid": "b0381d3e6f5d093268dbf296ff032518",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2 1\", \"132 10 35\", \"5 18 1000\", \"48 132 235\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from fractions import gcd\nfrom collections import defaultdict\ndef do_rev(x):\n\tif x == 0: return 0\n\tr = int(str(x)[::-1])\n\tg = gcd(x, r)\n\treturn (x / g, r / g)\n\n(maxx, maxy, w) = map(int, raw_input().split())\nrev = [do_rev(x) for x in xrange(max(maxx, maxy) + 1)]\n\nab = defaultdict(int)\nba = defaultdict(int)\n\nfor x in xrange(1, maxx + 1):\n\tab[rev[x]] += 1\n\n\nr = 0\ncury = 0\nres = (maxx, maxy)\n\ndef relax(x, y):\n\tglobal res\n\tif res[0] * res[1] > x * y:\n\t\tres = (x, y)\n\ndef inc_y(x):\n\tglobal r, cury\n\tfor y in xrange(cury + 1, maxy + 1):\n\t\t(b, a) = rev[y]\n\t\tba[(b, a)] += 1\n\t\tr += ab[(a, b)]\n\t\tif r >= w:\n\t\t\tcury = y\n\t\t\trelax(x, y)\n\t\t\treturn\n\tcury = maxy\n\ninc_y(maxx)\nif r < w:\n\tprint -1\n\texit(0)\n\n\nfor x in xrange(maxx, 0, -1):\n\t(a, b) = rev[x]\n\tab[(a, b)] -= 1\n\tr -= ba[(b, a)]\n\tif r >= w:\n\t\trelax(x - 1, cury)\n\t\tcontinue\n\tinc_y(x - 1)\n\nprint \"%d %d\" % res\n",
+    "prob_desc_created_at": "1301155200",
+    "tags": [
+        "data structures",
+        "two pointers",
+        "binary search",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

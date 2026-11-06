@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\", \"5\"]",
+    "src_uid": "361f65484d86051fa9ff013f5e8c9154",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are n kangaroos with pockets. Each kangaroo has a size (integer number). A kangaroo can go into another kangaroo's pocket if and only if the size of kangaroo who hold the kangaroo is at least twice as large as the size of kangaroo who is held.Each kangaroo can hold at most one kangaroo, and the kangaroo who is held by another kangaroo cannot hold any kangaroos.The kangaroo who is held by another kangaroo cannot be visible from outside. Please, find a plan of holding kangaroos with the minimal number of kangaroos who is visible.",
+    "prob_desc_output_spec": "Output a single integer — the optimal number of visible kangaroos.",
+    "prob_desc_input_spec": "The first line contains a single integer — n (1 ≤ n ≤ 5·105). Each of the next n lines contains an integer si — the size of the i-th kangaroo (1 ≤ si ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_002.jsonl",
+    "code_uid": "8552e8f65258caeed924a9128231b087",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n2\\n5\\n7\\n6\\n9\\n8\\n4\\n2\", \"8\\n9\\n1\\n6\\n2\\n6\\n5\\n8\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\nfrom collections import defaultdict\nfrom math import factorial as f\nfrom fractions import gcd as g\n\nN = int(raw_input ())\nl = []\nfor i in range(N):\n    x = int(raw_input ())\n    l.append(x)\nl.sort(reverse=True)\nlo, hi, ret = 0, (N + 1) / 2, 0\nwhile hi < N:\n    if l[lo] >= 2 * l[hi]:\n        ret += 1\n        lo += 1\n        hi += 1\n    else:\n        hi += 1\n        ret += 1\n# print ret, hi, lo\nret += (N + 1) / 2 - lo\nprint ret\n# while lo < N / 2:\n#     lo += 1\n#     ret += 1\n# N = 7\n# 0 1 2 3 |  4 5 6 7\n# N = 8\n# 0 1 2 3 |4  5 6 7\n#\n",
+    "prob_desc_created_at": "1386943200",
+    "tags": [
+        "two pointers",
+        "binary search",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

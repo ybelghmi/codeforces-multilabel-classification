@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"20\", \"0\", \"6\", \"19200\"]",
+    "src_uid": "dcde114e4769f659e5a80479e033e50f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "$$$n$$$ fishermen have just returned from a fishing vacation. The $$$i$$$-th fisherman has caught a fish of weight $$$a_i$$$.Fishermen are going to show off the fish they caught to each other. To do so, they firstly choose an order in which they show their fish (each fisherman shows his fish exactly once, so, formally, the order of showing fish is a permutation of integers from $$$1$$$ to $$$n$$$). Then they show the fish they caught according to the chosen order. When a fisherman shows his fish, he might either become happy, become sad, or stay content.Suppose a fisherman shows a fish of weight $$$x$$$, and the maximum weight of a previously shown fish is $$$y$$$ ($$$y = 0$$$ if that fisherman is the first to show his fish). Then:  if $$$x \\ge 2y$$$, the fisherman becomes happy;  if $$$2x \\le y$$$, the fisherman becomes sad;  if none of these two conditions is met, the fisherman stays content. Let's call an order in which the fishermen show their fish emotional if, after all fishermen show their fish according to this order, each fisherman becomes either happy or sad. Calculate the number of emotional orders modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Print one integer — the number of emotional orders, taken modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$2 \\le n \\le 5000$$$). The second line contains $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_n$$$ ($$$1 \\le a_i \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_033.jsonl",
+    "code_uid": "665dbcc74496d40687fc51472396e195",
+    "prob_desc_memory_limit": "1024 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 1 4 9\", \"4\\n4 3 2 1\", \"3\\n4 2 1\", \"8\\n42 1337 13 37 420 666 616 97\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\na = map(int, raw_input().split())\na.sort()\nif a[-2] * 2 > a[-1]:\n    print 0\n    quit()\nmod = 998244353\nf = [1] * (n + 1)\nfor i in xrange(1, n + 1):\n    f[i] = f[i-1] * i % mod\ninvf = [1] * (n + 1)\ninvf[n] = pow(f[n], mod - 2, mod)\nfor i in xrange(n - 1, 0, -1):\n    invf[i] = invf[i+1] * (i + 1) % mod\na.pop()\ndp = [0] * n\ndp[0] = 1\nh = 0\nfor i, x in enumerate(a, 1):\n    while a[h] * 2 <= x:\n        h += 1\n    dp[i] = (dp[i-1] * (n - i) + dp[h] * f[n-h-2] * invf[n-i-1]) % mod\nprint dp[-1]\n",
+    "prob_desc_created_at": "1603809300",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "two pointers",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

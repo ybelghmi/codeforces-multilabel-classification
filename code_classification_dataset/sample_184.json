@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"bncdenqbdr\", \"aaacaba\"]",
+    "src_uid": "e70708f72da9a203b21fc4112ede9268",
+    "prob_desc_notes": "NoteString s is lexicographically smaller than some other string t of the same length if there exists some 1 ≤ i ≤ |s|, such that s1 = t1, s2 = t2, ..., si - 1 = ti - 1, and si &lt; ti.",
+    "prob_desc_description": "You are given a non-empty string s consisting of lowercase English letters. You have to pick exactly one non-empty substring of s and shift all its letters 'z'  'y'  'x'  'b'  'a'  'z'. In other words, each character is replaced with the previous character of English alphabet and 'a' is replaced with 'z'.What is the lexicographically minimum string that can be obtained from s by performing this shift exactly once?",
+    "prob_desc_output_spec": "Print the lexicographically minimum string that can be obtained from s by shifting letters of exactly one non-empty substring.",
+    "prob_desc_input_spec": "The only line of the input contains the string s (1 ≤ |s| ≤ 100 000) consisting of lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_000.jsonl",
+    "code_uid": "91e764601631797e938f9b7ba6be3675",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"codeforces\", \"abacaba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a,s,iz='',input(),0\nif set(s)=={'a'}:a+=s[:-1]+'z'\nelif len(set(s))==1:a+=(chr(ord(s[0])-1))*len(s)\nwhile len(a)!=len(s):\n    if s[len(a)]!='a':\n        a,iz=a+chr(ord(s[len(a)])-1),iz+1\n    elif s[len(a)]=='a' and iz<1:a+=s[len(a)]\n    else:a+=s[len(a):]\nprint(a)\n",
+    "prob_desc_created_at": "1472056500",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

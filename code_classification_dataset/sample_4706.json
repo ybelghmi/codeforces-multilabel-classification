@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"9\\n0\\n30\\n167\"]",
+    "src_uid": "c4929ec631caae439ccb9bc6882ed816",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have an array of integers $$$a$$$ of size $$$n$$$. Initially, all elements of the array are equal to $$$1$$$. You can perform the following operation: choose two integers $$$i$$$ ($$$1 \\le i \\le n$$$) and $$$x$$$ ($$$x &gt; 0$$$), and then increase the value of $$$a_i$$$ by $$$\\left\\lfloor\\frac{a_i}{x}\\right\\rfloor$$$ (i.e. make $$$a_i = a_i + \\left\\lfloor\\frac{a_i}{x}\\right\\rfloor$$$).After performing all operations, you will receive $$$c_i$$$ coins for all such $$$i$$$ that $$$a_i = b_i$$$.Your task is to determine the maximum number of coins that you can receive by performing no more than $$$k$$$ operations.",
+    "prob_desc_output_spec": "For each test case, print one integer — the maximum number of coins that you can get by performing no more than $$$k$$$ operations.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. The first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 10^3; 0 \\le k \\le 10^6$$$) — the size of the array and the maximum number of operations, respectively. The second line contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$1 \\le b_i \\le 10^3$$$). The third line contains $$$n$$$ integers $$$c_1, c_2, \\dots, c_n$$$ ($$$1 \\le c_i \\le 10^6$$$). The sum of $$$n$$$ over all test cases does not exceed $$$10^3$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_104.jsonl",
+    "code_uid": "3b236a8e7747431de89b311f88109618",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4 4\\n1 7 5 2\\n2 6 5 2\\n3 0\\n3 5 2\\n5 4 7\\n5 9\\n5 2 5 6 3\\n5 9 1 9 7\\n6 14\\n11 4 6 2 8 16\\n43 45 9 41 15 38\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def quotient(n):\r\n\tli = set()\r\n\tfor i in range(1, n + 1):\r\n\t\tli.add(n // i)\r\n\treturn list(li)\r\n\r\ndef main():\r\n\tseen = {}\r\n\tfor i in range(1, 1001):\r\n\t\tseen[i] = False\r\n\r\n\ttree = [[] for i in range(13)]\r\n\ttree[0] = [1]\r\n\tseen[1] = True\r\n\r\n\tfor i in range(1, 13):\r\n\t\tcand = set()\r\n\t\tfor el in tree[i - 1]:\r\n\t\t\tfor q in quotient(el):\r\n\t\t\t\tif el + q <= 1000:\r\n\t\t\t\t\tif seen[el + q] == False:\r\n\t\t\t\t\t\tcand.add(q + el)\r\n\t\tfor el in cand:\r\n\t\t\tseen[el] = True\r\n\t\ttree[i] = list(cand)\r\n\r\n\tcost = [0] * 1001\r\n\tfor i in range(13):\r\n\t\tfor el in tree[i]:\r\n\t\t\tcost[el] = i\r\n\t\r\n\tt = int(input())\r\n\tfor _ in range(t):\r\n\t\tn, k = map(int, input().split())\r\n\t\tb = list(map(int, input().split()))\r\n\t\tc = list(map(int, input().split()))\r\n\r\n\t\tb = [cost[b[i]] for i in range(n)]\r\n\r\n\t\tN = n\r\n\t\tW = k\r\n\t\tw = b\r\n\t\tv = c\r\n\r\n\t\tif sum(b) <= k:\r\n\t\t\tprint(sum(c))\r\n\t\telse:\r\n\t\t\tdp = [[0] * (W + 1) for j in range(N + 1)]\r\n\r\n\t\t\tfor i in range(N):\r\n\t\t\t    for j in range(W + 1):\r\n\t\t\t        if j < w[i]:\r\n\t\t\t            dp[i + 1][j] = dp[i][j]\r\n\t\t\t        else:\r\n\t\t\t            dp[i + 1][j] = max(dp[i][j], dp[i][j - w[i]] + v[i])\r\n\r\n\t\t\tprint(dp[N][W])\r\n\r\nif __name__ == '__main__':\r\n\tmain()",
+    "prob_desc_created_at": "1643639700",
+    "tags": [
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

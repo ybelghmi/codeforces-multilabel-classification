@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 5\\n\\u00a0\\n? 2 3\\n\\u00a0\\n? 4 1\\n\\u00a0\\n? 5 2\\n\\u00a0\\n? 3 4\\n\\u00a0\\n! 4 6 1 5 5\"]",
+    "src_uid": "1898e591b40670173e4c33e08ade48ba",
+    "prob_desc_notes": "NoteThe format of a test to make a hack is:  The first line contains an integer number n (3 ≤ n ≤ 5000) — the length of the array. The second line contains n numbers a1, a2, ..., an (1 ≤ ai ≤ 105) — the elements of the array to guess. ",
+    "prob_desc_description": "This is an interactive problem. You should use flush operation after each printed line. For example, in C++ you should use fflush(stdout), in Java you should use System.out.flush(), and in Pascal — flush(output).In this problem you should guess an array a which is unknown for you. The only information you have initially is the length n of the array a.The only allowed action is to ask the sum of two elements by their indices. Formally, you can print two indices i and j (the indices should be distinct). Then your program should read the response: the single integer equals to ai + aj.It is easy to prove that it is always possible to guess the array using at most n requests.Write a program that will guess the array a by making at most n requests.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_027.jsonl",
+    "code_uid": "8d72d82fba78d309261f577f4df5391e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\u00a0\\n9\\n\\u00a0\\n7\\n\\u00a0\\n9\\n\\u00a0\\n11\\n\\u00a0\\n6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import ceil,gcd,floor\nfrom collections import deque,defaultdict as dict\nfrom heapq import heappush as hpush,heappop as hpop, heapify\nfrom functools import lru_cache\nimport sys\n\ninf=float(\"inf\")\n\ndef inpi(): return(int(input()))\ndef inpa(): return(list(map(int,input().split())))\ndef inp(): s = input();return(list(s))\ndef inpv(): return(map(int,input().split()))\n\nn=int(input())\na=[0]*n\nd={}\nfor i in range(2,n+1):\n\tprint(\"?\",1,i)\n\n\td[i]=int(input())\nprint(\"?\",2,3)\nk=inpi()\nd[1]=((d[2]+d[3])-k)//2\n\nfor i in range(2,n+1):\n\ta[i-1]=d[i]-d[1]\na[0]=d[1]\nprint(\"!\",*a)\n\n\n# 5\n# 4 6 1 5 5\n",
+    "prob_desc_created_at": "1476522300",
+    "tags": [
+        "constructive algorithms",
+        "interactive",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

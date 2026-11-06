@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1869\", \"18690\"]",
+    "src_uid": "3b10e984d7ca6d4071fd4e743394bb60",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have number a, whose decimal representation quite luckily contains digits 1, 6, 8, 9. Rearrange the digits in its decimal representation so that the resulting number will be divisible by 7.Number a doesn't contain any leading zeroes and contains digits 1, 6, 8, 9 (it also can contain another digits). The resulting number also mustn't contain any leading zeroes.",
+    "prob_desc_output_spec": "Print a number in the decimal notation without leading zeroes — the result of the permutation. If it is impossible to rearrange the digits of the number a in the required manner, print 0.",
+    "prob_desc_input_spec": "The first line contains positive integer a in the decimal record. It is guaranteed that the record of number a contains digits: 1, 6, 8, 9. Number a doesn't contain any leading zeroes. The decimal representation of number a contains at least 4 and at most 106 characters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_020.jsonl",
+    "code_uid": "72774130eeb0da55aae9b2085f94e21e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1689\", \"18906\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import itertools\nimport StringIO\n\ndef tonum(a):\n    return int(\"\".join(map(str, a)))\n\ndef genDict():\n    nums = map(tonum, itertools.permutations([1,6,8,9]))\n    d = {}\n    for n in nums: d[n%7] = str(n)\n    return d\n\ndef solve(a, b, mod):\n    if b == 0:\n        return 0\n    for i in xrange(mod):\n        if (a*i-b)%mod == 0:\n            return i\n\ns = raw_input().strip()\n\na = [s.count(chr(i + 48)) for i in xrange(10)]\n\na[1] -= 1\na[6] -= 1\na[8] -= 1\na[9] -= 1\n\nt, r = 1, 0\nfor i in xrange(10):\n    for j in xrange(a[i]):\n        r += i*t\n        t = t*10%7\n\nr = 7 - r\nk = solve(t, r, 7)\nd = genDict()\n\noutput = StringIO.StringIO()\noutput.write(d[k])\nfor i in xrange(9, -1, -1):\n    output.write(chr(i+48)*a[i])\n\nprint output.getvalue()",
+    "prob_desc_created_at": "1387893600",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

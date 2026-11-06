@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n2 1\", \"1\\n2 6\"]",
+    "src_uid": "4de8b72f9ce12554cae8b6a83b3f023e",
+    "prob_desc_notes": "NoteThe picture in the first sample test has the following good puzzles: (2, 1), (2, 2), (2, 4).",
+    "prob_desc_description": "The Hedgehog recently remembered one of his favorite childhood activities, — solving puzzles, and got into it with new vigor. He would sit day in, day out with his friend buried into thousands of tiny pieces of the picture, looking for the required items one by one.Soon the Hedgehog came up with a brilliant idea: instead of buying ready-made puzzles, one can take his own large piece of paper with some picture and cut it into many small rectangular pieces, then mix them and solve the resulting puzzle, trying to piece together the picture. The resulting task is even more challenging than the classic puzzle: now all the fragments have the same rectangular shape, and one can assemble the puzzle only relying on the picture drawn on the pieces.All puzzle pieces turn out to be of the same size X × Y, because the picture is cut first by horizontal cuts with the pitch of X, then with vertical cuts with the pitch of Y. If we denote the initial size of the picture as A × B, then A must be divisible by X and B must be divisible by Y (X and Y are integer numbers). However, not every such cutting of the picture will result in a good puzzle. The Hedgehog finds a puzzle good if no two pieces in it are the same (It is allowed to rotate the pieces when comparing them, but it is forbidden to turn them over). Your task is to count for a given picture the number of good puzzles that you can make from it, and also to find the puzzle with the minimal piece size.",
+    "prob_desc_output_spec": "In the first line print the number of possible good puzzles (in other words, the number of pairs (X, Y) such that the puzzle with the corresponding element sizes will be good). This number should always be positive, because the whole picture is a good puzzle itself.  In the second line print two numbers — the sizes X and Y of the smallest possible element among all good puzzles. The comparison is made firstly by the area XY of one element and secondly — by the length X.",
+    "prob_desc_input_spec": "The first line contains two numbers A and B which are the sizes of the picture. They are positive integers not exceeding 20. Then follow A lines containing B symbols each, describing the actual picture. The lines only contain uppercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_016.jsonl",
+    "code_uid": "07f77ce105ca7c415f2eeb773104ad31",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 4\\nABDC\\nABDC\", \"2 6\\nABCCBA\\nABCCBA\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, input().split())\ngrid = [ input().strip() for r in range(n) ]\n\ndef flatten(piece):\n    return '.'.join([ ''.join(row) for row in piece ])\n\ndef rotate(piece):\n    n, m = len(piece), len(piece[0])\n    rotated = [ [ None for c in range(n) ] for r in range(m) ]\n    for r in range(n):\n        for c in range(m):\n            rotated[c][n - 1 - r] = piece[r][c]\n    return rotated\n\ndef get_unique(piece):\n    result = flatten(piece)\n    for i in range(3):\n        piece = rotate(piece)\n        attempt = flatten(piece)\n        if attempt < result:\n            result = attempt\n    return result\n\ndef is_feasible(x, y):\n    pieces = set()\n    for r in range(0, n, x):\n        for c in range(0, m, y):\n            piece = [ grid[r + i][c : c + y] for i in range(x) ]\n            piece = get_unique(piece)\n            if piece in pieces:\n                return False\n            pieces.add(piece)\n    return True\n\nbest_x = n\nbest_y = m\ncount = 0\nfor x in range(1, n + 1):\n    if n % x == 0:\n        for y in range(1, m + 1):\n            if m % y == 0:\n                #print('testing %d, %d' % (x, y))\n                if is_feasible(x, y):\n                    #print(' feasible')\n                    count += 1\n                    if x * y > best_x * best_y:\n                        continue\n                    if x * y == best_x * best_y and x >= best_x:\n                        continue\n                    best_x = x\n                    best_y = y\n\nprint(count)\nprint(best_x, best_y)\n",
+    "prob_desc_created_at": "1294733700",
+    "tags": [
+        "implementation",
+        "hashing"
+    ],
+    "hidden_unit_tests": ""
+}

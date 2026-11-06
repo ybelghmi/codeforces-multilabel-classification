@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"4\"]",
+    "src_uid": "22a3561ff70b802f080feaabc4a71298",
+    "prob_desc_notes": "NoteIn the first sample the minimum number of pairs is $$$1$$$. This can be achieved, for example, by putting everyone except jose in one classroom, and jose in the other, so jorge and jerry form the only chatty pair.In the second sample the minimum number of pairs is $$$2$$$. This can be achieved, for example, by putting kambei, gorobei, shichiroji and kyuzo in one room and putting heihachi, katsushiro and kikuchiyo in the other room. In this case the two pairs are kambei and kyuzo, and katsushiro and kikuchiyo.In the third sample the minimum number of pairs is $$$4$$$. This can be achieved by placing three of the students named mike in one classroom and the other two students in another classroom. Thus there will be three chatty pairs in one classroom and one chatty pair in the other classroom.",
+    "prob_desc_description": "There are $$$n$$$ students in the first grade of Nlogonia high school. The principal wishes to split the students into two classrooms (each student must be in exactly one of the classrooms). Two distinct students whose name starts with the same letter will be chatty if they are put in the same classroom (because they must have a lot in common). Let $$$x$$$ be the number of such pairs of students in a split. Pairs $$$(a, b)$$$ and $$$(b, a)$$$ are the same and counted only once.For example, if there are $$$6$$$ students: \"olivia\", \"jacob\", \"tanya\", \"jack\", \"oliver\" and \"jessica\", then:  splitting into two classrooms (\"jack\", \"jacob\", \"jessica\", \"tanya\") and (\"olivia\", \"oliver\") will give $$$x=4$$$ ($$$3$$$ chatting pairs in the first classroom, $$$1$$$ chatting pair in the second classroom),  splitting into two classrooms (\"jack\", \"tanya\", \"olivia\") and (\"jessica\", \"oliver\", \"jacob\") will give $$$x=1$$$ ($$$0$$$ chatting pairs in the first classroom, $$$1$$$ chatting pair in the second classroom). You are given the list of the $$$n$$$ names. What is the minimum $$$x$$$ we can obtain by splitting the students into classrooms?Note that it is valid to place all of the students in one of the classrooms, leaving the other one empty.",
+    "prob_desc_output_spec": "The output must consist of a single integer $$$x$$$ — the minimum possible number of chatty pairs.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1\\leq n \\leq 100$$$) — the number of students. After this $$$n$$$ lines follow. The $$$i$$$-th line contains the name of the $$$i$$$-th student. It is guaranteed each name is a string of lowercase English letters of length at most $$$20$$$. Note that multiple students may share the same name.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_027.jsonl",
+    "code_uid": "ee50f22c9e8c2dfa5900a333ad752f74",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\njorge\\njose\\noscar\\njerry\", \"7\\nkambei\\ngorobei\\nshichiroji\\nkyuzo\\nheihachi\\nkatsushiro\\nkikuchiyo\", \"5\\nmike\\nmike\\nmike\\nmike\\nmike\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin,stdout\ndef nC2(n):\n    return (n*(n-1))//2\nfor _ in range(1):#int(stdin.readline())):\n    n=int(stdin.readline())\n    # m,n=list(map(int,stdin.readline().split()))\n    d={}\n    for i in range(n):\n        s=input()\n        d[s[0]]=d.get(s[0],0)+1\n    ans=0\n    for k,v in d.items():\n        p1=p2=v//2\n        if v&1:p1+=1\n        ans+=nC2(p1)+nC2(p2)\n    print(ans)",
+    "prob_desc_created_at": "1558105500",
+    "tags": [
+        "combinatorics",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

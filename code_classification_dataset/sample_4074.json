@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"-1 3 -1 \\n-1 -1 -1 \\n-1 -1 2 2 \\n3 3 -1 3\"]",
+    "src_uid": "f15df307d67d5754a3a322a66de1338c",
+    "prob_desc_notes": "NoteThe first test case is described in the statement.In the third test case, the following answers are also correct:   $$$[-1, -1, 1, 2]$$$;  $$$[-1, -1, 1, 1]$$$;  $$$[-1, -1, 2, 1]$$$. ",
+    "prob_desc_description": "Polycarp has invited $$$n$$$ friends to celebrate the New Year. During the celebration, he decided to take a group photo of all his friends. Each friend can stand or lie on the side.Each friend is characterized by two values $$$h_i$$$ (their height) and $$$w_i$$$ (their width). On the photo the $$$i$$$-th friend will occupy a rectangle $$$h_i \\times w_i$$$ (if they are standing) or $$$w_i \\times h_i$$$ (if they are lying on the side).The $$$j$$$-th friend can be placed in front of the $$$i$$$-th friend on the photo if his rectangle is lower and narrower than the rectangle of the $$$i$$$-th friend. Formally, at least one of the following conditions must be fulfilled:  $$$h_j &lt; h_i$$$ and $$$w_j &lt; w_i$$$ (both friends are standing or both are lying);  $$$w_j &lt; h_i$$$ and $$$h_j &lt; w_i$$$ (one of the friends is standing and the other is lying). For example, if $$$n = 3$$$, $$$h=[3,5,3]$$$ and $$$w=[4,4,3]$$$, then:  the first friend can be placed in front of the second: $$$w_1 &lt; h_2$$$ and $$$h_1 &lt; w_2$$$ (one of the them is standing and the other one is lying);  the third friend can be placed in front of the second: $$$h_3 &lt; h_2$$$ and $$$w_3 &lt; w_2$$$ (both friends are standing or both are lying). In other cases, the person in the foreground will overlap the person in the background.Help Polycarp for each $$$i$$$ find any $$$j$$$, such that the $$$j$$$-th friend can be located in front of the $$$i$$$-th friend (i.e. at least one of the conditions above is fulfilled).Please note that you do not need to find the arrangement of all people for a group photo. You just need to find for each friend $$$i$$$ any other friend $$$j$$$ who can be located in front of him. Think about it as you need to solve $$$n$$$ separate independent subproblems.",
+    "prob_desc_output_spec": "For each test case output $$$n$$$ integers on a separate line, where the $$$i$$$-th number is the index of a friend that can be placed in front of the $$$i$$$-th. If there is no such friend, then output -1. If there are several answers, output any.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of each test case contains one integer $$$n$$$ ($$$1 \\leq n \\leq 2 \\cdot 10^5$$$) — the number of friends. This is followed by $$$n$$$ lines, each of which contains a description of the corresponding friend. Each friend is described by two integers $$$h_i$$$ and $$$w_i$$$ ($$$1 \\leq h_i, w_i \\leq 10^9$$$) — height and width of the $$$i$$$-th friend, respectively. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_089.jsonl",
+    "code_uid": "01ab42bbd90691fd570583ce7e86bd2d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3\\n3 4\\n5 4\\n3 3\\n3\\n1 3\\n2 2\\n3 1\\n4\\n2 2\\n3 1\\n6 3\\n5 4\\n4\\n2 2\\n2 3\\n1 1\\n4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def corrPlace(allPoint):\r\n    n = len(allPoint)\r\n    ans = [-1] * n\r\n    allPoint.sort(reverse=True)\r\n    message = [allPoint[-1]]\r\n    for i in range(n-2, -1, -1):\r\n        if message[-1][0] != allPoint[i][0] and message[-1][1] > allPoint[i][1]:\r\n            message.append(allPoint[i])\r\n    cachePlace = len(message)-1\r\n    for imess in allPoint:\r\n        ai = imess[0]\r\n        bi = imess[1]\r\n        while cachePlace != 0 and message[cachePlace][0] >= ai:\r\n            cachePlace -= 1\r\n        if message[cachePlace][0] < ai and message[cachePlace][1] < bi:\r\n            ans[imess[2]-1] = message[cachePlace][2]\r\n    return ans\r\n\r\n\r\nt = int(input())\r\nfor qwq in range(t):\r\n    n = int(input())\r\n    allPoint = []\r\n    for i in range(n):\r\n        l = list(map(int, input().split()))\r\n        allPoint.append((max(l), min(l), i + 1))\r\n    ans = corrPlace(allPoint)\r\n    for i in ans:\r\n        print(i, end=' ')\r\n    print()",
+    "prob_desc_created_at": "1609770900",
+    "tags": [
+        "binary search",
+        "data structures",
+        "dp",
+        "sortings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

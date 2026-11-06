@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"3\"]",
+    "src_uid": "41bdb08253cf5706573f5d469ab0a7b3",
+    "prob_desc_notes": "NoteIn the first sample test the student number 1 is the best at subjects 1 and 3, student 2 is the best at subjects 1 and 2, but student 3 isn't the best at any subject.In the second sample test each student is the best at at least one subject.",
+    "prob_desc_description": "Vasya, or Mr. Vasily Petrov is a dean of a department in a local university. After the winter exams he got his hands on a group's gradebook.Overall the group has n students. They received marks for m subjects. Each student got a mark from 1 to 9 (inclusive) for each subject.Let's consider a student the best at some subject, if there is no student who got a higher mark for this subject. Let's consider a student successful, if there exists a subject he is the best at.Your task is to find the number of successful students in the group.",
+    "prob_desc_output_spec": "Print the single number — the number of successful students in the given group.",
+    "prob_desc_input_spec": "The first input line contains two integers n and m (1 ≤ n, m ≤ 100) — the number of students and the number of subjects, correspondingly. Next n lines each containing m characters describe the gradebook. Each character in the gradebook is a number from 1 to 9. Note that the marks in a rows are not sepatated by spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_001.jsonl",
+    "code_uid": "87df35bf8ed9e0f3e4d99f4916417754",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n223\\n232\\n112\", \"3 5\\n91728\\n11828\\n11111\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def Golden_Boys_Girls(students,subjects,matrix):\n    The_Best = []; results = []\n    for i in range(subjects):\n        Current_Max_Score = 0\n        for j in range(students):\n            if matrix[j][i] > Current_Max_Score:\n                if j in results:\n                    The_Best = []\n                elif j not in The_Best and j not in results:\n                    The_Best = []\n                    The_Best.append(j)\n                Current_Max_Score = matrix[j][i]\n            elif matrix[j][i] ==  Current_Max_Score:\n                if j not in The_Best and j not in results:\n                    The_Best.append(j)\n        if The_Best:\n            results.extend(The_Best)\n            The_Best = []\n        if len(results) == students:\n            break\n    print len(results)\nstudents,subjects = map(int,raw_input().split()) ; matrix = []\nfor i in range (students):\n    matrix.append(list(map(int, raw_input())))\nGolden_Boys_Girls(students,subjects,matrix)",
+    "prob_desc_created_at": "1329750000",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

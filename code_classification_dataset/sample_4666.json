@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n221\\n181111\\n999999999\"]",
+    "src_uid": "9bd393bb8752a69016c5312750e8b507",
+    "prob_desc_notes": null,
+    "prob_desc_description": "It is a simplified version of problem F2. The difference between them is the constraints (F1: $$$k \\le 2$$$, F2: $$$k \\le 10$$$).You are given an integer $$$n$$$. Find the minimum integer $$$x$$$ such that $$$x \\ge n$$$ and the number $$$x$$$ is $$$k$$$-beautiful.A number is called $$$k$$$-beautiful if its decimal representation having no leading zeroes contains no more than $$$k$$$ different digits. E.g. if $$$k = 2$$$, the numbers $$$3434443$$$, $$$55550$$$, $$$777$$$ and $$$21$$$ are $$$k$$$-beautiful whereas the numbers $$$120$$$, $$$445435$$$ and $$$998244353$$$ are not.",
+    "prob_desc_output_spec": "For each test case output on a separate line $$$x$$$ — the minimum $$$k$$$-beautiful integer such that $$$x \\ge n$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case consists of one line containing two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 10^9$$$, $$$1 \\le k \\le 2$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_103.jsonl",
+    "code_uid": "ee9904a87c87b670e3e1d6a6cc25c27a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 1\\n221 2\\n177890 2\\n998244353 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os, sys\r\nfrom io import BytesIO, IOBase\r\nfrom bisect import *\r\n\r\n\r\nclass FastIO(IOBase):\r\n    newlines = 0\r\n\r\n    def __init__(self, file):\r\n        self._fd = file.fileno()\r\n        self.buffer = BytesIO()\r\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\r\n        self.write = self.buffer.write if self.writable else None\r\n\r\n    def read(self):\r\n        while True:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, 8192))\r\n            if not b:\r\n                break\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines = 0\r\n        return self.buffer.read()\r\n\r\n    def readline(self):\r\n        while self.newlines == 0:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, 8192))\r\n            self.newlines = b.count(b\"\\n\") + (not b)\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines -= 1\r\n        return self.buffer.readline()\r\n\r\n    def flush(self):\r\n        if self.writable:\r\n            os.write(self._fd, self.buffer.getvalue())\r\n            self.buffer.truncate(0), self.buffer.seek(0)\r\n\r\n\r\nclass IOWrapper(IOBase):\r\n    def __init__(self, file):\r\n        self.buffer = FastIO(file)\r\n        self.flush = self.buffer.flush\r\n        self.writable = self.buffer.writable\r\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\r\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\r\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\r\n\r\n\r\nclass dict(dict):\r\n    def __missing__(self, key):\r\n        return 0\r\n\r\n\r\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\r\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\r\ninp = lambda dtype: dtype(input().strip())\r\ninp_d = lambda dtype: [dtype(x) for x in input().split()]\r\ninp_2d = lambda dtype, n: [inp(dtype) for _ in range(n)]\r\ninp_2ds = lambda dtype, n: [inp_d(dtype) for _ in range(n)]\r\ninp_enu = lambda dtype: [(i, x) for i, x in enumerate(inp_d(dtype))]\r\ninp_enus = lambda dtype, n: [[i] + [inp_d(dtype)] for i in range(n)]\r\nceil1 = lambda a, b: (a + b - 1) // b\r\nget_bit = lambda x, i: (x >> i) & 1\r\n\r\nfor _ in range(inp(int)):\r\n    n, k = inp_d(int)\r\n    n1 = str(n)\r\n    ans, ln = float('inf'), len(n1)\r\n\r\n    digs = []\r\n    for i in n1:\r\n        if len(digs) == k - 1:\r\n            break\r\n        if i not in digs:\r\n            digs.append(i)\r\n\r\n    for i in range(10):\r\n        cur, lst, flag = [], [-1, 0], 0\r\n\r\n        if str(i) not in digs:\r\n            digs.append(str(i))\r\n            flag = 1\r\n\r\n        digs.sort()\r\n\r\n        for j in n1:\r\n            ix = bisect_left(digs, j)\r\n\r\n            if ix < len(digs):\r\n                cur.append(digs[ix])\r\n\r\n                if j < digs[ix]:\r\n                    cur.extend([digs[0]] * (ln - len(cur)))\r\n\r\n                if ix != len(digs) - 1:\r\n                    lst = [len(cur) - 1, ix + 1]\r\n\r\n            else:\r\n                if lst[0] == -1:\r\n                    cur = ['9'] * 10\r\n                    break\r\n\r\n                cur[lst[0]] = digs[lst[1]]\r\n                cur = cur[:lst[0] + 1] + [digs[0]] * (ln - lst[0] - 1)\r\n                break\r\n\r\n            if len(cur) == len(n1):\r\n                break\r\n\r\n        if flag:\r\n            digs.remove(str(i))\r\n        ans = min(ans, int(''.join(cur)))\r\n\r\n    print(ans)\r\n",
+    "prob_desc_created_at": "1629297300",
+    "tags": [
+        "binary search",
+        "bitmasks",
+        "brute force",
+        "constructive algorithms",
+        "dfs and similar",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

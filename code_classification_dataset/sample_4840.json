@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n-1\\n-1\"]",
+    "src_uid": "32855bb8ba33973178fde7c3d0beb2ce",
+    "prob_desc_notes": "NoteLet's simulate the first case:  The first boulder starts at $$$i = 1$$$; since $$$h_1 \\ge h_2$$$ it rolls to $$$i = 2$$$ and stops there because $$$h_2 &lt; h_3$$$.  The new heights are $$$[4,2,2,3]$$$.  The second boulder starts at $$$i = 1$$$; since $$$h_1 \\ge h_2$$$ the boulder rolls to $$$i = 2$$$; since $$$h_2 \\ge h_3$$$ the boulder rolls to $$$i = 3$$$ and stops there because $$$h_3 &lt; h_4$$$.  The new heights are $$$[4,2,3,3]$$$.  The third boulder starts at $$$i = 1$$$; since $$$h_1 \\ge h_2$$$ it rolls to $$$i = 2$$$ and stops there because $$$h_2 &lt; h_3$$$.  The new heights are $$$[4,3,3,3]$$$. The positions where each boulder stopped are the following: $$$[2,3,2]$$$.In the second case, all $$$7$$$ boulders will stop right at the first mountain rising its height from $$$1$$$ to $$$8$$$.The third case is similar to the first one but now you'll throw $$$5$$$ boulders. The first three will roll in the same way as in the first test case. After that, mountain heights will be equal to $$$[4, 3, 3, 3]$$$, that's why the other two boulders will fall into the collection system.In the fourth case, the first and only boulders will fall straight into the collection system.",
+    "prob_desc_description": "After reaching your destination, you want to build a new colony on the new planet. Since this planet has many mountains and the colony must be built on a flat surface you decided to flatten the mountains using boulders (you are still dreaming so this makes sense to you).  You are given an array $$$h_1, h_2, \\dots, h_n$$$, where $$$h_i$$$ is the height of the $$$i$$$-th mountain, and $$$k$$$ — the number of boulders you have.You will start throwing boulders from the top of the first mountain one by one and they will roll as follows (let's assume that the height of the current mountain is $$$h_i$$$):   if $$$h_i \\ge h_{i + 1}$$$, the boulder will roll to the next mountain;  if $$$h_i &lt; h_{i + 1}$$$, the boulder will stop rolling and increase the mountain height by $$$1$$$ ($$$h_i = h_i + 1$$$);  if the boulder reaches the last mountain it will fall to the waste collection system and disappear. You want to find the position of the $$$k$$$-th boulder or determine that it will fall into the waste collection system.",
+    "prob_desc_output_spec": "For each test case, print $$$-1$$$ if the $$$k$$$-th boulder will fall into the collection system. Otherwise, print the position of the $$$k$$$-th boulder.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Each test case consists of two lines. The first line in each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 100$$$; $$$1 \\le k \\le 10^9$$$) — the number of mountains and the number of boulders. The second line contains $$$n$$$ integers $$$h_1, h_2, \\dots, h_n$$$ ($$$1 \\le h_i \\le 100$$$) — the height of the mountains. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$100$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_107.jsonl",
+    "code_uid": "28ad7d930d60fbf390e68caae0a51bf8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4 3\\n4 1 2 3\\n2 7\\n1 8\\n4 5\\n4 1 2 3\\n3 1\\n5 3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def solve():\r\n    n, k = map(int, input().split())\r\n    h = list(map(int, input().split()))\r\n    ans = 0\r\n    for i in range(k):\r\n        x = 0\r\n        for j in range(n - 1):\r\n            if h[j] < h[j+1]:\r\n                ans = j + 1\r\n                h[j] += 1\r\n                x = 1\r\n                break\r\n        if x == 0:\r\n            print(-1)\r\n            return\r\n    print(ans) \r\n\r\nfor _ in range(int(input())):\r\n    solve()\r\n\r\n    ",
+    "prob_desc_created_at": "1612535700",
+    "tags": [
+        "brute force",
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

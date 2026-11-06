@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\nABCACA\", \"1\\nBAB\"]",
+    "src_uid": "0ecf60ea733eba71ef1cc1e736296d96",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A colored stripe is represented by a horizontal row of n square cells, each cell is pained one of k colors. Your task is to repaint the minimum number of cells so that no two neighbouring cells are of the same color. You can use any color from 1 to k to repaint the cells.",
+    "prob_desc_output_spec": "Print a single integer — the required minimum number of repaintings. In the second line print any possible variant of the repainted stripe.",
+    "prob_desc_input_spec": "The first input line contains two integers n and k (1 ≤ n ≤ 5·105; 2 ≤ k ≤ 26). The second line contains n uppercase English letters. Letter \"A\" stands for the first color, letter \"B\" stands for the second color and so on. The first k English letters may be used. Each letter represents the color of the corresponding cell of the stripe.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_008.jsonl",
+    "code_uid": "5ebf418cd6bd6c67fff81e78d3fbbf76",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3\\nABBACC\", \"3 2\\nBBB\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def f(s, i, flag):\n    if s[i] == s[i+1] or s[i] == s[i-1]:\n        if not flag and i < n - 2 and s[i] == s[i+2]:\n            f(s, i + 1, True)\n        elif s[i] >= 'C':\n            s[i] = 'A'\n            f(s, i, True)\n        else:\n            s[i] = chr(ord(s[i]) + 1)\n            f(s, i, True)\n\nn, k = map(int, raw_input().split())\ns = list(raw_input())\nc = 0\n\nif n == 1:\n    pass\nelif k == 2:\n    ss = list(s)\n    c1 = 0\n    c2 = 0\n    for i in xrange(n):\n        if s[i] != chr(ord('A') + i % 2):\n            s[i] = chr(ord('A') + i % 2)\n            c1 += 1\n        if ss[i] != chr(ord('B') - i % 2):\n            ss[i] = chr(ord('B') - i % 2)\n            c2 += 1\n    if c1 < c2:\n        c = c1\n    else:\n        c = c2\n        s = ss\nelse:\n    for i in xrange(0, n - 1):\n        if s[i] == s[i+1]:\n            f(s, i, False)\n            c += 1\n\nprint c\nprint \"\".join(s)",
+    "prob_desc_created_at": "1346081400",
+    "tags": [
+        "dp",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

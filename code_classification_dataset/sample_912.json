@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"baab\", \"azbz\", \"abcd\"]",
+    "src_uid": "fb96c841b1973a04becf7a5d1392eab3",
+    "prob_desc_notes": "NoteIn the first example string \"baab\" can be transformed to \"abab\" with swaps, this one has suitability of 2. That means that string \"baab\" also has suitability of 2.In the second example maximal suitability you can achieve is 1 and there are several dozens of such strings, \"azbz\" is just one of them.In the third example there are no '?' characters and the suitability of the string is 0.",
+    "prob_desc_description": "You are given two strings s and t consisting of small Latin letters, string s can also contain '?' characters. Suitability of string s is calculated by following metric:Any two letters can be swapped positions, these operations can be performed arbitrary number of times over any pair of positions. Among all resulting strings s, you choose the one with the largest number of non-intersecting occurrences of string t. Suitability is this number of occurrences.You should replace all '?' characters with small Latin letters in such a way that the suitability of string s is maximal.",
+    "prob_desc_output_spec": "Print string s with '?' replaced with small Latin letters in such a way that suitability of that string is maximal. If there are multiple strings with maximal suitability then print any of them.",
+    "prob_desc_input_spec": "The first line contains string s (1 ≤ |s| ≤ 106). The second line contains string t (1 ≤ |t| ≤ 106).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_005.jsonl",
+    "code_uid": "e6dd427298f842c267eb616d404faecc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"?aa?\\nab\", \"??b?\\nza\", \"abcd\\nabacaba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom sys import stdin,stderr,stdout\ns=list(stdin.readline().strip())\nt=stdin.readline().strip()\nSs=[0 for i in range(26)]\nquestion=0\nTs=[0 for i in range(26)]\n\nfor i in range(len(t)):\n    Ts[ord(t[i])-97]+=1\nfor i in range(len(s)):\n    if s[i]!='?':\n        Ss[ord(s[i])-97]+=1\n    else:\n        question+=1\ncount=0\nneed=[0 for i in range(26)]\nfinish=0\n\nMIN=10**10\nfor j in range(26):\n    if Ts[j]>0:\n        if Ss[j]//Ts[j]<MIN:\n            MIN=Ss[j]//Ts[j]\nfor j in range(26):\n    Ss[j]-=MIN*Ts[j]\n    \n\nwhile(1):\n    if finish==1:\n        break\n    for j in range(26):\n        if Ts[j]>0:\n            if Ss[j]>=Ts[j]:\n                Ss[j]-=Ts[j]\n            else:\n\n                temp=Ts[j]-Ss[j]\n                Ss[j]=0\n                if temp<=question:\n\n                    question-=temp\n                    need[j]+=temp\n                else:\n                    finish=1\n                    break\n    count+=1            \n\n#for j in range(26):\n#    if Ss[j]<count*Ts[j]:\n#        need[j]=count*Ts[j]-Ss[j]\n#    else:\n#        need[j]=0\nneed[25]=len(s)+len(t)        \n        \n    \n    \npost=0\nfor i in range(len(s)):\n   \n    if s[i]=='?':\n        while(need[post]==0):\n            post+=1\n        s[i]=chr(97+post)\n        need[post]-=1\n        \nsys.stdout.write(''.join(s))   \n",
+    "prob_desc_created_at": "1500217500",
+    "tags": [
+        "binary search",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"7\\n1 5 1 3\\n2 4 6 1 3 5\"]",
+    "src_uid": "1d89df4153d70087d212b711852eba5f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array $$$a_1, a_2, \\dots , a_n$$$. Array is good if for each pair of indexes $$$i &lt; j$$$ the condition $$$j - a_j \\ne i - a_i$$$ holds. Can you shuffle this array so that it becomes good? To shuffle an array means to reorder its elements arbitrarily (leaving the initial order is also an option).For example, if $$$a = [1, 1, 3, 5]$$$, then shuffled arrays $$$[1, 3, 5, 1]$$$, $$$[3, 5, 1, 1]$$$ and $$$[5, 3, 1, 1]$$$ are good, but shuffled arrays $$$[3, 1, 5, 1]$$$, $$$[1, 1, 3, 5]$$$ and $$$[1, 1, 5, 3]$$$ aren't.It's guaranteed that it's always possible to shuffle an array to meet this condition.",
+    "prob_desc_output_spec": "For each test case print the shuffled version of the array $$$a$$$ which is good.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. The first line of each test case contains one integer $$$n$$$ ($$$1 \\le n \\le 100$$$) — the length of array $$$a$$$. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\dots , a_n$$$ ($$$1 \\le a_i \\le 100$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_000.jsonl",
+    "code_uid": "92992543073fe321090e5c484c8e2e67",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1\\n7\\n4\\n1 1 3 5\\n6\\n3 2 1 5 6 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\"\"\"\ndef sort(n,m):\n    t={}\n    m=m.split()\n    m=[int(m[i]) for i in range(len(m))]\n    if len(m)!=n:\n        return \"Incorrect input\"\n    if len(m)==1:\n        return m[0]\n    d = {\n        '1': 4\n    }\n    d = dict([(i,0) for i in range(-100,101,1)])\n\n    while(score(d)!=len(m)):\n        d = dict([(i, 0) for i in range(-100, 101, 1)])\n        for i in range(len(m)):\n            d[i-m[i]]+=1\n        j=find(d)\n        r=-1\n        if j!=200:\n            for i in range(len(m)):\n                if i-m[i]==j:\n                    if r==-1:\n                        r=i\n                    else:\n                        p=m[i]\n                        m[i]=m[r]\n                        m[r]=p\n                        break\n        else:\n            break\n    return \" \".join([str(i)for i in m])\n\n\n\ndef find(x):\n    for key,index in x.items():\n        if index>1:\n            return key\n    return 200\ndef score(x):\n    count=0\n    for key,index in x.items():\n        if index==1:\n            count+=1\n    return count\n\"\"\"\n\n\nfor i in range(int(input().strip())):\n    t=int(input().strip())\n    m=input().strip().split()\n    m=[int(i) for i in m]\n    m.sort(key=lambda f: -f)\n    print(\" \".join([str(i) for i in m]))\n",
+    "prob_desc_created_at": "1583764500",
+    "tags": [
+        "constructive algorithms",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

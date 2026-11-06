@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"6\", \"0\"]",
+    "src_uid": "1241e23684a5cf95eca085a77f6483ad",
+    "prob_desc_notes": "NoteIn first example Vitalya should turn off first alarm clock which rings at minute 3.In second example Vitalya shouldn't turn off any alarm clock because there are no interval of 10 consequence minutes in which 3 alarm clocks will ring.In third example Vitalya should turn off any 6 alarm clocks.",
+    "prob_desc_description": "Every evening Vitalya sets n alarm clocks to wake up tomorrow. Every alarm clock rings during exactly one minute and is characterized by one integer ai — number of minute after midnight in which it rings. Every alarm clock begins ringing at the beginning of the minute and rings during whole minute. Vitalya will definitely wake up if during some m consecutive minutes at least k alarm clocks will begin ringing. Pay attention that Vitalya considers only alarm clocks which begin ringing during given period of time. He doesn't consider alarm clocks which started ringing before given period of time and continues ringing during given period of time.Vitalya is so tired that he wants to sleep all day long and not to wake up. Find out minimal number of alarm clocks Vitalya should turn off to sleep all next day. Now all alarm clocks are turned on. ",
+    "prob_desc_output_spec": "Output minimal number of alarm clocks that Vitalya should turn off to sleep all next day long.",
+    "prob_desc_input_spec": "First line contains three integers n, m and k (1 ≤ k ≤ n ≤ 2·105, 1 ≤ m ≤ 106) — number of alarm clocks, and conditions of Vitalya's waking up.  Second line contains sequence of distinct integers a1, a2, ..., an (1 ≤ ai ≤ 106) in which ai equals minute on which i-th alarm clock will ring. Numbers are given in arbitrary order. Vitalya lives in a Berland in which day lasts for 106 minutes. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_023.jsonl",
+    "code_uid": "e061db8bec3591fa7f07849eee8a7ad0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3 2\\n3 5 1\", \"5 10 3\\n12 8 18 25 1\", \"7 7 2\\n7 3 4 1 6 5 2\", \"2 2 2\\n1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nn,m,k = map(int,input().split())\nAlarm = [int(x) for x in input().split()]\nringing_now = []\nAns = 0\nAlarm = list(set(Alarm)) # To remove duplicacy\nAlarm.sort()\n\nfor i in range(n):\n    # Just append it . Don't Check Now.\n    ringing_now.append(Alarm[i])\n    # NOw check two condition.\n    # 1. if there are more than k alarms ringing now\n    # 2. and simultaneously diff bw max and min is less than m\n    if(len(ringing_now)>=k and ringing_now[-1] - ringing_now[len(ringing_now)-k]<m):\n        ringing_now.pop()\n        Ans += 1\nprint(Ans)\n",
+    "prob_desc_created_at": "1513424100",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

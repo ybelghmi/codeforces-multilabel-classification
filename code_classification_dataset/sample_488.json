@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n0\\n1\\n8\\n2\"]",
+    "src_uid": "09faf19627d2ff00c3821d4bc2644b63",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Polycarp analyzes the prices of the new berPhone. At his disposal are the prices for $$$n$$$ last days: $$$a_1, a_2, \\dots, a_n$$$, where $$$a_i$$$ is the price of berPhone on the day $$$i$$$.Polycarp considers the price on the day $$$i$$$ to be bad if later (that is, a day with a greater number) berPhone was sold at a lower price. For example, if $$$n=6$$$ and $$$a=[3, 9, 4, 6, 7, 5]$$$, then the number of days with a bad price is $$$3$$$ — these are days $$$2$$$ ($$$a_2=9$$$), $$$4$$$ ($$$a_4=6$$$) and $$$5$$$ ($$$a_5=7$$$).Print the number of days with a bad price.You have to answer $$$t$$$ independent data sets.",
+    "prob_desc_output_spec": "Print $$$t$$$ integers, the $$$j$$$-th of which should be equal to the number of days with a bad price in the $$$j$$$-th input data set.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 10000$$$) — the number of sets of input data in the test. Input data sets must be processed independently, one after another. Each input data set consists of two lines. The first line contains an integer $$$n$$$ ($$$1 \\le n \\le 150000$$$) — the number of days. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^6$$$), where $$$a_i$$$ is the price on the $$$i$$$-th day. It is guaranteed that the sum of $$$n$$$ over all data sets in the test does not exceed $$$150000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_002.jsonl",
+    "code_uid": "48631659223c51796ebe0cbcf9568896",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n6\\n3 9 4 6 7 5\\n1\\n1000000\\n2\\n2 1\\n10\\n31 41 59 26 53 58 97 93 23 84\\n7\\n3 2 1 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\nfor _ in range(t):\n    n = int(input())\n    lis = list(map(int, input().split()))\n    stack = []\n    bad = 0\n    for i in range(len(lis)):\n        if len(stack) == 0 or stack[-1] <= lis[i]:\n            stack.append(lis[i])\n        else:\n            while(len(stack) > 0 and stack[-1] > lis[i]):\n                stack.pop()\n                bad += 1\n            stack.append(lis[i])\n    \n    print (bad)",
+    "prob_desc_created_at": "1567175700",
+    "tags": [
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

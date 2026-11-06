@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 4 \\n1 3\", \"3 2 1\"]",
+    "src_uid": "928f18ee5dbf44364c0d578f4317944c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One day Ms Swan bought an orange in a shop. The orange consisted of n·k segments, numbered with integers from 1 to n·k. There were k children waiting for Ms Swan at home. The children have recently learned about the orange and they decided to divide it between them. For that each child took a piece of paper and wrote the number of the segment that he would like to get: the i-th (1 ≤ i ≤ k) child wrote the number ai (1 ≤ ai ≤ n·k). All numbers ai accidentally turned out to be different.Now the children wonder, how to divide the orange so as to meet these conditions:  each child gets exactly n orange segments;  the i-th child gets the segment with number ai for sure;  no segment goes to two children simultaneously. Help the children, divide the orange and fulfill the requirements, described above.",
+    "prob_desc_output_spec": "Print exactly n·k distinct integers. The first n integers represent the indexes of the segments the first child will get, the second n integers represent the indexes of the segments the second child will get, and so on. Separate the printed numbers with whitespaces. You can print a child's segment indexes in any order. It is guaranteed that the answer always exists. If there are multiple correct answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains two integers n, k (1 ≤ n, k ≤ 30). The second line contains k space-separated integers a1, a2, ..., ak (1 ≤ ai ≤ n·k), where ai is the number of the orange segment that the i-th child would like to get. It is guaranteed that all numbers ai are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_049.jsonl",
+    "code_uid": "ea0167d671ed18549c7139c8cf617d76",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n4 1\", \"3 1\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "##   int(input())\n##  map(int ,input().split())\n##  int(i) for i in input().split()\nn , k = map(int ,input().split())\na = [int(i) for i in input().split()]\nrs = [[i] for i in a]\npos = 0\nfor i in range(n*k):\n    if i + 1 in a:\n        continue\n    rs[pos].append(i+1)\n    pos+=1\n    if pos >=k: pos = 0\nprint('\\n'.join(' '.join(str(x) for x in l) for l in rs))",
+    "prob_desc_created_at": "1353079800",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

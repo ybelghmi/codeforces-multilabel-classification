@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5881\", \"36172\", \"0\"]",
+    "src_uid": "5dd0d518f315d81204b25e48fea0793a",
+    "prob_desc_notes": "NoteFor the first test sample dr(5881)  =  dr(22)  =  4.For the second test sample dr(36172)  =  dr(19)  =  dr(10)  =  1.",
+    "prob_desc_description": "Vasya has recently found out what a digital root of a number is and he decided to share his knowledge with you.Let's assume that S(n) is the sum of digits of number n, for example, S(4098) = 4 + 0 + 9 + 8 = 21. Then the digital root of number n equals to:   dr(n) = S(n), if S(n) &lt; 10;  dr(n) = dr( S(n) ), if S(n) ≥ 10. For example, dr(4098)  =  dr(21)  =  3.Vasya is afraid of large numbers, so the numbers he works with are at most 101000. For all such numbers, he has proved that dr(n)  =  S( S( S( S(n) ) ) ) (n ≤ 101000).Now Vasya wants to quickly find numbers with the given digital root. The problem is, he hasn't learned how to do that and he asked you to help him. You task is, given numbers k and d, find the number consisting of exactly k digits (the leading zeroes are not allowed), with digital root equal to d, or else state that such number does not exist.",
+    "prob_desc_output_spec": "In a single line print either any number that meets the requirements (without the leading zeroes) or \"No solution\" (without the quotes), if the corresponding number does not exist. The chosen number must consist of exactly k digits. We assume that number 0 doesn't contain any leading zeroes.",
+    "prob_desc_input_spec": "The first line contains two integers k and d (1 ≤ k ≤ 1000; 0 ≤ d ≤ 9).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_000.jsonl",
+    "code_uid": "a211310df277df57246bd75ff474a3ee",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4\", \"5 1\", \"1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class CodeforcesTask355ASolution:\n    def __init__(self):\n        self.result = ''\n        self.k_d = []\n\n    def read_input(self):\n        self.k_d = [int(x) for x in input().split(\" \")]\n\n    def process_task(self):\n        if self.k_d[0] != 1 and self.k_d[1] == 0:\n            self.result = \"No solution\"\n        else:\n            self.result = str(self.k_d[1]) + \"0\" * (self.k_d[0] - 1)\n\n    def get_result(self):\n        return self.result\n\n\nif __name__ == \"__main__\":\n    Solution = CodeforcesTask355ASolution()\n    Solution.read_input()\n    Solution.process_task()\n    print(Solution.get_result())\n",
+    "prob_desc_created_at": "1381678200",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"? 1 1\\n\\n? 1 2\\n\\n? 1 3\\n\\n? 2 2 3\\n\\n! 1 3\"]",
+    "src_uid": "28a14d68fe01c4696ab1ccb7f3932901",
+    "prob_desc_notes": "NoteThe tree from the first test is shown below, and the hidden nodes are $$$1$$$ and $$$3$$$.",
+    "prob_desc_description": "Note that the only difference between the easy and hard version is the constraint on the number of queries. You can make hacks only if all versions of the problem are solved.This is an interactive problem.You are given a tree consisting of $$$n$$$ nodes numbered with integers from $$$1$$$ to $$$n$$$. Ayush and Ashish chose two secret distinct nodes in the tree. You need to find out both the nodes. You can make the following query:   Provide a list of nodes and you will receive a node from that list whose sum of distances to both the hidden nodes is minimal (if there are multiple such nodes in the list, you will receive any one of them). You will also get the sum of distances of that node to the hidden nodes. Recall that a tree is a connected graph without cycles. The distance between two nodes is defined as the number of edges in the simple path between them.More formally, let's define two hidden nodes as $$$s$$$ and $$$f$$$. In one query you can provide the set of nodes $$$\\{a_1, a_2, \\ldots, a_c\\}$$$ of the tree. As a result, you will get two numbers $$$a_i$$$ and $$$dist(a_i, s) + dist(a_i, f)$$$. The node $$$a_i$$$ is any node from the provided set, for which the number $$$dist(a_i, s) + dist(a_i, f)$$$ is minimal.You can ask no more than $$$14$$$ queries.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ $$$(1 \\leq t \\leq 10)$$$ — the number of test cases. Please note, how the interaction process is organized. The first line of each test case consists of a single integer $$$n$$$ $$$(2 \\le n \\le 1000)$$$ — the number of nodes in the tree. The next $$$n - 1$$$ lines consist of two integers $$$u$$$, $$$v$$$ $$$(1 \\le u, v \\le n, u \\ne v)$$$ — the edges of the tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_005.jsonl",
+    "code_uid": "9375afcca41149cfb5fbe1002e9e7a02",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n3\\n1 2\\n1 3\\n\\n1 1\\n\\n2 3\\n\\n3 1\\n\\n3 1\\n\\nCorrect\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\ndef NC_Dij(lis,start):\n\n    ret = [float(\"inf\")] * len(lis)\n    ret[start] = 0\n    \n    q = deque([start])\n    plis = [i for i in range(len(lis))]\n\n    while len(q) > 0:\n        now = q.popleft()\n\n        for nex in lis[now]:\n\n            if ret[nex] > ret[now] + 1:\n                ret[nex] = ret[now] + 1\n                plis[nex] = now\n                q.append(nex)\n\n    return ret,plis\n\ntt = int(input())\n\nfor loop in range(tt):\n\n    n = int(input())\n    lis = [ [] for i in range(n)]\n\n    for i in range(n-1):\n\n        v,u = map(int,input().split())\n        v -= 1\n        u -= 1\n\n        lis[v].append(u)\n        lis[u].append(v)\n\n    print (\"?\",n,*[i+1 for i in range(n)] , flush=True)\n\n    x1,d1 = map(int,input().split())\n    x1 -= 1\n\n    dlis,plis = NC_Dij(lis,x1)\n\n    r = max(dlis)+1\n    l = 0\n\n    dic = {}\n    dic[0] = x1\n\n    while r-l != 1:\n\n        m = (l+r)//2\n        #print (l,r,m)\n\n        nodes = []\n        for i in range(n):\n            if dlis[i] == m:\n                nodes.append(i+1)\n        \n        print (\"?\",len(nodes), *nodes , flush=True)\n        nx,nd = map(int,input().split())\n        nx -= 1\n\n        dic[m] = nx\n        if nd == d1:\n            l = m \n        else:\n            r = m\n\n    ans1 = dic[l]\n    dlis2,plis2 = NC_Dij(lis,ans1)\n    nodes = []\n    for i in range(n):\n        if dlis2[i] == d1:\n            nodes.append(i+1)\n    print (\"?\",len(nodes), *nodes , flush=True)\n    ans2,tmp = map(int,input().split())\n\n    print (\"!\",ans1+1,ans2 , flush=True)\n\n    ret = input()\n    ",
+    "prob_desc_created_at": "1592663700",
+    "tags": [
+        "graphs",
+        "shortest paths",
+        "interactive",
+        "binary search",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

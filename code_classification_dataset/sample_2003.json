@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Win\\n1 2 4 5\", \"Lose\", \"Draw\"]",
+    "src_uid": "55f0c4c1559becbcbf66ca558325efbd",
+    "prob_desc_notes": "NoteIn the first example the graph is the following:  Initially the chip is located at vertex 1. In the first move Petya moves the chip to vertex 2, after that he moves it to vertex 4 for Vasya. After that he moves to vertex 5. Now it is Vasya's turn and there is no possible move, so Petya wins.In the second example the graph is the following:  Initially the chip is located at vertex 2. The only possible Petya's move is to go to vertex 1. After that he has to go to 3 for Vasya. Now it's Petya's turn but he has no possible move, so Petya loses.In the third example the graph is the following:  Petya can't win, but he can move along the cycle, so the players will draw a tie.",
+    "prob_desc_description": "Petya and Vasya arranged a game. The game runs by the following rules. Players have a directed graph consisting of n vertices and m edges. One of the vertices contains a chip. Initially the chip is located at vertex s. Players take turns moving the chip along some edge of the graph. Petya goes first. Player who can't move the chip loses. If the game lasts for 106 turns the draw is announced.Vasya was performing big laboratory work in \"Spelling and parts of speech\" at night before the game, so he fell asleep at the very beginning of the game. Petya decided to take the advantage of this situation and make both Petya's and Vasya's moves.Your task is to help Petya find out if he can win the game or at least draw a tie.",
+    "prob_desc_output_spec": "If Petya can win print «Win» in the first line. In the next line print numbers v1, v2, ..., vk (1 ≤ k ≤ 106) — the sequence of vertices Petya should visit for the winning. Vertex v1 should coincide with s. For i = 1... k - 1 there should be an edge from vi to vi + 1 in the graph. There must be no possible move from vertex vk. The sequence should be such that Petya wins the game. If Petya can't win but can draw a tie, print «Draw» in the only line. Otherwise print «Lose».",
+    "prob_desc_input_spec": "The first line of input contain two integers n and m — the number of vertices and the number of edges in the graph (2 ≤ n ≤ 105, 0 ≤ m ≤ 2·105). The next n lines contain the information about edges of the graph. i-th line (1 ≤ i ≤ n) contains nonnegative integer ci — number of vertices such that there is an edge from i to these vertices and ci distinct integers ai, j — indices of these vertices (1 ≤ ai, j ≤ n, ai, j ≠ i). It is guaranteed that the total sum of ci equals to m. The next line contains index of vertex s — the initial position of the chip (1 ≤ s ≤ n).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_015.jsonl",
+    "code_uid": "3aae1b2fd982e38eb6a6bfbf477e1d1e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 6\\n2 2 3\\n2 4 5\\n1 4\\n1 5\\n0\\n1\", \"3 2\\n1 3\\n1 1\\n0\\n2\", \"2 2\\n1 2\\n1 1\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding: utf-8 -*-\nn, m = [int(x) for x in input().split()]\nedges = [set()]\ndrain = set()\nfor i in range(n):\n    nums = [int(x) for x in input().split()]\n    if nums[0] == 0:\n        drain.add(i + 1)\n    edges.append(set(nums[1:]))\nstart = int(input())\n\nnodes = {start}\nvisited = {}\nwhile len(nodes) > 0:\n    curr = nodes.pop()\n    for v in edges[abs(curr)]:\n        if curr > 0:\n            v = -v\n        if visited.get(v) is None:\n            nodes.add(v)\n            visited[v] = curr\n\nok = False\nfor d in drain:\n    if -d in visited:\n        print('Win')\n        v = -d\n        l = []\n        while v != start:\n            l.append(abs(v))\n            v = visited[v]\n        l.append(start)\n        print(' '.join(str(x) for x in l[::-1]))\n        ok = True\n        break\n\nif not ok:\n    stack = [start]\n    in_stack = {start}\n    visited = {start}\n    while len(stack) > 0:\n        curr = stack[-1]\n        if len(edges[curr]) == 0:\n            stack.pop()\n            in_stack.remove(curr)\n            continue\n        v = edges[curr].pop()\n        if v not in visited:\n            visited.add(v)\n            stack.append(v)\n            in_stack.add(v)\n        elif v in in_stack:\n            print('Draw')\n            ok = True\n            break\n    if not ok:\n        print('Lose')\n        ",
+    "prob_desc_created_at": "1519574700",
+    "tags": [
+        "dp",
+        "dfs and similar",
+        "games",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

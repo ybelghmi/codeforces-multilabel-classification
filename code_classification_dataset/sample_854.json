@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n7\\n4\\n5\\n1\\n1\"]",
+    "src_uid": "324b7957b46dfe4948074c781159b7e7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a string $$$s[1 \\dots n]$$$ consisting of lowercase Latin letters. It is guaranteed that $$$n = 2^k$$$ for some integer $$$k \\ge 0$$$.The string $$$s[1 \\dots n]$$$ is called $$$c$$$-good if at least one of the following three conditions is satisfied:  The length of $$$s$$$ is $$$1$$$, and it consists of the character $$$c$$$ (i.e. $$$s_1=c$$$); The length of $$$s$$$ is greater than $$$1$$$, the first half of the string consists of only the character $$$c$$$ (i.e. $$$s_1=s_2=\\dots=s_{\\frac{n}{2}}=c$$$) and the second half of the string (i.e. the string $$$s_{\\frac{n}{2} + 1}s_{\\frac{n}{2} + 2} \\dots s_n$$$) is a $$$(c+1)$$$-good string;  The length of $$$s$$$ is greater than $$$1$$$, the second half of the string consists of only the character $$$c$$$ (i.e. $$$s_{\\frac{n}{2} + 1}=s_{\\frac{n}{2} + 2}=\\dots=s_n=c$$$) and the first half of the string (i.e. the string $$$s_1s_2 \\dots s_{\\frac{n}{2}}$$$) is a $$$(c+1)$$$-good string. For example: \"aabc\" is 'a'-good, \"ffgheeee\" is 'e'-good.In one move, you can choose one index $$$i$$$ from $$$1$$$ to $$$n$$$ and replace $$$s_i$$$ with any lowercase Latin letter (any character from 'a' to 'z').Your task is to find the minimum number of moves required to obtain an 'a'-good string from $$$s$$$ (i.e. $$$c$$$-good string for $$$c=$$$ 'a'). It is guaranteed that the answer always exists.You have to answer $$$t$$$ independent test cases.Another example of an 'a'-good string is as follows. Consider the string $$$s = $$$\"cdbbaaaa\". It is an 'a'-good string, because:  the second half of the string (\"aaaa\") consists of only the character 'a';  the first half of the string (\"cdbb\") is 'b'-good string, because:   the second half of the string (\"bb\") consists of only the character 'b';  the first half of the string (\"cd\") is 'c'-good string, because:   the first half of the string (\"c\") consists of only the character 'c';  the second half of the string (\"d\") is 'd'-good string.   ",
+    "prob_desc_output_spec": "For each test case, print the answer — the minimum number of moves required to obtain an 'a'-good string from $$$s$$$ (i.e. $$$c$$$-good string with $$$c =$$$ 'a'). It is guaranteed that the answer exists.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 2 \\cdot 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of the test case contains one integer $$$n$$$ ($$$1 \\le n \\le 131~072$$$) — the length of $$$s$$$. It is guaranteed that $$$n = 2^k$$$ for some integer $$$k \\ge 0$$$. The second line of the test case contains the string $$$s$$$ consisting of $$$n$$$ lowercase Latin letters. It is guaranteed that the sum of $$$n$$$ does not exceed $$$2 \\cdot 10^5$$$ ($$$\\sum n \\le 2 \\cdot 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_004.jsonl",
+    "code_uid": "a4bc0ddde8242568093d2f067a6a03e6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n8\\nbbdcaaaa\\n8\\nasdfghjk\\n8\\nceaaaabb\\n8\\nbbaaddcc\\n1\\nz\\n2\\nac\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# inp.readline()\n# int(inp.readline())\n# out.write()\n# raw_input()\n# map(int,raw_input().split())\n# map(int,inp.readline().split())\n# for _ in xrange(input()):\n# print \"Case #\"+str(_+1)+\": \"+\nif __name__ == \"__main__\":\n    def f(i,j,c,d):\n        if i+1==j:\n            return int(ord(s[i])-ord('a')!=c)\n        if (i,j) not in d:\n            d[i,j]=min(f(i,(i+j)/2,c+1,d)+sum(ord(s[k])-ord('a')!=c for k in xrange((i+j)/2,j)),f((i+j)/2,j,c+1,d)+sum(ord(s[k])-ord('a')!=c for k in xrange(i,(i+j)/2)))\n        return d[i,j]\n    for _ in xrange(input()):\n        n=input()\n        s=raw_input().strip()\n        print f(0,n,0,{})",
+    "prob_desc_created_at": "1594996500",
+    "tags": [
+        "dp",
+        "bitmasks",
+        "implementation",
+        "divide and conquer",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

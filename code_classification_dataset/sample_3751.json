@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"12\", \"780\", \"141427753\"]",
+    "src_uid": "94bc4b263821713fb5b1de4de331a515",
+    "prob_desc_notes": "NoteIn the first test case, $$$101_2=5$$$.  The triple $$$(a, b, c) = (0, 3, 5)$$$ is valid because $$$(a\\oplus b, b\\oplus c, c\\oplus a) = (3, 6, 5)$$$ are the sides of a non-degenerate triangle.  The triple $$$(a, b, c) = (1, 2, 4)$$$ is valid because $$$(a\\oplus b, b\\oplus c, c\\oplus a) = (3, 6, 5)$$$ are the sides of a non-degenerate triangle. The $$$6$$$ permutations of each of these two triples are all the valid triples, thus the answer is $$$12$$$.In the third test case, $$$11\\,011\\,111\\,101\\,010\\,010_2=114\\,514$$$. The full answer (before taking the modulo) is $$$1\\,466\\,408\\,118\\,808\\,164$$$.",
+    "prob_desc_description": "You are given a positive integer $$$n$$$. Since $$$n$$$ may be very large, you are given its binary representation.You should compute the number of triples $$$(a,b,c)$$$ with $$$0 \\leq a,b,c \\leq n$$$ such that $$$a \\oplus b$$$, $$$b \\oplus c$$$, and $$$a \\oplus c$$$ are the sides of a non-degenerate triangle. Here, $$$\\oplus$$$ denotes the bitwise XOR operation.You should output the answer modulo $$$998\\,244\\,353$$$.Three positive values $$$x$$$, $$$y$$$, and $$$z$$$ are the sides of a non-degenerate triangle if and only if $$$x+y&gt;z$$$, $$$x+z&gt;y$$$, and $$$y+z&gt;x$$$.",
+    "prob_desc_output_spec": "Print one integer — the number of triples $$$(a,b,c)$$$ satisfying the conditions described in the statement modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first and only line contains the binary representation of an integer $$$n$$$ ($$$0 &lt; n &lt; 2^{200\\,000}$$$) without leading zeros. For example, the string 10 is the binary representation of the number $$$2$$$, while the string 1010 represents the number $$$10$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_083.jsonl",
+    "code_uid": "a544d988e4a737fe8ba4eecd6841d5c7",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"101\", \"1110\", \"11011111101010010\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "MOD = 998244353\r\nTRANS = [6, 3, 7, 4, 1, 0]\r\n \r\ns = input().strip()\r\ndp = [0] * 7 + [1]\r\nfor c in map(int, s):\r\n    dp1 = [0] * 8\r\n    for i in range(8):\r\n        for k in TRANS:\r\n            if c:\r\n                dp1[k & i] += dp[i]\r\n            elif (k & i) == 0:\r\n                dp1[i] += dp[i]\r\n    dp = [x % MOD for x in dp1]\r\nn = int(s, base=2) + 1\r\nprint((n**3 + 3 * n**2 - n - 3 * sum(dp)) % MOD)",
+    "prob_desc_created_at": "1658673300",
+    "tags": [
+        "bitmasks",
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

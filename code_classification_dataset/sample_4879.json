@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"2\", \"8\"]",
+    "src_uid": "45c1dd4eeba668a454dabf0993cdecac",
+    "prob_desc_notes": "NoteIn the first test case, the only way to fill in the $$$\\texttt{?}$$$s is to fill it in as such: 010111010 This can be accomplished by doing a single operation by choosing $$$(i,j)=(2,2)$$$.In the second test case, it can be shown that there is no sequence of operations that can produce that grid.",
+    "prob_desc_description": "There is a grid with $$$r$$$ rows and $$$c$$$ columns, where the square on the $$$i$$$-th row and $$$j$$$-th column has an integer $$$a_{i, j}$$$ written on it. Initially, all elements are set to $$$0$$$. We are allowed to do the following operation:  Choose indices $$$1 \\le i \\le r$$$ and $$$1 \\le j \\le c$$$, then replace all values on the same row or column as $$$(i, j)$$$ with the value xor $$$1$$$. In other words, for all $$$a_{x, y}$$$ where $$$x=i$$$ or $$$y=j$$$ or both, replace $$$a_{x, y}$$$ with $$$a_{x, y}$$$ xor $$$1$$$. You want to form grid $$$b$$$ by doing the above operations a finite number of times. However, some elements of $$$b$$$ are missing and are replaced with '?' instead.Let $$$k$$$ be the number of '?' characters. Among all the $$$2^k$$$ ways of filling up the grid $$$b$$$ by replacing each '?' with '0' or '1', count the number of grids, that can be formed by doing the above operation a finite number of times, starting from the grid filled with $$$0$$$. As this number can be large, output it modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Print a single integer representing the number of ways to fill up grid $$$b$$$ modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$r$$$ and $$$c$$$ ($$$1 \\le r, c \\le 2000$$$)  — the number of rows and columns of the grid respectively. The $$$i$$$-th of the next $$$r$$$ lines contain $$$c$$$ characters $$$b_{i, 1}, b_{i, 2}, \\ldots, b_{i, c}$$$ ($$$b_{i, j} \\in \\{0, 1, ?\\}$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 3200,
+    "file_name": "train_108.jsonl",
+    "code_uid": "5178c98fbee2bf661f6321b6f8e00552",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n?10\\n1??\\n010\", \"2 3\\n000\\n001\", \"1 1\\n?\", \"6 9\\n1101011?0\\n001101?00\\n101000110\\n001011010\\n0101?01??\\n00?1000?0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# import io,os\r\n# read = io.BytesIO(os.read(0, os.fstat(0).st_size))\r\n# I = lambda: [*map(int, read.readline().split())]\r\n\r\nimport sys\r\nI=lambda:[*map(int,sys.stdin.readline().split())]\r\n\r\nM = 998244353\r\nr, c = I()\r\nrows = []\r\nfor i in range(r):\r\n\trows.append([*input()])\r\nif r % 2 == 0 and c % 2 == 0:\r\n\tblanks = 0\r\n\tfor i in range(r):\r\n\t\tblanks += rows[i].count('?')\r\n\tprint(pow(2, blanks, M))\r\nelif r % 2 + c % 2 == 1:\r\n\tif r % 2 == 1:\r\n\t\tnrows = []\r\n\t\tfor i in range(c):\r\n\t\t\tnrows.append([rows[j][i] for j in range(r)])\r\n\t\trows = nrows\r\n\tones = 1\r\n\tzeroes = 1\r\n\tfor row in rows:\r\n\t\tunk = 0\r\n\t\txor = 0\r\n\t\tfor char in row:\r\n\t\t\tif char == '?':\r\n\t\t\t\tunk += 1\r\n\t\t\telif char == '1':\r\n\t\t\t\txor = 1 - xor\r\n\t\tif unk == 0:\r\n\t\t\tif xor == 1:\r\n\t\t\t\tzeroes = 0\r\n\t\t\telse:\r\n\t\t\t\tones = 0\r\n\t\telse:\r\n\t\t\tzeroes = zeroes * pow(2, unk - 1, M) % M\r\n\t\t\tones = ones * pow(2, unk - 1, M ) % M\r\n\tprint((ones + zeroes) % M)\r\nelse:\r\n\tRC = [0] * (r + c)\r\n\tedges = [[] for i in range(r + c)]\r\n\tfor i in range(r):\r\n\t\tfor j in range(c):\r\n\t\t\tchar = rows[i][j]\r\n\t\t\tif char == '?':\r\n\t\t\t\tedges[i].append(j + r)\r\n\t\t\t\tedges[j + r].append(i)\r\n\t\t\telif char == '1':\r\n\t\t\t\tRC[i] = 1 - RC[i]\r\n\t\t\t\tRC[r + j] = 1 - RC[r + j]\r\n\tseen = [0] * (r + c)\r\n\tzeroes = []\r\n\tones = []\r\n\tfor i in range(r + c):\r\n\t\tif not seen[i]:\r\n\t\t\tcomponent = [i]\r\n\t\t\tseen[i] = 1\r\n\t\t\tj = 0\r\n\t\t\twhile j < len(component):\r\n\t\t\t\tif len(component) == r + c:\r\n\t\t\t\t\tbreak\r\n\t\t\t\tfor v in edges[component[j]]:\r\n\t\t\t\t\tif not seen[v]:\r\n\t\t\t\t\t\tseen[v] = 1\r\n\t\t\t\t\t\tcomponent.append(v)\r\n\t\t\t\tj += 1\r\n\t\t\tn = len(component)\r\n\t\t\tm = 0\r\n\t\t\tx = 0\r\n\t\t\tfor v in component:\r\n\t\t\t\tm += len(edges[v])\r\n\t\t\t\tx ^= RC[v]\r\n\t\t\tm //= 2\r\n\t\t\tif n % 2 == 0:\r\n\t\t\t\tif x == 0:\r\n\t\t\t\t\ty = pow(2, m - n + 1, M)\r\n\t\t\t\t\tzeroes.append(y)\r\n\t\t\t\t\tones.append(y)\r\n\t\t\t\telse:\r\n\t\t\t\t\tprint(0)\r\n\t\t\t\t\texit()\r\n\t\t\telse:\r\n\t\t\t\ty = pow(2, m - n + 1, M)\r\n\t\t\t\tif x == 0:\r\n\t\t\t\t\tzeroes.append(y)\r\n\t\t\t\t\tones.append(0)\r\n\t\t\t\telse:\r\n\t\t\t\t\tones.append(y)\r\n\t\t\t\t\tzeroes.append(0)\r\n\tzs = 1\r\n\tfor g in zeroes:\r\n\t\tzs = zs * g % M\r\n\tos = 1\r\n\tfor g in ones:\r\n\t\tos = os * g % M\r\n\tprint((zs + os) % M)",
+    "prob_desc_created_at": "1650722700",
+    "tags": [
+        "constructive algorithms",
+        "graphs",
+        "math",
+        "matrices"
+    ],
+    "hidden_unit_tests": ""
+}

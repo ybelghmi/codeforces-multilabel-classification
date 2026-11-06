@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 секунды",
+    "prob_desc_sample_outputs": "[\"orange\", \"blue\"]",
+    "src_uid": "6215233349b0f682a238a476e9153ac4",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Немногие знают, что сотрудники ВКонтакте могут менять цвет подсветки в куполе знаменитого Дома Зингера, где расположена штаб-квартира ВКонтакте. Для этого нужно всего лишь отправить сообщение с цветом в специальный чат «Зингер | color», а бот его распознает и сменит подсветку. При этом на время городских мероприятий смена цвета блокируется.Формально, бот обрабатывает три типа сообщений:   lock: заблокировать изменение цвета. Если оно и так заблокировано на данный момент, сообщение игнорируется.  unlock: разблокировать изменение цвета. Если оно и так разблокировано на данный момент, сообщение игнорируется.  red / orange / yellow / green / blue / indigo / violet: изменить цвет купола на заданный, если изменение цвета на данный момент не заблокировано. Вам дана история сообщений, полученных ботом, в хронологическом порядке. Считайте, что перед получением первого сообщения купол подсвечивается голубым (blue), а изменение цвета не заблокировано.Определите, какой цвет будет у купола Дома Зингера после обработки этих сообщений.",
+    "prob_desc_output_spec": "Выведите цвет купола после обработки сообщений ботом.",
+    "prob_desc_input_spec": "В первой строке задано одно целое число $$$n$$$ ($$$1 \\le n \\le 100$$$) — число сообщений, полученных ботом. В следующих $$$n$$$ строках заданы сообщения, полученные ботом, в хронологическом порядке, по одному сообщению в строке. Каждое сообщение — строка из следующего набора: lock, unlock, red, orange, yellow, green, blue, indigo, violet.",
+    "prob_desc_output_to": "стандартный вывод",
+    "prob_desc_input_from": "стандартный ввод",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": -1,
+    "file_name": "train_088.jsonl",
+    "code_uid": "fbccd7a5815e550cf28ca31e3aade4b4",
+    "prob_desc_memory_limit": "512 мегабайт",
+    "prob_desc_sample_inputs": "[\"7\\nred\\nviolet\\nunlock\\nred\\norange\\nlock\\nindigo\", \"5\\nlock\\nunlock\\nlock\\nunlock\\nunlock\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\r\ncolor = \"blue\"\r\nlocked = False\r\nfor i in range(n):\r\n  msg = input()\r\n  if msg == \"lock\":\r\n    locked = True\r\n  elif msg == \"unlock\":\r\n    locked = False\r\n  elif not locked:\r\n    color = msg\r\nprint(color)",
+    "prob_desc_created_at": "1621846800",
+    "tags": [
+        "*special",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n1 1\\n1 2\\n2 2\\n2 1\\n1 1\", \"1\\n3 3 1 1\\n1 1\\n1 2\\n1 3\\n2 3\\n2 2\\n2 1\\n3 1\\n3 2\\n3 3\\n1 1\"]",
+    "src_uid": "a98622d5b6d6d139df90b6fee3baa544",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The territory of Berland is represented by a rectangular field n × m in size. The king of Berland lives in the capital, located on the upper left square (1, 1). The lower right square has coordinates (n, m). One day the king decided to travel through the whole country and return back to the capital, having visited every square (except the capital) exactly one time. The king must visit the capital exactly two times, at the very beginning and at the very end of his journey. The king can only move to the side-neighboring squares. However, the royal advise said that the King possibly will not be able to do it. But there is a way out — one can build the system of one way teleporters between some squares so that the king could fulfill his plan. No more than one teleporter can be installed on one square, every teleporter can be used any number of times, however every time it is used, it transports to the same given for any single teleporter square. When the king reaches a square with an installed teleporter he chooses himself whether he is or is not going to use the teleport. What minimum number of teleporters should be installed for the king to complete the journey? You should also compose the journey path route for the king.",
+    "prob_desc_output_spec": "On the first line output integer k — the minimum number of teleporters. Then output k lines each containing 4 integers x1 y1 x2 y2 (1 ≤ x1, x2 ≤ n, 1 ≤ y1, y2 ≤ m) — the coordinates of the square where the teleporter is installed (x1, y1), and the coordinates of the square where the teleporter leads (x2, y2). Then print nm + 1 lines containing 2 numbers each — the coordinates of the squares in the order in which they are visited by the king. The travel path must start and end at (1, 1). The king can move to side-neighboring squares and to the squares where a teleporter leads. Besides, he also should visit the capital exactly two times and he should visit other squares exactly one time.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and m (1 ≤ n, m ≤ 100, 2 ≤  n · m) — the field size. The upper left square has coordinates (1, 1), and the lower right square has coordinates of (n, m).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_045.jsonl",
+    "code_uid": "e260d102b9fcc0dc5869d78d7a8a2896",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\", \"3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def p(a, b, swap):\n    if swap:\n        a, b = b, a\n    print(a, b)\n \nn, m = [int(x) for x in input().split()]\n \nif (n == 1 or m == 1) and n * m > 2:\n    print(1)\n    print(n, m, 1, 1)\n    for r in range(n):\n        for c in range(m):\n            print(r + 1, c + 1)\n    print(1, 1)\n    exit(0)\n \nif n * m % 2 == 0:\n    print(0)\n    print(1, 1)\n    \n    swap = m % 2 != 0\n    if swap:\n        m, n = n, m\n \n    for c in range(m):\n        for r in range(n - 1):\n            if c % 2 == 0:\n                p(r + 2, c + 1, swap)\n            else:\n                p(n - r, c + 1, swap)\n    for c in range(m):\n        p(1, m - c, swap)\nelse:\n    print(1)\n    print(n, m, 1, 1)\n    for c in range(m):\n        for r in range(n):\n            if c % 2 == 0:\n                print(r + 1, c + 1)\n            else:\n                print(n - r, c + 1)\n    print(1, 1)",
+    "prob_desc_created_at": "1291046400",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

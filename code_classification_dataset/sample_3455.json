@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"60\"]",
+    "src_uid": "4022f8f796d4f2b7e43a8360bf34e35f",
+    "prob_desc_notes": "NoteLet's write down all pairs \"x y\" that form the answer in the first sample: \"s[1...1] t[1]\", \"s[2...2] t[1]\", \"s[1...1] t[2]\",\"s[2...2] t[2]\", \"s[1...2] t[1 2]\".",
+    "prob_desc_description": "One day Polycarpus got hold of two non-empty strings s and t, consisting of lowercase Latin letters. Polycarpus is quite good with strings, so he immediately wondered, how many different pairs of \"x y\" are there, such that x is a substring of string s, y is a subsequence of string t, and the content of x and y is the same. Two pairs are considered different, if they contain different substrings of string s or different subsequences of string t. Read the whole statement to understand the definition of different substrings and subsequences.The length of string s is the number of characters in it. If we denote the length of the string s as |s|, we can write the string as s = s1s2... s|s|.A substring of s is a non-empty string x = s[a... b] = sasa + 1... sb (1 ≤ a ≤ b ≤ |s|). For example, \"code\" and \"force\" are substrings or \"codeforces\", while \"coders\" is not. Two substrings s[a... b] and s[c... d] are considered to be different if a ≠ c or b ≠ d. For example, if s=\"codeforces\", s[2...2] and s[6...6] are different, though their content is the same.A subsequence of s is a non-empty string y = s[p1p2... p|y|] = sp1sp2... sp|y| (1 ≤ p1 &lt; p2 &lt; ... &lt; p|y| ≤ |s|). For example, \"coders\" is a subsequence of \"codeforces\". Two subsequences u = s[p1p2... p|u|] and v = s[q1q2... q|v|] are considered different if the sequences p and q are different.",
+    "prob_desc_output_spec": "Print a single number — the number of different pairs \"x y\" such that x is a substring of string s, y is a subsequence of string t, and the content of x and y is the same. As the answer can be rather large, print it modulo 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The input consists of two lines. The first of them contains s (1 ≤ |s| ≤ 5000), and the second one contains t (1 ≤ |t| ≤ 5000). Both strings consist of lowercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_060.jsonl",
+    "code_uid": "82934ce6a269bbbc7df0aa60cb3a78d8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"aa\\naa\", \"codeforces\\nforceofcode\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nM = (10 ** 9) + 7\nS = [0] + list(raw_input()) \nT = [0] + list(raw_input()) \n\nn = len(S)\nm = len(T)\n\nD = [[0 for j in range(m)] for i in range(n)] \n\nfor i in range(1, n): \n    for j in range(1, m): \n        D[i][j] += D[i][j-1]\n        # D[i][j] += D[i-1][j]\n        if S[i] == T[j]: \n            D[i][j] += D[i-1][j-1] + 1\n        D[i][j] %= M\n\nprint sum([D[i][m-1] for i in range(1, n)]) % M\n",
+    "prob_desc_created_at": "1332687900",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

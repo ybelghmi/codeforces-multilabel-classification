@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "0.5 second",
+    "prob_desc_sample_outputs": "[\"1 2\"]",
+    "src_uid": "7d4a6b9a3a2a277dda093633437ac333",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Tourist walks along the X axis. He can choose either of two directions and any speed not exceeding V. He can also stand without moving anywhere. He knows from newspapers that at time t1 in the point with coordinate x1 an interesting event will occur, at time t2 in the point with coordinate x2 — another one, and so on up to (xn, tn). Interesting events are short so we can assume they are immediate. Event i counts visited if at time ti tourist was at point with coordinate xi.Write program tourist that will find maximum number of events tourist if:   at the beginning (when time is equal to 0) tourist appears at point 0,  tourist can choose initial point for himself. Yes, you should answer on two similar but different questions.",
+    "prob_desc_output_spec": "The only line of the output should contain two space-sepatated integers — maximum number of events tourist can visit in he starts moving from point 0 at time 0, and maximum number of events tourist can visit if he chooses the initial point for himself.",
+    "prob_desc_input_spec": "The first line of input contains single integer number N (1 ≤ N ≤ 100000) — number of interesting events. The following N lines contain two integers xi and ti — coordinate and time of the i-th event. The last line of the input contains integer V — maximum speed of the tourist. All xi will be within range  - 2·108 ≤ xi ≤ 2·108, all ti will be between 1 and 2·106 inclusive. V will be positive and will not exceed 1000. The input may contain events that happen at the same time or in the same place but not in the same place at the same time.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_049.jsonl",
+    "code_uid": "7114a92e1758b91151995962be393eff",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n-1 1\\n42 7\\n40 8\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import bisect_right as br\nI = 1000000000\nn = input()\na = [map(int,raw_input().split()) for x in xrange(n)]\nv = input()\na.append((0,0))\na = sorted((x-v*t,-x-v*t) for x,t in a)\nb = [I]*(n+1)\nfor x,y in a:\n    if x or y: b[br(b,y)]=y\n    else: print br(b,y),\nprint b.index(I) \n",
+    "prob_desc_created_at": "1302609600",
+    "tags": [
+        "dp",
+        "binary search",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

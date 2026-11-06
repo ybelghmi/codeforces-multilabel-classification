@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"11\\n2\\n2 3\", \"1\\n1\\n1\"]",
+    "src_uid": "f7a784dd4add8a0e892921c130068933",
+    "prob_desc_notes": "NoteIn the first example Polycarp will have time to save any two items, but in order to maximize the total value of the saved items, he must save the second and the third item. For example, he can firstly save the third item in 3 seconds, and then save the second item in another 2 seconds. Thus, the total value of the saved items will be 6 + 5 = 11.In the second example Polycarp can save only the first item, since even if he immediately starts saving the second item, he can save it in 3 seconds, but this item will already be completely burned by this time.",
+    "prob_desc_description": "Polycarp is in really serious trouble — his house is on fire! It's time to save the most valuable items. Polycarp estimated that it would take ti seconds to save i-th item. In addition, for each item, he estimated the value of di — the moment after which the item i will be completely burned and will no longer be valuable for him at all. In particular, if ti ≥ di, then i-th item cannot be saved.Given the values pi for each of the items, find a set of items that Polycarp can save such that the total value of this items is maximum possible. Polycarp saves the items one after another. For example, if he takes item a first, and then item b, then the item a will be saved in ta seconds, and the item b — in ta + tb seconds after fire started.",
+    "prob_desc_output_spec": "In the first line print the maximum possible total value of the set of saved items. In the second line print one integer m — the number of items in the desired set. In the third line print m distinct integers — numbers of the saved items in the order Polycarp saves them. Items are 1-indexed in the same order in which they appear in the input. If there are several answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 100) — the number of items in Polycarp's house. Each of the following n lines contains three integers ti, di, pi (1 ≤ ti ≤ 20, 1 ≤ di ≤ 2 000, 1 ≤ pi ≤ 20) — the time needed to save the item i, the time after which the item i will burn completely and the value of item i.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_016.jsonl",
+    "code_uid": "5ed6f916055470b928cb9d60109486a6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3 7 4\\n2 6 5\\n3 7 6\", \"2\\n5 6 1\\n3 3 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\ndp = [[0 for x in range(2001)] for x in range(n+1)]\ntrack = [[[-1,-1] for x in range(2001)] for x in range(n+1)]\ninds = [[-1 for x in range(2001)] for x in range(n+1)]\narr = []\nfor i in range(n):\n  a,b,c = map(int,raw_input().split())\n  arr.append([b,a,c,i])\narr = sorted(arr)\nans = 0\nfor i in range(1,n+1):\n  b,a,c,ind = arr[i-1]\n  for j in range(b-a-1,-1,-1):\n    if dp[i-1][j]+c > dp[i][j+a]:\n      dp[i][j+a] = dp[i-1][j]+c\n      track[i][j+a] = [i-1,j]\n      inds[i][j+a] = ind\n      ans = max(ans,dp[i][j+a])\n  for j in range(2001):\n    if dp[i-1][j] > dp[i][j]:\n      dp[i][j] = dp[i-1][j]\n      track[i][j] = track[i-1][j]\n      inds[i][j] = inds[i-1][j]\nfor i in range(2001):\n  if dp[n][i]==ans:\n    s = [n,i]\n    break\narr = []\nwhile track[s[0]][s[1]][1] != -1:\n  arr.insert(0,inds[s[0]][s[1]]+1)\n  s = track[s[0]][s[1]]\nprint ans\nprint len(arr)\nprint \" \".join([str(x) for x in arr])\n'''\n5\n1 2 4\n1 2 5\n1 5 6\n1 4 6\n1 3 6\n'''",
+    "prob_desc_created_at": "1506335700",
+    "tags": [
+        "dp",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

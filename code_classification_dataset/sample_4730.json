@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 4 1 3\\n1 2 3\"]",
+    "src_uid": "0d5f4320fc2c7662d21e09a51baf21db",
+    "prob_desc_notes": "NoteIn the first test case the minimum absolute difference of consecutive elements equals $$$\\min \\{\\lvert 4 - 2 \\rvert, \\lvert 1 - 4 \\rvert, \\lvert 3 - 1 \\rvert \\} = \\min \\{2, 3, 2\\} = 2$$$. It's easy to prove that this answer is optimal.In the second test case each permutation of numbers $$$1, 2, 3$$$ is an optimal answer. The minimum absolute difference of consecutive elements equals to $$$1$$$.",
+    "prob_desc_description": "For his birthday, Kevin received the set of pairwise distinct numbers $$$1, 2, 3, \\ldots, n$$$ as a gift.He is going to arrange these numbers in a way such that the minimum absolute difference between two consecutive numbers be maximum possible. More formally, if he arranges numbers in order $$$p_1, p_2, \\ldots, p_n$$$, he wants to maximize the value $$$$$$\\min \\limits_{i=1}^{n - 1} \\lvert p_{i + 1} - p_i \\rvert,$$$$$$ where $$$|x|$$$ denotes the absolute value of $$$x$$$.Help Kevin to do that.",
+    "prob_desc_output_spec": "For each test case print a single line containing $$$n$$$ distinct integers $$$p_1, p_2, \\ldots, p_n$$$ ($$$1 \\le p_i \\le n$$$) describing the arrangement that maximizes the minimum absolute difference of consecutive elements.  Formally, you have to print a permutation $$$p$$$ which maximizes the value $$$\\min \\limits_{i=1}^{n - 1} \\lvert p_{i + 1} - p_i \\rvert$$$. If there are multiple optimal solutions, print any of them.",
+    "prob_desc_input_spec": "Each test consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Description of the test cases follows. The only line of each test case contains an integer $$$n$$$ ($$$2 \\le n \\leq 1\\,000$$$) — the size of the set.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_104.jsonl",
+    "code_uid": "8d3b27312c36ca031f54acc6c8291afc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n4\\n\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\r\ndef sol(n1):\r\n\r\n    dt = [0] * n1\r\n    dt3 = [0] * n1\r\n    c = 0\r\n    i, cnt = 0, 0\r\n\r\n    h = (n1 // 2) +1\r\n    for i in range(0, n1//2):\r\n        dt[i * 2] = i + 1\r\n        # if ( i * 2 + 1 < n1 ):\r\n        if (  h + dt[i * 2] <= n1):\r\n            dt[i * 2 + 1] = h + dt[i * 2]\r\n    if n1+1 %2:\r\n        # dt[n1-1] = n1\r\n        dt3[1:0] = dt\r\n        dt3[0] = h\r\n        dt = dt3[0:n1]\r\n\r\n    return dt\r\n    # 5 3 6 1 4 2\r\n    # 4 1 5 2 6 3 \r\n\r\n    dt2 = dt * 2\r\n\r\n    f = check(n1, dt)\r\n    dx = dt2[h: n1 + h]\r\n    b = check(n1, dx )\r\n\r\n    if f > b:\r\n        return dt\r\n    else:\r\n        return dx\r\n\r\n    \r\n\r\ndef check(n1, dt):\r\n    sol = []\r\n    mn = n1 + 1\r\n    for i in range(n1 - 1):\r\n\r\n        mn = min(mn, abs(dt[i + 1] - dt[i]))\r\n\r\n    return mn\r\n\r\n\r\n\r\nn = input()\r\nfor i in range(int(n)):\r\n    t = int(input())\r\n    dt = sol(t)\r\n\r\n    ans = str(dt[0])\r\n    for i in dt[1:]:\r\n        ans += \" \" + str(i)\r\n    print(ans)\r\n",
+    "prob_desc_created_at": "1666511400",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

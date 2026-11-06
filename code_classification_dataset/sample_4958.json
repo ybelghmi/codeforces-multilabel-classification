@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"RBRBRBR\\nRRRBRR\\nRRBRRBRRBRRBRRBRRBR\", \"RBR\\nRRBRBRBRBR\\nRBRBRBRBRBR\\nRRRRRBRRRR\\nRRRBRRRBRR\\nRRRBRRRBRRR\"]",
+    "src_uid": "7cec27879b443ada552a6474c4e45c30",
+    "prob_desc_notes": "NoteThe first test case of the first example gives the optimal answer for the example in the statement. The maximum number of times a team wins in a row in RBRBRBR is $$$1$$$. We cannot minimize it any further.The answer for the second test case of the second example is RRBRBRBRBR. The maximum number of times a team wins in a row is $$$2$$$, given by RR at the beginning. We cannot minimize the answer any further.",
+    "prob_desc_description": "Team Red and Team Blue competed in a competitive FPS. Their match was streamed around the world. They played a series of $$$n$$$ matches.In the end, it turned out Team Red won $$$r$$$ times and Team Blue won $$$b$$$ times. Team Blue was less skilled than Team Red, so $$$b$$$ was strictly less than $$$r$$$.You missed the stream since you overslept, but you think that the match must have been neck and neck since so many people watched it. So you imagine a string of length $$$n$$$ where the $$$i$$$-th character denotes who won the $$$i$$$-th match  — it is R if Team Red won or B if Team Blue won. You imagine the string was such that the maximum number of times a team won in a row was as small as possible. For example, in the series of matches RBBRRRB, Team Red won $$$3$$$ times in a row, which is the maximum.You must find a string satisfying the above conditions. If there are multiple answers, print any.",
+    "prob_desc_output_spec": "For each test case, output a single line containing a string satisfying the given conditions. If there are multiple answers, print any.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$)  — the number of test cases. Each test case has a single line containing three integers $$$n$$$, $$$r$$$, and $$$b$$$ ($$$3 \\leq n \\leq 100$$$; $$$1 \\leq b &lt; r \\leq n$$$, $$$r+b=n$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_110.jsonl",
+    "code_uid": "3b47818779008796e93449d845f4f38c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n7 4 3\\n6 5 1\\n19 13 6\", \"6\\n3 2 1\\n10 6 4\\n11 6 5\\n10 9 1\\n10 8 2\\n11 9 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nfor _ in range(t):\r\n    n, r, b = [int(c) for c in input().split()]\r\n    if b == 1:\r\n        print('R' * (r // 2) + 'B' + 'R' * (r - r // 2))\r\n        continue\r\n    s = ['R' * (r // (b + 1)) + 'B'] * b + ['R' * (r // (b + 1))]\r\n    left = r % (b + 1)\r\n    for i in range(left):\r\n        s[i] += 'R'\r\n    print(''.join(s))",
+    "prob_desc_created_at": "1650206100",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

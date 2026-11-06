@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"55555\", \"33\", \"-1\"]",
+    "src_uid": "ace9fbabc2eda81b4e4adf4f2d5ad402",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Igor has fallen in love with Tanya. Now Igor wants to show his feelings and write a number on the fence opposite to Tanya's house. Igor thinks that the larger the number is, the more chance to win Tanya's heart he has. Unfortunately, Igor could only get v liters of paint. He did the math and concluded that digit d requires ad liters of paint. Besides, Igor heard that Tanya doesn't like zeroes. That's why Igor won't use them in his number.Help Igor find the maximum number he can write on the fence.",
+    "prob_desc_output_spec": "Print the maximum number Igor can write on the fence. If he has too little paint for any digit (so, he cannot write anything), print -1.",
+    "prob_desc_input_spec": "The first line contains a positive integer v (0 ≤ v ≤ 106). The second line contains nine positive integers a1, a2, ..., a9 (1 ≤ ai ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_001.jsonl",
+    "code_uid": "f6cfef7e4f34accec31c7aa4c6da623a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n5 4 3 2 1 2 3 4 5\", \"2\\n9 11 1 12 5 8 9 10 6\", \"0\\n1 1 1 1 1 1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def ni():\n    return int(raw_input())\n\ndef nis():\n    return map(int, raw_input().split())\n\nn = ni()\na = nis()\n\ncheapest_val = None\ncheapest_num = None\nfor i in range(1, 10):\n    val = a[i - 1]\n    if cheapest_val is None or val <= cheapest_val:\n        cheapest_num = i\n        cheapest_val = val\n\ncount, rem = divmod(n, cheapest_val)\n\nif count:\n\n    ans = [cheapest_num] * count\n    i = 0\n    while rem and i < len(ans):\n        j = 9\n        while j:\n            if a[ans[i] - 1] + rem >= a[j - 1]:\n                rem -= a[j - 1] - a[ans[i] - 1]\n                ans[i] = j\n                break\n            j -= 1\n        i += 1\n\n    print ''.join(map(str, ans))\nelse:\n    print -1",
+    "prob_desc_created_at": "1380295800",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

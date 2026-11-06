@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"2\"]",
+    "src_uid": "dbbf1400a73e500a8dbac912acc75f16",
+    "prob_desc_notes": "NoteIn the first example Packman in position 4 will move to the left and will eat asterisk in position 1. He will spend 3 time units on it. During the same 3 time units Packman in position 6 will eat both of neighboring with it asterisks. For example, it can move to the left and eat asterisk in position 5 (in 1 time unit) and then move from the position 5 to the right and eat asterisk in the position 7 (in 2 time units). So in 3 time units Packmen will eat all asterisks on the game field.In the second example Packman in the position 4 will move to the left and after 2 time units will eat asterisks in positions 3 and 2. Packmen in positions 5 and 8 will move to the right and in 2 time units will eat asterisks in positions 7 and 10, respectively. So 2 time units is enough for Packmen to eat all asterisks on the game field.",
+    "prob_desc_description": "A game field is a strip of 1 × n square cells. In some cells there are Packmen, in some cells — asterisks, other cells are empty.Packman can move to neighboring cell in 1 time unit. If there is an asterisk in the target cell then Packman eats it. Packman doesn't spend any time to eat an asterisk.In the initial moment of time all Packmen begin to move. Each Packman can change direction of its move unlimited number of times, but it is not allowed to go beyond the boundaries of the game field. Packmen do not interfere with the movement of other packmen; in one cell there can be any number of packmen moving in any directions.Your task is to determine minimum possible time after which Packmen can eat all the asterisks.",
+    "prob_desc_output_spec": "Print minimum possible time after which Packmen can eat all asterisks.",
+    "prob_desc_input_spec": "The first line contains a single integer n (2 ≤ n ≤ 105) — the length of the game field. The second line contains the description of the game field consisting of n symbols. If there is symbol '.' in position i — the cell i is empty. If there is symbol '*' in position i — in the cell i contains an asterisk. If there is symbol 'P' in position i — Packman is in the cell i. It is guaranteed that on the game field there is at least one Packman and at least one asterisk.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_016.jsonl",
+    "code_uid": "31af5532a21efe50d66b2be6db4d17ec",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n*..P*P*\", \"10\\n.**PP.*P.*\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import ceil\ndef solve(field,size,answer):\n    left = 0\n    star_pos = -1\n    rstar_pos = -1\n    p_pos = -1\n    distance = 0\n    cost = 0\n    for i in range(size):\n        #print(p_pos,star_pos)\n        if field[i] == \"*\":\n            if star_pos != -1:\n                if p_pos != -1:\n                    if star_pos < p_pos and i > p_pos: #*...P.*.* star on both side of P\n                        if min(2*(p_pos-star_pos)+(i-p_pos),2*(i-p_pos)+\\\n                               (p_pos-star_pos)) > answer:\n                            star_pos = i\n                            p_pos = -1\n                            continue\n                    elif i-p_pos > answer: #..P..*P when star on the right of P\n                        star_pos = i\n                        p_pos = -1\n                        continue\n            else:\n                if p_pos != -1:\n                    if i - p_pos > answer:\n                        p_pos = -1\n                star_pos = i\n            \n        if field[i] == \"P\":\n            if p_pos != -1:\n                distance = 0\n                star_pos = -1\n            if star_pos != -1:\n                #print(\"star_pos:\",star_pos,\"current pos\",i)\n                if i - star_pos > answer:\n                    return -1\n                    \n            p_pos = i\n        \n    if p_pos == -1:\n        return -1\n    return 1\n        \n                    \n                \n\nif __name__ == \"__main__\":\n    size = int(raw_input().strip())\n    field = raw_input().strip()\n    first = 1\n    last = 2*size\n    best = last + 1\n    while first <= last:\n        mid = int(first + (last - first)/2) \n        if solve(field,size,mid) == -1:\n            first = mid + 1\n        else:\n            best = mid\n            last = mid - 1\n    print(best)\n\n",
+    "prob_desc_created_at": "1505739900",
+    "tags": [
+        "dp",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

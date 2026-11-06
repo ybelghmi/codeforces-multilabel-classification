@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"25\"]",
+    "src_uid": "917fb578760e11155227921a7347e58b",
+    "prob_desc_notes": "NoteIn the first sample case, . So all such sequences are: , , , , , , , ,  and .",
+    "prob_desc_description": "While Duff was resting in the beach, she accidentally found a strange array b0, b1, ..., bl - 1 consisting of l positive integers. This array was strange because it was extremely long, but there was another (maybe shorter) array, a0, ..., an - 1 that b can be build from a with formula: bi = ai mod n where a mod b denoted the remainder of dividing a by b.  Duff is so curious, she wants to know the number of subsequences of b like bi1, bi2, ..., bix (0 ≤ i1 &lt; i2 &lt; ... &lt; ix &lt; l), such that:   1 ≤ x ≤ k  For each 1 ≤ j ≤ x - 1,   For each 1 ≤ j ≤ x - 1, bij ≤ bij + 1. i.e this subsequence is non-decreasing. Since this number can be very large, she want to know it modulo 109 + 7.Duff is not a programmer, and Malek is unavailable at the moment. So she asked for your help. Please tell her this number.",
+    "prob_desc_output_spec": "Print the answer modulo 1 000 000 007 in one line.",
+    "prob_desc_input_spec": "The first line of input contains three integers, n, l and k (1 ≤ n, k, n × k ≤ 106 and 1 ≤ l ≤ 1018). The second line contains n space separated integers, a0, a1, ..., an - 1 (1 ≤ ai ≤ 109 for each 0 ≤ i ≤ n - 1). ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_024.jsonl",
+    "code_uid": "494cc00239e5bc0d5c57ebd645b48b6a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 5 3\\n5 9 1\", \"5 10 3\\n1 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\nmod = 1000000007\nn, l, k = map(int, raw_input().split())\na = map(int, raw_input().split())\nb = []\ncount_a = Counter(a)\ncount_a_keys = sorted(count_a.keys())\nrev_map = {}\nfor i, key in enumerate(count_a_keys):\n    rev_map[key] = i\n    b.append(count_a[key])\n\nm = l / n\nrest = l % n\ndp = [[0 for j in range(len(b))] for i in range(k + 1)]\nsum_dp = [[0 for j in range(len(b))] for i in range(k + 1)]\n\nfor i in range(len(b)):\n    if len(dp) <= 1:\n        break\n    dp[1][i], sum_dp[1][i] = b[i], b[i]\n    if i > 0:\n        sum_dp[1][i] += sum_dp[1][i - 1]\nfor i in range(2, min(k + 1, m + 1)):\n    for x in range(len(b)):\n        dp[i][x] = b[x] * sum_dp[i - 1][x] % mod\n        if x == 0:\n            sum_dp[i][x] = dp[i][x] % mod\n        else:\n            sum_dp[i][x] = (dp[i][x] + sum_dp[i][x - 1]) % mod\n\nans = 0\nfor i in range(1, k + 1):\n    ans = (ans + (m - i + 1) * sum_dp[i][len(b) - 1]) % mod\n\nfor j in range(rest):\n    x = rev_map[a[j]]\n    ans = (ans + 1) % mod\n    for i in range(1, k):\n        if i > m:\n            continue\n        ans = (ans + sum_dp[i][x]) % mod\nprint ans\n",
+    "prob_desc_created_at": "1444926600",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

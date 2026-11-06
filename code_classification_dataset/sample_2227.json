@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"2 2\\n1 2\\n2 3\", \"2 1\\n1 2\", \"2 1\\n3 4\"]",
+    "src_uid": "bc8b4b74c2f2d486e2d2f03982ef1013",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are several days left before the fiftieth birthday of a famous Berland's writer Berlbury. In this connection the local library decided to make an exposition of the works of this famous science-fiction writer. It was decided as well that it is necessary to include into the exposition only those books that were published during a particular time period. It is obvious that if the books differ much in size, the visitors will not like it. That was why the organizers came to the opinion, that the difference between the highest and the lowest books in the exposition should be not more than k millimeters.The library has n volumes of books by Berlbury, arranged in chronological order of their appearance. The height of each book in millimeters is know, it is hi. As Berlbury is highly respected in the city, the organizers want to include into the exposition as many books as possible, and to find out what periods of his creative work they will manage to cover. You are asked to help the organizers cope with this hard task.",
+    "prob_desc_output_spec": "In the first line of the output data print two numbers a and b (separate them by a space), where a is the maximum amount of books the organizers can include into the exposition, and b — the amount of the time periods, during which Berlbury published a books, and the height difference between the lowest and the highest among these books is not more than k milllimeters. In each of the following b lines print two integer numbers separated by a space — indexes of the first and the last volumes from each of the required time periods of Berlbury's creative work.",
+    "prob_desc_input_spec": "The first line of the input data contains two integer numbers separated by a space n (1 ≤ n ≤ 105) and k (0 ≤ k ≤ 106) — the amount of books by Berlbury in the library, and the maximum allowed height difference between the lowest and the highest books. The second line contains n integer numbers separated by a space. Each number hi (1 ≤ hi ≤ 106) is the height of the i-th book in millimeters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_019.jsonl",
+    "code_uid": "b95cf3dbc11991755548cba067a87d36",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n14 12 10\", \"2 0\\n10 10\", \"4 5\\n8 19 10 13\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import *\nn,k=map(int,input().split())\nh=list(map(int,input().split()))\nl=[]\nq=[]\naa=-1\nj=0\nfor i in range(n):\n    l.insert(bisect(l,h[i]),h[i])\n    while l[-1]-l[0]>k:\n        l.pop(bisect(l,h[j])-1)\n        j+=1\n    if i-j+1>aa:\n        aa=i-j+1\n        q=[]\n    if i-j+1==aa:\n        q.append([j+1,i+1])\nprint(aa,len(q))\nfor i in q:\n    print(i[0],i[1])",
+    "prob_desc_created_at": "1269673200",
+    "tags": [
+        "two pointers",
+        "dsu",
+        "data structures",
+        "binary search",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

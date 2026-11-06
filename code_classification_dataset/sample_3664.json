@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"0\", \"21\"]",
+    "src_uid": "3875486b0178bf04b3463a15f36f8169",
+    "prob_desc_notes": "NoteIn the first example three operations are enough. Firstly, Monocarp should swap the third and the fourth marbles, so the sequence of colors is $$$[3, 4, 3, 2, 4, 2, 2]$$$. Then Monocarp should swap the second and the third marbles, so the sequence is $$$[3, 3, 4, 2, 4, 2, 2]$$$. And finally, Monocarp should swap the fourth and the fifth marbles, so the sequence is $$$[3, 3, 4, 4, 2, 2, 2]$$$. In the second example there's no need to perform any operations.",
+    "prob_desc_description": "Monocarp has arranged $$$n$$$ colored marbles in a row. The color of the $$$i$$$-th marble is $$$a_i$$$. Monocarp likes ordered things, so he wants to rearrange marbles in such a way that all marbles of the same color form a contiguos segment (and there is only one such segment for each color). In other words, Monocarp wants to rearrange marbles so that, for every color $$$j$$$, if the leftmost marble of color $$$j$$$ is $$$l$$$-th in the row, and the rightmost marble of this color has position $$$r$$$ in the row, then every marble from $$$l$$$ to $$$r$$$ has color $$$j$$$.To achieve his goal, Monocarp can do the following operation any number of times: choose two neighbouring marbles, and swap them.You have to calculate the minimum number of operations Monocarp has to perform to rearrange the marbles. Note that the order of segments of marbles having equal color does not matter, it is only required that, for every color, all the marbles of this color form exactly one contiguous segment.",
+    "prob_desc_output_spec": "Print the minimum number of operations Monocarp has to perform to achieve his goal.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ $$$(2 \\le n \\le 4 \\cdot 10^5)$$$ — the number of marbles. The second line contains an integer sequence $$$a_1, a_2, \\dots, a_n$$$ $$$(1 \\le a_i \\le 20)$$$, where $$$a_i$$$ is the color of the $$$i$$$-th marble.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_077.jsonl",
+    "code_uid": "13d679e5837ff7ae9285a59d62b8c9a4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n3 4 2 3 4 2 2\", \"5\\n20 1 14 10 2\", \"13\\n5 5 4 4 3 5 7 6 5 4 4 6 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# Num of the element\nimport sys\ninput = sys.stdin.readline\nN_Color = 20\nINT_max = 10**30\nR = {(1 << i):i for i in range(20)}\n\ndef calc(locs):\n    # calc move all j in front of i cost\n    dp = [[0]*N_Color for i in range(N_Color)]\n    for i in range(N_Color):\n        for j in range(N_Color):\n            x, y = locs[i], locs[j]\n            idx = 0\n            if i == j or len(x) == 0 or len(y) == 0: continue\n            for ele in y:\n                while idx < len(x) and x[idx] < ele:\n                    idx += 1\n                dp[i][j] += idx\n    return dp\n\ndef solve(swap_cost):\n    dp = [INT_max] * ((1<<N_Color))\n    dp[0] = 0\n    # Push is faster than pull, for the renumerate issue\n    for perm in range(0, (1<<N_Color)-1):\n        perm_bak = perm\n        used = [i for i in range(N_Color) if (1<<i) & perm]\n        not_used = [i for i in range(N_Color) if not (1<<i) & perm]\n        for ele in not_used:\n            n_method = 0\n            for use_ele in used:\n                n_method += swap_cost[use_ele][ele]\n            dp[perm | (1<<ele)] = min(n_method + dp[perm], dp[perm | (1<<ele)])\n        \"\"\"\n        while perm & (-perm):\n            color = perm & (-perm)\n            perm -= color\n            sub_perm_bak = sub_perm = perm_bak - color\n            n_method = 0\n            while sub_perm & (-sub_perm):\n                color_new = sub_perm & (-sub_perm)\n                n_method += swap_cost[R[color_new]][R[color]]\n                sub_perm -= color_new\n            dp[perm_bak] = min(n_method + dp[sub_perm_bak], dp[perm_bak])\n        \"\"\"\n    return dp[(1<<N_Color) - 1]\n\nif __name__ == \"__main__\":\n    n = int(input())\n    nums = list(map(int, input().split()))\n    locs = [[] for i in range(N_Color)]\n\n    for idx, ele in enumerate(nums):\n        locs[ele-1].append(idx)\n\n    swap_cost = calc(locs)\n    #print(swap_cost)\n    ans = solve(swap_cost)\n    \n    print(ans)\n",
+    "prob_desc_created_at": "1568543700",
+    "tags": [
+        "dp",
+        "bitmasks"
+    ],
+    "hidden_unit_tests": ""
+}

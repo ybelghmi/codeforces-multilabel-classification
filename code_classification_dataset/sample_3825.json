@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n2\"]",
+    "src_uid": "93e9eb2c95fc9d86f526a03754ffd576",
+    "prob_desc_notes": "NoteIn the first test case, he invites the first and the second person. If he invites all of them, the third person won't be happy because there will be more than $$$1$$$ person poorer than him.",
+    "prob_desc_description": "Keshi is throwing a party and he wants everybody in the party to be happy.He has $$$n$$$ friends. His $$$i$$$-th friend has $$$i$$$ dollars. If you invite the $$$i$$$-th friend to the party, he will be happy only if at most $$$a_i$$$ people in the party are strictly richer than him and at most $$$b_i$$$ people are strictly poorer than him.Keshi wants to invite as many people as possible. Find the maximum number of people he can invite to the party so that every invited person would be happy.",
+    "prob_desc_output_spec": "For each test case print the maximum number of people Keshi can invite.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ $$$(1\\le t\\le 10^4)$$$ — the number of test cases. The description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ $$$(1\\le n\\le 2 \\cdot 10^5)$$$ — the number of Keshi's friends. The $$$i$$$-th of the following $$$n$$$ lines contains two integers $$$a_i$$$ and $$$b_i$$$ $$$(0 \\le a_i, b_i &lt; n)$$$. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_084.jsonl",
+    "code_uid": "fd3eb6c969e53f133a77f61572d8dfc2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3\\n1 2\\n2 1\\n1 1\\n2\\n0 0\\n0 1\\n2\\n1 0\\n0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# =====================\r\n#   dev:Anonim_007\r\n#  =====================\r\n\r\nimport sys\r\n\r\ninput = sys.stdin.buffer.readline\r\n\r\n\r\ndef main():\r\n    n = int(input())\r\n    a, b = [], []\r\n    for _ in range(n):\r\n        ai, bi = map(int, input().split())\r\n\r\n        a.append(ai)\r\n        b.append(bi)\r\n\r\n    def good(x):\r\n        count = 0\r\n        for i in range(n):\r\n            if a[i] >= x-count-1 and b[i] >= count:\r\n                count += 1\r\n        return count>=x\r\n\r\n    l, r = -1, n+1\r\n    while abs(l-r) > 1:\r\n        mid = (l+r)//2\r\n        if good(mid):\r\n            l = mid\r\n        else:\r\n            r = mid\r\n\r\n    return str(l)\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    print(\"\\n\".join([main() for _ in range(int(input()))]))\r\n",
+    "prob_desc_created_at": "1637678100",
+    "tags": [
+        "binary search",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

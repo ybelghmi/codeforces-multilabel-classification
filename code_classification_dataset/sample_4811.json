@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 6 1 2 3 4 5 6\\n\\n? 3 3 1 5\\n\\n? 2 1 2\\n\\n! 1 2\"]",
+    "src_uid": "905e3f3e6f7d8f13789b89e77a3ef65e",
+    "prob_desc_notes": "NoteThe tree in the first sample:",
+    "prob_desc_description": "This is an interactive problem!In the last regional contest Hemose, ZeyadKhattab and YahiaSherif — members of the team Carpe Diem — did not qualify to ICPC because of some unknown reasons. Hemose was very sad and had a bad day after the contest, but ZeyadKhattab is very wise and knows Hemose very well, and does not want to see him sad.Zeyad knows that Hemose loves tree problems, so he gave him a tree problem with a very special device.Hemose has a weighted tree with $$$n$$$ nodes and $$$n-1$$$ edges. Unfortunately, Hemose doesn't remember the weights of edges.Let's define $$$Dist(u, v)$$$ for $$$u\\neq v$$$ as the greatest common divisor of the weights of all edges on the path from node $$$u$$$ to node $$$v$$$.Hemose has a special device. Hemose can give the device a set of nodes, and the device will return the largest $$$Dist$$$ between any two nodes from the set. More formally, if Hemose gives the device a set $$$S$$$ of nodes, the device will return the largest value of $$$Dist(u, v)$$$ over all pairs $$$(u, v)$$$ with $$$u$$$, $$$v$$$ $$$\\in$$$ $$$S$$$ and $$$u \\neq v$$$.Hemose can use this Device at most $$$12$$$ times, and wants to find any two distinct nodes $$$a$$$, $$$b$$$, such that $$$Dist(a, b)$$$ is maximum possible. Can you help him?",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_106.jsonl",
+    "code_uid": "32477289f79982571884a3e961925c0e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n1 2\\n2 3\\n2 4\\n1 5\\n5 6\\n\\n10\\n\\n2\\n\\n10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# import os,sys\r\n# from io import BytesIO, IOBase\r\n\r\n# from collections import defaultdict,deque,Counter\r\n# from bisect import bisect_left,bisect_right\r\n# from heapq import heappush,heappop\r\n# from functools import lru_cache\r\n# from itertools import accumulate\r\n# import math\r\n\r\n# # Fast IO Region\r\n# BUFSIZE = 8192\r\n# class FastIO(IOBase):\r\n#     newlines = 0\r\n#     def __init__(self, file):\r\n#         self._fd = file.fileno()\r\n#         self.buffer = BytesIO()\r\n#         self.writable = \"x\" in file.mode or \"r\" not in file.mode\r\n#         self.write = self.buffer.write if self.writable else None\r\n#     def read(self):\r\n#         while True:\r\n#             b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n#             if not b:\r\n#                 break\r\n#             ptr = self.buffer.tell()\r\n#             self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n#         self.newlines = 0\r\n#         return self.buffer.read()\r\n#     def readline(self):\r\n#         while self.newlines == 0:\r\n#             b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n#             self.newlines = b.count(b\"\\n\") + (not b)\r\n#             ptr = self.buffer.tell()\r\n#             self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n#         self.newlines -= 1\r\n#         return self.buffer.readline()\r\n#     def flush(self):\r\n#         if self.writable:\r\n#             os.write(self._fd, self.buffer.getvalue())\r\n#             self.buffer.truncate(0), self.buffer.seek(0)\r\n# class IOWrapper(IOBase):\r\n#     def __init__(self, file):\r\n#         self.buffer = FastIO(file)\r\n#         self.flush = self.buffer.flush\r\n#         self.writable = self.buffer.writable\r\n#         self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\r\n#         self.read = lambda: self.buffer.read().decode(\"ascii\")\r\n#         self.readline = lambda: self.buffer.readline().decode(\"ascii\")\r\n# sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\r\n# input = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\r\n\r\n# for _ in range(int(input())):\r\n#     n = int(input())\r\n#     a = list(map(int, input().split(' ')))\r\n\r\n# for _ in range(int(input())):\r\n#     n, h = list(map(int, input().split(' ')))\r\n#     a = list(map(int, input().split(' ')))\r\n#     a.sort()\r\n#     x, y = a[-2], a[-1]\r\n#     if x == y:\r\n#         print(math.ceil(h / x))\r\n#     else:\r\n#         ans = h // (x + y) * 2\r\n#         h %= x + y\r\n#         if h > 0:\r\n#             ans += 1\r\n#         if h > y:\r\n#             ans += 1\r\n#         print(ans)\r\n\r\n# for _ in range(int(input())):\r\n#     n, x = list(map(int, input().split(' ')))\r\n#     a = list(map(int, input().split(' ')))\r\n#     b = sorted(a)\r\n#     for i in range(n - x, x):\r\n#         if a[i] != b[i]:\r\n#             print('NO')\r\n#             break\r\n#     else:\r\n#         print('YES')\r\n\r\nimport sys\r\nfrom collections import deque\r\nn = int(input())\r\nadj = [[] for _ in range(n + 1)]\r\nfor _ in range(n - 1):\r\n    u, v = list(map(int, input().split(' ')))\r\n    adj[u].append(v)\r\n    adj[v].append(u)\r\n\r\nq = deque([1])\r\norder = []\r\nparent = [-1] * (n + 1)\r\nvis = set()\r\nvis.add(1)\r\nwhile q:\r\n    u = q.popleft()\r\n    order.append(u)\r\n    for v in adj[u]:\r\n        if v not in vis:\r\n            parent[v] = u\r\n            q.append(v)\r\n            vis.add(v)\r\n\r\nprint(\"?\", len(order), *order)\r\nsys.stdout.flush()\r\nmx = int(input())\r\n\r\nl, r = 0, n - 1\r\nwhile l < r - 1:\r\n    mid = (l + r) // 2\r\n    print(\"?\", len(order[:mid + 1]), *order[:mid + 1])\r\n    sys.stdout.flush()\r\n    x = int(input())\r\n    if x == mx:\r\n        r = mid\r\n    else:\r\n        l = mid\r\n    \r\nprint(\"!\", order[r], parent[order[r]])\r\nsys.stdout.flush()\r\n                    \r\n",
+    "prob_desc_created_at": "1633271700",
+    "tags": [
+        "binary search",
+        "dfs and similar",
+        "implementation",
+        "interactive",
+        "math",
+        "number theory",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

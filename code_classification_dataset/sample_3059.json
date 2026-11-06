@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n2\\n2\\n31680\"]",
+    "src_uid": "667e320912f115d0b598bb45129b5845",
+    "prob_desc_notes": null,
+    "prob_desc_description": "It is Borya's eleventh birthday, and he has got a great present: n cards with numbers. The i-th card has the number ai written on it. Borya wants to put his cards in a row to get one greater number. For example, if Borya has cards with numbers 1, 31, and 12, and he puts them in a row in this order, he would get a number 13112.He is only 11, but he already knows that there are n! ways to put his cards in a row. But today is a special day, so he is only interested in such ways that the resulting big number is divisible by eleven. So, the way from the previous paragraph is good, because 13112 = 1192 × 11, but if he puts the cards in the following order: 31, 1, 12, he would get a number 31112, it is not divisible by 11, so this way is not good for Borya. Help Borya to find out how many good ways to put the cards are there.Borya considers all cards different, even if some of them contain the same number. For example, if Borya has two cards with 1 on it, there are two good ways.Help Borya, find the number of good ways to put the cards. This number can be large, so output it modulo 998244353.",
+    "prob_desc_output_spec": "For each test case output one line: the number of ways to put the cards to the table so that the resulting big number was divisible by 11, print the number modulo 998244353.",
+    "prob_desc_input_spec": "Input data contains multiple test cases. The first line of the input data contains an integer t — the number of test cases (1 ≤ t ≤ 100). The descriptions of test cases follow. Each test is described by two lines. The first line contains an integer n (1 ≤ n ≤ 2000) — the number of cards in Borya's present. The second line contains n integers ai (1 ≤ ai ≤ 109) — numbers written on the cards. It is guaranteed that the total number of cards in all tests of one input data doesn't exceed 2000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_040.jsonl",
+    "code_uid": "c3903c246feff93bdb1eab67735760cd",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2\\n1 1\\n3\\n1 31 12\\n3\\n12345 67 84\\n9\\n1 2 3 4 5 6 7 8 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "mod = 998244353\nf0 = [ [0 for i in range(11)] for j in range(2010) ]\nf1 = [ [0 for i in range(11)] for j in range(2010) ]\nfac = [0 for i in range(2010)]\ntab = [0 for i in range(11)]\nC = [ [0 for i in range(2010)] for j in range(2010) ]\n\ndef Init() :\n    fac[0] = 1\n    for i in range(2010) :\n        if i > 0 : fac[i] = fac[i - 1] * i % mod\n        C[i][0] = 1\n        for j in range(1, 2010) :\n            C[i][j] = (C[i - 1][j - 1] + C[i - 1][j]) % mod\n\ndef len(x) :\n    res = 0\n    while x > 0 :\n        res += 1\n        x = x // 10\n    return res\n            \ndef solve() :\n    n = int(input())\n    f0[0][0] = f1[0][0] = 1\n    a = list(map(int, input().split()))\n    c0, c1 = 0, 0\n    s0, s1 = 0, 0\n    for nu in a :\n        m = nu % 11\n        if len(nu) & 1 :\n            c1 += 1\n            s1 += m\n            for i in range(11) :\n                f1[c1][i] = 0\n            for i in range(c1 - 1, -1, -1) :\n                for j in range(11) :\n                    if f1[i][j] == 0 : continue\n                    f1[i + 1][(j + m) % 11] += f1[i][j]\n                    f1[i + 1][(j + m) % 11] %= mod\n        else :\n            c0 += 1\n            s0 += m\n            for i in range(11) :\n                f0[c0][i] = 0\n            for i in range(c0 - 1, -1, -1) :\n                for j in range(11) :\n                    if f0[i][j] == 0 : continue\n                    f0[i + 1][(j + m) % 11] += f0[i][j]\n                    f0[i + 1][(j + m) % 11] %= mod\n    s1 %= 11\n    s0 %= 11\n    part = c1 // 2\n    for i in range(11) :\n        tab[i] = 0\n    for i in range(11) :\n        tab[(i + i + 11 - s1) % 11] = f1[c1 - part][i]\n    for i in range(11) :\n        tab[i] = tab[i] * fac[part] % mod * fac[c1 - part] % mod\n\n    ans = 0\n    if c1 == 0 :\n        ans = f0[c0][0] * fac[c0]\n    elif c0 == 0 :\n        ans = tab[0]\n    else :\n        for i in range(c0 + 1) :\n            for j in range(11) :\n                if f0[i][j] == 0 : continue\n                # print(f0[i][j], tab[(j + j + 11 - s0) % 11] \\\n                # , fac[i] % mod * fac[c0 - i] % mod, C[j + (c1 - part) - 1][(c1 - part) - 1] % mod * C[part + c0 - i][part] % mod )\n                ans = ( ans \\\n                        + fac[i] % mod * fac[c0 - i] % mod \\\n                        * f0[i][j] * tab[(j + j + 11 - s0) % 11] % mod \\\n                        * C[i + (c1 - part) - 1][(c1 - part) - 1] % mod \\\n                        * C[part + c0 - i][part]\n ) % mod\n    print(ans)\n\nInit()\nT = int(input())\nfor ttt in range(T) : solve()",
+    "prob_desc_created_at": "1505050500",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

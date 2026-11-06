@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"5 3 5\", \"5 3 1 2 1\", \"-1\"]",
+    "src_uid": "790739d10b9c985f2fe47ec79ebfc993",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are $$$n$$$ railway stations in Berland. They are connected to each other by $$$n-1$$$ railway sections. The railway network is connected, i.e. can be represented as an undirected tree.You have a map of that network, so for each railway section you know which stations it connects.Each of the $$$n-1$$$ sections has some integer value of the scenery beauty. However, these values are not marked on the map and you don't know them. All these values are from $$$1$$$ to $$$10^6$$$ inclusive.You asked $$$m$$$ passengers some questions: the $$$j$$$-th one told you three values:  his departure station $$$a_j$$$;  his arrival station $$$b_j$$$;  minimum scenery beauty along the path from $$$a_j$$$ to $$$b_j$$$ (the train is moving along the shortest path from $$$a_j$$$ to $$$b_j$$$). You are planning to update the map and set some value $$$f_i$$$ on each railway section — the scenery beauty. The passengers' answers should be consistent with these values.Print any valid set of values $$$f_1, f_2, \\dots, f_{n-1}$$$, which the passengers' answer is consistent with or report that it doesn't exist.",
+    "prob_desc_output_spec": "If there is no answer then print a single integer -1. Otherwise, print $$$n-1$$$ integers $$$f_1, f_2, \\dots, f_{n-1}$$$ ($$$1 \\le f_i \\le 10^6$$$), where $$$f_i$$$ is some valid scenery beauty along the $$$i$$$-th railway section. If there are multiple answers, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 5000$$$) — the number of railway stations in Berland. The next $$$n-1$$$ lines contain descriptions of the railway sections: the $$$i$$$-th section description is two integers $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le x_i, y_i \\le n, x_i \\ne y_i$$$), where $$$x_i$$$ and $$$y_i$$$ are the indices of the stations which are connected by the $$$i$$$-th railway section. All the railway sections are bidirected. Each station can be reached from any other station by the railway. The next line contains a single integer $$$m$$$ ($$$1 \\le m \\le 5000$$$) — the number of passengers which were asked questions. Then $$$m$$$ lines follow, the $$$j$$$-th line contains three integers $$$a_j$$$, $$$b_j$$$ and $$$g_j$$$ ($$$1 \\le a_j, b_j \\le n$$$; $$$a_j \\ne b_j$$$; $$$1 \\le g_j \\le 10^6$$$) — the departure station, the arrival station and the minimum scenery beauty along his path.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_023.jsonl",
+    "code_uid": "13a28c65adcf2faca36b2d6064329ba7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2\\n3 2\\n3 4\\n2\\n1 2 5\\n1 3 3\", \"6\\n1 2\\n1 6\\n3 1\\n1 5\\n4 1\\n4\\n6 1 3\\n3 4 1\\n6 5 2\\n1 2 5\", \"6\\n1 2\\n1 6\\n3 1\\n1 5\\n4 1\\n4\\n6 1 1\\n3 4 3\\n6 5 3\\n1 2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\ninp = [int(x) for x in sys.stdin.read().split()]; ii = 0\n\nn = inp[ii]; ii += 1\n\ncoupl = [[] for _ in range(n)]\nU = []\n\nfor eind in range(n - 1):\n    u = inp[ii] - 1; ii += 1\n    v = inp[ii] - 1; ii += 1\n\n    coupl[u].append(2*eind)\n    coupl[v].append(2*eind + 1)\n\n    U.append(u)\n    U.append(v)\n\nroot = 0\nbfs = [root]\nP = [-1]*n\nfor node in bfs:\n    for eind in coupl[node]:\n        nei = U[eind ^ 1]\n        P[nei] = eind ^ 1\n        coupl[nei].remove(eind ^ 1)\n        bfs.append(nei)\n\norder = [0]*n\nfor i in range(n):\n    order[bfs[i]] = i\n\nclass DisjointSetUnion:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.size = [1] * n\n        self.num_sets = n\n        self.true = list(range(n))\n\n    def find(self, a):\n        acopy = a\n        while a != self.parent[a]:\n            a = self.parent[a]\n        while acopy != a:\n            self.parent[acopy], acopy = a, self.parent[acopy]\n        return a\n\n    def merge(self, a, b):\n        a, b = self.find(a), self.find(b)\n        if a != b:\n            if self.size[a] < self.size[b]:\n                a, b = b, a\n\n            self.num_sets -= 1\n            self.parent[b] = a\n            self.size[a] += self.size[b]\n            if order[self.true[b]] < order[self.true[a]]:\n                self.true[a] = self.true[b]\n\ndsu = DisjointSetUnion(n)\n\nm = inp[ii]; ii += 1\npaths = []\nfor _ in range(m):\n    u = inp[ii] - 1; ii += 1\n    v = inp[ii] - 1; ii += 1\n    w = inp[ii]; ii += 1\n    paths.append((w,u,v))\n\nF = [1]*(n - 1)\n\npaths.sort()\n\nwhile paths:\n    w = paths[-1][0]\n    tmp = []\n    while paths and paths[-1][0] == w:\n        w,u,v = paths.pop()\n        \n        u = dsu.true[dsu.find(u)]\n        v = dsu.true[dsu.find(v)]\n        \n        if u == v:\n            print -1\n            sys.exit()\n        \n        tmp.append((u,v))\n    \n    for u,v in tmp:\n        u = dsu.true[dsu.find(u)]\n        v = dsu.true[dsu.find(v)]\n        \n        while u != v:\n            if order[u] < order[v]:\n                eind = P[v]\n                F[eind >> 1] = w\n                dsu.merge(v, U[eind ^ 1])\n\n                v = dsu.true[dsu.find(v)]\n            else:\n                eind = P[u]\n                F[eind >> 1] = w\n                dsu.merge(u, U[eind ^ 1])\n                \n                u = dsu.true[dsu.find(u)]\nprint ' '.join(str(f) for f in F)\n",
+    "prob_desc_created_at": "1580826900",
+    "tags": [
+        "greedy",
+        "constructive algorithms",
+        "sortings",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

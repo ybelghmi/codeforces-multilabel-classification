@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"1\"]",
+    "src_uid": "1716b35de299e88c891ba71f9c368b51",
+    "prob_desc_notes": "NoteIn the first example Nastya can just change places with the first pupil in the queue.Optimal sequence of changes in the second example is   change places for pupils with numbers $$$1$$$ and $$$3$$$.  change places for pupils with numbers $$$3$$$ and $$$2$$$.  change places for pupils with numbers $$$1$$$ and $$$2$$$. The queue looks like $$$[3, 1, 2]$$$, then $$$[1, 3, 2]$$$, then $$$[1, 2, 3]$$$, and finally $$$[2, 1, 3]$$$ after these operations.",
+    "prob_desc_description": "At the big break Nastya came to the school dining room. There are $$$n$$$ pupils in the school, numbered from $$$1$$$ to $$$n$$$. Unfortunately, Nastya came pretty late, so that all pupils had already stood in the queue, i.e. Nastya took the last place in the queue. Of course, it's a little bit sad for Nastya, but she is not going to despond because some pupils in the queue can agree to change places with some other pupils.Formally, there are some pairs $$$u$$$, $$$v$$$ such that if the pupil with number $$$u$$$ stands directly in front of the pupil with number $$$v$$$, Nastya can ask them and they will change places. Nastya asks you to find the maximal number of places in queue she can move forward. ",
+    "prob_desc_output_spec": "Print a single integer — the number of places in queue she can move forward.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\leq n \\leq 3 \\cdot 10^{5}$$$, $$$0 \\leq m \\leq 5 \\cdot 10^{5}$$$) — the number of pupils in the queue and number of pairs of pupils such that the first one agrees to change places with the second one if the first is directly in front of the second. The second line contains $$$n$$$ integers $$$p_1$$$, $$$p_2$$$, ..., $$$p_n$$$ — the initial arrangement of pupils in the queue, from the queue start to its end ($$$1 \\leq p_i \\leq n$$$, $$$p$$$ is a permutation of integers from $$$1$$$ to $$$n$$$). In other words, $$$p_i$$$ is the number of the pupil who stands on the $$$i$$$-th position in the queue. The $$$i$$$-th of the following $$$m$$$ lines contains two integers $$$u_i$$$, $$$v_i$$$ ($$$1 \\leq u_i, v_i \\leq n, u_i \\neq v_i$$$), denoting that the pupil with number $$$u_i$$$ agrees to change places with the pupil with number $$$v_i$$$ if $$$u_i$$$ is directly in front of $$$v_i$$$. It is guaranteed that if $$$i \\neq j$$$, than $$$v_i \\neq v_j$$$ or $$$u_i \\neq u_j$$$. Note that it is possible that in some pairs both pupils agree to change places with each other. Nastya is the last person in the queue, i.e. the pupil with number $$$p_n$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_003.jsonl",
+    "code_uid": "da06c6bf8cd6df3bc1daf8b99e8c3058",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 1\\n1 2\\n1 2\", \"3 3\\n3 1 2\\n1 2\\n3 1\\n3 2\", \"5 2\\n3 1 5 4 2\\n5 2\\n5 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\nfrom cStringIO import StringIO\n\ninput = StringIO(os.read(0, os.fstat(0).st_size)).readline\n\n\ndef main():\n    n, m = map(int, input().split())\n    p = [int(i) - 1 for i in input().split()]\n    pos = p[-1]\n\n    graph = [set() for _ in range(n)]\n    for i in range(m):\n        u, v = map(int, input().split())\n        graph[u - 1].add(v - 1)\n\n    for i in range(n - 2, -1, -1):\n        while (i + 1 < n) and (p[i + 1] in graph[p[i]]):\n            p[i], p[i + 1] = p[i + 1], p[i]\n            i += 1\n\n    os.write(1, str(n - p.index(pos) - 1))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1552322100",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

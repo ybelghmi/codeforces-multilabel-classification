@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Ashish\", \"Ayush\"]",
+    "src_uid": "1a93a35395436f9e15760400f991f1ce",
+    "prob_desc_notes": "NoteFor the $$$1$$$st test case, Ayush can only remove node $$$2$$$ or $$$3$$$, after which node $$$1$$$ becomes a leaf node and Ashish can remove it in his turn.For the $$$2$$$nd test case, Ayush can remove node $$$2$$$ in the first move itself.",
+    "prob_desc_description": "Ayush and Ashish play a game on an unrooted tree consisting of $$$n$$$ nodes numbered $$$1$$$ to $$$n$$$. Players make the following move in turns:   Select any leaf node in the tree and remove it together with any edge which has this node as one of its endpoints. A leaf node is a node with degree less than or equal to $$$1$$$. A tree is a connected undirected graph without cycles.There is a special node numbered $$$x$$$. The player who removes this node wins the game. Ayush moves first. Determine the winner of the game if each player plays optimally.",
+    "prob_desc_output_spec": "For every test case, if Ayush wins the game, print \"Ayush\", otherwise print \"Ashish\" (without quotes).",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ $$$(1 \\leq t \\leq 10)$$$ — the number of testcases. The description of the test cases follows. The first line of each testcase contains two integers $$$n$$$ and $$$x$$$ $$$(1\\leq n \\leq 1000, 1 \\leq x \\leq n)$$$ — the number of nodes in the tree and the special node respectively. Each of the next $$$n-1$$$ lines contain two integers $$$u$$$, $$$v$$$ $$$(1 \\leq u, v \\leq n, \\text{ } u \\ne v)$$$, meaning that there is an edge between nodes $$$u$$$ and $$$v$$$ in the tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_001.jsonl",
+    "code_uid": "8aaad8ff047fc842aab1c7fb021a1a4a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n3 1\\n2 1\\n3 1\", \"1\\n3 2\\n1 2\\n1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\n\nQ = int(input())\nQuery = []\nfor _ in range(Q):\n    N, X = map(int, input().split())\n    graph = [[] for _ in range(N)]\n    for _ in range(N-1):\n        a, b = map(int, input().split())\n        graph[a-1].append(b-1)\n        graph[b-1].append(a-1)\n    Query.append((N, X-1, graph))\n\nfor N, s, graph in Query:\n    checked = [False]*N\n    checked[s] = True\n    odd = 0\n    for b in graph[s]:\n        q = [b]\n        checked[b] = True\n        Count = 1\n        while q:\n            qq = []\n            for p in q:\n                for np in graph[p]:\n                    if not checked[np]:\n                        checked[np] = True\n                        qq.append(np)\n                        Count += 1\n            q = qq\n        if Count%2 == 1:\n            odd += 1\n    if len(graph[s]) <= 1 or odd%2 == 1:\n        print(\"Ayush\")\n    else:\n        print(\"Ashish\")",
+    "prob_desc_created_at": "1590935700",
+    "tags": [
+        "trees",
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

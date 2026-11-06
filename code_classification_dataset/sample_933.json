@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"aaabcde\", \"aaaepfafw\", \"aaaaaaadudsnz\"]",
+    "src_uid": "24afabd9cbbe287ea83c780f1797297c",
+    "prob_desc_notes": "NoteIn the first sample test case it is possible to change letters 'b' in cells $$$(2, 1)$$$ and $$$(3, 1)$$$ to 'a', then the minimum path contains cells $$$(1, 1), (2, 1), (3, 1), (4, 1), (4, 2), (4, 3), (4, 4)$$$. The first coordinate corresponds to the row and the second coordinate corresponds to the column.",
+    "prob_desc_description": "You are given a matrix of size $$$n \\times n$$$ filled with lowercase English letters. You can change no more than $$$k$$$ letters in this matrix.Consider all paths from the upper left corner to the lower right corner that move from a cell to its neighboring cell to the right or down. Each path is associated with the string that is formed by all the letters in the cells the path visits. Thus, the length of each string is $$$2n - 1$$$.Find the lexicographically smallest string that can be associated with a path after changing letters in at most $$$k$$$ cells of the matrix.A string $$$a$$$ is lexicographically smaller than a string $$$b$$$, if the first different letter in $$$a$$$ and $$$b$$$ is smaller in $$$a$$$.",
+    "prob_desc_output_spec": "Output the lexicographically smallest string that can be associated with some valid path after changing no more than $$$k$$$ letters in the matrix.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 2000$$$, $$$0 \\le k \\le n^2$$$) — the size of the matrix and the number of letters you can change. Each of the next $$$n$$$ lines contains a string of $$$n$$$ lowercase English letters denoting one row of the matrix.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_005.jsonl",
+    "code_uid": "cde2007bcc5838b67bd7500bdd17820f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\nabcd\\nbcde\\nbcad\\nbcde\", \"5 3\\nbwwwz\\nhrhdh\\nsepsp\\nsqfaf\\najbvw\", \"7 6\\nypnxnnp\\npnxonpm\\nnxanpou\\nxnnpmud\\nnhtdudu\\nnpmuduh\\npmutsnz\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from array import array\ninf = (1 << 30)\n\ndef main():\n    (n,k) = [int(x) for x in input().split(' ')]\n    Matrix = []\n    for i in range(n):\n        Matrix.append(array('b',[ord(x) for x in input()]))\n    dp = [array('l', [inf for j in range(n)]) for i in range(n)]\n    direct = [[ord('d') for j in range(n)] for i in range(n)]\n    opt = \"\"\n    for s in range (2 * n - 1):\n        opchar = chr(ord('z') + 1)\n        positions = []\n        for i in range(0, s+1):\n            j = s - i;\n            if j < n and i < n:\n                if(i > 0 and j > 0):\n                    if(dp[i-1][j] < dp[i][j-1]):\n                        dp[i][j] = dp[i-1][j]\n                        direct[i][j] = 'l'\n                    else:\n                       dp[i][j] = dp[i][j-1]\n                       direct[i][j] = 'd'\n                elif i > 0:\n                    dp[i][j] = dp[i-1][j]\n                    direct[i][j] = 'l'\n                elif j > 0:\n                    dp[i][j] = dp[i][j-1]\n                    direct[i][j] = 'd'\n                else:\n                    dp[i][j] = 0\n                    direct[i][j] = 'e'\n                if(dp[i][j] < k and Matrix[i][j] is not ord('a')):\n                    dp[i][j]+=1\n                    Matrix[i][j] = ord('a')\n                if(Matrix[i][j] < ord(opchar) and dp[i][j] <= k):\n                     opchar = chr(Matrix[i][j])\n        for i in range(0, s+1):\n            j = s - i;\n            if j < n and i < n:\n                if(Matrix[i][j] is not ord(opchar)):\n                    dp[i][j] = inf\n    ans = \"\"\n    a,b = (n-1,n-1)\n    while(direct[a][b] is not 'e'):\n        ans += chr(Matrix[a][b])\n        if(direct[a][b] is 'l'):\n            a-=1\n        else:\n            b-=1\n    ans += chr(Matrix[0][0])\n    print(ans[::-1])\n\nmain()\n",
+    "prob_desc_created_at": "1540109400",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

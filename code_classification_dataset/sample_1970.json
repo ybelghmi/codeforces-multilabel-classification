@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\"]",
+    "src_uid": "391be6b61e289ec9c14222ea580cfcdc",
+    "prob_desc_notes": null,
+    "prob_desc_description": "On Bertown's main street n trees are growing, the tree number i has the height of ai meters (1 ≤ i ≤ n). By the arrival of the President of Berland these trees were decided to be changed so that their heights formed a beautiful sequence. This means that the heights of trees on ends (the 1st one and the n-th one) should be equal to each other, the heights of the 2-nd and the (n - 1)-th tree must also be equal to each other, at that the height of the 2-nd tree should be larger than the height of the first tree by 1, and so on. In other words, the heights of the trees, standing at equal distance from the edge (of one end of the sequence) must be equal to each other, and with the increasing of the distance from the edge by 1 the tree height must also increase by 1. For example, the sequences \"2 3 4 5 5 4 3 2\" and \"1 2 3 2 1\" are beautiful, and '1 3 3 1\" and \"1 2 3 1\" are not. Changing the height of a tree is a very expensive operation, using advanced technologies invented by Berland scientists. In one operation you can choose any tree and change its height to any number, either increase or decrease. Note that even after the change the height should remain a positive integer, i. e, it can't be less than or equal to zero. Identify the smallest number of changes of the trees' height needed for the sequence of their heights to become beautiful.",
+    "prob_desc_output_spec": "Print a single number which is the minimal number of trees whose heights will have to be changed for the sequence to become beautiful.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105) which is the number of trees. The second line contains integers ai (1 ≤ ai ≤ 105) which are the heights of the trees.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_015.jsonl",
+    "code_uid": "dd54a49e9ecc5d630486d0cad50d305e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 2 2\", \"4\\n1 2 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom array import array  # noqa: F401\n\n\ndef input():\n    return sys.stdin.buffer.readline().decode('utf-8')\n\n\nn = int(input())\na = list(map(int, input().split()))\nup = sorted([x - min(l, r) for l, r, x in zip(range(1, n + 1), range(n, 0, -1), a)], reverse=True)\ndown_count = 0\nzero_count = 0\nwhile up and up[-1] <= 0:\n    if up[-1] == 0:\n        zero_count += 1\n    else:\n        down_count += 1\n    up.pop()\n\nans = n - zero_count\n\nfor i in range(1, 10**5 + 1):\n    down_count += zero_count\n    zero_count = 0\n\n    while up and up[-1] == i:\n        up.pop()\n        zero_count += 1\n\n    ans = min(ans, n - zero_count)\n\nprint(ans)\n",
+    "prob_desc_created_at": "1296489600",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

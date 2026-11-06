@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\", \"No\"]",
+    "src_uid": "96e3a1366f578ea4bbc078f2c3e3c387",
+    "prob_desc_notes": "Note2-multihedgehog from the first example looks like this:Its center is vertex $$$13$$$. Hedgehogs created on last step are: [4 (center), 1, 2, 3], [6 (center), 7, 8, 9], [5 (center), 10, 11, 12, 13].Tree from second example is not a hedgehog because degree of center should be at least $$$3$$$.",
+    "prob_desc_description": "Someone give a strange birthday present to Ivan. It is hedgehog — connected undirected graph in which one vertex has degree at least $$$3$$$ (we will call it center) and all other vertices has degree 1. Ivan thought that hedgehog is too boring and decided to make himself $$$k$$$-multihedgehog.Let us define $$$k$$$-multihedgehog as follows: $$$1$$$-multihedgehog is hedgehog: it has one vertex of degree at least $$$3$$$ and some vertices of degree 1. For all $$$k \\ge 2$$$, $$$k$$$-multihedgehog is $$$(k-1)$$$-multihedgehog in which the following changes has been made for each vertex $$$v$$$ with degree 1: let $$$u$$$ be its only neighbor; remove vertex $$$v$$$, create a new hedgehog with center at vertex $$$w$$$ and connect vertices $$$u$$$ and $$$w$$$ with an edge. New hedgehogs can differ from each other and the initial gift. Thereby $$$k$$$-multihedgehog is a tree. Ivan made $$$k$$$-multihedgehog but he is not sure that he did not make any mistakes. That is why he asked you to check if his tree is indeed $$$k$$$-multihedgehog.",
+    "prob_desc_output_spec": "Print \"Yes\" (without quotes), if given graph is $$$k$$$-multihedgehog, and \"No\" (without quotes) otherwise.",
+    "prob_desc_input_spec": "First line of input contains $$$2$$$ integers $$$n$$$, $$$k$$$ ($$$1 \\le n \\le 10^{5}$$$, $$$1 \\le k \\le 10^{9}$$$) — number of vertices and hedgehog parameter. Next $$$n-1$$$ lines contains two integers $$$u$$$ $$$v$$$ ($$$1 \\le u, \\,\\, v \\le n; \\,\\, u \\ne v$$$) — indices of vertices connected by edge. It is guaranteed that given graph is a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_058.jsonl",
+    "code_uid": "9dab52258e5dd765034f7dac90c5265b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"14 2\\n1 4\\n2 4\\n3 4\\n4 13\\n10 5\\n11 5\\n12 5\\n14 5\\n5 13\\n6 7\\n8 6\\n13 6\\n9 6\", \"3 1\\n1 3\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\nn,k = map(int,input().split())\nd = {}\nfor i in range(n):\n    d[i+1] = set()\nfor i in range(n-1):\n    u,v = map(int,input().split())\n    d[u].add(v)\n    d[v].add(u)\ndist = {}\nprev = {}\ndist[1] = 0\nq = deque()\nq.append(1)\nwhile len(q) >0:\n    cur =  q.popleft()\n    for x in d[cur]:\n        if x not in dist:\n            prev[x] = cur\n            dist[x] = dist[cur]+1\n            q.append(x)\nanswer = True\nif k > dist[cur]:\n    answer = False\nelse:\n    for i in range(k):\n        cur = prev[cur]\n    dist2 = {}\n    dist2[cur] = 0\n    q = deque()\n    q.append(cur)\n    while len(q) >0:\n        cur2 =  q.popleft()\n        if cur2 == cur and len(d[cur]) < 3:\n            answer = False\n            break\n        if len(d[cur2]) == 1:\n            if dist2[cur2] != k:\n                answer = False\n                break\n        elif len(d[cur2]) < 4 and cur2 != cur:\n            answer = False\n            break\n        for x in d[cur2]:\n            if x not in dist2:\n                dist2[x] = dist2[cur2]+1\n                q.append(x)\nif answer:\n    print(\"Yes\")\nelse:\n    print(\"No\")\n",
+    "prob_desc_created_at": "1540398900",
+    "tags": [
+        "graphs",
+        "trees",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

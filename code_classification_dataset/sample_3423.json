@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"2\\n2 1\", \"-1\"]",
+    "src_uid": "8e6e50d43ed246234d763271f4ae655a",
+    "prob_desc_notes": "NoteA path is called simple if all huts on it are pairwise different.",
+    "prob_desc_description": "After Santa Claus and his assistant Elf delivered all the presents and made all the wishes come true, they returned to the North Pole and found out that it is all covered with snow. Both of them were quite tired and they decided only to remove the snow from the roads connecting huts. The North Pole has n huts connected with m roads. One can go along the roads in both directions. The Elf offered to split: Santa Claus will clear up the wide roads and the Elf will tread out the narrow roads. For each road they decided who will clear it: Santa Claus or the Elf. To minimize the efforts they decided to clear the road so as to fulfill both those conditions:   between any two huts should exist exactly one simple path along the cleared roads;  Santa Claus and the Elf should clear the same number of roads. At this point Santa Claus and his assistant Elf wondered which roads should they clear up?",
+    "prob_desc_output_spec": "Print \"-1\" without the quotes if it is impossible to choose the roads that will be cleared by the given rule. Otherwise print in the first line how many roads should be cleared and in the second line print the numbers of those roads (the roads are numbered from 1 in the order of occurrence in the input). It is allowed to print the numbers of the roads in any order. Each number should be printed exactly once. As you print the numbers, separate them with spaces.",
+    "prob_desc_input_spec": "The first input line contains two positive integers n and m (1 ≤ n ≤ 103, 1 ≤ m ≤ 105) — the number of huts and the number of roads. Then follow m lines, each of them contains a road description: the numbers of huts it connects — x and y (1 ≤ x, y ≤ n) and the person responsible for clearing out this road (\"S\" — for the Elf or \"M\" for Santa Claus). It is possible to go on each road in both directions. Note that there can be more than one road between two huts and a road can begin and end in the same hut.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_058.jsonl",
+    "code_uid": "2dc225de4a762f3eb54243fc8a087d55",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 2\\n1 1 S\\n1 1 M\", \"3 3\\n1 2 S\\n1 3 M\\n2 3 S\", \"5 6\\n1 1 S\\n1 2 M\\n1 3 S\\n1 4 M\\n1 5 M\\n2 2 S\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class DSU(object):\n    def __init__(self, n):\n        self.pnt = [-1] * n\n\n    def find(self, x):\n        pnt = self.pnt\n        if pnt[x] == -1:\n            return x\n        pnt[x] = self.find(pnt[x])\n        return pnt[x]\n\n    def join(self, u, v):\n        pnt = self.pnt\n        u = self.find(u)\n        v = self.find(v)\n        if u != v:\n            pnt[v] = u\n            return True\n        return False\n\n    def same(self, u, v):\n        u = self.find(u)\n        v = self.find(v)\n        return u == v\n\ndef main():\n    n, m = map(int, raw_input().split())\n    e1 = []\n    e2 = []\n    for i in range(m):\n        u, v, t = raw_input().split()\n        u = int(u) - 1\n        v = int(v) - 1\n        if t == 'S':\n            e1.append((u, v, i + 1))\n        else:\n            e2.append((u, v, i + 1))\n\n    if n % 2 == 0:\n        print-1\n        return\n\n    dsu1 = DSU(n)\n    for u, v, i in e2:\n        dsu1.join(u, v)\n\n    dsu2 = DSU(n)\n    ans = []\n    for u, v, i in e1:\n        if not dsu1.same(u, v):\n            dsu1.join(u, v)\n            dsu2.join(u, v)\n            ans.append(i)\n\n    half = (n - 1) / 2\n    for u, v, i in e1:\n        if len(ans) < half and dsu2.join(u, v):\n            ans.append(i)\n\n    if len(ans) != half:\n        print -1\n        return\n\n    for u, v, i in e2:\n        if len(ans) < half * 2 and dsu2.join(u, v):\n            ans.append(i)\n\n    print len(ans)\n    for i in ans:\n        print i,\n    print\n\nmain()\n",
+    "prob_desc_created_at": "1326034800",
+    "tags": [
+        "dp",
+        "constructive algorithms",
+        "dsu",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

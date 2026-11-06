@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n2 1 3\", \"NO\"]",
+    "src_uid": "ff5b3d5fa52c2505556454011e8a0f58",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Several years ago Tolya had n computer games and at some point of time he decided to burn them to CD. After that he wrote down the names of the games one after another in a circle on the CD in clockwise order. The names were distinct, the length of each name was equal to k. The names didn't overlap.Thus, there is a cyclic string of length n·k written on the CD.Several years have passed and now Tolya can't remember which games he burned to his CD. He knows that there were g popular games that days. All of the games he burned were among these g games, and no game was burned more than once.You have to restore any valid list of games Tolya could burn to the CD several years ago.",
+    "prob_desc_output_spec": "If there is no answer, print \"NO\" (without quotes). Otherwise, print two lines. In the first line print \"YES\" (without quotes). In the second line, print n integers — the games which names were written on the CD. You should print games in the order they could have been written on the CD, it means, in clockwise order. You can print games starting from any position. Remember, that no game was burned to the CD more than once. If there are several possible answers, print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains two positive integers n and k (1 ≤ n ≤ 105, 1 ≤ k ≤ 105) — the amount of games Tolya burned to the CD, and the length of each of the names. The second line of the input contains one string consisting of lowercase English letters — the string Tolya wrote on the CD, split in arbitrary place. The length of the string is n·k. It is guaranteed that the length is not greater than 106. The third line of the input contains one positive integer g (n ≤ g ≤ 105) — the amount of popular games that could be written on the CD. It is guaranteed that the total length of names of all popular games is not greater than 2·106. Each of the next g lines contains a single string — the name of some popular game. Each name consists of lowercase English letters and has length k. It is guaranteed that the names are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_004.jsonl",
+    "code_uid": "c0e45f7091360a9c77189ba8551070c8",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\nabc\\n4\\nb\\na\\nc\\nd\", \"4 2\\naabbccdd\\n4\\ndd\\nab\\nbc\\ncd\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, raw_input().split())\ns = raw_input()\ng = int(raw_input())\ngames = [raw_input() for i in range(g)]\n\nMOD_1 = 1000000007\nBASE_1 = 31\n\nMOD_2 = 1000000409\nBASE_2 = 29\n\nhashes_1 = []\nhashes_2 = []\nhash_inv = {}\ngame_inv = {}\nfor i, game in enumerate(games):\n    h_1 = 0\n    h_2 = 0\n    for c in game:\n        h_1 *= BASE_1\n        h_2 *= BASE_2\n        h_1 += ord(c) - ord('a')\n        h_2 += ord(c) - ord('a')\n        h_1 %= MOD_1\n        h_2 %= MOD_2\n    hashes_1.append(h_1)\n    hashes_2.append(h_2)\n    hash_inv[(h_1, h_2)] = i\n    game_inv[game] = i\n\n# assert len(hash_inv) == g\n# compute rolling hash on cd string\n# find all residues (mod k) at which each game appears\n\ns = s + s\nh_1 = 0\nh_2 = 0\nfor i in range(k):\n    h_1 *= BASE_1\n    h_2 *= BASE_2\n    h_1 += ord(s[i]) - ord('a')\n    h_2 += ord(s[i]) - ord('a')\n    h_1 %= MOD_1\n    h_2 %= MOD_2\n\ncoef_1 = pow(BASE_1, k - 1, MOD_1)\ncoef_2 = pow(BASE_2, k - 1, MOD_2)\nresidues = [set() for i in range(g)]\nfor i in range(k, len(s)):\n    # first, consider the word at [i - k, i)\n    # (h = hash of that word)\n    if (h_1, h_2) in hash_inv:\n        residues[hash_inv[(h_1, h_2)]].add(i % k)\n    # update h for next word\n    h_1 -= coef_1 * (ord(s[i - k]) - ord('a'))\n    h_2 -= coef_2 * (ord(s[i - k]) - ord('a'))\n    h_1 *= BASE_1\n    h_2 *= BASE_2\n    h_1 += ord(s[i]) - ord('a')\n    h_2 += ord(s[i]) - ord('a')\n    h_1 %= MOD_1\n    h_2 %= MOD_2\n\nres_freq = [0]*k\nfor i in range(g):\n    for res in residues[i]:\n        res_freq[res] += 1\n\nuse = -1\nfor i in range(k):\n    # if s.startswith(\"muytqaevcsnqpkfxq\"):\n    #     print i, res_freq[i], n\n    if res_freq[i] >= n:\n        use = i\n        break\n\nif use == -1:\n    print \"NO\"\nelse:\n    print \"YES\"\n    ans = []\n    for i in range(n):\n        idx = k*i + use\n        ss = s[idx:idx+k]\n        ans.append(game_inv[ss] + 1)\n    print \" \".join(map(str, ans))\n",
+    "prob_desc_created_at": "1476522300",
+    "tags": [
+        "data structures",
+        "string suffix structures",
+        "hashing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

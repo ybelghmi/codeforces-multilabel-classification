@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"4\", \"0\"]",
+    "src_uid": "dfb1479ffa17489095b6bf1921758f7e",
+    "prob_desc_notes": "NoteIn the first example the fifth event is contained in the fourth. Similarly, the fourth event is contained in the third, the third — in the second and the second — in the first.In the second example all events except the first one are contained in the first.In the third example only one event, so the answer is 0.",
+    "prob_desc_description": "Polycarpus likes studying at school a lot and he is always diligent about his homework. Polycarpus has never had any problems with natural sciences as his great-great-grandfather was the great physicist Seinstein. On the other hand though, Polycarpus has never had an easy time with history.Everybody knows that the World history encompasses exactly n events: the i-th event had continued from the year ai to the year bi inclusive (ai &lt; bi). Polycarpus easily learned the dates when each of n events started and ended (Polycarpus inherited excellent memory from his great-great-granddad). But the teacher gave him a more complicated task: Polycaprus should know when all events began and ended and he should also find out for each event whether it includes another event. Polycarpus' teacher thinks that an event j includes an event i if aj &lt; ai and bi &lt; bj. Your task is simpler: find the number of events that are included in some other event.",
+    "prob_desc_output_spec": "Print the only integer — the answer to the problem.",
+    "prob_desc_input_spec": "The first input line contains integer n (1 ≤ n ≤ 105) which represents the number of events. Next n lines contain descriptions of the historical events, one event per line. The i + 1 line contains two integers ai and bi (1 ≤ ai &lt; bi ≤ 109) — the beginning and the end of the i-th event. No two events start or finish in the same year, that is, ai ≠ aj, ai ≠ bj, bi ≠ aj, bi ≠ bj for all i, j (where i ≠ j). Events are given in arbitrary order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_025.jsonl",
+    "code_uid": "46475db1869b21d93e7665ae703625d9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 10\\n2 9\\n3 8\\n4 7\\n5 6\", \"5\\n1 100\\n2 50\\n51 99\\n52 98\\n10 60\", \"1\\n1 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/python\nimport itertools, math, os, random, re, sys\nrandom.seed (1234)\n\nwhile True:\n\ts = sys.stdin.readline ().strip ()\n\tif s == '':\n\t\ts = sys.stdin.readline ().strip ()\n\t\tif s == '':\n\t\t\tbreak\n\tn = int (s)\n\tp = []\n\tfor i in range (n):\n\t\tq = map (int, sys.stdin.readline ().split ())\n\t\tp += [q]\n\tp.sort ()\n\thi = -1\n\tres = 0\n\tfor i in range (n):\n\t\thi = max (hi, p[i][1])\n\t\tif p[i][1] < hi:\n\t\t\tres += 1\n\tprint res\n",
+    "prob_desc_created_at": "1324015200",
+    "tags": [
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

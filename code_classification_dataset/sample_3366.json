@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"0\"]",
+    "src_uid": "4798211615bcff8730378330756ae63f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Once Bob took a paper stripe of n squares (the height of the stripe is 1 square). In each square he wrote an integer number, possibly negative. He became interested in how many ways exist to cut this stripe into three pieces so that the sum of numbers from each piece is equal to the sum of numbers from any other piece, and each piece contains positive integer amount of squares. Would you help Bob solve this problem?",
+    "prob_desc_output_spec": "Output the amount of ways to cut the stripe into three non-empty pieces so that the sum of numbers from each piece is equal to the sum of numbers from any other piece. Don't forget that it's allowed to cut the stripe along the squares' borders only.",
+    "prob_desc_input_spec": "The first input line contains integer n (1 ≤ n ≤ 105) — amount of squares in the stripe. The second line contains n space-separated numbers — they are the numbers written in the squares of the stripe. These numbers are integer and do not exceed 10000 in absolute value.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_055.jsonl",
+    "code_uid": "aac4e4af76c444ab9a452d3bc24dc091",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2 3 3\", \"5\\n1 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from itertools import accumulate\nn = int(input())\na = list(map(int, input().split()))\ns = sum(a)\np = s // 3\nk = list(accumulate(a))\nr = list(accumulate(x == 2*p for x in reversed(k)))\nprint(0 if s%3 else sum(r[-1-i] - 2*(not p) for i,x in enumerate(k[:-1]) if x == p))",
+    "prob_desc_created_at": "1277730300",
+    "tags": [
+        "dp",
+        "binary search",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

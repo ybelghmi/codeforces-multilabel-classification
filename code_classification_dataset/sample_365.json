@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nNO\\nYES\\nYES\\nYES\\nYES\"]",
+    "src_uid": "78f25e2bc4ff22dbac94f72af68a745f",
+    "prob_desc_notes": "NoteOne possible casting sequence of the first test case is shown below: Void Absorption $$$\\left\\lfloor \\frac{100}{2} \\right\\rfloor + 10=60$$$. Lightning Strike $$$60-10=50$$$. Void Absorption $$$\\left\\lfloor \\frac{50}{2} \\right\\rfloor + 10=35$$$. Void Absorption $$$\\left\\lfloor \\frac{35}{2} \\right\\rfloor + 10=27$$$. Lightning Strike $$$27-10=17$$$. Lightning Strike $$$17-10=7$$$. Lightning Strike $$$7-10=-3$$$.",
+    "prob_desc_description": "Kana was just an ordinary high school girl before a talent scout discovered her. Then, she became an idol. But different from the stereotype, she is also a gameholic. One day Kana gets interested in a new adventure game called Dragon Quest. In this game, her quest is to beat a dragon. The dragon has a hit point of $$$x$$$ initially. When its hit point goes to $$$0$$$ or under $$$0$$$, it will be defeated. In order to defeat the dragon, Kana can cast the two following types of spells.  Void Absorption Assume that the dragon's current hit point is $$$h$$$, after casting this spell its hit point will become $$$\\left\\lfloor \\frac{h}{2} \\right\\rfloor + 10$$$. Here $$$\\left\\lfloor \\frac{h}{2} \\right\\rfloor$$$ denotes $$$h$$$ divided by two, rounded down. Lightning Strike This spell will decrease the dragon's hit point by $$$10$$$. Assume that the dragon's current hit point is $$$h$$$, after casting this spell its hit point will be lowered to $$$h-10$$$.Due to some reasons Kana can only cast no more than $$$n$$$ Void Absorptions and $$$m$$$ Lightning Strikes. She can cast the spells in any order and doesn't have to cast all the spells. Kana isn't good at math, so you are going to help her to find out whether it is possible to defeat the dragon.",
+    "prob_desc_output_spec": "If it is possible to defeat the dragon, print \"YES\" (without quotes). Otherwise, print \"NO\" (without quotes). You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 1000$$$)  — the number of test cases. The next $$$t$$$ lines describe test cases. For each test case the only line contains three integers $$$x$$$, $$$n$$$, $$$m$$$ ($$$1\\le x \\le 10^5$$$, $$$0\\le n,m\\le30$$$)  — the dragon's intitial hit point, the maximum number of Void Absorptions and Lightning Strikes Kana can cast respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_001.jsonl",
+    "code_uid": "134edbe2dba84432cdd1bf3d7310f3d9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n100 3 4\\n189 3 4\\n64 2 3\\n63 2 3\\n30 27 7\\n10 9 1\\n69117 21 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import atexit, io, sys \n\n  \n# A stream implementation using an in-memory bytes  \n# buffer. It inherits BufferedIOBase. \n\nbuffer = io.BytesIO() \n\nsys.stdout = buffer\n\n  \n# print via here \n\n@atexit.register \n\ndef write(): \n\n    sys.__stdout__.write(buffer.getvalue()) \nfor _ in range(input()):\n    x,n,m=map(int,raw_input().split())\n    p=0\n    while(n):\n        \n        y=x/2+10\n        if x<=y:\n            break\n        else:\n            x=y\n        n-=1\n    if (x+9)/10<=m:\n        print \"YES\"\n    else:\n        print \"NO\"",
+    "prob_desc_created_at": "1586961300",
+    "tags": [
+        "implementation",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

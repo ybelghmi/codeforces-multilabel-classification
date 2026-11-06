@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"NO\\nYES\\nNO\\nYES\\nYES\"]",
+    "src_uid": "6308f9f5dc78dd44af587aea9f0a646c",
+    "prob_desc_notes": "NoteIn the first query, requested subarray is $$$[1234, 2, 3, 3, 2, 1]$$$, and it's obvious that the number of occurrence of $$$1$$$ isn't divisible by $$$k = 2$$$. So the answer is \"NO\".In the third query, requested subarray is $$$[1, 2, 3, 3, 2, 1]$$$, and it can be seen that the number of occurrence of every integer in this sub array is divisible by $$$k = 2$$$. So the answer is \"YES\".In the sixth query, requested subarray is $$$[1, 2, 3, 3, 2, 1, 1, 2, 3]$$$, and it can be seen that the number of occurrence of every integer in this sub array is divisible by $$$k = 3$$$. So the answer is \"YES\".",
+    "prob_desc_description": "You have an array $$$a$$$ consisting of $$$n$$$ positive integers and you have to handle $$$q$$$ queries of the following types:  $$$1$$$ $$$i$$$ $$$x$$$: change $$$a_{i}$$$ to $$$x$$$,  $$$2$$$ $$$l$$$ $$$r$$$ $$$k$$$: check if the number of occurrences of every positive integer in the subarray $$$a_{l}, a_{l+1}, \\ldots a_{r}$$$ is a multiple of $$$k$$$ (check the example for better understanding). ",
+    "prob_desc_output_spec": "For each query of the second type, if answer of the query is yes, print \"YES\", otherwise print \"NO\".",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$q$$$ ($$$1 \\le n , q \\le 3 \\cdot 10^5$$$), the length of $$$a$$$ and the number of queries. Next line contains $$$n$$$ integers $$$a_{1}, a_{2}, \\ldots a_{n}$$$ ($$$1 \\le a_{i} \\le 10^9$$$) — the elements of $$$a$$$. Each of the next $$$q$$$ lines describes a query. It has one of the following forms.   $$$1$$$ $$$i$$$ $$$x$$$, ($$$1 \\le i \\le n$$$ , $$$1 \\le x \\le 10^9$$$), or  $$$2$$$ $$$l$$$ $$$r$$$ $$$k$$$, ($$$1 \\le l \\le r \\le n$$$ , $$$1 \\le k \\le n$$$). ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_103.jsonl",
+    "code_uid": "0fd5e06704cf2c901915b371c96fd09b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 8\\n1234 2 3 3 2 1 1 2 3 4\\n2 1 6 2\\n1 1 1\\n2 1 6 2\\n2 1 9 2\\n1 10 5\\n2 1 9 3\\n1 3 5\\n2 3 10 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\r\ninput=lambda :stdin.readline()[:-1]\r\n\r\n\r\n\r\nclass segtree():\r\n  def __init__(self,init,func,ide):\r\n    self.n=len(init)\r\n    self.func=func\r\n    self.ide=ide\r\n    self.size=1<<(self.n-1).bit_length()\r\n    self.tree=[self.ide for i in range(2*self.size)]\r\n    for i in range(self.n):\r\n      self.tree[self.size+i]=init[i]\r\n    for i in range(self.size-1,0,-1):\r\n      self.tree[i]=self.func(self.tree[2*i], self.tree[2*i|1])\r\n  \r\n  def update(self,k,x):\r\n    k+=self.size\r\n    self.tree[k]=x\r\n    k>>=1\r\n    while k:\r\n      self.tree[k]=self.func(self.tree[2*k],self.tree[k*2|1])\r\n      k>>=1\r\n  \r\n  def get(self,i):\r\n    return self.tree[i+self.size]\r\n  \r\n  def query(self,l,r):\r\n    l+=self.size\r\n    r+=self.size\r\n    l_res=self.ide\r\n    r_res=self.ide\r\n    while l<r:\r\n      if l&1:\r\n        l_res=self.func(l_res,self.tree[l])\r\n        l+=1\r\n      if r&1:\r\n        r-=1\r\n        r_res=self.func(self.tree[r],r_res)\r\n      l>>=1\r\n      r>>=1\r\n    return self.func(l_res,r_res)\r\n  \r\n  def debug(self,s=10):\r\n    print([self.get(i) for i in range(min(self.n,s))])\r\n\r\nn,q=map(int,input().split())\r\na=list(map(int,input().split()))\r\nuse={}\r\nid=0\r\nfor i in range(n):\r\n  if a[i] not in use:\r\n    use[a[i]]=id\r\n    id+=1\r\n  a[i]=use[a[i]]\r\n\r\nquery=[]\r\nfor _ in range(q):\r\n  tmp=list(map(int,input().split()))\r\n  if tmp[0]==1:\r\n    t,i,x=tmp\r\n    if x not in use:\r\n      use[x]=id\r\n      id+=1\r\n    query.append((t,i,use[x],0))\r\n  else:\r\n    query.append(tuple(tmp))\r\n\r\n\r\nm=6\r\n\r\n\r\nimport random\r\n\r\ndef make_hash():\r\n  x=random.randint(0,1)\r\n  y=random.randint(0,1)\r\n  z=random.randint(0,1)\r\n  return x|(y<<20)|(z<<40)\r\n\r\nM=id\r\n\r\ndef conv(x,y):\r\n  return y*m+x\r\n\r\nhash=[make_hash() for i in range(m*M)]\r\nhash_xor=[random.randint(10**3,1<<60) for i in range(M)]\r\n\r\nsegs=[]\r\n\r\nfor i in range(m):\r\n  x=[hash[conv(i,j)] for j in a]\r\n  seg=segtree(x,lambda p,q:p+q,0)\r\n  segs.append(seg)\r\n\r\nseg_xor=segtree([hash_xor[i] for i in a],lambda p,q:p^q,0)\r\n\r\nans=[]\r\ntmp=0\r\n\r\nmask=(1<<20)-1\r\n\r\nfor ii in range(q):\r\n  query_tmp=query[ii]\r\n  if query_tmp[0]==1:\r\n    x,y,_=query_tmp[1:]\r\n    x-=1\r\n    for i in range(m):\r\n      segs[i].update(x,hash[conv(i,y)])\r\n    seg_xor.update(x,hash_xor[y])\r\n    \r\n  else:\r\n    l,r,k=query_tmp[1:]\r\n    l-=1\r\n    flag=True\r\n    if k==2:\r\n      if seg_xor.query(l,r)==0:\r\n        print('YES')\r\n      else:\r\n        print('NO')\r\n    else:\r\n      for i in range(m):\r\n        w=segs[i].query(l,r)\r\n        x=w&mask\r\n        y=(w>>20)&mask\r\n        z=(w>>40)&mask\r\n        if x%k!=0 or y%k!=0 or z%k!=0:\r\n          flag=False\r\n          break\r\n      if flag:\r\n        print('YES')\r\n      else:\r\n        print('NO')",
+    "prob_desc_created_at": "1665844500",
+    "tags": [
+        "data structures",
+        "hashing",
+        "probabilities"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"0 0 1 2\", \"5 4 0 5 3 3 9 0 2 5\"]",
+    "src_uid": "4687176445ed1087864b081a181e1840",
+    "prob_desc_notes": "NoteIn the first example, the first programmer can not be mentor of any other (because only the second programmer has a skill, lower than first programmer skill, but they are in a quarrel). The second programmer can not be mentor of any other programmer, because his skill is minimal among others. The third programmer can be a mentor of the second programmer. The fourth programmer can be a mentor of the first and of the second programmers. He can not be a mentor of the third programmer, because they are in a quarrel.",
+    "prob_desc_description": "In BerSoft $$$n$$$ programmers work, the programmer $$$i$$$ is characterized by a skill $$$r_i$$$.A programmer $$$a$$$ can be a mentor of a programmer $$$b$$$ if and only if the skill of the programmer $$$a$$$ is strictly greater than the skill of the programmer $$$b$$$ $$$(r_a &gt; r_b)$$$ and programmers $$$a$$$ and $$$b$$$ are not in a quarrel.You are given the skills of each programmers and a list of $$$k$$$ pairs of the programmers, which are in a quarrel (pairs are unordered). For each programmer $$$i$$$, find the number of programmers, for which the programmer $$$i$$$ can be a mentor.",
+    "prob_desc_output_spec": "Print $$$n$$$ integers, the $$$i$$$-th number should be equal to the number of programmers, for which the $$$i$$$-th programmer can be a mentor. Programmers are numbered in the same order that their skills are given in the input.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ $$$(2 \\le n \\le 2 \\cdot 10^5$$$, $$$0 \\le k \\le \\min(2 \\cdot 10^5, \\frac{n \\cdot (n - 1)}{2}))$$$ — total number of programmers and number of pairs of programmers which are in a quarrel. The second line contains a sequence of integers $$$r_1, r_2, \\dots, r_n$$$ $$$(1 \\le r_i \\le 10^{9})$$$, where $$$r_i$$$ equals to the skill of the $$$i$$$-th programmer. Each of the following $$$k$$$ lines contains two distinct integers $$$x$$$, $$$y$$$ $$$(1 \\le x, y \\le n$$$, $$$x \\ne y)$$$ — pair of programmers in a quarrel. The pairs are unordered, it means that if $$$x$$$ is in a quarrel with $$$y$$$ then $$$y$$$ is in a quarrel with $$$x$$$. Guaranteed, that for each pair $$$(x, y)$$$ there are no other pairs $$$(x, y)$$$ and $$$(y, x)$$$ in the input.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_007.jsonl",
+    "code_uid": "7cd1c1f4f0af4381811c456868b78109",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n10 4 10 15\\n1 2\\n4 3\", \"10 4\\n5 4 1 5 4 3 7 1 2 5\\n4 6\\n2 1\\n10 8\\n3 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import bisect\nn,k=map(int,input().split())\nr,o=list(map(int,input().split())),''\nd={}\nfor i in range(k):\n    a,b=map(int,input().split())\n    if [b]!=d.setdefault(a,[b]):\n        d[a]+=[b]\n    if [a]!=d.setdefault(b,[a]):\n        d[b]+=[a]\nrr=sorted(r)\nfor i in range(1,n+1):\n    a=bisect.bisect_left(rr,r[i-1])\n    if i in d:\n        for j in d[i]:\n            if r[j-1]<r[i-1]:\n                a-=1\n    o+=str(a)+' '\nprint(o)\n",
+    "prob_desc_created_at": "1582202100",
+    "tags": [
+        "data structures",
+        "binary search",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

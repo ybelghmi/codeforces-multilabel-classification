@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"26\\n5\\n37\\n5\"]",
+    "src_uid": "3696b769bfd32cba34e739b74e13693f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array $$$a$$$ consisting of $$$n$$$ integers. Indices of the array start from zero (i. e. the first element is $$$a_0$$$, the second one is $$$a_1$$$, and so on).You can reverse at most one subarray (continuous subsegment) of this array. Recall that the subarray of $$$a$$$ with borders $$$l$$$ and $$$r$$$ is $$$a[l; r] = a_l, a_{l + 1}, \\dots, a_{r}$$$.Your task is to reverse such a subarray that the sum of elements on even positions of the resulting array is maximized (i. e. the sum of elements $$$a_0, a_2, \\dots, a_{2k}$$$ for integer $$$k = \\lfloor\\frac{n-1}{2}\\rfloor$$$ should be maximum possible).You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer on the separate line — the maximum possible sum of elements on even positions after reversing at most one subarray (continuous subsegment) of $$$a$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 2 \\cdot 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of the test case contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the length of $$$a$$$. The second line of the test case contains $$$n$$$ integers $$$a_0, a_1, \\dots, a_{n-1}$$$ ($$$1 \\le a_i \\le 10^9$$$), where $$$a_i$$$ is the $$$i$$$-th element of $$$a$$$. It is guaranteed that the sum of $$$n$$$ does not exceed $$$2 \\cdot 10^5$$$ ($$$\\sum n \\le 2 \\cdot 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_010.jsonl",
+    "code_uid": "bbe3ac2922b91030e6a51b0e11009273",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n8\\n1 7 3 4 7 6 2 9\\n5\\n1 2 1 2 1\\n10\\n7 8 4 5 7 6 8 9 7 3\\n4\\n3 1 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter, defaultdict, deque\nimport bisect\nfrom sys import stdin, stdout\nfrom itertools import repeat\nimport math\n\n# sys.stdin = open('input')\n\ndef inp(force_list=False):\n    re = map(int, raw_input().split())\n    if len(re) == 1 and not force_list:\n        return re[0]\n    return re\n\ndef inst():\n    return raw_input().strip()\n\ndef gcd(x, y):\n   while(y):\n       x, y = y, x % y\n   return x\n\nmod = 1000000007\n\ndef my_main():\n    T = inp()\n    for i in range(T):\n        n = inp()\n        da = inp(True)\n        ans = 0\n        dp = []\n        dp2 = []\n        for i in range(n):\n            if i%2==0:\n                ans += da[i]\n                if i>=2:\n                    dp2.append(da[i-1]-da[i])\n            else:\n                dp.append(da[i] - da[i-1])\n\n        mi = 0\n        sm = 0\n        tans = 0\n        for i in dp:\n            sm += i\n            mi = min(sm, mi)\n            tans = max(tans, sm-mi)\n        r_ans = tans + ans\n        mi = 0\n        sm = 0\n        tans = 0\n        for i in dp2:\n            sm += i\n            mi = min(sm, mi)\n            tans = max(tans, sm-mi)\n        r_ans = max(r_ans, tans + ans)\n        print r_ans\n\n\n\n\n\n\n\n\nmy_main()\n",
+    "prob_desc_created_at": "1593095700",
+    "tags": [
+        "dp",
+        "implementation",
+        "divide and conquer",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

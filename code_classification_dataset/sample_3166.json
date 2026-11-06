@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"11\", \"66\"]",
+    "src_uid": "f350de23c9750b6e95b8cad80dde77c9",
+    "prob_desc_notes": "NoteIn the first test, you can make such operations:  Delete element $$$1$$$ from set $$$1$$$. You should pay $$$a_1 + b_1 = 5$$$ coins for that.  Delete element $$$1$$$ from set $$$2$$$. You should pay $$$a_2 + b_1 = 6$$$ coins for that. You pay $$$11$$$ coins in total. After these operations, the first and the second sets will be equal to $$$\\{2\\}$$$ and the third set will be equal to $$$\\{1, 2\\}$$$.So, the graph will consist of one edge $$$(1, 2)$$$ of color $$$3$$$.In the second test, you can make such operations:  Delete element $$$1$$$ from set $$$1$$$. You should pay $$$a_1 + b_1 = 11$$$ coins for that.  Delete element $$$4$$$ from set $$$2$$$. You should pay $$$a_2 + b_4 = 13$$$ coins for that.  Delete element $$$7$$$ from set $$$3$$$. You should pay $$$a_3 + b_7 = 13$$$ coins for that.  Delete element $$$4$$$ from set $$$4$$$. You should pay $$$a_4 + b_4 = 16$$$ coins for that.  Delete element $$$7$$$ from set $$$6$$$. You should pay $$$a_6 + b_7 = 13$$$ coins for that. You pay $$$66$$$ coins in total.After these operations, the sets will be:  $$$\\{2, 3\\}$$$;  $$$\\{1\\}$$$;  $$$\\{1, 3\\}$$$;  $$$\\{3\\}$$$;  $$$\\{3, 4, 5, 6, 7\\}$$$;  $$$\\{5\\}$$$;  $$$\\{8\\}$$$. We will get the graph:There are no rainbow cycles in it.",
+    "prob_desc_description": "You are given $$$m$$$ sets of integers $$$A_1, A_2, \\ldots, A_m$$$; elements of these sets are integers between $$$1$$$ and $$$n$$$, inclusive.There are two arrays of positive integers $$$a_1, a_2, \\ldots, a_m$$$ and $$$b_1, b_2, \\ldots, b_n$$$. In one operation you can delete an element $$$j$$$ from the set $$$A_i$$$ and pay $$$a_i + b_j$$$ coins for that.You can make several (maybe none) operations (some sets can become empty).After that, you will make an edge-colored undirected graph consisting of $$$n$$$ vertices. For each set $$$A_i$$$ you will add an edge $$$(x, y)$$$ with color $$$i$$$ for all $$$x, y \\in A_i$$$ and $$$x &lt; y$$$. Some pairs of vertices can be connected with more than one edge, but such edges have different colors.You call a cycle $$$i_1 \\to e_1 \\to i_2 \\to e_2 \\to \\ldots \\to i_k \\to e_k \\to i_1$$$ ($$$e_j$$$ is some edge connecting vertices $$$i_j$$$ and $$$i_{j+1}$$$ in this graph) rainbow if all edges on it have different colors.Find the minimum number of coins you should pay to get a graph without rainbow cycles.",
+    "prob_desc_output_spec": "Print one integer: the minimum number of coins you should pay for operations to avoid rainbow cycles in the obtained graph.",
+    "prob_desc_input_spec": "The first line contains two integers $$$m$$$ and $$$n$$$ ($$$1 \\leq m, n \\leq 10^5$$$), the number of sets and the number of vertices in the graph. The second line contains $$$m$$$ integers $$$a_1, a_2, \\ldots, a_m$$$ ($$$1 \\leq a_i \\leq 10^9$$$). The third line contains $$$n$$$ integers $$$b_1, b_2, \\ldots, b_n$$$ ($$$1 \\leq b_i \\leq 10^9$$$). In the each of the next of $$$m$$$ lines there are descriptions of sets. In the $$$i$$$-th line the first integer $$$s_i$$$ ($$$1 \\leq s_i \\leq n$$$) is equal to the size of $$$A_i$$$. Then $$$s_i$$$ integers follow: the elements of the set $$$A_i$$$. These integers are from $$$1$$$ to $$$n$$$ and distinct. It is guaranteed that the sum of $$$s_i$$$ for all $$$1 \\leq i \\leq m$$$ does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_044.jsonl",
+    "code_uid": "6bc454ac3728b5c16e8e43544bc0f16c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 2 3\\n4 5\\n2 1 2\\n2 1 2\\n2 1 2\", \"7 8\\n3 6 7 9 10 7 239\\n8 1 9 7 10 2 6 239\\n3 2 1 3\\n2 4 1\\n3 1 3 7\\n2 4 3\\n5 3 4 5 6 7\\n2 5 7\\n1 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nint1 = lambda x: int(x)-1\ndef MI(): return map(int, sys.stdin.buffer.readline().split())\ndef LI(): return list(map(int, sys.stdin.buffer.readline().split()))\ndef LI1(): return list(map(int1, sys.stdin.buffer.readline().split()))\n\ndef root(u):\n    stack=[]\n    while 1:\n        if uf[u]<0:\n            for v in stack:uf[v]=u\n            break\n        else:\n            stack.append(u)\n            u=uf[u]\n    return u\n\ndef merge(u,v):\n    u=root(u)\n    v=root(v)\n    if u==v:return\n    if uf[u]>uf[v]:u,v=v,u\n    if uf[u]==uf[v]:uf[u]-=1\n    uf[v]=u\n\ndef solve():\n    cuv = []\n    ans = 0\n    for u in range(m):\n        vv = LI1()\n        for v in vv[1:]:\n            cost = aa[u]+bb[v]\n            cuv.append((-cost, u, v+m))\n            ans += cost\n\n    cuv.sort()\n    for c, u, v in cuv:\n        if root(u) == root(v): continue\n        ans += c\n        merge(u, v)\n\n    print(ans)\n\nm,n=MI()\naa=LI()\nbb=LI()\nuf=[-1]*(m+n)\nsolve()\n",
+    "prob_desc_created_at": "1601476500",
+    "tags": [
+        "greedy",
+        "graphs",
+        "dsu",
+        "sortings",
+        "data structures",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

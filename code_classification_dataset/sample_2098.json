@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"1\", \"166\"]",
+    "src_uid": "5596b034218fd87e9dd3ee7a6aef280d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Little Elephant has found a ragged old black-and-white string s on the attic.The characters of string s are numbered from the left to the right from 1 to |s|, where |s| is the length of the string. Let's denote the i-th character of string s as si. As the string is black-and-white, each character of the string is either letter \"B\", or letter \"W\". Unfortunately, the string is very old and some characters are damaged. The damaged positions are denoted as \"X\".The Little Elephant in determined to restore the string and hang it on the wall. For that he needs to replace each character \"X\" by a \"B\" or a \"W\". The string must look good on the wall, so it must be beautiful. The Little Elephant considers a string beautiful if it has two non-intersecting substrings of a given length k, such that the left one fully consists of characters \"B\", and the right one fully consists of characters \"W\". More formally, there are four integers a, b, c, d (1 ≤ a ≤ b &lt; c ≤ d ≤ |s|; b - a + 1 = d - c + 1 = k) such that si = \"B\" (a ≤ i ≤ b) and sj = \"W\" (c ≤ j ≤ d). Help the Little Elephant find the number of different beautiful strings he can obtain from string s. Two strings are considered different if there is such position, where the character in the first string differs from the corresponding character in the second string. If this string doesn't contain characters «X» and it is already beautiful — the answer is 1.As the answer can be rather large, print it modulo 1000000007 (109 + 7).",
+    "prob_desc_output_spec": "On a single line print an integer — the answer to the problem modulo 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and k (1 ≤ k ≤ n ≤ 106). The second line contains string s. String s has length n and only consists of characters \"W\", \"B\" and \"X\".",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_017.jsonl",
+    "code_uid": "2fce508a6204732f53df65b571330b46",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\nXXX\", \"4 2\\nXXXX\", \"10 2\\nXXBXXWXXXX\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "Mod=1000000007\nn,k=map(int,input().split(' '))\ns=' '+input()\nf,fs,g,gs,w=[0]*1000005,[0]*1000005,[0]*1000005,[0]*1000005,[0]*1000005\nqx,qw,qb=[0]*1000005,[0]*1000005,[0]*1000005\nq=0\nf[0]=fs[0]=1\nfor i in range(1,n+1):\n\tlg=(i-k if i-k>=q else q)\n\tif s[i]!='B':\n\t\tf[i]=fs[i-1]-fs[lg-1]+Mod\n\t\tf[i]-=(Mod if f[i]>=Mod else 0)\n\telse:\n\t\tf[i]=0\n\tfs[i]=fs[i-1]+f[i]\n\tfs[i]-=(Mod if fs[i]>=Mod else 0)\n\tif s[i]=='W':\n\t\tq=i;\ng[n+1]=gs[n+1]=1\nq=n+1\nfor i in range(n,0,-1):\n\trg=(i+k if i+k<=q else q)\n\tif s[i]!='W':\n\t\tg[i]=gs[i+1]-gs[rg+1]+Mod\n\t\tg[i]-=(Mod if g[i]>=Mod else 0)\n\telse:\n\t\tg[i]=0\n\tgs[i]=gs[i+1]+g[i]\n\tgs[i]-=(Mod if gs[i]>=Mod else 0)\n\tif s[i]=='B':\n\t\tq=i;\nfor i in range(1,n+1):\n\tqx[i],qb[i],qw[i]=qx[i-1]+(s[i]=='X'),qb[i-1]+(s[i]=='B'),qw[i-1]+(s[i]=='W')\nfor i in range(n,0,-1):\n\tw[i]=w[i+1]\n\tif s[i]=='X':\n\t\tw[i]*=2\n\t\tw[i]-=(Mod if w[i]>=Mod else 0)\n\tif i+k-1<=n:\n\t\tif qb[i+k-1]-qb[i-1]==0:\n\t\t\tw[i]+=g[i+k]\n\t\t\tw[i]-=(Mod if w[i]>=Mod else 0)\nans=0\nfor i in range(k,n+1):\n\tif qw[i]-qw[i-k]==0:\n\t\tans=(ans+f[i-k]*w[i+1])%Mod\nprint(ans)",
+    "prob_desc_created_at": "1342020600",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

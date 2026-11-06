@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 2 1\", \"-1\"]",
+    "src_uid": "94a38067fc8dd8619fa6e5873ca60220",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Professor Vasechkin is studying evolution of worms. Recently he put forward hypotheses that all worms evolve by division. There are n forms of worms. Worms of these forms have lengths a1, a2, ..., an. To prove his theory, professor needs to find 3 different forms that the length of the first form is equal to sum of lengths of the other two forms. Help him to do this.",
+    "prob_desc_output_spec": "Output 3 distinct integers i j k (1 ≤ i, j, k ≤ n) — such indexes of worm's forms that ai = aj + ak. If there is no such triple, output -1. If there are several solutions, output any of them. It possible that aj = ak.",
+    "prob_desc_input_spec": "The first line contains integer n (3 ≤ n ≤ 100) — amount of worm's forms. The second line contains n space-separated integers ai (1 ≤ ai ≤ 1000) — lengths of worms of each form.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_023.jsonl",
+    "code_uid": "355669ea67ddc1050decea555982c655",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 3 5 7\", \"5\\n1 8 1 5 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "I=lambda:map(int, raw_input().split())\nn = input()\na = I()\nb = []\nfor i in xrange(n):\n    b.append((a[i], i+1))\nb = sorted(b, key = lambda x: x[0])\n\nfor i in xrange(n-1, -1, -1):\n    j, k = 0, i - 1\n    while j < k:\n        x = b[j][0] + b[k][0]\n        if x == b[i][0]: \n            print b[i][1],b[j][1], b[k][1] \n            exit()\n        elif x < b[i][0]:\n            j += 1\n        else:\n            k -= 1\nprint -1\n        ",
+    "prob_desc_created_at": "1285599600",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

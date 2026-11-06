@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n3 4 1\\n3 5 2\\n3 5 1\", \"3\\n2 2 1\\n3 3 1\\n3 4 1\", \"-1\", \"-1\"]",
+    "src_uid": "59d4c66892fa3157d1163225a550a368",
+    "prob_desc_notes": "NoteIn the first example the output 23 4 13 5 2is also correct.",
+    "prob_desc_description": "A star is a figure of the following type: an asterisk character '*' in the center of the figure and four rays (to the left, right, top, bottom) of the same positive length. The size of a star is the length of its rays. The size of a star must be a positive number (i.e. rays of length $$$0$$$ are not allowed).Let's consider empty cells are denoted by '.', then the following figures are stars:  The leftmost figure is a star of size $$$1$$$, the middle figure is a star of size $$$2$$$ and the rightmost figure is a star of size $$$3$$$. You are given a rectangular grid of size $$$n \\times m$$$ consisting only of asterisks '*' and periods (dots) '.'. Rows are numbered from $$$1$$$ to $$$n$$$, columns are numbered from $$$1$$$ to $$$m$$$. Your task is to draw this grid using any number of stars or find out that it is impossible. Stars can intersect, overlap or even coincide with each other. The number of stars in the output can't exceed $$$n \\cdot m$$$. Each star should be completely inside the grid. You can use stars of same and arbitrary sizes.In this problem, you do not need to minimize the number of stars. Just find any way to draw the given grid with at most $$$n \\cdot m$$$ stars.",
+    "prob_desc_output_spec": "If it is impossible to draw the given grid using stars only, print \"-1\". Otherwise in the first line print one integer $$$k$$$ ($$$0 \\le k \\le n \\cdot m$$$) — the number of stars needed to draw the given grid. The next $$$k$$$ lines should contain three integers each — $$$x_j$$$, $$$y_j$$$ and $$$s_j$$$, where $$$x_j$$$ is the row index of the central star character, $$$y_j$$$ is the column index of the central star character and $$$s_j$$$ is the size of the star. Each star should be completely inside the grid.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ ($$$3 \\le n, m \\le 100$$$) — the sizes of the given grid. The next $$$n$$$ lines contains $$$m$$$ characters each, the $$$i$$$-th line describes the $$$i$$$-th row of the grid. It is guaranteed that grid consists of characters '*' and '.' only.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_013.jsonl",
+    "code_uid": "3682c2694f0f8533bc5cc1026060d3ad",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 8\\n....*...\\n...**...\\n..*****.\\n...**...\\n....*...\\n........\", \"5 5\\n.*...\\n****.\\n.****\\n..**.\\n.....\", \"5 5\\n.*...\\n***..\\n.*...\\n.*...\\n.....\", \"3 3\\n*.*\\n.*.\\n*.*\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n , m = [int(x) for x in input().split()]\ngrid = [[x for x in input()] for _ in range(n)]\n\nstar_mem = {}\nastr_num = set()\n\ndef l_0 (x) :\n    return x < 1\ndef astr_size(x, y, size ):\n    for i in range(y,y+size+1,1):\n        astr_num.add((x,i))\n\n    for i in range(y,y-size-1,-1):\n        astr_num.add((x,i))\n\n    for i in range(x, x+size+1, 1):\n        astr_num.add((i,y))\n\n    for i in range(x, x-size-1,-1):\n        astr_num.add((i,y))\n\ndef is_star(grid, x, y):\n    left , right , uper , lower= (-1,-1,-1,-1)\n\n    for i in range(y,m,1):\n        if (x,i) in star_mem:\n            left += star_mem[(x,i)][0]+1\n            break\n        if grid[x][i] == '*':\n            left += 1\n        else :\n            break\n\n\n    for i in range(y, -1, -1):\n        if (x,i) in star_mem:\n            right += star_mem[(x,i)][1]+1\n            break\n        if grid[x][i] == '*':\n            right += 1\n        else :\n            break\n\n\n    for i in range(x, n, 1):\n        if (i,y) in star_mem:\n            uper += star_mem[(i,y)][2]+1\n            break\n        if grid[i][y] == '*':\n            uper += 1\n        else :\n            break\n\n    for i in range(x , -1, -1):\n        if (i,y) in star_mem:\n            lower += star_mem[(i,y)][3]+1\n            break\n        if grid[i][y] == '*':\n            lower += 1\n        else :\n            break\n\n\n    star_mem[(x,y)] = (left,right,uper,lower)\n    size = min(left,right,uper,lower)\n    if size > 0 :\n        return True,size\n    return False,0\n    \nsolution = []\nuni_astr = 0\n\n\nfor x in range(n):\n    for y in range(m):\n        if grid[x][y] == '*':\n            uni_astr += 1\n            con, size =  is_star(grid, x, y)       \n            if con:\n                astr_size(x, y, size)\n                solution.append((x+1,y+1,size))\n\nif uni_astr == len(astr_num):\n    print(len(solution))\n    for i in solution:\n        print(*i)\nelse:\n    print(-1)\n\n",
+    "prob_desc_created_at": "1533047700",
+    "tags": [
+        "dp",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

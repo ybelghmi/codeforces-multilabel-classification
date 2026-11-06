@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"-1\"]",
+    "src_uid": "76dd49c5545770a1dfbb2da4140199c1",
+    "prob_desc_notes": "NoteIn the first example sum of the second and the fourth elements is 3.",
+    "prob_desc_description": "You are given sequence a1, a2, ..., an of integer numbers of length n. Your task is to find such subsequence that its sum is odd and maximum among all such subsequences. It's guaranteed that given sequence contains subsequence with odd sum.Subsequence is a sequence that can be derived from another sequence by deleting some elements without changing the order of the remaining elements.You should write a program which finds sum of the best subsequence.",
+    "prob_desc_output_spec": "Print sum of resulting subseqeuence.",
+    "prob_desc_input_spec": "The first line contains integer number n (1 ≤ n ≤ 105). The second line contains n integer numbers a1, a2, ..., an ( - 104 ≤ ai ≤ 104). The sequence contains at least one subsequence with odd sum.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_002.jsonl",
+    "code_uid": "df9fcef3d26ab4f9108c6044695917de",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n-2 2 -3 1\", \"3\\n2 -5 -3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nline = [int(x) for x in input().split()]\nm = -10001\nans = []\nb = []\nfor i in line:\n    if i % 2 == 0 and i > 0:\n        ans.append(i)\n    elif i % 2 != 0:\n        if i > 0:\n            ans.append(i)\n            m = 0\n        else:\n            b.append(i)\n            if m < i:\n                m = i\nans.append(m)\ns = sum(ans)\nif s % 2 == 0:\n    ans.sort()\n    for i in ans:\n        if i % 2 == 1:\n            if len(b) > 0:\n                s = max(s+max(b), s-i)\n            else:\n                s -= i\n            break\n\nprint(s)\n\n",
+    "prob_desc_created_at": "1492266900",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

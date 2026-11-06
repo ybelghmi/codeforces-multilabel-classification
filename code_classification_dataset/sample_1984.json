@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0.828427125\", \"19.668384925\"]",
+    "src_uid": "21432a74b063b008cf9f04d2804c1c3f",
+    "prob_desc_notes": "NoteThe second sample has been drawn on the picture above.",
+    "prob_desc_description": "You are given two rectangles on a plane. The centers of both rectangles are located in the origin of coordinates (meaning the center of the rectangle's symmetry). The first rectangle's sides are parallel to the coordinate axes: the length of the side that is parallel to the Ox axis, equals w, the length of the side that is parallel to the Oy axis, equals h. The second rectangle can be obtained by rotating the first rectangle relative to the origin of coordinates by angle α.  Your task is to find the area of the region which belongs to both given rectangles. This region is shaded in the picture.",
+    "prob_desc_output_spec": "In a single line print a real number — the area of the region which belongs to both given rectangles. The answer will be considered correct if its relative or absolute error doesn't exceed 10 - 6.",
+    "prob_desc_input_spec": "The first line contains three integers w, h, α (1 ≤ w, h ≤ 106; 0 ≤ α ≤ 180). Angle α is given in degrees.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_015.jsonl",
+    "code_uid": "da3f3418fea80d0698d057aaa2dc77f4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1 45\", \"6 4 30\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import radians, cos, sin, atan2\n\ndef rotate(point, alpha):\n    x = point[0]\n    y = point[1]\n    return (x * cos(alpha) - y * sin(alpha), x * sin(alpha) + y * cos(alpha))\n\ndef crs(a, b):\n    return a[0] * b[1] - a[1] * b[0]\n\ndef m(end, start):\n    return (end[0] - start[0], end[1] - start[1])\n\ndef area(poly):\n    ret = 0\n    n = len(poly)\n\n    for i in range(n):\n        j = (i + 1) % n\n        ret += crs(poly[i], poly[j])\n\n    return abs(ret) / 2.0\n\ndef intersect(a, b, c, d):\n    r = crs(m(c, d), m(a, d)) * crs(m(c, d), m(b, d)) <= 0\n    r &= crs(m(b, a), m(c, a)) * crs(m(b, a), m(d, a)) <= 0\n    if not r:\n        return None\n\n    x1 = a[0]\n    y1 = a[1]\n\n    x2 = c[0]\n    y2 = c[1]\n\n    dx1 = b[0] - a[0]\n    dx2 = d[0] - c[0]\n\n    dy1 = b[1] - a[1]\n    dy2 = d[1] - c[1]\n\n    if dx2 * dy1 == dx1 * dy2:\n        return None\n\n    t = ((x1 - x2) * dy2 + (y2 - y1) * dx2) / (dx2 * dy1 - dx1 * dy2)\n    return (x1 + t * dx1, y1 + t * dy1)\n\n\nw, h, alpha = map(int, input().split())\n\nif alpha == 0 or alpha == 180:\n    print(w * h)\nelse:\n    alpha = radians(alpha) \n    pnt = []\n\n    pnt.append((w / 2, h / 2))\n    pnt.append((-w / 2, h / 2))\n    pnt.append((-w / 2, -h / 2))\n    pnt.append((w / 2, -h / 2))\n\n\n    pnt2 = []\n    for p in pnt:\n        pnt2.append(rotate(p, alpha))\n\n    pnt2.append(pnt2[0])\n    pnt.append(pnt[0])\n\n    points_total = []\n\n    for st in range(4):\n        for en in range(4):\n            t = intersect(pnt[st], pnt[st + 1], pnt2[en], pnt2[en + 1])\n\n            if t != None:\n                points_total.append(t)\n\n    points_total = sorted(points_total, key=lambda x: atan2(x[1], x[0]))\n\n    print(area(points_total))\n",
+    "prob_desc_created_at": "1362929400",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

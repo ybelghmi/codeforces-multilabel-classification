@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 2 2 2 2 2\", \"2 2 2\", \"1 2 1 2 2 2 1 2\"]",
+    "src_uid": "2c279b3065d8da8021051241677d9cf1",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little Petya likes numbers a lot. Recently his mother has presented him a collection of n non-negative integers. There's only one thing Petya likes more than numbers: playing with little Masha. He immediately decided to give a part of his new collection to her. To make the game even more interesting, Petya decided to give Masha such collection of numbers for which the following conditions fulfill:  Let's introduce x1 to denote the xor of all numbers Petya has got left; and let's introduce x2 to denote the xor of all numbers he gave to Masha. Value (x1 + x2) must be as large as possible.  If there are multiple ways to divide the collection so that the previous condition fulfilled, then Petya minimizes the value x1. The xor operation is a bitwise excluding \"OR\", that is denoted as \"xor\" in the Pascal language and \"^\" in C/C++/Java.Help Petya divide the collection as described above. If there are multiple suitable ways to divide it, find any of them. Please note that after Petya gives a part of his numbers to Masha, he may have no numbers left. The reverse situation is also possible, when Petya gives nothing to Masha. In both cases we must assume that the xor of an empty set of numbers equals 0.",
+    "prob_desc_output_spec": "Print n space-separated integers, the i-th of them should equal either 1, if Petya keeps the number that follows i-th in his collection, or it should equal 2, if Petya gives the corresponding number to Masha. The numbers are indexed in the order in which they are given in the input.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105), showing how many numbers Petya's mother gave him. The second line contains the actual space-separated numbers. They are all integer, non-negative and do not exceed 1018.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_031.jsonl",
+    "code_uid": "62b50314fc5253b6f92223e559a2845b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n1 2 3 4 5 6\", \"3\\n1000000000000 1000000000000 1000000000000\", \"8\\n1 1 2 2 3 3 4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n \nn = int(input())\nA = [int(x) for x in input().split()]\n \n\n# Reorder the bits\nbig = 60\nmapper = [0]*big\nind = big - 1\nxor = 0\nfor a in A: \n    xor ^= a\nfor j in reversed(range(big)):\n    if xor & (1 << j) == 0:\n        mapper[j] = ind\n        ind -= 1\nfor j in reversed(range(big)):\n    if xor & (1 << j):\n        mapper[j] = ind\n        ind -= 1\n\nB = []\nfor a in A:\n    tmp = 0\n    for j in range(big):\n        if a & (1 << j):\n            tmp += 1 << mapper[j]\n    B.append(tmp)\nA = B\n\n# returns a subset of A with maximum xor\ndef max_xor(A):\n    who = []\n    how = {}\n    base = {}\n     \n    for i in range(n):\n        a = A[i]\n        tmp = 0\n        while a > 0:\n            b = a.bit_length() - 1\n            if b in how:\n                a ^= base[b]\n                tmp ^= how[b]\n            else:\n                base[b] = a\n                how[b] = tmp | (1 << len(who))\n                who.append(i)\n                break\n    x = 0\n    tmp = 0\n    for j in sorted(how, reverse = True):\n        if not x & (1 << j):\n            x ^= base[j]\n            tmp ^= how[j]\n    B = [who[j] for j in range(len(who)) if tmp & (1 << j)]\n    return B\n\nans = [1]*n\nfor i in max_xor(A):\n    ans[i] = 2\nprint ' '.join(str(x) for x in ans)\n",
+    "prob_desc_created_at": "1354807800",
+    "tags": [
+        "bitmasks",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3 abc\\n2 bc\\n1 c\\n0 \\n1 d\", \"18 abbcd...tw\\n17 bbcdd...tw\\n16 bcddd...tw\\n15 cddde...tw\\n14 dddea...tw\\n13 ddeaa...tw\\n12 deaad...tw\\n11 eaadf...tw\\n10 aadfortytw\\n9 adfortytw\\n8 dfortytw\\n9 fdfortytw\\n8 dfortytw\\n7 fortytw\\n6 ortytw\\n5 rtytw\\n6 urtytw\\n5 rtytw\\n4 tytw\\n3 ytw\\n2 tw\\n1 w\\n0 \\n1 o\"]",
+    "src_uid": "7d6faccc88a6839822fa0c0ec8c00251",
+    "prob_desc_notes": "NoteConsider the first example.  The longest suffix is the whole string \"abcdd\". Choosing one pair $$$(4, 5)$$$, Lesha obtains \"abc\".  The next longest suffix is \"bcdd\". Choosing one pair $$$(3, 4)$$$, we obtain \"bc\".  The next longest suffix is \"cdd\". Choosing one pair $$$(2, 3)$$$, we obtain \"c\".  The next longest suffix is \"dd\". Choosing one pair $$$(1, 2)$$$, we obtain \"\" (an empty string).  The last suffix is the string \"d\". No pair can be chosen, so the answer is \"d\". In the second example, for the longest suffix \"abbcdddeaaffdfouurtytwoo\" choose three pairs $$$(11, 12)$$$, $$$(16, 17)$$$, $$$(23, 24)$$$ and we obtain \"abbcdddeaadfortytw\"",
+    "prob_desc_description": "Some time ago Lesha found an entertaining string $$$s$$$ consisting of lowercase English letters. Lesha immediately developed an unique algorithm for this string and shared it with you. The algorithm is as follows.Lesha chooses an arbitrary (possibly zero) number of pairs on positions $$$(i, i + 1)$$$ in such a way that the following conditions are satisfied:   for each pair $$$(i, i + 1)$$$ the inequality $$$0 \\le i &lt; |s| - 1$$$ holds;  for each pair $$$(i, i + 1)$$$ the equality $$$s_i = s_{i + 1}$$$ holds;  there is no index that is contained in more than one pair.  After that Lesha removes all characters on indexes contained in these pairs and the algorithm is over. Lesha is interested in the lexicographically smallest strings he can obtain by applying the algorithm to the suffixes of the given string.",
+    "prob_desc_output_spec": "In $$$|s|$$$ lines print the lengths of the answers and the answers themselves, starting with the answer for the longest suffix. The output can be large, so, when some answer is longer than $$$10$$$ characters, instead print the first $$$5$$$ characters, then \"...\", then the last $$$2$$$ characters of the answer.",
+    "prob_desc_input_spec": "The only line contains the string $$$s$$$ ($$$1 \\le |s| \\le 10^5$$$) — the initial string consisting of lowercase English letters only.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_011.jsonl",
+    "code_uid": "00750c7d58b33d3ac03785c4a39a4ff9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"abcdd\", \"abbcdddeaaffdfouurtytwoo\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s = input().strip();N = len(s)\nif len(s) == 1:print(1, s[0]);exit()\nX = [s[-1], s[-2]+s[-1] if s[-2]!=s[-1] else \"\"];Y = [1, 2 if s[-2]!=s[-1] else 0]\nfor i in range(N-3, -1, -1):\n    c = s[i];k1 = c+X[-1];ng = Y[-1]+1\n    if ng > 10:k1 = k1[:5] + \"...\" + k1[-2:]\n    if c == s[i+1] and k1 > X[-2]:k1 = X[-2];ng = Y[-2]\n    X.append(k1);Y.append(ng)\nfor i in range(N-1, -1, -1):print(Y[i], X[i])",
+    "prob_desc_created_at": "1601827500",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

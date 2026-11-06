@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"11 492\\n13 26\\n140133 160776\\n1 1\"]",
+    "src_uid": "04330cb392bcfd51d1acffd72c8004cb",
+    "prob_desc_notes": "NoteIn the example:   $$$gcd(11, 492) = 1$$$  $$$gcd(13, 26) = 13$$$  $$$gcd(140133, 160776) = 21$$$  $$$gcd(1, 1) = 1$$$ ",
+    "prob_desc_description": "You are given three integers $$$a$$$, $$$b$$$ and $$$c$$$.Find two positive integers $$$x$$$ and $$$y$$$ ($$$x &gt; 0$$$, $$$y &gt; 0$$$) such that:   the decimal representation of $$$x$$$ without leading zeroes consists of $$$a$$$ digits;  the decimal representation of $$$y$$$ without leading zeroes consists of $$$b$$$ digits;  the decimal representation of $$$gcd(x, y)$$$ without leading zeroes consists of $$$c$$$ digits. $$$gcd(x, y)$$$ denotes the greatest common divisor (GCD) of integers $$$x$$$ and $$$y$$$.Output $$$x$$$ and $$$y$$$. If there are multiple answers, output any of them.",
+    "prob_desc_output_spec": "For each testcase print two positive integers — $$$x$$$ and $$$y$$$ ($$$x &gt; 0$$$, $$$y &gt; 0$$$) such that    the decimal representation of $$$x$$$ without leading zeroes consists of $$$a$$$ digits;  the decimal representation of $$$y$$$ without leading zeroes consists of $$$b$$$ digits;  the decimal representation of $$$gcd(x, y)$$$ without leading zeroes consists of $$$c$$$ digits. ",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 285$$$) — the number of testcases. Each of the next $$$t$$$ lines contains three integers $$$a$$$, $$$b$$$ and $$$c$$$ ($$$1 \\le a, b \\le 9$$$, $$$1 \\le c \\le min(a, b)$$$) — the required lengths of the numbers. It can be shown that the answer exists for all testcases under the given constraints. Additional constraint on the input: all testcases are different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_089.jsonl",
+    "code_uid": "a868f822fa11acf65ae027e92b416ca4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 3 1\\n2 2 2\\n6 6 2\\n1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def func_gcd(a,b):\r\n\tif b==0:\r\n\t\treturn a\r\n\treturn func_gcd(b, a%b)\r\n\r\nT = int(input())\r\nfor t in range(T):\r\n\ta, b, c = map(int, input().split())\r\n\tx_arr = [\"1\"] + [\"0\"]*(a-1)\r\n\ty_arr = [\"1\"]*(b-c+1) + [\"0\"]*(c-1)\r\n\t\r\n\tx = \"\"\r\n\ty = \"\"\r\n\tfor elem in x_arr:\r\n\t\tx += elem\r\n\tfor elem in y_arr:\r\n\t\ty += elem\r\n\tprint(x, y)",
+    "prob_desc_created_at": "1618238100",
+    "tags": [
+        "constructive algorithms",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "0d586ba7d304902caaeb7cd9e6917cd6",
+    "prob_desc_notes": "NoteIn the second example the answer is \"NO\" because, if the positions of the bombs are preserved, the first line of the field should be *2*1.You can read more about Minesweeper in Wikipedia's article.",
+    "prob_desc_description": "One day Alex decided to remember childhood when computers were not too powerful and lots of people played only default games. Alex enjoyed playing Minesweeper that time. He imagined that he saved world from bombs planted by terrorists, but he rarely won.Alex has grown up since then, so he easily wins the most difficult levels. This quickly bored him, and he thought: what if the computer gave him invalid fields in the childhood and Alex could not win because of it?He needs your help to check it.A Minesweeper field is a rectangle $$$n \\times m$$$, where each cell is either empty, or contains a digit from $$$1$$$ to $$$8$$$, or a bomb. The field is valid if for each cell:   if there is a digit $$$k$$$ in the cell, then exactly $$$k$$$ neighboring cells have bombs.  if the cell is empty, then all neighboring cells have no bombs. Two cells are neighbors if they have a common side or a corner (i. e. a cell has at most $$$8$$$ neighboring cells).",
+    "prob_desc_output_spec": "Print \"YES\", if the field is valid and \"NO\" otherwise. You can choose the case (lower or upper) for each letter arbitrarily.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 100$$$) — the sizes of the field. The next $$$n$$$ lines contain the description of the field. Each line contains $$$m$$$ characters, each of them is \".\" (if this cell is empty), \"*\" (if there is bomb in this cell), or a digit from $$$1$$$ to $$$8$$$, inclusive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_013.jsonl",
+    "code_uid": "ee41044bb3507fcf8fd478128068741d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n111\\n1*1\\n111\", \"2 4\\n*.*.\\n1211\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, input().split())\n\nmaps = []\nfor i in range(n):\n    s = [ i for i in input()]\n    maps.append(s)\nimport sys\nfor i in range(n):\n    for j in range(m):\n        ans = 0\n        if i-1 >=0 :\n            if maps[i-1][j] == '*':\n                ans += 1\n            if j-1 >= 0 and maps[i-1][j-1] == '*':\n                ans += 1\n            if j+1 < m and maps[i-1][j+1] == '*':\n                ans += 1\n        if i+1 <n :\n            if maps[i+1][j] == '*':\n                ans += 1\n            if j-1 >= 0 and maps[i+1][j-1] == '*':\n                ans += 1\n            if j+1 < m and maps[i+1][j+1] == '*':\n                ans += 1\n        if j-1 >=0 and maps[i][j-1] == '*':\n            ans += 1\n        if j+1 <m and maps[i][j+1] == '*':\n            ans += 1\n\n        if maps[i][j] in '12345678':\n            if ans != int(maps[i][j]):\n                print(\"NO\")\n                sys.exit(0)\n        elif maps[i][j] == '.' and ans!=0:\n            print(\"NO\")\n            sys.exit(0)\n\nprint(\"YES\")\n",
+    "prob_desc_created_at": "1526395500",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 1 1 5\\n1 5 8 5\\n8 5 8 6\"]",
+    "src_uid": "f0bd06345a2aeeb5faedc824fb5f42b9",
+    "prob_desc_notes": "NoteThe points and the segments from the example are shown below.  ",
+    "prob_desc_description": "You are given three points on a plane. You should choose some segments on the plane that are parallel to coordinate axes, so that all three points become connected. The total length of the chosen segments should be the minimal possible.Two points $$$a$$$ and $$$b$$$ are considered connected if there is a sequence of points $$$p_0 = a, p_1, \\ldots, p_k = b$$$ such that points $$$p_i$$$ and $$$p_{i+1}$$$ lie on the same segment.",
+    "prob_desc_output_spec": "On the first line output $$$n$$$ — the number of segments, at most 100. The next $$$n$$$ lines should contain descriptions of segments. Output four integers $$$x_1$$$, $$$y_1$$$, $$$x_2$$$, $$$y_2$$$ on a line — the coordinates of the endpoints of the corresponding segment ($$$-10^9 \\le x_1, y_1, x_2, y_2 \\le 10^9$$$). Each segment should be either horizontal or vertical. It is guaranteed that the solution with the given constraints exists.",
+    "prob_desc_input_spec": "The input consists of three lines describing three points. Each line contains two integers $$$x$$$ and $$$y$$$ separated by a space — the coordinates of the point ($$$-10^9 \\le x, y \\le 10^9$$$). The points are pairwise distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_091.jsonl",
+    "code_uid": "84d346b43dc19930e6c92c4fb69b4e38",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\\n3 5\\n8 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -- coding: utf-8 --\n'''\nAuthor: your name\nDate: 2022-01-03 20:13:21\nLastEditTime: 2022-05-28 17:47:53\nLastEditors: Please set LastEditors\nDescription: In User Settings Edit\nFilePath: /code_everyWeek/week6.py\n'''\n\nclass Point():\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n        \ndef connect_the_points(point_list):\n    sorted_point_y = sorted(point_list, key=lambda x:x.y)\n    sorted_point_x = sorted(point_list, key=lambda x:x.x)\n    res = []\n    if sorted_point_x[0].x != sorted_point_x[2].x:\n        res.append([sorted_point_x[0].x, sorted_point_y[1].y, sorted_point_x[2].x, sorted_point_y[1].y])\n    if sorted_point_y[0].y != sorted_point_y[1].y:\n        res.append([sorted_point_y[0].x, sorted_point_y[0].y, sorted_point_y[0].x, sorted_point_y[1].y])\n    if sorted_point_y[2].y != sorted_point_y[1].y:\n        res.append([sorted_point_y[2].x, sorted_point_y[2].y, sorted_point_y[2].x, sorted_point_y[1].y])\n    return res\n\n    \nif __name__ == \"__main__\":\n    point_list = []\n    for i in range(3):\n        terms = input().split(\" \")\n        point = Point(int(terms[0]), int(terms[1]))\n        point_list.append(point)\n    res = connect_the_points(point_list)\n    print(len(res))\n    for x in res:\n        print(\" \".join(list(map(str, x))))\n\n",
+    "prob_desc_created_at": "1649837100",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

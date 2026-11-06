@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"B\", \"BW\\nWB\", \"B-B\\n---\\n--B\"]",
+    "src_uid": "dc31adef80f06897ea2f5ef76854bcf1",
+    "prob_desc_notes": "NoteIn the first sample, DZY puts a single black chessman. Of course putting a white one is also OK.In the second sample, all 4 cells are good. No two same chessmen share an edge in the sample output.In the third sample, no good cells are adjacent. So you can just put 3 chessmen, no matter what their colors are.",
+    "prob_desc_description": "DZY loves chessboard, and he enjoys playing with it.He has a chessboard of n rows and m columns. Some cells of the chessboard are bad, others are good. For every good cell, DZY wants to put a chessman on it. Each chessman is either white or black. After putting all chessmen, DZY wants that no two chessmen with the same color are on two adjacent cells. Two cells are adjacent if and only if they share a common edge.You task is to find any suitable placement of chessmen on the given chessboard.",
+    "prob_desc_output_spec": "Output must contain n lines, each line must contain a string of m characters. The j-th character of the i-th string should be either \"W\", \"B\" or \"-\". Character \"W\" means the chessman on the cell is white, \"B\" means it is black, \"-\" means the cell is a bad cell. If multiple answers exist, print any of them. It is guaranteed that at least one answer exists.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and m (1 ≤ n, m ≤ 100). Each of the next n lines contains a string of m characters: the j-th character of the i-th string is either \".\" or \"-\". A \".\" means that the corresponding cell (in the i-th row and the j-th column) is good, while a \"-\" means it is bad.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "fe607c8cc85e4b39f76f57e25e36015f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\\n.\", \"2 2\\n..\\n..\", \"3 3\\n.-.\\n---\\n--.\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, raw_input().split())\n\nfor i in range(n):\n\tstring = raw_input()\n\tsaida = ''\n\tfor j in range(m):\n\t\tif string[j] == \".\":\n\t\t\tif (i+j) & 1:\n\t\t\t\tsaida+= \"W\"\n\t\t\telse:\n\t\t\t\tsaida+= \"B\"\n\t\telse:\n\t\t\tsaida += \"-\"\n\tprint saida\n",
+    "prob_desc_created_at": "1404651900",
+    "tags": [
+        "implementation",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

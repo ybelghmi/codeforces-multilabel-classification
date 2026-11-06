@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2.0000000000\", \"32.8333333333\"]",
+    "src_uid": "ffdd1de4be537234e8a0e7127bec43a7",
+    "prob_desc_notes": "NoteIn the first example you can put the fishes in cells (2, 1), (2, 2), (2, 3). In this case, for any of four possible positions of the scoop-net (highlighted with light green), the number of fishes inside is equal to two, and so is the expected value.  ",
+    "prob_desc_description": "While Grisha was celebrating New Year with Ded Moroz, Misha gifted Sasha a small rectangular pond of size n × m, divided into cells of size 1 × 1, inhabited by tiny evil fishes (no more than one fish per cell, otherwise they'll strife!).The gift bundle also includes a square scoop of size r × r, designed for fishing. If the lower-left corner of the scoop-net is located at cell (x, y), all fishes inside the square (x, y)...(x + r - 1, y + r - 1) get caught. Note that the scoop-net should lie completely inside the pond when used.Unfortunately, Sasha is not that skilled in fishing and hence throws the scoop randomly. In order to not frustrate Sasha, Misha decided to release k fishes into the empty pond in such a way that the expected value of the number of caught fishes is as high as possible. Help Misha! In other words, put k fishes in the pond into distinct cells in such a way that when the scoop-net is placed into a random position among (n - r + 1)·(m - r + 1) possible positions, the average number of caught fishes is as high as possible.",
+    "prob_desc_output_spec": "Print a single number — the maximum possible expected number of caught fishes. You answer is considered correct, is its absolute or relative error does not exceed 10 - 9. Namely, let your answer be a, and the jury's answer be b. Your answer is considered correct, if .",
+    "prob_desc_input_spec": "The only line contains four integers n, m, r, k (1 ≤ n, m ≤ 105, 1 ≤ r ≤ min(n, m), 1 ≤ k ≤ min(n·m, 105)).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_041.jsonl",
+    "code_uid": "4e1a35169bfee117f31d02d155d42d6a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3 2 3\", \"12 17 9 40\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq as hq\nfrom queue import PriorityQueue\n\nimport math\nn,m,r, k= input().split()\nN = int(n)\nM = int(m)\nR = int(r)\nK = int(k)\n\nq = PriorityQueue()\n\n\n\nfor i in range(1,math.floor((N+1)/2) + 1):\n    maxi = min(min(i,N-i+1),min(R,N-R+1)) * min(min(R,M-R+1),math.ceil(M/2))\n    num = M - (2 * min(min(R,M-R+1),math.ceil(M/2))-2)\n    mult = 2\n    if(i > math.floor(N/2)):\n        mult = 1\n    q.put((-maxi,num * mult,i))\n    #print(str(maxi) + \" \" + str(num) + \" \" + str(mult))\n\n\nans = 0\nwhile(K > 0):\n    pop = q.get()\n    #print(pop)\n    a = -1 * pop[0]\n    b = pop[1]\n    c = pop[2]\n    d = min(min(c,N-c+1),min(R,N-R+1))\n    if(d != a):\n       # if(q.)\n       # if(q.get(-(a - d)) != )\n        mult = 2\n        if (c > N / 2):\n            mult = 1\n        q.put((-(a - d),2*mult,c))\n    ans += a * min(b,K)\n    K -= b;\n\ntot = (N-R+1) * (M-R+1)\n#print(\"ANS = \" + str(ans))\n#print(\"FINANS = \" + str(ans/tot))\nprint(str(ans/tot))\n\n\n'''\n\nd = []\nfor i in range(0,N):\n    d.append([])\n    for j in range(0,M):\n        d[i].append(0)\n\ntot = 0\nfor i in range(0,N-R+1):\n    for j in range(0,M-R+1):\n        for k in range(i,i+R):\n            for l in range(j,j+R):\n                d[k][l] += 1\n                tot += 1\n\n\nprint((N-R+1)*(M-R+1) * (R*R))\nprint(tot)\nprint()\nfor i in d:\n    print(i)\n\n'''\n",
+    "prob_desc_created_at": "1515162900",
+    "tags": [
+        "greedy",
+        "graphs",
+        "probabilities",
+        "shortest paths",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

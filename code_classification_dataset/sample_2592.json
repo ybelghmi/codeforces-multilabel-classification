@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"5\", \"2\"]",
+    "src_uid": "7733551cffde2a78826e9cd53f3a7c9d",
+    "prob_desc_notes": "NoteIn the first example, all possible common parts are $$$[1]$$$, $$$[2]$$$, $$$[3]$$$ and $$$[2, 3]$$$.In the second and third examples, you can only leave common parts of length $$$1$$$.",
+    "prob_desc_description": "Acingel is a small town. There was only one doctor here — Miss Ada. She was very friendly and nobody has ever said something bad about her, so who could've expected that Ada will be found dead in her house? Mr Gawry, world-famous detective, is appointed to find the criminal. He asked $$$m$$$ neighbours of Ada about clients who have visited her in that unlucky day. Let's number the clients from $$$1$$$ to $$$n$$$. Each neighbour's testimony is a permutation of these numbers, which describes the order in which clients have been seen by the asked neighbour.However, some facts are very suspicious – how it is that, according to some of given permutations, some client has been seen in the morning, while in others he has been seen in the evening? \"In the morning some of neighbours must have been sleeping!\" — thinks Gawry — \"and in the evening there's been too dark to see somebody's face...\". Now he wants to delete some prefix and some suffix (both prefix and suffix can be empty) in each permutation, so that they'll be non-empty and equal to each other after that — some of the potential criminals may disappear, but the testimony won't stand in contradiction to each other.In how many ways he can do it? Two ways are called different if the remaining common part is different.",
+    "prob_desc_output_spec": "Output a single integer denoting the number of ways to delete some prefix and some suffix of each permutation (possibly empty), such that the remaining parts will be equal and non-empty.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 100\\,000$$$, $$$1 \\le m \\le 10$$$) — the number of suspects and the number of asked neighbors. Each of the next $$$m$$$ lines contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le n$$$). It is guaranteed that these integers form a correct permutation (that is, each number from $$$1$$$ to $$$n$$$ appears exactly once).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_025.jsonl",
+    "code_uid": "4a9ac4c110c8517460a7d577b551941e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 2 3\\n2 3 1\", \"5 6\\n1 2 3 4 5\\n2 3 1 4 5\\n3 4 5 1 2\\n3 5 4 2 1\\n2 3 5 4 1\\n1 2 3 4 5\", \"2 2\\n1 2\\n2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def intersect(seqOne, seqTwo):\n\tseqOne = sorted(seqOne, key=lambda x: x[0])\n\tseqTwo = sorted(seqTwo, key=lambda x: x[0])\n\ti = 0\n\tj = 0\n\tans = []\n\twhile i < len(seqOne) and j < len(seqTwo):\n\t\ta,b = seqOne[i]\n\t\tc,d = seqTwo[j]\n\t\tif max(a,c) < min(b,d):\n\t\t\tans.append( (max(a,c), min(b,d)) )\n\t\tif b < d:\n\t\t\ti += 1\n\t\telse:\n\t\t\tj += 1\n\treturn ans\n\ndef main():\n\tn,m = map(int, input().strip().split())\n\torders = []\n\tfor i in range(m):\n\t\torders.append([int(x) for x in input().strip().split()])\n\t\n\tind = [0] * (n+1)\n\tfor i in range(1,n+1):\n\t\tind[orders[0][i-1]] = i\n\n\tsubseqs = [(1,n)]\n\tfor i in range(1,m):\n\t\torder = list(map(lambda x: ind[x], orders[i]))\n\t\ti = 0\n\t\tcurrSubseqs = []\n\t\tfor j in range(1,n):\n\t\t\tif order[j] == order[j-1] + 1:\n\t\t\t\tcontinue\n\t\t\telse:\n\t\t\t\tif j - i > 1:\n\t\t\t\t\tcurrSubseqs.append( (order[i], order[j-1]) )\n\t\t\t\ti = j\n\t\tif i != n-1:\n\t\t\tcurrSubseqs.append( (order[i], order[j]) )\n\n\t\tsubseqs = intersect(subseqs, currSubseqs)\n\t\tif len(subseqs) == 0:\n\t\t\tbreak\n\n\tans = n\n\tfor subseq in subseqs:\n\t\tx,y = subseq\n\t\tm = (y - x + 1)\n\t\tans += m * (m + 1) // 2 - m\n\n\tprint(ans)\t\n\t\n\n\nif __name__ == '__main__':\n\tmain()",
+    "prob_desc_created_at": "1540740900",
+    "tags": [
+        "combinatorics",
+        "two pointers",
+        "meet-in-the-middle",
+        "math",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

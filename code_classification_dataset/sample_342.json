@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\\n1\\n1 4\\nNo\\nNo\\nYes\\n3\\n1 2\\n3 1\\n2 3\"]",
+    "src_uid": "4985f4d65d636a006f2619ed821368ad",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This problem is different from the easy version. In this version Ujan makes at most $$$2n$$$ swaps. In addition, $$$k \\le 1000, n \\le 50$$$ and it is necessary to print swaps themselves. You can hack this problem if you solve it. But you can hack the previous problem only if you solve both problems.After struggling and failing many times, Ujan decided to try to clean up his house again. He decided to get his strings in order first.Ujan has two distinct strings $$$s$$$ and $$$t$$$ of length $$$n$$$ consisting of only of lowercase English characters. He wants to make them equal. Since Ujan is lazy, he will perform the following operation at most $$$2n$$$ times: he takes two positions $$$i$$$ and $$$j$$$ ($$$1 \\le i,j \\le n$$$, the values $$$i$$$ and $$$j$$$ can be equal or different), and swaps the characters $$$s_i$$$ and $$$t_j$$$.Ujan's goal is to make the strings $$$s$$$ and $$$t$$$ equal. He does not need to minimize the number of performed operations: any sequence of operations of length $$$2n$$$ or shorter is suitable.",
+    "prob_desc_output_spec": "For each test case, output \"Yes\" if Ujan can make the two strings equal with at most $$$2n$$$ operations and \"No\" otherwise. You can print each letter in any case (upper or lower). In the case of \"Yes\" print $$$m$$$ ($$$1 \\le m \\le 2n$$$) on the next line, where $$$m$$$ is the number of swap operations to make the strings equal. Then print $$$m$$$ lines, each line should contain two integers $$$i, j$$$ ($$$1 \\le i, j \\le n$$$) meaning that Ujan swaps $$$s_i$$$ and $$$t_j$$$ during the corresponding operation. You do not need to minimize the number of operations. Any sequence of length not more than $$$2n$$$ is suitable.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$k$$$ ($$$1 \\leq k \\leq 1000$$$), the number of test cases. For each of the test cases, the first line contains a single integer $$$n$$$ ($$$2 \\leq n \\leq 50$$$), the length of the strings $$$s$$$ and $$$t$$$.  Each of the next two lines contains the strings $$$s$$$ and $$$t$$$, each having length exactly $$$n$$$. The strings consist only of lowercase English letters. It is guaranteed that strings are different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_001.jsonl",
+    "code_uid": "e8db55221e0cb3c474cb5ba4080e6ce2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n5\\nsouse\\nhouhe\\n3\\ncat\\ndog\\n2\\naa\\naz\\n3\\nabc\\nbca\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\ndef minp():\n\treturn sys.stdin.readline().strip()\n\ndef mint():\n\treturn int(minp())\n\ndef mints():\n\treturn map(int,minp().split())\n\ndef swap(s, t, i, j):\n\tp.append((i+1,j+1))\n\ts[i],t[j] = t[j],s[i]\n\ndef find(s, v, i):\n\tfor j in range(i,len(s)):\n\t\tif s[j] == v:\n\t\t\treturn j\n\treturn -1\n\ndef solve():\n\tglobal p\n\tn = mint()\n\ts = list(minp())\n\tt = list(minp())\n\tc = [0]*26\n\tfor i in s:\n\t\tc[ord(i)-ord('a')] += 1\n\tfor i in t:\n\t\tc[ord(i)-ord('a')] += 1\n\tsame = True\n\tfor i in range(26):\n\t\tif c[i] % 2 != 0:\n\t\t\tprint(\"No\")\n\t\t\treturn\n\tp = []\n\tfor i in range(n):\n\t\tif s[i] != t[i]:\n\t\t\tif find(s,s[i],i+1) != -1:\n\t\t\t\tswap(s,t,find(s,s[i],i+1), i)\n\t\t\telif find(t,t[i],i+1) != -1:\n\t\t\t\tswap(s,t,i,find(t,t[i],i+1))\n\t\t\telse:\n\t\t\t\tswap(s,t,i,i)\n\t\t\t\tif find(s,s[i],i+1) != -1:\n\t\t\t\t\tswap(s,t,find(s,s[i],i+1), i)\n\t\t\t\telif find(t,t[i],i+1) != -1:\n\t\t\t\t\tswap(s,t,i,find(t,t[i],i+1))\n\t\t\t\t\n\t#print(s,t)\n\tif len(p) <= 2*n:\n\t\tprint(\"Yes\")\n\t\tprint(len(p))\n\t\tfor i in p:\n\t\t\tprint(*i)\n\t\treturn\n\tprint(\"No\")\n\t\nfor i in range(mint()):\n\tsolve()\n",
+    "prob_desc_created_at": "1573052700",
+    "tags": [
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

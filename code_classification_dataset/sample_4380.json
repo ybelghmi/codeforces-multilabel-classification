@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"MULTIPLE\", \"NONE\", \"UNIQUE\\nSSSSSSSSSS\\nSGGGGGGGGS\\nSGSSSSSSGS\\nSGSGGGGSGS\\nSGSGSSGSGS\\nSGSGSSGSGS\\nSGSGGGGSGS\\nSGSSSSSSGS\\nSGGGGGGGGS\\nSSSSSSSSSS\", \"NONE\"]",
+    "src_uid": "4425c6660c9e9c037e32c2e1c081b9c1",
+    "prob_desc_notes": "NoteFor the first test case, Omkar can make the mastapeecesSSSSSGGSSGGSSSSSand SSGGSSGGGGSSGGSS.For the second test case, it can be proven that it is impossible for Omkar to add tiles to create a mastapeece.For the third case, it can be proven that the given mastapeece is the only mastapeece Omkar can create by adding tiles.For the fourth test case, it's clearly impossible for the only tile in any mosaic Omkar creates to be adjacent to two tiles of the same color, as it will be adjacent to $$$0$$$ tiles total. ",
+    "prob_desc_description": "Omkar is creating a mosaic using colored square tiles, which he places in an $$$n \\times n$$$ grid. When the mosaic is complete, each cell in the grid will have either a glaucous or sinoper tile. However, currently he has only placed tiles in some cells. A completed mosaic will be a mastapeece if and only if each tile is adjacent to exactly $$$2$$$ tiles of the same color ($$$2$$$ tiles are adjacent if they share a side.) Omkar wants to fill the rest of the tiles so that the mosaic becomes a mastapeece. Now he is wondering, is the way to do this unique, and if it is, what is it?",
+    "prob_desc_output_spec": "On the first line, print UNIQUE if there is a unique way to get a mastapeece, NONE if Omkar cannot create any, and MULTIPLE if there is more than one way to do so. All letters must be uppercase. If you print UNIQUE, then print $$$n$$$ additional lines with $$$n$$$ characters in each line, such that the $$$i$$$-th character in the $$$j^{\\text{th}}$$$ line is $$$S$$$ if the tile in row $$$i$$$ and column $$$j$$$ of the mastapeece is sinoper, and $$$G$$$ if it is glaucous. ",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 2000$$$). Then follow $$$n$$$ lines with $$$n$$$ characters in each line. The $$$i$$$-th character in the $$$j$$$-th line corresponds to the cell in row $$$i$$$ and column $$$j$$$ of the grid, and will be $$$S$$$ if Omkar has placed a sinoper tile in this cell, $$$G$$$ if Omkar has placed a glaucous tile, $$$.$$$ if it's empty. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 3500,
+    "file_name": "train_096.jsonl",
+    "code_uid": "2b789c313224ccc55157a487155d383c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\nS...\\n..G.\\n....\\n...S\", \"6\\nS.....\\n....G.\\n..S...\\n.....S\\n....G.\\nG.....\", \"10\\n.S....S...\\n..........\\n...SSS....\\n..........\\n..........\\n...GS.....\\n....G...G.\\n..........\\n......G...\\n..........\", \"1\\n.\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\no = {'G':'S', 'S':'G'}\r\nn = int(sys.stdin.readline())\r\nd = [list(sys.stdin.readline()[:n]) for _ in range(n)]\r\nf = [1]*(n*n)\r\nfinished = 1\r\ndef none(): print('NONE'); sys.exit()\r\ndef printd(): print('\\n'.join(''.join(d[i]) for i in range(n)))\r\nif n % 2: none()\r\nx = ['']*(n//2)\r\ndef findt(i,j): return abs(j-i)//2 if (j - i) % 2 else min(i+j, 2*(n-1)-j-i) // 2\r\ndef findr(i,j,t):\r\n    if (j-i) % 2: return o[t] if min(i,j) % 2 else t\r\n    else:\r\n        if i+j < n: return o[t] if i % 2 else t\r\n        else: return t if i % 2 else o[t]\r\nfor i in range(n):\r\n    for j in range(n):\r\n        if d[i][j] != '.':\r\n            t = findt(i,j)\r\n            r = findr(i,j,d[i][j])\r\n            if x[t] == o[r]: none()\r\n            else: x[t] = r\r\nfor i in range(n//2):\r\n    if not x[i]: print('MULTIPLE'); sys.exit()\r\nfor i in range(n):    \r\n    for j in range(n):\r\n        d[i][j] = findr(i,j,x[findt(i,j)])\r\nprint('UNIQUE')\r\nprintd()\r\n",
+    "prob_desc_created_at": "1634468700",
+    "tags": [
+        "combinatorics",
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 2\\n\\n? 3 4\\n\\n? 4 4\\n\\n! aabc\"]",
+    "src_uid": "438d18b7381671df3a68fb421b6c8169",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This problem is different with easy version only by constraints on total answers lengthIt is an interactive problemVenya joined a tour to the madhouse, in which orderlies play with patients the following game. Orderlies pick a string $$$s$$$ of length $$$n$$$, consisting only of lowercase English letters. The player can ask two types of queries:   ? l r – ask to list all substrings of $$$s[l..r]$$$. Substrings will be returned in random order, and in every substring, all characters will be randomly shuffled.  ! s – guess the string picked by the orderlies. This query can be asked exactly once, after that the game will finish. If the string is guessed correctly, the player wins, otherwise he loses. The player can ask no more than $$$3$$$ queries of the first type.To make it easier for the orderlies, there is an additional limitation: the total number of returned substrings in all queries of the first type must not exceed $$$\\left\\lceil 0.777(n+1)^2 \\right\\rceil$$$ ($$$\\lceil x \\rceil$$$ is $$$x$$$ rounded up).Venya asked you to write a program, which will guess the string by interacting with the orderlies' program and acting by the game's rules.Your program should immediately terminate after guessing the string using a query of the second type. In case your program guessed the string incorrectly, or it violated the game rules, it will receive verdict Wrong answer.Note that in every test case the string is fixed beforehand and will not change during the game, which means that the interactor is not adaptive.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "First line contains number $$$n$$$ ($$$1 \\le n \\le 100$$$) — the length of the picked string.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_041.jsonl",
+    "code_uid": "96af280b0afb82f33da48fc634d9cc66",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\na\\naa\\na\\n\\ncb\\nb\\nc\\n\\nc\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdout\n\n\nclass String2:\n    def __init__(self, s, b=None):\n        if b is not None:\n            self.b = b\n            return\n        self.b = [0] * 26\n        for i in s:\n            self.b[ord(i) - ord('a')] += 1\n\n    def __add__(self, other):\n        b = self.b.copy()\n        for i in range(26):\n            b[i] += other.b[i]\n        return String2('', b)\n\n    def __sub__(self, other):\n        b = self.b.copy()\n        for i in range(26):\n            b[i] -= other.b[i]\n        return b\n\n    def __mul__(self, other):\n        ans = String2('', self.b)\n        for i in range(26):\n            ans.b[i] *= other\n        return ans\n\n\n\ndef req(l, r, k=0):\n    print('?', l, r)\n    v = [''.join(sorted(input())) for i in range((r - l + 1) * (r - l + 2) // 2)]\n    stdout.flush()\n    return v\n\n\ndef compute(v):\n    bukvi = [[0] * (n + 2) for _ in range(26)]\n    for el in v:\n        cur = len(el)\n        for e in el:\n            bukvi[ord(e) - ord('a')][cur] += 1\n    return bukvi\n\n\ndef compute2(bukvi):\n    bukvis = [set() for i in range(n + 2)]\n    for i in range(26):\n        prev = bukvi[i][1]\n        for j in range(1, n // 2 + n % 2 + 1):\n            while bukvi[i][j] != prev:\n                bukvis[j].add(chr(ord('a') + i))\n                prev += 1\n    return bukvis\n\n\ndef solve(va, va2):\n    for i in va2:\n        va.remove(i)\n    va.sort(key=len)\n    s = va[0]\n    for i in range(1, len(va)):\n        for j in range(26):\n            if va[i].count(chr(ord('a') + j)) != va[i - 1].count(chr(ord('a') + j)):\n                s += chr(ord('a') + j)\n    return s\n\n\ndef check(v, s, s2, f):\n    s3 = String2(v[0])\n    for i in range(1, len(v)):\n        s3 = s3 + String2(v[i])\n    le = len(v[0])\n    cur = String2('', String2('', f - String2(s)) - String2(s2)) * le\n    for i in range(le - 2):\n        cur = cur + (String2(s[i]) * (i + 1)) + (String2(s2[-i-1]) * (i + 1))\n    cur = cur + (String2(s[le - 2]) * (le - 1)) + (String2(s[le - 1:]) * le)\n    e = cur - s3\n    for i in range(26):\n        if e[i]:\n            return chr(ord('a') + i)\n\n\ndef main():\n    if n == 1:\n        va = req(1, 1)\n        print('!', va[0])\n        return\n    elif n == 2:\n        va2 = req(1, 1)\n        va3 = req(2, 2)\n        print('!', va2[0] + va3[0])\n        return\n    elif n == 3:\n        va = req(1, 1)\n        va2 = req(2, 2)\n        va3 = req(3, 3)\n        print('!', va[0] + va2[0] + va3[0])\n        return\n    va = req(1, n)\n    va2 = req(1, max(n // 2 + n % 2, 2))\n    va3 = req(2, max(n // 2 + n % 2, 2))\n    # bukvi2 = compute(va2)\n    # bukvi3 = compute(va3)\n    ma = [[] for i in range(n * 2)]\n    for i in va:\n        ma[len(i)].append(i)\n    a = String2(''.join(ma[1]))\n    s = solve(va2, va3)\n    s2 = ''\n    for i in range(2, n // 2 + 1):\n        s2 = check(ma[i], s, s2, a) + s2\n    se = String2('', a - String2(s)) - String2(s2)\n    for i in range(len(se)):\n        if se[i]:\n            s += chr(ord('a') + i)\n            break\n    print('!', s + s2)\n\n\nn = int(input())\nmain()\n",
+    "prob_desc_created_at": "1578233100",
+    "tags": [
+        "hashing",
+        "constructive algorithms",
+        "math",
+        "interactive",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

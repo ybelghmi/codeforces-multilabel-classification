@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"10\\n5\"]",
+    "src_uid": "dc35bdf56bb0ac341895e543b001b801",
+    "prob_desc_notes": null,
+    "prob_desc_description": "T is a complete binary tree consisting of n vertices. It means that exactly one vertex is a root, and each vertex is either a leaf (and doesn't have children) or an inner node (and has exactly two children). All leaves of a complete binary tree have the same depth (distance from the root). So n is a number such that n + 1 is a power of 2.In the picture you can see a complete binary tree with n = 15.  Vertices are numbered from 1 to n in a special recursive way: we recursively assign numbers to all vertices from the left subtree (if current vertex is not a leaf), then assign a number to the current vertex, and then recursively assign numbers to all vertices from the right subtree (if it exists). In the picture vertices are numbered exactly using this algorithm. It is clear that for each size of a complete binary tree exists exactly one way to give numbers to all vertices. This way of numbering is called symmetric.You have to write a program that for given n answers q queries to the tree.Each query consists of an integer number ui (1 ≤ ui ≤ n) and a string si, where ui is the number of vertex, and si represents the path starting from this vertex. String si doesn't contain any characters other than 'L', 'R' and 'U', which mean traverse to the left child, to the right child and to the parent, respectively. Characters from si have to be processed from left to right, considering that ui is the vertex where the path starts. If it's impossible to process a character (for example, to go to the left child of a leaf), then you have to skip it. The answer is the number of vertex where the path represented by si ends.For example, if ui = 4 and si = «UURL», then the answer is 10.",
+    "prob_desc_output_spec": "Print q numbers, i-th number must be the answer to the i-th query.",
+    "prob_desc_input_spec": "The first line contains two integer numbers n and q (1 ≤ n ≤ 1018, q ≥ 1). n is such that n + 1 is a power of 2. The next 2q lines represent queries; each query consists of two consecutive lines. The first of these two lines contains ui (1 ≤ ui ≤ n), the second contains non-empty string si. si doesn't contain any characters other than 'L', 'R' and 'U'. It is guaranteed that the sum of lengths of si (for each i such that 1 ≤ i ≤ q) doesn't exceed 105.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_002.jsonl",
+    "code_uid": "c4083e607e85748bbdd248c531dda178",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"15 2\\n4\\nUURL\\n8\\nLRLLLLLLLL\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, q = map(int, raw_input().split())\nqueries = []\nfor i in range(q):\n    u = int(raw_input())\n    s = raw_input()\n    queries.append((u, s))\n\ndef coords(n, u):\n    level = 0\n    while (u & 1) == 0:\n        u >>= 1\n        level += 1\n    return level, (u - 1) / 2\n\ndef uncoords(n, level, idx):\n    return (1 << level) * (2 * idx + 1)\n\ndef get_up(n, u):\n    level, idx = coords(n, u)\n    # already at root\n    if u == (n + 1) / 2:\n        return u\n    new_level = level + 1\n    new_idx = idx / 2\n    return uncoords(n, new_level, new_idx)\n\ndef get_left(n, u):\n    level, idx = coords(n, u)\n    # already at leaf\n    if level == 0:\n        return u\n    new_level = level - 1\n    new_idx = idx * 2\n    return uncoords(n, new_level, new_idx)\n\ndef get_right(n, u):\n    level, idx = coords(n, u)\n    # already at leaf\n    if level == 0:\n        return u\n    new_level = level - 1\n    new_idx = idx * 2 + 1\n    return uncoords(n, new_level, new_idx)\n\naction = {'U': get_up, 'L': get_left, 'R': get_right}\n\nfor u, s in queries:\n    cur = u\n    for c in s:\n        cur = action[c](n, cur)\n    print cur\n",
+    "prob_desc_created_at": "1490625300",
+    "tags": [
+        "bitmasks",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

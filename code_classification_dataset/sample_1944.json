@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"2\"]",
+    "src_uid": "9ed2a081b65df66629fcf0d4fc0bb02c",
+    "prob_desc_notes": "NoteConsider the first sample test. Here the string s has two good substrings: \"b??\" (after we replace the question marks we get \"baa\"), \"???\" (after we replace the question marks we get \"baa\").Let's consider the second sample test. Here the string s has two good substrings: \"ab?\" (\"?\" can be replaced by \"c\"), \"b?c\" (\"?\" can be replaced by \"a\").",
+    "prob_desc_description": "A string t is called an anagram of the string s, if it is possible to rearrange letters in t so that it is identical to the string s. For example, the string \"aab\" is an anagram of the string \"aba\" and the string \"aaa\" is not.The string t is called a substring of the string s if it can be read starting from some position in the string s. For example, the string \"aba\" has six substrings: \"a\", \"b\", \"a\", \"ab\", \"ba\", \"aba\".You are given a string s, consisting of lowercase Latin letters and characters \"?\". You are also given a string p, consisting of lowercase Latin letters only. Let's assume that a string is good if you can obtain an anagram of the string p from it, replacing the \"?\" characters by Latin letters. Each \"?\" can be replaced by exactly one character of the Latin alphabet. For example, if the string p = «aba», then the string \"a??\" is good, and the string «?bc» is not. Your task is to find the number of good substrings of the string s (identical substrings must be counted in the answer several times).",
+    "prob_desc_output_spec": "Print the single number representing the number of good substrings of string s. Two substrings are considered different in their positions of occurrence are different. Thus, if some string occurs several times, then it should be counted the same number of times.",
+    "prob_desc_input_spec": "The first line is non-empty string s, consisting of no more than 105 lowercase Latin letters and characters \"?\". The second line is non-empty string p, consisting of no more than 105 lowercase Latin letters. Please note that the length of the string p can exceed the length of the string s.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_015.jsonl",
+    "code_uid": "4554a2bd185ee93367daa91e09f62ebb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"bb??x???\\naab\", \"ab?c\\nacb\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s = raw_input()\np = raw_input()\n\n\nfrom collections import Counter\n\ndp = Counter(p)\ndef eqp(d):\n    need = 0\n\n    p = dp\n\n    for key in p:\n\n        if key not in d:\n            need += p[key]\n            continue\n\n        if d[key] > p[key]:\n            return False\n\n        if d[key] < p[key]:\n            need += p[key] - d[key]\n            continue\n\n    if \"?\" in d:\n        if need != d[\"?\"]:\n            return False\n        else:\n            return True\n\n    else:\n        if need == 0:\n            return True\n        else:\n            return False\n\n\nd = {}\ncount = 0\n\nfor i in xrange(len(s)):\n    if i >= len(p):\n        d[s[i-len(p)]] -= 1\n        if d[s[i-len(p)]] == 0:\n            del d[s[i-len(p)]]\n\n    if s[i] not in d:\n        d[s[i]] = 0\n    d[s[i]] += 1\n\n\n    if eqp(d):\n        count += 1\n\nprint count",
+    "prob_desc_created_at": "1326899100",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

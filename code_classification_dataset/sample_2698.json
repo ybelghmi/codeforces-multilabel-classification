@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n28\\n61\\n2834\"]",
+    "src_uid": "2f3ae0013e0fc3a79611041a0245f370",
+    "prob_desc_notes": "NoteHere is a possible password matrix for the second safe: 239307977Here is a possible password matrix for the fourth safe: 9001000200021223 ",
+    "prob_desc_description": "Polycarpus has t safes. The password for each safe is a square matrix consisting of decimal digits '0' ... '9' (the sizes of passwords to the safes may vary). Alas, Polycarpus has forgotten all passwords, so now he has to restore them.Polycarpus enjoys prime numbers, so when he chose the matrix passwords, he wrote a prime number in each row of each matrix. To his surprise, he found that all the matrices turned out to be symmetrical (that is, they remain the same after transposition). Now, years later, Polycarp was irritated to find out that he remembers only the prime numbers pi, written in the first lines of the password matrices.For each safe find the number of matrices which can be passwords to it.The number of digits in pi determines the number of rows and columns of the i-th matrix. One prime number can occur in several rows of the password matrix or in several matrices. The prime numbers that are written not in the first row of the matrix may have leading zeros.",
+    "prob_desc_output_spec": "Print t numbers, the i-th of them should be the number of matrices that can be a password to the i-th safe. Print the numbers on separate lines.",
+    "prob_desc_input_spec": "The first line of the input contains an integer t (1 ≤ t ≤ 30) — the number of safes. Next t lines contain integers pi (10 ≤ pi ≤ 99999), pi is a prime number written in the first row of the password matrix for the i-th safe. All pi's are written without leading zeros.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_028.jsonl",
+    "code_uid": "e7edb23f6e37ccc7dc7b6cf09d932bb6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n11\\n239\\n401\\n9001\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\ndef primes(n):\n    pr = range(n)\n    for i in xrange(2,n):\n        if not pr[i]: continue\n        ii=i*i\n        if ii>n: break\n        pr[ii::i]=[0]*len(pr[ii::i])\n    return filter(None,pr)[1:]\npr = primes(100000)\npe = defaultdict(lambda: defaultdict(int))\nfor p in pr:\n    pe[p%10][p/100]+=1\n\nph = defaultdict(lambda: defaultdict(int))\nfor p in pr:\n    ph[p/100][p/10%10]+=1\n\ndef pc(l):\n    a = 10**(l-1)\n    b = a*10\n    pp = [x for x in pr if x<b]\n    pd = [defaultdict(list) for _ in xrange(l)]\n    pl = [defaultdict(int) for _ in xrange(l)]\n    ap = [set() for _ in xrange(l)]\n    for i in xrange(1,l):\n        a = 10**(l-i)\n        for p in pp:\n            pd[i][p/a].append(p)\n            ap[i].add(p/a)\n        for k in pd[i].keys(): pl[i][k] = len(pd[i][k])\n    return pd,ap,pl\n\ndd = [pc(i) for i in xrange(6)]\n\ndef digits(p,n,r = None):\n    if r is None: r = [0]*n\n    else: r = [x*10 for x in r]\n    for i in xrange(n):\n        r[-i-1]+=(p%10)\n        p/=10\n    return r\n\nbx = {}\ndef sbx(a,b,c):\n    r = 0\n    for k,v in ph[a].iteritems():\n        r += v*pe[k][b]\n    bx[c]=r\n    return r\n\nz1 = [j%10 for j in xrange(100000)]\nz2 = [j/10%10 for j in xrange(100000)]\ndef solve5(p,(d,a,l)):\n    pd = digits(p,5)\n    r = 0\n\n    for i in d[1][pd[1]]:\n        pd2 = digits(i,5,pd)\n        aa,bb = pd2[4]*10, pd2[3]*10\n        for j in d[2][pd2[2]]:\n            a = z1[j]+aa\n            b = bb+z2[j]\n            c = (a<<10)|b\n\n            if c in bx: r+=bx[c]\n            else: r+= sbx(a,b,c)\n\n    return r\n\ndef solve4(p,(d,a,l)):\n    pd = digits(p,4)\n    r = 0\n    for i in d[1][pd[1]]:\n        a = i%10+pd[3]*10\n        b = i/10%10+pd[2]*10\n        c = (a<<10)|b\n        if c in bx: r+=bx[c]\n        else: r+= sbx(a,b,c)\n    return r\n\ndef solve3(p,(d,a,l)):\n    pd = digits(p,3)\n    a,b = pd[2],pd[1]\n    r = sbx(a,b,(a<<10)|b)\n    return r\n\ndef solve2(p,(d,a,l)):\n    return len(d[1][p%10])\n\nt = input()\nah = {}\nfor _ in xrange(t):\n    p = input()\n    if p in ah:\n        print ah[p]\n        continue\n    r = 0\n    if p>=10000: r = solve5(p,dd[5])\n    elif p>=1000: r = solve4(p,dd[4])\n    elif p>=100: r = solve3(p,dd[3])\n    else: r = solve2(p,dd[2])\n    ah[p] = r\n    print r\n",
+    "prob_desc_created_at": "1331478300",
+    "tags": [
+        "dp",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n-1\\n8\"]",
+    "src_uid": "fe7186f7d026eb4cd2e1afda75ac9fcd",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The robot is placed in the top left corner of a grid, consisting of $$$n$$$ rows and $$$m$$$ columns, in a cell $$$(1, 1)$$$.In one step, it can move into a cell, adjacent by a side to the current one:   $$$(x, y) \\rightarrow (x, y + 1)$$$;  $$$(x, y) \\rightarrow (x + 1, y)$$$;  $$$(x, y) \\rightarrow (x, y - 1)$$$;  $$$(x, y) \\rightarrow (x - 1, y)$$$. The robot can't move outside the grid.The cell $$$(s_x, s_y)$$$ contains a deadly laser. If the robot comes into some cell that has distance less than or equal to $$$d$$$ to the laser, it gets evaporated. The distance between two cells $$$(x_1, y_1)$$$ and $$$(x_2, y_2)$$$ is $$$|x_1 - x_2| + |y_1 - y_2|$$$.Print the smallest number of steps that the robot can take to reach the cell $$$(n, m)$$$ without getting evaporated or moving outside the grid. If it's not possible to reach the cell $$$(n, m)$$$, print -1.The laser is neither in the starting cell, nor in the ending cell. The starting cell always has distance greater than $$$d$$$ to the laser.",
+    "prob_desc_output_spec": "For each testcase, print a single integer. If it's possible to reach the cell $$$(n, m)$$$ from $$$(1, 1)$$$ without getting evaporated or moving outside the grid, then print the smallest amount of steps it can take the robot to reach it. Otherwise, print -1.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. The only line of each testcase contains five integers $$$n, m, s_x, s_y, d$$$ ($$$2 \\le n, m \\le 1000$$$; $$$1 \\le s_x \\le n$$$; $$$1 \\le s_y \\le m$$$; $$$0 \\le d \\le n + m$$$) — the size of the grid, the cell that contains the laser and the evaporating distance of the laser. The laser is neither in the starting cell, nor in the ending cell ($$$(s_x, s_y) \\neq (1, 1)$$$ and $$$(s_x, s_y) \\neq (n, m)$$$). The starting cell $$$(1, 1)$$$ always has distance greater than $$$d$$$ to the laser ($$$|s_x - 1| + |s_y - 1| &gt; d$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_090.jsonl",
+    "code_uid": "51de87c40d8af03caf5f7a50b17e464b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n2 3 1 3 0\\n\\n2 3 1 3 1\\n\\n5 5 3 4 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for i in range(int(input())):\r\n    n,m,sx,sy,d=map(int,input().split())\r\n    if n-sx<=d and sx-1<=d:\r\n        print(-1)\r\n    elif m-sy<=d and sy-1<=d:\r\n        print(-1)\r\n    elif sy-1<=d and sx-1<=d:\r\n        print(-1)\r\n    elif n-sx<=d and m-sy<=d:\r\n        print(-1)\r\n    else:\r\n        print(n+m-2)\r\n        ",
+    "prob_desc_created_at": "1661610900",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

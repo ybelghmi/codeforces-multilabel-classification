@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\", \"2\"]",
+    "src_uid": "10efa17a66af684dbc13c456ddef1b1b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have written on a piece of paper an array of n positive integers a[1], a[2], ..., a[n] and m good pairs of integers (i1, j1), (i2, j2), ..., (im, jm). Each good pair (ik, jk) meets the following conditions: ik + jk is an odd number and 1 ≤ ik &lt; jk ≤ n.In one operation you can perform a sequence of actions:   take one of the good pairs (ik, jk) and some integer v (v &gt; 1), which divides both numbers a[ik] and a[jk];  divide both numbers by v, i. e. perform the assignments:  and . Determine the maximum number of operations you can sequentially perform on the given array. Note that one pair may be used several times in the described operations.",
+    "prob_desc_output_spec": "Output the answer for the problem.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n, m (2 ≤ n ≤ 100, 1 ≤ m ≤ 100). The second line contains n space-separated integers a[1], a[2], ..., a[n] (1 ≤ a[i] ≤ 109) — the description of the array. The following m lines contain the description of good pairs. The k-th line contains two space-separated integers ik, jk (1 ≤ ik &lt; jk ≤ n, ik + jk is an odd number). It is guaranteed that all the good pairs are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_003.jsonl",
+    "code_uid": "caa0ae34e1ca58574edf92dcd1bacb61",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n8 3 8\\n1 2\\n2 3\", \"3 2\\n8 12 8\\n1 2\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def g(i):\n    u[i] = 0\n    for j in p[i]:\n        if v[j] < 0 or u[v[j]] and g(v[j]):\n            v[j] = i\n            return 1\n    return 0\n\nf = lambda: map(int, input().split())\nn, m = f()\ns = k = 0\nd = [[]]\nfor i in f():\n    j = 2\n    t = []\n    while j * j <= i:\n        while i % j == 0:\n            t.append((j, k))\n            k += 1\n            i //= j\n        j += 1\n    if i > 1:\n        t.append((i, k))\n        k += 1\n    d.append(t)\np = [[] for i in range(k)]\nfor q in range(m):\n    a, b = f()\n    if b % 2: a, b = b, a\n    for x, i in d[a]:\n        for y, j in d[b]:\n            if x == y: p[i].append(j)\nv = [-1] * k\nfor i in range(k):\n    u = [1] * k\n    s += g(i)\nprint(s)\n",
+    "prob_desc_created_at": "1419438600",
+    "tags": [
+        "graph matchings",
+        "flows",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

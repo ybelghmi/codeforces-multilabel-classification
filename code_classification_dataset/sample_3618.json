@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\"]",
+    "src_uid": "2452c30e7820ae2fa9a9ff4698760326",
+    "prob_desc_notes": "NoteBefore 1. turn move to position 5Before 2. turn move to position 9Before 5. turn move to position 8",
+    "prob_desc_description": "Bananistan is a beautiful banana republic. Beautiful women in beautiful dresses. Beautiful statues of beautiful warlords. Beautiful stars in beautiful nights.In Bananistan people play this crazy game – Bulbo. There’s an array of bulbs and player at the position, which represents one of the bulbs. The distance between two neighboring bulbs is 1. Before each turn player can change his position with cost |posnew - posold|. After that, a contiguous set of bulbs lights-up and player pays the cost that’s equal to the distance to the closest shining bulb. Then, all bulbs go dark again. The goal is to minimize your summed cost. I tell you, Bananistanians are spending their nights playing with bulbs.Banana day is approaching, and you are hired to play the most beautiful Bulbo game ever. A huge array of bulbs is installed, and you know your initial position and all the light-ups in advance. You need to play the ideal game and impress Bananistanians, and their families.",
+    "prob_desc_output_spec": "Output should contain a single number which represents the best result (minimum cost) that could be obtained by playing this Bulbo game.",
+    "prob_desc_input_spec": "The first line contains number of turns n and initial position x. Next n lines contain two numbers lstart and lend, which represent that all bulbs from interval [lstart, lend] are shining this turn.   1 ≤ n ≤ 5000  1 ≤ x ≤ 109  1 ≤ lstart ≤ lend ≤ 109 ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_073.jsonl",
+    "code_uid": "3d41a14aea150376b54c2e205e53e278",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n2 7\\n9 16\\n8 10\\n9 17\\n1 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n \ninp = [int(x) for x in sys.stdin.read().split()]; ii = 0\n\nn = inp[ii]; ii += 1\nxl = xr = inp[ii]; ii += 1\n\ncost = 0\nfor _ in range(n):\n    l = inp[ii]; ii += 1\n    r = inp[ii]; ii += 1\n\n    # overlap\n    if (max(r, xr) - min(l, xl) + 1) < (xr - xl + 1) + (r - l + 1):\n        xl, xr = max(l, xl), min(r, xr)\n    elif r < xl:\n        cost += xl - r\n        xl, xr = r, xl\n    else:\n        cost += l - xr\n        xl, xr = xr, l\nprint cost\n",
+    "prob_desc_created_at": "1441526400",
+    "tags": [
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

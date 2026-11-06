@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"First\\n2\", \"Second\"]",
+    "src_uid": "f5d9490dc6e689944649820df5f23657",
+    "prob_desc_notes": "NoteIn the first sample the first player has multiple winning moves. But the minimum one is to cut the character in position 2. In the second sample the first player has no available moves.",
+    "prob_desc_description": "Two people play the following string game. Initially the players have got some string s. The players move in turns, the player who cannot make a move loses. Before the game began, the string is written on a piece of paper, one letter per cell.  An example of the initial situation at s = \"abacaba\" A player's move is the sequence of actions:  The player chooses one of the available pieces of paper with some string written on it. Let's denote it is t. Note that initially, only one piece of paper is available.  The player chooses in the string t = t1t2... t|t| character in position i (1 ≤ i ≤ |t|) such that for some positive integer l (0 &lt; i - l; i + l ≤ |t|) the following equations hold: ti - 1 = ti + 1, ti - 2 = ti + 2, ..., ti - l = ti + l.  Player cuts the cell with the chosen character. As a result of the operation, he gets three new pieces of paper, the first one will contain string t1t2... ti - 1, the second one will contain a string consisting of a single character ti, the third one contains string ti + 1ti + 2... t|t|.   An example of making action (i = 4) with string s = «abacaba» Your task is to determine the winner provided that both players play optimally well. If the first player wins, find the position of character that is optimal to cut in his first move. If there are multiple positions, print the minimal possible one.",
+    "prob_desc_output_spec": "If the second player wins, print in the single line \"Second\" (without the quotes). Otherwise, print in the first line \"First\" (without the quotes), and in the second line print the minimal possible winning move — integer i (1 ≤ i ≤ |s|).",
+    "prob_desc_input_spec": "The first line contains string s (1 ≤ |s| ≤ 5000). It is guaranteed that string s only contains lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_017.jsonl",
+    "code_uid": "06c42845e9bcb693cb58d286fb6ef6ce",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"abacaba\", \"abcde\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\n\ndef task():\n    value = stdin.readline()\n    games = []\n    counter = 0\n    for i in xrange(1, len(value)-1):\n        if value[i - 1] == value[i + 1]:\n            counter += 1\n        else:\n            if counter > 0:\n                games.append(counter)\n            counter = 0\n    if counter > 0:\n        games.append(counter)\n    max_game = max(games) if games else 0\n\n    grundi = [0, 1, 1]\n    for n in xrange(3, max_game + 1):\n        s = {grundi[i] ^ grundi[n - i - 3] for i in xrange(0, n // 2 + 1)}\n        s.add(grundi[n - 2])\n        for i in xrange(n):\n            if i not in s:\n                grundi.append(i)\n                break\n\n    g = 0\n    for game in games:\n        g ^= grundi[game]\n    print 'First' if g > 0 else 'Second'\n\n    def check(n, g):\n        if n < 3:\n            return 0 if g == 0 else -1\n        else:\n            if grundi[n - 2] ^ g == 0:\n                return 0\n            for i in xrange(0, n - 2):\n                if g ^ grundi[i] ^ grundi[n - i - 3] == 0:\n                    return i + 1\n            return -1\n\n    cache = set()\n    counter = 0\n    delta = 0\n    if g > 0:\n        for i in xrange(1, len(value)-1):\n            if value[i - 1] == value[i + 1]:\n                if not delta:\n                    delta = i + 1\n                counter += 1\n            else:\n                if counter > 0:\n                    if counter not in cache:\n                        p = check(counter, grundi[counter] ^ g)\n                        if p >= 0:\n                            print delta + p\n                            quit()\n                        cache.add(counter)\n                counter = 0\n                delta = 0\n        print delta + check(counter, grundi[counter] ^ g)\n\ntask()",
+    "prob_desc_created_at": "1368968400",
+    "tags": [
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

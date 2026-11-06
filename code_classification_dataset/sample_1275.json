@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\"]",
+    "src_uid": "4ea1de740aa131cae632c612e1d582ed",
+    "prob_desc_notes": "NoteIn the sample input one of the possible maximum 2-multiple free subsets is {4, 5, 6}.",
+    "prob_desc_description": "A k-multiple free set is a set of integers where there is no pair of integers where one is equal to another integer multiplied by k. That is, there are no two integers x and y (x &lt; y) from the set, such that y = x·k.You're given a set of n distinct positive integers. Your task is to find the size of it's largest k-multiple free subset.",
+    "prob_desc_output_spec": "On the only line of the output print the size of the largest k-multiple free subset of {a1, a2, ..., an}.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and k (1 ≤ n ≤ 105, 1 ≤ k ≤ 109). The next line contains a list of n distinct positive integers a1, a2, ..., an (1 ≤ ai ≤ 109). All the numbers in the lines are separated by single spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_007.jsonl",
+    "code_uid": "24f56e8c8138255ec89fad0283bb5dbe",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 2\\n2 3 6 5 4 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, input().split())\nnums = list(map(int, input().split()))\nif k == 1:\n\tprint(len(nums))\nelse:\n\tr = set()\n\tfor i in sorted(nums):\n\t\tif i in r:\n\t\t\tcontinue\n\t\telse:\n\t\t\tr.add(i * k)\n\tprint(len([i for i in nums if i not in r]))\n",
+    "prob_desc_created_at": "1361374200",
+    "tags": [
+        "binary search",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 2 1\", \"1 2\", \"1 4 3 2 5\"]",
+    "src_uid": "c994ae45ac126c3ee16e77617b4554fc",
+    "prob_desc_notes": "NoteIn the first example for each $$$i$$$ there is no index $$$j$$$ satisfying both conditions, hence $$$s_i$$$ are always $$$0$$$.In the second example for $$$i = 2$$$ it happens that $$$j = 1$$$ satisfies the conditions, so $$$s_2 = p_1$$$.In the third example for $$$i = 2, 3, 4$$$ only $$$j = 1$$$ satisfies the conditions, so $$$s_2 = s_3 = s_4 = 1$$$. For $$$i = 5$$$ all $$$j = 1, 2, 3, 4$$$ are possible, so $$$s_5 = p_1 + p_2 + p_3 + p_4 = 10$$$.",
+    "prob_desc_description": "An array of integers $$$p_{1},p_{2}, \\ldots,p_{n}$$$ is called a permutation if it contains each number from $$$1$$$ to $$$n$$$ exactly once. For example, the following arrays are permutations: $$$[3,1,2], [1], [1,2,3,4,5]$$$ and $$$[4,3,1,2]$$$. The following arrays are not permutations: $$$[2], [1,1], [2,3,4]$$$.There is a hidden permutation of length $$$n$$$.For each index $$$i$$$, you are given $$$s_{i}$$$, which equals to the sum of all $$$p_{j}$$$ such that $$$j &lt; i$$$ and $$$p_{j} &lt; p_{i}$$$. In other words, $$$s_i$$$ is the sum of elements before the $$$i$$$-th element that are smaller than the $$$i$$$-th element.Your task is to restore the permutation.",
+    "prob_desc_output_spec": "Print $$$n$$$ integers $$$p_{1}, p_{2}, \\ldots, p_{n}$$$ — the elements of the restored permutation. We can show that the answer is always unique.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^{5}$$$) — the size of the permutation. The second line contains $$$n$$$ integers $$$s_{1}, s_{2}, \\ldots, s_{n}$$$ ($$$0 \\le s_{i} \\le \\frac{n(n-1)}{2}$$$). It is guaranteed that the array $$$s$$$ corresponds to a valid permutation of length $$$n$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_053.jsonl",
+    "code_uid": "1ea0d828783eef7b0d31941f80b1538a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0 0 0\", \"2\\n0 1\", \"5\\n0 1 1 1 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N = int(raw_input())\narr = list(map(int,raw_input().split()))\nseen = [0 for x in range(N+1)]\ncnt = 1\n\ntree = [0 for x in range(200001)]\n\ndef update(i, v):\n\twhile i < 200001:\n\t\ttree[i] += v\n\t\ti += i&-i\n\ndef query(i):\n\tres = 0\n\twhile i > 0:\n\t\tres += tree[i]\n\t\ti -= i&-i\n\treturn res\n\nfor i in range(N-1,-1,-1):\n\tif arr[i]==0:\n\t\tarr[i] = cnt\n\t\tseen[cnt] = 1\n\t\tupdate(cnt,cnt)\n\t\tcnt += 1\n\telse:\n\t\tlo = 0\n\t\thi = N\n\t\twhile lo < hi:\n\t\t\tmid = (lo+hi)/2\n\t\t\tcur = mid*(mid+1)/2\n\t\t\tcur -= query(mid)\n\t\t\tif arr[i] < cur:\n\t\t\t\thi = mid\n\t\t\telse:\n\t\t\t\tlo = mid+1\n\t\twhile lo < N and seen[lo]:\n\t\t\tlo += 1\n\t\tarr[i] = lo\n\t\tseen[lo] = 1\n\t\tupdate(lo,lo)\n\twhile cnt < N and seen[cnt]:\n\t\tcnt += 1\n\nprint \" \".join([str(x) for x in arr])",
+    "prob_desc_created_at": "1566743700",
+    "tags": [
+        "data structures",
+        "binary search",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

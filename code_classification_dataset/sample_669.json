@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\"]",
+    "src_uid": "cf7520d88e10ba171de443f36fdd2b73",
+    "prob_desc_notes": "NoteIn the first example only component $$$[3, 4, 5]$$$ is also a cycle.The illustration above corresponds to the second example.",
+    "prob_desc_description": "You are given an undirected graph consisting of $$$n$$$ vertices and $$$m$$$ edges. Your task is to find the number of connected components which are cycles.Here are some definitions of graph theory.An undirected graph consists of two sets: set of nodes (called vertices) and set of edges. Each edge connects a pair of vertices. All edges are bidirectional (i.e. if a vertex $$$a$$$ is connected with a vertex $$$b$$$, a vertex $$$b$$$ is also connected with a vertex $$$a$$$). An edge can't connect vertex with itself, there is at most one edge between a pair of vertices.Two vertices $$$u$$$ and $$$v$$$ belong to the same connected component if and only if there is at least one path along edges connecting $$$u$$$ and $$$v$$$.A connected component is a cycle if and only if its vertices can be reordered in such a way that:  the first vertex is connected with the second vertex by an edge,  the second vertex is connected with the third vertex by an edge,  ...  the last vertex is connected with the first vertex by an edge,  all the described edges of a cycle are distinct. A cycle doesn't contain any other edges except described above. By definition any cycle contains three or more vertices.    There are $$$6$$$ connected components, $$$2$$$ of them are cycles: $$$[7, 10, 16]$$$ and $$$[5, 11, 9, 15]$$$. ",
+    "prob_desc_output_spec": "Print one integer — the number of connected components which are also cycles.",
+    "prob_desc_input_spec": "The first line contains two integer numbers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$, $$$0 \\le m \\le 2 \\cdot 10^5$$$) — number of vertices and edges. The following $$$m$$$ lines contains edges: edge $$$i$$$ is given as a pair of vertices $$$v_i$$$, $$$u_i$$$ ($$$1 \\le v_i, u_i \\le n$$$, $$$u_i \\ne v_i$$$). There is no multiple edges in the given graph, i.e. for each pair ($$$v_i, u_i$$$) there no other pairs ($$$v_i, u_i$$$) and ($$$u_i, v_i$$$) in the list of edges.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_003.jsonl",
+    "code_uid": "deaf6c00ab8765d764d4c1168f86e444",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n1 2\\n3 4\\n5 4\\n3 5\", \"17 15\\n1 8\\n1 12\\n5 11\\n11 9\\n9 15\\n15 5\\n4 13\\n3 13\\n4 3\\n10 16\\n7 10\\n16 7\\n14 3\\n14 4\\n17 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\n\ndef main():\n    n, m = map(int, stdin.readline().split())\n    adj = [[] for _ in range(n)]\n    for _ in range(m):\n        v, u = map(int, stdin.readline().split())\n        adj[v - 1].append(u - 1)\n        adj[u - 1].append(v - 1)\n    check = [False] * n\n    stack = []\n    count = 0\n    for i in range(n):\n        if not check[i]:\n            first = i\n            cycle = 1\n            stack = [(i, -1)]\n\n            while stack:\n                c, p = stack.pop()\n                if check[c]:\n                    continue\n                else:\n                    check[c] = True\n                    if len(adj[c]) > 2 or len(adj[c]) <= 1:\n                        cycle = 0\n                    for nb in adj[c]:\n                        if nb != p:\n                            stack.append((nb, i))\n            count += cycle\n    print(count)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "prob_desc_created_at": "1525615500",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

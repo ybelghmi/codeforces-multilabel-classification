@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\\nYES\\nNO\\nNO\\nYES\"]",
+    "src_uid": "2d011ba7eaa16642d77dade98966b54a",
+    "prob_desc_notes": "NoteIn the first test case:  Initially $$$s_1 = \\mathtt{cbc}$$$, $$$s_2 = \\mathtt{aba}$$$.  Operation with $$$k = 1$$$, after the operation $$$s_1 = \\mathtt{abc}$$$, $$$s_2 = \\mathtt{abc}$$$. In the second test case:  Initially $$$s_1 = \\mathtt{abcaa}$$$, $$$s_2 = \\mathtt{cbabb}$$$.  Operation with $$$k = 2$$$, after the operation $$$s_1 = \\mathtt{bbcaa}$$$, $$$s_2 = \\mathtt{cbaab}$$$.  Operation with $$$k = 3$$$, after the operation $$$s_1 = \\mathtt{aabaa}$$$, $$$s_2 = \\mathtt{cbbbc}$$$.  Operation with $$$k = 1$$$, after the operation $$$s_1 = \\mathtt{cabaa}$$$, $$$s_2 = \\mathtt{cbbba}$$$.  Operation with $$$k = 2$$$, after the operation $$$s_1 = \\mathtt{babaa}$$$, $$$s_2 = \\mathtt{cbbca}$$$.  Operation with $$$k = 1$$$, after the operation $$$s_1 = \\mathtt{aabaa}$$$, $$$s_2 = \\mathtt{cbbcb}$$$.  Operation with $$$k = 2$$$, after the operation $$$s_1 = \\mathtt{cbbaa}$$$, $$$s_2 = \\mathtt{cbbaa}$$$. In the third test case, it's impossible to make strings equal.",
+    "prob_desc_description": "You have two strings $$$s_1$$$ and $$$s_2$$$ of length $$$n$$$, consisting of lowercase English letters. You can perform the following operation any (possibly zero) number of times:   Choose a positive integer $$$1 \\leq k \\leq n$$$.  Swap the prefix of the string $$$s_1$$$ and the suffix of the string $$$s_2$$$ of length $$$k$$$. Is it possible to make these two strings equal by doing described operations?",
+    "prob_desc_output_spec": "For each test case, print \"YES\" if it is possible to make the strings equal, and \"NO\" otherwise.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then the test cases follow. Each test case consists of three lines. The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the length of the strings $$$s_1$$$ and $$$s_2$$$.  The second line contains the string $$$s_1$$$ of length $$$n$$$, consisting of lowercase English letters. The third line contains the string $$$s_2$$$ of length $$$n$$$, consisting of lowercase English letters. It is guaranteed that the sum of $$$n$$$ for all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_091.jsonl",
+    "code_uid": "66cd98d4dc6d9d24a1d8e5aef40b1341",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n\\n3\\n\\ncbc\\n\\naba\\n\\n5\\n\\nabcaa\\n\\ncbabb\\n\\n5\\n\\nabcaa\\n\\ncbabz\\n\\n1\\n\\na\\n\\na\\n\\n1\\n\\na\\n\\nb\\n\\n6\\n\\nabadaa\\n\\nadaaba\\n\\n8\\n\\nabcabdaa\\n\\nadabcaba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n    n = int(input())\r\n    w1 = input()\r\n    w2 = input()[::-1]\r\n    pairs = {}\r\n    odd = 0\r\n    for x in range(n):\r\n        tmp_l = sorted([w1[x], w2[x]])\r\n        tmp = f'{tmp_l[0]}{tmp_l[1]}'\r\n        if tmp not in pairs:\r\n            pairs[tmp] = 1\r\n        else:\r\n            pairs[tmp] += 1\r\n    for k, v in pairs.items():\r\n        if v % 2 == 1:\r\n            if k[0] == k[1]:\r\n                odd += 1\r\n            else:\r\n                odd += 2\r\n                break\r\n    if odd <= 1:\r\n        print('YES')\r\n    else:\r\n        print('NO')\r\n",
+    "prob_desc_created_at": "1664116500",
+    "tags": [
+        "constructive algorithms",
+        "strings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

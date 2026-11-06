@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0.0000000\\n0\\n2.0000\\n0.00\\n1\"]",
+    "src_uid": "9f019c3898f27d687c5b3498586644e8",
+    "prob_desc_notes": "NoteIn the picture, the downtowns of the first three test cases are illustrated. Triangles are enumerated according to the indices of test cases they belong to.  In the first two test cases, all points on the borders of the downtowns are safe, thus the answers are $$$0$$$.In the following picture unsafe points for the third test case are marked with black color:  In the fourth test case, all points on the border of the downtown are safe.",
+    "prob_desc_description": "Sam lives in Awesomeburg, its downtown has a triangular shape. Also, the following is true about the triangle:  its vertices have integer coordinates,  the coordinates of vertices are non-negative, and  its vertices are not on a single line. He calls a point on the downtown's border (that is the border of the triangle) safe if he can reach this point from at least one point of the line $$$y = 0$$$ walking along some straight line, without crossing the interior of the triangle.  In the picture the downtown is marked with grey color. The first path is invalid because it does not go along a straight line. The second path is invalid because it intersects with the interior of the downtown. The third and fourth paths are correct. Find the total length of the unsafe parts of the downtown border. It can be proven that these parts are segments and their number is finite.",
+    "prob_desc_output_spec": "For each test case print a single number — the answer to the problem. Your answer will be considered correct if its absolute or relative error does not exceed $$$10^{-9}$$$. Formally let your answer be $$$a$$$, jury answer be $$$b$$$. Your answer will be considered correct if $$$\\frac{|a - b|}{\\max{(1, |b|)}} \\le 10^{-9}$$$.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Description of the test cases follows. Each test case contains three lines, each of them contains two integers $$$x_i$$$, $$$y_i$$$ ($$$0 \\le x_i, y_i \\le 10^9$$$) — coordinates of the vertices of the downtown's border.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_092.jsonl",
+    "code_uid": "37265648ec77aa531ad8d59a5c98a7fc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n8 10\\n10 4\\n6 2\\n4 6\\n0 1\\n4 2\\n14 1\\n11 2\\n13 2\\n0 0\\n4 0\\n2 4\\n0 1\\n1 1\\n0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input(\"\"))\r\n\r\nk=0\r\nne=[]\r\nfor i in range(n):\r\n    d=0\r\n    a=input(\"\")\r\n    \r\n    b=input(\"\")\r\n    c=input(\"\")\r\n    a=a.split()\r\n    b=b.split()\r\n    c=c.split()\r\n    l=[a,b,c]\r\n    if int(a[1])==int(b[1]) and int(c[1])<int(a[1]):\r\n        d=d+int(a[0])-int(b[0])\r\n    if int(b[1])==int(c[1]) and int(a[1])<int(c[1]):\r\n        d=d+int(b[0])-int(c[0])\r\n    if int(a[1])==int(c[1]) and int(b[1])<int(a[1]):\r\n        d=d+int(a[0])-int(c[0])\r\n    ne.append((d**2)**(1/2))\r\nfor j in ne:\r\n    print(j)    ",
+    "prob_desc_created_at": "1645611000",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

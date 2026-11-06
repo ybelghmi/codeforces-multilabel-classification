@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Bob\\nAlice\\nBob\\nAlice\"]",
+    "src_uid": "8e0b8f3cbee8e770245de72a8fb62e05",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Alice and Bob play a game. There is a paper strip which is divided into n + 1 cells numbered from left to right starting from 0. There is a chip placed in the n-th cell (the last one).Players take turns, Alice is first. Each player during his or her turn has to move the chip 1, 2 or k cells to the left (so, if the chip is currently in the cell i, the player can move it into cell i - 1, i - 2 or i - k). The chip should not leave the borders of the paper strip: it is impossible, for example, to move it k cells to the left if the current cell has number i &lt; k. The player who can't make a move loses the game.Who wins if both participants play optimally?Alice and Bob would like to play several games, so you should determine the winner in each game.",
+    "prob_desc_output_spec": "For each game, print Alice if Alice wins this game and Bob otherwise.",
+    "prob_desc_input_spec": "The first line contains the single integer T (1 ≤ T ≤ 100) — the number of games. Next T lines contain one game per line. All games are independent. Each of the next T lines contains two integers n and k (0 ≤ n ≤ 109, 3 ≤ k ≤ 109) — the length of the strip and the constant denoting the third move, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_006.jsonl",
+    "code_uid": "c643565ae4125d57d36f2b7dd2bffa9f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n0 3\\n3 3\\n3 4\\n4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "T=input()\nfor p in xrange(T):\n    n,k=map(int, raw_input().split())\n    if k%3==0:\n        s=n%(k+1)\n        if s%3==0 and s!=k:\n            print 'Bob'\n        else:\n            print 'Alice'\n    else:\n        if n%3==0:\n            print 'Bob'\n        else:\n            print 'Alice'",
+    "prob_desc_created_at": "1563115500",
+    "tags": [
+        "games",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

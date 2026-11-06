@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"-1\", \"2999999997\"]",
+    "src_uid": "9e71b4117a24b906dbc16e6a6d110f50",
+    "prob_desc_notes": "NoteConsider the first example. Suppose the third price decreases in the first second and become equal 12 rubles, then the first price decreases and becomes equal 9 rubles, and in the third second the third price decreases again and becomes equal 9 rubles. In this case all prices become equal 9 rubles in 3 seconds.There could be other possibilities, but this minimizes the time needed for all prices to become equal. Thus the answer is 3.In the second example we can notice that parity of first and second price is different and never changes within described process. Thus prices never can become equal.In the third example following scenario can take place: firstly, the second price drops, then the third price, and then fourth price. It happens 999999999 times, and, since in one second only one price can drop, the whole process takes 999999999 * 3 = 2999999997 seconds. We can note that this is the minimum possible time.",
+    "prob_desc_description": "Oleg the bank client checks share prices every day. There are n share prices he is interested in. Today he observed that each second exactly one of these prices decreases by k rubles (note that each second exactly one price changes, but at different seconds different prices can change). Prices can become negative. Oleg found this process interesting, and he asked Igor the financial analyst, what is the minimum time needed for all n prices to become equal, or it is impossible at all? Igor is busy right now, so he asked you to help Oleg. Can you answer this question?",
+    "prob_desc_output_spec": "Print the only line containing the minimum number of seconds needed for prices to become equal, of «-1» if it is impossible.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n ≤ 105, 1 ≤ k ≤ 109) — the number of share prices, and the amount of rubles some price decreases each second. The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 109) — the initial prices.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_004.jsonl",
+    "code_uid": "fe623d01a62905e2965e582e1bcbf14e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n12 9 15\", \"2 2\\n10 9\", \"4 1\\n1 1000000000 1000000000 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nn,k = map(int,stdin.readline().split())\ndef gcd(a,b):\n while a%b:\n  t = a%b; a = b; b = t\n return b\na = map(int,stdin.readline().split())\na.sort()\ng = a[0]\nfor i in a:\n g = gcd(g,i)\nans = -1\na.reverse()\nb = set()\nfor i in a:\n b.add(i%k)\nif len(b)==1:\n ans = 0\n for i in a:\n  ans += (i - a[-1])/k\nif n==1:\n ans = 0\nprint ans",
+    "prob_desc_created_at": "1492965900",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

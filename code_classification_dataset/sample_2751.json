@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"665496237\\n1\", \"0\\n8\\n665496236\"]",
+    "src_uid": "ccf4ac6b61b48604b7d9f49b7daaeb0f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are playing a computer game. In this game, you have to fight $$$n$$$ monsters.To defend from monsters, you need a shield. Each shield has two parameters: its current durability $$$a$$$ and its defence rating $$$b$$$. Each monster has only one parameter: its strength $$$d$$$.When you fight a monster with strength $$$d$$$ while having a shield with current durability $$$a$$$ and defence $$$b$$$, there are three possible outcomes:  if $$$a = 0$$$, then you receive $$$d$$$ damage;  if $$$a &gt; 0$$$ and $$$d \\ge b$$$, you receive no damage, but the current durability of the shield decreases by $$$1$$$;  if $$$a &gt; 0$$$ and $$$d &lt; b$$$, nothing happens. The $$$i$$$-th monster has strength $$$d_i$$$, and you will fight each of the monsters exactly once, in some random order (all $$$n!$$$ orders are equiprobable). You have to consider $$$m$$$ different shields, the $$$i$$$-th shield has initial durability $$$a_i$$$ and defence rating $$$b_i$$$. For each shield, calculate the expected amount of damage you will receive if you take this shield and fight the given $$$n$$$ monsters in random order.",
+    "prob_desc_output_spec": "Print $$$m$$$ integers, where the $$$i$$$-th integer represents the expected damage you receive with the $$$i$$$-th shield as follows: it can be proven that, for each shield, the expected damage is an irreducible fraction $$$\\dfrac{x}{y}$$$, where $$$y$$$ is coprime with $$$998244353$$$. You have to print the value of $$$x \\cdot y^{-1} \\bmod 998244353$$$, where $$$y^{-1}$$$ is the inverse element for $$$y$$$ ($$$y \\cdot y^{-1} \\bmod 998244353 = 1$$$).",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 2 \\cdot 10^5$$$) — the number of monsters and the number of shields, respectively. The second line contains $$$n$$$ integers $$$d_1$$$, $$$d_2$$$, ..., $$$d_n$$$ ($$$1 \\le d_i \\le 10^9$$$), where $$$d_i$$$ is the strength of the $$$i$$$-th monster. Then $$$m$$$ lines follow, the $$$i$$$-th of them contains two integers $$$a_i$$$ and $$$b_i$$$ ($$$1 \\le a_i \\le n$$$; $$$1 \\le b_i \\le 10^9$$$) — the description of the $$$i$$$-th shield.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_029.jsonl",
+    "code_uid": "d9eaecfbbb95516f84b7dcdd20bef1f9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 3 1\\n2 1\\n1 2\", \"3 3\\n4 2 6\\n3 1\\n1 2\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nimport sys;input=sys.stdin.readline\nmod = 998244353\n#mod=10**9+7\ndef frac(limit):\n    frac = [1]*limit\n    for i in range(2,limit):\n        frac[i] = i * frac[i-1]%mod\n    fraci = [None]*limit\n    fraci[-1] = pow(frac[-1], mod -2, mod)\n    for i in range(-2, -limit-1, -1):\n        fraci[i] = fraci[i+1] * (limit + i + 1) % mod\n    return frac, fraci\ndef mul(a, b):\n    return ((a % mod) * (b % mod)) % mod\ndef div(a, b):\n    return mul(a, pow(b, mod-2,mod))\n#frac, fraci = frac(141398)\n#print(fraci)\n\nN, M = map(int, input().split())\nX = list(map(int, input().split()))\nt = []\nfor i in range(N):\n    t.append((0, X[i]))\nQ = []\nfor i in range(M):\n    a, b = map(int, input().split())\n    Q.append((a, b))\n    t.append((1, b))\n\nY = [0]*(N+M)\nZ = [0]*(N+M)\nt.sort(key=lambda x:x[1])\nd = dict()\nd2 = [0]*(N+M)\ncnt = 0\nfor l, x in t:\n    if x not in d:\n        cnt += 1\n        d[x] = cnt\n        d2[cnt] = x\n    if not l:\n        Y[cnt] += 1\nfor i in range(N+M):\n    Z[i] = Y[i]*d2[i]\nY.append(0)\nZ.append(0)\nfor i in range(N+M-1, -1, -1):\n    Y[i] = Y[i+1]+Y[i]\n    Z[i] = Z[i+1]+Z[i]\n\nfor a, b in Q:\n    k=Y[d[b]]\n    R = 0\n    if k>a:\n        R += div((k-a),k)*Z[d[b]]\n    if k+1>a:\n        R += div((k+1-a),k+1)*(Z[0]-Z[d[b]])\n    print(R%mod)\n",
+    "prob_desc_created_at": "1600094100",
+    "tags": [
+        "combinatorics",
+        "binary search",
+        "probabilities"
+    ],
+    "hidden_unit_tests": ""
+}

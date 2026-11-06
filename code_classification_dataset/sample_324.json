@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\", \"9\", \"-1\"]",
+    "src_uid": "ab31ad331748994ddeb08be646d0787e",
+    "prob_desc_notes": "NoteIn the first example Vasiliy can behave as follows. On the first and the second day he can prepare for the exam number 1 and pass it on the fifth day, prepare for the exam number 2 on the third day and pass it on the fourth day.In the second example Vasiliy should prepare for the exam number 3 during the first four days and pass it on the fifth day. Then on the sixth day he should prepare for the exam number 2 and then pass it on the seventh day. After that he needs to prepare for the exam number 1 on the eighth day and pass it on the ninth day. In the third example Vasiliy can't pass the only exam because he hasn't anough time to prepare for it. ",
+    "prob_desc_description": "Vasiliy has an exam period which will continue for n days. He has to pass exams on m subjects. Subjects are numbered from 1 to m.About every day we know exam for which one of m subjects can be passed on that day. Perhaps, some day you can't pass any exam. It is not allowed to pass more than one exam on any day. On each day Vasiliy can either pass the exam of that day (it takes the whole day) or prepare all day for some exam or have a rest. About each subject Vasiliy know a number ai — the number of days he should prepare to pass the exam number i. Vasiliy can switch subjects while preparing for exams, it is not necessary to prepare continuously during ai days for the exam number i. He can mix the order of preparation for exams in any way.Your task is to determine the minimum number of days in which Vasiliy can pass all exams, or determine that it is impossible. Each exam should be passed exactly one time. ",
+    "prob_desc_output_spec": "Print one integer — the minimum number of days in which Vasiliy can pass all exams. If it is impossible, print -1.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 105) — the number of days in the exam period and the number of subjects.  The second line contains n integers d1, d2, ..., dn (0 ≤ di ≤ m), where di is the number of subject, the exam of which can be passed on the day number i. If di equals 0, it is not allowed to pass any exams on the day number i.  The third line contains m positive integers a1, a2, ..., am (1 ≤ ai ≤ 105), where ai is the number of days that are needed to prepare before passing the exam on the subject i.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_001.jsonl",
+    "code_uid": "e07963d829756d1a87316058bda4e367",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 2\\n0 1 0 2 1 0 2\\n2 1\", \"10 3\\n0 0 1 2 3 0 2 0 1 2\\n1 1 4\", \"5 1\\n1 1 1 1 1\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def check(i):\n    used = [0] * m\n    k = 0\n    for i in range(i, -1, -1):\n        if d[i] and not used[d[i] - 1]:\n            k += a[d[i] - 1]\n            used[d[i] - 1] = 1\n        elif k:\n            k -= 1\n    return (not k)\n    \n\nn, m = map(int, input().split())\nd = list(map(int, input().split()))\na = list(map(int, input().split()))\nused = [0] * m\nk = m\ni = 0\nwhile i < n:\n    if d[i] and not used[d[i] - 1]:\n        used[d[i] - 1] = 1\n        k -= 1\n    if not k:\n        break\n    i += 1\nif i == n or not check(n - 1):\n    print(-1)\nelse:\n    l = i - 1\n    r = n - 1\n    while l < r - 1:\n        middle = (l + r) // 2\n        if check(middle):\n            r = middle\n        else:\n            l = middle\n    print(r + 1)",
+    "prob_desc_created_at": "1476714900",
+    "tags": [
+        "binary search",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

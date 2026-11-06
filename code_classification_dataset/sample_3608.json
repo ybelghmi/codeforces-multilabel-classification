@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2\\nb 1\\nc 1\", \"4\\ncommons 2\\nextra 1\\nmashadb 2\\nwebfrmk 6\", \"1\\ncba 2\"]",
+    "src_uid": "8e79a1de43e055cf81d7b30d6090b7ff",
+    "prob_desc_notes": "NoteThe first sample is given in the pic below. Arrow from A to B means that B directly depends on A. Projects that Polycarp's project «a» (version 3) depends on are painted black.  The second sample is again given in the pic below. Arrow from A to B means that B directly depends on A. Projects that Polycarp's project «codehorses» (version 5) depends on are paint it black. Note that «extra 1» is chosen instead of «extra 3» since «mashadb 1» and all of its dependencies are ignored due to «mashadb 2».  ",
+    "prob_desc_description": "Polycarp is currently developing a project in Vaja language and using a popular dependency management system called Vamen. From Vamen's point of view both Vaja project and libraries are treated projects for simplicity.A project in Vaja has its own uniqie non-empty name consisting of lowercase latin letters with length not exceeding 10 and version — positive integer from 1 to 106. Each project (keep in mind that it is determined by both its name and version) might depend on other projects. For sure, there are no cyclic dependencies.You're given a list of project descriptions. The first of the given projects is the one being developed by Polycarp at this moment. Help Polycarp determine all projects that his project depends on (directly or via a certain chain). It's possible that Polycarp's project depends on two different versions of some project. In this case collision resolving is applied, i.e. for each such project the system chooses the version that minimizes the distance from it to Polycarp's project. If there are several options, the newer (with the maximum version) is preferred. This version is considered actual; other versions and their dependencies are ignored.More formal, choose such a set of projects of minimum possible size that the following conditions hold:   Polycarp's project is chosen;  Polycarp's project depends (directly or indirectly) on all other projects in the set;  no two projects share the name;  for each project x that some other project in the set depends on we have either x or some y with other version and shorter chain to Polycarp's project chosen. In case of ties the newer one is chosen. Output all Polycarp's project's dependencies (Polycarp's project itself should't be printed) in lexicographical order.",
+    "prob_desc_output_spec": "Output all Polycarp's project's dependencies in lexicographical order.",
+    "prob_desc_input_spec": "The first line contains an only integer n (1 ≤ n ≤ 1 000) — the number of projects in Vaja. The following lines contain the project descriptions. Each project is described by a line consisting of its name and version separated by space. The next line gives the number of direct dependencies (from 0 to n - 1) and the dependencies themselves (one in a line) in arbitrary order. Each dependency is specified by its name and version. The projects are also given in arbitrary order, but the first of them is always Polycarp's. Project descriptions are separated by one empty line. Refer to samples for better understanding. It's guaranteed that there are no cyclic dependencies. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_073.jsonl",
+    "code_uid": "a8334d207421ddb57cb6690da6149e49",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\na 3\\n2\\nb 1\\nc 1\\n\\u00a0\\nb 2\\n0\\n\\u00a0\\nb 1\\n1\\nb 2\\n\\u00a0\\nc 1\\n1\\nb 2\", \"9\\ncodehorses 5\\n3\\nwebfrmk 6\\nmashadb 1\\nmashadb 2\\n\\u00a0\\ncommons 2\\n0\\n\\u00a0\\nmashadb 3\\n0\\n\\u00a0\\nwebfrmk 6\\n2\\nmashadb 3\\ncommons 2\\n\\u00a0\\nextra 4\\n1\\nextra 3\\n\\u00a0\\nextra 3\\n0\\n\\u00a0\\nextra 1\\n0\\n\\u00a0\\nmashadb 1\\n1\\nextra 3\\n\\u00a0\\nmashadb 2\\n1\\nextra 1\", \"3\\nabc 1\\n2\\nabc 3\\ncba 2\\n\\nabc 3\\n0\\n\\ncba 2\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nprojects = {}\nroot = None\n\nfor i in range(n):\n    name, v = input().split()\n    v = int(v)\n    projects[ (name, v) ] = []\n    m = int(input())\n    \n    for j in range(m):\n        nn, vv = input().split()\n        vv = int(vv)\n        projects[ (name, v) ].append( (nn, vv) )\n        \n    if i < n - 1:\n        input()\n        \n    if not i:\n        root = (name, v)\n        \nq = set( [root, ] )\nans = {}\n\nwhile q:\n    temp = {}\n    \n    for u in q:\n        for v in projects[u]:\n            if v[0] not in ans and v[0] != root[0]:\n                if v[0] not in temp:\n                    temp[v[0]] = v[1]\n                else:\n                    temp[v[0]] = max(temp[v[0]], v[1])\n    \n    ans.update( temp.items() ) \n    q = set( temp.items() )\n    \nprint(len(ans))\nprint('\\n'.join( list( map(lambda x: ' '.join(str(c) for c in x), sorted( list(ans.items()), key = lambda item: item[0] )))))",
+    "prob_desc_created_at": "1519486500",
+    "tags": [
+        "implementation",
+        "*special",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n2 3\", \"0\"]",
+    "src_uid": "efdf18b42fcca732b3b7edb451419f87",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A process RAM is a sequence of bytes that are indexed from 1 to n. Polycarpus's program contains such instructions as \"memset\", that is, the operations of filling memory cells on a segment with some value. The details are: the code only contains m instructions that look like \"set13 a_i l_i\". Instruction i fills a continuous memory segment of length li, starting from cell number ai, (that it cells with numbers ai, ai + 1, ..., ai + li - 1) with values 13.In Polycarpus's code, the optimizer's task is to remove the maximum number of instructions from his code in such a way that the remaining instructions set value 13 in all the memory bytes that got this value from the code before the optimization. Also, the value 13 should be set only in the memory bytes that got this value from the code before the optimization. Your task is to implement the optimizer for such program.",
+    "prob_desc_output_spec": "Print in the first line the sought maximum number of instructions that can be removed from the code. In the second line print the numbers of the instructions. The instructions are numbered from 1 to m in the order they appeared in the input. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains integers n and m (1 ≤ n ≤ 2·106, 1 ≤ m ≤ 2·105) — the number of bytes (memory cells) and the number of instructions in Polycarpus's code. Then m lines follow, each line contains a pair of integers ai, li (1 ≤ ai ≤ n, 1 ≤ li ≤ n - ai + 1).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_082.jsonl",
+    "code_uid": "afa7bc83b450ce12ddad901fb6106768",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 4\\n3 3\\n3 1\\n4 1\\n9 2\", \"1 1\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m = map(int, raw_input().split())\ndata = []\nfor i in xrange(1,m+1):\n    x,y = map(int, raw_input().split())\n    data.append([x, x+y-1,i])\ndata.sort(key=lambda x: x[0], reverse=True)\nans = []\nwhile len(data):\n    #print data\n    now = data.pop()\n    while len(data) and data[-1][0] == now[0]:\n        if data[-1][1] > now[1]:\n            ans.append(now[2])\n            now = data.pop()\n        else:\n            ans.append(data[-1][2])\n            data.pop()\n    #while len(data) and data[-1][0] <= now[1] and:\n    tmp = None\n    while len(data) and data[-1][0] <= now[1]:\n        if data[-1][1] <= now[1]:\n            ans.append(data[-1][2])\n            data.pop()\n        else:\n            if tmp:\n                if tmp[1] > data[-1][1]:\n                    ans.append(data[-1][2])\n                    data.pop()\n                else:\n                    ans.append(tmp[2])\n                    tmp = data.pop()\n            else:\n                tmp = data.pop()\n    if tmp:\n        tmp[0] = now[1]+1\n        data.append(tmp)\nprint len(ans)\nif len(ans):\n    print ' '.join(map(str,ans))",
+    "prob_desc_created_at": "1368302400",
+    "tags": [
+        "data structures",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

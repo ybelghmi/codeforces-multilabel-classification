@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"14\", \"0\"]",
+    "src_uid": "8a1799f4ca028d48d5a12e8ac4b8bee1",
+    "prob_desc_notes": "NoteFor the first sample, the only valid mapping is , where D is down, L is left, U is up, R is right.",
+    "prob_desc_description": "Bob programmed a robot to navigate through a 2d maze.The maze has some obstacles. Empty cells are denoted by the character '.', where obstacles are denoted by '#'.There is a single robot in the maze. Its start position is denoted with the character 'S'. This position has no obstacle in it. There is also a single exit in the maze. Its position is denoted with the character 'E'. This position has no obstacle in it.The robot can only move up, left, right, or down.When Bob programmed the robot, he wrote down a string of digits consisting of the digits 0 to 3, inclusive. He intended for each digit to correspond to a distinct direction, and the robot would follow the directions in order to reach the exit. Unfortunately, he forgot to actually assign the directions to digits.The robot will choose some random mapping of digits to distinct directions. The robot will map distinct digits to distinct directions. The robot will then follow the instructions according to the given string in order and chosen mapping. If an instruction would lead the robot to go off the edge of the maze or hit an obstacle, the robot will crash and break down. If the robot reaches the exit at any point, then the robot will stop following any further instructions.Bob is having trouble debugging his robot, so he would like to determine the number of mappings of digits to directions that would lead the robot to the exit.",
+    "prob_desc_output_spec": "Print a single integer, the number of mappings of digits to directions that will lead the robot to the exit.",
+    "prob_desc_input_spec": "The first line of input will contain two integers n and m (2 ≤ n, m ≤ 50), denoting the dimensions of the maze. The next n lines will contain exactly m characters each, denoting the maze. Each character of the maze will be '.', '#', 'S', or 'E'. There will be exactly one 'S' and exactly one 'E' in the maze. The last line will contain a single string s (1 ≤ |s| ≤ 100) — the instructions given to the robot. Each character of s is a digit from 0 to 3.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "9b15d1688d9a410460d7a6160e1bb624",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 6\\n.....#\\nS....#\\n.#....\\n.#....\\n...E..\\n333300012\", \"6 6\\n......\\n......\\n..SE..\\n......\\n......\\n......\\n01232123212302123021\", \"5 3\\n...\\n.S.\\n###\\n.E.\\n...\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin,stdout\nfrom itertools import permutations\n#stdin.readline()\n#int(stdin.readline())\n#stdout.write()\n#raw_input()\n#map(int,raw_input().split())\n#map(int,stdin.readline().split())\nn,m=map(int,stdin.readline().split())\na=[]\nfor i in xrange(n):\n    a.append(list(stdin.readline().strip()))\ne=0\ng=0\nfor i in xrange(n):\n    for j in xrange(m):\n        if a[i][j]==\"S\":\n            e=i\n            g=j\n            break\ns=stdin.readline().strip()\ndef t(x,y,d,i):\n    if d[i]==str('D'):\n        return x+1,y\n    if d[i]==str('U'):\n        return x-1,y\n    if d[i]==str('R'):\n        return x,y+1\n    if d[i]==str('L'):\n        return x,y-1\ndef f(h,c,b):\n    global n\n    global m\n    global s\n    x=c\n    y=b\n    for i in s:\n        w=t(x,y,h,int(i))\n        x=w[0]\n        y=w[1]\n        if x<0 or y<0 or x>=n or y>=m:\n            return 0\n        else:\n            if a[x][y]=='E':\n                return 1\n            if a[x][y]=='#':\n                return 0\n    return 0\nz=0\nq=\"RULD\"\nq=list(permutations(q))\nfor i in q:\n    d={}\n    for j in xrange(4):\n        d[j]=str(i[j])\n    z+=f(d,e,g)\nprint z",
+    "prob_desc_created_at": "1514562000",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"646\", \"757402647\", \"20\"]",
+    "src_uid": "93431bdae447bb96a2f0f5fa0c6e11e0",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two arrays $$$a$$$ and $$$b$$$, both of length $$$n$$$.Let's define a function $$$f(l, r) = \\sum\\limits_{l \\le i \\le r} a_i \\cdot b_i$$$.Your task is to reorder the elements (choose an arbitrary order of elements) of the array $$$b$$$ to minimize the value of $$$\\sum\\limits_{1 \\le l \\le r \\le n} f(l, r)$$$. Since the answer can be very large, you have to print it modulo $$$998244353$$$. Note that you should minimize the answer but not its remainder.",
+    "prob_desc_output_spec": "Print one integer — the minimum possible value of $$$\\sum\\limits_{1 \\le l \\le r \\le n} f(l, r)$$$ after rearranging elements of $$$b$$$, taken modulo $$$998244353$$$. Note that you should minimize the answer but not its remainder.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of elements in $$$a$$$ and $$$b$$$. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^6$$$), where $$$a_i$$$ is the $$$i$$$-th element of $$$a$$$. The third line of the input contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$1 \\le b_j \\le 10^6$$$), where $$$b_j$$$ is the $$$j$$$-th element of $$$b$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_000.jsonl",
+    "code_uid": "86cf2517c915fbd26deb68d9d535f2cd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 8 7 2 4\\n9 7 2 9 3\", \"1\\n1000000\\n1000000\", \"2\\n1 3\\n4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nprint(sum(a*b for a,b in zip(sorted(x*i*(n-i+1) for i,x in enumerate(map(int,input().split()),1)),sorted(map(int,input().split()),reverse=True)))%998244353)\n",
+    "prob_desc_created_at": "1557844500",
+    "tags": [
+        "sortings",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"90.0000000000\", \"135.0000000000\", \"270.0000000000\", \"36.8698976458\"]",
+    "src_uid": "a67cdb7501e99766b20a2e905468c29c",
+    "prob_desc_notes": "NoteSolution for the first sample test is shown below:   Solution for the second sample test is shown below:   Solution for the third sample test is shown below:   Solution for the fourth sample test is shown below:   ",
+    "prob_desc_description": "Flatland has recently introduced a new type of an eye check for the driver's licence. The check goes like that: there is a plane with mannequins standing on it. You should tell the value of the minimum angle with the vertex at the origin of coordinates and with all mannequins standing inside or on the boarder of this angle. As you spend lots of time \"glued to the screen\", your vision is impaired. So you have to write a program that will pass the check for you.",
+    "prob_desc_output_spec": "Print a single real number — the value of the sought angle in degrees. The answer will be considered valid if the relative or absolute error doesn't exceed 10 - 6. ",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 105) — the number of mannequins. Next n lines contain two space-separated integers each: xi, yi (|xi|, |yi| ≤ 1000) — the coordinates of the i-th mannequin. It is guaranteed that the origin of the coordinates has no mannequin. It is guaranteed that no two mannequins are located in the same point on the plane.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_005.jsonl",
+    "code_uid": "b6599d88f0d03dd7ce38328fb2b09053",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2 0\\n0 2\", \"3\\n2 0\\n0 2\\n-2 2\", \"4\\n2 0\\n0 2\\n-2 0\\n0 -2\", \"2\\n2 1\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def subtract(a1, a2):\n    if a1 > a2 + 0.0000001:\n        return a1-a2\n    elif abs(a1-a2) <= 0.0000001:\n        return 0\n    return 360+a1-a2\n\ndef angle(a1, a2):\n    import math\n    return math.atan2(a2,a1)*180/math.pi\n\ndef start():\n    n = input()\n    degreesPositive = []\n    for _ in xrange(n):\n        a1, a2 = map(int, raw_input().split())\n        degree = angle(a1, a2)\n        if degree < 0:\n            degreesPositive.append(degree+360)\n        else:\n            degreesPositive.append(degree)\n    degreesPositive.sort()\n    maxValue = abs(subtract(degreesPositive[len(degreesPositive)-1],degreesPositive[len(degreesPositive)-2]))\n    for x in xrange(0, len(degreesPositive)-1):\n        maxValue = abs(max(maxValue, subtract(degreesPositive[x], degreesPositive[x-1])))\n    if maxValue == 0:\n        maxValue = 360\n    print \"%.12f\" % (360-maxValue)\n\nstart()\n",
+    "prob_desc_created_at": "1357659000",
+    "tags": [
+        "geometry",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"20\"]",
+    "src_uid": "aa77158bf4c0854624ddd89aa8b424b3",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little X and Little Z are good friends. They always chat online. But both of them have schedules.Little Z has fixed schedule. He always online at any moment of time between a1 and b1, between a2 and b2, ..., between ap and bp (all borders inclusive). But the schedule of Little X is quite strange, it depends on the time when he gets up. If he gets up at time 0, he will be online at any moment of time between c1 and d1, between c2 and d2, ..., between cq and dq (all borders inclusive). But if he gets up at time t, these segments will be shifted by t. They become [ci + t, di + t] (for all i).If at a moment of time, both Little X and Little Z are online simultaneosly, they can chat online happily. You know that Little X can get up at an integer moment of time between l and r (both borders inclusive). Also you know that Little X wants to get up at the moment of time, that is suitable for chatting with Little Z (they must have at least one common moment of time in schedules). How many integer moments of time from the segment [l, r] suit for that?",
+    "prob_desc_output_spec": "Output a single integer — the number of moments of time from the segment [l, r] which suit for online conversation.",
+    "prob_desc_input_spec": "The first line contains four space-separated integers p, q, l, r (1 ≤  p, q ≤ 50; 0 ≤ l ≤ r ≤ 1000). Each of the next p lines contains two space-separated integers ai, bi (0 ≤ ai &lt; bi ≤ 1000). Each of the next q lines contains two space-separated integers cj, dj (0 ≤ cj &lt; dj ≤ 1000). It's guaranteed that bi &lt; ai + 1 and dj &lt; cj + 1 for all valid i and j.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_006.jsonl",
+    "code_uid": "4632506d750801226913ad4a15f3f403",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1 0 4\\n2 3\\n0 1\", \"2 3 0 20\\n15 17\\n23 26\\n1 4\\n7 11\\n15 17\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def binser(ar,item):\n    beg=0\n    end=len(ar)-1\n    while beg<=end:\n        mid=(beg+end)//2\n        if ar[mid]==item:\n            return 1\n        elif ar[mid]<item:\n            beg=mid+1\n        else:\n            end=mid-1\n    return -1\ndef main():\n    inp1=map(int,raw_input().split())\n    p=inp1[0]\n    q=inp1[1]\n    l=inp1[2]\n    r=inp1[3]\n    Z=[]\n    X=[]\n    for i in range(0,p):\n        a,b=raw_input().split()\n        a=int(a)\n        b=int(b)\n        Z=Z+range(a,b+1)\n    sorted(Z)   \n    for i in range(0,q):\n        a,b=raw_input().split()\n        a=int(a)\n        b=int(b)\n        X=X+range(a,b+1)\n    cou=0\n    for i in range(l,r+1):\n        for j in X:\n            if (binser(Z,j+i)==1):\n                #print j+i\n                cou=cou+1\n                break\n    print cou\n    return 0\nmain()  \n        \n            ",
+    "prob_desc_created_at": "1411218000",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

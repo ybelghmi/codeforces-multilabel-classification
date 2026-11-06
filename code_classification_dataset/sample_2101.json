@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n888188\", \"0\\n533\", \"3\\n0000002223\"]",
+    "src_uid": "cb082cbe9b34a45da851b6764bbc30c3",
+    "prob_desc_notes": "NoteIn the first sample replacing the second digit with an \"8\" costs |9 - 8| = 1. Replacing the fifth digit with an \"8\" costs the same. Replacing the sixth digit costs |6 - 8| = 2. As a result, Vasya will pay 1 + 1 + 2 = 4 for a beautiful number \"888188\".The lexicographical comparison of strings is performed by the &lt; operator in modern programming languages. The string x is lexicographically smaller than the string y, if there exists such i (1 ≤ i ≤ n), that xi &lt; yi, and for any j (1 ≤ j &lt; i) xj = yj. The strings compared in this problem will always have the length n.",
+    "prob_desc_description": "A car number in Berland consists of exactly n digits. A number is called beautiful if it has at least k equal digits. Vasya wants to change the digits in his car's number so that the number became beautiful. To replace one of n digits Vasya has to pay the sum of money, equal to the absolute difference between the old digit and the new one.Help Vasya: find the minimum sum of money he should pay to make the number of his car beautiful. You should also find the resulting beautiful number. If there are several such numbers, then print the lexicographically minimum one.",
+    "prob_desc_output_spec": "On the first line print the minimum sum of money Vasya needs to change the number. On the second line print the car's new number. If there are several solutions, print the lexicographically minimum one.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and k (2 ≤ n ≤ 104, 2 ≤ k ≤ n) which represent how many digits the number has and how many equal digits a beautiful number should have. The second line consists of n digits. It describes the old number of Vasya's car. It is guaranteed that the number contains no spaces and only contains digits.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_017.jsonl",
+    "code_uid": "3152cb7947285181debb688adc1aa8cd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 5\\n898196\", \"3 2\\n533\", \"10 6\\n0001112223\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k = map(int,input().split())\n\ns = list(map(int, input()))\ne = list(enumerate(s))\nmin_cost = 9*n\na=[9]*n\nfor j in range(10):\n    r = s[:]\n    cost = 0\n    for x, y in sorted(e, key=lambda t : (abs(t[1] - j), -t[1], t[0]*(-1)**(j > t[1]) ))[:k]:\n        r[x]=j\n        cost += abs(y-j)\n    if  cost < min_cost :\n        min_cost = cost\n        a = r\n    if min_cost == cost:\n        a = min(a,r)\nprint(min_cost)\nprint (''.join(map(str,a)))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "prob_desc_created_at": "1317999600",
+    "tags": [
+        "brute force",
+        "sortings",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

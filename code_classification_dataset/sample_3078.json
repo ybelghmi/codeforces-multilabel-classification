@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"NO\", \"YES\", \"YES\", \"YES\", \"NO\"]",
+    "src_uid": "dc7c914d06906c6846f1978196a0b4ed",
+    "prob_desc_notes": "NoteIn the first sample Masha's permutation coincides with the permutation that was written on the board before the beginning of the game. Consequently, that violates the condition that Masha's permutation never occurred on the board before k moves were performed.In the second sample the described situation is possible, in case if after we toss a coin, we get tails.In the third sample the possible coin tossing sequence is: heads-tails-tails.In the fourth sample the possible coin tossing sequence is: heads-heads.",
+    "prob_desc_description": "Little Petya likes permutations a lot. Recently his mom has presented him permutation q1, q2, ..., qn of length n.A permutation a of length n is a sequence of integers a1, a2, ..., an (1 ≤ ai ≤ n), all integers there are distinct. There is only one thing Petya likes more than permutations: playing with little Masha. As it turns out, Masha also has a permutation of length n. Petya decided to get the same permutation, whatever the cost may be. For that, he devised a game with the following rules:  Before the beginning of the game Petya writes permutation 1, 2, ..., n on the blackboard. After that Petya makes exactly k moves, which are described below.  During a move Petya tosses a coin. If the coin shows heads, he performs point 1, if the coin shows tails, he performs point 2.  Let's assume that the board contains permutation p1, p2, ..., pn at the given moment. Then Petya removes the written permutation p from the board and writes another one instead: pq1, pq2, ..., pqn. In other words, Petya applies permutation q (which he has got from his mother) to permutation p.  All actions are similar to point 1, except that Petya writes permutation t on the board, such that: tqi = pi for all i from 1 to n. In other words, Petya applies a permutation that is inverse to q to permutation p. We know that after the k-th move the board contained Masha's permutation s1, s2, ..., sn. Besides, we know that throughout the game process Masha's permutation never occurred on the board before the k-th move. Note that the game has exactly k moves, that is, throughout the game the coin was tossed exactly k times.Your task is to determine whether the described situation is possible or else state that Petya was mistaken somewhere. See samples and notes to them for a better understanding.",
+    "prob_desc_output_spec": "If the situation that is described in the statement is possible, print \"YES\" (without the quotes), otherwise print \"NO\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n, k ≤ 100). The second line contains n space-separated integers q1, q2, ..., qn (1 ≤ qi ≤ n) — the permutation that Petya's got as a present. The third line contains Masha's permutation s, in the similar format. It is guaranteed that the given sequences q and s are correct permutations.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_041.jsonl",
+    "code_uid": "a234e791f01988c5dec6c9984cfab168",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 1\\n2 3 4 1\\n1 2 3 4\", \"4 1\\n4 3 1 2\\n3 4 2 1\", \"4 3\\n4 3 1 2\\n3 4 2 1\", \"4 2\\n4 3 1 2\\n2 1 4 3\", \"4 1\\n4 3 1 2\\n2 1 4 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def Solve(x,L):\n    if(x==k[0]):\n        return L==S\n    \n    if((x,tuple(L)) in Mem):\n        return False\n    if(L==S):\n        return False\n    E=[]\n    for i in range(len(L)):\n        E.append(L[Q[i]-1])\n    if(Solve(x+1,E)):\n        return True\n    E=[0]*len(L)\n    for i in range(len(L)):\n        E[Q[i]-1]=L[i]\n    if(Solve(x+1,E)):\n        return True\n    Mem[(x,tuple(L))]=1\n    return False\nMem={}\nk=[0]\nn,k[0]=map(int,input().split())\n\nP=list(range(1,n+1))\nQ=list(map(int,input().split()))\nS=list(map(int,input().split()))\n\nif(Solve(0,P)):\n    print(\"YES\")\nelse:\n    print(\"NO\")\n",
+    "prob_desc_created_at": "1354807800",
+    "tags": [
+        "combinatorics",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

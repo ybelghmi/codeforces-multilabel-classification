@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"1\"]",
+    "src_uid": "1b2a2c8afcaf16b4055002a9511c6f23",
+    "prob_desc_notes": "NoteIn the first example Pavel can change the permutation to 4, 3, 1, 2.In the second example Pavel can change any element of b to 1.",
+    "prob_desc_description": "Pavel cooks barbecue. There are n skewers, they lay on a brazier in a row, each on one of n positions. Pavel wants each skewer to be cooked some time in every of n positions in two directions: in the one it was directed originally and in the reversed direction.Pavel has a plan: a permutation p and a sequence b1, b2, ..., bn, consisting of zeros and ones. Each second Pavel move skewer on position i to position pi, and if bi equals 1 then he reverses it. So he hope that every skewer will visit every position in both directions.Unfortunately, not every pair of permutation p and sequence b suits Pavel. What is the minimum total number of elements in the given permutation p and the given sequence b he needs to change so that every skewer will visit each of 2n placements? Note that after changing the permutation should remain a permutation as well.There is no problem for Pavel, if some skewer visits some of the placements several times before he ends to cook. In other words, a permutation p and a sequence b suit him if there is an integer k (k ≥ 2n), so that after k seconds each skewer visits each of the 2n placements.It can be shown that some suitable pair of permutation p and sequence b exists for any n.",
+    "prob_desc_output_spec": "Print single integer — the minimum total number of elements in the given permutation p and the given sequence b he needs to change so that every skewer will visit each of 2n placements.",
+    "prob_desc_input_spec": "The first line contain the integer n (1 ≤ n ≤ 2·105) — the number of skewers. The second line contains a sequence of integers p1, p2, ..., pn (1 ≤ pi ≤ n) — the permutation, according to which Pavel wants to move the skewers. The third line contains a sequence b1, b2, ..., bn consisting of zeros and ones, according to which Pavel wants to reverse the skewers.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_039.jsonl",
+    "code_uid": "935797494e157cb3f664fb8fe267a91b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4 3 2 1\\n0 1 1 1\", \"3\\n2 3 1\\n0 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nsys.setrecursionlimit(10 ** 9)\n\n\nn = int(input())\np = list(map(int, input().split()))\nb = list(map(int, input().split()))\n\nused = [False] * n\ncomp = 0\nfor i in range(n):\n    if not used[i]:\n        u = i\n        while True:\n            used[u] = True\n            v = p[u] - 1\n            if not used[v]:\n                u = v\n            else:\n                break\n            \n        comp += 1\n\nif comp == 1:\n    ans = 0\nelse:\n    ans = comp\n\ned = 0\nfor i in range(n):\n    if b[i]:\n        ed += 1\n\nif not ed % 2:\n    ans += 1\n    \nprint(ans)",
+    "prob_desc_created_at": "1485108900",
+    "tags": [
+        "constructive algorithms",
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

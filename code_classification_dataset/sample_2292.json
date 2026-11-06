@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7\\n11\\n6\\n26\\n46\\n0\\n1\\n6\"]",
+    "src_uid": "c4c3c07b2ba6df49d5a7d6d2d0d1895f",
+    "prob_desc_notes": "NoteExplanation of the first testcase. Before changing any outcome, the score is $$$2$$$. Indeed, you won the first game, so you got $$$1$$$ point, and you won also the third, so you got another $$$1$$$ point (and not $$$2$$$ because you lost the second game).An optimal way to cheat is to change the outcomes of the second and fourth game. Doing so, you end up winning the first four games (the string of the outcomes becomes WWWWL). Hence, the new score is $$$7=1+2+2+2$$$: $$$1$$$ point for the first game and $$$2$$$ points for the second, third and fourth game.Explanation of the second testcase. Before changing any outcome, the score is $$$3$$$. Indeed, you won the fourth game, so you got $$$1$$$ point, and you won also the fifth game, so you got $$$2$$$ more points (since you won also the previous game).An optimal way to cheat is to change the outcomes of the first, second, third and sixth game. Doing so, you end up winning all games (the string of the outcomes becomes WWWWWW). Hence, the new score is $$$11 = 1+2+2+2+2+2$$$: $$$1$$$ point for the first game and $$$2$$$ points for all the other games.",
+    "prob_desc_description": "You like playing chess tournaments online.In your last tournament you played $$$n$$$ games. For the sake of this problem, each chess game is either won or lost (no draws). When you lose a game you get $$$0$$$ points. When you win you get $$$1$$$ or $$$2$$$ points: if you have won also the previous game you get $$$2$$$ points, otherwise you get $$$1$$$ point. If you win the very first game of the tournament you get $$$1$$$ point (since there is not a \"previous game\").The outcomes of the $$$n$$$ games are represented by a string $$$s$$$ of length $$$n$$$: the $$$i$$$-th character of $$$s$$$ is W if you have won the $$$i$$$-th game, while it is L if you have lost the $$$i$$$-th game.After the tournament, you notice a bug on the website that allows you to change the outcome of at most $$$k$$$ of your games (meaning that at most $$$k$$$ times you can change some symbol L to W, or W to L). Since your only goal is to improve your chess rating, you decide to cheat and use the bug.Compute the maximum score you can get by cheating in the optimal way.",
+    "prob_desc_output_spec": "For each testcase, print a single integer – the maximum score you can get by cheating in the optimal way.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains an integer $$$t$$$ ($$$1\\le t \\le 20,000$$$) — the number of test cases. The description of the test cases follows. The first line of each testcase contains two integers $$$n, k$$$ ($$$1\\le n\\le 100,000$$$, $$$0\\le k\\le n$$$) – the number of games played and the number of outcomes that you can change. The second line contains a string $$$s$$$ of length $$$n$$$ containing only the characters W and L. If you have won the $$$i$$$-th game then $$$s_i=\\,$$$W, if you have lost the $$$i$$$-th game then $$$s_i=\\,$$$L. It is guaranteed that the sum of $$$n$$$ over all testcases does not exceed $$$200,000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_019.jsonl",
+    "code_uid": "fc221f63cb033ce07e6af1d049faa149",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n5 2\\nWLWLL\\n6 5\\nLLLWWL\\n7 1\\nLWLWLWL\\n15 5\\nWWWLLLWWWLLLWWW\\n40 7\\nLLWLWLWWWLWLLWLWWWLWLLWLLWLLLLWLLWWWLWWL\\n1 0\\nL\\n1 1\\nL\\n6 1\\nWLLWLW\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nfor _ in range(int(input())):\n    n,k = map(int,input().split())\n    ik = k\n    sg = input().strip()\n    gaps = []\n    l = len(sg)\n    wins = 0\n    win_streaks = 0\n    i = 0\n    lcnt = 0\n    temp = 0\n    while i < l:\n        if sg[i] == 'W':\n            break\n        i += 1\n        temp += 1\n    filled_gaps = 0\n    while i < l:\n        if sg[i] == 'W':\n            win_streaks += 1\n            while i < l and sg[i] == 'W':\n                wins += 1\n                i += 1\n        if i < l and sg[i] == 'L':\n            lcnt = 0\n            while i < l and sg[i] == 'L':\n                lcnt += 1\n                i += 1\n            else:\n                if i < l and sg[i] == 'W':\n                    gaps.append(lcnt)\n                else:\n                    temp += lcnt\n    \n    gaps.sort()\n    gap_l = len(gaps)\n    j = 0\n    while  k > 0 and j < gap_l:\n        if gaps[j]  <= k:\n            k -= gaps[j]\n            filled_gaps += 1\n        j += 1\n    if k > 0 and temp > 0 and wins == 0:\n        win_streaks += 1\n    \n    score = 2*(min(wins + ik , l)) - win_streaks + filled_gaps\n    print(score)",
+    "prob_desc_created_at": "1602341400",
+    "tags": [
+        "implementation",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

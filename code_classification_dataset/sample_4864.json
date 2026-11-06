@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Alice\\nAlice\\nBob\\nAlice\"]",
+    "src_uid": "d17752513405fc68d838e9b3792c7bef",
+    "prob_desc_notes": "NoteIn the first test case, Alice could get $$$9$$$ using the following operations: $$$7 + 2 = 9$$$.In the second test case, Alice could get $$$2$$$ using this operations: $$$(0 + 1) \\oplus 3 = 2$$$.In the third test case, Bob started with $$$x+3 = 0+3=3$$$ and could get $$$1$$$ this way: $$$(((3 + 1) + 2) \\oplus 3) \\oplus 4 = 1$$$.",
+    "prob_desc_description": "Haha, try to solve this, SelectorUnlimited!— antontrygubO_oYour friends Alice and Bob practice fortune telling.Fortune telling is performed as follows. There is a well-known array $$$a$$$ of $$$n$$$ non-negative integers indexed from $$$1$$$ to $$$n$$$. The tellee starts with some non-negative number $$$d$$$ and performs one of the two operations for each $$$i = 1, 2, \\ldots, n$$$, in the increasing order of $$$i$$$. The possible operations are: replace their current number $$$d$$$ with $$$d + a_i$$$ replace their current number $$$d$$$ with $$$d \\oplus a_i$$$ (hereinafter $$$\\oplus$$$ denotes the bitwise XOR operation)Notice that the chosen operation may be different for different $$$i$$$ and for different tellees.One time, Alice decided to start with $$$d = x$$$ and Bob started with $$$d = x + 3$$$. Each of them performed fortune telling and got a particular number in the end. Notice that the friends chose operations independently of each other, that is, they could apply different operations for the same $$$i$$$.You learnt that either Alice or Bob ended up with number $$$y$$$ in the end, but you don't know whose of the two it was. Given the numbers Alice and Bob started with and $$$y$$$, find out who (Alice or Bob) could get the number $$$y$$$ after performing the operations. It is guaranteed that on the jury tests, exactly one of your friends could have actually gotten that number.HacksYou cannot make hacks in this problem.",
+    "prob_desc_output_spec": "For each test case, print the name of the friend who could get the number $$$y$$$: \"Alice\" or \"Bob\".",
+    "prob_desc_input_spec": "On the first line of the input, you are given one number $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The following $$$2 \\cdot t$$$ lines contain test cases. The first line of each test case contains three numbers $$$n$$$, $$$x$$$, $$$y$$$ ($$$1 \\le n \\le 10^5$$$, $$$0 \\le x \\le 10^9$$$, $$$0 \\le y \\le 10^{15}$$$) — the length of array $$$a$$$, Alice's initial number (Bob's initial number is therefore $$$x+3$$$), and the number that one of the two friends got in the end. The second line of each test case contains $$$n$$$ numbers — the array $$$a$$$ ($$$0 \\le a_i \\le 10^9$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_108.jsonl",
+    "code_uid": "7e3ae3cec5ba403ed5ccce69b8f595eb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n1 7 9\\n\\n2\\n\\n2 0 2\\n\\n1 3\\n\\n4 0 1\\n\\n1 2 3 4\\n\\n2 1000000000 3000000000\\n\\n1000000000 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\r\n\r\ndef int_input():\r\n    a = int(input())\r\n    return a\r\n\r\ndef int_list_input():\r\n    a = list(map(int,input().split()))\r\n    return a\r\n\r\nfrom collections import deque\r\n \r\ndef solve():\r\n    n,x,y = int_list_input()\r\n    arr = int_list_input()\r\n    \r\n    intial = int(bin(x)[-1])\r\n    final = int(bin(y)[-1])\r\n    \r\n    for i in arr:\r\n        elem = int(bin(i)[-1])\r\n        \r\n        if elem==1:\r\n            if intial==0:\r\n                intial = 1\r\n            else:\r\n                intial = 0\r\n    \r\n    if intial==final:\r\n        print(\"Alice\")\r\n    else:\r\n        print(\"Bob\")\r\n    \r\n    \r\n\r\nif __name__ == '__main__':\r\n    \r\n    for _ in range(int(input())):\r\n        solve()\r\n    \"\"\"\r\n    000\r\n    001\r\n    010\r\n    011\r\n    100\r\n    \r\n    001\r\n    \"\"\"\r\n    #print(\"Case\",str(n)+\":\",str(ans))",
+    "prob_desc_created_at": "1644158100",
+    "tags": [
+        "bitmasks",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

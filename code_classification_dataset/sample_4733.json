@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\", \"1\", \"25\", \"29\"]",
+    "src_uid": "373412134b2afd00618b19e4bf652d26",
+    "prob_desc_notes": "NoteIn the first example the diameter of the given tree is already less than or equal to $$$k$$$. Thus, you can choose any set of edges to remove and the resulting trees will have diameter less than or equal to $$$k$$$. There are $$$2^3$$$ sets, including the empty one.In the second example you have to remove the only edge. Otherwise, the diameter will be $$$1$$$, which is greater than $$$0$$$.Here are the trees for the third and the fourth examples:   ",
+    "prob_desc_description": "You are given an integer $$$k$$$ and an undirected tree, consisting of $$$n$$$ vertices.The length of a simple path (a path in which each vertex appears at most once) between some pair of vertices is the number of edges in this path. A diameter of a tree is the maximum length of a simple path between all pairs of vertices of this tree.You are about to remove a set of edges from the tree. The tree splits into multiple smaller trees when the edges are removed. The set of edges is valid if all the resulting trees have diameter less than or equal to $$$k$$$.Two sets of edges are different if there is an edge such that it appears in only one of the sets.Count the number of valid sets of edges modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_output_spec": "Print a single integer — the number of valid sets of edges modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$2 \\le n \\le 5000$$$, $$$0 \\le k \\le n - 1$$$) — the number of vertices of the tree and the maximum allowed diameter, respectively. Each of the next $$$n-1$$$ lines contains a description of an edge: two integers $$$v$$$ and $$$u$$$ ($$$1 \\le v, u \\le n$$$, $$$v \\neq u$$$). The given edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_104.jsonl",
+    "code_uid": "f5750a30e3e6a7bd3b68cdde1521e874",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n1 2\\n1 3\\n1 4\", \"2 0\\n1 2\", \"6 2\\n1 6\\n2 4\\n2 6\\n3 6\\n5 6\", \"6 3\\n1 2\\n1 5\\n2 3\\n3 4\\n5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nfrom collections import deque\r\n\r\ninput = lambda :sys.stdin.buffer.readline()\r\nmi = lambda :map(int,input().split())\r\nli = lambda :list(mi())\r\n\r\nmod = 998244353\r\n\r\nN,K = mi()\r\nedge = [[] for i in range(N)]\r\nfor _ in range(N-1):\r\n    a,b = mi()\r\n    edge[a-1].append(b-1)\r\n    edge[b-1].append(a-1)\r\n\r\nparent = [-1 for i in range(N)]\r\ndeq = deque([0])\r\nres = []\r\nwhile deq:\r\n    v = deq.popleft()\r\n    res.append(v)\r\n    for nv in edge[v]:\r\n        if nv!=parent[v]:\r\n            parent[nv] = v\r\n            deq.append(nv)\r\n\r\ndp = [[1] for i in range(N)]\r\n\r\ndef merge(v,nv):\r\n    res_dp = [0 for i in range(max(len(dp[v]),len(dp[nv])+1))]\r\n\r\n    for i in range(len(dp[v])):\r\n        for j in range(len(dp[nv])):\r\n            if j+1+i <= K:\r\n                res_dp[max(j+1,i)] += dp[v][i] * dp[nv][j]\r\n                res_dp[max(j+1,i)] %= mod\r\n            res_dp[i] += dp[v][i] * dp[nv][j]\r\n            res_dp[i] %= mod\r\n\r\n    dp[v] = res_dp\r\n\r\nfor v in res[::-1]:\r\n    for nv in edge[v]:\r\n        if nv==parent[v]:\r\n            continue\r\n        merge(v,nv)\r\n\r\nprint(sum(dp[0][i] for i in range(min(K+1,len(dp[0])))) % mod)",
+    "prob_desc_created_at": "1616079000",
+    "tags": [
+        "combinatorics",
+        "dfs and similar",
+        "dp",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

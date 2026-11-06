@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"9\"]",
+    "src_uid": "dceeb739a56bb799550138aa8c127996",
+    "prob_desc_notes": "NoteIn the first example, students could choose three sets with drinks $$$1$$$, $$$1$$$ and $$$2$$$ (so they will have two sets with two drinks of the type $$$1$$$ each and one set with two drinks of the type $$$2$$$, so portions will be $$$1, 1, 1, 1, 2, 2$$$). This way all students except the second one will get their favorite drinks.Another possible answer is sets with drinks $$$1$$$, $$$2$$$ and $$$3$$$. In this case the portions will be $$$1, 1, 2, 2, 3, 3$$$. Then all the students except one will gain their favorite drinks. The only student that will not gain the favorite drink will be a student with $$$a_i = 1$$$ (i.e. the first, the third or the fourth).",
+    "prob_desc_description": "Old timers of Summer Informatics School can remember previous camps in which each student was given a drink of his choice on the vechorka (late-evening meal). Or may be the story was more complicated?There are $$$n$$$ students living in a building, and for each of them the favorite drink $$$a_i$$$ is known. So you know $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$, where $$$a_i$$$ ($$$1 \\le a_i \\le k$$$) is the type of the favorite drink of the $$$i$$$-th student. The drink types are numbered from $$$1$$$ to $$$k$$$.There are infinite number of drink sets. Each set consists of exactly two portions of the same drink. In other words, there are $$$k$$$ types of drink sets, the $$$j$$$-th type contains two portions of the drink $$$j$$$. The available number of sets of each of the $$$k$$$ types is infinite.You know that students will receive the minimum possible number of sets to give all students exactly one drink. Obviously, the number of sets will be exactly $$$\\lceil \\frac{n}{2} \\rceil$$$, where $$$\\lceil x \\rceil$$$ is $$$x$$$ rounded up.After students receive the sets, they will distribute their portions by their choice: each student will get exactly one portion. Note, that if $$$n$$$ is odd then one portion will remain unused and the students' teacher will drink it.What is the maximum number of students that can get their favorite drink if $$$\\lceil \\frac{n}{2} \\rceil$$$ sets will be chosen optimally and students will distribute portions between themselves optimally?",
+    "prob_desc_output_spec": "Print exactly one integer — the maximum number of students that can get a favorite drink.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n, k \\le 1\\,000$$$) — the number of students in the building and the number of different drinks. The next $$$n$$$ lines contain student's favorite drinks. The $$$i$$$-th line contains a single integer from $$$1$$$ to $$$k$$$ — the type of the favorite drink of the $$$i$$$-th student.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_021.jsonl",
+    "code_uid": "31aeedb9329d4f4d7680c66eb3cba918",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n1\\n3\\n1\\n1\\n2\", \"10 3\\n2\\n1\\n3\\n2\\n3\\n3\\n1\\n3\\n1\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nn, k = map(int, input().split())\na = [0] * k\nfor i in range(n):\n    temp = int(input())\n    a[temp-1] += 1\nnSet = math.ceil(n/2)\n\nans = 0\n# First deal with situation where a[i] > 1\nfor i in range(k):\n    while a[i] > 1 and nSet > 0:\n        ans += 2\n        nSet -= 1\n        a[i] -= 2\n# Then deal with only one left situation for each drink\nfor i in range(k):\n    while a[i] > 0 and nSet > 0:\n        ans += 1\n        nSet -= 1\n        a[i] -= 1\nprint(ans)",
+    "prob_desc_created_at": "1563374100",
+    "tags": [
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

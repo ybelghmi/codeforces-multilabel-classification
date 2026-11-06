@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"24\"]",
+    "src_uid": "f5cb28bf83f3b1b7c7df4037e65bddf2",
+    "prob_desc_notes": "NoteIn the first example, there is only one non-empty subset {1} with cost 11 = 1.In the second example, there are seven non-empty subsets.- {1} with cost 12 = 1- {2} with cost 12 = 1- {1, 2} with cost 22 = 4- {3} with cost 12 = 1- {1, 3} with cost 22 = 4- {2, 3} with cost 22 = 4- {1, 2, 3} with cost 32 = 9The total cost is 1 + 1 + 4 + 1 + 4 + 4 + 9 = 24.",
+    "prob_desc_description": "You have a team of N people. For a particular task, you can pick any non-empty subset of people. The cost of having x people for the task is xk. Output the sum of costs over all non-empty subsets of people.",
+    "prob_desc_output_spec": "Output the sum of costs for all non empty subsets modulo 109 + 7.",
+    "prob_desc_input_spec": "Only line of input contains two integers N (1 ≤ N ≤ 109) representing total number of people and k (1 ≤ k ≤ 5000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_036.jsonl",
+    "code_uid": "88fc6f288789e850ed1f3dbb9b506b14",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\", \"3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nN,K = [int(x) for x in input().split()]\n\nMOD = 10**9+7\ncoeff = [0]*(K+1)\ncoeff[0] = 1\n\nfor iters in range(K):\n    #print coeff\n    for i in reversed(range(iters+1)):\n        coeff[i+1] += coeff[i]\n        coeff[i]= coeff[i]*i%MOD\n\n\n#print coeff\nmod2inv = 500000004\npow2 = pow(2,N,MOD)\nsumma = 0\nfor i in range(len(coeff)):\n    summa = (summa + coeff[i]*pow2)%MOD\n    pow2 = (pow2*mod2inv*(N-i))%MOD\n\nprint summa\n",
+    "prob_desc_created_at": "1518705300",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

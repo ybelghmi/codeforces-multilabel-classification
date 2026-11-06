@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"0\", \"1\"]",
+    "src_uid": "ae531bc4b47e5d31fe71b6de1398b95e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "We get more and more news about DDoS-attacks of popular websites.Arseny is an admin and he thinks that a website is under a DDoS-attack if the total number of requests for a some period of time exceeds $$$100 \\cdot t$$$, where $$$t$$$ — the number of seconds in this time segment. Arseny knows statistics on the number of requests per second since the server is booted. He knows the sequence $$$r_1, r_2, \\dots, r_n$$$, where $$$r_i$$$ — the number of requests in the $$$i$$$-th second after boot. Determine the length of the longest continuous period of time, which Arseny considers to be a DDoS-attack. A seeking time period should not go beyond the boundaries of the segment $$$[1, n]$$$.",
+    "prob_desc_output_spec": "Print the only integer number — the length of the longest time period which is considered to be a DDoS-attack by Arseny. If it doesn't exist print 0.",
+    "prob_desc_input_spec": "The first line contains $$$n$$$ ($$$1 \\le n \\le 5000$$$) — number of seconds since server has been booted. The second line contains sequence of integers $$$r_1, r_2, \\dots, r_n$$$ ($$$0 \\le r_i \\le 5000$$$), $$$r_i$$$ — number of requests in the $$$i$$$-th second.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_019.jsonl",
+    "code_uid": "a7d647c697e15930c5701961350dafd7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n100 200 1 1 1\", \"5\\n1 2 3 4 5\", \"2\\n101 99\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def find_d(A):\n    n = max(A) + 1\n    A = [None] + A\n    ind = [[] for _ in range(n)]\n    for i in range(len(A)):\n        if not A[i]:\n            continue\n        if len(ind[A[i]]) == 2:\n            ind[A[i]][1] = i\n        else:\n            ind[A[i]].append(i)\n    min_ind = len(A)\n    d = 0\n    for l in ind:\n        if len(l) == 1:\n            if l[0] < min_ind:\n                min_ind = l[0]\n            else:\n                if d < l[0] - min_ind:\n                    d = l[0] - min_ind\n                    r = (d, min_ind)\n        elif len(l) == 2:\n            if d < l[1] - min_ind:\n                d = l[1] - min_ind\n                r = (d, min_ind)\n            if l[0] < min_ind:\n                min_ind = l[0]\n        else:\n            continue\n    return d\n\n\nimport sys\nn = int(sys.stdin.readline())\nR = [int(i) for i in sys.stdin.readline().strip().split()]\nR = [i-100 for i in R]\nS = []\ns = 0\nfor i in range(n):\n    s = s + R[i]\n    S.append(s)\nk = 0\nd = 0\nfor i in range(len(S)):\n    if S[i] > 0:\n        k = i + 1\nif any([x <= 0 for x in S]):\n    s = 1 - min(S)\n    S = [i+s for i in S]\n    d = find_d(S)\nprint(max(d,k))",
+    "prob_desc_created_at": "1539335100",
+    "tags": [
+        "*special",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

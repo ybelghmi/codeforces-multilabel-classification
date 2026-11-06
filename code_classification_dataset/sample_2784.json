@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"4\"]",
+    "src_uid": "fc4d0f2d4dfc97484dbbafb3f2aee362",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given the array $$$a$$$ consisting of $$$n$$$ elements and the integer $$$k \\le n$$$.You want to obtain at least $$$k$$$ equal elements in the array $$$a$$$. In one move, you can make one of the following two operations:  Take one of the minimum elements of the array and increase its value by one (more formally, if the minimum value of $$$a$$$ is $$$mn$$$ then you choose such index $$$i$$$ that $$$a_i = mn$$$ and set $$$a_i := a_i + 1$$$);  take one of the maximum elements of the array and decrease its value by one (more formally, if the maximum value of $$$a$$$ is $$$mx$$$ then you choose such index $$$i$$$ that $$$a_i = mx$$$ and set $$$a_i := a_i - 1$$$). Your task is to calculate the minimum number of moves required to obtain at least $$$k$$$ equal elements in the array.",
+    "prob_desc_output_spec": "Print one integer — the minimum number of moves required to obtain at least $$$k$$$ equal elements in the array.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 2 \\cdot 10^5$$$) — the number of elements in $$$a$$$ and the required number of equal elements. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$), where $$$a_i$$$ is the $$$i$$$-th element of $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_031.jsonl",
+    "code_uid": "14735728541de9197d0a7cc782cf528c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 5\\n1 2 2 4 2 3\", \"7 5\\n3 3 2 1 1 1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\n\nn, k = map(int, input().split())\nxs = sorted(map(int, input().split()))\n\nc = Counter(xs)\ncsuml = 0\nlcnt = 0\ncsumr = sum(xs)\nrcnt = len(xs)\nans = csumr\n\nfor x, cnt in sorted(c.items()):\n    r = max(0, k - cnt)\n    if not r:\n        ans = 0\n        break\n\n    csumr -= x * cnt\n    rcnt -= cnt\n\n    ansl = lcnt * (x - 1) - csuml + min(lcnt, r)\n    if lcnt < r:\n        ansl += csumr - rcnt * (x + 1) + r - lcnt\n\n    ansr = csumr - rcnt * (x + 1) + min(rcnt, r)\n    if rcnt < r:\n        ansr += lcnt * (x - 1) - csuml + r - rcnt\n\n    ans = min(ans, ansl, ansr)\n    csuml += x * cnt\n    lcnt += cnt\n\nprint(ans)\n",
+    "prob_desc_created_at": "1585233300",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

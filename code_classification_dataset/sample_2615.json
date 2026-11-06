@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"7\\n12\"]",
+    "src_uid": "89be93cb82d9686ff099d156c309c146",
+    "prob_desc_notes": "NoteOne of the possible solution to the first test case of the example:One of the possible solution to the second test case of the example:",
+    "prob_desc_description": "You are given an undirected unweighted graph consisting of $$$n$$$ vertices and $$$m$$$ edges (which represents the map of Bertown) and the array of prices $$$p$$$ of length $$$m$$$. It is guaranteed that there is a path between each pair of vertices (districts).Mike has planned a trip from the vertex (district) $$$a$$$ to the vertex (district) $$$b$$$ and then from the vertex (district) $$$b$$$ to the vertex (district) $$$c$$$. He can visit the same district twice or more. But there is one issue: authorities of the city want to set a price for using the road so if someone goes along the road then he should pay the price corresponding to this road (he pays each time he goes along the road). The list of prices that will be used $$$p$$$ is ready and they just want to distribute it between all roads in the town in such a way that each price from the array corresponds to exactly one road.You are a good friend of Mike (and suddenly a mayor of Bertown) and want to help him to make his trip as cheap as possible. So, your task is to distribute prices between roads in such a way that if Mike chooses the optimal path then the price of the trip is the minimum possible. Note that you cannot rearrange prices after the start of the trip.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer — the minimum possible price of Mike's trip if you distribute prices between edges optimally.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of the test case contains five integers $$$n, m, a, b$$$ and $$$c$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$, $$$n-1 \\le m \\le min(\\frac{n(n-1)}{2}, 2 \\cdot 10^5)$$$, $$$1 \\le a, b, c \\le n$$$) — the number of vertices, the number of edges and districts in Mike's trip. The second line of the test case contains $$$m$$$ integers $$$p_1, p_2, \\dots, p_m$$$ ($$$1 \\le p_i \\le 10^9$$$), where $$$p_i$$$ is the $$$i$$$-th price from the array. The following $$$m$$$ lines of the test case denote edges: edge $$$i$$$ is represented by a pair of integers $$$v_i$$$, $$$u_i$$$ ($$$1 \\le v_i, u_i \\le n$$$, $$$u_i \\ne v_i$$$), which are the indices of vertices connected by the edge. There are no loops or multiple edges in the given graph, i. e. for each pair ($$$v_i, u_i$$$) there are no other pairs ($$$v_i, u_i$$$) or ($$$u_i, v_i$$$) in the array of edges, and for each pair $$$(v_i, u_i)$$$ the condition $$$v_i \\ne u_i$$$ is satisfied. It is guaranteed that the given graph is connected. It is guaranteed that the sum of $$$n$$$ (as well as the sum of $$$m$$$) does not exceed $$$2 \\cdot 10^5$$$ ($$$\\sum n \\le 2 \\cdot 10^5$$$, $$$\\sum m \\le 2 \\cdot 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_026.jsonl",
+    "code_uid": "9c0ed7c441f40fb90b624533c45a0327",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4 3 2 3 4\\n1 2 3\\n1 2\\n1 3\\n1 4\\n7 9 1 5 7\\n2 10 4 8 5 6 7 3 3\\n1 2\\n1 3\\n1 4\\n3 2\\n3 5\\n4 2\\n5 6\\n1 7\\n6 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport io, os\nimport math\ninput = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline\nimport collections\nfrom collections import defaultdict\ndef bfs1(root):\n    queue = collections.deque([root])\n    dist=[math.inf]*(n+1)\n    dist[root]=0\n    while queue:\n        vertex = queue.popleft()\n        for neighbour in graph1[vertex]:\n            if  dist[neighbour]!=math.inf:\n                continue\n            dist[neighbour]=min(dist[neighbour],dist[vertex]+1)\n            queue.append(neighbour)\n            #print(prev)\n    \n    return(dist)\ndef restore(par, s,src):\n    res = []\n    while s != src:\n        \n        res.append(par[s][1])\n        s = par[s][0]\n    return(res)\nt=int(input())\nfor count in range(t):\n    n,m,a,b,c=map(int,input().split())\n    p=[int(i) for i in input().split() if i!='\\n']\n    p.sort()\n    p.insert(0,0)\n    for i in range(1,len(p)):\n        p[i]=p[i-1]+p[i]\n    \n    graph1=defaultdict(list)\n    for j in range(m):\n        x,y=map(int,input().split())\n        graph1[x].append(y)\n        graph1[y].append(x)\n    one=bfs1(a)\n    two=bfs1(b)\n    three=bfs1(c)\n    ans=math.inf\n    for i in range(1,len(three)):\n        try:\n            ans=min(ans,p[one[i]+two[i]+three[i]]+p[two[i]])\n        except:\n            pass\n    sys.stdout.write(str(ans)+'\\n')\n    \n    \n    \n        \n        \n    \n\n\n",
+    "prob_desc_created_at": "1587479700",
+    "tags": [
+        "greedy",
+        "graphs",
+        "shortest paths",
+        "sortings",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

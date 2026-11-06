@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"2\", \"1\"]",
+    "src_uid": "e2836276aee2459979b232e5b29e6d57",
+    "prob_desc_notes": "NoteIn the second sample the employee 1 can learn language 2, and employee 8 can learn language 4.In the third sample employee 2 must learn language 2.",
+    "prob_desc_description": "The \"BerCorp\" company has got n employees. These employees can use m approved official languages for the formal correspondence. The languages are numbered with integers from 1 to m. For each employee we have the list of languages, which he knows. This list could be empty, i. e. an employee may know no official languages. But the employees are willing to learn any number of official languages, as long as the company pays their lessons. A study course in one language for one employee costs 1 berdollar.Find the minimum sum of money the company needs to spend so as any employee could correspond to any other one (their correspondence can be indirect, i. e. other employees can help out translating).",
+    "prob_desc_output_spec": "Print a single integer — the minimum amount of money to pay so that in the end every employee could write a letter to every other one (other employees can help out translating).",
+    "prob_desc_input_spec": "The first line contains two integers n and m (2 ≤ n, m ≤ 100) — the number of employees and the number of languages. Then n lines follow — each employee's language list. At the beginning of the i-th line is integer ki (0 ≤ ki ≤ m) — the number of languages the i-th employee knows. Next, the i-th line contains ki integers — aij (1 ≤ aij ≤ m) — the identifiers of languages the i-th employee knows. It is guaranteed that all the identifiers in one list are distinct. Note that an employee may know zero languages. The numbers in the lines are separated by single spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_003.jsonl",
+    "code_uid": "dd9236d6b6e3f83a408ab53318861eb5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5\\n1 2\\n2 2 3\\n2 3 4\\n2 4 5\\n1 5\", \"8 7\\n0\\n3 1 2 3\\n1 1\\n2 5 4\\n2 6 7\\n1 3\\n2 7 4\\n1 1\", \"2 2\\n1 2\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\ndef dfs(root, visited, graph):\n    visited[root] = 1\n    for i in graph[root]:\n        if visited[i] == 0:\n            dfs(i, visited, graph)\n\nn, m = map(int, input().split())\ngraph = defaultdict(list)\nl = []\nlingo = [0 for i in range(m + 1)]\nflag = 0\nfor i in range(n):\n    l.append(list(map(int, input().split())))\n    # print(lingo)\n    for j in range(1, 1 + l[i][0]):\n        flag = 1\n        if lingo[l[i][j]] != 0:\n            graph[lingo[l[i][j]]].append(i + 1)\n            graph[i + 1].append(lingo[l[i][j]])\n        else:\n            lingo[l[i][j]] = i + 1\n\nvisited = [0 for i in range(n + 1)]\nc = 0\n# print(graph)\nfor i in range(1, n + 1):\n    if visited[i] == 0:\n        dfs(i, visited, graph)\n        c += 1\nif flag == 0:\n    c += 1\nprint(c - 1)\n",
+    "prob_desc_created_at": "1362065400",
+    "tags": [
+        "dsu",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

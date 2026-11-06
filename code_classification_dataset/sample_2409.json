@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\\n3 2\\n1 2 6\\n5 4\", \"Yes\\n1 3\\n1\\n2 3 4\", \"No\", \"No\"]",
+    "src_uid": "aa312ddd875b82eab84fdc92ceec37e5",
+    "prob_desc_notes": "NoteIn the first sample test each of the servers 1, 2 and 6 will will provide $$$8 / 3 = 2.(6)$$$ resource units and each of the servers 5, 4 will provide $$$16 / 2 = 8$$$ resource units.In the second sample test the first server will provide $$$20$$$ resource units and each of the remaining servers will provide $$$32 / 3 = 10.(6)$$$ resource units.",
+    "prob_desc_description": "One department of some software company has $$$n$$$ servers of different specifications. Servers are indexed with consecutive integers from $$$1$$$ to $$$n$$$. Suppose that the specifications of the $$$j$$$-th server may be expressed with a single integer number $$$c_j$$$ of artificial resource units.In order for production to work, it is needed to deploy two services $$$S_1$$$ and $$$S_2$$$ to process incoming requests using the servers of the department. Processing of incoming requests of service $$$S_i$$$ takes $$$x_i$$$ resource units.The described situation happens in an advanced company, that is why each service may be deployed using not only one server, but several servers simultaneously. If service $$$S_i$$$ is deployed using $$$k_i$$$ servers, then the load is divided equally between these servers and each server requires only $$$x_i / k_i$$$ (that may be a fractional number) resource units.Each server may be left unused at all, or be used for deploying exactly one of the services (but not for two of them simultaneously). The service should not use more resources than the server provides.Determine if it is possible to deploy both services using the given servers, and if yes, determine which servers should be used for deploying each of the services.",
+    "prob_desc_output_spec": "If it is impossible to deploy both services using the given servers, print the only word \"No\" (without the quotes). Otherwise print the word \"Yes\" (without the quotes).  In the second line print two integers $$$k_1$$$ and $$$k_2$$$ ($$$1 \\leq k_1, k_2 \\leq n$$$) — the number of servers used for each of the services. In the third line print $$$k_1$$$ integers, the indices of the servers that will be used for the first service. In the fourth line print $$$k_2$$$ integers, the indices of the servers that will be used for the second service. No index may appear twice among the indices you print in the last two lines. If there are several possible answers, it is allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$x_1$$$, $$$x_2$$$ ($$$2 \\leq n \\leq 300\\,000$$$, $$$1 \\leq x_1, x_2 \\leq 10^9$$$) — the number of servers that the department may use, and resource units requirements for each of the services. The second line contains $$$n$$$ space-separated integers $$$c_1, c_2, \\ldots, c_n$$$ ($$$1 \\leq c_i \\leq 10^9$$$) — the number of resource units provided by each of the servers.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_022.jsonl",
+    "code_uid": "729b3d49704f0b64f677f04dccdcfa1d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 8 16\\n3 5 2 9 8 7\", \"4 20 32\\n21 11 11 12\", \"4 11 32\\n5 5 16 16\", \"5 12 20\\n7 8 4 11 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# python3\n\ndef readline(): return tuple(map(int, input().split()))\n\n\ndef ceil_div(num, den): return (num - 1) // den + 1\n\n\ndef main():\n    n, x1, x2 = readline()\n    c = readline()\n\n    xx = (x1, x2)\n\n    servers = sorted(enumerate(c, start=1), key=lambda p: p[1])\n    for (i, a) in enumerate(servers):\n        for (j, x) in enumerate(xx):\n            kj = ceil_div(x, a[1])\n            if i + kj < n and (n - i - kj) * servers[i + kj][1] >= sum(xx) - x:\n                print(\"Yes\")\n                l1 = servers[i:i+kj]\n                l2 = servers[i+kj:]\n                if j: l1, l2 = l2, l1\n                print(len(l1), len(l2))\n                print(\" \".join(str(d[0]) for d in l1))\n                print(\" \".join(str(d[0]) for d in l2))\n                return\n    print(\"No\")\n\n\nmain()\n",
+    "prob_desc_created_at": "1525007700",
+    "tags": [
+        "binary search",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

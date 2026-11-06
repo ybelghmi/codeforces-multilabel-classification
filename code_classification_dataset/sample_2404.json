@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"18\", \"1999999999\"]",
+    "src_uid": "9d22a23124620f266d700eb8b305eab4",
+    "prob_desc_notes": "NoteIn the first example if the glider can jump out at $$$(2, 4)$$$, then the landing point is $$$(12, 0)$$$, so the distance is $$$12-2 = 10$$$.In the second example the glider can fly from $$$(16,10)$$$ to $$$(34,0)$$$, and the distance is $$$34-16=18$$$.In the third example the glider can fly from $$$(-100,1000000000)$$$ to $$$(1999999899,0)$$$, so the distance is $$$1999999899-(-100)=1999999999$$$.",
+    "prob_desc_description": "A plane is flying at a constant height of $$$h$$$ meters above the ground surface. Let's consider that it is flying from the point $$$(-10^9, h)$$$ to the point $$$(10^9, h)$$$ parallel with $$$Ox$$$ axis.A glider is inside the plane, ready to start his flight at any moment (for the sake of simplicity let's consider that he may start only when the plane's coordinates are integers). After jumping from the plane, he will fly in the same direction as the plane, parallel to $$$Ox$$$ axis, covering a unit of distance every second. Naturally, he will also descend; thus his second coordinate will decrease by one unit every second.There are ascending air flows on certain segments, each such segment is characterized by two numbers $$$x_1$$$ and $$$x_2$$$ ($$$x_1 &lt; x_2$$$) representing its endpoints. No two segments share any common points. When the glider is inside one of such segments, he doesn't descend, so his second coordinate stays the same each second. The glider still flies along $$$Ox$$$ axis, covering one unit of distance every second.     If the glider jumps out at $$$1$$$, he will stop at $$$10$$$. Otherwise, if he jumps out at $$$2$$$, he will stop at $$$12$$$. Determine the maximum distance along $$$Ox$$$ axis from the point where the glider's flight starts to the point where his flight ends if the glider can choose any integer coordinate to jump from the plane and start his flight. After touching the ground the glider stops altogether, so he cannot glide through an ascending airflow segment if his second coordinate is $$$0$$$.",
+    "prob_desc_output_spec": "Print one integer — the maximum distance along $$$Ox$$$ axis that the glider can fly from the point where he jumps off the plane to the point where he lands if he can start his flight at any integer coordinate.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$h$$$ $$$(1 \\le n \\le 2\\cdot10^{5}, 1 \\le h \\le 10^{9})$$$ — the number of ascending air flow segments and the altitude at which the plane is flying, respectively. Each of the next $$$n$$$ lines contains two integers $$$x_{i1}$$$ and $$$x_{i2}$$$ $$$(1 \\le x_{i1} &lt; x_{i2} \\le 10^{9})$$$ — the endpoints of the $$$i$$$-th ascending air flow segment. No two segments intersect, and they are given in ascending order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_022.jsonl",
+    "code_uid": "439c490683e085ba7520fbc46cf98d89",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\n2 5\\n7 9\\n10 11\", \"5 10\\n5 7\\n11 12\\n16 20\\n25 26\\n30 33\", \"1 1000000000\\n1 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter, defaultdict, deque\nread = lambda: list(map(int,input().split()))\n\nn,h = read()\ndis = []\nfor _ in range(n):\n    a,b = read()\n    dis.append([a,b])\n\nrec = []\nfor i in range(1, n):\n    rec.append(dis[i][0] - dis[i-1][1])\nrec.append(float('inf'))\n\ns = 0\nleft = h\ni,j = 0,0\nres = 0\nvis = [False] * n\nwhile i < n:\n    while j < n and left > 0:\n        if not vis[j]:\n            s += dis[j][1] - dis[j][0]\n            vis[j] = True\n        if left > rec[j]:\n            left -= rec[j]\n            s += rec[j]\n            j += 1\n        else:\n            res = max(res, s + left)\n            while i < n and  left <= rec[j]:\n                s -= dis[i][1] - dis[i][0] + rec[i]\n                left += rec[i]\n                i += 1\n            if i >= n: break\n\nprint(res)",
+    "prob_desc_created_at": "1537094100",
+    "tags": [
+        "data structures",
+        "two pointers",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

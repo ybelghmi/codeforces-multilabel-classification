@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 2 2 2 \\n1 1 \\n2 2 3 3 3 3 3\"]",
+    "src_uid": "d7c2789c5fb216f1de4a99657ffafb4d",
+    "prob_desc_notes": "Note   In the first testcase:   For $$$x = 1$$$, we can an edge between vertices $$$1$$$ and $$$3$$$, then $$$d(1) = 0$$$ and $$$d(2) = d(3) = d(4) = 1$$$, so $$$f(1) = 1$$$.  For $$$x \\ge 2$$$, no matter which edge we add, $$$d(1) = 0$$$, $$$d(2) = d(4) = 1$$$ and $$$d(3) = 2$$$, so $$$f(x) = 2$$$. ",
+    "prob_desc_description": "This version of the problem differs from the next one only in the constraint on $$$n$$$.A tree is a connected undirected graph without cycles. A weighted tree has a weight assigned to each edge. The distance between two vertices is the minimum sum of weights on the path connecting them.You are given a weighted tree with $$$n$$$ vertices, each edge has a weight of $$$1$$$. Denote $$$d(v)$$$ as the distance between vertex $$$1$$$ and vertex $$$v$$$.Let $$$f(x)$$$ be the minimum possible value of $$$\\max\\limits_{1 \\leq v \\leq n} \\ {d(v)}$$$ if you can temporarily add an edge with weight $$$x$$$ between any two vertices $$$a$$$ and $$$b$$$ $$$(1 \\le a, b \\le n)$$$. Note that after this operation, the graph is no longer a tree.For each integer $$$x$$$ from $$$1$$$ to $$$n$$$, find $$$f(x)$$$.",
+    "prob_desc_output_spec": "For each test case, print $$$n$$$ integers in a single line, $$$x$$$-th of which is equal to $$$f(x)$$$ for all $$$x$$$ from $$$1$$$ to $$$n$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 3000$$$). Each of the next $$$n−1$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u,v \\le n$$$) indicating that there is an edge between vertices $$$u$$$ and $$$v$$$. It is guaranteed that the given edges form a tree. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$3000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_084.jsonl",
+    "code_uid": "d56c2a4e193de4cd3a638c9c898db74b",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n4\\n\\n1 2\\n\\n2 3\\n\\n1 4\\n\\n2\\n\\n1 2\\n\\n7\\n\\n1 2\\n\\n1 3\\n\\n3 4\\n\\n3 5\\n\\n3 6\\n\\n5 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\r\ninp = stdin.readline\r\n\r\nt = int(inp())\r\n\r\nfor _ in range(t):\r\n    n = int(inp())\r\n    tree = {i: [set(), 0, 0] for i in range(1, n+1)}\r\n\r\n    for i in range(n-1):\r\n        a, b = map(int, inp().split())\r\n        tree[a][0].add(b)\r\n        tree[b][0].add(a)\r\n\r\n    layer = 0\r\n    arr = [set(tree[1][0])]\r\n    branch = [1]\r\n    dist = 0\r\n    dBranch = []\r\n\r\n    while True:\r\n        if not arr[layer]:\r\n            if layer > dist:\r\n                dBranch = branch[:]\r\n                dist = layer\r\n\r\n            for c in tree[branch[layer]][0]:\r\n                if c != branch[layer-1] or layer == 0:\r\n                    if tree[c][1] + 1 > tree[branch[layer]][1]:\r\n                        tree[branch[layer]][2] = tree[branch[layer]][1]\r\n                        tree[branch[layer]][1] = tree[c][1] + 1\r\n                    elif tree[c][1] + 1 > tree[branch[layer]][2]:\r\n                        tree[branch[layer]][2] = tree[c][1] + 1\r\n\r\n            layer -= 1\r\n\r\n            if layer == -1:\r\n                break\r\n\r\n            arr.pop()\r\n            branch.pop()\r\n\r\n        else:\r\n            current = arr[layer].pop()\r\n            arr.append(set(tree[current][0]))\r\n            branch.append(current)\r\n            arr[layer+1].discard(branch[layer])\r\n            layer += 1\r\n\r\n    longest = []\r\n    for i in range(len(dBranch)):\r\n        longest.append([i + (dist - tree[dBranch[i]][2] - i)//2, tree[dBranch[i]][2], i])\r\n\r\n    longest.sort()\r\n\r\n    ans = [0]*n\r\n    x = 0\r\n    last = 0\r\n\r\n    for c in longest:\r\n        while x+1 < 2*c[2] - c[0]:\r\n            ans[x] = max(dist - c[0] + x + 1, last)\r\n            x += 1\r\n        last = max(c[1]+c[2], last)\r\n\r\n    while x < n:\r\n        ans[x] = dist\r\n        x += 1\r\n\r\n    print(*ans)\r\n\r\n\r\n\r\n\r\n\r\n",
+    "prob_desc_created_at": "1643553300",
+    "tags": [
+        "binary search",
+        "data structures",
+        "dfs and similar",
+        "graphs",
+        "shortest paths",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,23 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n4 1 5\", \"2\\n1 4\", \"0\"]",
+    "src_uid": "4cf0fe49f7ebf058317ac848043031a5",
+    "prob_desc_notes": "NoteIn the first example you can remove any element with the value $$$2$$$ so the array will look like $$$[5, 1, 2, 2]$$$. The sum of this array is $$$10$$$ and there is an element equals to the sum of remaining elements ($$$5 = 1 + 2 + 2$$$).In the second example you can remove $$$8$$$ so the array will look like $$$[3, 5, 2]$$$. The sum of this array is $$$10$$$ and there is an element equals to the sum of remaining elements ($$$5 = 3 + 2$$$). You can also remove $$$2$$$ so the array will look like $$$[8, 3, 5]$$$. The sum of this array is $$$16$$$ and there is an element equals to the sum of remaining elements ($$$8 = 3 + 5$$$).In the third example you cannot make the given array good by removing exactly one element.",
+    "prob_desc_description": "Let's call an array good if there is an element in the array that equals to the sum of all other elements. For example, the array $$$a=[1, 3, 3, 7]$$$ is good because there is the element $$$a_4=7$$$ which equals to the sum $$$1 + 3 + 3$$$.You are given an array $$$a$$$ consisting of $$$n$$$ integers. Your task is to print all indices $$$j$$$ of this array such that after removing the $$$j$$$-th element from the array it will be good (let's call such indices nice).For example, if $$$a=[8, 3, 5, 2]$$$, the nice indices are $$$1$$$ and $$$4$$$:   if you remove $$$a_1$$$, the array will look like $$$[3, 5, 2]$$$ and it is good;  if you remove $$$a_4$$$, the array will look like $$$[8, 3, 5]$$$ and it is good. You have to consider all removals independently, i. e. remove the element, check if the resulting array is good, and return the element into the array.",
+    "prob_desc_output_spec": "In the first line print one integer $$$k$$$ — the number of indices $$$j$$$ of the array $$$a$$$ such that after removing the $$$j$$$-th element from the array it will be good (i.e. print the number of the nice indices). In the second line print $$$k$$$ distinct integers $$$j_1, j_2, \\dots, j_k$$$ in any order — nice indices of the array $$$a$$$. If there are no such indices in the array $$$a$$$, just print $$$0$$$ in the first line and leave the second line empty or do not print it at all.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the number of elements in the array $$$a$$$. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^6$$$) — elements of the array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_000.jsonl",
+    "code_uid": "d22f2df770a48e96a69c461dc58f9813",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 5 1 2 2\", \"4\\n8 3 5 2\", \"5\\n2 1 2 4 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = [int(x) for x in input().split()]\nbik = 0\nbi = []\nbe = set()\nsua = sum(a)\nsea = set(a)\n\nef = [0] * 1000001\nfor i in range(n):\n    ef[a[i]] += 1\n\nfor de in sea:\n    desua = sua - de\n    if desua > 2000000:\n        continue\n    if desua % 2 != 0:\n        continue\n    desuad2 = desua // 2\n    if ef[desuad2] == 0 or (ef[desuad2] == 1 and de == desuad2):\n        continue\n    be.add(de)\n\nfor i in range(n):\n    if a[i] in be:\n        bi.append(i+1)\n\nprint(len(bi))\nprint(*bi)\n",
+    "prob_desc_created_at": "1542378900",
+    "tags": [],
+    "hidden_unit_tests": ""
+}

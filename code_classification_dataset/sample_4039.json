@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"aabacadbb\", \"aaaaa\", \"codeforces\"]",
+    "src_uid": "19cc504c81bd4f224ecb17f03cfb9bd7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Let's define the cost of a string $$$s$$$ as the number of index pairs $$$i$$$ and $$$j$$$ ($$$1 \\le i &lt; j &lt; |s|$$$) such that $$$s_i = s_j$$$ and $$$s_{i+1} = s_{j+1}$$$.You are given two positive integers $$$n$$$ and $$$k$$$. Among all strings with length $$$n$$$ that contain only the first $$$k$$$ characters of the Latin alphabet, find a string with minimum possible cost. If there are multiple such strings with minimum cost — find any of them.",
+    "prob_desc_output_spec": "Print the string $$$s$$$ such that it consists of $$$n$$$ characters, each its character is one of the $$$k$$$ first Latin letters, and it has the minimum possible cost among all these strings. If there are multiple such strings — print any of them.",
+    "prob_desc_input_spec": "The only line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 2 \\cdot 10^5; 1 \\le k \\le 26$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_089.jsonl",
+    "code_uid": "91f8a3dc76c966945d6fbd81ef7bbadf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9 4\", \"5 1\", \"10 26\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import bisect\r\nimport collections\r\nimport heapq\r\nimport io\r\nimport math\r\nimport os\r\nimport sys\r\n\r\nLO = 'abcdefghijklmnopqrstuvwxyz'\r\nMod = 1000000007\r\n\r\ndef gcd(x, y):\r\n    while y:\r\n        x, y = y, x % y\r\n    return x\r\n\r\n# _input = lambda: io.BytesIO(os.read(0, os.fstat(0).st_size)).readline().decode()\r\n_input = lambda: sys.stdin.buffer.readline().strip().decode()\r\n\r\nn, m = map(int, _input().split())\r\nif m > 1:\r\n    s = ['a', 'a']\r\n    for i in range(1, m):\r\n        x = LO[i]\r\n        for j in range(i):\r\n            y = LO[j]\r\n            u = s.index(y)\r\n            s[u: u + 1] = [y, x, y]\r\n        u = s.index(x)\r\n        s.insert(u, x)\r\n        if len(s) >= n:\r\n            break\r\n    s = ''.join(s)\r\n    if n > len(s):\r\n        k = (n - len(s) + m * m - 1) // (m * m)\r\n        s += s[1:] * k\r\n    print(s[:n])\r\nelse:\r\n    print('a' * n)",
+    "prob_desc_created_at": "1618238100",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "graphs",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

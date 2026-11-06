@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"3\", \"2\"]",
+    "src_uid": "fade6204af3e346db543f59d40a70ad6",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One day, ZS the Coder wrote down an array of integers a with elements a1,  a2,  ...,  an.A subarray of the array a is a sequence al,  al  +  1,  ...,  ar for some integers (l,  r) such that 1  ≤  l  ≤  r  ≤  n. ZS the Coder thinks that a subarray of a is beautiful if the bitwise xor of all the elements in the subarray is at least k.Help ZS the Coder find the number of beautiful subarrays of a!",
+    "prob_desc_output_spec": "Print the only integer c — the number of beautiful subarrays of the array a.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n ≤ 106, 1 ≤ k ≤ 109) — the number of elements in the array a and the value of the parameter k. The second line contains n integers ai (0 ≤ ai ≤ 109) — the elements of the array a.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_055.jsonl",
+    "code_uid": "585078fcbaba8e6ad4ed8b2c74ab1446",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\n1 2 3\", \"3 2\\n1 2 3\", \"3 3\\n1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nL = [-1, -1]\ncount = [0,0]\ndef check(i):\n    if L[i] == -1:\n        L[i] = len(L)\n        L.append(-1)\n        L.append(-1)\n        count.append(0)\n        count.append(0)\n\ndef add(x, i = 0, bits = 30):\n    count[i] += 1\n    for bit in reversed(range(bits)):\n        check(i)\n        i = L[i] ^ (x >> bit & 1)\n        count[i] += 1\n\n# count (y xor x) > k\ndef get_count(x, k, i = 0, bits = 30):\n    ret = 0\n    for bit in reversed(range(bits)):\n        i = L[i] ^ (x >> bit & 1) ^ (k >> bit & 1)\n        if i < 0:\n            return ret\n        if k >> bit & 1 == 0:\n           ret += count[i ^ 1] \n    return ret\n\ninp = [int(x) for x in sys.stdin.read().split()]; ii = 0\n\nn = inp[ii]; ii += 1\nk = inp[ii] - 1; ii += 1\n\nA = inp[ii:ii + n]; ii += n\n\nxor = [0]\nfor a in A:\n    xor.append(xor[-1] ^ a)\nxor.sort()\n\nans = 0\nfor x in xor:\n    add(x)\n    ans += get_count(x, k)\nprint ans",
+    "prob_desc_created_at": "1461164400",
+    "tags": [
+        "data structures",
+        "divide and conquer",
+        "trees",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

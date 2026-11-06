@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\\n7\\n5\"]",
+    "src_uid": "df2fa3d9e5fdf23656c12416451fcdb9",
+    "prob_desc_notes": "NoteIn the first test case, one of the optimal solutions is shown below:    Each point was moved two times, so the answer $$$2 + 2 + 2 + 2 = 8$$$.In the second test case, one of the optimal solutions is shown below:    The answer is $$$3 + 1 + 0 + 3 = 7$$$.In the third test case, one of the optimal solutions is shown below:    The answer is $$$1 + 1 + 2 + 1 = 5$$$.",
+    "prob_desc_description": "You are given four different integer points $$$p_1$$$, $$$p_2$$$, $$$p_3$$$ and $$$p_4$$$ on $$$\\mathit{XY}$$$ grid.In one step you can choose one of the points $$$p_i$$$ and move it in one of four directions by one. In other words, if you have chosen point $$$p_i = (x, y)$$$ you can move it to $$$(x, y + 1)$$$, $$$(x, y - 1)$$$, $$$(x + 1, y)$$$ or $$$(x - 1, y)$$$.Your goal to move points in such a way that they will form a square with sides parallel to $$$\\mathit{OX}$$$ and $$$\\mathit{OY}$$$ axes (a square with side $$$0$$$ is allowed).What is the minimum number of steps you need to make such a square?",
+    "prob_desc_output_spec": "For each test case, print the single integer — the minimum number of steps to make a square.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Each test case consists of four lines. Each line contains two integers $$$x$$$ and $$$y$$$ ($$$0 \\le x, y \\le 10^9$$$) — coordinates of one of the points $$$p_i = (x, y)$$$. All points are different in one test case.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": null,
+    "file_name": "train_021.jsonl",
+    "code_uid": "14dd7aa5015394112e0776c0afefcf6b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0 2\\n4 2\\n2 0\\n2 4\\n1 0\\n2 0\\n4 0\\n6 0\\n1 6\\n2 2\\n2 5\\n4 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "T = int(input());ans = [0]*T\nfor t in range(T):\n    X,Y = [0]*4,[0]*4;A = [0]*4\n    for i in range(4):X[i],Y[i] = map(int, input().split());A[i] = [X[i], Y[i]]\n    X.sort(); Y.sort(); A.sort();cnt = 0\n    for i in range(2):\n        rank = 1\n        for j in range(4):\n            if A[i][1] < A[j][1]:rank += 1\n        if rank<=2:cnt += 1\n    if cnt!=1:ans[t] += min(Y[2]-Y[1], X[2]-X[1])*2\n    x_min = X[2]-X[1]; x_max = X[3]-X[0];y_min = Y[2]-Y[1]; y_max = Y[3]-Y[0]\n    if x_max<y_min:ans[t] += (X[3]-X[2])+(X[1]-X[0]);ans[t] += (Y[3]-Y[2])+(Y[1]-Y[0])+2*(y_min-x_max)\n    elif y_max<x_min:ans[t] += (X[3]-X[2])+(X[1]-X[0])+2*(x_min-y_max);ans[t] += (Y[3]-Y[2])+(Y[1]-Y[0])\n    else:ans[t] += (X[3]-X[2])+(X[1]-X[0]);ans[t] += (Y[3]-Y[2])+(Y[1]-Y[0])\nprint(*ans, sep='\\n')",
+    "prob_desc_created_at": "1606746900",
+    "tags": [
+        "geometry",
+        "greedy",
+        "constructive algorithms",
+        "flows",
+        "math",
+        "ternary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

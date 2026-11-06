@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n10\\n3\"]",
+    "src_uid": "9a2e734bd78ef1e50140f2bb4f57d611",
+    "prob_desc_notes": "Note  Graph from the first test case.   Ority of this tree equals to 2 or 2 = 2 and it's minimal.   Without excluding edge with weight $$$1$$$ ority is 1 or 2 = 3. ",
+    "prob_desc_description": "Recently, Vlad has been carried away by spanning trees, so his friends, without hesitation, gave him a connected weighted undirected graph of $$$n$$$ vertices and $$$m$$$ edges for his birthday.Vlad defined the ority of a spanning tree as the bitwise OR of all its weights, and now he is interested in what is the minimum possible ority that can be achieved by choosing a certain spanning tree. A spanning tree is a connected subgraph of a given graph that does not contain cycles.In other words, you want to keep $$$n-1$$$ edges so that the graph remains connected and the bitwise OR weights of the edges are as small as possible. You have to find the minimum bitwise OR itself.",
+    "prob_desc_output_spec": "Print $$$t$$$ lines, each of which contains the answer to the corresponding set of input data — the minimum possible spanning tree ority.",
+    "prob_desc_input_spec": "The first line of the input contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the input. An empty line is written in front of each test case. This is followed by two numbers $$$n$$$ and $$$m$$$ ($$$3 \\le n \\le 2 \\cdot 10^5, n - 1 \\le m \\le 2 \\cdot 10^5$$$) — the number of vertices and edges of the graph, respectively. The next $$$m$$$ lines contain the description of the edges. Line $$$i$$$ contains three numbers $$$v_i$$$, $$$u_i$$$ and $$$w_i$$$ ($$$1 \\le v_i, u_i \\le n$$$, $$$1 \\le w_i \\le 10^9$$$, $$$v_i \\neq u_i$$$) — the vertices that the edge connects and its weight. It is guaranteed that the sum $$$m$$$ and the sum $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$ and each test case contains a connected graph.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_102.jsonl",
+    "code_uid": "ca247fd48319c4d12f7df489f8db1c1c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n\\n\\n\\n3 3\\n\\n1 2 1\\n\\n2 3 2\\n\\n1 3 2\\n\\n\\n\\n\\n5 7\\n\\n4 2 7\\n\\n2 5 8\\n\\n3 4 2\\n\\n3 2 1\\n\\n2 4 2\\n\\n4 1 2\\n\\n1 2 2\\n\\n\\n\\n\\n3 4\\n\\n1 2 1\\n\\n2 3 2\\n\\n1 3 3\\n\\n3 1 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nip=sys.stdin.readline\r\nclass Graph:\r\n    def __init__(self,n,m,edge,tot):\r\n        self.n=n\r\n        self.m=m\r\n        self.edge=edge\r\n        self.tot=tot\r\n        self.par=[-1 for _ in range(n+1)]\r\n    \r\n    def findParent(self,x,c1):\r\n        if self.par[x]==-1:return x,c1\r\n        else:return self.findParent(self.par[x],c1+1)\r\n\r\n    def union(self,x,y):\r\n        par1,c1=self.findParent(x,0)\r\n        par2,c2=self.findParent(y,0)\r\n        if par1==par2:return\r\n        else:\r\n            if c1>=c2:self.par[par2]=par1\r\n            else:self.par[par1]=par2\r\n            return\r\n        \r\n    def isPossible(self):\r\n        for u,v,w in self.edge:\r\n            if self.tot|w==self.tot:\r\n                self.union(u,v)\r\n        c=0\r\n        for i in range(1,self.n+1):\r\n           if self.par[i]==-1:c+=1\r\n        if c>1:return False\r\n        else:return True \r\n        \r\nfor _ in range(int(ip())):\r\n    _=ip()\r\n    n,m=map(int,ip().split())\r\n    edges=[tuple(map(int,ip().split())) for _ in range(m)]\r\n    tot=(1<<31)-1\r\n    for i in range(30,-1,-1):\r\n        tot-=(1<<i)\r\n        g=Graph(n,m,edges,tot)\r\n        pr=g.isPossible()\r\n        if pr:continue\r\n        else:tot+=(1<<i)\r\n    print(tot)",
+    "prob_desc_created_at": "1641825300",
+    "tags": [
+        "bitmasks",
+        "dfs and similar",
+        "dsu",
+        "graphs",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

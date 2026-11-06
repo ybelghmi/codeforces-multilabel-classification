@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Rublo\", \"Rublo\", \"Furlo\"]",
+    "src_uid": "cc23f07b6539abbded7e120793bef6a7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Furlo and Rublo play a game. The table has n piles of coins lying on it, the i-th pile has ai coins. Furlo and Rublo move in turns, Furlo moves first. In one move you are allowed to:  choose some pile, let's denote the current number of coins in it as x;  choose some integer y (0 ≤ y &lt; x; x1 / 4 ≤ y ≤ x1 / 2) and decrease the number of coins in this pile to y. In other words, after the described move the pile will have y coins left. The player who can't make a move, loses. Your task is to find out, who wins in the given game if both Furlo and Rublo play optimally well.",
+    "prob_desc_output_spec": "If both players play optimally well and Furlo wins, print \"Furlo\", otherwise print \"Rublo\". Print the answers without the quotes.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 77777) — the number of piles. The next line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 777777777777) — the sizes of piles. The numbers are separated by single spaces. Please, do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "ffca4bac4e0e73f25ac7c01ea5dd17f9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n1\", \"2\\n1 2\", \"10\\n1 2 3 4 5 6 7 8 9 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import *\ninput()\nr = [3, 15, 81, 6723, 15 ** 4, 15 ** 8]\nv = [0, 1, 2, 0, 3, 1, 2]\nprint ['Rublo', 'Furlo'][reduce(lambda x, y : x ^ y, map(lambda x : v[bisect_left(r, x)], map(int, raw_input().split()))) > 0]",
+    "prob_desc_created_at": "1355671800",
+    "tags": [
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

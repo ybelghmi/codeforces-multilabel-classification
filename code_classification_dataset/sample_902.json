@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"3\"]",
+    "src_uid": "86ded9e6336a14b43dda780ebd099b4f",
+    "prob_desc_notes": "NoteIn the first test the sequence actually is the suitable subsequence. In the second test the following subsequence fits: 10, 20, 10.",
+    "prob_desc_description": "Gena loves sequences of numbers. Recently, he has discovered a new type of sequences which he called an almost arithmetical progression. A sequence is an almost arithmetical progression, if its elements can be represented as:  a1 = p, where p is some integer;  ai = ai - 1 + ( - 1)i + 1·q (i &gt; 1), where q is some integer. Right now Gena has a piece of paper with sequence b, consisting of n integers. Help Gena, find there the longest subsequence of integers that is an almost arithmetical progression.Sequence s1,  s2,  ...,  sk is a subsequence of sequence b1,  b2,  ...,  bn, if there is such increasing sequence of indexes i1, i2, ..., ik (1  ≤  i1  &lt;  i2  &lt; ...   &lt;  ik  ≤  n), that bij  =  sj. In other words, sequence s can be obtained from b by crossing out some elements.",
+    "prob_desc_output_spec": "Print a single integer — the length of the required longest subsequence.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 4000). The next line contains n integers b1, b2, ..., bn (1 ≤ bi ≤ 106).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_005.jsonl",
+    "code_uid": "9430ad1fc77a44c20b93ab731fbf8f12",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3 5\", \"4\\n10 20 10 30\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin; input=stdin.readline\nvolt=[0]*(10**6+8)\n\nn=int(input())\nINF=n+9\nfirst=[INF]*INF\nnxt=[0]*INF\narr=[0]*INF\nfrek=[0]*INF\n\ndef merge(i,j):\n  i,j=first[i],first[j]\n  ans=0\n  while i!=INF or j!=INF:\n    if(i<j):\n      while i<j: i=nxt[i]\n      ans+=1\n    else:\n      while j<i: j=nxt[j]\n      ans+=1\n  return ans\n\ni=1\nndiff=0\nfor v in input().split():\n  v=int(v)\n  if volt[v]==0:\n    ndiff+=1\n    volt[v]=ndiff\n  vv=volt[v]\n  arr[i]=vv; i+=1\n  frek[vv]+=1\n\nfor i in range(n,0,-1):\n  v=arr[i]\n  nxt[i]=first[v]\n  first[v]=i\n\n#print(nxt[:ndiff+1])\nans=max(frek[1:ndiff+1])\nfor i in range(1,ndiff):\n  for j in range(i+1,ndiff+1):\n    \n    if frek[i]+frek[j]<=ans: continue\n    ans=max(ans,merge(i,j))      \n\nprint(ans)\n",
+    "prob_desc_created_at": "1355671800",
+    "tags": [
+        "dp",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

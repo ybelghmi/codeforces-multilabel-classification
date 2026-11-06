@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"2\"]",
+    "src_uid": "a0e55bfbdeb3dc550e1f86b9fa7cb06d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One day n students come to the stadium. They want to play football, and for that they need to split into teams, the teams must have an equal number of people.We know that this group of people has archenemies. Each student has at most two archenemies. Besides, if student A is an archenemy to student B, then student B is an archenemy to student A.The students want to split so as no two archenemies were in one team. If splitting in the required manner is impossible, some students will have to sit on the bench.Determine the minimum number of students you will have to send to the bench in order to form the two teams in the described manner and begin the game at last.",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of students you will have to send to the bench in order to start the game.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (2 ≤ n ≤ 100, 1 ≤ m ≤ 100) — the number of students and the number of pairs of archenemies correspondingly. Next m lines describe enmity between students. Each enmity is described as two numbers ai and bi (1 ≤ ai, bi ≤ n, ai ≠ bi) — the indexes of the students who are enemies to each other. Each enmity occurs in the list exactly once. It is guaranteed that each student has no more than two archenemies. You can consider the students indexed in some manner with distinct integers from 1 to n.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_004.jsonl",
+    "code_uid": "a90b486b06ef5aba6e5c8c6e6d7e5529",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n1 2\\n2 4\\n5 3\\n1 4\", \"6 2\\n1 4\\n3 4\", \"6 6\\n1 2\\n2 3\\n3 1\\n4 5\\n5 6\\n6 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#\n# Author: eloyhz\n# Date: Sep/09/2020\n#\n\ndef form_teams(g, colors, c, s):\n#    print(f'{s = }, {c = }')\n    colors[s] = c\n    for v in g[s]:\n        if colors[v] is None:\n            form_teams(g, colors, 1 - c, v)\n        elif colors[v] == c:\n            colors[s] = -1\n\n\ndef solve(n, m, g):\n    colors = [None] * (n + 1)\n    for i in range(1, n + 1):\n        if colors[i] == None:\n            form_teams(g, colors, 0, i)\n#    print(colors)\n    cont = colors.count(-1)\n    if (n - cont) % 2 == 0:\n        return cont\n    else:\n        return cont + 1\n\n\nif __name__ == '__main__':\n    n, m = [int(x) for x in input().split()]\n    g = [[] for _ in range(n + 1)]\n    for _ in range(m):\n        a, b = [int(x) for x in input().split()]\n        g[a].append(b)\n        g[b].append(a)\n    print(solve(n, m, g))\n\n",
+    "prob_desc_created_at": "1344958200",
+    "tags": [
+        "implementation",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

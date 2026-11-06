@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"20\", \"62\"]",
+    "src_uid": "7bb5df614d1fc8323eba51d04ee7bf2a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One day, little Vasya found himself in a maze consisting of (n + 1) rooms, numbered from 1 to (n + 1). Initially, Vasya is at the first room and to get out of the maze, he needs to get to the (n + 1)-th one.The maze is organized as follows. Each room of the maze has two one-way portals. Let's consider room number i (1 ≤ i ≤ n), someone can use the first portal to move from it to room number (i + 1), also someone can use the second portal to move from it to room number pi, where 1 ≤ pi ≤ i.In order not to get lost, Vasya decided to act as follows.   Each time Vasya enters some room, he paints a cross on its ceiling. Initially, Vasya paints a cross at the ceiling of room 1.  Let's assume that Vasya is in room i and has already painted a cross on its ceiling. Then, if the ceiling now contains an odd number of crosses, Vasya uses the second portal (it leads to room pi), otherwise Vasya uses the first portal. Help Vasya determine the number of times he needs to use portals to get to room (n + 1) in the end.",
+    "prob_desc_output_spec": "Print a single number — the number of portal moves the boy needs to go out of the maze. As the number can be rather large, print it modulo 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 103) — the number of rooms. The second line contains n integers pi (1 ≤ pi ≤ i). Each pi denotes the number of the room, that someone can reach, if he will use the second portal in the i-th room.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_015.jsonl",
+    "code_uid": "dd39932412aad71a03d98b498fa305a0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 2\", \"4\\n1 1 2 3\", \"5\\n1 1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nP = list(map(int, input().split()))\ndp = [0] * (n + 2)\ndp[1] = 0\nM = 10 ** 9 + 7\nfor i in range(2, n + 2):\n    dp[i] = 2 * dp[i - 1] + 2 - dp[P[i - 2]]\n    dp[i] %= M\nprint(dp[-1])",
+    "prob_desc_created_at": "1396162800",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

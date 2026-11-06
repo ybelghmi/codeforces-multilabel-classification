@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"? 1 1\\n\\n? 1 2\\n\\n? 1 3\\n\\n! 6 5 3\"]",
+    "src_uid": "d70b9c132e08cadb760569495f48053c",
+    "prob_desc_notes": "NoteThe array $$$A$$$ in the example is $$$\\{{1, 2, 4\\}}$$$. The first element of the password is bitwise OR of $$$A_2$$$ and $$$A_3$$$, the second element is bitwise OR of $$$A_1$$$ and $$$A_3$$$ and the third element is bitwise OR of $$$A_1$$$ and $$$A_2$$$. Hence the password sequence is $$$\\{{6, 5, 3\\}}$$$.",
+    "prob_desc_description": "This is an interactive problem.Ayush devised yet another scheme to set the password of his lock. The lock has $$$n$$$ slots where each slot can hold any non-negative integer. The password $$$P$$$ is a sequence of $$$n$$$ integers, $$$i$$$-th element of which goes into the $$$i$$$-th slot of the lock.To set the password, Ayush comes up with an array $$$A$$$ of $$$n$$$ integers each in the range $$$[0, 2^{63}-1]$$$. He then sets the $$$i$$$-th element of $$$P$$$ as the bitwise OR of all integers in the array except $$$A_i$$$.You need to guess the password. To make a query, you can choose a non-empty subset of indices of the array and ask the bitwise OR all elements of the array with index in this subset. You can ask no more than 13 queries.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line of input contains one integer $$$n$$$ $$$(2 \\le n \\le 1000)$$$ — the number of slots in the lock.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_017.jsonl",
+    "code_uid": "855af565914412305e68fc055bcc27ee",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n1\\n\\n2\\n\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def subset(n,k,res,bit):\n    while bit<1<<n:res.append(bit);x=bit&-bit;y=bit+x;bit=((bit&~y)//x>>1)|y\n    return res\nn=int(input());bb=subset(13,6,[],63);bb=bb[:n];m=bb[-1].bit_length();xx=[0]*m;ans=[0]*n\nfor k in range(m):\n    cur=[]\n    for i,b in enumerate(bb):\n        if b>>k&1:cur.append(i+1)\n    print(\"?\",len(cur),*cur,flush=True);xx[k]=int(input())\nfor i,b in enumerate(bb):\n    for k in range(m):\n        if b>>k&1==0:ans[i]|=xx[k]\nprint(\"!\",*ans,flush=True)\n",
+    "prob_desc_created_at": "1591540500",
+    "tags": [
+        "constructive algorithms",
+        "combinatorics",
+        "bitmasks",
+        "math",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

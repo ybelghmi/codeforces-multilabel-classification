@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"18\\n4\\n6\"]",
+    "src_uid": "3a3fbb61c7e1ccda69cd6d186da653ae",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There is a prison that can be represented as a rectangular matrix with $$$n$$$ rows and $$$m$$$ columns. Therefore, there are $$$n \\cdot m$$$ prison cells. There are also $$$n \\cdot m$$$ prisoners, one in each prison cell. Let's denote the cell in the $$$i$$$-th row and the $$$j$$$-th column as $$$(i, j)$$$.There's a secret tunnel in the cell $$$(r, c)$$$, that the prisoners will use to escape! However, to avoid the risk of getting caught, they will escape at night.Before the night, every prisoner is in his own cell. When night comes, they can start moving to adjacent cells. Formally, in one second, a prisoner located in cell $$$(i, j)$$$ can move to cells $$$( i - 1 , j )$$$ , $$$( i + 1 , j )$$$ , $$$( i , j - 1 )$$$ , or $$$( i , j + 1 )$$$, as long as the target cell is inside the prison. They can also choose to stay in cell $$$(i, j)$$$.The prisoners want to know the minimum number of seconds needed so that every prisoner can arrive to cell $$$( r , c )$$$ if they move optimally. Note that there can be any number of prisoners in the same cell at the same time. ",
+    "prob_desc_output_spec": "Print $$$t$$$ lines, the answers for each test case.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ $$$(1 \\le t \\le 10^4)$$$, the number of test cases. Each of the next $$$t$$$ lines contains four space-separated integers $$$n$$$, $$$m$$$, $$$r$$$, $$$c$$$ ($$$1 \\le r \\le n \\le 10^9$$$, $$$1 \\le c \\le m \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": null,
+    "file_name": "train_003.jsonl",
+    "code_uid": "d56b7c765c2d6e85618ece820e8c1eed",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n10 10 1 1\\n3 5 2 4\\n10 2 5 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nfor i in range(t):\n    n,m,r,c=map(int,input().split())\n    a1=1\n    a2=n\n    b1=1\n    b2=m\n    c1=abs(a1-r)+abs(b1-c)\n    c2=abs(a1-r)+abs(b2-c)\n    c3=abs(a2-r)+abs(b1-c)\n    c4=abs(a2-r)+abs(b2-c)\n    print(max(c1,max(c2,max(c3,c4))))",
+    "prob_desc_created_at": "1606633500",
+    "tags": [
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

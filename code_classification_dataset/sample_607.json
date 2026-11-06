@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0.250\", \"0.279\"]",
+    "src_uid": "f84b7122ffc7f585fd4ac8f1b3ef977a",
+    "prob_desc_notes": "NoteIn the first test case you need to perform the operations as follows: (i = 1, j = 4), (i = 2, j = 3), (i = 5, j = 6). In this case, the difference will equal |(0 + 0.5 + 0.75 + 1 + 2 + 3) - (0 + 0 + 1 + 1 + 2 + 3)| = 0.25. ",
+    "prob_desc_description": "Jeff got 2n real numbers a1, a2, ..., a2n as a birthday present. The boy hates non-integer numbers, so he decided to slightly \"adjust\" the numbers he's got. Namely, Jeff consecutively executes n operations, each of them goes as follows:  choose indexes i and j (i ≠ j) that haven't been chosen yet;  round element ai to the nearest integer that isn't more than ai (assign to ai: ⌊ ai ⌋);  round element aj to the nearest integer that isn't less than aj (assign to aj: ⌈ aj ⌉). Nevertheless, Jeff doesn't want to hurt the feelings of the person who gave him the sequence. That's why the boy wants to perform the operations so as to make the absolute value of the difference between the sum of elements before performing the operations and the sum of elements after performing the operations as small as possible. Help Jeff find the minimum absolute value of the difference.",
+    "prob_desc_output_spec": "In a single line print a single real number — the required difference with exactly three digits after the decimal point.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 2000). The next line contains 2n real numbers a1, a2, ..., a2n (0 ≤ ai ≤ 10000), given with exactly three digits after the decimal point. The numbers are separated by spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_003.jsonl",
+    "code_uid": "48d7c6d898fd6af23942f68025c8fecc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0.000 0.500 0.750 1.000 2.000 3.000\", \"3\\n4469.000 6526.000 4864.000 9356.383 7490.000 995.896\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\n\nr = [int(x.split('.')[1]) for x in raw_input().split()]\nr_n, s = r.count(0), sum(r)\n\nres = min(abs(s - i * 1000) for i in range(max(0, n - r_n), min(2 * n - r_n, n) + 1) )\nprint '%.3f' % (res/1000.0)",
+    "prob_desc_created_at": "1380900600",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nRL\\nLRLR\\nRLLRRL\"]",
+    "src_uid": "14d16cfc20da1320ae844dd73b68cc3c",
+    "prob_desc_notes": "NoteIn the first array, we add the first element to $$$R$$$ and the second to $$$L$$$. Now $$$L = \\{2\\}$$$, and $$$R = \\{1\\}$$$.In the second array, we add the first and third elements to $$$L$$$ and the rest to $$$R$$$. Now $$$L = \\{1, 2, 3\\}$$$ and $$$R = \\{1, 2, 3\\}$$$.In the third array, we add elements 2, 3, and 6 to $$$L$$$, and others — to $$$R$$$. As a result, $$$L = R = \\{1, 1, 2, 2, 3, 3\\}$$$.",
+    "prob_desc_description": "Even a cat has things it can do that AI cannot.— Fei-Fei LiYou are given $$$m$$$ arrays of positive integers. Each array is of even length.You need to split all these integers into two equal multisets $$$L$$$ and $$$R$$$, that is, each element of each array should go into one of two multisets (but not both). Additionally, for each of the $$$m$$$ arrays, exactly half of its elements should go into $$$L$$$, and the rest should go into $$$R$$$.Give an example of such a division or determine that no such division exists.",
+    "prob_desc_output_spec": "If the answer exists, print \"YES\", and then print $$$m$$$ lines. On each line, for each element, print the letter \"L\" or \"R\" (capitalized, without spaces), depending on which multiset the element should go into. If there is no answer, print \"NO\" on the only line.",
+    "prob_desc_input_spec": "The first line contains an integer $$$m$$$ ($$$1 \\le m \\le 10 ^ 5$$$) — the number of arrays. The next $$$2 \\cdot m$$$ lines contain descriptions of the arrays. For each array, the first line contains an even integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10 ^ 5$$$) — the length of the array. The second line consists of $$$n$$$ space-separated integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10 ^ 9$$$) — array elements. It is guaranteed that the sum of $$$n$$$ over all arrays does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_108.jsonl",
+    "code_uid": "3e42632861aeac0bc97f5e4ccd1b9dd9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2\\n1 2\\n4\\n1 2 3 3\\n6\\n1 1 2 2 3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io, os, sys\r\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\r\nfrom collections import defaultdict, Counter\r\nI = lambda: [int(x) for x in input().split()]\r\n\r\nG = defaultdict(Counter)\r\nplaces = defaultdict(set)\r\nans = defaultdict(list)\r\n\r\nm = int(input())\r\nfor i in range(m):\r\n    _ = input()\r\n    arr = I()\r\n    for j, x in enumerate(arr):\r\n        G[i][x + m] += 1\r\n        G[x + m][i] += 1\r\n        places[x + m, i].add(j)\r\n    ans[i] = [\"X\"] * len(arr)\r\n\r\nif all(sum(G[i].values()) % 2 == 0 for i in G):\r\n    visited = set()\r\n    for start in G:\r\n        if start in visited: continue\r\n        stack = [start]\r\n        path = []\r\n\r\n        while stack:\r\n            v = stack[-1]\r\n            if G[v]:\r\n                u = next(iter(G[v].items()))[0]\r\n                stack.append(u)\r\n                G[v][u] -= 1\r\n                if G[v][u] == 0: G[v].pop(u)\r\n                G[u][v] -= 1\r\n                if G[u][v] == 0: G[u].pop(v)\r\n            else:\r\n                path.append(stack.pop())\r\n\r\n        visited |= set(path)\r\n        for x, y in zip(path, path[1:]):\r\n            l = \"L\" if x < y else \"R\"\r\n            x, y = min(x, y), max(x, y)\r\n            idx = places[y, x].pop()\r\n            ans[x][idx] = l\r\n\r\n    print(\"YES\")\r\n    for i in range(m):\r\n        print(\"\".join(ans[i]))\r\nelse:\r\n    print(\"NO\")",
+    "prob_desc_created_at": "1644158100",
+    "tags": [
+        "constructive algorithms",
+        "data structures",
+        "dfs and similar",
+        "graph matchings",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

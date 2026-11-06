@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"10\\n4\\n179\"]",
+    "src_uid": "2ced6a414a9752e7c50d37e1e1c8ffd7",
+    "prob_desc_notes": "NoteFor the first pair, where $$$p_1 = 10$$$ and $$$q_1 = 4$$$, the answer is $$$x_1 = 10$$$, since it is the greatest divisor of $$$10$$$ and $$$10$$$ is not divisible by $$$4$$$.For the second pair, where $$$p_2 = 12$$$ and $$$q_2 = 6$$$, note that   $$$12$$$ is not a valid $$$x_2$$$, since $$$12$$$ is divisible by $$$q_2 = 6$$$;  $$$6$$$ is not valid $$$x_2$$$ as well: $$$6$$$ is also divisible by $$$q_2 = 6$$$.  The next available divisor of $$$p_2 = 12$$$ is $$$4$$$, which is the answer, since $$$4$$$ is not divisible by $$$6$$$.",
+    "prob_desc_description": "Oleg's favorite subjects are History and Math, and his favorite branch of mathematics is division.To improve his division skills, Oleg came up with $$$t$$$ pairs of integers $$$p_i$$$ and $$$q_i$$$ and for each pair decided to find the greatest integer $$$x_i$$$, such that:   $$$p_i$$$ is divisible by $$$x_i$$$;  $$$x_i$$$ is not divisible by $$$q_i$$$.  Oleg is really good at division and managed to find all the answers quickly, how about you?",
+    "prob_desc_output_spec": "Print $$$t$$$ integers: the $$$i$$$-th integer is the largest $$$x_i$$$ such that $$$p_i$$$ is divisible by $$$x_i$$$, but $$$x_i$$$ is not divisible by $$$q_i$$$. One can show that there is always at least one value of $$$x_i$$$ satisfying the divisibility conditions for the given constraints.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 50$$$) — the number of pairs. Each of the following $$$t$$$ lines contains two integers $$$p_i$$$ and $$$q_i$$$ ($$$1 \\le p_i \\le 10^{18}$$$; $$$2 \\le q_i \\le 10^{9}$$$) — the $$$i$$$-th pair of integers.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_005.jsonl",
+    "code_uid": "2b39cd37232df20a6f63561fe73d0737",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n10 4\\n12 6\\n179 822\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n\ndef smallestDivisor(n): \n  \n    if (n % 2 == 0): \n        return 2; \n    i = 3;  \n    while(i * i <= n): \n        if (n % i == 0): \n            return i; \n        i += 2; \n  \n    return n; \n  \ndef prevPowerofK(n, k):\n \n    p = int(math.log(n) / math.log(k))\n    return int(math.pow(k, p))\n\ndef primeFactors(n): \n    l = []\n    while n % 2 == 0: \n        l.append(2) \n        n = n // 2\n          \n    for i in range(3,int(math.sqrt(n))+1,2): \n        while n % i== 0: \n            l.append(i)\n            n = n // i \n             \n    if n > 2: \n        l.append(n)\n    return l\nt = int(input())\nwhile t:\n    n,x= map(int,input().split())\n    if n%x!=0:\n        print(n)\n    else:\n        l2 = primeFactors(x)\n        \n        \n        d2 = {}\n        for j in l2:\n            if j in d2:\n                d2[j]+=1\n            else:\n                d2[j]=1\n        \n        ans = 0\n        for i in d2:\n            if n%i==0:\n                power = 1\n                number = i\n                while n%number==0:\n                    power+=1\n                    number *=i\n                if power>1:    \n                    xxx = n// i**(power-1)\n                    xxx *= i**(d2[i]-1)\n                    ans = max(ans,xxx)\n        print(ans)\n\n    \n    t-=1\n    \n    ",
+    "prob_desc_created_at": "1604228700",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

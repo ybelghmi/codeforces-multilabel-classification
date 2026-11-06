@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"NO\\nYES\\nNO\\nYES\"]",
+    "src_uid": "7cf9bb97385ee3a5b5e28f66eab163d0",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two strings $$$s$$$ and $$$t$$$ both of length $$$n$$$ and both consisting of lowercase Latin letters.In one move, you can choose any length $$$len$$$ from $$$1$$$ to $$$n$$$ and perform the following operation:   Choose any contiguous substring of the string $$$s$$$ of length $$$len$$$ and reverse it;  at the same time choose any contiguous substring of the string $$$t$$$ of length $$$len$$$ and reverse it as well. Note that during one move you reverse exactly one substring of the string $$$s$$$ and exactly one substring of the string $$$t$$$.Also note that borders of substrings you reverse in $$$s$$$ and in $$$t$$$ can be different, the only restriction is that you reverse the substrings of equal length. For example, if $$$len=3$$$ and $$$n=5$$$, you can reverse $$$s[1 \\dots 3]$$$ and $$$t[3 \\dots 5]$$$, $$$s[2 \\dots 4]$$$ and $$$t[2 \\dots 4]$$$, but not $$$s[1 \\dots 3]$$$ and $$$t[1 \\dots 2]$$$.Your task is to say if it is possible to make strings $$$s$$$ and $$$t$$$ equal after some (possibly, empty) sequence of moves.You have to answer $$$q$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer on it — \"YES\" (without quotes) if it is possible to make strings $$$s$$$ and $$$t$$$ equal after some (possibly, empty) sequence of moves and \"NO\" otherwise.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$q$$$ ($$$1 \\le q \\le 10^4$$$) — the number of test cases. Then $$$q$$$ test cases follow. The first line of the test case contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the length of $$$s$$$ and $$$t$$$. The second line of the test case contains one string $$$s$$$ consisting of $$$n$$$ lowercase Latin letters. The third line of the test case contains one string $$$t$$$ consisting of $$$n$$$ lowercase Latin letters. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$ ($$$\\sum n \\le 2 \\cdot 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_002.jsonl",
+    "code_uid": "41c9d60c3785ddba35355952b2a32df9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4\\nabcd\\nabdc\\n5\\nababa\\nbaaba\\n4\\nasdf\\nasdg\\n4\\nabcd\\nbadc\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\n    n = int(input())\n    s1, s2 = input(), input()\n    a1, a2 = [0]*26, [0]*26\n    for v in map(ord, s1):\n        a1[v-97] += 1\n    for v in map(ord, s2):\n        a2[v-97] += 1\n    \n    if a1 != a2:\n        print('NO')\n        continue\n    if max(a1) > 1:\n        print('YES')\n        continue\n\n    inv1 = sum(c1 > c2 for i, c1 in enumerate(s1) for c2 in s1[i+1:])\n    inv2 = sum(c1 > c2 for i, c1 in enumerate(s2) for c2 in s2[i+1:])\n    print('YES' if inv1 % 2 == inv2 % 2 else 'NO')",
+    "prob_desc_created_at": "1572873300",
+    "tags": [
+        "constructive algorithms",
+        "sortings",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

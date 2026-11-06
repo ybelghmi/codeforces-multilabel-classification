@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"-1\\n6\\n3\\n2\"]",
+    "src_uid": "a4be9b3484f3f24014392a1c3ad23f2f",
+    "prob_desc_notes": "NoteIn the first test case, there are no subarrays of length at least $$$2$$$, so the answer is $$$-1$$$.In the second test case, the whole array is dominated (by $$$1$$$) and it's the only dominated subarray.In the third test case, the subarray $$$a_4, a_5, a_6$$$ is the shortest dominated subarray.In the fourth test case, all subarrays of length more than one are dominated.",
+    "prob_desc_description": "Let's call an array $$$t$$$ dominated by value $$$v$$$ in the next situation.At first, array $$$t$$$ should have at least $$$2$$$ elements. Now, let's calculate number of occurrences of each number $$$num$$$ in $$$t$$$ and define it as $$$occ(num)$$$. Then $$$t$$$ is dominated (by $$$v$$$) if (and only if) $$$occ(v) &gt; occ(v')$$$ for any other number $$$v'$$$. For example, arrays $$$[1, 2, 3, 4, 5, 2]$$$, $$$[11, 11]$$$ and $$$[3, 2, 3, 2, 3]$$$ are dominated (by $$$2$$$, $$$11$$$ and $$$3$$$ respectevitely) but arrays $$$[3]$$$, $$$[1, 2]$$$ and $$$[3, 3, 2, 2, 1]$$$ are not.Small remark: since any array can be dominated only by one number, we can not specify this number and just say that array is either dominated or not.You are given array $$$a_1, a_2, \\dots, a_n$$$. Calculate its shortest dominated subarray or say that there are no such subarrays.The subarray of $$$a$$$ is a contiguous part of the array $$$a$$$, i. e. the array $$$a_i, a_{i + 1}, \\dots, a_j$$$ for some $$$1 \\le i \\le j \\le n$$$.",
+    "prob_desc_output_spec": "Print $$$T$$$ integers — one per test case. For each test case print the only integer — the length of the shortest dominated subarray, or $$$-1$$$ if there are no such subarrays.",
+    "prob_desc_input_spec": "The first line contains single integer $$$T$$$ ($$$1 \\le T \\le 1000$$$) — the number of test cases. Each test case consists of two lines. The first line contains single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the length of the array $$$a$$$. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le n$$$) — the corresponding values of the array $$$a$$$. It's guaranteed that the total length of all arrays in one test doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_003.jsonl",
+    "code_uid": "039259d4e1197bfc0723d0a5937e69e9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1\\n1\\n6\\n1 2 3 4 5 1\\n9\\n4 1 2 4 5 4 3 2 1\\n4\\n3 3 3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def count(b):\n    freq={}\n    for i in b:\n        if(i in freq):\n            freq[i]+=1\n        else:\n            freq[i]=1\n    return freq\nif __name__==\"__main__\":\n    t=int(input())\n    while t!=0:\n        t-=1\n        n=int(input())\n        a=list()\n        a=raw_input()\n        if n==1:\n            print(-1)\n            continue\n        a=list(map(int,a.split(' ')))\n        index=[0]*(n+1)\n        x=0\n        minv=n+2;\n        for i in a:\n            x+=1\n            if index[i]!=0:\n                minv=min(minv,x-index[i]+1)\n            index[i]=x\n        if(minv==n+2):\n            print(-1)\n        else:\n            print(minv)",
+    "prob_desc_created_at": "1573655700",
+    "tags": [
+        "greedy",
+        "two pointers",
+        "implementation",
+        "sortings",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

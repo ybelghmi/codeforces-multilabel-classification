@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1\\n? 2\\n? 3\\n? 4\\n? 5\\n! 81\"]",
+    "src_uid": "8aba8c09ed1b1b25fa92cdad32d6fec3",
+    "prob_desc_notes": "NoteYou can read more about singly linked list by the following link: https://en.wikipedia.org/wiki/Linked_list#Singly_linked_list The illustration for the first sample case. Start and finish elements are marked dark. ",
+    "prob_desc_description": "This is an interactive problem.You are given a sorted in increasing order singly linked list. You should find the minimum integer in the list which is greater than or equal to x.More formally, there is a singly liked list built on an array of n elements. Element with index i contains two integers: valuei is the integer value in this element, and nexti that is the index of the next element of the singly linked list (or -1, if the current element is the last). The list is sorted, i.e. if nexti ≠  - 1, then valuenexti &gt; valuei.You are given the number of elements in the list n, the index of the first element start, and the integer x.You can make up to 2000 queries of the following two types:  ? i (1 ≤ i ≤ n) — ask the values valuei and nexti,  ! ans — give the answer for the problem: the minimum integer, greater than or equal to x, or ! -1, if there are no such integers. Your program should terminate after this query. Write a program that solves this problem.",
+    "prob_desc_output_spec": "To print the answer for the problem, print ! ans, where ans is the minimum integer in the list greater than or equal to x, or -1, if there is no such integer.",
+    "prob_desc_input_spec": "The first line contains three integers n, start, x (1 ≤ n ≤ 50000, 1 ≤ start ≤ n, 0 ≤ x ≤ 109) — the number of elements in the list, the index of the first element and the integer x.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_007.jsonl",
+    "code_uid": "b139fa626aaf0e9a3f39a1e7a2572264",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3 80\\n97 -1\\n58 5\\n16 2\\n81 1\\n79 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from random import sample\n\ndef R():\n    return map(int, input().split())\n\ndef ask(i):\n    print('?', i, flush=True)\n    v, nxt = R()\n    if v < 0:\n        exit()\n    return v, nxt\n\ndef ans(v):\n    print('!', v)\n    exit()\n\nn, s, x = R()\nmv = -1\ni = s\nS = 800\nq = range(1, n + 1)\nif n > S:\n    q = sample(q, S)\n    if s not in q:\n        q[0] = s\nfor i in q:\n    v, nxt = ask(i)\n    if v == x or i == s and v > x:\n        ans(v)\n    if v < x:\n        if nxt < 0:\n            ans(-1)\n        if v > mv:\n            mv, mnxt = v, nxt\n\nwhile mv < x and mnxt >= 1:\n    mv, mnxt = ask(mnxt)\nans(mv if mv >= x else -1)\n",
+    "prob_desc_created_at": "1503592500",
+    "tags": [
+        "probabilities",
+        "interactive",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

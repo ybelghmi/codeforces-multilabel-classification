@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0 1\\n1 0\", \"0 1 3 2\\n1 0 2 3\\n3 2 0 1\\n2 3 1 0\"]",
+    "src_uid": "f5f892203b62dae7eba86f59b13f5a38",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Before the start of the football season in Berland a strange magic ritual is held. The most experienced magicians have to find a magic matrix of the size n × n (n is even number). Gods will never allow to start the championship without it. Matrix should contain integers from 0 to n - 1, main diagonal should contain only zeroes and matrix should be symmetric. Moreover, all numbers in each row should be different. Magicians are very tired of the thinking process, so they ask you to write a program to find such matrix.",
+    "prob_desc_output_spec": "Output n lines with n numbers each — the required matrix. Separate numbers with spaces. If there are several solutions, output any.",
+    "prob_desc_input_spec": "The first line contains one integer n (2 ≤ n ≤ 1000), n is even.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_065.jsonl",
+    "code_uid": "1f66c11ff1cb3b32ce52cba7747a79dd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\", \"4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "__author__ = 'Darren'\n\n\ndef solve():\n    n = int(input())\n    matrix = [[0] * n for _i in range(n)]\n    # for i in range(n-1):\n    #     matrix[0][i] = i + 1\n    # for i in range(1, n-1):\n    #     for j in range(n-1):\n    #         matrix[i][j] = matrix[i-1][(j+1) % (n-1)]\n    for i in range(n-1):\n        for j in range(n-1):\n            matrix[i][j] = (i + j) % (n - 1) + 1\n    for i in range(n-1):\n        matrix[n-1][i] = matrix[i][n-1] = matrix[i][i]\n        matrix[i][i] = 0\n    for row in matrix:\n        print(' '.join(map(str, row)))\n\n\nif __name__ == '__main__':\n    solve()\n",
+    "prob_desc_created_at": "1272538800",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

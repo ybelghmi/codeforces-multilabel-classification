@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2 3 \\n4 7 10\", \"1 2 3 \\n-2 -7\"]",
+    "src_uid": "2b1be53ed2d1afac87f8541d6d45c63e",
+    "prob_desc_notes": "NoteIn the second sample another solution is also possible (number three can be assigned to the second progression): 1, 2 and 3, -2, -7.",
+    "prob_desc_description": "An arithmetic progression is such a non-empty sequence of numbers where the difference between any two successive numbers is constant. This constant number is called common difference. For example, the sequence 3, 7, 11, 15 is an arithmetic progression. The definition implies that any sequences whose length equals 1 or 2 are arithmetic and all sequences whose length equals 0 are non-arithmetic.You are given a sequence of different integers a1, a2, ..., an. You should either split it into two arithmetic progressions or find out that the operation is impossible to perform. Splitting assigns each member of the given sequence to one of two progressions, but the relative order of numbers does not change. Splitting is an inverse operation to merging.",
+    "prob_desc_output_spec": "Print the required arithmetic progressions, one per line. The progressions can be positioned in any order. Each progression should contain at least one number. If there's no solution, then print \"No solution\" (without the quotes)in the only line of the input file. If there are several solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains a positive integer n (2 ≤ n ≤ 30000), n is the length of the given sequence. The second line contains elements of the given sequence a1, a2, ..., an ( - 108 ≤ ai ≤ 108). The elements of the progression are different integers.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_056.jsonl",
+    "code_uid": "0692f55ec81a0c40c7eab6cfbe106270",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n4 1 2 7 3 10\", \"5\\n1 2 3 -2 -7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def sol(prog1, rest, nums):\n  start = len(prog1) + len(rest)\n  diff1 = prog1[1] - prog1[0]\n\n  prog2 = []\n\n  for x in xrange(start, len(nums)):\n    val = nums[x]\n    next1 = prog1[-1] + diff1\n    if val == next1:\n      prog1.append(val)\n    else:\n      rest.append(val)\n\n  if len(rest) <= 2:\n    return prog1, rest\n\n  #print \"ASD\", prog1, rest\n  prog1_set = set(prog1)\n\n  diff2 = rest[1] - rest[0]\n  prog2 = [rest[0], rest[1]]\n  for x in xrange(2, len(rest)):\n    next2 = prog2[-1] + diff2\n    val = rest[x]\n\n    #print next2, val\n    while next2 != val:\n      if next2 in prog1_set:\n        prog1_set.remove(next2)\n      else:\n        return False\n      prog2.append(next2)\n      next2 = prog2[-1] + diff2\n\n    prog2.append(val)\n\n  prog1 = list(sorted(prog1_set))\n  diff1 = abs(diff1)\n  prog2 = list(sorted(prog2))\n  diff2 = abs(diff2)\n\n  for x in xrange(1, len(prog1)):\n    if prog1[x] - prog1[x-1] != diff1:\n      return False\n  for x in xrange(1, len(prog2)):\n    if prog2[x] - prog2[x-1] != diff2:\n      return False\n\n  return prog1, prog2\n\ndef d1(nums):\n  if len(nums) == 2:\n    return [nums[0]], [nums[1]]\n\n  a, b, c = nums[0], nums[1], nums[2]\n  # print a, b, c, nums[3:]\n  # a, b\n  res = sol([a, b], [], nums)\n  if res != False:\n    return res\n\n  # a, c\n  res = sol([a, c], [b], nums)\n  if res != False:\n    return res\n\n  # b, c\n  res = sol([b, c], [a], nums)\n  if res != False:\n    return res\n\n  return False\n\ndef d(nums):\n  res = d1(nums)\n\n  if res is False:\n    res = d1(list(reversed(nums)))\n\n  if res is False:\n    return \"No solution\"\n\n  if len(res[0]) == 0:\n    res = [res[1][0]], res[1][1:]\n  if len(res[1]) == 0:\n    res = res[0][1:], [res[0][0]]\n\n  if len(res[0]) >= 2:\n    if nums.index(res[0][0]) > nums.index(res[0][1]):\n      res = list(reversed(res[0])), res[1]\n  if len(res[1]) >= 2:\n    if nums.index(res[1][0]) > nums.index(res[1][1]):\n      res = res[0], list(reversed(res[1]))\n\n  return res\n\n'''\nvals = [4, 1, 2, 7, 3, 10]\nanswer = d(vals)\nprint vals\nprint answer\nvals = [1, 2, 3, -2, -7]\nanswer = d(vals)\nprint vals\nprint answer\nvals = [-10, -5, 0, 1, 2, 3, 4, 5, 6,]\nanswer = d(vals)\nprint vals\nprint answer\nvals = [0, 3, 4, 5, 6, 12, 18]\nanswer = d(vals)\nprint vals\nprint answer\n'''\n\nunused = raw_input()\nanswer = d([int(x) for x in raw_input().split(\" \")])\n\nif type(answer) == str:\n  print answer\nelse:\n  print \" \".join(str(_) for _ in answer[0])\n  print \" \".join(str(_) for _ in answer[1])\n\n",
+    "prob_desc_created_at": "1319893200",
+    "tags": [
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

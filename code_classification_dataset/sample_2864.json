@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"0 2 4\", \"-1\", \"13 15 17 19 21\"]",
+    "src_uid": "e5ac0312381701a25970dd9a98cda3d4",
+    "prob_desc_notes": "NoteIn the first test case, the only solution is that everyone is friends with everyone. That is why Bob should have $$$3$$$ friends.In the second test case, there are three possible solutions (apart from symmetries):   $$$a$$$ is friend of $$$b$$$, $$$c$$$ is friend of $$$d$$$, and Bob has no friends, or  $$$a$$$ is a friend of $$$b$$$ and both $$$c$$$ and $$$d$$$ are friends with Bob, or  Bob is friends of everyone. The third case is impossible to solve, as the second person needs to be a friend with everybody, but the first one is a complete stranger.",
+    "prob_desc_description": "Bob is an active user of the social network Faithbug. On this network, people are able to engage in a mutual friendship. That is, if $$$a$$$ is a friend of $$$b$$$, then $$$b$$$ is also a friend of $$$a$$$. Each user thus has a non-negative amount of friends.This morning, somebody anonymously sent Bob the following link: graph realization problem and Bob wants to know who that was. In order to do that, he first needs to know how the social network looks like. He investigated the profile of every other person on the network and noted down the number of his friends. However, he neglected to note down the number of his friends. Help him find out how many friends he has. Since there may be many possible answers, print all of them.",
+    "prob_desc_output_spec": "Print all possible values of $$$a_{n+1}$$$ — the amount of people that Bob can be friend of, in increasing order. If no solution exists, output $$$-1$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\leq n \\leq 5 \\cdot 10^5$$$), the number of people on the network excluding Bob.  The second line contains $$$n$$$ numbers $$$a_1,a_2, \\dots, a_n$$$ ($$$0 \\leq a_i \\leq n$$$), with $$$a_i$$$ being the number of people that person $$$i$$$ is a friend of.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_033.jsonl",
+    "code_uid": "d179a722084be6092d643ecc0adb97fb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3 3 3\", \"4\\n1 1 1 1\", \"2\\n0 2\", \"35\\n21 26 18 4 28 2 15 13 16 25 6 32 11 5 31 17 9 3 24 33 14 27 29 1 20 4 12 7 10 30 34 8 19 23 22\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    n=int(input())\n    a=list(map(int,input().split()))\n    a.sort(reverse=True)\n    mod=sum(a)%2\n    counts=[0]*(n+1)\n    for guy in a:\n        counts[guy]+=1\n    cumcounts=[counts[0]]\n    for i in range(n):\n        cumcounts.append(cumcounts[-1]+counts[i+1])\n    partialsums=[0]\n    curr=0\n    for i in range(n):\n        curr+=(i+1)*counts[i+1]\n        partialsums.append(curr)\n    partialsums.append(0)\n    cumcounts.append(0)\n    sumi=0\n    diffs=[]\n    altdiffs=[]\n    for i in range(n):\n        sumi+=a[i]\n        rhs=i*(i+1)\n        if a[i]>i:\n            rhs+=partialsums[i]+(i+1)*(n-i-1-cumcounts[i])\n        else:\n            rhs+=partialsums[a[i]-1]+a[i]*(n-i-1-cumcounts[a[i]-1])\n        diffs.append(sumi-rhs)\n        \n        rhs2=(i+1)*(i+2)\n        if a[i]>i+1:\n            rhs2+=partialsums[i+1]+(i+2)*(n-i-1-cumcounts[i+1])\n        else:\n            rhs2+=partialsums[a[i]-1]+a[i]*(n-i-1-cumcounts[a[i]-1])\n        altdiffs.append(sumi-rhs2)\n    mini=max(diffs)\n    maxi=-max(altdiffs)\n    mini=max(mini,0)\n    maxi=min(maxi,n)\n    out=\"\"\n    if mini%2!=mod:\n        mini+=1\n    if maxi%2==mod:\n        maxi+=1\n    for guy in range(mini,maxi,2):\n        out+=str(guy)+\" \"\n    if mini>maxi:\n        print(-1)\n    else:\n        print(out)\nmain()",
+    "prob_desc_created_at": "1546180500",
+    "tags": [
+        "greedy",
+        "graphs",
+        "math",
+        "implementation",
+        "sortings",
+        "data structures",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

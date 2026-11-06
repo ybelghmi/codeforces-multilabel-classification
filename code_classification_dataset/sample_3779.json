@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n8\\n0\"]",
+    "src_uid": "7276d7e3a4b594dc64c1ba56fb1a3628",
+    "prob_desc_notes": "NoteIn the first test case of the example, you can walk to the bench $$$2$$$, spending $$$1$$$ unit of energy, then restore $$$2$$$ units of energy on the second bench, walk to the bench $$$3$$$, spending $$$2$$$ units of energy, restore $$$1$$$ unit of energy and go to the bench $$$4$$$.In the third test case of the example, you have enough energy to just go to the bench $$$6$$$ without sitting at all.",
+    "prob_desc_description": "You are walking through a parkway near your house. The parkway has $$$n+1$$$ benches in a row numbered from $$$1$$$ to $$$n+1$$$ from left to right. The distance between the bench $$$i$$$ and $$$i+1$$$ is $$$a_i$$$ meters.Initially, you have $$$m$$$ units of energy. To walk $$$1$$$ meter of distance, you spend $$$1$$$ unit of your energy. You can't walk if you have no energy. Also, you can restore your energy by sitting on benches (and this is the only way to restore the energy). When you are sitting, you can restore any integer amount of energy you want (if you sit longer, you restore more energy). Note that the amount of your energy can exceed $$$m$$$.Your task is to find the minimum amount of energy you have to restore (by sitting on benches) to reach the bench $$$n+1$$$ from the bench $$$1$$$ (and end your walk).You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print one integer — the minimum amount of energy you have to restore (by sitting on benches) to reach the bench $$$n+1$$$ from the bench $$$1$$$ (and end your walk) in the corresponding test case.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of the test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 100$$$; $$$1 \\le m \\le 10^4$$$). The second line of the test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 100$$$), where $$$a_i$$$ is the distance between benches $$$i$$$ and $$$i+1$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_083.jsonl",
+    "code_uid": "a57a6fc1c08d6ec46275c10c53ba5934",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n3 1\\n\\n1 2 1\\n\\n4 5\\n\\n3 3 5 2\\n\\n5 16\\n\\n1 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninp=[]\r\ninp=sys.stdin.readlines()\r\nfor i in range(len(inp)):\r\n    inp[i]=inp[i].replace('\\n','')\r\nans=[]\r\nn=[]\r\nm=[]\r\ndis=[]\r\ntest=inp[0]\r\ninp.__delitem__(0)\r\nj=0\r\nwhile(j<len(inp)):\r\n    temp1=inp[j]\r\n    temp2=inp[j+1]\r\n    j=j+2\r\n    lis1=temp1.split(' ')\r\n    n.append(int(lis1[0]))\r\n    m.append(int(lis1[1]))\r\n    lis2=temp2.split(' ')\r\n    lis3=[]\r\n    for i in lis2:\r\n        lis3.append(int(i))\r\n    dis.append(lis3)\r\nfor i in range(len(n)):\r\n    rest=0\r\n    counter=0\r\n    bench=n[i]\r\n    eng=m[i]\r\n    while(counter<bench):\r\n        if eng>=dis[i][counter]:\r\n            eng=eng-dis[i][counter]\r\n            counter+=1\r\n        else:\r\n            rest=rest+(dis[i][counter]-eng)\r\n            eng=eng+(dis[i][counter]-eng)\r\n        # counter+=1\r\n    ans.append(rest)\r\nfor i in ans:\r\n  print(i)\r\n\r\n\r\n",
+    "prob_desc_created_at": "1655044500",
+    "tags": [
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

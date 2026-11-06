@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"&lt;\\n&gt;\\n&gt;\\n=\\n&lt;\\n&gt;\"]",
+    "src_uid": "3ea3f5b548b82449e4ce86e11b1afc48",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Two T-shirt sizes are given: $$$a$$$ and $$$b$$$. The T-shirt size is either a string M or a string consisting of several (possibly zero) characters X and one of the characters S or L.For example, strings M, XXL, S, XXXXXXXS could be the size of some T-shirts. And the strings XM, LL, SX are not sizes.The letter M stands for medium, S for small, L for large. The letter X refers to the degree of size (from eXtra). For example, XXL is extra-extra-large (bigger than XL, and smaller than XXXL).You need to compare two given sizes of T-shirts $$$a$$$ and $$$b$$$.The T-shirts are compared as follows:   any small size (no matter how many letters X) is smaller than the medium size and any large size;  any large size (regardless of the number of letters X) is larger than the medium size and any small size;  the more letters X before S, the smaller the size;  the more letters X in front of L, the larger the size. For example:   XXXS &lt; XS  XXXL &gt; XL  XL &gt; M  XXL = XXL  XXXXXS &lt; M  XL &gt; XXXS ",
+    "prob_desc_output_spec": "For each test case, print on a separate line the result of comparing $$$a$$$ and $$$b$$$ T-shirt sizes (lines \"&lt;\", \"&gt;\" or \"=\" without quotes).",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Each test case consists of one line, in which $$$a$$$ and $$$b$$$ T-shirt sizes are written. The lengths of the strings corresponding to the T-shirt sizes do not exceed $$$50$$$. It is guaranteed that all sizes are correct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_084.jsonl",
+    "code_uid": "912dd24702bf8097f7792a749c6527c1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\nXXXS XS\\n\\nXXXL XL\\n\\nXL M\\n\\nXXL XXL\\n\\nXXXXXS M\\n\\nL M\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "x = int(input())\r\nlist1 = []\r\nif x in range(1, 10 ** 4+1):\r\n\tz = 0\r\n\twhile z < x:\r\n\t\ta, b = map(str, input().split())\r\n\t\ta = a.upper()\r\n\t\tb = b.upper()\r\n\t\tif len(a) <= 50 and len(b) <= 50:\r\n\t\t\tif a == b:\r\n\t\t\t\tlist1.append(\"=\")\r\n\t\t\telse:\r\n\t\t\t\tif len(a) == 1 and len(b) == 1 and a != b:\r\n\t\t\t\t\tif a == \"L\" and (b == \"M\" or \"S\"):\r\n\t\t\t\t\t\tlist1.append(\">\")\r\n\r\n\t\t\t\t\telif a == \"S\" and (b == \"L\" or \"M\"):\r\n\t\t\t\t\t\tlist1.append(\"<\")\r\n\r\n\t\t\t\t\telif a == \"M\":\r\n\t\t\t\t\t\tif b == \"L\":\r\n\t\t\t\t\t\t\tlist1.append(\"<\")\r\n\r\n\r\n\t\t\t\t\t\telif b == \"S\":\r\n\t\t\t\t\t\t\tlist1.append(\">\")\r\n\r\n\r\n\t\t\t\telse:\r\n\t\t\t\t\tfor i in a:\r\n\t\t\t\t\t\tif i == \"M\":\r\n\t\t\t\t\t\t\tfor i in b:\r\n\t\t\t\t\t\t\t\tif i == \"S\":\r\n\t\t\t\t\t\t\t\t\tlist1.append(\">\")\r\n\t\t\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\t\t\t\telif i == \"L\":\r\n\t\t\t\t\t\t\t\t\tlist1.append(\"<\")\r\n\t\t\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\t\t\t\telif i == \"M\":\r\n\t\t\t\t\t\t\t\t\tif len(a) > len(b):\r\n\t\t\t\t\t\t\t\t\t\tlist1.append(\">\")\r\n\t\t\t\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\t\t\t\t\telif len(a) < len(b):\r\n\t\t\t\t\t\t\t\t\t\tlist1.append(\"<\")\r\n\t\t\t\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\t\telif i == \"L\":\r\n\t\t\t\t\t\t\tfor i in b:\r\n\t\t\t\t\t\t\t\tif i == \"L\":\r\n\t\t\t\t\t\t\t\t\tif len(a) > len(b):\r\n\t\t\t\t\t\t\t\t\t\tlist1.append(\">\")\r\n\t\t\t\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\t\t\t\t\telif len(a) < len(b):\r\n\t\t\t\t\t\t\t\t\t\tlist1.append(\"<\")\r\n\t\t\t\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\t\t\telse:\r\n\t\t\t\t\t\t\t\tlist1.append(\">\")\r\n\t\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\t\telif i == \"S\":\r\n\t\t\t\t\t\t\tfor i in b:\r\n\t\t\t\t\t\t\t\tif i == \"L\":\r\n\t\t\t\t\t\t\t\t\tlist1.append(\"<\")\r\n\t\t\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\t\t\t\telif i == \"M\":\r\n\t\t\t\t\t\t\t\t\tlist1.append(\"<\")\r\n\t\t\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\t\t\t\telif i == \"S\":\r\n\t\t\t\t\t\t\t\t\tif len(a) > len(b):\r\n\t\t\t\t\t\t\t\t\t\tlist1.append(\"<\")\r\n\t\t\t\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\t\t\t\t\telse:\r\n\t\t\t\t\t\t\t\t\t\tlist1.append(\">\")\r\n\t\t\t\t\t\t\t\t\t\tbreak\r\n\r\n\t\tz += 1\r\n\tfor b in list1:\r\n\t\tprint(b)\r\n# ابلع accepted",
+    "prob_desc_created_at": "1665498900",
+    "tags": [
+        "implementation",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n10\\n0\\n7\\n3\\n1\"]",
+    "src_uid": "a6f42cb2627a7d1f6e01860322c5aac5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are beta testing the new secret Terraria update. This update will add quests to the game!Simply, the world map can be represented as an array of length $$$n$$$, where the $$$i$$$-th column of the world has height $$$a_i$$$.There are $$$m$$$ quests you have to test. The $$$j$$$-th of them is represented by two integers $$$s_j$$$ and $$$t_j$$$. In this quest, you have to go from the column $$$s_j$$$ to the column $$$t_j$$$. At the start of the quest, you are appearing at the column $$$s_j$$$.In one move, you can go from the column $$$x$$$ to the column $$$x-1$$$ or to the column $$$x+1$$$. In this version, you have Spectre Boots, which allow you to fly. Since it is a beta version, they are bugged, so they only allow you to fly when you are going up and have infinite fly duration. When you are moving from the column with the height $$$p$$$ to the column with the height $$$q$$$, then you get some amount of fall damage. If the height $$$p$$$ is greater than the height $$$q$$$, you get $$$p - q$$$ fall damage, otherwise you fly up and get $$$0$$$ damage.For each of the given quests, determine the minimum amount of fall damage you can get during this quest.",
+    "prob_desc_output_spec": "Print $$$m$$$ integers. The $$$j$$$-th of them should be the minimum amount of fall damage you can get during the $$$j$$$-th quest completion.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n \\le 10^5; 1 \\le m \\le 10^5$$$) — the number of columns in the world and the number of quests you have to test, respectively. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$), where $$$a_i$$$ is the height of the $$$i$$$-th column of the world. The next $$$m$$$ lines describe quests. The $$$j$$$-th of them contains two integers $$$s_j$$$ and $$$t_j$$$ ($$$1 \\le s_j, t_j \\le n; s_j \\ne t_j$$$), which means you have to move from the column $$$s_j$$$ to the column $$$t_j$$$ during the $$$j$$$-th quest. Note that $$$s_j$$$ can be greater than $$$t_j$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_090.jsonl",
+    "code_uid": "b1391e7cfc727e1cae0fc04c7d8464f8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 6\\n10 8 9 6 8 12 7\\n1 2\\n1 7\\n4 6\\n7 1\\n3 5\\n4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=(int(i) for i in (input().split()))\r\ns=list(map(int,input().split()))\r\nsumma=[0]\r\nminus=[0]\r\nfor i in range(n-1):\r\n    summa.append(summa[i]+(max((s[i]-s[i+1]),0)))\r\n    minus.append(minus[i]+(max((s[i+1]-s[i]),0)))\r\nfor q in range(m):\r\n    a,b=(map(int,input().split()))\r\n    if a>b:\r\n        print(minus[a-1]-minus[b-1])\r\n    else:\r\n        print(summa[b-1]-summa[a-1])",
+    "prob_desc_created_at": "1658414100",
+    "tags": [
+        "data structures",
+        "dp",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

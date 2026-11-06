@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n1\\n7\"]",
+    "src_uid": "ce9a0649ccfc956559254f324dfa02a7",
+    "prob_desc_notes": "NoteFor the first integer the optimal choice is $$$b = 1$$$, then $$$a \\oplus b = 3$$$, $$$a \\&gt; \\&amp; \\&gt; b = 0$$$, and the greatest common divisor of $$$3$$$ and $$$0$$$ is $$$3$$$.For the second integer one optimal choice is $$$b = 2$$$, then $$$a \\oplus b = 1$$$, $$$a \\&gt; \\&amp; \\&gt; b = 2$$$, and the greatest common divisor of $$$1$$$ and $$$2$$$ is $$$1$$$.For the third integer the optimal choice is $$$b = 2$$$, then $$$a \\oplus b = 7$$$, $$$a \\&gt; \\&amp; \\&gt; b = 0$$$, and the greatest common divisor of $$$7$$$ and $$$0$$$ is $$$7$$$.",
+    "prob_desc_description": "Can the greatest common divisor and bitwise operations have anything in common? It is time to answer this question.Suppose you are given a positive integer $$$a$$$. You want to choose some integer $$$b$$$ from $$$1$$$ to $$$a - 1$$$ inclusive in such a way that the greatest common divisor (GCD) of integers $$$a \\oplus b$$$ and $$$a \\&gt; \\&amp; \\&gt; b$$$ is as large as possible. In other words, you'd like to compute the following function:$$$$$$f(a) = \\max_{0 &lt; b &lt; a}{gcd(a \\oplus b, a \\&gt; \\&amp; \\&gt; b)}.$$$$$$Here $$$\\oplus$$$ denotes the bitwise XOR operation, and $$$\\&amp;$$$ denotes the bitwise AND operation.The greatest common divisor of two integers $$$x$$$ and $$$y$$$ is the largest integer $$$g$$$ such that both $$$x$$$ and $$$y$$$ are divided by $$$g$$$ without remainder.You are given $$$q$$$ integers $$$a_1, a_2, \\ldots, a_q$$$. For each of these integers compute the largest possible value of the greatest common divisor (when $$$b$$$ is chosen optimally). ",
+    "prob_desc_output_spec": "For each integer, print the answer in the same order as the integers are given in input.",
+    "prob_desc_input_spec": "The first line contains an integer $$$q$$$ ($$$1 \\le q \\le 10^3$$$) — the number of integers you need to compute the answer for. After that $$$q$$$ integers are given, one per line: $$$a_1, a_2, \\ldots, a_q$$$ ($$$2 \\le a_i \\le 2^{25} - 1$$$) — the integers you need to compute the answer for. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_005.jsonl",
+    "code_uid": "c601e61ffe1146b3139782c911890e37",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2\\n3\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding: utf-8 -*-\n\"\"\"\nCreated on Sun Oct  4 06:35:25 2020\n\n@author: Dark Soul\n\"\"\"\nimport math\nq=int(input(''))\nfor _ in range(q):\n    n=int(input(''))\n    ans=-1\n    if n&(n+1)==0:\n        for i in range(2,int(math.sqrt(n))+1):\n            if n%i==0:\n                ans=n//i\n                break\n        if ans==-1:\n            ans=1\n        print(ans)\n        continue\n    x=bin(n)\n    x=x[2:]\n    \n    print((2**(len(x)))-1)",
+    "prob_desc_created_at": "1549546500",
+    "tags": [
+        "constructive algorithms",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

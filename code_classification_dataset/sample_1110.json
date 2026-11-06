@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2\", \"2\\n2\\n1\", \"-1\", \"-1\"]",
+    "src_uid": "0a30830361b26838b192d7de1efcdd2f",
+    "prob_desc_notes": "Note|s| denotes the length of the string s.",
+    "prob_desc_description": "Malek has recently found a treasure map. While he was looking for a treasure he found a locked door. There was a string s written on the door consisting of characters '(', ')' and '#'. Below there was a manual on how to open the door. After spending a long time Malek managed to decode the manual and found out that the goal is to replace each '#' with one or more ')' characters so that the final string becomes beautiful. Below there was also written that a string is called beautiful if for each i (1 ≤ i ≤ |s|) there are no more ')' characters than '(' characters among the first i characters of s and also the total number of '(' characters is equal to the total number of ')' characters. Help Malek open the door by telling him for each '#' character how many ')' characters he must replace it with.",
+    "prob_desc_output_spec": "If there is no way of replacing '#' characters which leads to a beautiful string print  - 1. Otherwise for each character '#' print a separate line containing a positive integer, the number of ')' characters this character must be replaced with. If there are several possible answers, you may output any of them.",
+    "prob_desc_input_spec": "The first line of the input contains a string s (1 ≤ |s| ≤ 105). Each character of this string is one of the characters '(', ')' or '#'. It is guaranteed that s contains at least one '#' character.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_006.jsonl",
+    "code_uid": "93f0a3619ab479259f696755fdc98036",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"(((#)((#)\", \"()((#((#(#()\", \"#\", \"(#)\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "'''import sys\nst = input()\na = 0\nb = 0\nlast = 0\nv = []\nfor s in st:\n\tif s == \"(\":\n\t\ta += 1\n\telif s == \")\":\n\t\ta -= 1\n\telif s == \"#\":\n\t\ta -= 1\n\t\tv.append(1)\n\tif a < 0:\n\t\tprint(-1)\n\t\tsys.exit()\n\nv[-1] += a\ni=0\na = 0\nfor s in st:\n\tif s == \"(\":\n\t\ta += 1\n\telif s == \")\":\n\t\ta -= 1\n\telif s == \"#\":\n\t\ta -= v[i]\n\t\ti += 1\n\tif a < 0:\n\t\tprint(-1)\n\t\tsys.exit()\nif a != 0:\n\tprint(-1)\nelse:\n\tfor vs in v:\n\t\tprint(vs)'''\n\n\nimport sys\na=0\ns=input()\nl=[]\nfor i in s:\n\tif(i=='('):\n\t\ta=a+1\n\telif(i==')'):\n\t\ta=a-1\n\telse:\n\t\ta=a-1\n\t\tl.append(1)\n\tif(a<0):\n\t\tprint(-1)\n\t\tsys.exit()\nl[-1]+=a\na=0\nk=0\nfor j in s:\n\tif(j=='('):\n\t\ta=a+1\n\telif(j==')'):\n\t\ta=a-1\n\telse:\n\t\ta=a-l[k]\n\t\tk=k+1\n\tif(a<0):\n\t\tprint(-1)\n\t\tsys.exit()\n\nif(a!=0):\n\tprint(-1)\nelse:\n\tfor j in l:\n\t\tprint(j)",
+    "prob_desc_created_at": "1418488200",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

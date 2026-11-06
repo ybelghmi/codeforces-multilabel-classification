@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n2\", \"3\\n7 10 3\"]",
+    "src_uid": "60558a2148f7c9741bb310412f655ee4",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given n segments on the Ox-axis. You can drive a nail in any integer point on the Ox-axis line nail so, that all segments containing this point, are considered nailed down. If the nail passes through endpoint of some segment, this segment is considered to be nailed too. What is the smallest number of nails needed to nail all the segments down?",
+    "prob_desc_output_spec": "The first line should contain one integer number — the smallest number of nails needed to nail all the segments down. The second line should contain coordinates of driven nails separated by space in any order. If the answer is not unique, output any.",
+    "prob_desc_input_spec": "The first line of the input contains single integer number n (1 ≤ n ≤ 1000) — amount of segments. Following n lines contain descriptions of the segments. Each description is a pair of integer numbers — endpoints coordinates. All the coordinates don't exceed 10000 by absolute value. Segments can degenarate to points.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_017.jsonl",
+    "code_uid": "297925f98568e4d2a9913d39c40b0b5a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n0 2\\n2 5\", \"5\\n0 3\\n4 2\\n4 8\\n8 10\\n7 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n\n# Read data\nn = int(input())\nsegments = [map(int, input().split()) for i in range(n)]\nsegments = [(min(a,b), max(a,b)) for (a,b) in segments] # Make sure segments run from low to high\n\n# Sort the end positions\nend_pos = [b for (a,b) in segments]\nend_pos.sort()\n\nnail_positions = [] # Positions where the nails will be put\nwhile (n != 0):\n  # Put the nail at the last position possible before it will miss the (currently) first segment\n  nail_pos = end_pos[0]\n  nail_positions.append(nail_pos)\n\n  # Find the nailed and remaining segments\n  nailed_segments = [(a,b) for (a,b) in segments if ((a <= nail_pos) and (nail_pos <= b))]\n  segments = [(a,b) for (a,b) in segments if ((a > nail_pos) or (nail_pos > b))]\n  n = len(segments)\n  # Update the start and end positions\n  for (a,b) in nailed_segments:\n    end_pos.remove(b)\n\nprint(len(nail_positions))\nprint(\" \".join([\"%d\" % pos for pos in nail_positions]))\n",
+    "prob_desc_created_at": "1277823600",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

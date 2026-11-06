@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"ababababa\", \"catcat\"]",
+    "src_uid": "34dd4c8400ff7a67f9feb1487f2669a6",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a string $$$t$$$ consisting of $$$n$$$ lowercase Latin letters and an integer number $$$k$$$.Let's define a substring of some string $$$s$$$ with indices from $$$l$$$ to $$$r$$$ as $$$s[l \\dots r]$$$.Your task is to construct such string $$$s$$$ of minimum possible length that there are exactly $$$k$$$ positions $$$i$$$ such that $$$s[i \\dots i + n - 1] = t$$$. In other words, your task is to construct such string $$$s$$$ of minimum possible length that there are exactly $$$k$$$ substrings of $$$s$$$ equal to $$$t$$$.It is guaranteed that the answer is always unique.",
+    "prob_desc_output_spec": "Print such string $$$s$$$ of minimum possible length that there are exactly $$$k$$$ substrings of $$$s$$$ equal to $$$t$$$. It is guaranteed that the answer is always unique.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n, k \\le 50$$$) — the length of the string $$$t$$$ and the number of substrings. The second line of the input contains the string $$$t$$$ consisting of exactly $$$n$$$ lowercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_008.jsonl",
+    "code_uid": "18597ff58ce327c82f61600bc4f9226d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\naba\", \"3 2\\ncat\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding: utf-8 -*-\n\nimport sys\nfrom itertools import accumulate\n\ndef input(): return sys.stdin.readline().strip()\ndef list2d(a, b, c): return [[c] * b for i in range(a)]\ndef list3d(a, b, c, d): return [[[d] * c for j in range(b)] for i in range(a)]\ndef list4d(a, b, c, d, e): return [[[[e] * d for j in range(c)] for j in range(b)] for i in range(a)]\ndef ceil(x, y=1): return int(-(-x // y))\ndef INT(): return int(input())\ndef MAP(): return map(int, input().split())\ndef LIST(N=None): return list(MAP()) if N is None else [INT() for i in range(N)]\ndef Yes(): print('Yes')\ndef No(): print('No')\ndef YES(): print('YES')\ndef NO(): print('NO')\nINF = 10 ** 18\nMOD = 10 ** 9 + 7\n\nN, K = MAP()\nT = input()\n\nif set(T) == 1:\n    ans = T + T[0] * (K-1)\n    print(ans)\n    exit()\n\ni = N - 1\nwhile  T[:i] != T[N-i:]:\n    i -= 1\nsame = T[:i]\ndiff = T[i:]\nans = same + diff * K\nprint(ans)\n",
+    "prob_desc_created_at": "1535122200",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

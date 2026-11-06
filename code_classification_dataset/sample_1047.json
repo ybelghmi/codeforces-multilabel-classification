@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"6\"]",
+    "src_uid": "2ff325f206b0188713639a6cf83c2845",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Little Elephant has array a, consisting of n positive integers, indexed from 1 to n. Let's denote the number with index i as ai.The Little Elephant wants to count, how many pairs of integers l and r are there, such that 1 ≤ l &lt; r ≤ n and sequence b = a1a2... alarar + 1... an has no more than k inversions. An inversion in sequence b is a pair of elements of the sequence b, that change their relative order after a stable sorting of the sequence. In other words, an inversion is a pair of integers i and j, such that 1 ≤ i &lt; j ≤ |b| and bi &gt; bj, where |b| is the length of sequence b, and bj is its j-th element.Help the Little Elephant and count the number of the described pairs.",
+    "prob_desc_output_spec": "In a single line print a single number — the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (2 ≤ n ≤ 105, 0 ≤ k ≤ 1018) — the size of array a and the maximum allowed number of inversions respectively. The next line contains n positive integers, separated by single spaces, a1, a2, ..., an (1 ≤ ai ≤ 109) — elements of array a. Please, do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use cin, cout streams or the %I64d specifier.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_006.jsonl",
+    "code_uid": "e2aba508aea2282d0d0298c91afe1eef",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\n1 3 2\", \"5 2\\n1 3 2 1 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# 220E\nimport sys\nfrom collections import defaultdict\n \nclass BIT():\n    def __init__(self, n):\n        self.n = n\n        self.tree = [0] * n\n    \n    def _F(self, i):\n        return i & (i + 1)\n    \n    def _get_sum(self, r):\n        '''\n        sum on interval [0, r)\n        '''\n        result = 0\n        while r > 0:\n            result += self.tree[r-1]\n            r = self._F(r-1)\n        return result\n    \n    def get_sum(self, l, r):\n        '''\n        sum on interval [l, r)\n        '''\n        return self._get_sum(r) - self._get_sum(l)\n    \n    def _H(self, i):\n        return i | (i + 1)\n    \n    def add(self, i, value=1):\n        while i < self.n:\n            self.tree[i] += value\n            i = self._H(i)\n\nreader = (line.rstrip() for line in sys.stdin)\ninput = reader.__next__\n\nn, k = map(int, input().split())\na = list(map(int, input().split()))\n\npos = defaultdict(list)\nfor i, val in enumerate(a):\n    pos[val].append(i)\n\ni = 0\nprev = -1\nfor val in sorted(a):\n    if prev == val: continue\n    for j in pos[val]:\n        a[j] = i\n    i += 1\n    prev = val\n\nleft = BIT(n)\nright = BIT(n)\ntotal_inv = 0\n\nleft.add(a[0])\nfor t in range(1, n):\n    i = a[t]\n    total_inv += right.get_sum(i+1, n)\n    right.add(i)\n    if i < a[0]:\n        total_inv += 1\n\nif total_inv <= k:\n    print((n*(n-1))>>1)\n    sys.exit()\n\nl = 0\nr = 1\nwhile r < n and total_inv > k:\n    total_inv -= left.get_sum(a[r]+1, n) + right.get_sum(0, a[r])\n    right.add(a[r], -1)\n    r += 1\n\npairs = 0\nwhile r < n:\n    while True:\n        add = left.get_sum(a[l+1]+1, n) + right.get_sum(0, a[l+1])\n        if total_inv + add > k:\n            pairs += l + 1\n            break\n        else:\n            l += 1\n            total_inv += add\n            left.add(a[l])\n    total_inv -= left.get_sum(a[r]+1, n) + right.get_sum(0, a[r])\n    right.add(a[r], -1)\n    r += 1\nprint(pairs)\n",
+    "prob_desc_created_at": "1346427000",
+    "tags": [
+        "data structures",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

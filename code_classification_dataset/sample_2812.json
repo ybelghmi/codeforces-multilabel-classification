@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"7\", \"1\", \"7\"]",
+    "src_uid": "08345b5a41424021e52e47cd0bd03d63",
+    "prob_desc_notes": "NoteFor the first test case, Ashish can pick the subsequence $$$\\{{2, 3}\\}$$$ of size $$$2$$$. The binary representation of $$$2$$$ is 10 and that of $$$3$$$ is 11. Since $$$\\max(k - 2, 1)$$$ is equal to $$$1$$$, the value of the subsequence is $$$2^0 + 2^1$$$ (both $$$2$$$ and $$$3$$$ have $$$1$$$-st bit set in their binary representation and $$$3$$$ has $$$0$$$-th bit set in its binary representation). Note that he could also pick the subsequence $$$\\{{3\\}}$$$ or $$$\\{{2, 1, 3\\}}$$$.For the second test case, Ashish can pick the subsequence $$$\\{{3, 4\\}}$$$ with value $$$7$$$.For the third test case, Ashish can pick the subsequence $$$\\{{1\\}}$$$ with value $$$1$$$.For the fourth test case, Ashish can pick the subsequence $$$\\{{7, 7\\}}$$$ with value $$$7$$$.",
+    "prob_desc_description": "Ridhiman challenged Ashish to find the maximum valued subsequence of an array $$$a$$$ of size $$$n$$$ consisting of positive integers. The value of a non-empty subsequence of $$$k$$$ elements of $$$a$$$ is defined as $$$\\sum 2^i$$$ over all integers $$$i \\ge 0$$$ such that at least $$$\\max(1, k - 2)$$$ elements of the subsequence have the $$$i$$$-th bit set in their binary representation (value $$$x$$$ has the $$$i$$$-th bit set in its binary representation if $$$\\lfloor \\frac{x}{2^i} \\rfloor \\mod 2$$$ is equal to $$$1$$$). Recall that $$$b$$$ is a subsequence of $$$a$$$, if $$$b$$$ can be obtained by deleting some(possibly zero) elements from $$$a$$$.Help Ashish find the maximum value he can get by choosing some subsequence of $$$a$$$.",
+    "prob_desc_output_spec": "Print a single integer — the maximum value Ashish can get by choosing some subsequence of $$$a$$$.",
+    "prob_desc_input_spec": "The first line of the input consists of a single integer $$$n$$$ $$$(1 \\le n \\le 500)$$$ — the size of $$$a$$$. The next line consists of $$$n$$$ space-separated integers — the elements of the array $$$(1 \\le a_i \\le 10^{18})$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_032.jsonl",
+    "code_uid": "e236ea5a9513050b77dfa792fd02bf87",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 1 3\", \"3\\n3 1 4\", \"1\\n1\", \"4\\n7 7 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\ns=list(map(int,input().split()))\nMAX=s[0]\nif n==2:\n    MAX=MAX|s[1]\nfor i in range(n):\n    for j in range(i+1,n):\n        for k in range(j+1,n):\n            MAX=max(MAX,s[i]|s[j]|s[k])\nprint(MAX)",
+    "prob_desc_created_at": "1591540500",
+    "tags": [
+        "constructive algorithms",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

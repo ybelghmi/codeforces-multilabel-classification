@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"9\", \"17\"]",
+    "src_uid": "ad9fd71025c5f91cece740ea95b0eb6f",
+    "prob_desc_notes": "NoteIn the first example the mayor can change p2 to 3 and p3 to 1, so there will be 9 pairs: (1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3).In the second example the mayor can change p2 to 4 and p3 to 5.",
+    "prob_desc_description": "The construction of subway in Bertown is almost finished! The President of Berland will visit this city soon to look at the new subway himself.There are n stations in the subway. It was built according to the Bertown Transport Law:  For each station i there exists exactly one train that goes from this station. Its destination station is pi, possibly pi = i;  For each station i there exists exactly one station j such that pj = i. The President will consider the convenience of subway after visiting it. The convenience is the number of ordered pairs (x, y) such that person can start at station x and, after taking some subway trains (possibly zero), arrive at station y (1 ≤ x, y ≤ n).The mayor of Bertown thinks that if the subway is not convenient enough, then the President might consider installing a new mayor (and, of course, the current mayor doesn't want it to happen). Before President visits the city mayor has enough time to rebuild some paths of subway, thus changing the values of pi for not more than two subway stations. Of course, breaking the Bertown Transport Law is really bad, so the subway must be built according to the Law even after changes.The mayor wants to do these changes in such a way that the convenience of the subway is maximized. Help him to calculate the maximum possible convenience he can get! ",
+    "prob_desc_output_spec": "Print one number — the maximum possible value of convenience.",
+    "prob_desc_input_spec": "The first line contains one integer number n (1 ≤ n ≤ 100000) — the number of stations. The second line contains n integer numbers p1, p2, ..., pn (1 ≤ pi ≤ n) — the current structure of the subway. All these numbers are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_011.jsonl",
+    "code_uid": "e5c24d3c9ed17ec970f4f49dd7c2a852",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 1 3\", \"5\\n1 5 4 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "input()\nl = [[int(x)-1,False] for x in input().split()]\nloop = []\nfor begin in l:\n    if begin[1]:\n        continue\n    count = 0;\n    nextI = begin[0];\n    while not l[nextI][1]:\n        l[nextI][1]=True\n        nextI = l[nextI][0]\n        count += 1\n    loop.append(count)\ns = sorted(loop,reverse=True)\ntotal = sum(map(lambda x:x*x,s)) + (2*s[0]*s[1] if len(s)>=2 else 0)\nprint(total)\n",
+    "prob_desc_created_at": "1509113100",
+    "tags": [
+        "dfs and similar",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

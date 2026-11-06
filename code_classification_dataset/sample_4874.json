@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n2\\n0\"]",
+    "src_uid": "a91be662101762bcb2c58b8db9ff61e0",
+    "prob_desc_notes": "NoteIn the first test case, we can select $$$i=2$$$ and $$$x=2$$$ to form $$$[1, 2, 2, 1, 1]$$$. Then, we can select $$$i=3$$$ and $$$x=3$$$ to form $$$[1, 2, 3, 3, 1]$$$.In the second test case, we can select $$$i=3$$$ and $$$x=100$$$ to form $$$[2, 1, 100, 100, 2]$$$.",
+    "prob_desc_description": "You are given an array $$$a$$$ of length $$$n$$$. We define the equality of the array as the number of indices $$$1 \\le i \\le n - 1$$$ such that $$$a_i = a_{i + 1}$$$. We are allowed to do the following operation:  Select two integers $$$i$$$ and $$$x$$$ such that $$$1 \\le i \\le n - 1$$$ and $$$1 \\le x \\le 10^9$$$. Then, set $$$a_i$$$ and $$$a_{i + 1}$$$ to be equal to $$$x$$$. Find the minimum number of operations needed such that the equality of the array is less than or equal to $$$1$$$.",
+    "prob_desc_output_spec": "For each test case, print the minimum number of operations needed.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10 ^ 5$$$) — the length of array $$$a$$$. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — elements of the array. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10 ^ 5$$$",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_108.jsonl",
+    "code_uid": "36d6bcfc2285e44d3df988fc68b35498",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n5\\n\\n1 1 1 1 1\\n\\n5\\n\\n2 1 1 1 2\\n\\n6\\n\\n1 1 2 3 3 4\\n\\n6\\n\\n1 2 1 4 5 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import ceil, floor, sqrt, log2\n\nfor _ in range(int(input())):\n    input()\n    s = list(map(int, input().split()))\n    \n    a = 0\n    b = 0\n\n    p = s[0]\n    for i,v in enumerate(s[1:]):\n        if p==v:\n            a = b = i\n            p = v\n            break\n        p=v\n    for i,v in enumerate(s[i+2:],i+1):\n        if p==v:\n            b = i\n        p = v\n    \n    print(max(int(bool(b-a)),b-a-1))",
+    "prob_desc_created_at": "1650722700",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

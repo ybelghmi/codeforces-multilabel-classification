@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"..X\", \".X.X.X\", \"...XX\"]",
+    "src_uid": "94f52d78b1347fd04c9d39e8789a73ec",
+    "prob_desc_notes": "NoteThe lexicographical comparison of is performed by the &lt; operator in modern programming languages. The a string is lexicographically less that the b string, if there exists such i (1 ≤ i ≤ n), that ai &lt; bi, and for any j (1 ≤ j &lt; i) aj = bj.",
+    "prob_desc_description": "After all the events in Orlando we all know, Sasha and Roma decided to find out who is still the team's biggest loser. Thankfully, Masha found somewhere a revolver with a rotating cylinder of n bullet slots able to contain exactly k bullets, now the boys have a chance to resolve the problem once and for all. Sasha selects any k out of n slots he wishes and puts bullets there. Roma spins the cylinder so that every of n possible cylinder's shifts is equiprobable. Then the game starts, the players take turns, Sasha starts: he puts the gun to his head and shoots. If there was no bullet in front of the trigger, the cylinder shifts by one position and the weapon is given to Roma for make the same move. The game continues until someone is shot, the survivor is the winner. Sasha does not want to lose, so he must choose slots for bullets in such a way as to minimize the probability of its own loss. Of all the possible variant he wants to select the lexicographically minimal one, where an empty slot is lexicographically less than a charged one. More formally, the cylinder of n bullet slots able to contain k bullets can be represented as a string of n characters. Exactly k of them are \"X\" (charged slots) and the others are \".\" (uncharged slots). Let us describe the process of a shot. Suppose that the trigger is in front of the first character of the string (the first slot). If a shot doesn't kill anyone and the cylinder shifts, then the string shifts left. So the first character becomes the last one, the second character becomes the first one, and so on. But the trigger doesn't move. It will be in front of the first character of the resulting string.Among all the strings that give the minimal probability of loss, Sasha choose the lexicographically minimal one. According to this very string, he charges the gun. You have to help Sasha to charge the gun. For that, each xi query must be answered: is there a bullet in the positions xi?",
+    "prob_desc_output_spec": "For each query print \".\" if the slot should be empty and \"X\" if the slot should be charged.",
+    "prob_desc_input_spec": "The first line contains three integers n, k and p (1 ≤ n ≤ 1018, 0 ≤ k ≤ n, 1 ≤ p ≤ 1000) — the number of slots in the cylinder, the number of bullets and the number of queries. Then follow p lines; they are the queries. Each line contains one integer xi (1 ≤ xi ≤ n) the number of slot to describe. Please do not use the %lld specificator to read or write 64-bit numbers in С++. It is preferred to use cin, cout streams or the %I64d specificator.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_036.jsonl",
+    "code_uid": "fe8711e230a503d5c9532532f5e4cc45",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1 3\\n1\\n2\\n3\", \"6 3 6\\n1\\n2\\n3\\n4\\n5\\n6\", \"5 2 5\\n1\\n2\\n3\\n4\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/python\n\ndef query(n, k, x):\n\tif k == 0: return 0\n\tif k == n: return 1\n\tif n % 2 == 0:\n\t\tevens = max(2, n - 2*k + 2)\n\t\todds = n + 1\n\t\tk -= n/2\n\t\tif k > 0:\n\t\t\todds = n - 1 - 2*k + 2\n\t\tif x % 2 == 0:\n\t\t\treturn int(x >= evens)\n\t\telse:\n\t\t\treturn int(x >= odds)\n\telse:\n\t\tif x == n: return 1\n\t\tk -= 1\n\t\tevens = max(2, n - 1 - 2*k + 2)\n\t\todds = n + 1\n\t\tk -= n/2\n\t\tif k > 0:\n\t\t\todds = n - 2 - 2*k + 2\n\t\tif x % 2 == 0:\n\t\t\treturn int(x >= evens)\n\t\telse:\n\t\t\treturn int(x >= odds)\n\ndef solve():\n\tn, k, p = map(int, tuple(raw_input().split()))\n\tres = \"\"\n\tfor i in xrange(p):\n\t\tx = int(raw_input())\n\t\tres += \".X\"[query(n, k, x)]\n\tprint res\n\nsolve()\n\n#def testit():\n\t#for n in xrange(1, 10):\n\t\t#for k in xrange(0, n + 1):\n\t\t\t#res = \"\"\n\t\t\t#for i in xrange(1, n + 1):\n\t\t\t\t#res += \".X\"[query(n, k, i)]\n\t\t\t#print n, k, res\n\n#testit()\n",
+    "prob_desc_created_at": "1312714800",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

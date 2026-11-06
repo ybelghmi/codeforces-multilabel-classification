@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"AC\\nAC\", \"Happy new year!\", \"AA\\nAA\", \"Happy new year!\", \"Happy new year!\"]",
+    "src_uid": "1d55d31320368ddb1439ee086d40b57c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Many countries have such a New Year or Christmas tradition as writing a letter to Santa including a wish list for presents. Vasya is an ordinary programmer boy. Like all ordinary boys, he is going to write the letter to Santa on the New Year Eve (we Russians actually expect Santa for the New Year, not for Christmas). Vasya has come up with an algorithm he will follow while writing a letter. First he chooses two strings, s1 anf s2, consisting of uppercase English letters. Then the boy makes string sk, using a recurrent equation sn = sn - 2 + sn - 1, operation '+' means a concatenation (that is, the sequential record) of strings in the given order. Then Vasya writes down string sk on a piece of paper, puts it in the envelope and sends in to Santa. Vasya is absolutely sure that Santa will bring him the best present if the resulting string sk has exactly x occurrences of substring AC (the short-cut reminds him оf accepted problems). Besides, Vasya decided that string s1 should have length n, and string s2 should have length m. Vasya hasn't decided anything else.At the moment Vasya's got urgent New Year business, so he asks you to choose two strings for him, s1 and s2 in the required manner. Help Vasya.",
+    "prob_desc_output_spec": "In the first line print string s1, consisting of n uppercase English letters. In the second line print string s2, consisting of m uppercase English letters. If there are multiple valid strings, print any of them. If the required pair of strings doesn't exist, print \"Happy new year!\" without the quotes.",
+    "prob_desc_input_spec": "The first line contains four integers k, x, n, m (3 ≤ k ≤ 50; 0 ≤ x ≤ 109; 1 ≤ n, m ≤ 100).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_004.jsonl",
+    "code_uid": "1f78bc4568cc4fa3470597a24a8d376a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 2 2\", \"3 3 2 2\", \"3 0 2 2\", \"4 3 2 1\", \"4 2 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding: utf-8 -*-\nimport sys\n\ndef make_string(k, k2string, s1, s2):\n\tif k in k2string:\n\t\treturn k2string[k]\n\tif k == 1:\n\t\tk2string[k] = s1\n\telif k == 2:\n\t\tk2string[k] = s2\n\telse:\n\t\tk2string[k] = make_string(k-2, k2string, s1, s2) + make_string(k-1, k2string, s1, s2)\n\treturn k2string[k]\n\ndef count_comb(k, k2comb):\n\tif k in k2comb:\n\t\treturn k2comb[k]\n\tif k == 1:\n\t\tk2comb[k] = ([0, 0, 0, 0, 1, 0], ('1', '1'))\n\telif k == 2:\n\t\tk2comb[k] = ([0, 0, 0, 0, 0, 1], ('2', '2'))\n\telse:\n\t\tr_2 = count_comb(k-2, k2comb)\n\t\tr_1 = count_comb(k-1, k2comb)\n\t\tr = ([x+y for (x,y) in zip(r_2[0],r_1[0])], (r_2[1][0], r_1[1][1]))\n\t\tss = r_2[1][1] + r_1[1][0]\n\t\tif ss == '11':\n\t\t\tr[0][0] += 1\n\t\telif ss == '12':\n\t\t\tr[0][1] += 1\n\t\telif ss == '21':\n\t\t\tr[0][2] += 1\n\t\telif ss == '22':\n\t\t\tr[0][3] += 1\n\t\tk2comb[k] = r\n\treturn k2comb[k]\n\ndef max_independent_ac(l, cStart, aEnd):\n\tif l <= 1:\n\t\treturn 0\n\telif (cStart and not aEnd) or (not cStart and aEnd):\n\t\treturn (l-1) // 2\n\telif cStart and aEnd:\n\t\treturn (l-2) // 2\n\telse:\n\t\treturn l // 2\n\ndef print_sequence(l, ac, cStart, aEnd):\n\tcStart = 1 if cStart else 0\n\taEnd = 1 if aEnd else 0\n\tif cStart:\n\t\tprint('C', end='')\n\tfor i in range(ac):\n\t\tprint('AC', end='')\n\tfor i in range(l - 2*ac - cStart - aEnd):\n\t\tprint('B', end='')\n\tif aEnd:\n\t\tprint('A', end='')\n\tprint()\n\ndef run_test(k, x, n, m):\n\tcomb = count_comb(k, {})[0]\n\tfor mask in range(16):\n\t\tv = [0, 0, 0, 0, 0, 0]\n\t\tif (mask & 1) and (mask & 2):\n\t\t\tv[0] = 1\n\t\tif (mask & 2) and (mask & 4):\n\t\t\tv[1] = 1\n\t\tif (mask & 1) and (mask & 8):\n\t\t\tv[2] = 1\n\t\tif (mask & 4) and (mask & 8):\n\t\t\tv[3] = 1\n\t\tif (n == 1 and v[0]) or (m == 1 and v[3]):\n\t\t\tcontinue\n\t\tmax1 = max_independent_ac(n, mask & 1, mask & 2)\n\t\tmax2 = max_independent_ac(m, mask & 4, mask & 8)\n\t\tfor p in range(max1+1):\n\t\t\tfor q in range(max2+1):\n\t\t\t\tv[4] = p\n\t\t\t\tv[5] = q\n\t\t\t\tif sum([x*y for (x,y) in zip(v,comb)]) == x:\n\t\t\t\t\tprint_sequence(n, p, mask&1, mask&2)\n\t\t\t\t\tprint_sequence(m, q, mask&4, mask&8)\n\t\t\t\t\treturn\n\tprint('Happy new year!')\n\nk, x, n, m = (int(x) for x in sys.stdin.readline().split(' '))\nrun_test(k, x, n, m)\n",
+    "prob_desc_created_at": "1388417400",
+    "tags": [
+        "dp",
+        "bitmasks",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

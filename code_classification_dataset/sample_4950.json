@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n3\\n2\"]",
+    "src_uid": "aca2346553f9e7b6e944ca2c74bb0b3d",
+    "prob_desc_notes": "NoteIn the first test case of the example, the first elevator is already on the floor of $$$1$$$.In the second test case of the example, when called, the elevators would move as follows:  At the time of the call, the first elevator is on the floor of $$$3$$$, and the second one is on the floor of $$$1$$$, but is already going to another floor;  in $$$1$$$ second after the call, the first elevator would be on the floor $$$2$$$, the second one would also reach the floor $$$2$$$ and now can go to the floor $$$1$$$;  in $$$2$$$ seconds, any elevator would reach the floor $$$1$$$. In the third test case of the example, the first elevator will arrive in $$$2$$$ seconds, and the second in $$$1$$$.",
+    "prob_desc_description": "Vlad went into his appartment house entrance, now he is on the $$$1$$$-th floor. He was going to call the elevator to go up to his apartment.There are only two elevators in his house. Vlad knows for sure that:  the first elevator is currently on the floor $$$a$$$ (it is currently motionless),  the second elevator is located on floor $$$b$$$ and goes to floor $$$c$$$ ($$$b \\ne c$$$). Please note, if $$$b=1$$$, then the elevator is already leaving the floor $$$1$$$ and Vlad does not have time to enter it. If you call the first elevator, it will immediately start to go to the floor $$$1$$$. If you call the second one, then first it will reach the floor $$$c$$$ and only then it will go to the floor $$$1$$$. It takes $$$|x - y|$$$ seconds for each elevator to move from floor $$$x$$$ to floor $$$y$$$.Vlad wants to call an elevator that will come to him faster. Help him choose such an elevator.",
+    "prob_desc_output_spec": "Output $$$t$$$ numbers, each of which is the answer to the corresponding test case. As an answer, output:   $$$1$$$, if it is better to call the first elevator;  $$$2$$$, if it is better to call the second one;  $$$3$$$, if it doesn't matter which elevator to call (both elevators will arrive in the same time). ",
+    "prob_desc_input_spec": "The first line of the input contains the only $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. This is followed by $$$t$$$ lines, three integers each $$$a$$$, $$$b$$$ and $$$c$$$ ($$$1 \\le a, b, c \\le 10^8$$$, $$$b \\ne c$$$) — floor numbers described in the statement.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_110.jsonl",
+    "code_uid": "1b1e97f864667d90d65e854f0609270b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n1 2 3\\n\\n3 1 2\\n\\n3 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n    numbers_a_b_c = input().split()\r\n    \r\n    a = int(numbers_a_b_c[0])\r\n    b = int(numbers_a_b_c[1])    \r\n    c = int(numbers_a_b_c[2])\r\n    \r\n    if a == 1:\r\n        print(1)\r\n    elif (abs(b - c) + abs(c - 1)) < abs(a - 1):\r\n        print(2)\r\n    elif (abs(b - c) + abs(c - 1)) > abs(a - 1):\r\n        print(1)\r\n    else:\r\n        print(3)",
+    "prob_desc_created_at": "1662993300",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

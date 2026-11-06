@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\\n2\\n11\\n1111111110\"]",
+    "src_uid": "7a51d536d5212023cc226ef1f6201174",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two integers $$$l$$$ and $$$r$$$, where $$$l &lt; r$$$. We will add $$$1$$$ to $$$l$$$ until the result is equal to $$$r$$$. Thus, there will be exactly $$$r-l$$$ additions performed. For each such addition, let's look at the number of digits that will be changed after it.For example:   if $$$l=909$$$, then adding one will result in $$$910$$$ and $$$2$$$ digits will be changed;  if you add one to $$$l=9$$$, the result will be $$$10$$$ and $$$2$$$ digits will also be changed;  if you add one to $$$l=489999$$$, the result will be $$$490000$$$ and $$$5$$$ digits will be changed. Changed digits always form a suffix of the result written in the decimal system.Output the total number of changed digits, if you want to get $$$r$$$ from $$$l$$$, adding $$$1$$$ each time.",
+    "prob_desc_output_spec": "For each test case, calculate the total number of changed digits if you want to get $$$r$$$ from $$$l$$$, adding one each time.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$). Then $$$t$$$ test cases follow. Each test case is characterized by two integers $$$l$$$ and $$$r$$$ ($$$1 \\le l &lt; r \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_097.jsonl",
+    "code_uid": "50a668437258d7b7d8f523c58bcc3909",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 9\\n9 10\\n10 20\\n1 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ndef memoize(f):\r\n  st = {}\r\n  \r\n  def _mk_r():\r\n    def r(*args):\r\n      _k = args\r\n      if _k in st:\r\n        return st[_k]\r\n      c = f(*args)\r\n      st[_k] = c\r\n      # print(f'{key}{_k} -> {c}')\r\n      return c\r\n    \r\n    return r\r\n  \r\n  return _mk_r()\r\ndef run():\r\n  class _fake_int(object):\r\n    def __init__(self):\r\n      super().__init__()\r\n      self.v = 0\r\n    def use(self, c, l) -> slice:\r\n      v = self.v\r\n      self.v += c\r\n      return l[v:v + c]\r\n  _stdin, _pos = sys.stdin.read().split(), _fake_int()\r\n  def inp(count=1, tp=int):\r\n    return map(tp, _pos.use(count, _stdin))\r\n  ss = ['9' * i for i in range(20)]\r\n  @memoize\r\n  def dp(j, i):\r\n    a = ss[j]\r\n    n = len(a) - i\r\n    if n == 1:\r\n      return int(a[-1])\r\n    elif not n:\r\n      return 0\r\n    else:\r\n      c = int(a[i])\r\n      return (dp(n - 1, 0) + n - 1) * c + c + dp(j, i + 1)\r\n  def solve(ss=ss):\r\n    l, r = inp(2, str)\r\n    ss += [l, r]\r\n    print(dp(len(ss) - 1, 0) - dp(len(ss) - 2, 0))\r\n  \r\n  t, = inp()\r\n  while t != 0:\r\n    solve()\r\n    t -= 1\r\nrun()\r\n",
+    "prob_desc_created_at": "1623335700",
+    "tags": [
+        "binary search",
+        "dp",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n1\\n2\\n99999999\\n3\\n0\\n1\\n9\"]",
+    "src_uid": "be27a43c6844575f1d17487e564803bb",
+    "prob_desc_notes": "NoteThe first sample is parsed in statement.One of the optimal schedule changes for the second sample:   Initial schedule.  New schedule.In the third sample, we need to move the exam from day $$$1$$$ to any day from $$$4$$$ to $$$100$$$.In the fourth sample, any change in the schedule will only reduce $$$\\mu$$$, so the schedule should be left as it is.In the fifth sample, we need to move the exam from day $$$1$$$ to any day from $$$100000000$$$ to $$$300000000$$$.One of the optimal schedule changes for the sixth sample:   Initial schedule.  New schedule.In the seventh sample, every day is exam day, and it is impossible to rearrange the schedule.",
+    "prob_desc_description": "Now Dmitry has a session, and he has to pass $$$n$$$ exams. The session starts on day $$$1$$$ and lasts $$$d$$$ days. The $$$i$$$th exam will take place on the day of $$$a_i$$$ ($$$1 \\le a_i \\le d$$$), all $$$a_i$$$ — are different.    Sample, where $$$n=3$$$, $$$d=12$$$, $$$a=[3,5,9]$$$. Orange — exam days. Before the first exam Dmitry will rest $$$2$$$ days, before the second he will rest $$$1$$$ day and before the third he will rest $$$3$$$ days. For the session schedule, Dmitry considers a special value $$$\\mu$$$ — the smallest of the rest times before the exam for all exams. For example, for the image above, $$$\\mu=1$$$. In other words, for the schedule, he counts exactly $$$n$$$ numbers  — how many days he rests between the exam $$$i-1$$$ and $$$i$$$ (for $$$i=0$$$ between the start of the session and the exam $$$i$$$). Then it finds $$$\\mu$$$ — the minimum among these $$$n$$$ numbers.Dmitry believes that he can improve the schedule of the session. He may ask to change the date of one exam (change one arbitrary value of $$$a_i$$$). Help him change the date so that all $$$a_i$$$ remain different, and the value of $$$\\mu$$$ is as large as possible.For example, for the schedule above, it is most advantageous for Dmitry to move the second exam to the very end of the session. The new schedule will take the form:    Now the rest periods before exams are equal to $$$[2,2,5]$$$. So, $$$\\mu=2$$$. Dmitry can leave the proposed schedule unchanged (if there is no way to move one exam so that it will lead to an improvement in the situation).",
+    "prob_desc_output_spec": "For each test case, output the maximum possible value of $$$\\mu$$$ if Dmitry can move any one exam to an arbitrary day. All values of $$$a_i$$$ should remain distinct.",
+    "prob_desc_input_spec": "The first line of input data contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of input test cases. The descriptions of test cases follow. An empty line is written in the test before each case. The first line of each test case contains two integers $$$n$$$ and $$$d$$$ ($$$2 \\le n \\le 2 \\cdot 10^5, 1 \\le d \\le 10^9$$$) — the number of exams and the length of the session, respectively. The second line of each test case contains $$$n$$$ integers $$$a_i$$$ ($$$1 \\le a_i \\le d, a_i &lt; a_{i+1}$$$), where the $$$i$$$-th number means the date of the $$$i$$$-th exam. It is guaranteed that the sum of $$$n$$$ for all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_104.jsonl",
+    "code_uid": "5834036883962d4542ded40183d3a599",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9\\n\\n\\n\\n\\n3 12\\n\\n3 5 9\\n\\n\\n\\n\\n2 5\\n\\n1 5\\n\\n\\n\\n\\n2 100\\n\\n1 2\\n\\n\\n\\n\\n5 15\\n\\n3 6 9 12 15\\n\\n\\n\\n\\n3 1000000000\\n\\n1 400000000 500000000\\n\\n\\n\\n\\n2 10\\n\\n3 4\\n\\n\\n\\n\\n2 2\\n\\n1 2\\n\\n\\n\\n\\n4 15\\n\\n6 11 12 13\\n\\n\\n\\n\\n2 20\\n\\n17 20\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io,os\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\n\n\n        \n        \n\n    \n\n\n    \n\n\n\n\n\n\ndef main(t):\n\n    s = input()\n    n,d = map(int,input().split())\n    arr = [0]+list(map(int,input().split()))\n    distance = [arr[i+1]-arr[i]-1 for i in range(n)]\n\n\n    minleft = [0]*(n+1)\n    maxleft = [0]*(n+1)\n    minright = [0]*(n+1)\n    maxright = [0]*(n+1)\n\n    minleft[-1] = float('inf')\n    minright[-1] = float('inf')\n    \n    for i in range(n):\n        minleft[i] = min(distance[i],minleft[i-1])\n        maxleft[i] = max(distance[i],maxleft[i-1])\n    for i in range(n-1,-1,-1):\n        minright[i] = min(distance[i],minright[i+1])\n        maxright[i] = max(distance[i],maxright[i+1])\n\n   \n#    print(distance) \n#    print(minleft)\n#    print(maxleft)\n#    print(minright)\n#    print(maxright)\n\n\n    def judge(mu):\n\n        if minleft[-3]>=mu and d-arr[-2]-1 >= mu:\n            return True \n\n#        print(mu)\n        for i in range(len(distance)-1):\n            if minleft[i-1] < mu:  break\n            if minright[i+2]  >= mu and distance[i]+distance[i+1]+1 >= mu:\n                if distance[i]+distance[i+1]>= 2*mu or max(maxleft[i-1],maxright[i+2]) >= 2*mu+1 or d - arr[-1]-1 >= mu:\n                    return True\n        return False\n            \n    \n\n    front = 0\n    rear = d//n + 2\n\n    while front < rear:\n        mid = (front+rear)//2\n        if judge(mid):\n            front = mid + 1\n        else:\n            rear = mid \n\n\n\n    \n\n\n\n    ans = front-1 \n\n    print(ans)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nT = int(input())\nt = 1\nwhile t<=T:\n    main(t)\n    t += 1\n",
+    "prob_desc_created_at": "1646750100",
+    "tags": [
+        "binary search",
+        "data structures",
+        "greedy",
+        "implementation",
+        "math",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

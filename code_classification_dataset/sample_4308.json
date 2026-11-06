@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"32\\n8646\\n604\"]",
+    "src_uid": "d3c3bc95605010040e2018e465eb9fab",
+    "prob_desc_notes": "NoteIn the first test case $$$99 + 32 = 131$$$ is a palindrome. Note that another answer is $$$12$$$, because $$$99 + 12 = 111$$$ is also a palindrome.In the second test case $$$1023 + 8646 = 9669$$$.In the third test case $$$385 + 604 = 989$$$.",
+    "prob_desc_description": "During a daily walk Alina noticed a long number written on the ground. Now Alina wants to find some positive number of same length without leading zeroes, such that the sum of these two numbers is a palindrome. Recall that a number is called a palindrome, if it reads the same right to left and left to right. For example, numbers $$$121, 66, 98989$$$ are palindromes, and $$$103, 239, 1241$$$ are not palindromes.Alina understands that a valid number always exist. Help her find one!",
+    "prob_desc_output_spec": "For each of $$$t$$$ test cases print an answer — a positive $$$n$$$-digit integer without leading zeros, such that the sum of the input integer and this number is a palindrome. We can show that at least one number satisfying the constraints exists. If there are multiple solutions, you can output any of them.",
+    "prob_desc_input_spec": "The first line of input data contains an integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. Next, descriptions of $$$t$$$ test cases follow. The first line of each test case contains a single integer $$$n$$$ ($$$2 \\leq n \\leq 100\\,000$$$) — the length of the number that is written on the ground. The second line of contains the positive $$$n$$$-digit integer without leading zeroes — the number itself. It is guaranteed that the sum of the values $$$n$$$ over all test cases does not exceed $$$100\\,000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_094.jsonl",
+    "code_uid": "24297919af6e3029c3955b14692ec317",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2\\n99\\n4\\n1023\\n3\\n385\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# Import helpful pages\nfrom multiprocessing.dummy import current_process\nimport queue\nfrom sys import stdin, stdout\nfrom collections import defaultdict\nimport copy\nimport math\nimport itertools\nimport heapq\nimport bisect\nfrom turtle import back\n \n# Helper methods for execution\ndef get_int_dd():\n  def def_value():\n    return 0\n  return defaultdict(def_value)\n  \ndef get_counts(li):\n  dd = get_int_dd()\n  for i in li:\n    dd[i] += 1\n  return dd\n\n\ndef get_li_dd():\n  def def_value():\n    return []\n  return defaultdict(def_value)\n\ndef get_index_map(li, w_offset=False):\n  dd = get_li_dd()\n  for i,n in enumerate(li):\n    dd[n].append(i + (1 if w_offset else 0))\n  return dd\n\ndef to_int_list(str):\n  str.strip()\n  return [int(i) for i in str.split()]\n\ndef to_char_list(str):\n  str.strip()\n  return [str[i] for i in range(len(str))]\n\n# INPUT METHODS\n\ndef read_line():\n  return stdin.readline().strip()\n\ndef read_int():\n  return int(read_line())\n\ndef read_ints():\n  return [int(i) for i in read_line().split()]\n\ndef read_str_list(read_n=True):\n  n = read_int()\n  return [read_line() for i in range(n)]\n\n# OUTPUT METHODS\n\ndef write_out(value):\n  stdout.write(str(value))\n\ndef write_line(value):\n  stdout.write(str(value) + '\\n')\n \nCOMMENTS_ON = True\n \ndef comment(value):\n  if COMMENTS_ON:\n    stdout.write(str(value) + '\\n')\n \ndef execute_on_input(calc_ans, read_case=read_line, t=None, write_output=write_line):\n  if not t:\n    t = read_int()\n  for eval in [calc_ans(read_case()) for input in range(t)]:\n    write_output(eval)\n\n\ndef qA():\n\n  def read():\n    return read_int(), read_int()\n   \n  def calc(input):\n    n, a = input\n \n    a_str = str(a)\n \n    if int(a_str[0]) != 9:\n      palin = int(''.join(['9' for i in range(n)]))\n      return palin - a\n    \n    min_b = 10 ** (n - 1)\n    closest_palin = 10 * min_b + 1\n \n    if closest_palin < min_b + a:\n      increase_pre = min_b + a - closest_palin\n      incr_len = len(str(increase_pre))\n      other_i = n - incr_len\n      increase = 10 ** incr_len + 10 ** other_i\n      closest_palin += increase\n \n    b = closest_palin - a\n    b_str = str(b)\n    if len(b_str) != n:\n      return len(b_str), b\n\n    return b\n\n\n  # Execute on each input line.\n  execute_on_input(calc, read_case=read)\n\n\n\ndef qTemplate():\n\n  def read():\n    n = read_int()\n    line = read_line()\n    return (n, line)\n   \n  def calc(input):\n    return input\n\n  # Execute on each input line.\n  execute_on_input(calc, read_case=read)\n\n\n# Call the methods\nif __name__ == \"__main__\":\n  qA() ",
+    "prob_desc_created_at": "1655629500",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

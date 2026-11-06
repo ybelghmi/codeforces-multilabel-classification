@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 2 3\"]",
+    "src_uid": "52bbca93357cfeb61057bc4d71342249",
+    "prob_desc_notes": "NoteA note to the first sample.    The picture shows a three-degree staircase. The arrows show the shortest paths that the sportsmen choose.",
+    "prob_desc_description": "The secondary diagonal of a square matrix is a diagonal going from the top right to the bottom left corner. Let's define an n-degree staircase as a square matrix n × n containing no squares above the secondary diagonal (the picture below shows a 5-degree staircase).   The squares of the n-degree staircase contain m sportsmen. A sportsman needs one second to move to a side-neighboring square of the staircase. Before the beginning of the competition each sportsman must choose one of the shortest ways to the secondary diagonal. After the starting whistle the competition begins and all sportsmen start moving along the chosen paths. When a sportsman reaches a cell of the secondary diagonal, he stops and moves no more. The competition ends when all sportsmen reach the secondary diagonal. The competition is considered successful if during it no two sportsmen were present in the same square simultaneously. Any square belonging to the secondary diagonal also cannot contain more than one sportsman. If a sportsman at the given moment of time leaves a square and another sportsman comes to it, then they are not considered to occupy the same square simultaneously. Note that other extreme cases (for example, two sportsmen moving towards each other) are impossible as the chosen ways are the shortest ones.You are given positions of m sportsmen on the staircase. Your task is to choose among them the maximum number of sportsmen for who the competition can be successful, that is, so that there existed such choice of shortest ways for the sportsmen at which no two sportsmen find themselves in the same square simultaneously. All other sportsmen that are not chosen will be removed from the staircase before the competition starts. ",
+    "prob_desc_output_spec": "In the first line print the number of the chosen sportsmen. In the second line print the numbers of chosen sportsmen in any order, separating the numbers with spaces. If there are several answers, you are permitted to print any of them. The sportsmen are numbered starting from one in the order in which they are given in the input data.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 105). Then m lines contain coordinates of sportsmen on the staircase as pairs of integers ri, ci (1 ≤ ri, ci ≤ n, n - ci &lt; ri), where ri is the number of the staircase row, ci is the number of the staircase column (to understand the principle of numbering rows and columns see the explanatory pictures). No two sportsmen stand on the same square of the staircase.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_051.jsonl",
+    "code_uid": "2abc82ef16386a73e1614b54190fde4c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n2 3\\n3 2\\n3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq\nn, m = map(int, raw_input().split())\n\narr = []\nfor i in xrange(m):\n    a, b = map(int, raw_input().split())\n    a, b = a-1, b-1\n    b = n - b - 1\n\n    a, b = b, a\n    arr.append( (a, b, i+1) )\n    #print a, b\n\narr.sort()\n\nj = 0\nh = []\nans = []\nfor i in xrange(n):\n    while j < m and arr[j][0] == i:\n        heapq.heappush(h, (arr[j][1], arr[j][2]))\n        j += 1\n\n    while len(h) > 0 and h[0][0] < i:\n        heapq.heappop(h)\n\n    if len(h) > 0:\n        ans.append( heapq.heappop(h)[1] )\n\nprint len(ans)\nprint ' '.join( map(str, sorted(ans)) )\n\n",
+    "prob_desc_created_at": "1326899100",
+    "tags": [
+        "data structures",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

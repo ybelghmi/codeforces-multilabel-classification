@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n-1\\n8\\n-1\", \"1\\n2\"]",
+    "src_uid": "89c97b6c302bbb51e9d5328c680a7ea7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Karafs is some kind of vegetable in shape of an 1 × h rectangle. Tavaspolis people love Karafs and they use Karafs in almost any kind of food. Tavas, himself, is crazy about Karafs.  Each Karafs has a positive integer height. Tavas has an infinite 1-based sequence of Karafses. The height of the i-th Karafs is si = A + (i - 1) × B.For a given m, let's define an m-bite operation as decreasing the height of at most m distinct not eaten Karafses by 1. Karafs is considered as eaten when its height becomes zero.Now SaDDas asks you n queries. In each query he gives you numbers l, t and m and you should find the largest number r such that l ≤ r and sequence sl, sl + 1, ..., sr can be eaten by performing m-bite no more than t times or print -1 if there is no such number r.",
+    "prob_desc_output_spec": "For each query, print its answer in a single line.",
+    "prob_desc_input_spec": "The first line of input contains three integers A, B and n (1 ≤ A, B ≤ 106, 1 ≤ n ≤ 105). Next n lines contain information about queries. i-th line contains integers l, t, m (1 ≤ l, t, m ≤ 106) for i-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_004.jsonl",
+    "code_uid": "99a55935d070f23c133bc07879301231",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 1 4\\n1 5 3\\n3 3 10\\n7 10 2\\n6 4 8\", \"1 5 2\\n1 5 10\\n2 7 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nA, B, n = map(int, input().split())\nans = []\n\nfor _ in range(n):\n\tl, t, m = map(int, input().split())\n\t\n\tif A + B * (l - 1) > t:\n\t\tans.append(-1)\n\t\tcontinue\n\n\tr1 = (t - A) / B + 1\n\tD = (B-2*A)*(B-2*A)-4*B*(-2*l*A+2*A-B*(l-2)*(l-1)-2*m*t)\n\tr2 = int(((B-2*A) + math.sqrt(D)) / 2 / B)\n\n\tif r1 > r2:\n\t\tr1 = r2\n\tans.append(int(r1))\n\n\nprint(\"\\n\".join(map(str, ans)))",
+    "prob_desc_created_at": "1429029300",
+    "tags": [
+        "binary search",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

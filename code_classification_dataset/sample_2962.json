@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n+ 3 2\\n- 4 1\", \"0\"]",
+    "src_uid": "7f08e74945d6b58abde1d8002b8b686a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Queen of England has n trees growing in a row in her garden. At that, the i-th (1 ≤ i ≤ n) tree from the left has height ai meters. Today the Queen decided to update the scenery of her garden. She wants the trees' heights to meet the condition: for all i (1 ≤ i &lt; n), ai + 1 - ai = k, where k is the number the Queen chose.Unfortunately, the royal gardener is not a machine and he cannot fulfill the desire of the Queen instantly! In one minute, the gardener can either decrease the height of a tree to any positive integer height or increase the height of a tree to any positive integer height. How should the royal gardener act to fulfill a whim of Her Majesty in the minimum number of minutes?",
+    "prob_desc_output_spec": "In the first line print a single integer p — the minimum number of minutes the gardener needs. In the next p lines print the description of his actions.  If the gardener needs to increase the height of the j-th (1 ≤ j ≤ n) tree from the left by x (x ≥ 1) meters, then print in the corresponding line \"+ j x\". If the gardener needs to decrease the height of the j-th (1 ≤ j ≤ n) tree from the left by x (x ≥ 1) meters, print on the corresponding line \"- j x\". If there are multiple ways to make a row of trees beautiful in the minimum number of actions, you are allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers: n, k (1 ≤ n, k ≤ 1000). The second line contains n space-separated integers a1, a2, ..., an (1 ≤ ai ≤ 1000) — the heights of the trees in the row. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_036.jsonl",
+    "code_uid": "e747dcef82835d02e00484d120847a8e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 1\\n1 2 1 5\", \"4 1\\n1 2 3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = [int(x) for x in input().split()]\na = [int(x) for x in input().split()]\nb = []\nfor i in range(n):\n    cur = 0\n    for j in range(n):\n        if j > i:\n            if a[j] == a[i] + (j-i) * k:\n                cur += 1\n        elif j < i:\n            if a[j] == a[i] - (i-j) * k:\n                cur += 1\n    b.append(cur)\n\nt, cur = -1, -1\nfor i in range(len(b)):\n    if (b[i] > cur) and (a[i] > k*i):\n        cur = b[i]\n        t = i\n\nres = []\nfor i in range(n):\n    c = - a[i] + ((i-t) * k + a[t])\n    if c != 0:\n        res.append([i + 1, c])\n\nprint(len(res))\nfor i, j in res:\n    if j < 0:\n        print('-', str(i), -j)\n    else:\n        print('+', str(i), j)\n",
+    "prob_desc_created_at": "1394983800",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

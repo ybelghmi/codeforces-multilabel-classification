@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nCAN 2\\nCAN 1\\nCAN 1\\nCAN 1\\nCAN 1\\nYES\", \"YES\\nYES\\nCAN 81\", \"YES\\nNO\"]",
+    "src_uid": "d818876d0bb7a22b7aebfca5b77d2cd5",
+    "prob_desc_notes": "NoteThe cost of repairing the road is the difference between the time needed to ride along it before and after the repairing.In the first sample president initially may choose one of the two following ways for a ride: 1 → 2 → 4 → 5 → 6 or 1 → 2 → 3 → 5 → 6.",
+    "prob_desc_description": "Berland has n cities, the capital is located in city s, and the historic home town of the President is in city t (s ≠ t). The cities are connected by one-way roads, the travel time for each of the road is a positive integer.Once a year the President visited his historic home town t, for which his motorcade passes along some path from s to t (he always returns on a personal plane). Since the president is a very busy man, he always chooses the path from s to t, along which he will travel the fastest.The ministry of Roads and Railways wants to learn for each of the road: whether the President will definitely pass through it during his travels, and if not, whether it is possible to repair it so that it would definitely be included in the shortest path from the capital to the historic home town of the President. Obviously, the road can not be repaired so that the travel time on it was less than one. The ministry of Berland, like any other, is interested in maintaining the budget, so it wants to know the minimum cost of repairing the road. Also, it is very fond of accuracy, so it repairs the roads so that the travel time on them is always a positive integer.",
+    "prob_desc_output_spec": "Print m lines. The i-th line should contain information about the i-th road (the roads are numbered in the order of appearance in the input). If the president will definitely ride along it during his travels, the line must contain a single word \"YES\" (without the quotes). Otherwise, if the i-th road can be repaired so that the travel time on it remains positive and then president will definitely ride along it, print space-separated word \"CAN\" (without the quotes), and the minimum cost of repairing. If we can't make the road be such that president will definitely ride along it, print \"NO\" (without the quotes).",
+    "prob_desc_input_spec": "The first lines contain four integers n, m, s and t (2 ≤ n ≤ 105; 1 ≤ m ≤ 105; 1 ≤ s, t ≤ n) — the number of cities and roads in Berland, the numbers of the capital and of the Presidents' home town (s ≠ t). Next m lines contain the roads. Each road is given as a group of three integers ai, bi, li (1 ≤ ai, bi ≤ n; ai ≠ bi; 1 ≤ li ≤ 106) — the cities that are connected by the i-th road and the time needed to ride along it. The road is directed from city ai to city bi. The cities are numbered from 1 to n. Each pair of cities can have multiple roads between them. It is guaranteed that there is a path from s to t along the roads.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_011.jsonl",
+    "code_uid": "38c7b8906d8508da8428036aef712d26",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 7 1 6\\n1 2 2\\n1 3 10\\n2 3 7\\n2 4 8\\n3 5 3\\n4 5 2\\n5 6 1\", \"3 3 1 3\\n1 2 10\\n2 3 10\\n1 3 100\", \"2 2 1 2\\n1 2 1\\n1 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from heapq import *\nimport sys\n\nMOD = 1000000181\n\ndef addM(a,b):\n    return (a+b)%MOD\ndef mulM(a,b):\n    return (a*b)%MOD\n\ndef dijk(adj,n,s):\n    dist = [10**18]*n\n    ways = [0]*n\n    frontier = []\n    dist[s] = 0\n    ways[s] = 1\n    heappush(frontier,(0,s))\n    while (len(frontier)>0):\n        x = heappop(frontier)\n        if x[0]!=dist[x[1]]:\n            continue\n        x = x[1]\n        for (i,l) in adj[x]:\n            if dist[x]+l<dist[i]:\n                dist[i] = dist[x]+l\n                ways[i] = ways[x]\n                heappush(frontier,(dist[i],i))\n            elif dist[x]+l==dist[i]:\n                ways[i] = addM(ways[i],ways[x])\n    return (dist,ways)\n\nn,m,s,t = map(int,sys.stdin.readline().split())\ns-=1\nt-=1\nadj = [[] for i in range(n)]\njda = [[] for i in range(n)]\nedges = []\n\nfor i in range(m):\n    a,b,l = map(int,sys.stdin.readline().split())\n    a-=1\n    b-=1\n    adj[a].append((b,l))\n    jda[b].append((a,l))\n    edges.append((a,b,l))\n\none = dijk(adj,n,s)\ntwo = dijk(jda,n,t)\n\nfor i in edges:\n    if one[0][i[0]]+i[2]+two[0][i[1]]==one[0][t] and mulM(one[1][i[0]],two[1][i[1]])==one[1][t]:\n        sys.stdout.write(\"YES\\n\")\n    else:\n        x = one[0][t]-1-one[0][i[0]]-two[0][i[1]]\n        if x<=0:\n            sys.stdout.write(\"NO\\n\")\n        else:\n            sys.stdout.write(\"CAN \"+str(i[2]-x)+\"\\n\")",
+    "prob_desc_created_at": "1438790400",
+    "tags": [
+        "graphs",
+        "hashing",
+        "shortest paths",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

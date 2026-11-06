@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"0\", \"-1\", \"1\"]",
+    "src_uid": "79b0794f81acc1c882649d96b1c7f8da",
+    "prob_desc_notes": "NoteIn the first example Polycarp should increase the first number on $$$1$$$, decrease the second number on $$$1$$$, increase the third number on $$$1$$$, and the fourth number should left unchanged. So, after Polycarp changed three elements by one, his sequence became equals to $$$[25, 20, 15, 10]$$$, which is an arithmetic progression.In the second example Polycarp should not change anything, because his sequence is an arithmetic progression.In the third example it is impossible to make an arithmetic progression.In the fourth example Polycarp should change only the first element, he should decrease it on one. After that his sequence will looks like $$$[0, 3, 6, 9, 12]$$$, which is an arithmetic progression.",
+    "prob_desc_description": "Polycarp likes arithmetic progressions. A sequence $$$[a_1, a_2, \\dots, a_n]$$$ is called an arithmetic progression if for each $$$i$$$ ($$$1 \\le i &lt; n$$$) the value $$$a_{i+1} - a_i$$$ is the same. For example, the sequences $$$[42]$$$, $$$[5, 5, 5]$$$, $$$[2, 11, 20, 29]$$$ and $$$[3, 2, 1, 0]$$$ are arithmetic progressions, but $$$[1, 0, 1]$$$, $$$[1, 3, 9]$$$ and $$$[2, 3, 1]$$$ are not.It follows from the definition that any sequence of length one or two is an arithmetic progression.Polycarp found some sequence of positive integers $$$[b_1, b_2, \\dots, b_n]$$$. He agrees to change each element by at most one. In the other words, for each element there are exactly three options: an element can be decreased by $$$1$$$, an element can be increased by $$$1$$$, an element can be left unchanged.Determine a minimum possible number of elements in $$$b$$$ which can be changed (by exactly one), so that the sequence $$$b$$$ becomes an arithmetic progression, or report that it is impossible.It is possible that the resulting sequence contains element equals $$$0$$$.",
+    "prob_desc_output_spec": "If it is impossible to make an arithmetic progression with described operations, print -1. In the other case, print non-negative integer — the minimum number of elements to change to make the given sequence becomes an arithmetic progression. The only allowed operation is to add/to subtract one from an element (can't use operation twice to the same position).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ $$$(1 \\le n \\le 100\\,000)$$$ — the number of elements in $$$b$$$. The second line contains a sequence $$$b_1, b_2, \\dots, b_n$$$ $$$(1 \\le b_i \\le 10^{9})$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_044.jsonl",
+    "code_uid": "e7fb35a704ec1f46b5b168e7d759f335",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n24 21 14 10\", \"2\\n500 500\", \"3\\n14 5 1\", \"5\\n1 3 6 9 12\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nn = raw_input()\na = map(int,raw_input().split())\n\nans = sys.maxint\n\n\nif len(a) > 2:\n    check = [(0,0,0),\n            (1,0,1),\n            (0,1,1),\n            (-1,0,1),\n            (0,-1,1),\n            (1,-1,2),\n            (-1,1,2),\n            (1,1,2),\n            (-1,-1,2)]\n\n    for e in check:\n        diff = (a[1]+e[1]) - (a[0]+e[0]) \n        chg = e[2]\n        state = [e[0],e[1]]\n        valid = True \n        for i in range(2,len(a)):\n            if a[i] - (a[i-1]+state[i-1]) - diff >= 2 or a[i] - (a[i-1]+state[i-1]) - diff <= -2:\n                valid = False\n                break\n            else:\n                state.append(diff - (a[i] - (a[i-1]+state[i-1])) )\n                chg += abs(a[i] - (a[i-1]+state[i-1]) - diff)\n\n        if valid:\n            ans = min(chg,ans)\nelse:\n    ans = 0\n\n        \n\nprint -1 if ans == sys.maxint else ans\n\n\n",
+    "prob_desc_created_at": "1526202300",
+    "tags": [
+        "implementation",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"024\", \"0142\"]",
+    "src_uid": "6ee356f2b3a4bb88087ed76b251afec2",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You got a box with a combination lock. The lock has a display showing n digits. There are two buttons on the box, each button changes digits on the display. You have quickly discovered that the first button adds 1 to all the digits (all digits 9 become digits 0), and the second button shifts all the digits on the display one position to the right (the last digit becomes the first one). For example, if the display is currently showing number 579, then if we push the first button, the display will show 680, and if after that we push the second button, the display will show 068.You know that the lock will open if the display is showing the smallest possible number that can be obtained by pushing the buttons in some order. The leading zeros are ignored while comparing numbers. Now your task is to find the desired number.",
+    "prob_desc_output_spec": "Print a single line containing n digits — the desired state of the display containing the smallest possible number.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 1000) — the number of digits on the display. The second line contains n digits — the initial state of the display.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_000.jsonl",
+    "code_uid": "75fbd2f75495895df4b8fc1ccbeef7d9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n579\", \"4\\n2014\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n\n# --------------------\n# SecretCombination.py\n# --------------------\n\nfrom sys import stdin\n\ndef decr (n) :\n    return map(lambda v : (v - n[0] + 10) % 10, n)\n\ndef rotate (n) :\n    return [n[-1]] + n[:-1]\n\nfor a in stdin :\n    a = input()\n    n = [int(v) for v in a]\n    #print(\"n =\", n)\n    m = len(n) * [9]\n    #print(\"v =\", v)\n    for i in range(len(n)) :\n        n = rotate(n)\n        #print(\"n =\", n)\n        d = list(decr(n))\n        if d < m :\n            m = d\n    #print(\"m =\", m)\n    for v in m :\n        print(v, end = \"\")\n    print()\n",
+    "prob_desc_created_at": "1418833800",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

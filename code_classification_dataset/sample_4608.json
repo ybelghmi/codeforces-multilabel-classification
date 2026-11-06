@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2.5 seconds",
+    "prob_desc_sample_outputs": "[\"odfrces\\nezakmi\\ncba\\nconvexhul\\nwfldjgpaxs\\nmyneocktxqjpz\"]",
+    "src_uid": "a30f6f5273fc6c02ac1f2bc2b0ee893e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a string $$$s$$$, consisting of lowercase Latin letters. While there is at least one character in the string $$$s$$$ that is repeated at least twice, you perform the following operation:   you choose the index $$$i$$$ ($$$1 \\le i \\le |s|$$$) such that the character at position $$$i$$$ occurs at least two times in the string $$$s$$$, and delete the character at position $$$i$$$, that is, replace $$$s$$$ with $$$s_1 s_2 \\ldots s_{i-1} s_{i+1} s_{i+2} \\ldots s_n$$$. For example, if $$$s=$$$\"codeforces\", then you can apply the following sequence of operations:   $$$i=6 \\Rightarrow s=$$$\"codefrces\";  $$$i=1 \\Rightarrow s=$$$\"odefrces\";  $$$i=7 \\Rightarrow s=$$$\"odefrcs\"; Given a given string $$$s$$$, find the lexicographically maximum string that can be obtained after applying a certain sequence of operations after which all characters in the string become unique.A string $$$a$$$ of length $$$n$$$ is lexicographically less than a string $$$b$$$ of length $$$m$$$, if:   there is an index $$$i$$$ ($$$1 \\le i \\le \\min(n, m)$$$) such that the first $$$i-1$$$ characters of the strings $$$a$$$ and $$$b$$$ are the same, and the $$$i$$$-th character of the string $$$a$$$ is less than $$$i$$$-th character of string $$$b$$$;  or the first $$$\\min(n, m)$$$ characters in the strings $$$a$$$ and $$$b$$$ are the same and $$$n &lt; m$$$. For example, the string $$$a=$$$\"aezakmi\" is lexicographically less than the string $$$b=$$$\"aezus\".",
+    "prob_desc_output_spec": "For each test case, output the lexicographically maximum string that can be obtained after applying a certain sequence of operations after which all characters in the string become unique.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$). Then $$$t$$$ test cases follow. Each test case is characterized by a string $$$s$$$, consisting of lowercase Latin letters ($$$1 \\le |s| \\le 2 \\cdot 10^5$$$). It is guaranteed that the sum of the lengths of the strings in all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_101.jsonl",
+    "code_uid": "fbc7c54ee1d523b84717d0fce5281904",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\ncodeforces\\naezakmi\\nabacaba\\nconvexhull\\nswflldjgpaxs\\nmyneeocktxpqjpz\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "in1 = lambda : int(input())\r\nin2 = lambda : list(map(int, input().split()))\r\n#Solve\r\nimport math\r\n\r\ndef solve():\r\n    s = input()\r\n    #print(\"RES: \", end='')\r\n    n = len(s)\r\n    stack = []\r\n    seen = set()\r\n    d = {c : idx for idx, c in enumerate(s)}\r\n\r\n    for i in range(n):\r\n        if s[i] not in seen:\r\n            while stack and stack[-1] < s[i] and d[stack[-1]] > i:\r\n                seen.discard(stack.pop())\r\n            stack.append(s[i])\r\n            seen.add(s[i])\r\n    print(\"\".join(stack))\r\n        \r\nif __name__ == \"__main__\":\r\n    t = 1\r\n    t = in1()\r\n    for i in range(t):\r\n        solve()",
+    "prob_desc_created_at": "1616682900",
+    "tags": [
+        "brute force",
+        "data structures",
+        "dp",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

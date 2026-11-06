@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nYES\\nYES\\nNO\\nYES\\nYES\\nYES\\nYES\\nYES\\nYES\\nNO\"]",
+    "src_uid": "7975af65a23bad6a0997921c7e31d3ca",
+    "prob_desc_notes": "NoteIn the first test case, $$$24 = 17 + 7$$$, $$$27$$$ itself is a lucky number, $$$25$$$ cannot be equal to a sum of lucky numbers.",
+    "prob_desc_description": "Nezzar's favorite digit among $$$1,\\ldots,9$$$ is $$$d$$$. He calls a positive integer lucky if $$$d$$$ occurs at least once in its decimal representation. Given $$$q$$$ integers $$$a_1,a_2,\\ldots,a_q$$$, for each $$$1 \\le i \\le q$$$ Nezzar would like to know if $$$a_i$$$ can be equal to a sum of several (one or more) lucky numbers.",
+    "prob_desc_output_spec": "For each integer in each test case, print \"YES\" in a single line if $$$a_i$$$ can be equal to a sum of lucky numbers. Otherwise, print \"NO\". You can print letters in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 9$$$) — the number of test cases. The first line of each test case contains two integers $$$q$$$ and $$$d$$$ ($$$1 \\le q \\le 10^4$$$, $$$1 \\le d \\le 9$$$). The second line of each test case contains $$$q$$$ integers $$$a_1,a_2,\\ldots,a_q$$$ ($$$1 \\le a_i \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_087.jsonl",
+    "code_uid": "ada615f7bea1f69afd5027fd58bf1110",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3 7\\n24 25 27\\n10 7\\n51 52 53 54 55 56 57 58 59 60\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def islucky(num,k):\r\n    f=False\r\n    while num>0:\r\n        r=num%10\r\n        if r==k:\r\n            f=True\r\n            break\r\n        num=num//10\r\n    return f\r\n\r\nt=int(input())\r\nfor _ in range(t):\r\n  n,k=map(int,input().split())\r\n  ar=list(map(int,input().split()))\r\n  for x in range(n):\r\n    num=ar[x]\r\n    if num>=10*k:\r\n        print(\"YES\")\r\n    else:\r\n        x=0\r\n        s=num \r\n        m=False\r\n        while x<num:\r\n            if islucky(x,k) and islucky(s,k):\r\n                m=True\r\n                break\r\n            elif x%k==0 and islucky(s,k):\r\n                m=True\r\n                break\r\n            elif islucky(x,k) and s%k==0:\r\n                m=True\r\n                break\r\n            elif x%k==0 and s%k==0:\r\n                m=True\r\n                break\r\n            else:\r\n                x+=1 \r\n                s-=1 \r\n        if m:\r\n            print(\"YES\")\r\n        else:\r\n            print(\"NO\")",
+    "prob_desc_created_at": "1611844500",
+    "tags": [
+        "brute force",
+        "dp",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

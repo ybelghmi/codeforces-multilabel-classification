@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nYES\\nYES\\nNO\\nYES\\nYES\\nYES\"]",
+    "src_uid": "7e23e222ce40547ed8a4f7f1372082d9",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a pair of integers $$$(a, b)$$$ and an integer $$$x$$$.You can change the pair in two different ways:   set (assign) $$$a := |a - b|$$$;  set (assign) $$$b := |a - b|$$$,  where $$$|a - b|$$$ is the absolute difference between $$$a$$$ and $$$b$$$.The pair $$$(a, b)$$$ is called $$$x$$$-magic if $$$x$$$ is obtainable either as $$$a$$$ or as $$$b$$$ using only the given operations (i.e. the pair $$$(a, b)$$$ is $$$x$$$-magic if $$$a = x$$$ or $$$b = x$$$ after some number of operations applied). You can apply the operations any number of times (even zero).Your task is to find out if the pair $$$(a, b)$$$ is $$$x$$$-magic or not.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For the $$$i$$$-th test case, print YES if the corresponding pair $$$(a, b)$$$ is $$$x$$$-magic and NO otherwise.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The next $$$t$$$ lines describe test cases. The only line of the test case contains three integers $$$a$$$, $$$b$$$ and $$$x$$$ ($$$1 \\le a, b, x \\le 10^{18}$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_098.jsonl",
+    "code_uid": "e80e36cb80590832936472243f0f39fc",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n6 9 3\\n15 38 7\\n18 8 8\\n30 30 30\\n40 50 90\\n24 28 20\\n365 216 52\\n537037812705867558 338887693834423551 3199921013340\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\r\n# def naiveGetPossible(a, b):\r\n#     st = [(a, b)]\r\n#     possible = set()\r\n#     possible.add((a, b))\r\n#     while st:\r\n#         a, b = st.pop()\r\n#         diff = abs(a - b)\r\n#         if (diff, b) not in possible:\r\n#             possible.add((diff, b))\r\n#             st.append((diff, b))\r\n#         if (a, diff) not in possible:\r\n#             possible.add((a, diff))\r\n#             st.append((a, diff))\r\n#     possible2 = set()\r\n#     for a, b in possible:\r\n#         possible2.add(a); possible2.add(b)\r\n    \r\n#     return possible, sorted(possible2)\r\n\r\ndef main():\r\n    \r\n    t = int(input())\r\n    allans = []\r\n    for _ in range(t):\r\n        a, b, x = readIntArr()\r\n        if b > a:\r\n            temp = b; b = a; a = temp\r\n        # a >= b\r\n        while True: # Similar to Euclidean algorithm\r\n            if x > a:\r\n                allans.append('NO'); break\r\n            if b <= x <= a:\r\n                diff = a - x\r\n                if x == b or diff % b == 0: # x is b or x is a - some multiple of b\r\n                    allans.append('YES')\r\n                else:\r\n                    allans.append('NO')\r\n                break\r\n            diff = a - b\r\n            mul = diff // b + 1\r\n            temp = a - b * mul\r\n            a = b\r\n            b = temp\r\n            if b == 0:\r\n                allans.append('NO')\r\n                break\r\n    multiLineArrayPrint(allans)\r\n    \r\n    return\r\n\r\n\r\nimport sys\r\ninput=sys.stdin.buffer.readline #FOR READING PURE INTEGER INPUTS (space separation ok)\r\n# input=lambda: sys.stdin.readline().rstrip(\"\\r\\n\") #FOR READING STRING/TEXT INPUTS.\r\n\r\ndef oneLineArrayPrint(arr):\r\n    print(' '.join([str(x) for x in arr]))\r\ndef multiLineArrayPrint(arr):\r\n    print('\\n'.join([str(x) for x in arr]))\r\ndef multiLineArrayOfArraysPrint(arr):\r\n    print('\\n'.join([' '.join([str(x) for x in y]) for y in arr]))\r\n \r\ndef readIntArr():\r\n    return [int(x) for x in input().split()]\r\n# def readFloatArr():\r\n#     return [float(x) for x in input().split()]\r\n \r\ndef makeArr(defaultValFactory,dimensionArr): # eg. makeArr(lambda:0,[n,m])\r\n    dv=defaultValFactory;da=dimensionArr\r\n    if len(da)==1:return [dv() for _ in range(da[0])]\r\n    else:return [makeArr(dv,da[1:]) for _ in range(da[0])]\r\n \r\ndef queryInteractive(i,j):\r\n    print('? {} {}'.format(i,j))\r\n    sys.stdout.flush()\r\n    return int(input())\r\n \r\ndef answerInteractive(i,j,k):\r\n    print('! {} {} {}'.format(i,j,k))\r\n    sys.stdout.flush()\r\n \r\ninf=float('inf')\r\n# MOD=10**9+7\r\n# MOD=998244353\r\n\r\nfrom math import gcd,floor,ceil\r\nimport math\r\n# from math import floor,ceil # for Python2\r\n \r\nfor _abc in range(1):\r\n    main()",
+    "prob_desc_created_at": "1637573700",
+    "tags": [
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

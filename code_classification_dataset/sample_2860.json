@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"011\\n100\", \"0\\n0\"]",
+    "src_uid": "318295e4c986a920c57bfc8a2a7860ed",
+    "prob_desc_notes": "NoteIn the first sample if Peter chooses a number 0112, then a = 1012, b = 0112, c = 0002, the sum of their values is 8. If he chooses the number 1002, then a = 1012, b = 0112, c = 1112, the sum of their values is 15.For the second test, the minimum and maximum sum of variables a, bb, cx, d and e is 2, and this sum doesn't depend on the number chosen by Peter, so the minimum Peter can choose is 0.",
+    "prob_desc_description": "Bob recently read about bitwise operations used in computers: AND, OR and XOR. He have studied their properties and invented a new game.Initially, Bob chooses integer m, bit depth of the game, which means that all numbers in the game will consist of m bits. Then he asks Peter to choose some m-bit number. After that, Bob computes the values of n variables. Each variable is assigned either a constant m-bit number or result of bitwise operation. Operands of the operation may be either variables defined before, or the number, chosen by Peter. After that, Peter's score equals to the sum of all variable values.Bob wants to know, what number Peter needs to choose to get the minimum possible score, and what number he needs to choose to get the maximum possible score. In both cases, if there are several ways to get the same score, find the minimum number, which he can choose.",
+    "prob_desc_output_spec": "In the first line output the minimum number that should be chosen by Peter, to make the sum of all variable values minimum possible, in the second line output the minimum number that should be chosen by Peter, to make the sum of all variable values maximum possible. Both numbers should be printed as m-bit binary numbers.",
+    "prob_desc_input_spec": "The first line contains two integers n and m, the number of variables and bit depth, respectively (1 ≤ n ≤ 5000; 1 ≤ m ≤ 1000).  The following n lines contain descriptions of the variables. Each line describes exactly one variable. Description has the following format: name of a new variable, space, sign \":=\", space, followed by one of:   Binary number of exactly m bits.  The first operand, space, bitwise operation (\"AND\", \"OR\" or \"XOR\"), space, the second operand. Each operand is either the name of variable defined before or symbol '?', indicating the number chosen by Peter.  Variable names are strings consisting of lowercase Latin letters with length at most 10. All variable names are different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_033.jsonl",
+    "code_uid": "f60e3a484847cc08e5791e1e4c0adaa4",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\na := 101\\nb := 011\\nc := ? XOR b\", \"5 1\\na := 1\\nbb := 0\\ncx := ? OR a\\nd := ? XOR ?\\ne := d AND bb\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#from math import *\n#from collections import Counter\ndef rl(s): return xrange(len(s))\n\nINF = 2147483647\n\n\nimport sys\nstdin = sys.stdin\n\nN, M = map(int, stdin.readline().strip().split())\n\nvariables_min = {'?': 0}\nvariables_max = {'?': int('1'*M, 2)}\nsum_min = [0] * M\nsum_max = [0] * M\noper = {'AND': lambda a, b: a & b,\n        'OR' : lambda a, b: a | b,\n        'XOR': lambda a, b: a ^ b}\nfor i in range(N):\n    varname, expression = stdin.readline().strip().split(' := ')\n    varname = varname.strip()\n    expression = expression.strip()\n    if ' ' in expression:\n        left, op, right = expression.split(' ')\n        result_min = oper[op](variables_min[left], variables_min[right])\n        result_max = oper[op](variables_max[left], variables_max[right])\n    else:\n        result_min = int(expression, 2)\n        result_max = result_min\n    variables_min[varname] = result_min\n    variables_max[varname] = result_max\n\n    rmin = bin(result_min)[2:]\n    rmax = bin(result_max)[2:]\n    min_offset = M - len(rmin)\n    max_offset = M - len(rmax)\n    for i in range(len(rmin)):\n        if '1' == rmin[i]:\n            sum_min[min_offset+i] += 1\n    for i in range(len(rmax)):\n        if '1' == rmax[i]:\n            sum_max[max_offset+i] += 1\n\namin = [None] * M\namax = [None] * M\nfor i in range(M):\n    if sum_min[i] == sum_max[i]:\n        amin[i] = '0'\n        amax[i] = '0'\n    elif sum_min[i] < sum_max[i]:\n        amin[i] = '0'\n        amax[i] = '1'\n    else:\n        amin[i] = '1'\n        amax[i] = '0'\n\nprint ''.join(amin)\nprint ''.join(amax)\n\n    \n",
+    "prob_desc_created_at": "1488096300",
+    "tags": [
+        "bitmasks",
+        "implementation",
+        "expression parsing",
+        "dfs and similar",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

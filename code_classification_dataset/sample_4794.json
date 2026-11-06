@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n4\\n4\\n3\\n3\\n4\\n2\\n3\\n2\\n1\\n2\\n2\\n2\"]",
+    "src_uid": "85769fb020b0d7f8e447a84a09cdddda",
+    "prob_desc_notes": "NoteThe instructions that remain for each query of the first testcase are:   empty program — $$$x$$$ was only equal to $$$0$$$;  \"-\" — $$$x$$$ had values $$$0$$$ and $$$-1$$$;  \"---+\" — $$$x$$$ had values $$$0$$$, $$$-1$$$, $$$-2$$$, $$$-3$$$, $$$-2$$$ — there are $$$4$$$ distinct values among them;  \"+--+--+\" — the distinct values are $$$1$$$, $$$0$$$, $$$-1$$$, $$$-2$$$. ",
+    "prob_desc_description": "You are given a program that consists of $$$n$$$ instructions. Initially a single variable $$$x$$$ is assigned to $$$0$$$. Afterwards, the instructions are of two types:   increase $$$x$$$ by $$$1$$$;  decrease $$$x$$$ by $$$1$$$. You are given $$$m$$$ queries of the following format:   query $$$l$$$ $$$r$$$ — how many distinct values is $$$x$$$ assigned to if all the instructions between the $$$l$$$-th one and the $$$r$$$-th one inclusive are ignored and the rest are executed without changing the order? ",
+    "prob_desc_output_spec": "For each testcase print $$$m$$$ integers — for each query $$$l$$$, $$$r$$$ print the number of distinct values variable $$$x$$$ is assigned to if all the instructions between the $$$l$$$-th one and the $$$r$$$-th one inclusive are ignored and the rest are executed without changing the order.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of testcases. Then the description of $$$t$$$ testcases follows. The first line of each testcase contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 2 \\cdot 10^5$$$) — the number of instructions in the program and the number of queries. The second line of each testcase contains a program — a string of $$$n$$$ characters: each character is either '+' or '-' — increment and decrement instruction, respectively. Each of the next $$$m$$$ lines contains two integers $$$l$$$ and $$$r$$$ ($$$1 \\le l \\le r \\le n$$$) — the description of the query. The sum of $$$n$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$. The sum of $$$m$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_106.jsonl",
+    "code_uid": "697a04a70ab047cc187f06e25ebe42da",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n8 4\\n-+--+--+\\n1 8\\n2 8\\n2 5\\n1 1\\n4 10\\n+-++\\n1 1\\n1 2\\n2 2\\n1 3\\n2 3\\n3 3\\n1 4\\n2 4\\n3 4\\n4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import*\r\ninput=lambda:stdin.readline().rstrip()\r\nprint=lambda x:stdout.write(str(x)+'\\n')\r\ndef solve():\r\n    n,m=map(int,input().split())\r\n    a=[0]+list(map(lambda x:1 if x=='+'else -1,input()))\r\n    pre=a[:]\r\n    for i in range(1,n+1):\r\n        pre[i]+=pre[i-1]\r\n    Max=pre[:]+[-10**9]\r\n    Min=pre[:]+[10**9]\r\n    for i in range(n-1,0,-1):\r\n        Max[i]=max(Max[i],Max[i+1])\r\n        Min[i]=min(Min[i],Min[i+1])\r\n    MAX=pre[:]\r\n    MIN=pre[:]\r\n    for i in range(1,n+1):\r\n        MAX[i]=max(MAX[i],MAX[i-1])\r\n        MIN[i]=min(MIN[i],MIN[i-1])\r\n    for __ in range(m):\r\n        x,y=map(int,input().split())\r\n        d=pre[y]-pre[x-1]\r\n        print(max(MAX[x-1],Max[y+1]-d)-min(MIN[x-1],Min[y+1]-d)+1)\r\nfor _ in range(int(input())):\r\n    solve()",
+    "prob_desc_created_at": "1610634900",
+    "tags": [
+        "data structures",
+        "dp",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

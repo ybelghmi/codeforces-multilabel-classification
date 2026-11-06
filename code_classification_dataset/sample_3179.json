@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n0\\n2\\n10\\n4\\n6\\n6\"]",
+    "src_uid": "a3e88504793c44fb3110a322d9dbdf17",
+    "prob_desc_notes": "NoteA subsequence of length |x| of string s = s1s2... s|s| (where |s| is the length of string s) is string x = sk1sk2... sk|x| (1 ≤ k1 &lt; k2 &lt; ... &lt; k|x| ≤ |s|).A correct bracket sequence is a bracket sequence that can be transformed into a correct aryphmetic expression by inserting characters \"1\" and \"+\" between the characters of the string. For example, bracket sequences \"()()\", \"(())\" are correct (the resulting expressions \"(1)+(1)\", \"((1+1)+1)\"), and \")(\" and \"(\" are not.For the third query required sequence will be «()».For the fourth query required sequence will be «()(())(())».",
+    "prob_desc_description": "Sereja has a bracket sequence s1, s2, ..., sn, or, in other words, a string s of length n, consisting of characters \"(\" and \")\".Sereja needs to answer m queries, each of them is described by two integers li, ri (1 ≤ li ≤ ri ≤ n). The answer to the i-th query is the length of the maximum correct bracket subsequence of sequence sli, sli + 1, ..., sri. Help Sereja answer all queries.You can find the definitions for a subsequence and a correct bracket sequence in the notes.",
+    "prob_desc_output_spec": "Print the answer to each question on a single line. Print the answers in the order they go in the input.",
+    "prob_desc_input_spec": "The first line contains a sequence of characters s1, s2, ..., sn (1 ≤ n ≤ 106) without any spaces. Each character is either a \"(\" or a \")\". The second line contains integer m (1 ≤ m ≤ 105) — the number of queries. Each of the next m lines contains a pair of integers. The i-th line contains integers li, ri (1 ≤ li ≤ ri ≤ n) — the description of the i-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_045.jsonl",
+    "code_uid": "c2b64630f7fb995f1a78d703762ff629",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"())(())(())(\\n7\\n1 1\\n2 3\\n1 2\\n1 12\\n8 12\\n5 11\\n2 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\nfrom sys import stdin\n\nimport sys\n\n\ndef solution():\n    sys.stdout = os.fdopen(sys.stdout.fileno(), 'wb')\n    a = [0]\n    for x in stdin.next().rstrip('\\r\\n'):\n        a.append(a[-1] + (1 if x == '(' else -1))\n    stdin.next()\n    tree = [a]\n    while len(a) >= 2:\n        a = [min(a[i], a[i + 1]) for i in xrange(0, len(a) - 1, 2)]\n        tree.append(a)\n    a = tree[0]\n    for line in stdin:\n        left, right = map(int, line.split())\n        left -= 1\n\n        ans = 1000 * 1000 * 1000\n        l = left\n        r = right + 1\n        for t in tree:\n            if l & 1:\n                ans = min(ans, t[l])\n                l += 1\n            if r & 1:\n                r -= 1\n                ans = min(ans, t[r])\n            l /= 2\n            r /= 2\n            if l == r:\n                break\n        ans = right - left - (a[left] - ans) - (a[right] - ans)\n        sys.stdout.write('%d\\n' % ans)\n\n\nsolution()",
+    "prob_desc_created_at": "1389540600",
+    "tags": [
+        "data structures",
+        "schedules"
+    ],
+    "hidden_unit_tests": ""
+}

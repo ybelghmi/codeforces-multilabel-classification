@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"0\"]",
+    "src_uid": "3a93a6f78b41cbb43c616f20beee288d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little penguin Polo adores integer segments, that is, pairs of integers [l; r] (l ≤ r). He has a set that consists of n integer segments: [l1; r1], [l2; r2], ..., [ln; rn]. We know that no two segments of this set intersect. In one move Polo can either widen any segment of the set 1 unit to the left or 1 unit to the right, that is transform [l; r] to either segment [l - 1; r], or to segment [l; r + 1].The value of a set of segments that consists of n segments [l1; r1], [l2; r2], ..., [ln; rn] is the number of integers x, such that there is integer j, for which the following inequality holds, lj ≤ x ≤ rj.Find the minimum number of moves needed to make the value of the set of Polo's segments divisible by k.",
+    "prob_desc_output_spec": "In a single line print a single integer — the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n, k ≤ 105). Each of the following n lines contain a segment as a pair of integers li and ri ( - 105 ≤ li ≤ ri ≤ 105), separated by a space. It is guaranteed that no two segments intersect. In other words, for any two integers i, j (1 ≤ i &lt; j ≤ n) the following inequality holds, min(ri, rj) &lt; max(li, lj).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_032.jsonl",
+    "code_uid": "c6631ebff25435b79666999b56ef3b2d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\n1 2\\n3 4\", \"3 7\\n1 2\\n3 3\\n4 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    n, k = map(int, input().split())\n    count = 0\n    for _ in range(n):\n        a, b = map(int, input().split())\n        count += b - a + 1\n\n    moves = (k - (count % k)) % k\n    print(moves)\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1364916600",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

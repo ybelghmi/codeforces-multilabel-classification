@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"11111\", \"1111110\", \"0\"]",
+    "src_uid": "7f855479e9df3405bb29f2a0cb1cb3b3",
+    "prob_desc_notes": "NoteIn the first example, you can choose the substrings 11010 and 101. $$$f(s_1) = 26$$$, $$$f(s_2) = 5$$$, their bitwise OR is $$$31$$$, and the binary representation of $$$31$$$ is 11111.In the second example, you can choose the substrings 1110010 and 11100.",
+    "prob_desc_description": "You are given a string $$$s$$$ consisting of $$$n$$$ characters. Each character of $$$s$$$ is either 0 or 1.A substring of $$$s$$$ is a contiguous subsequence of its characters.You have to choose two substrings of $$$s$$$ (possibly intersecting, possibly the same, possibly non-intersecting — just any two substrings). After choosing them, you calculate the value of the chosen pair of substrings as follows:  let $$$s_1$$$ be the first substring, $$$s_2$$$ be the second chosen substring, and $$$f(s_i)$$$ be the integer such that $$$s_i$$$ is its binary representation (for example, if $$$s_i$$$ is 11010, $$$f(s_i) = 26$$$);  the value is the bitwise OR of $$$f(s_1)$$$ and $$$f(s_2)$$$. Calculate the maximum possible value you can get, and print it in binary representation without leading zeroes.",
+    "prob_desc_output_spec": "Print the maximum possible value you can get in binary representation without leading zeroes.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ — the number of characters in $$$s$$$. The second line contains $$$s$$$ itself, consisting of exactly $$$n$$$ characters 0 and/or 1. All non-example tests in this problem are generated randomly: every character of $$$s$$$ is chosen independently of other characters; for each character, the probability of it being 1 is exactly $$$\\frac{1}{2}$$$. This problem has exactly $$$40$$$ tests. Tests from $$$1$$$ to $$$3$$$ are the examples; tests from $$$4$$$ to $$$40$$$ are generated randomly. In tests from $$$4$$$ to $$$10$$$, $$$n = 5$$$; in tests from $$$11$$$ to $$$20$$$, $$$n = 1000$$$; in tests from $$$21$$$ to $$$40$$$, $$$n = 10^6$$$.  Hacks are forbidden in this problem.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_088.jsonl",
+    "code_uid": "68c59b97cfa6f2b5b06a497f09bfadb1",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n11010\", \"7\\n1110010\", \"4\\n0000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\ns = input()\ns = list(s)\ni = 0\nwhile s[i] == '0':\n    i += 1\n    if i == n:\n        break\nif i == n:\n    print(0)\nelse:\n    s = s[i:]\n    n = len(s)\n    ans = [i for i in s]\n    i = 0\n    o = 0\n    while s[i] == '1':\n        o += 1\n        i += 1\n    if o == 0:\n        print('0')\n    else:\n        ones = [j for j in range(1, o+1)]\n        while i < n and len(ones) > 0:\n            if s[i] == '0':\n                tmp = []\n                for j in ones:\n                    if s[i - j] == '1':\n                        tmp.append(j)\n                if len(tmp) > 0:\n                    ans[i] = '1'\n                    ones = tmp\n            i += 1\n        anss = ''\n        for i in ans:\n            anss += i\n        print(anss)\n\n\n\n\n",
+    "prob_desc_created_at": "1666017300",
+    "tags": [
+        "brute force",
+        "dp",
+        "greedy",
+        "probabilities"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"First\", \"First\", \"Second\"]",
+    "src_uid": "2de867c08946eade5f674a98b377343d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Andrew, Fedor and Alex are inventive guys. Now they invent the game with strings for two players.Given a group of n non-empty strings. During the game two players build the word together, initially the word is empty. The players move in turns. On his step player must add a single letter in the end of the word, the resulting word must be prefix of at least one string from the group. A player loses if he cannot move.Andrew and Alex decided to play this game k times. The player who is the loser of the i-th game makes the first move in the (i + 1)-th game. Guys decided that the winner of all games is the player who wins the last (k-th) game. Andrew and Alex already started the game. Fedor wants to know who wins the game if both players will play optimally. Help him.",
+    "prob_desc_output_spec": "If the player who moves first wins, print \"First\", otherwise print \"Second\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains two integers, n and k (1 ≤ n ≤ 105; 1 ≤ k ≤ 109). Each of the next n lines contains a single non-empty string from the given group. The total length of all strings from the group doesn't exceed 105. Each string of the group consists only of lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_017.jsonl",
+    "code_uid": "f9c87f3bd177e15c586a426c71170373",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\na\\nb\", \"3 1\\na\\nb\\nc\", \"1 2\\nab\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N = 100000\nZ = 26\n\n#别用这玩意儿: trie = [[0] * Z] * N 巨坑！https://www.cnblogs.com/PyLearn/p/7795552.html\n\ntrie = [[0 for i in range(Z)] for j in range(N)]\nn = 0\nk = 0\nnodeNum = 0\n\ndef insertNode():\n\tu = 0\n\tstring = input()\n\tglobal nodeNum\n\t\n\tfor i in range(len(string)):\n\t\tc = ord(string[i]) - ord('a')\n\t\tif trie[u][c] == 0:\n\t\t\tnodeNum += 1\n\t\t\ttrie[u][c] = nodeNum\t\n\t\tu = trie[u][c]\n\t\t# print(u)\n\t\nstateWin = [False for i in range(N)]\t\nstateLose = [False for i in range(N)]\t\n\t\ndef dfs(u):\n\tleaf = True\n\tfor c in range(Z):\n\t\tif (trie[u][c]) != 0:\n\t\t\tleaf = False\n\t\t\tdfs(trie[u][c])\n\t\t\tstateWin[u] |= (not(stateWin[trie[u][c]]))\n\t\t\tstateLose[u] |= (not(stateLose[trie[u][c]]))\n\tif leaf == True:\n\t\tstateWin[u] = False\n\t\tstateLose[u] = True\n\nn,k = map(int,input().split())\n\nfor i in range(n):\n\tinsertNode()\n\ndfs(0)\n\n\n# print(stateWin[0])\n# print(stateLose[0])\n\nif (stateWin[0] and (stateLose[0] or (k % 2 == 1) )):\n\tprint(\"First\")\nelse:\n\tprint(\"Second\")",
+    "prob_desc_created_at": "1407511800",
+    "tags": [
+        "dp",
+        "games",
+        "implementation",
+        "dfs and similar",
+        "trees",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

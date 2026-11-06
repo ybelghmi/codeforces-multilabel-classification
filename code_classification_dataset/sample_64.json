@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\", \"No\", \"Yes\", \"Yes\", \"No\"]",
+    "src_uid": "73930603e440eef854da4ba51253a5a7",
+    "prob_desc_notes": "NoteIn first sample test all 'A' form a cycle.In second sample there is no such cycle.The third sample is displayed on the picture above ('Y' = Yellow, 'B' = Blue, 'R' = Red).",
+    "prob_desc_description": "Fox Ciel is playing a mobile puzzle game called \"Two Dots\". The basic levels are played on a board of size n × m cells, like this:Each cell contains a dot that has some color. We will use different uppercase Latin characters to express different colors.The key of this game is to find a cycle that contain dots of same color. Consider 4 blue dots on the picture forming a circle as an example. Formally, we call a sequence of dots d1, d2, ..., dk a cycle if and only if it meets the following condition:  These k dots are different: if i ≠ j then di is different from dj.  k is at least 4.  All dots belong to the same color.  For all 1 ≤ i ≤ k - 1: di and di + 1 are adjacent. Also, dk and d1 should also be adjacent. Cells x and y are called adjacent if they share an edge. Determine if there exists a cycle on the field.",
+    "prob_desc_output_spec": "Output \"Yes\" if there exists a cycle, and \"No\" otherwise.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (2 ≤ n, m ≤ 50): the number of rows and columns of the board. Then n lines follow, each line contains a string consisting of m characters, expressing colors of dots in each line. Each character is an uppercase Latin letter.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_000.jsonl",
+    "code_uid": "62df64748b39845d2cfd6a6cd23c3b2f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\nAAAA\\nABCA\\nAAAA\", \"3 4\\nAAAA\\nABCA\\nAADA\", \"4 4\\nYYYR\\nBYBY\\nBBBY\\nBBBY\", \"7 6\\nAAAAAB\\nABBBAB\\nABAAAB\\nABABBB\\nABAAAB\\nABBBAB\\nAAAAAB\", \"2 13\\nABCDEFGHIJKLM\\nNOPQRSTUVWXYZ\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys   \nsys.setrecursionlimit(10**6)\n\ndef dfs(x,y,prex=0,prey=0) :\n    visited[x][y]=True\n    for dx,dy in [(-1,0),(1,0),(0,-1),(0,1)] :\n        nxtx,nxty=x+dx,y+dy\n        if not (0<=nxtx<n and 0<=nxty<m and dmatrix[nxtx][nxty]==dmatrix[x][y]) :\n            continue\n        if visited[nxtx][nxty] :\n            if nxtx!=prex or nxty!=prey : #avoid going back\n                return True\n        else :\n            if dfs(nxtx,nxty,x,y) :\n                return True\n    return False\n\nn,m=[int(i) for i in input().split()]\nvisited=[[False]*m for _ in range(n)]\ndmatrix=[]\nfor i in range(n) :\n    t=input()\n    dmatrix.append(t)\n    \nclass Found(Exception) : pass\n\ntry :\n    for i in range(n) :\n        for j in range(m) :\n            if not visited[i][j] :\n                if dfs(i,j) :\n                    raise Found()\nexcept Found :\n    print('Yes')\nelse :\n    print('No')",
+    "prob_desc_created_at": "1422894600",
+    "tags": [
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

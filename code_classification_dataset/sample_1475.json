@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"-1\"]",
+    "src_uid": "9115965ff3421230eac37b22328c6153",
+    "prob_desc_notes": "NoteIn the first example, the greatest common divisor is $$$1$$$ in the beginning. You can remove $$$1$$$ so that the greatest common divisor is enlarged to $$$2$$$. The answer is $$$1$$$.In the second example, the greatest common divisor is $$$3$$$ in the beginning. You can remove $$$6$$$ and $$$9$$$ so that the greatest common divisor is enlarged to $$$15$$$. There is no solution which removes only one integer. So the answer is $$$2$$$.In the third example, there is no solution to enlarge the greatest common divisor. So the answer is $$$-1$$$.",
+    "prob_desc_description": "Mr. F has $$$n$$$ positive integers, $$$a_1, a_2, \\ldots, a_n$$$.He thinks the greatest common divisor of these integers is too small. So he wants to enlarge it by removing some of the integers.But this problem is too simple for him, so he does not want to do it by himself. If you help him, he will give you some scores in reward.Your task is to calculate the minimum number of integers you need to remove so that the greatest common divisor of the remaining integers is bigger than that of all integers.",
+    "prob_desc_output_spec": "Print an integer — the minimum number of integers you need to remove so that the greatest common divisor of the remaining integers is bigger than that of all integers. You should not remove all of the integers. If there is no solution, print «-1» (without quotes).",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$2 \\leq n \\leq 3 \\cdot 10^5$$$) — the number of integers Mr. F has. The second line contains $$$n$$$ integers, $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\leq a_i \\leq 1.5 \\cdot 10^7$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_009.jsonl",
+    "code_uid": "a7be496d9cfe2abb4ffed5d77715e8f0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 4\", \"4\\n6 9 15 30\", \"3\\n1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def gcd(a, b):\n    while b:\n        c = a%b\n        a = b\n        b = c\n    return a\n\nimport sys\nraw_input = sys.stdin.readline\n\nsieve = [0] * (15000001)\ni = 2\nwhile i <= 15000000:\n    sieve[i] = 2\n    i += 2\ni = 3\nwhile i < 15000000:\n    if sieve[i]:\n        i += 2\n        continue\n    sieve[i] = i\n    j = i*i\n    while j < 15000000:\n        if sieve[j] == 0:\n            sieve[j] = i\n        j += i\n    i += 2\n\nn = int(raw_input())\nl = [int(x) for x in raw_input().split()]\ntotalGCD = l[0]\nfor x in l:\n    totalGCD = gcd(x, totalGCD)\nfor i in xrange(n):\n    l[i] /= totalGCD\n\n# TODO: defaultdict might be too slow?!\nfrom collections import defaultdict\ndp = defaultdict(int)\nfor x in l:\n    y = x\n    while y > 1:\n        lp = sieve[y]\n        dp[lp] += 1\n        while y % lp == 0:\n            y /= lp\nhighest = 0\nfor x in dp:\n    highest = max(highest, dp[x])\nif highest == 0:\n    highest = -1\nelse:\n    highest = n - highest\nprint highest\n",
+    "prob_desc_created_at": "1537540500",
+    "tags": [
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nYES\\nYES\\nYES\\nNO\"]",
+    "src_uid": "005a29a4b4e7ee4fd21444846014727b",
+    "prob_desc_notes": "NoteThe first test case was explained in the statement.In the second test case, the two given numbers are not similar.In the third test case, any partition is suitable.",
+    "prob_desc_description": "We call two numbers $$$x$$$ and $$$y$$$ similar if they have the same parity (the same remainder when divided by $$$2$$$), or if $$$|x-y|=1$$$. For example, in each of the pairs $$$(2, 6)$$$, $$$(4, 3)$$$, $$$(11, 7)$$$, the numbers are similar to each other, and in the pairs $$$(1, 4)$$$, $$$(3, 12)$$$, they are not.You are given an array $$$a$$$ of $$$n$$$ ($$$n$$$ is even) positive integers. Check if there is such a partition of the array into pairs that each element of the array belongs to exactly one pair and the numbers in each pair are similar to each other.For example, for the array $$$a = [11, 14, 16, 12]$$$, there is a partition into pairs $$$(11, 12)$$$ and $$$(14, 16)$$$. The numbers in the first pair are similar because they differ by one, and in the second pair because they are both even.",
+    "prob_desc_output_spec": "For each test case print:   YES if the such a partition exists,  NO otherwise.  The letters in the words YES and NO can be displayed in any case.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case consists of two lines. The first line contains an even positive integer $$$n$$$ ($$$2 \\le n \\le 50$$$) — length of array $$$a$$$. The second line contains $$$n$$$ positive integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 100$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_009.jsonl",
+    "code_uid": "a6cb9379780bb584c6cccf6cc9e71435",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n4\\n11 14 16 12\\n2\\n1 8\\n4\\n1 1 1 1\\n4\\n1 2 5 6\\n2\\n12 13\\n6\\n1 6 3 10 5 8\\n6\\n1 12 3 10 5 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(input()):\n    n=input()\n    l=map(int,raw_input().split())\n    even=0\n    for i in range(n):\n        if l[i]%2==0:\n            even+=1\n    if even%2==0:\n        print 'YES'\n    else:\n        l.sort()\n        for i in range(len(l)-1):\n            if l[i+1]-l[i]==1:\n                print 'YES'\n                break\n\n        else:\n            print 'NO'",
+    "prob_desc_created_at": "1590327300",
+    "tags": [
+        "constructive algorithms",
+        "graph matchings",
+        "greedy",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

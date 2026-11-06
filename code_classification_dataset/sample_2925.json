@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2 3 5 7 11\", \"10 3 7\"]",
+    "src_uid": "bf8bbbb225813cdf42e7a2e454f0b787",
+    "prob_desc_notes": "NoteNote that in the second sample, the array is already pairwise coprime so we printed it.",
+    "prob_desc_description": "Mahmoud has an array a consisting of n integers. He asked Ehab to find another array b of the same length such that:  b is lexicographically greater than or equal to a.  bi ≥ 2.  b is pairwise coprime: for every 1 ≤ i &lt; j ≤ n, bi and bj are coprime, i. e. GCD(bi, bj) = 1, where GCD(w, z) is the greatest common divisor of w and z. Ehab wants to choose a special array so he wants the lexicographically minimal array between all the variants. Can you find it?An array x is lexicographically greater than an array y if there exists an index i such than xi &gt; yi and xj = yj for all 1 ≤ j &lt; i. An array x is equal to an array y if xi = yi for all 1 ≤ i ≤ n.",
+    "prob_desc_output_spec": "Output n space-separated integers, the i-th of them representing bi.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 105), the number of elements in a and b. The second line contains n integers a1, a2, ..., an (2 ≤ ai ≤ 105), the elements of a.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_035.jsonl",
+    "code_uid": "d5c08d93def8fe7aba2270e294e86e97",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 3 5 4 13\", \"3\\n10 3 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import atexit\nimport io\nimport sys\n\n# Buffering IO\n_INPUT_LINES = sys.stdin.read().splitlines()\ninput = iter(_INPUT_LINES).__next__\n_OUTPUT_BUFFER = io.StringIO()\nsys.stdout = _OUTPUT_BUFFER\n\n@atexit.register\ndef write():\n    sys.__stdout__.write(_OUTPUT_BUFFER.getvalue())\n    \n    \nppp = ('2      3      5      7     11     13     17     19     23     29 '\n    + '31     37     41     43     47     53     59     61     67     71 '\n    + '73     79     83     89     97    101    103    107    109    113 '\n    +'127    131    137    139    149    151    157    163    167    173 '\n    +'179    181    191    193    197    199    211    223    227    229 '\n    +'233    239    241    251    257    263    269    271    277    281 '\n    +'283    293    307    311    313    317 ')\npp = [int(x) for x in ppp.split()]\nxx = [False] * 1500000\n    \ndef f(aa):\n    t = []\n    for p in pp:\n        if aa % p == 0:\n            while aa%p == 0:\n                aa = aa//p\n            t.append(p)\n            if aa == 1:\n                break\n    if aa != 1:\n        t.append(aa)\n    \n    for tt in t:\n        for i in range(tt, 1500000, tt):\n            xx[i]=True\n\n\ndef main():\n    n = input()\n    a = [int(x) for x in input().split()]\n    b = []\n    for aa in a:\n        if xx[aa] == False:\n            b.append(aa)\n            f(aa)\n        else:\n            kk = aa + 1\n            while xx[kk] == True:\n                kk += 1\n            b.append(kk)\n            f(kk)\n            break\n    \n    t = 2\n    while len(b) < len(a):\n        while xx[t] == True:\n            t+=1\n        b.append(t)\n        f(t)\n\n    print(' '.join(str(x) for x in b))\n    \n    \nif __name__ == '__main__':\n    main()\n        ",
+    "prob_desc_created_at": "1522771500",
+    "tags": [
+        "constructive algorithms",
+        "number theory",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\\n4\\n4\\n2\", \"28\\n16\\n12\\n6\\n4\"]",
+    "src_uid": "11057f672524244f893493bc10218cbf",
+    "prob_desc_notes": "NotePicture for the first sample test:    Picture for the second sample test:   ",
+    "prob_desc_description": "Leonid wants to become a glass carver (the person who creates beautiful artworks by cutting the glass). He already has a rectangular w mm  ×  h mm sheet of glass, a diamond glass cutter and lots of enthusiasm. What he lacks is understanding of what to carve and how.In order not to waste time, he decided to practice the technique of carving. To do this, he makes vertical and horizontal cuts through the entire sheet. This process results in making smaller rectangular fragments of glass. Leonid does not move the newly made glass fragments. In particular, a cut divides each fragment of glass that it goes through into smaller fragments.After each cut Leonid tries to determine what area the largest of the currently available glass fragments has. Since there appear more and more fragments, this question takes him more and more time and distracts him from the fascinating process.Leonid offers to divide the labor — he will cut glass, and you will calculate the area of the maximum fragment after each cut. Do you agree?",
+    "prob_desc_output_spec": "After each cut print on a single line the area of the maximum available glass fragment in mm2.",
+    "prob_desc_input_spec": "The first line contains three integers w, h, n (2 ≤ w, h ≤ 200 000, 1 ≤ n ≤ 200 000). Next n lines contain the descriptions of the cuts. Each description has the form H y or V x. In the first case Leonid makes the horizontal cut at the distance y millimeters (1 ≤ y ≤ h - 1) from the lower edge of the original sheet of glass. In the second case Leonid makes a vertical cut at distance x (1 ≤ x ≤ w - 1) millimeters from the left edge of the original sheet of glass. It is guaranteed that Leonid won't make two identical cuts.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "c4f910b61e2a2a9f4bbed9e5d94cff79",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3 4\\nH 2\\nV 2\\nV 3\\nV 1\", \"7 6 5\\nH 4\\nV 3\\nV 5\\nH 2\\nV 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "w, h, n = map(int, input().split())\n\nx = [0, w]\ny = [0, h]\nrev = []\n\nfor _ in range(n):\n    s, d = input().split()\n    if s == 'H':\n        y.append(int(d))\n    else:\n        x.append(int(d))\n    rev.append((s, int(d)))\n\nx.sort()\ny.sort()\n\n_max = 0\nif len(x) > 1:\n    for idx in range(len(x) - 1):\n        _max = max(_max, x[idx + 1] - x[idx])\nelse:\n    _max = w\nmax_x = _max\n\n_max = 0\nif len(y) > 1:\n    for idx in range(len(y) - 1):\n        _max = max(_max, y[idx + 1] - y[idx])\nelse:\n    _max = w\nmax_y = _max\n\nenum_x = {num : idx for idx, num in enumerate(x)}\nenum_y = {num : idx for idx, num in enumerate(y)}\n\nold_x = x\nold_y = y\n\nx = [[0, 0, 0]] * len(old_x)\ny = [[0, 0, 0]] * len(old_y)\n\nfor idx in range(1, len(x) - 1):\n    x[idx] = [old_x[idx], idx-1, idx+1]\nfor idx in range(1, len(y) - 1):\n    y[idx] = [old_y[idx], idx-1, idx+1]\n\nx[-1] = [w, 0, 0]\ny[-1] = [h, 0, 0]\n\nrev.reverse()\nans = [max_x * max_y]\nfor item in rev:\n    if item[0] == 'H':\n        elem = y[enum_y[item[1]]]\n        max_y = max(max_y, y[elem[2]][0] - y[elem[1]][0])\n        y[elem[1]][2] = elem[2]\n        y[elem[2]][1] = elem[1]\n    else:\n        elem = x[enum_x[item[1]]]\n        max_x = max(max_x, x[elem[2]][0] - x[elem[1]][0])\n        x[elem[1]][2] = elem[2]\n        x[elem[2]][1] = elem[1]\n    ans.append(max_x * max_y)\nans.pop()\nprint('\\n'.join(map(str, reversed(ans))))",
+    "prob_desc_created_at": "1426610700",
+    "tags": [
+        "data structures",
+        "binary search",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

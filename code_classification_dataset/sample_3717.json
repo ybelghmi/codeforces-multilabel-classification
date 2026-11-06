@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"6\"]",
+    "src_uid": "0090979443c294ef6aed7cd09201c9ef",
+    "prob_desc_notes": null,
+    "prob_desc_description": "String s of length n is called k-palindrome, if it is a palindrome itself, and its prefix and suffix of length  are (k - 1)-palindromes. By definition, any string (even empty) is 0-palindrome.Let's call the palindrome degree of string s such a maximum number k, for which s is k-palindrome. For example, \"abaaba\" has degree equals to 3.You are given a string. Your task is to find the sum of the palindrome degrees of all its prefixes.",
+    "prob_desc_output_spec": "Output the only number — the sum of the polindrome degrees of all the string's prefixes.",
+    "prob_desc_input_spec": "The first line of the input data contains a non-empty string, consisting of Latin letters and digits. The length of the string does not exceed 5·106. The string is case-sensitive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_081.jsonl",
+    "code_uid": "d1977b8ab54a2757bb115dd1bf250974",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"a2A\", \"abacaba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "T = raw_input()\n\nP = T + '#' + T[::-1]\n\ndef compute_prefix_func(P):\n    m = len(P)\n    pi = [0] * m\n\n    for q in range(1, m):\n        k = pi[q-1]\n        while k > 0 and P[k] != P[q]:\n            k = pi[k-1]\n        if P[k] == P[q]:\n            k += 1\n        pi[q] = k\n    return pi\n\npi = compute_prefix_func(P)\npos = []\n\nl = pi[-1]\n\nwhile l > 0:\n    pos.append(l)\n    l = pi[l-1]\n\nK = 0\ndp = [0] * (pi[-1] + 1)\ndp[0] = 0\nfor i in pos[::-1]:\n    dp[i] = dp[i/2] + 1\n    K += dp[i]\n    # print i, dp[i]\n\nprint K\n",
+    "prob_desc_created_at": "1270136700",
+    "tags": [
+        "hashing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "0.5 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"YES\", \"NO\"]",
+    "src_uid": "d3a0402de1338a1a542a86ac5b484acc",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are n knights sitting at the Round Table at an equal distance from each other. Each of them is either in a good or in a bad mood.Merlin, the wizard predicted to King Arthur that the next month will turn out to be particularly fortunate if the regular polygon can be found. On all vertices of the polygon knights in a good mood should be located. Otherwise, the next month will bring misfortunes.A convex polygon is regular if all its sides have same length and all his angles are equal. In this problem we consider only regular polygons with at least 3 vertices, i. e. only nondegenerated.On a picture below some examples of such polygons are present. Green points mean knights in a good mood. Red points mean ones in a bad mood.  King Arthur knows the knights' moods. Help him find out if the next month will be fortunate or not.",
+    "prob_desc_output_spec": "Print \"YES\" without the quotes if the following month will turn out to be lucky. Otherwise, print \"NO\".",
+    "prob_desc_input_spec": "The first line contains number n, which is the number of knights at the round table (3 ≤ n ≤ 105). The second line contains space-separated moods of all the n knights in the order of passing them around the table. \"1\" means that the knight is in a good mood an \"0\" means that he is in a bad mood.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_017.jsonl",
+    "code_uid": "1feb2bb7e3510e258a58701d7cb91b79",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1 1\", \"6\\n1 0 1 1 1 0\", \"6\\n1 0 0 1 0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\nL=list(map(int,input().split()))\nprime=[]\nnn=n\n\ni=2\nwhile i*i<=n:\n    if nn%i==0:\n        prime.append(i)\n        while nn%i==0:\n            nn//=i\n    i+=1\n\n#print(prime,nn)\n\nif nn!=1:\n    prime.append(nn)\n\nif prime[0]==2:\n    prime=prime[1:]\n\nif n%4==0:\n    prime=[4]+prime\n\n#print(prime)\n\nout=False\nfor x in prime:\n    p=n//x\n    for i in range(p):\n        f=True\n        for j in range(i,n,p):\n            if not L[j]:\n                f=False\n        if f:\n            out=True\n            #print(p,i)\n            break\n    if out:\n        print(\"YES\")\n        break\nif not out:\n    print(\"NO\")\n",
+    "prob_desc_created_at": "1301410800",
+    "tags": [
+        "dp",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

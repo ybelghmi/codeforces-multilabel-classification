@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n0\\n11\\n6\"]",
+    "src_uid": "19a2d5821ab0abc62bda6628b82d0efb",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Easy and hard versions are actually different problems, so we advise you to read both statements carefully.You are given a weighted rooted tree, vertex $$$1$$$ is the root of this tree. Also, each edge has its own cost.A tree is a connected graph without cycles. A rooted tree has a special vertex called the root. A parent of a vertex $$$v$$$ is the last different from $$$v$$$ vertex on the path from the root to the vertex $$$v$$$. Children of vertex $$$v$$$ are all vertices for which $$$v$$$ is the parent. A vertex is a leaf if it has no children. The weighted tree is such a tree that each edge of this tree has some weight.The weight of the path is the sum of edges weights on this path. The weight of the path from the vertex to itself is $$$0$$$.You can make a sequence of zero or more moves. On each move, you select an edge and divide its weight by $$$2$$$ rounding down. More formally, during one move, you choose some edge $$$i$$$ and divide its weight by $$$2$$$ rounding down ($$$w_i := \\left\\lfloor\\frac{w_i}{2}\\right\\rfloor$$$).Each edge $$$i$$$ has an associated cost $$$c_i$$$ which is either $$$1$$$ or $$$2$$$ coins. Each move with edge $$$i$$$ costs $$$c_i$$$ coins.Your task is to find the minimum total cost to make the sum of weights of paths from the root to each leaf at most $$$S$$$. In other words, if $$$w(i, j)$$$ is the weight of the path from the vertex $$$i$$$ to the vertex $$$j$$$, then you have to make $$$\\sum\\limits_{v \\in leaves} w(root, v) \\le S$$$, where $$$leaves$$$ is the list of all leaves.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer: the minimum total cost required to make the sum of weights paths from the root to each leaf at most $$$S$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 2 \\cdot 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of the test case contains two integers $$$n$$$ and $$$S$$$ ($$$2 \\le n \\le 10^5; 1 \\le S \\le 10^{16}$$$) — the number of vertices in the tree and the maximum possible sum of weights you have to obtain. The next $$$n-1$$$ lines describe edges of the tree. The edge $$$i$$$ is described as four integers $$$v_i$$$, $$$u_i$$$, $$$w_i$$$ and $$$c_i$$$ ($$$1 \\le v_i, u_i \\le n; 1 \\le w_i \\le 10^6; 1 \\le c_i \\le 2$$$), where $$$v_i$$$ and $$$u_i$$$ are vertices the edge $$$i$$$ connects, $$$w_i$$$ is the weight of this edge and $$$c_i$$$ is the cost of this edge. It is guaranteed that the sum of $$$n$$$ does not exceed $$$10^5$$$ ($$$\\sum n \\le 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_030.jsonl",
+    "code_uid": "7e69e570cdcc9db2f72d5c727cc38d8b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4 18\\n2 1 9 2\\n3 2 4 1\\n4 1 1 2\\n3 20\\n2 1 8 1\\n3 1 7 2\\n5 50\\n1 3 100 1\\n1 5 10 2\\n2 3 123 2\\n5 4 55 1\\n2 100\\n1 2 409 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, threading\nfrom math import inf\ninput = sys.stdin.readline\ndef put():\n    return map(int, input().split())\n\ndef dfs(tree,i, sum, p):\n    if len(tree[i])==1 and i!=0:\n        return 1\n    cnt=0\n    for j,w,c in tree[i]:\n        if j!=p:\n            z=dfs(tree,j, sum+w, i)\n            cnt+=z\n            if c==1:one.append((w, z))\n            else:   two.append((w, z))\n    return cnt\n\ndef solve():\n    t = int(input())\n    for _ in range(t):\n        n, w = put()\n        tree = [[] for i in range(n)]\n        for i in range(n-1):\n            x,y,z,c = put()\n            x,y = x-1,y-1\n            tree[x].append((y,z,c))\n            tree[y].append((x,z,c))\n\n        dfs(tree, 0,0,-1)\n        s,flag  = 0, True\n        diffone, difftwo = [],[]\n        for arr in [one, two]:\n            for i in range(len(arr)):\n                s+= arr[i][0]*arr[i][1]\n            while arr:\n                i,j = arr.pop()\n                while i>0:\n                    if flag:\n                        diffone.append((i-i//2)*j)\n                    else:\n                        difftwo.append((i-i//2)*j)\n                    i//=2\n            flag = False\n\n        diffone.sort(reverse=True)\n        difftwo.sort(reverse=True)\n        s,cnt=s-w, inf\n        for i in difftwo:\n            s-= i\n        p,q = len(diffone), len(difftwo)\n        i,j=q-1,0\n        while i>=-1:\n            while s>0 and j<p:\n                    s-=diffone[j]\n                    j+=1\n            if s<=0:\n                cnt = min(cnt, 2*i+j+2)\n            if i>-1:\n                s+= difftwo[i]\n            i-=1\n        print(cnt)\n\n\none,two = [],[]\nmax_recur_size = 10**5*2 + 1000\nmax_stack_size = max_recur_size*500\nsys.setrecursionlimit(max_recur_size)\nthreading.stack_size(max_stack_size)\nthread = threading.Thread(target=solve)\nthread.start()\n",
+    "prob_desc_created_at": "1596638100",
+    "tags": [
+        "greedy",
+        "two pointers",
+        "sortings",
+        "binary search",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

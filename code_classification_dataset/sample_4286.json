@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nNO\\nYES\\nYES\"]",
+    "src_uid": "e5a0005e0832e2ca3dd248f6aefb2238",
+    "prob_desc_notes": "NoteHere's the solution for the first test case. The red square denotes where the crickets need to reach. Note that in chess horizontals are counted from bottom to top, as well as on this picture.  ",
+    "prob_desc_description": "Ela likes Chess a lot. During breaks, she usually challenges her co-worker in DTL to some chess games. She's not an expert at classic chess, but she's very interested in Chess variants, where she has to adapt to new rules and test her tactical mindset to win the game.The problem, which involves a non-standard chess pieces type that is described below, reads: given $$$3$$$ white crickets on a $$$n \\cdot n$$$ board, arranged in an \"L\" shape next to each other, there are no other pieces on the board. Ela wants to know with a finite number of moves, can she put any white cricket on the square on row $$$x$$$, column $$$y$$$?An \"L\"-shape piece arrangement can only be one of the below:    For simplicity, we describe the rules for crickets on the board where only three white crickets are. It can move horizontally, vertically, or diagonally, but only to a square in some direction that is immediately after another cricket piece (so that it must jump over it). If the square immediately behind the piece is unoccupied, the cricket will occupy the square. Otherwise (when the square is occupied by another cricket, or does not exist), the cricket isn't allowed to make such a move.See an example of valid crickets' moves on the pictures in the Note section.",
+    "prob_desc_output_spec": "For each test case, print \"YES\" or \"NO\" to denotes whether Ela can put a cricket on the target square.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10^4$$$). The description of the test cases follows. The first line of each test case contains $$$n$$$ ($$$4 \\le n \\le 10^5$$$) — denotes the size of the chessboard. The second line of each test case contains 6 numbers: $$$r_1$$$, $$$c_1$$$, $$$r_2$$$, $$$c_2$$$, $$$r_3$$$, $$$c_3$$$ ($$$1 \\le r_1, c_1, r_2, c_2, r_3, c_3 \\le n$$$) — coordinates of the crickets. The input ensures that the three crickets are arranged in an \"L\" shape that the legend stated. The third line of each test case contains 2 numbers: $$$x$$$, $$$y$$$ ($$$1 \\le x, y \\le n$$$) — coordinates of the target square.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_094.jsonl",
+    "code_uid": "350f6c381ca6dcf04e7abf300381d9e6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\n8\\n\\n7 2 8 2 7 1\\n\\n5 1\\n\\n8\\n\\n2 2 1 2 2 1\\n\\n5 5\\n\\n8\\n\\n2 2 1 2 2 1\\n\\n6 6\\n\\n8\\n\\n1 1 1 2 2 1\\n\\n5 5\\n\\n8\\n\\n2 2 1 2 2 1\\n\\n8 8\\n\\n8\\n\\n8 8 8 7 7 8\\n\\n4 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\r\nimport collections\r\nimport bisect\r\nimport heapq\r\n\r\nfrom collections import deque\r\nfrom math import sqrt,ceil, floor\r\n\r\ndef inp_arr():\r\n    return list(map(int, input().strip().split(\" \")))\r\n    \r\ndef inp_int():\r\n    return int(input())\r\n    \r\ndef inp_str():\r\n    return input()\r\n    \r\n'''................................................................................'''\r\n\r\ndef solve():\r\n    # cook your dish here\r\n    n, = inp_arr()\r\n    \r\n    r1,c1,r2,c2,r3,c3 = inp_arr()\r\n    x,y = inp_arr()\r\n    \r\n    r0 = (r1+r2+r3 - (r1^r2^r3))//2\r\n    c0 = (c1+c2+c3 - (c1^c2^c3))//2\r\n    \r\n    corners = [[1,1], [1,n], [n,n], [n,1]]\r\n    \r\n    if([r0, c0] in corners):\r\n        if(x == r0 or y==c0):\r\n            print(\"YES\")\r\n        else:\r\n            print(\"NO\")\r\n        return\r\n    \r\n    def check(x1,y1,x2,y2):\r\n        diff1 = abs(x1-x2)\r\n        diff2 = abs(y1-y2)\r\n        \r\n        if(diff1%2==0 and diff2%2==0):\r\n            return True\r\n        \r\n        return False\r\n        \r\n    if(check(r1,c1,x,y) or check(r2,c2,x,y) or check(r3,c3,x,y)):\r\n        print(\"YES\")\r\n        return\r\n    \r\n    print(\"NO\")\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\ntt = inp_int()\r\n# tt = 1\r\nfor t in range(tt):\r\n    solve()",
+    "prob_desc_created_at": "1665153300",
+    "tags": [
+        "constructive algorithms",
+        "games",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

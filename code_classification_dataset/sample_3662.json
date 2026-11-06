@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"11\"]",
+    "src_uid": "90cd4a83d3d7826a2385fcea434ae071",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Sometimes it is hard to prepare tests for programming problems. Now Bob is preparing tests to new problem about strings — input data to his problem is one string. Bob has 3 wrong solutions to this problem. The first gives the wrong answer if the input data contains the substring s1, the second enters an infinite loop if the input data contains the substring s2, and the third requires too much memory if the input data contains the substring s3. Bob wants these solutions to fail single test. What is the minimal length of test, which couldn't be passed by all three Bob's solutions?",
+    "prob_desc_output_spec": "Output one number — what is minimal length of the string, containing s1, s2 and s3 as substrings.",
+    "prob_desc_input_spec": "There are exactly 3 lines in the input data. The i-th line contains string si. All the strings are non-empty, consists of lowercase Latin letters, the length of each string doesn't exceed 105.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_077.jsonl",
+    "code_uid": "24b4f8832ed10ca3779334876bdb35ce",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"ab\\nbc\\ncd\", \"abacaba\\nabaaba\\nx\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom array import array  # noqa: F401\nfrom itertools import permutations\n\n\ndef input():\n    return sys.stdin.buffer.readline().decode('utf-8')\n\n\nclass RollingHash(object):\n    __slots__ = ['hash1', 'hash2']\n\n    from random import randint\n\n    N = 10**5 + 100\n    BASE = randint(1000, 9999)\n    MOD1, MOD2 = 1000000007, 998244353\n    BASE1, BASE2 = array('i', [1]) * N, array('i', [1]) * N\n    for i in range(1, N):\n        BASE1[i] = BASE1[i - 1] * BASE % MOD1\n        BASE2[i] = BASE2[i - 1] * BASE % MOD2\n\n    def __init__(self, source: list):\n        self.hash1 = hash1 = array('i', [0] + source)\n        self.hash2 = hash2 = array('i', [0] + source)\n\n        for i in range(1, len(source) + 1):\n            hash1[i] = (hash1[i] + hash1[i - 1] * self.BASE) % self.MOD1\n            hash2[i] = (hash2[i] + hash2[i - 1] * self.BASE) % self.MOD2\n\n    def get(self, l: int, r: int):\n        return (\n            (self.hash1[r] - self.hash1[l] * self.BASE1[r - l]) % self.MOD1,\n            (self.hash2[r] - self.hash2[l] * self.BASE2[r - l]) % self.MOD2\n        )\n\n\ns = [list(map(ord, input().rstrip())) for _ in range(3)]\nrh = [RollingHash(a) for a in s]\nn = [len(s[i]) for i in range(3)]\n\n\ndef solve(x, y, st=0):\n    for i in range(st, n[x]):\n        slen = min(n[x] - i, n[y])\n        if rh[x].get(i, i + slen) == rh[y].get(0, slen):\n            return i\n    return n[x]\n\n\ndef solve2(x, y, z, i=0):\n    for j in range(n[y]):\n        slen = min(n[y] - j, n[z])\n        if rh[y].get(j, j + slen) == rh[y].get(0, slen):\n            slen2 = min(n[x] - i - j, n[z])\n            if slen2 <= 0 or rh[x].get(0, slen2):\n                return i + j\n\n    return solve(x, z, n[y]) if n[y] < n[x] else n[y]\n\n\nans = sum(n)\nfor a in permutations(range(3)):\n    i = solve(a[0], a[1])\n    j = solve(a[1], a[2]) + i\n    if j < n[a[0]]:\n        j = solve(a[0], a[2], j)\n    ans = min(ans, max(n[a[0]], i + n[a[1]], j + n[a[2]]))\n\nprint(ans)\n",
+    "prob_desc_created_at": "1280761200",
+    "tags": [
+        "hashing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

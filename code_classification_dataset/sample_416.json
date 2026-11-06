@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n3 4\", \"4\\n1 1 1 1\", \"1\\n5\", \"3\\n2 2 1\"]",
+    "src_uid": "0ee86e75ff7a47a711c9eb41b34ad1a5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little girl Tanya climbs the stairs inside a multi-storey building. Every time Tanya climbs a stairway, she starts counting steps from $$$1$$$ to the number of steps in this stairway. She speaks every number aloud. For example, if she climbs two stairways, the first of which contains $$$3$$$ steps, and the second contains $$$4$$$ steps, she will pronounce the numbers $$$1, 2, 3, 1, 2, 3, 4$$$.You are given all the numbers pronounced by Tanya. How many stairways did she climb? Also, output the number of steps in each stairway.The given sequence will be a valid sequence that Tanya could have pronounced when climbing one or more stairways.",
+    "prob_desc_output_spec": "In the first line, output $$$t$$$ — the number of stairways that Tanya climbed. In the second line, output $$$t$$$ numbers — the number of steps in each stairway she climbed. Write the numbers in the correct order of passage of the stairways.",
+    "prob_desc_input_spec": "The first line contains $$$n$$$ ($$$1 \\le n \\le 1000$$$) — the total number of numbers pronounced by Tanya. The second line contains integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 1000$$$) — all the numbers Tanya pronounced while climbing the stairs, in order from the first to the last pronounced number. Passing a stairway with $$$x$$$ steps, she will pronounce the numbers $$$1, 2, \\dots, x$$$ in that order. The given sequence will be a valid sequence that Tanya could have pronounced when climbing one or more stairways.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_002.jsonl",
+    "code_uid": "f218fade9a4a9d96f1045f9cfe5e07ee",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n1 2 3 1 2 3 4\", \"4\\n1 1 1 1\", \"5\\n1 2 3 4 5\", \"5\\n1 2 1 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "quantityOfElems = int(input())\nlistOfElems = list()\nsecond_string = input()\nlistOfElems = second_string.split(' ')\n\nintListOfElems = list()\n\nfor el in listOfElems:\n    intListOfElems.append(int(el))\n\nstairways =  intListOfElems.count(1)\n\nlistAnswer = list()\nbufferCounter = 0\n\nintListOfElems.remove(1)\nfor i in range(0, quantityOfElems-1):\n    bufferCounter += 1\n    if(intListOfElems[i] == 1):\n        listAnswer.append(bufferCounter)\n        bufferCounter = 0\n\nlistAnswer.append(bufferCounter+1)\n\nprint(stairways)\n\n\nanswerStr = ''\nfor i in range(0, stairways):\n    answerStr += str(listAnswer[i]) + ' '\n\nprint(answerStr)",
+    "prob_desc_created_at": "1531150500",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

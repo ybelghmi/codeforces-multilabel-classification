@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n12\\n0\\n0\\n2\\n21\"]",
+    "src_uid": "27998621de63e50a7d89cb1c1e30f67c",
+    "prob_desc_notes": "NoteIn the first example Monocarp can put out the dishes at minutes $$$3, 1, 5, 4, 6, 2$$$. That way the total unpleasant value will be $$$|4 - 3| + |2 - 1| + |4 - 5| + |4 - 4| + |6 - 5| + |2 - 2| = 4$$$.In the second example Monocarp can put out the dishes at minutes $$$4, 5, 6, 7, 8, 9, 10$$$.In the third example Monocarp can put out the dish at minute $$$1$$$.In the fourth example Monocarp can put out the dishes at minutes $$$5, 1, 2, 4, 3$$$.In the fifth example Monocarp can put out the dishes at minutes $$$1, 3, 4, 5$$$.",
+    "prob_desc_description": "Chef Monocarp has just put $$$n$$$ dishes into an oven. He knows that the $$$i$$$-th dish has its optimal cooking time equal to $$$t_i$$$ minutes.At any positive integer minute $$$T$$$ Monocarp can put no more than one dish out of the oven. If the $$$i$$$-th dish is put out at some minute $$$T$$$, then its unpleasant value is $$$|T - t_i|$$$ — the absolute difference between $$$T$$$ and $$$t_i$$$. Once the dish is out of the oven, it can't go back in.Monocarp should put all the dishes out of the oven. What is the minimum total unpleasant value Monocarp can obtain?",
+    "prob_desc_output_spec": "Print a single integer for each testcase — the minimum total unpleasant value Monocarp can obtain when he puts out all the dishes out of the oven. Remember that Monocarp can only put the dishes out at positive integer minutes and no more than one dish at any minute.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$q$$$ ($$$1 \\le q \\le 200$$$) — the number of testcases. Then $$$q$$$ testcases follow. The first line of the testcase contains a single integer $$$n$$$ ($$$1 \\le n \\le 200$$$) — the number of dishes in the oven. The second line of the testcase contains $$$n$$$ integers $$$t_1, t_2, \\dots, t_n$$$ ($$$1 \\le t_i \\le n$$$) — the optimal cooking time for each dish. The sum of $$$n$$$ over all $$$q$$$ testcases doesn't exceed $$$200$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_014.jsonl",
+    "code_uid": "f07039538318c14578142dc4628dbeea",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n6\\n4 2 4 4 5 2\\n7\\n7 7 7 7 7 7 7\\n1\\n1\\n5\\n5 1 2 4 3\\n4\\n1 4 4 4\\n21\\n21 8 1 4 1 5 21 1 8 21 11 21 11 3 12 8 19 15 9 11 13\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\noriginal_stdout = sys.stdout\n\nvar_for_sublime = False \n\n\nif var_for_sublime:\n\tfin = open('input.txt' , 'r')\n\tfout = open('output.txt' , 'w')\n\tsys.stdout = fout\n\tdef give_string():\n\t\treturn fin.readline()\nelse:\n\tfin = sys.stdin \n\tfout = sys.stdout\n\tdef give_string():\n\t\treturn fin.buffer.readline()\n\ndef give_list():\n\treturn list(map(int, give_string().split()))\ndef give_int():\n\treturn int(give_string())\n\n\nMOD = 1e9+ 7\ndef modpow( a , p) :\n\tans = 1 \n\twhile p :\n\t\tif p&1 :\n\t\t\tans *= a \n\t\t\tans %= MOD \n\t\tp >>= 1\n\t\ta *= a\n\t\ta %= MOD\n\treturn ans \t\t\n\n\n\ndef fac_cal(n):\n\tans = 1\n\tfor i in range(1 , n+1):\n\t\tans *= i \n\t\tans %= MOD \n\treturn ans \n\n\n\n\n\ndef solve():\n\tn = give_int() \n\tt=  give_list() \n\tt.sort()\n\t# print(t)\n\tdp = [ [1e9]*(2*n) for i in range(n)]\n\tfor i in range(n):\n\t\tfor j in range(i+1 , 2*n):\n\t\t\tif(i == 0):\n\t\t\t\tdp[i][j] = min(dp[i][j-1] , abs(t[0] - j))\n\t\t\telse:\n\t\t\t\tdp[i][j] = min(dp[i][j-1] , dp[i-1][j-1]+abs(t[i]-j))\n\t\t\t# print(i , j )\n\tans = 1e9\n\t# for li in dp:\n\t# \tprint(li)\n\tfor i in range(2*n):\n\t\tans = min(ans , dp[n-1][i])\n\tprint(ans)\n\n\ndef main():\n\ttry :\n\t\tt = 1 \n\t\tt = give_int()\n\t\tfor i in range(t):\n\t\t\tsolve()\n\tfinally:\n\t\tfin.close()\n\t\tfout.close()\n\t\tsys.stdout = original_stdout\n\n\n\n\n\nif __name__ == '__main__' :\n\tmain()",
+    "prob_desc_created_at": "1603809300",
+    "tags": [
+        "dp",
+        "greedy",
+        "flows",
+        "math",
+        "graph matchings",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

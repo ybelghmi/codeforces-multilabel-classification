@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8 7\", \"28 27\", \"9 6\"]",
+    "src_uid": "78d3acc3ade53f488739a59100bfcebd",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a sequence $$$a_1, a_2, \\dots, a_n$$$ consisting of $$$n$$$ non-zero integers (i.e. $$$a_i \\ne 0$$$). You have to calculate two following values:  the number of pairs of indices $$$(l, r)$$$ $$$(l \\le r)$$$ such that $$$a_l \\cdot a_{l + 1} \\dots a_{r - 1} \\cdot a_r$$$ is negative;  the number of pairs of indices $$$(l, r)$$$ $$$(l \\le r)$$$ such that $$$a_l \\cdot a_{l + 1} \\dots a_{r - 1} \\cdot a_r$$$ is positive; ",
+    "prob_desc_output_spec": "Print two integers — the number of subsegments with negative product and the number of subsegments with positive product, respectively.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ $$$(1 \\le n \\le 2 \\cdot 10^{5})$$$ — the number of elements in the sequence. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ $$$(-10^{9} \\le a_i \\le 10^{9}; a_i \\neq 0)$$$ — the elements of the sequence.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_024.jsonl",
+    "code_uid": "c5f1ea7e50396156f10690a84032c460",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n5 -3 3 -1 1\", \"10\\n4 2 -4 3 1 2 -4 3 2 3\", \"5\\n-1 -2 -3 -4 -5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = list(map(int,input().split()))\nbal,cnt1,cnt2,p = 0,0,0,0\nfor i in range(n):\n    if bal%2==0:\n        cnt1+=1\n    else:\n        cnt2+=1\n    if a[i]<0:\n        bal+=1\n    if bal%2==0:\n        p+=cnt1\n    else:\n        p+=cnt2\nprint(((n*(n+1))//2)-p,p)\n",
+    "prob_desc_created_at": "1568543700",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

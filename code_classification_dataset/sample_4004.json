@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n0\"]",
+    "src_uid": "451b381cc8738bebec4eeb0f02dc7849",
+    "prob_desc_notes": "NoteConsider the fist example.  The first eversion: $$$a = [1, 4, 2, 5, 3]$$$, $$$x = 3$$$. $$$[2, 4, 1, 5, 3] \\to [2, 1, 3], [4, 5] \\to [2, 1, 3, 4, 5]$$$.  The second and following eversions: $$$a = [2, 1, 3, 4, 5]$$$, $$$x = 5$$$. $$$[2, 1, 3, 4, 5] \\to [2, 1, 3, 4, 5], [] \\to [2, 1, 3, 4, 5]$$$. This eversion does not change the array, so the answer is $$$1$$$. Consider the second example.   The first eversion: $$$a = [5, 3, 2, 4, 1]$$$, $$$x = 1$$$. $$$[5, 3, 2, 4, 1] \\to [1], [5, 3, 2, 4] \\to [1, 5, 3, 2, 4]$$$.  The second eversion: $$$a = [1, 5, 3, 2, 4]$$$, $$$x = 4$$$. $$$[1, 5, 3, 2, 4] \\to [1, 3, 2, 4], [5] \\to [1, 3, 2, 4, 5]$$$.  The third and following eversions: $$$a = [1, 3, 2, 4, 5]$$$, $$$x = 5$$$. $$$[1, 3, 2, 4, 5] \\to [1, 3, 2, 4, 5], [] \\to [1, 3, 2, 4, 5]$$$. This eversion does not change the array, so the answer is $$$2$$$. ",
+    "prob_desc_description": "You are given an array $$$a$$$ of length $$$n$$$.Let's define the eversion operation. Let $$$x = a_n$$$. Then array $$$a$$$ is partitioned into two parts: left and right. The left part contains the elements of $$$a$$$ that are not greater than $$$x$$$ ($$$\\le x$$$). The right part contains the elements of $$$a$$$ that are strictly greater than $$$x$$$ ($$$&gt; x$$$). The order of elements in each part is kept the same as before the operation, i. e. the partition is stable. Then the array is replaced with the concatenation of the left and the right parts.For example, if the array $$$a$$$ is $$$[2, 4, 1, 5, 3]$$$, the eversion goes like this: $$$[2, 4, 1, 5, 3] \\to [2, 1, 3], [4, 5] \\to [2, 1, 3, 4, 5]$$$.We start with the array $$$a$$$ and perform eversions on this array. We can prove that after several eversions the array $$$a$$$ stops changing. Output the minimum number $$$k$$$ such that the array stops changing after $$$k$$$ eversions.",
+    "prob_desc_output_spec": "For each test case print a single integer $$$k$$$ — the number of eversions after which the array stops changing.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 100$$$). Description of the test cases follows. The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$). The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_088.jsonl",
+    "code_uid": "4a7bf791b3e526ee7e55282bb296f976",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n5\\n2 4 1 5 3\\n5\\n5 3 2 4 1\\n4\\n1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nfor _ in range(int(input())):\n    e = int(input())\n    nums = list(map(int, input().split()))\n    nums.reverse()\n    max = 0\n    counter = -1\n    for i in nums:\n        if i > max:\n            max = i\n            counter +=1 \n    print(counter)      \n    ",
+    "prob_desc_created_at": "1639322100",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\"]",
+    "src_uid": "23c8f5922c7a1cdb82d229eb9938f3ee",
+    "prob_desc_notes": "NoteIn the first test case, $$$f(x)$$$ is $$$2x^2 + x + 1$$$ and $$$g(x)$$$ is $$$x + 2$$$, their product $$$h(x)$$$ being $$$2x^3 + 5x^2 + 3x + 2$$$, so the answer can be 1 or 2 as both 3 and 5 aren't divisible by 2.In the second test case, $$$f(x)$$$ is $$$x + 2$$$ and $$$g(x)$$$ is $$$x + 3$$$, their product $$$h(x)$$$ being $$$x^2 + 5x + 6$$$, so the answer can be any of the powers as no coefficient is divisible by the given prime.",
+    "prob_desc_description": "It is Professor R's last class of his teaching career. Every time Professor R taught a class, he gave a special problem for the students to solve. You being his favourite student, put your heart into solving it one last time.You are given two polynomials $$$f(x) = a_0 + a_1x + \\dots + a_{n-1}x^{n-1}$$$ and $$$g(x) = b_0 + b_1x + \\dots + b_{m-1}x^{m-1}$$$, with positive integral coefficients. It is guaranteed that the cumulative GCD of the coefficients is equal to $$$1$$$ for both the given polynomials. In other words, $$$gcd(a_0, a_1, \\dots, a_{n-1}) = gcd(b_0, b_1, \\dots, b_{m-1}) = 1$$$. Let $$$h(x) = f(x)\\cdot g(x)$$$. Suppose that $$$h(x) = c_0 + c_1x + \\dots + c_{n+m-2}x^{n+m-2}$$$. You are also given a prime number $$$p$$$. Professor R challenges you to find any $$$t$$$ such that $$$c_t$$$ isn't divisible by $$$p$$$. He guarantees you that under these conditions such $$$t$$$ always exists. If there are several such $$$t$$$, output any of them.As the input is quite large, please use fast input reading methods.",
+    "prob_desc_output_spec": "Print a single integer $$$t$$$ ($$$0\\le t \\le n+m-2$$$)  — the appropriate power of $$$x$$$ in $$$h(x)$$$ whose coefficient isn't divisible by the given prime $$$p$$$. If there are multiple powers of $$$x$$$ that satisfy the condition, print any.",
+    "prob_desc_input_spec": "The first line of the input contains three integers, $$$n$$$, $$$m$$$ and $$$p$$$ ($$$1 \\leq n, m \\leq 10^6, 2 \\leq p \\leq 10^9$$$),  — $$$n$$$ and $$$m$$$ are the number of terms in $$$f(x)$$$ and $$$g(x)$$$ respectively (one more than the degrees of the respective polynomials) and $$$p$$$ is the given prime number. It is guaranteed that $$$p$$$ is prime. The second line contains $$$n$$$ integers $$$a_0, a_1, \\dots, a_{n-1}$$$ ($$$1 \\leq a_{i} \\leq 10^{9}$$$) — $$$a_i$$$ is the coefficient of $$$x^{i}$$$ in $$$f(x)$$$. The third line contains $$$m$$$ integers $$$b_0, b_1, \\dots, b_{m-1}$$$ ($$$1 \\leq b_{i} \\leq 10^{9}$$$)  — $$$b_i$$$ is the coefficient of $$$x^{i}$$$ in $$$g(x)$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_004.jsonl",
+    "code_uid": "8e4022415c82b6c4f3106b48db45cd73",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 2\\n1 1 2\\n2 1\", \"2 2 999999937\\n2 1\\n3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.buffer.readline\n \n \nn, m, p = map(int, input().split())\na = list(map(int, input().split()))\nb = list(map(int, input().split()))\n \nans1 = 0\nans2 = 0\nfor i, num in enumerate(a):\n    if num % p != 0:\n        ans1 = i\n        break\nfor i, num in enumerate(b):\n    if num % p != 0:\n        ans2 = i\n        break\nprint(ans1 + ans2)\n",
+    "prob_desc_created_at": "1583332500",
+    "tags": [
+        "constructive algorithms",
+        "ternary search",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

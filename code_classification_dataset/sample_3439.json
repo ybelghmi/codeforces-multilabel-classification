@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\\nNo\\nYes\\nYes\\nYes\"]",
+    "src_uid": "4c4ac8933f244b6ccd8b2a0bb9b254b7",
+    "prob_desc_notes": "NoteString s is a palindrome if reads the same from left to right and from right to left. In particular, an empty string is a palindrome.Clarification for the sample test.In the first query there exists only a vertex 1 satisfying all the conditions, we can form a palindrome \"z\".In the second query vertices 5 and 6 satisfy condititions, they contain letters \"с\" and \"d\" respectively. It is impossible to form a palindrome of them.In the third query there exist no vertices at depth 1 and in subtree of 4. We may form an empty palindrome.In the fourth query there exist no vertices in subtree of 6 at depth 1. We may form an empty palindrome.In the fifth query there vertices 2, 3 and 4 satisfying all conditions above, they contain letters \"a\", \"c\" and \"c\". We may form a palindrome \"cac\".",
+    "prob_desc_description": "Roman planted a tree consisting of n vertices. Each vertex contains a lowercase English letter. Vertex 1 is the root of the tree, each of the n - 1 remaining vertices has a parent in the tree. Vertex is connected with its parent by an edge. The parent of vertex i is vertex pi, the parent index is always less than the index of the vertex (i.e., pi &lt; i).The depth of the vertex is the number of nodes on the path from the root to v along the edges. In particular, the depth of the root is equal to 1.We say that vertex u is in the subtree of vertex v, if we can get from u to v, moving from the vertex to the parent. In particular, vertex v is in its subtree.Roma gives you m queries, the i-th of which consists of two numbers vi, hi. Let's consider the vertices in the subtree vi located at depth hi. Determine whether you can use the letters written at these vertices to make a string that is a palindrome. The letters that are written in the vertexes, can be rearranged in any order to make a palindrome, but all letters should be used.",
+    "prob_desc_output_spec": "Print m lines. In the i-th line print \"Yes\" (without the quotes), if in the i-th query you can make a palindrome from the letters written on the vertices, otherwise print \"No\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains two integers n, m (1 ≤ n, m ≤ 500 000) — the number of nodes in the tree and queries, respectively. The following line contains n - 1 integers p2, p3, ..., pn — the parents of vertices from the second to the n-th (1 ≤ pi &lt; i). The next line contains n lowercase English letters, the i-th of these letters is written on vertex i. Next m lines describe the queries, the i-th line contains two numbers vi, hi (1 ≤ vi, hi ≤ n) — the vertex and the depth that appear in the i-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_059.jsonl",
+    "code_uid": "75a3b0f35fa6f1c38bb222605d8d2934",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 5\\n1 1 1 3 3\\nzacccd\\n1 1\\n3 3\\n4 1\\n6 1\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nfrom itertools import repeat\ndef main():\n    n, m = map(int, stdin.readline().split())\n    a = map(int, stdin.readline().split(), repeat(10, n - 1))\n    last = [None] * (n + 10)\n    ne = [None] * (n + 10)\n    for i, x in enumerate(a, 2):\n        ne[i] = last[x]\n        last[x] = i\n    s = 'a' + stdin.readline().strip()\n    dat = map(int, stdin.read().split(), repeat(10, 2 * m))\n    h = dat[1::2]\n    lst = [None] * (n + 10)\n    xt = [None] * (m + 10)\n    for i, v in enumerate(dat[::2]):\n        xt[i] = lst[v]\n        lst[v] = i\n    di = {chr(ord('a') + i): 2 ** i for i in xrange(26)}\n    b = [0] * (n + 10)\n    res = [0] * m\n    st = [(1, 1)]\n    po = st.pop\n    pu = st.append\n    pe = st.extend\n    while st:\n        x, d = po()\n        if d:\n            pu((x, 0))\n            i = lst[x]\n            while i is not None:\n                res[i] ^= b[h[i]]\n                i = xt[i]\n            b[d] ^= di[s[x]]\n            d += 1\n            i = last[x]\n            while i is not None:\n                pu((i, d))\n                i = ne[i]\n        else:\n            i = lst[x]\n            while i is not None:\n                res[i] ^= b[h[i]]\n                i = xt[i]\n    ok = set(2 ** i for i in xrange(26))\n    ok.add(0)\n    ok = frozenset(ok)\n    res = [\"Yes\" if x in ok else \"No\" for x in res]\n    stdout.write('\\n'.join(res))\nmain()\n",
+    "prob_desc_created_at": "1439483400",
+    "tags": [
+        "graphs",
+        "constructive algorithms",
+        "bitmasks",
+        "binary search",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n1100\"]",
+    "src_uid": "57f0f36905d7769167b7ba9d3d9be351",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This problem is a simplified version of D2, but it has significant differences, so read the whole statement.Polycarp has an array of $$$n$$$ ($$$n$$$ is even) integers $$$a_1, a_2, \\dots, a_n$$$. Polycarp conceived of a positive integer $$$k$$$. After that, Polycarp began performing the following operations on the array: take an index $$$i$$$ ($$$1 \\le i \\le n$$$) and reduce the number $$$a_i$$$ by $$$k$$$.After Polycarp performed some (possibly zero) number of such operations, it turned out that all numbers in the array became the same. Find the maximum $$$k$$$ at which such a situation is possible, or print $$$-1$$$ if such a number can be arbitrarily large.",
+    "prob_desc_output_spec": "For each test case output on a separate line an integer $$$k$$$ ($$$k \\ge 1$$$) — the maximum possible number that Polycarp used in operations on the array, or $$$-1$$$, if such a number can be arbitrarily large.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case consists of two lines. The first line contains an even integer $$$n$$$ ($$$4 \\le n \\le 40$$$) ($$$n$$$ is even). The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots a_n$$$ ($$$-10^6 \\le a_i \\le 10^6$$$). It is guaranteed that the sum of all $$$n$$$ specified in the given test cases does not exceed $$$100$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_093.jsonl",
+    "code_uid": "3f2ff5474b97f50ee3664def867f79bf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n6\\n1 5 3 1 1 5\\n8\\n-1 0 1 -1 0 1 -1 0\\n4\\n100 -1000 -1000 -1000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def hcf(a,b):\r\n    if b>a:\r\n        a,b=b,a\r\n    if b==0:\r\n        return a\r\n    return hcf(b,a%b)\r\n\r\nfor iiii in range(int(input())):\r\n    n=int(input())\r\n    q=list(map(int,input().split()))\r\n    maxx=-1\r\n    q1=[]\r\n    q.sort()\r\n    for i in range(1,n):\r\n        if q[i]-q[i-1]>0:\r\n            q1.append(q[i]-q[i-1])\r\n\r\n    if len(q1)==0:\r\n        print(-1)\r\n        continue\r\n    if len(q1)==1:\r\n        print(q1[0])\r\n        continue\r\n    maxx=q1[0]\r\n    for i in range(1,len(q1)):\r\n        maxx=min(maxx,hcf(q1[0],q1[i]))\r\n    print(maxx)",
+    "prob_desc_created_at": "1634135700",
+    "tags": [
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"4\"]",
+    "src_uid": "090f57798ba45ba9e4c9d2d0514e478c",
+    "prob_desc_notes": "NoteIn the first example, a possible way of getting the last slime with value $$$4$$$ is:  Second slime eats the third slime, the row now contains slimes $$$2, -1, 1$$$ Second slime eats the third slime, the row now contains slimes $$$2, -2$$$ First slime eats the second slime, the row now contains $$$4$$$ In the second example, the first slime can keep eating slimes to its right to end up with a value of $$$4$$$.",
+    "prob_desc_description": "There are $$$n$$$ slimes in a row. Each slime has an integer value (possibly negative or zero) associated with it.Any slime can eat its adjacent slime (the closest slime to its left or to its right, assuming that this slime exists). When a slime with a value $$$x$$$ eats a slime with a value $$$y$$$, the eaten slime disappears, and the value of the remaining slime changes to $$$x - y$$$.The slimes will eat each other until there is only one slime left. Find the maximum possible value of the last slime.",
+    "prob_desc_output_spec": "Print an only integer — the maximum possible value of the last slime.",
+    "prob_desc_input_spec": "The first line of the input contains an integer $$$n$$$ ($$$1 \\le n \\le 500\\,000$$$) denoting the number of slimes. The next line contains $$$n$$$ integers $$$a_i$$$ ($$$-10^9 \\le a_i \\le 10^9$$$), where $$$a_i$$$ is the value of $$$i$$$-th slime.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_003.jsonl",
+    "code_uid": "4e67726712c7c4149c5eaa520b4bde5d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 1 2 1\", \"5\\n0 -1 -1 -1 -1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\na=map(int, raw_input().split())\n\nif n==1:\n    print a[0]\n    exit()\nif n==2:\n    print abs(a[0]-a[1])\n    exit()\n\na.sort()\nct=0\n\n\nif a[0]<=0 and a[n-1]>=0:\n    print sum([abs(a[i]) for i in range(n)])\n    exit()\n\nif a[0]>=0:\n    print sum(a)-2*a[0]\n    exit()\n\nif a[n-1]<=0:\n    print abs(sum(a)-2*a[n-1])\n    exit()\n\n\n\n\n\n",
+    "prob_desc_created_at": "1536248100",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"ab\\nrakad\\nabra\", \"No solution\"]",
+    "src_uid": "75633f47c1fbde571aa2936bf2639289",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Anfisa the monkey learns to type. She is yet unfamiliar with the \"space\" key and can only type in lower-case Latin letters. Having typed for a fairly long line, Anfisa understood that it would be great to divide what she has written into k lines not shorter than a and not longer than b, for the text to resemble human speech more. Help Anfisa.",
+    "prob_desc_output_spec": "Print k lines, each of which contains no less than a and no more than b symbols — Anfisa's text divided into lines. It is not allowed to perform any changes in the text, such as: deleting or adding symbols, changing their order, etc. If the solution is not unique, print any of them. If there is no solution, print \"No solution\" (without quotes). ",
+    "prob_desc_input_spec": "The first line contains three integers k, a and b (1 ≤ k ≤ 200, 1 ≤ a ≤ b ≤ 200). The second line contains a sequence of lowercase Latin letters — the text typed by Anfisa. It is guaranteed that the given line is not empty and its length does not exceed 200 symbols.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_028.jsonl",
+    "code_uid": "b3998de5ffd356bcfb3050bb21f4e0d2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 5\\nabrakadabra\", \"4 1 2\\nabrakadabra\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#\n# Yet I'm feeling like\n# \tThere is no better place than right by your side\n# \t\tI had a little taste\n# \t\t\tAnd I'll only spoil the party anyway\n# \t\t\t\t'Cause all the girls are looking fine\n# \t\t\t\t\tBut you're the only one on my mind\n\n\nimport sys\nimport re\n# inf = float(\"inf\")\n#sys.setrecursionlimit(1000000)\n\n# abc='abcdefghijklmnopqrstuvwxyz'\n# abd={'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7, 'i': 8, 'j': 9, 'k': 10, 'l': 11, 'm': 12, 'n': 13, 'o': 14, 'p': 15, 'q': 16, 'r': 17, 's': 18, 't': 19, 'u': 20, 'v': 21, 'w': 22, 'x': 23, 'y': 24, 'z': 25}\n# mod,MOD=1000000007,998244353\n# vow=['a','e','i','o','u']\n# dx,dy=[-1,1,0,0],[0,0,1,-1]\n\n# from cmath import sqrt\n# from collections import deque, Counter, OrderedDict,defaultdict\n# from heapq import nsmallest, nlargest, heapify,heappop ,heappush, heapreplace\n# from math import ceil,floor,log,sqrt,factorial,pow,pi,gcd,log10,atan,tan\n# from bisect import bisect_left,bisect_right\n# import numpy as np\n\ndef get_array(): return list(map(int , sys.stdin.readline().strip().split()))\ndef get_ints(): return map(int, sys.stdin.readline().strip().split())\ndef input(): return sys.stdin.readline().strip()\n\nk,a,b=get_ints()\nstring=input()\nlength=len(string)\nif length<a*k or length>b*k:\n    print('No solution')\n    exit()\nresult=[a]*k\nremaining=length-k*a\nindex=k-1\nwhile remaining>0:\n    can_add=b-result[index]\n    result[index]+=min(can_add,remaining)\n    remaining-=min(can_add,remaining)\n    index-=1\nlast=0\nanswer=[]\nfor i in range(1,len(result)):\n    result[i]+=result[i-1]\nfor i in result:\n    answer.append(string[last:i])\n    last=i\nfor i in answer:\n    print i",
+    "prob_desc_created_at": "1289041200",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"OR 1 2\\n\\nOR 2 3\\n\\nXOR 2 4\\n\\n! 0 0 2 3\"]",
+    "src_uid": "efa7be3ab630a3797d5eb7a37202fb76",
+    "prob_desc_notes": "NoteThe array $$$a$$$ in the example is $$$[0, 0, 2, 3]$$$.",
+    "prob_desc_description": "The only difference between the easy and hard versions is the constraints on the number of queries.This is an interactive problem.Ridbit has a hidden array $$$a$$$ of $$$n$$$ integers which he wants Ashish to guess. Note that $$$n$$$ is a power of two. Ashish is allowed to ask three different types of queries. They are of the form   AND $$$i$$$ $$$j$$$: ask for the bitwise AND of elements $$$a_i$$$ and $$$a_j$$$ $$$(1 \\leq i, j \\le n$$$, $$$i \\neq j)$$$  OR $$$i$$$ $$$j$$$: ask for the bitwise OR of elements $$$a_i$$$ and $$$a_j$$$ $$$(1 \\leq i, j \\le n$$$, $$$i \\neq j)$$$  XOR $$$i$$$ $$$j$$$: ask for the bitwise XOR of elements $$$a_i$$$ and $$$a_j$$$ $$$(1 \\leq i, j \\le n$$$, $$$i \\neq j)$$$ Can you help Ashish guess the elements of the array?In this version, each element takes a value in the range $$$[0, n-1]$$$ (inclusive) and Ashish can ask no more than $$$n+2$$$ queries.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line of input contains one integer $$$n$$$ $$$(4 \\le n \\le 2^{16})$$$ — the length of the array. It is guaranteed that $$$n$$$ is a power of two.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": null,
+    "file_name": "train_027.jsonl",
+    "code_uid": "21d612f8faf5e09689e4e985373742d7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n0\\n\\n2\\n\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter, defaultdict, deque\nimport bisect\nimport heapq\nfrom sys import stdin, stdout\nfrom itertools import repeat\nimport math\nimport random\n \n# sys.stdin = open('input')\n \ndef mod(x, y, mod):\n    re = 1\n    now = x\n    while y:\n        if y&1:\n            re *= now\n            re %= mod\n        y >>= 1\n        now = (now*now)%mod\n    return re\n \ndef inp(force_list=False):\n    re = map(int, raw_input().split())\n    if len(re) == 1 and not force_list:\n        return re[0]\n    return re\n \ndef inst():\n    return raw_input().strip()\n \ndef gcd(x, y):\n   while(y):\n       x, y = y, x % y\n   return x\n \ndef ggcd(x, y):\n    if y:\n        return ggcd(y, x%y)\n    return x\n \nMOD = int(1e9+7)\n \ndef query(st, x, y):\n    print \"%s %s %s\" % (st, x, y)\n    stdout.flush()\n    return inp()\n\ndef my_main():\n    T = 1\n    for _ in range(T):\n        n = inp()\n        qq = []\n        idx = -1\n        st = {}\n        x, y = -1, -1\n        xx, yy = -1, -1\n        for i in range(2, n+1):\n            qq.append(query('XOR', 1, i))\n            if qq[-1] == 0:\n                idx = i\n            if qq[-1] in st:\n                x, y = st[qq[-1]], i\n            if qq[-1] == 1:\n                xx = i\n            if qq[-1] == 2:\n                yy = i \n            st[qq[-1]] = i\n        if idx != -1: \n            a = query('OR', 1, idx)\n        elif x!=-1 and y!=-1:\n            t = query('OR', x, y)\n            a = t^qq[x-2]\n        else:\n            pre = query('OR', 1, xx)\n            fix = query('AND', 1, yy)\n            a = pre - pre%2 + fix%2\n        ans = [a]\n        for re in qq:\n            ans.append(re^a)\n        print '!', ' '.join(map(str, ans))\nmy_main()",
+    "prob_desc_created_at": "1605969300",
+    "tags": [
+        "math",
+        "constructive algorithms",
+        "bitmasks",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

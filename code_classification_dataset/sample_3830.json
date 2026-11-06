@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\")((())))\"]",
+    "src_uid": "a789ba6432ca20757cdabd083c6b7788",
+    "prob_desc_notes": "NoteIn the first sample, you can transform \")((())))\" into \")(()(())))\" by splitting it into \")(\", empty string, and \"(())))\". It can be shown that this is the lexicographically smallest possible initial string",
+    "prob_desc_description": "Right before the UEFA Euro 2020, AmShZ and Safar placed bets on who'd be the champion, AmShZ betting on Italy, and Safar betting on France.Of course, AmShZ won. Hence, Safar gave him a bracket sequence $$$S$$$. Note that a bracket sequence is a string made of '(' and ')' characters.AmShZ can perform the following operation any number of times:  First, he cuts his string $$$S$$$ into three (possibly empty) contiguous substrings $$$A, B$$$ and $$$C$$$. Then, he glues them back by using a '(' and a ')' characters, resulting in a new string $$$S$$$ = $$$A$$$ + \"(\" + $$$B$$$ + \")\" + $$$C$$$.For example, if $$$S$$$ = \"))((\" and AmShZ cuts it into $$$A$$$ = \"\", $$$B$$$ = \"))\", and $$$C$$$ = \"((\", He will obtain $$$S$$$ = \"()))((\" as a new string. After performing some (possibly none) operations, AmShZ gives his string to Keshi and asks him to find the initial string. Of course, Keshi might be able to come up with more than one possible initial string. Keshi is interested in finding the lexicographically smallest possible initial string.Your task is to help Keshi in achieving his goal.A string $$$a$$$ is lexicographically smaller than a string $$$b$$$ if and only if one of the following holds: $$$a$$$ is a prefix of $$$b$$$, but $$$a \\ne b$$$; in the first position where $$$a$$$ and $$$b$$$ differ, the string $$$a$$$ has a letter that appears earlier in the alphabet than the corresponding letter in $$$b$$$.",
+    "prob_desc_output_spec": "Print the lexicographically smallest possible initial string before operations.",
+    "prob_desc_input_spec": "The only line of input contains a single string $$$S$$$ — the string after the operations $$$(1\\le |S|\\le 3 \\cdot 10^5)$$$. It is guaranteed that the first character of $$$S$$$ is ')'.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 3300,
+    "file_name": "train_085.jsonl",
+    "code_uid": "e0d0eeca67520c2b62652b4d995d6cd8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\")(()(())))\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nraw_input = iter(sys.stdin.read().splitlines()).next\r\n\r\ndef lexicographical_compare(s, nxt, i, j):\r\n    u, v = i, j\r\n    while u < j and v < len(s) and s[u] == s[v]:\r\n        u, v = nxt[u+1], nxt[v+1]\r\n    return s[u] <= s[v] if u < len(s) and v < len(s) else u == len(s) and v < len(s)\r\n\r\ndef solution():\r\n    s = raw_input().strip()\r\n    stk, nxt = [len(s)], range(len(s)+1)\r\n    for i in reversed(xrange(len(s))):\r\n        if s[i] == ')':\r\n            stk.append(i)\r\n            continue\r\n        stk.pop()\r\n        if not stk:\r\n            stk.append(i)\r\n        elif lexicographical_compare(s, nxt, i, stk[-1]):\r\n            stk[-1] = i\r\n        else:\r\n            nxt[i] = stk[-1]\r\n    result = []\r\n    while i < len(s):\r\n        result.append(s[i])\r\n        i = nxt[i+1]\r\n    return \"\".join(result)\r\n\r\nprint '%s' % solution()\r\n",
+    "prob_desc_created_at": "1637678100",
+    "tags": [
+        "data structures",
+        "greedy",
+        "hashing"
+    ],
+    "hidden_unit_tests": ""
+}

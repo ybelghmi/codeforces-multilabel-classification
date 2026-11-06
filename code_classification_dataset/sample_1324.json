@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 1 1 1 1 \\n3 3 3 \\n2 3 3 2 1 3 \\n1 \\n2 2 2 2 \\n4 4 4 1 4\"]",
+    "src_uid": "345e76bf67ae4342e850ab248211eb0b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The only difference between easy and hard versions is constraints.There are $$$n$$$ kids, each of them is reading a unique book. At the end of any day, the $$$i$$$-th kid will give his book to the $$$p_i$$$-th kid (in case of $$$i = p_i$$$ the kid will give his book to himself). It is guaranteed that all values of $$$p_i$$$ are distinct integers from $$$1$$$ to $$$n$$$ (i.e. $$$p$$$ is a permutation). The sequence $$$p$$$ doesn't change from day to day, it is fixed.For example, if $$$n=6$$$ and $$$p=[4, 6, 1, 3, 5, 2]$$$ then at the end of the first day the book of the $$$1$$$-st kid will belong to the $$$4$$$-th kid, the $$$2$$$-nd kid will belong to the $$$6$$$-th kid and so on. At the end of the second day the book of the $$$1$$$-st kid will belong to the $$$3$$$-th kid, the $$$2$$$-nd kid will belong to the $$$2$$$-th kid and so on.Your task is to determine the number of the day the book of the $$$i$$$-th child is returned back to him for the first time for every $$$i$$$ from $$$1$$$ to $$$n$$$.Consider the following example: $$$p = [5, 1, 2, 4, 3]$$$. The book of the $$$1$$$-st kid will be passed to the following kids:  after the $$$1$$$-st day it will belong to the $$$5$$$-th kid,  after the $$$2$$$-nd day it will belong to the $$$3$$$-rd kid,  after the $$$3$$$-rd day it will belong to the $$$2$$$-nd kid,  after the $$$4$$$-th day it will belong to the $$$1$$$-st kid. So after the fourth day, the book of the first kid will return to its owner. The book of the fourth kid will return to him for the first time after exactly one day.You have to answer $$$q$$$ independent queries.",
+    "prob_desc_output_spec": "For each query, print the answer on it: $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$, where $$$a_i$$$ is the number of the day the book of the $$$i$$$-th child is returned back to him for the first time in this query.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$q$$$ ($$$1 \\le q \\le 200$$$) — the number of queries. Then $$$q$$$ queries follow. The first line of the query contains one integer $$$n$$$ ($$$1 \\le n \\le 200$$$) — the number of kids in the query. The second line of the query contains $$$n$$$ integers $$$p_1, p_2, \\dots, p_n$$$ ($$$1 \\le p_i \\le n$$$, all $$$p_i$$$ are distinct, i.e. $$$p$$$ is a permutation), where $$$p_i$$$ is the kid which will get the book of the $$$i$$$-th kid.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_008.jsonl",
+    "code_uid": "bcb2521e572c526e43616689013059c8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n5\\n1 2 3 4 5\\n3\\n2 3 1\\n6\\n4 6 2 1 5 3\\n1\\n1\\n4\\n3 4 1 2\\n5\\n5 1 2 4 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout \nt = int(stdin.readline())\n\ndef getRoot(i,par):\n    while i!=par[i]:\n        i = par[i]\n    return i\n\ndef find(a,b,par):\n    return getRoot(a,par)==getRoot(b,par)\n\ndef doUnion(a,b,par,size):\n    if find(a,b,par):\n        return False\n    r1 = getRoot(a,par)\n    r2 = getRoot(b,par)\n    s1 = size[r1]\n    s2 = size[r2]\n    if s1 > s2:\n        par[r2] = r1\n        size[r1] += s2\n    else:\n        par[r1] = r2\n        size[r2] += s1\n    return True\n\n\nwhile t>0:\n    n = int(stdin.readline())\n    a = list( map(int,stdin.readline().split()) )\n    par,size = [ i for i in range(n+1) ], [ 1 for i in range(n+1) ]\n    for i in range(n):\n        x,y = i+1,a[i]\n        doUnion(x,y,par,size)\n    \n\n    ans = []\n    for i in range(n):\n        c = size[ getRoot(i+1,par) ]\n        ans.append(c)\n    for i in range(len(ans)):\n        stdout.write(\"{} \".format(ans[i]))\n    stdout.write(\"\\n\")\n    t-=1",
+    "prob_desc_created_at": "1571754900",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

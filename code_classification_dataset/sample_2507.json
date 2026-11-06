@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"6\"]",
+    "src_uid": "d7381f73ee29c9b89671f21cafee12e7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "According to the regulations of Berland's army, a reconnaissance unit should consist of exactly two soldiers. Since these two soldiers shouldn't differ much, their heights can differ by at most d centimeters. Captain Bob has n soldiers in his detachment. Their heights are a1, a2, ..., an centimeters. Some soldiers are of the same height. Bob wants to know, how many ways exist to form a reconnaissance unit of two soldiers from his detachment.Ways (1, 2) and (2, 1) should be regarded as different.",
+    "prob_desc_output_spec": "Output one number — amount of ways to form a reconnaissance unit of two soldiers, whose height difference doesn't exceed d.",
+    "prob_desc_input_spec": "The first line contains two integers n and d (1 ≤ n ≤ 1000, 1 ≤ d ≤ 109) — amount of soldiers in Bob's detachment and the maximum allowed height difference respectively. The second line contains n space-separated integers — heights of all the soldiers in Bob's detachment. These numbers don't exceed 109.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_024.jsonl",
+    "code_uid": "61bd896ea8cde9fd72257d31c6d8ba93",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 10\\n10 20 50 60 65\", \"5 1\\n55 30 29 31 55\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "(n,d)=map(int, input().split())\n\nl=list(map(int, input().split()))\n\ndef partition(arr,low,high): \n    i = ( low-1 )         # index of smaller element \n    pivot = arr[high]     # pivot \n  \n    for j in range(low , high): \n  \n        # If current element is smaller than or \n        # equal to pivot \n        if   arr[j] <= pivot: \n          \n            # increment index of smaller element \n            i = i+1 \n            arr[i],arr[j] = arr[j],arr[i] \n  \n    arr[i+1],arr[high] = arr[high],arr[i+1] \n    return ( i+1 ) \n  \n# The main function that implements QuickSort \n# arr[] --> Array to be sorted, \n# low  --> Starting index, \n# high  --> Ending index \n  \n# Function to do Quick sort \ndef quickSort(arr,low,high): \n    if low < high: \n  \n        # pi is partitioning index, arr[p] is now \n        # at right place \n        pi = partition(arr,low,high) \n  \n        # Separately sort elements before \n        # partition and after partition \n        quickSort(arr, low, pi-1) \n        quickSort(arr, pi+1, high)\n        \n    return arr\n    \nl=quickSort(l,0,n-1)\ncount=0\nfor i in range(n-1):\n    for j in range(i+1,n):\n        if l[j]-l[i]>d:\n            break\n        count+=1\n        \nprint(count*2)\n    \n    \n    \n    ",
+    "prob_desc_created_at": "1286002800",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

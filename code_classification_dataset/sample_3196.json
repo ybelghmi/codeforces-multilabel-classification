@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"1\", \"6\"]",
+    "src_uid": "31057c0e76e6985a68b2a298236a8ee5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Beroil corporation structure is hierarchical, that is it can be represented as a tree. Let's examine the presentation of this structure as follows:  employee ::= name. | name:employee1,employee2, ... ,employeek.  name ::= name of an employee That is, the description of each employee consists of his name, a colon (:), the descriptions of all his subordinates separated by commas, and, finally, a dot. If an employee has no subordinates, then the colon is not present in his description.For example, line MIKE:MAX.,ARTEM:MIKE..,DMITRY:DMITRY.,DMITRY... is the correct way of recording the structure of a corporation where the director MIKE has subordinates MAX, ARTEM and DMITRY. ARTEM has a subordinate whose name is MIKE, just as the name of his boss and two subordinates of DMITRY are called DMITRY, just like himself.In the Beroil corporation every employee can only correspond with his subordinates, at that the subordinates are not necessarily direct. Let's call an uncomfortable situation the situation when a person whose name is s writes a letter to another person whose name is also s. In the example given above are two such pairs: a pair involving MIKE, and two pairs for DMITRY (a pair for each of his subordinates).Your task is by the given structure of the corporation to find the number of uncomfortable pairs in it.",
+    "prob_desc_output_spec": "Print a single number — the number of uncomfortable situations in the company.",
+    "prob_desc_input_spec": "The first and single line contains the corporation structure which is a string of length from 1 to 1000 characters. It is guaranteed that the description is correct. Every name is a string consisting of capital Latin letters from 1 to 10 symbols in length.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_046.jsonl",
+    "code_uid": "f576add69ab54d82906f3b74cb5803f5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"MIKE:MAX.,ARTEM:MIKE..,DMITRY:DMITRY.,DMITRY...\", \"A:A..\", \"A:C:C:C:C.....\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3 \n\ntree = input().strip()\n\ndef get_answer(tree, start_index = 0, prev = []):\n  colon_index = tree.find(':', start_index)\n  period_index = tree.find('.', start_index)\n  name_end_index = colon_index if ((colon_index != -1) and (colon_index < period_index)) else period_index\n  name = tree[start_index:name_end_index]\n  answer = prev.count(name)\n  if ((colon_index == -1) or (period_index < colon_index)):\n    return (answer, period_index+1)\n  else:\n    # Recurse\n    prev_names = prev + [name]\n    next_start = colon_index\n    while tree[next_start] != '.':\n      (sub_answer, next_start) = get_answer(tree, next_start+1, prev_names)\n      answer += sub_answer\n    return (answer, next_start+1)\n\nprint(get_answer(tree)[0])",
+    "prob_desc_created_at": "1295626200",
+    "tags": [
+        "data structures",
+        "implementation",
+        "expression parsing"
+    ],
+    "hidden_unit_tests": ""
+}

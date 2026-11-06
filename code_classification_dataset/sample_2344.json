@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n2 3\\n1 3\", \"-1\", \"0\"]",
+    "src_uid": "ba95171c337b280141fb2afd93281381",
+    "prob_desc_notes": "NoteFor the first sample, after the first move the boxes will contain 3, 12 and 3 candies. After the second move, the boxes will contain 6, 12 and 0 candies. Now all candies are in exactly 2 boxes.For the second sample, you can observe that the given configuration is not valid, as all candies are in a single box and they should be in two boxes. Also, any move won't change the configuration, so there exists no solution.For the third sample, all candies are already in 2 boxes. Hence, no move is needed.",
+    "prob_desc_description": "Iahub is playing an uncommon game. Initially, he has n boxes, numbered 1, 2, 3, ..., n. Each box has some number of candies in it, described by a sequence a1, a2, ..., an. The number ak represents the number of candies in box k. The goal of the game is to move all candies into exactly two boxes. The rest of n - 2 boxes must contain zero candies. Iahub is allowed to do several (possible zero) moves. At each move he chooses two different boxes i and j, such that ai ≤ aj. Then, Iahub moves from box j to box i exactly ai candies. Obviously, when two boxes have equal number of candies, box number j becomes empty.Your task is to give him a set of moves such as Iahub to archive the goal of the game. If Iahub can't win the game for the given configuration of boxes, output -1. Please note that in case there exist a solution, you don't need to print the solution using minimal number of moves.",
+    "prob_desc_output_spec": "In case there exists no solution, output -1. Otherwise, in the first line output integer c (0 ≤ c ≤ 106), representing number of moves in your solution. Each of the next c lines should contain two integers i and j (1 ≤ i, j ≤ n, i ≠ j): integers i, j in the kth line mean that at the k-th move you will move candies from the j-th box to the i-th one.",
+    "prob_desc_input_spec": "The first line of the input contains integer n (3 ≤ n ≤ 1000). The next line contains n non-negative integers: a1, a2, ..., an — sequence elements. It is guaranteed that sum of all numbers in sequence a is up to 106. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 3000,
+    "file_name": "train_021.jsonl",
+    "code_uid": "100037efccc0016356a81c95dd176946",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3 6 9\", \"3\\n0 1 0\", \"4\\n0 1 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(raw_input())\na=map(int,raw_input().split())\nans=[]\nzp=[i for i in xrange(0,n) if (a[i]!=0)]\ndef solve(z):\n\twhile 1:\n\t\tfor i in xrange(0,2):\n\t\t\tfor j in xrange(i+1,3):\n\t\t\t\tif (a[z[i]]>a[z[j]]): z[i],z[j]=z[j],z[i]\n\t\tif (a[z[0]]==0): break\n\t\tx=a[z[1]]/a[z[0]]\n\t\tfor i in xrange(0,25):\n\t\t\tif (2**i>x): break\n\t\t\tp,q=z[0],z[2]\n\t\t\tif ((x>>i)&1): q=z[1]\n\t\t\tans.append([p+1,q+1])\n\t\t\ta[p],a[q]=2*a[p],a[q]-a[p]\nif (len(zp)<=1): print -1\nelse:\n\twhile (len(zp)>2):\n\t\tsolve(zp[0:3])\n\t\tzp=[i for i in xrange(0,n) if (a[i]!=0)]\n\tprint len(ans)\n\tprint \"\\n\".join(map(lambda x:\" \".join(map(str,x)),ans))\n",
+    "prob_desc_created_at": "1377876600",
+    "tags": [
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

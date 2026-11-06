@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"yes\\n1 3\", \"yes\\n1 2\", \"no\", \"yes\\n1 1\"]",
+    "src_uid": "c9744e25f92bae784c3a4833c15d03f4",
+    "prob_desc_notes": "NoteSample 1. You can reverse the entire array to get [1, 2, 3], which is sorted.Sample 3. No segment can be reversed such that the array will be sorted.DefinitionsA segment [l, r] of array a is the sequence a[l], a[l + 1], ..., a[r].If you have an array a of size n and you reverse its segment [l, r], the array will become:a[1], a[2], ..., a[l - 2], a[l - 1], a[r], a[r - 1], ..., a[l + 1], a[l], a[r + 1], a[r + 2], ..., a[n - 1], a[n].",
+    "prob_desc_description": "Being a programmer, you like arrays a lot. For your birthday, your friends have given you an array a consisting of n distinct integers.Unfortunately, the size of a is too small. You want a bigger array! Your friends agree to give you a bigger array, but only if you are able to answer the following question correctly: is it possible to sort the array a (in increasing order) by reversing exactly one segment of a? See definitions of segment and reversing in the notes.",
+    "prob_desc_output_spec": "Print \"yes\" or \"no\" (without quotes), depending on the answer. If your answer is \"yes\", then also print two space-separated integers denoting start and end (start must not be greater than end) indices of the segment to be reversed. If there are multiple ways of selecting these indices, print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains an integer n (1 ≤ n ≤ 105) — the size of array a. The second line contains n distinct space-separated integers: a[1], a[2], ..., a[n] (1 ≤ a[i] ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_001.jsonl",
+    "code_uid": "40f6c041bc51c4e8474c911d494e4a54",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3 2 1\", \"4\\n2 1 3 4\", \"4\\n3 1 2 4\", \"2\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = input()\n \ns = map(int,raw_input().split())\n\nl = []\nr = []\nfor i in range(1,n-1)\t:\n\tif s[i]> s[i-1] and s[i]>s[i+1] : \n\t\tl.append(i+1)\n\tif s[i]< s[i-1] and s[i]<s[i+1] :\n\t\tr.append(i+1)\n\t\t\n\t\nif ( len(l) == 1 ) and ( len(r) == 1)\tand (l[0] <= r[0]) and ( s[l[0]-2] < s[r[0]-1] ) and ( s[r[0]] > s[l[0]-1] ):\n\tprint 'yes'\n\tprint l[0],r[0]\nelif ( len(l) == 0 ) and ( len(r) == 1 ) and ( s[0] < s[r[0]] ):\n\tprint 'yes'\n\tprint 1,r[0]\t\nelif ( len(l) == 1 ) and ( len(r) == 0 ) and ( s[-1] > s[l[0]-2] ):\n\tprint 'yes'\n\tprint l[0],n\nelif ( len(l) == 0 ) and ( len(r) == 0 ) and ( s[-1]<s[0] ):\n\tprint 'yes'\n\tprint 1,n\t\nelif ( len(l) == 0 ) and ( len(r) == 0 ) and ( s[-1]>=s[0] ):\n\tprint 'yes'\n\tprint 1,1\t\t\nelse : print 'no'\t\n",
+    "prob_desc_created_at": "1406215800",
+    "tags": [
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 5\", \"2 3\", \"1 5\"]",
+    "src_uid": "ecd9bbc05b97f3cd43017dd0eddd014d",
+    "prob_desc_notes": "NoteA subsegment B of an array A from l to r is an array of size r - l + 1 where Bi = Al + i - 1 for all 1 ≤ i ≤ r - l + 1",
+    "prob_desc_description": "Amr has got a large array of size n. Amr doesn't like large arrays so he intends to make it smaller.Amr doesn't care about anything in the array except the beauty of it. The beauty of the array is defined to be the maximum number of times that some number occurs in this array. He wants to choose the smallest subsegment of this array such that the beauty of it will be the same as the original array.Help Amr by choosing the smallest subsegment possible.",
+    "prob_desc_output_spec": "Output two integers l, r (1 ≤ l ≤ r ≤ n), the beginning and the end of the subsegment chosen respectively. If there are several possible answers you may output any of them. ",
+    "prob_desc_input_spec": "The first line contains one number n (1 ≤ n ≤ 105), the size of the array. The second line contains n integers ai (1 ≤ ai ≤ 106), representing elements of the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_017.jsonl",
+    "code_uid": "3de10c359758c28d04852812931e5af6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 1 2 2 1\", \"5\\n1 2 2 3 1\", \"6\\n1 2 2 1 1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N = int(raw_input())\n\na = map(int, raw_input().split())\ndata = [0] * (10 ** 6 + 1)\nL = [0] * (10 ** 6 + 1)\nR = [0] * (10 ** 6 + 1)\n\nmx = 0\nfor i, v in enumerate(a):\n\tif data[v] == 0:\n\t\tL[v] = i\n\tR[v] = i\n\tdata[v] += 1\n\tmx = max(mx, data[v])\n\nmn = N\nindex = 0\nfor i in xrange(len(data)):\n\tif data[i] == mx:\n\t\tif mn > R[i] - L[i]:\n\t\t\tmn = R[i] - L[i]\n\t\t\tindex = i\nprint L[index] + 1, R[index] + 1\n",
+    "prob_desc_created_at": "1436886600",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

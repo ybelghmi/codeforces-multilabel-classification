@@ -1,0 +1,33 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"629909355\", \"675837193\"]",
+    "src_uid": "7ad1f3f220c12a68c1242a22f4fd7761",
+    "prob_desc_notes": "NoteFor the first sample case, the first player has $$$4$$$ possible moves. No matter what the first player plays, the second player only has $$$1$$$ possible move, so there are $$$4$$$ possible games.",
+    "prob_desc_description": "Omkar and Akmar are playing a game on a circular board with $$$n$$$ ($$$2 \\leq n \\leq 10^6$$$) cells. The cells are numbered from $$$1$$$ to $$$n$$$ so that for each $$$i$$$ ($$$1 \\leq i \\leq n-1$$$) cell $$$i$$$ is adjacent to cell $$$i+1$$$ and cell $$$1$$$ is adjacent to cell $$$n$$$. Initially, each cell is empty.Omkar and Akmar take turns placing either an A or a B on the board, with Akmar going first. The letter must be placed on an empty cell. In addition, the letter cannot be placed adjacent to a cell containing the same letter. A player loses when it is their turn and there are no more valid moves.Output the number of possible distinct games where both players play optimally modulo $$$10^9+7$$$. Note that we only consider games where some player has lost and there are no more valid moves.Two games are considered distinct if the number of turns is different or for some turn, the letter or cell number that the letter is placed on were different.A move is considered optimal if the move maximizes the player's chance of winning, assuming the other player plays optimally as well. More formally, if the player who has to move has a winning strategy, they have to make a move after which they will still have a winning strategy. If they do not, they can make any move.",
+    "prob_desc_output_spec": "Output a single integer — the number of possible distinct games where both players play optimally modulo $$$10^9+7$$$.",
+    "prob_desc_input_spec": "The only line will contain an integer $$$n$$$ ($$$2 \\leq n \\leq 10^6$$$) — the number of cells on the board.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_094.jsonl",
+    "code_uid": "0ca1ebea0d32ae542243957267a7ece4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\", \"69420\", \"42069\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import factorial\r\ndef win(a):\r\n\tbw = None;bc = 0\r\n\tfor i in range(len(a)):\r\n\t\tif a[i] is None:\r\n\t\t\tfor j in range(2):\r\n\t\t\t\tif a[i-1] == j or a[(i+1)%len(a)] == j:continue\r\n\t\t\t\ta[i] = j;w, c = win(a);a[i] = None\r\n\t\t\t\tif bw != False:\r\n\t\t\t\t\tbw = w\r\n\t\t\t\t\tif w == False:bc = c\r\n\t\t\t\t\telse:bc += c\r\n\t\t\t\telse:bc += c\r\n\tif bw is None:return False, 1\r\n\telse:return ((not bw), bc)\r\nF = dict()\r\ndef win1(left, d):\r\n\tglobal F;a = []\r\n\tif left == 0:return 0\r\n\tif (left, d) in F:return F[(left, d)]\t\r\n\tif left == 1:\r\n\t\tif d == 0:a.append(0)\r\n\t\telse:F[(left, d)] = 0;return 0\r\n\telse:\r\n\t\tif d == 1:\r\n\t\t\ta.append(win1(0,1) ^ win1(left-1,0))\r\n\t\t\tfor i in range(1,left-1):a.append(win1(i,1) ^ win1(left-i-1,0));a.append(win1(i,0) ^ win1(left-i-1,1))\r\n\t\telse:\r\n\t\t\ta.append(win1(0,1) ^ win1(left-1,1))\r\n\t\t\tfor i in range(1,left-1):a.append(win1(i,1) ^ win1(left-i-1,1));a.append(win1(i,0) ^ win1(left-i-1,0))\r\n\ts = set(a)\r\n\tfor i in range(100000):\r\n\t\tif i not in s:F[(left, d)] = i;return i\r\ndef rec(a, i):\r\n\tif i == len(a):\r\n\t\tfor i in range(len(a)):\r\n\t\t\tif a[i] == 1 and (a[i-1] == 1 or a[(i+1)%len(a)] == 1):return 0\r\n\t\tprint(a);return 1\r\n\tr = 0\r\n\tfor j in range(2):a[i] = j;r += rec(a, i+1)\r\n\treturn r\r\nMOD = 10**9+7;F = [0]*(10**6+3);F[0] = 1\r\nfor i in range(1,len(F)):F[i] = (F[i-1]*i)%MOD\r\nFI = [0]*len(F);FI[-1] = pow(F[-1], MOD-2, MOD)\r\nfor i in range(len(F)-2,-1,-1):FI[i] = (FI[i+1]*(i+1))%MOD\r\ndef C(n, k):return (F[n]*FI[n-k]*FI[k]) % MOD\r\ndef H(n, k):\r\n\tif k == 0:return 1\r\n\treturn C(n-k,k)+C(n-k-1,k-1)\r\ndef solve():\r\n\tn = int(input());r = 0\r\n\tfor i in range(n):\r\n\t\tif i*2 > n:break\r\n\t\tif (n - i) % 2 == 0:r = (r + H(n, i) * F[n-i]) % MOD\r\n\tprint((2*r)%MOD)\r\nsolve()",
+    "prob_desc_created_at": "1622990100",
+    "tags": [
+        "chinese remainder theorem",
+        "combinatorics",
+        "constructive algorithms",
+        "fft",
+        "games",
+        "geometry",
+        "math",
+        "meet-in-the-middle",
+        "string suffix structures"
+    ],
+    "hidden_unit_tests": ""
+}

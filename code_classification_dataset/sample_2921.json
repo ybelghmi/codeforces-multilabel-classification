@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"141\", \"25\", \"183\"]",
+    "src_uid": "de6361f522936eac3d88b7268b8c2793",
+    "prob_desc_notes": "NoteIn sample case one it's optimal to use autocompletion for the first instance of «snowboarding» after typing up «sn» and for the second instance of «snowboarding» after typing up «snowb». This will save 7 clicks.In sample case two it doesn't matter whether to use autocompletion or not.",
+    "prob_desc_description": "Arcady is a copywriter. His today's task is to type up an already well-designed story using his favorite text editor.Arcady types words, punctuation signs and spaces one after another. Each letter and each sign (including line feed) requires one keyboard click in order to be printed. Moreover, when Arcady has a non-empty prefix of some word on the screen, the editor proposes a possible autocompletion for this word, more precisely one of the already printed words such that its prefix matches the currently printed prefix if this word is unique. For example, if Arcady has already printed «codeforces», «coding» and «codeforces» once again, then there will be no autocompletion attempt for «cod», but if he proceeds with «code», the editor will propose «codeforces».With a single click Arcady can follow the editor's proposal, i.e. to transform the current prefix to it. Note that no additional symbols are printed after the autocompletion (no spaces, line feeds, etc). What is the minimum number of keyboard clicks Arcady has to perform to print the entire text, if he is not allowed to move the cursor or erase the already printed symbols?A word here is a contiguous sequence of latin letters bordered by spaces, punctuation signs and line/text beginnings/ends. Arcady uses only lowercase letters. For example, there are 20 words in «it's well-known that tic-tac-toe is a paper-and-pencil game for two players, x and o.».",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of clicks.",
+    "prob_desc_input_spec": "The only line contains Arcady's text, consisting only of lowercase latin letters, spaces, line feeds and the following punctuation signs: «.», «,», «?», «!», «'» and «-». The total amount of symbols doesn't exceed 3·105. It's guaranteed that all lines are non-empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_035.jsonl",
+    "code_uid": "55d9a0f55e02784d19864ca9f406eea2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"snow affects sports such as skiing, snowboarding, and snowmachine travel.\\nsnowboarding is a recreational activity and olympic and paralympic sport.\", \"'co-co-co, codeforces?!'\", \"thun-thun-thunder, thunder, thunder\\nthunder, thun-, thunder\\nthun-thun-thunder, thunder\\nthunder, feel the thunder\\nlightning then the thunder\\nthunder, feel the thunder\\nlightning then the thunder\\nthunder, thunder\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class Ddict:\n    def __init__(self):\n        self.dicts={}\n    def add(self,key):\n        d=self.dicts\n        for i in key:\n            if i not in d:\n                d[i]={}\n            d=d[i]\n        d[' ']=''\n    def find(self,key):\n        if key=='':\n            return '',''\n        d=self.dicts\n        q=[]\n        h=[key[0]]\n        for i in key:\n            if i not in d:\n                if ' ' in d and len(d)==1:\n                    return ''.join(q),''.join(h)\n                return '',''\n            q.append(i)\n            if len(d)!=1:\n                h=q[:]\n            d=d[i]\n        if ' ' in d and len(d)==1:\n            return ''.join(q),''.join(h)\n        return '',''\nwords = Ddict()\nans=0\nwhile True:\n    try:\n        x=input()\n        if not x:\n            break\n    except:\n        break\n    ans+=len(x)+1\n    ws=[[]]\n    for i in x:\n        if i in '.,?!\\'- ':\n            if ws[-1]:\n                ws.append([])\n        else:\n            ws[-1].append(i)\n    ws=list(map(lambda e:''.join(e),ws))\n    for w in ws:\n        next_word,helped_word = words.find(w)\n        if next_word and next_word!=helped_word:\n            ans-=len(next_word)-len(helped_word)-1\n        words.add(w)\nprint(ans)\n",
+    "prob_desc_created_at": "1519486500",
+    "tags": [
+        "*special",
+        "trees",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

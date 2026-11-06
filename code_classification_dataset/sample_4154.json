@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nWRWRWR\\nRWRWRW\\nWRWRWR\\nRWRWRW\\nNO\\nYES\\nR\\nW\\nR\\nW\\nR\"]",
+    "src_uid": "12f35743f482b68e3156a45d6ac5bb14",
+    "prob_desc_notes": "NoteThe answer for the first example case is given in the example output, and it can be proven that no grid exists that satisfies the requirements of the second example case. In the third example all cells are initially coloured, and the colouring is valid.",
+    "prob_desc_description": "Today we will be playing a red and white colouring game (no, this is not the Russian Civil War; these are just the colours of the Canadian flag).You are given an $$$n \\times m$$$ grid of \"R\", \"W\", and \".\" characters. \"R\" is red, \"W\" is white and \".\" is blank. The neighbours of a cell are those that share an edge with it (those that only share a corner do not count).Your job is to colour the blank cells red or white so that every red cell only has white neighbours (and no red ones) and every white cell only has red neighbours (and no white ones). You are not allowed to recolour already coloured cells.",
+    "prob_desc_output_spec": "For each test case, output \"YES\" if there is a valid grid or \"NO\" if there is not. If there is, output the grid on the next $$$n$$$ lines. If there are multiple answers, print any. In the output, the \"YES\"s and \"NO\"s are case-insensitive, meaning that outputs such as \"yEs\" and \"nO\" are valid. However, the grid is case-sensitive.",
+    "prob_desc_input_spec": "The first line contains $$$t$$$ ($$$1 \\le t \\le 100$$$), the number of test cases. In each test case, the first line will contain $$$n$$$ ($$$1 \\le n \\le 50$$$) and $$$m$$$ ($$$1 \\le m \\le 50$$$), the height and width of the grid respectively. The next $$$n$$$ lines will contain the grid. Each character of the grid is either 'R', 'W', or '.'.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_091.jsonl",
+    "code_uid": "297ddce06560b9a488c19921872a966f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4 6\\n.R....\\n......\\n......\\n.W....\\n4 4\\n.R.W\\n....\\n....\\n....\\n5 1\\nR\\nW\\nR\\nW\\nR\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n\tn,m=map(int,input().split())\r\n\tq=[]\r\n\tfor i in range(n):\r\n\t\tf=input()\r\n\t\tq.append(f)\r\n\tv=[]\r\n\td=0\r\n\tfor i in range(n):\r\n\t\tt=[]\r\n\t\tif d%2==0:\r\n\t\t\tk=0\r\n\t\telse:\r\n\t\t\tk=1\r\n\t\tfor j in range(m):\r\n\t\t\tif k%2==0:\r\n\t\t\t\tt.append('W')\r\n\t\t\telse:\r\n\t\t\t\tt.append('R')\r\n\t\t\tk+=1\r\n\t\td+=1\r\n\t\tv.append(t)\r\n\tv1=[]\r\n\td=1\r\n\tfor i in range(n):\r\n\t\tt=[]\r\n\t\tif d%2==0:\r\n\t\t\tk=0\r\n\t\telse:\r\n\t\t\tk=1\r\n\t\tfor j in range(m):\r\n\t\t\tif k%2==0:\r\n\t\t\t\tt.append('W')\r\n\t\t\telse:\r\n\t\t\t\tt.append('R')\r\n\t\t\tk+=1\r\n\t\td+=1\r\n\t\tv1.append(t)\r\n\tz=0\r\n\tfor i in range(n):\r\n\t\tfor j in range(m):\r\n\t\t\tif q[i][j]!='.' and q[i][j]!=v[i][j]:\r\n\t\t\t\tz=1\r\n\tz1=0\r\n\tfor i in range(n):\r\n\t\tfor j in range(m):\r\n\t\t\tif q[i][j]!='.' and q[i][j]!=v1[i][j]:\r\n\t\t\t\tz1=1\r\n\tif z1==0:\r\n\t\tprint('YES')\r\n\t\tfor i in range(n):\r\n\t\t\tprint(*v1[i], sep='')\r\n\telif z==0:\r\n\t\tprint('YES')\r\n\t\tfor i in range(n):\r\n\t\t\tprint(*v[i], sep='')\r\n\telse:\r\n\t\tprint('NO')",
+    "prob_desc_created_at": "1623598500",
+    "tags": [
+        "brute force",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

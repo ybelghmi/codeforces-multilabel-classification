@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"14\", \"9\", \"3\"]",
+    "src_uid": "7b12845f668e28b7f18019d5ab5eaec7",
+    "prob_desc_notes": "NoteIn the first example the optimal sequence of contests is: $$$2$$$ problems of the topic $$$1$$$, $$$4$$$ problems of the topic $$$2$$$, $$$8$$$ problems of the topic $$$10$$$.In the second example the optimal sequence of contests is: $$$3$$$ problems of the topic $$$3$$$, $$$6$$$ problems of the topic $$$6$$$.In the third example you can take all the problems with the topic $$$1337$$$ (the number of such problems is $$$3$$$ so the answer is $$$3$$$) and host a single contest.",
+    "prob_desc_description": "Polycarp has prepared $$$n$$$ competitive programming problems. The topic of the $$$i$$$-th problem is $$$a_i$$$, and some problems' topics may coincide.Polycarp has to host several thematic contests. All problems in each contest should have the same topic, and all contests should have pairwise distinct topics. He may not use all the problems. It is possible that there are no contests for some topics.Polycarp wants to host competitions on consecutive days, one contest per day. Polycarp wants to host a set of contests in such a way that:  number of problems in each contest is exactly twice as much as in the previous contest (one day ago), the first contest can contain arbitrary number of problems;  the total number of problems in all the contests should be maximized. Your task is to calculate the maximum number of problems in the set of thematic contests. Note, that you should not maximize the number of contests.",
+    "prob_desc_output_spec": "Print one integer — the maximum number of problems in the set of thematic contests.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of problems Polycarp has prepared. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) where $$$a_i$$$ is the topic of the $$$i$$$-th problem.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_037.jsonl",
+    "code_uid": "99ac0b5c4a37e839f43173d671845752",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"18\\n2 1 2 10 2 10 10 2 2 1 10 10 10 10 1 1 10 10\", \"10\\n6 6 6 3 6 1000000000 3 3 6 6\", \"3\\n1337 1337 1337\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import *\nfrom math import *\n\ndef ch(mx):\n\tif(mx > n):\n\t\treturn 0\n\tm = l[0]//(1<<(mx-1))\n\tfor i in range(mx):\n\t\tm = min(m,l[i]//(1<<(mx-i-1)))\n\treturn m*((1<<mx)-1)\n\nn = int(input())\nmx = ceil(log(n,2))\na = list(map(int,input().split()))\nc = Counter(a)\nl = list(c.values())\nl.sort(reverse = True)\nn = len(l)\nans = 1\nfor i in range(1,mx+1):\n\tans = max(ans,ch(i))\nprint(ans)",
+    "prob_desc_created_at": "1542378900",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

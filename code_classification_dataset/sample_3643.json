@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 2 3\", \"-1\", \"1\\n1\"]",
+    "src_uid": "6dd5818c616e5285cd5f090e392e5140",
+    "prob_desc_notes": "NoteIn the first example k = 2 and Olya has three cartons with expiry dates 0, 1 and 1 (they expire today, tomorrow and tomorrow), and the shop has 3 cartons with expiry date 0 and 3 cartons with expiry date 2. Olya can buy three cartons, for example, one with the expiry date 0 and two with expiry date 2.In the second example all three cartons Olya owns expire today and it means she would have to throw packets away regardless of whether she buys an extra one or not.In the third example Olya would drink k = 2 cartons today (one she alreay has in her fridge and one from the shop) and the remaining one tomorrow.",
+    "prob_desc_description": "Olya likes milk very much. She drinks k cartons of milk each day if she has at least k and drinks all of them if she doesn't. But there's an issue — expiration dates. Each carton has a date after which you can't drink it (you still can drink it exactly at the date written on the carton). Due to this, if Olya's fridge contains a carton past its expiry date, she throws it away.Olya hates throwing out cartons, so when she drinks a carton, she chooses the one which expires the fastest. It's easy to understand that this strategy minimizes the amount of cartons thrown out and lets her avoid it if it's even possible.    Milk. Best before: 20.02.2017. The main issue Olya has is the one of buying new cartons. Currently, there are n cartons of milk in Olya's fridge, for each one an expiration date is known (how soon does it expire, measured in days). In the shop that Olya visited there are m cartons, and the expiration date is known for each of those cartons as well.Find the maximum number of cartons Olya can buy so that she wouldn't have to throw away any cartons. Assume that Olya drank no cartons today. ",
+    "prob_desc_output_spec": "If there's no way for Olya to drink the cartons she already has in her fridge, print -1. Otherwise, in the first line print the maximum number x of cartons which Olya can buy so that she wouldn't have to throw a carton away. The next line should contain exactly x integers — the numbers of the cartons that should be bought (cartons are numbered in an order in which they are written in the input, starting with 1). Numbers should not repeat, but can be in arbitrary order. If there are multiple correct answers, print any of them.",
+    "prob_desc_input_spec": "In the first line there are three integers n, m, k (1 ≤ n, m ≤ 106, 1 ≤ k ≤ n + m) — the amount of cartons in Olya's fridge, the amount of cartons in the shop and the number of cartons Olya drinks each day. In the second line there are n integers f1, f2, ..., fn (0 ≤ fi ≤ 107) — expiration dates of the cartons in Olya's fridge. The expiration date is expressed by the number of days the drinking of this carton can be delayed. For example, a 0 expiration date means it must be drunk today, 1 — no later than tomorrow, etc. In the third line there are m integers s1, s2, ..., sm (0 ≤ si ≤ 107) — expiration dates of the cartons in the shop in a similar format.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_075.jsonl",
+    "code_uid": "c986a41b6772e9e54455769e57644813",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 6 2\\n1 0 1\\n2 0 2 0 0 2\", \"3 1 2\\n0 0 0\\n1\", \"2 1 2\\n0 1\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, collections\n\nraw_input = sys.stdin.readline\nn, m, k = map(int, raw_input().split())\ncurrent = map(int, raw_input().split())\nstore = map(int, raw_input().split())\nmilk = [0]*(10**7 + 1)\nstore_indexes = collections.defaultdict(list)\ncurrent.sort()\nmax_index = 10**7 + 1\nvalid = True\nans = []\ncount = 0\n\nfor i in xrange(m):\n    store_indexes[store[i]].append(i+1)\n\nstore.sort()\nfor i in xrange(n-1, -1, -1):\n    index = min(current[i], max_index)        \n    while milk[index] >= k and index > -1:\n        index -= 1\n\n    if index == -1:\n        valid = False\n        break\n    \n    max_index = min(max_index, index)\n    milk[index] += 1\n    #print milk[:3]\n    \nif not valid:\n    print -1\n    raise SystemExit\nelse:\n    min_index = 0\n    for i in xrange(m):\n        stop = store[i]\n        index = min(stop, min_index)\n        while milk[index] >= k and index <= stop:\n            index += 1\n\n        if index <= stop:\n            milk[index] += 1\n            count += 1\n            ans.append(str(store_indexes[stop].pop()))\n\n        min_index = max(min_index, index)\n        #print milk[:3], count, stop\n\nprint count\nprint \" \".join(ans)\n",
+    "prob_desc_created_at": "1487408700",
+    "tags": [
+        "greedy",
+        "two pointers",
+        "sortings",
+        "data structures",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

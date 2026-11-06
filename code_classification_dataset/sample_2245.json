@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"16 18 24 27 36 48 54 72 108 144\"]",
+    "src_uid": "74713233dd60acfbc0b26cd3772ed223",
+    "prob_desc_notes": null,
+    "prob_desc_description": "We'll call a set of positive integers a beautiful if the following condition fulfills: for any prime p, if , then . In other words, if one number from the set is divisible by prime p, then at least half of numbers from the set is divisible by p.Your task is to find any beautiful set, where the number of elements is equal to k and each element doesn't exceed 2k2.",
+    "prob_desc_output_spec": "In the first line print k space-separated integers that are a beautiful set. If there are multiple such sets, you are allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains integer k (10 ≤ k ≤ 5000) that shows how many numbers the required beautiful set should have.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_019.jsonl",
+    "code_uid": "6459aeb385db3db5c3b016b5a23eaf93",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, math, random\n\nk = int(sys.stdin.read().strip())\n\nif k in [2169, 2198, 2301, 2302, 2303]:\n    random.seed(0x1337)\nelse:\n    random.seed(0x7831505)\n\nres = set()\n\nmaxval = 2 * k * k\n\nfor p2 in      range(0, 1+int(math.log(maxval,  2)) if k >   00 else 1):\n for p3 in     range(0, 1+int(math.log(maxval,  3)) if k >   00 else 1):\n  for p5 in    range(0, 1+int(math.log(maxval,  5)) if k >   65 else 1):\n   for p7 in   range(0, 1+int(math.log(maxval,  7)) if k >  406 else 1):\n    for p11 in range(0, 1+int(math.log(maxval, 11)) if k > 2034 else 1):\n            n = 2**p2\n            if n <= maxval: n *= 3**p3\n            if n <= maxval: n *= 5**p5\n            if n <= maxval: n *= 7**p7\n            if n <= maxval: n *= 11**p11\n            if n <= maxval:\n                if n not in res:\n                    res.add(n)\n\nres = list(res)\nrandom.shuffle(res)\nres = res[:k]\n\nd11 = len(filter(lambda x: x % 11 == 0, res))\nif 0 < d11 <= k/2:\n    i = 0\n    while i <= k/2 - d11:\n        n = 1\n        while n % 11:\n            n = random.choice(res)\n        n *= 11\n        if n not in res and n <= maxval:\n            res.remove(n/11)\n            res.append(n)\n            i += 1\n#d2  = len(filter(lambda x: x % 2 == 0, res))\n#d3  = len(filter(lambda x: x % 3 == 0, res))\n#d5  = len(filter(lambda x: x % 5 == 0, res))\n#d7  = len(filter(lambda x: x % 7 == 0, res))\n#d11 = len(filter(lambda x: x % 11 == 0, res))\n\n#if (d2 == 0 or d2 >= k/2) and (d3 == 0 or d3 >= k/2) and (d5 == 0 or d5 >= k/2) and (d7 == 0 or d7 >= k/2) and (d11== 0 or d11>= k/2) and len(res) == k:\n#    print 'OK', k\n#else:\n#    print 'FAIL AT ', k\n\nres = ' '.join(map(str, sorted(res)))\n\nsys.stdout.write(str(res))\n",
+    "prob_desc_created_at": "1384875000",
+    "tags": [
+        "number theory",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

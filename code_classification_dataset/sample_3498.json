@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n3\\n7\", \"1\\n4\\n10\\n22\\n43\", \"1\\n3\\n10\\n24\\n51\\n109\\n213\\n421\\n833\"]",
+    "src_uid": "6744d8bcba9ef2853788ca7168b76373",
+    "prob_desc_notes": "NoteLet us consider the first sample after all characters have been appended to $$$S$$$, so S is \"111\".As you can see, \"1\", \"11\", and \"111\" all correspond to some distinct English letter. In fact, they are translated into a 'T', an 'M', and an 'O', respectively. All non-empty sequences of English letters that are represented with some substring of $$$S$$$ in Morse code, therefore, are as follows.  \"T\" (translates into \"1\")  \"M\" (translates into \"11\")  \"O\" (translates into \"111\")  \"TT\" (translates into \"11\")  \"TM\" (translates into \"111\")  \"MT\" (translates into \"111\")  \"TTT\" (translates into \"111\") Although unnecessary for this task, a conversion table from English alphabets into Morse code can be found here.",
+    "prob_desc_description": "In Morse code, an letter of English alphabet is represented as a string of some length from $$$1$$$ to $$$4$$$. Moreover, each Morse code representation of an English letter contains only dots and dashes. In this task, we will represent a dot with a \"0\" and a dash with a \"1\".Because there are $$$2^1+2^2+2^3+2^4 = 30$$$ strings with length $$$1$$$ to $$$4$$$ containing only \"0\" and/or \"1\", not all of them correspond to one of the $$$26$$$ English letters. In particular, each string of \"0\" and/or \"1\" of length at most $$$4$$$ translates into a distinct English letter, except the following four strings that do not correspond to any English alphabet: \"0011\", \"0101\", \"1110\", and \"1111\".You will work with a string $$$S$$$, which is initially empty. For $$$m$$$ times, either a dot or a dash will be appended to $$$S$$$, one at a time. Your task is to find and report, after each of these modifications to string $$$S$$$, the number of non-empty sequences of English letters that are represented with some substring of $$$S$$$ in Morse code.Since the answers can be incredibly tremendous, print them modulo $$$10^9 + 7$$$.",
+    "prob_desc_output_spec": "Print $$$m$$$ lines, the $$$i$$$-th of which being the answer after the $$$i$$$-th modification to $$$S$$$.",
+    "prob_desc_input_spec": "The first line contains an integer $$$m$$$ ($$$1 \\leq m \\leq 3\\,000$$$) — the number of modifications to $$$S$$$.  Each of the next $$$m$$$ lines contains either a \"0\" (representing a dot) or a \"1\" (representing a dash), specifying which character should be appended to $$$S$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_063.jsonl",
+    "code_uid": "ca5fc176f61d2aad3762d6937170b0a2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1\\n1\\n1\", \"5\\n1\\n0\\n1\\n0\\n1\", \"9\\n1\\n1\\n0\\n0\\n0\\n1\\n1\\n0\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os, sys\nnums = list(map(int, os.read(0, os.fstat(0).st_size).split()))\n\nMOD = 10 ** 9 + 7\nBAD = ([0, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0], [1, 1, 1, 1])\n\ndef zfunc(s):\n    z = [0] * len(s)\n    l = r = 0\n    for i in range(1, len(s)):\n        if i <= r:\n            z[i] = min(r - i + 1, z[i - l])\n        while i + z[i] < len(s) and s[z[i]] == s[i + z[i]]:\n            z[i] += 1\n        if i + z[i] - 1 > r:\n            l, r = i, i + z[i] - 1\n    return z\n\nn = nums[0]\ns = []\nsm = 0\nans = []\nfor i in range(1, n + 1):\n    s.append(nums[i])\n    cur = 0\n    f = [0] * (i + 1)\n    sum4 = f[i] = 1\n    for j in range(i - 1, -1, -1):\n        if j + 4 < i:\n            sum4 -= f[j + 5]\n        if j + 4 <= i and s[j : j + 4] in BAD:\n            f[j] -= f[j + 4]\n        f[j] = (f[j] + sum4) % MOD\n        sum4 += f[j]\n    z = zfunc(s[::-1])\n    new = i - max(z)\n    sm = (sm + sum(f[:new])) % MOD\n    ans.append(sm)\nprint(*ans, sep='\\n')\n",
+    "prob_desc_created_at": "1551022500",
+    "tags": [
+        "dp",
+        "hashing",
+        "string suffix structures",
+        "sortings",
+        "data structures",
+        "binary search",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

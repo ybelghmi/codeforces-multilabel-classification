@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n3\"]",
+    "src_uid": "41583e3656ca0e31b6b7a532e1ae3de4",
+    "prob_desc_notes": "NoteIn the first example there are $$$5$$$ segments. The segments $$$1$$$ and $$$2$$$ are connected, because they are of different colors and share a point. Also, the segments $$$2$$$ and $$$3$$$ are connected, and so are segments $$$4$$$ and $$$5$$$. Thus, there are two groups: one containing segments $$$\\{1, 2, 3\\}$$$, and the other one containing segments $$$\\{4, 5\\}$$$.",
+    "prob_desc_description": "You are given $$$n$$$ colored segments on the number line. Each segment is either colored red or blue. The $$$i$$$-th segment can be represented by a tuple $$$(c_i, l_i, r_i)$$$. The segment contains all the points in the range $$$[l_i, r_i]$$$, inclusive, and its color denoted by $$$c_i$$$:   if $$$c_i = 0$$$, it is a red segment;  if $$$c_i = 1$$$, it is a blue segment. We say that two segments of different colors are connected, if they share at least one common point. Two segments belong to the same group, if they are either connected directly, or through a sequence of directly connected segments. Find the number of groups of segments.   ",
+    "prob_desc_output_spec": "For each test case, print a single integer $$$k$$$, the number of groups of segments.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10^5$$$). Description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 10^5$$$) — the number of segments.  Each of the next $$$n$$$ lines contains three integers $$$c_i, l_i, r_i$$$ ($$$0 \\leq c_i \\leq 1, 0 \\leq l_i \\leq r_i \\leq 10^9$$$), describing the $$$i$$$-th segment.  It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_089.jsonl",
+    "code_uid": "4f1a9accc30f746ee65f5e502614cfb6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n5\\n\\n0 0 5\\n\\n1 2 12\\n\\n0 4 7\\n\\n1 9 16\\n\\n0 13 19\\n\\n3\\n\\n1 0 1\\n\\n1 1 2\\n\\n0 3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\r\ninput = stdin.readline\r\n\r\ninp = lambda : list(map(int,input().split()))\r\n\r\nclass dsu:\r\n\r\n    def __init__(self , n):\r\n\r\n        self.p = [0]*(n)\r\n        self.rank = [0]*(n)\r\n\r\n        self.mb , self.mr = [] , []\r\n        for i in range(n):\r\n            self.p[i] = i\r\n\r\n            if(color[i] == 1):\r\n                self.mb.append([right[i] , i])\r\n                self.mr.append([-1 , -1])\r\n            else:\r\n                self.mr.append([right[i] , i])\r\n                self.mb.append([-1 , -1])\r\n\r\n    def find(self , node):\r\n        if(self.p[node] == node):return node\r\n\r\n        self.p[node] = self.find(self.p[node])\r\n        return self.p[node]\r\n\r\n    def union(self , u , v):\r\n        u , v = self.find(u) , self.find(v)\r\n\r\n        if(self.rank[u] == self.rank[v]):\r\n            self.p[v] = u\r\n            self.rank[u] += 1\r\n\r\n            if(self.mb[u][0] < self.mb[v][0]):\r\n                self.mb[u] = self.mb[v][:]\r\n\r\n            if(self.mr[u][0] < self.mr[v][0]):\r\n                self.mr[u]=  self.mr[v][:]\r\n\r\n        elif(self.rank[u] > self.rank[v]):\r\n            self.p[v] = u\r\n            \r\n            if(self.mb[u][0] < self.mb[v][0]):\r\n                self.mb[u] = self.mb[v][:]\r\n\r\n            if(self.mr[u][0] < self.mr[v][0]):\r\n                self.mr[u]=  self.mr[v][:]\r\n\r\n        else:\r\n            self.p[u] = v\r\n\r\n            if(self.mb[v][0] < self.mb[u][0]):\r\n                self.mb[v] = self.mb[u][:]\r\n\r\n            if(self.mr[v][0] < self.mr[u][0]):\r\n                self.mr[v]=  self.mr[u][:]\r\n\r\n    def best_red(self , u):\r\n\r\n        u = self.find(u)\r\n        return self.mr[u][1]\r\n\r\n    def best_blue(self , u):\r\n\r\n        u = self.find(u)\r\n        return self.mb[u][1]\r\n            \r\n\r\ndef answer():\r\n\r\n    s.sort()\r\n\r\n    d = dsu(n)\r\n    blue , red = set() , set()\r\n    for i in range(len(s)):\r\n        x , what , colour , node = s[i]\r\n\r\n        if(what == 1):\r\n\r\n            if(colour == 0):\r\n\r\n                if(len(blue) == 0):\r\n                    red.add(d.best_red(node))\r\n                else:\r\n\r\n                    for x in blue:\r\n                        d.union(x , node)\r\n\r\n                    blue.clear()\r\n                    blue.add(d.best_blue(node))\r\n                    red.add(d.best_red(node))\r\n            else:\r\n\r\n                if(len(red) == 0):\r\n                    blue.add(d.best_blue(node))\r\n                else:\r\n\r\n                    for x in red:\r\n                        d.union(x , node)\r\n\r\n                    red.clear()\r\n                    blue.add(d.best_blue(node))\r\n                    red.add(d.best_red(node))\r\n\r\n        else:\r\n\r\n            blue.discard(node)\r\n            red.discard(node)\r\n\r\n    ans = set()\r\n    for i in range(n):\r\n        ans.add(d.find(i))\r\n\r\n    return len(ans)\r\n    \r\n            \r\nfor T in range(int(input())):\r\n\r\n    n = int(input())\r\n\r\n    s , left , right , color = [] , [] , [] , []\r\n    for i in range(n):\r\n        c , l , r = inp()\r\n\r\n        left.append(l)\r\n        right.append(r)\r\n        color.append(c)\r\n\r\n        s.append([l , 1 , c , i])\r\n        s.append([r + 1 , -1 , c , i])\r\n\r\n    print(answer())\r\n",
+    "prob_desc_created_at": "1654007700",
+    "tags": [
+        "data structures",
+        "dfs and similar",
+        "dsu",
+        "graphs",
+        "greedy",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

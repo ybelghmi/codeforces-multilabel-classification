@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"2\"]",
+    "src_uid": "694bc30b982ec6ec78fec2ba41ed1ef3",
+    "prob_desc_notes": "NoteIn the first example, $$$f(A) = 3$$$ by doing the following operations.$$$[2,1,\\textbf{4},2,5,3,7] \\rightarrow [\\textbf{2},1,2,5,3,7] \\rightarrow [1,2,5,3,\\textbf{7}] \\rightarrow [1,2,\\textbf{5},3] \\rightarrow [1,2,3]$$$In the second example, $$$f(A) = 2$$$ and no additional operation is needed.",
+    "prob_desc_description": "Mr. Chanek gives you a sequence $$$a$$$ indexed from $$$1$$$ to $$$n$$$. Define $$$f(a)$$$ as the number of indices where $$$a_i = i$$$. You can pick an element from the current sequence and remove it, then concatenate the remaining elements together. For example, if you remove the $$$3$$$-rd element from the sequence $$$[4, 2, 3, 1]$$$, the resulting sequence will be $$$[4, 2, 1]$$$. You want to remove some elements from $$$a$$$ in order to maximize $$$f(a)$$$, using zero or more operations. Find the largest possible $$$f(a)$$$.",
+    "prob_desc_output_spec": "Output an integer denoting the largest $$$f(a)$$$ that can be obtained by doing zero or more operations.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\leq n \\leq 2 \\cdot 10^5$$$) — the initial length of the sequence. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\leq a_i \\leq 2 \\cdot 10^5$$$) — the initial sequence $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_102.jsonl",
+    "code_uid": "4bff2aaeffc1c173cccfa5ce66c2209b",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n2 1 4 2 5 3 7\", \"4\\n4 2 3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nsys.setrecursionlimit(100000)\r\n\r\ndef _r(): return sys.stdin.buffer.readline()\r\ndef rs(): return _r().decode('ascii').strip()\r\ndef rn(): return int(_r())\r\ndef rnt(): return map(int, _r().split())\r\ndef rnl(): return list(rnt())\r\n\r\n# [(2, -1), (1, 1), (4, -1), (2, 2), (5, 0), (3, 3), (7, 0)]\r\n# [(1, 1), (2, 2), (2, -1), (3, 3), (4, -1), (5, 0), (7, 0)]\r\n# [1, 2, -1, 3, -1, 0, 0]\r\n\r\n# [(4, -3), (2, 0), (3, 0), (1, 3)]\r\n# [(1, 3), (2, 0), (3, 0), (4, -3)]\r\n# [3, 0, 0, -3]\r\n\r\nimport bisect\r\n\r\ndef lis(a):\r\n    dp = []\r\n    for num in a:\r\n        i = bisect.bisect_right(dp, num)\r\n        if i == len(dp):\r\n            dp.append(num)\r\n        dp[i] = num\r\n    return len(dp)\r\n\r\ndef solve(n, a):\r\n    b = [(x, i+1-x) for i, x in enumerate(a) if i+1-x >= 0]\r\n    b.sort(key=lambda x:(x[0], -x[1]))\r\n    b = list(map(lambda x:x[1], b))\r\n    return lis(b)\r\n\r\nn = rn()\r\na = rnl()\r\nprint(solve(n, a))\r\n\r\n# for _ in range(rn()):\r\n#     n, x = rnt()\r\n#     a = rnl()\r\n#     print('YES' if solve(n, x, a) else 'NO')\r\n\r\n# def solve(n, m, mat):\r\n#     def _try(r, c, dr, dc):\r\n#         sol = 0\r\n#         for i in range(c+1, c+dc):\r\n#             sol += 1 - int(mat[r][i])\r\n#             sol += 1 - int(mat[r+dr][i])\r\n#         for i in range(r+1, r+dr):\r\n#             sol += 1 - int(mat[i][c])\r\n#             sol += 1 - int(mat[i][c+dc])\r\n#         for i in range(r+1, r+dr):\r\n#             for j in range(c+1, c+dc):\r\n#                 sol += int(mat[i][j])\r\n#         return sol\r\n#     sol = float('inf')\r\n#     sols = [[0]*m for _ in range(n)]\r\n#     for r in range(n-4):\r\n#         for c in range(m-3):\r\n#             dr = 4\r\n#             while r+dr < n:\r\n#                 dc = 3\r\n#                 while c+dc < m:\r\n#                     sols[r+dr][c+dc] = _try(r, c, dr, dc)\r\n#                     sol = min(sol, _try(r, c, dr, dc))\r\n#                     dc += 1\r\n#                 dr += 1\r\n#     for row in sols:\r\n#         print(row)\r\n#     return sol\r\n\r\n# for _ in range(rn()):\r\n#     n, m = rnt()\r\n#     mat = []\r\n#     for _ in range(n):\r\n#         mat.append(rs())\r\n#     print(solve(n, m, mat))",
+    "prob_desc_created_at": "1633181700",
+    "tags": [
+        "data structures",
+        "divide and conquer",
+        "dp",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

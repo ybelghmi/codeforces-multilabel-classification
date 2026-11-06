@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "10 seconds",
+    "prob_desc_sample_outputs": "[\"BC23\\nR23C55\"]",
+    "src_uid": "910c0e650d48af22fa51ab05e8123709",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In the popular spreadsheets systems (for example, in Excel) the following numeration of columns is used. The first column has number A, the second — number B, etc. till column 26 that is marked by Z. Then there are two-letter numbers: column 27 has number AA, 28 — AB, column 52 is marked by AZ. After ZZ there follow three-letter numbers, etc.The rows are marked by integer numbers starting with 1. The cell name is the concatenation of the column and the row numbers. For example, BC23 is the name for the cell that is in column 55, row 23. Sometimes another numeration system is used: RXCY, where X and Y are integer numbers, showing the column and the row numbers respectfully. For instance, R23C55 is the cell from the previous example.Your task is to write a program that reads the given sequence of cell coordinates and produce each item written according to the rules of another numeration system.",
+    "prob_desc_output_spec": "Write n lines, each line should contain a cell coordinates in the other numeration system.",
+    "prob_desc_input_spec": "The first line of the input contains integer number n (1 ≤ n ≤ 105), the number of coordinates in the test. Then there follow n lines, each of them contains coordinates. All the coordinates are correct, there are no cells with the column and/or the row numbers larger than 106 .",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_001.jsonl",
+    "code_uid": "9bd7e1fbe00260b45a7638c7cd3bc5e2",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\nR23C55\\nBC23\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "m = {}\nfor k in range(26):\n    m[chr(65+k)] = 1+k\n\nfor abcdd in range(int(raw_input())):\n    a = raw_input()\n    for k in range(len(a)):\n        if a[k].isdigit():\n            a, b = a[:k], a[k:]\n            break\n    if b.isdigit():\n        n = 0\n        for k in a:\n            n = n * 26 + m[k]\n        print 'R' + b + 'C' + str(n)\n    else:\n        c, b = b.split('C')\n        a = ''\n        b = int(b)\n        while b:\n            a = chr(65+(b-1)%26) + a\n            b = int((b-1) / 26)\n        print a + c",
+    "prob_desc_created_at": "1266580800",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

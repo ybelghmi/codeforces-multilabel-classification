@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n3\\n1\\n1\"]",
+    "src_uid": "87302bcc6c8f239641ab6f6dbeeae09c",
+    "prob_desc_notes": "NoteIn the first testcase, the first worker works on tasks $$$1$$$ and $$$3$$$, and the second worker works on tasks $$$2$$$ and $$$4$$$. Since they both are proficient in the corresponding tasks, they take $$$1$$$ hour on each. Both of them complete $$$2$$$ tasks in $$$2$$$ hours. Thus, all tasks are completed by $$$2$$$ hours.In the second testcase, it's optimal to assign the first worker to tasks $$$1, 2$$$ and $$$3$$$ and the second worker to task $$$4$$$. The first worker spends $$$3$$$ hours, the second worker spends $$$2$$$ hours (since they are not proficient in the taken task).In the third example, each worker can be assigned to the task they are proficient at. Thus, each of them complete their task in $$$1$$$ hour.",
+    "prob_desc_description": "There are $$$n$$$ workers and $$$m$$$ tasks. The workers are numbered from $$$1$$$ to $$$n$$$. Each task $$$i$$$ has a value $$$a_i$$$ — the index of worker who is proficient in this task.Every task should have a worker assigned to it. If a worker is proficient in the task, they complete it in $$$1$$$ hour. Otherwise, it takes them $$$2$$$ hours.The workers work in parallel, independently of each other. Each worker can only work on one task at once.Assign the workers to all tasks in such a way that the tasks are completed as early as possible. The work starts at time $$$0$$$. What's the minimum time all tasks can be completed by?",
+    "prob_desc_output_spec": "For each testcase, print a single integer — the minimum time all tasks can be completed by.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. The first line of each testcase contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le m \\le 2 \\cdot 10^5$$$) — the number of workers and the number of tasks. The second line contains $$$m$$$ integers $$$a_1, a_2, \\dots, a_m$$$ ($$$1 \\le a_i \\le n$$$) — the index of the worker proficient in the $$$i$$$-th task. The sum of $$$m$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_097.jsonl",
+    "code_uid": "07a38045a16219a386f9a5eae1d8bff5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n2 4\\n\\n1 2 1 2\\n\\n2 4\\n\\n1 1 1 1\\n\\n5 5\\n\\n5 1 3 2 4\\n\\n1 1\\n\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\r\n\r\nfor i in range(t):\r\n    n,m=map(int,input().split())\r\n    a=list(map(int,input().split()))\r\n    dela=[0]*n\r\n    for x in a:\r\n        dela[x-1]+=1\r\n    dela.sort()\r\n    skol=[0]*(dela[-1]+1)\r\n    s=0\r\n    kol = n\r\n    for x in range(len(dela)):\r\n        if dela[x]!=s:\r\n            skol[s] = kol\r\n\r\n            kol=n-x\r\n            for y in range(s+1,dela[x]+1):\r\n                skol[y]=kol\r\n            s=dela[x]\r\n    skol[-1]=kol\r\n    S=m\r\n    ph=[None]*len(skol)\r\n    ph[0]=0\r\n    for x in range(1,len(skol)):\r\n        ph[x]=n-ph[x-1]-skol[x]\r\n    #print(ph)\r\n    for x in range(len(skol)-1,-1,-1):\r\n        S+=skol[x]\r\n        if n*(x-1)-ph[x-1]<S:\r\n            print(x)\r\n            break",
+    "prob_desc_created_at": "1657290900",
+    "tags": [
+        "binary search",
+        "greedy",
+        "implementation",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"-1\", \"2 4 1 3\", \"2 5 3 1 4\"]",
+    "src_uid": "dfca19b36c1d682ee83224a317e495e9",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A permutation p of size n is the sequence p1, p2, ..., pn, consisting of n distinct integers, each of them is from 1 to n (1 ≤ pi ≤ n).A lucky permutation is such permutation p, that any integer i (1 ≤ i ≤ n) meets this condition ppi = n - i + 1.You have integer n. Find some lucky permutation p of size n.",
+    "prob_desc_output_spec": "Print \"-1\" (without the quotes) if the lucky permutation p of size n doesn't exist. Otherwise, print n distinct integers p1, p2, ..., pn (1 ≤ pi ≤ n) after a space — the required permutation. If there are multiple answers, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105) — the required permutation size.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_062.jsonl",
+    "code_uid": "b7f82d0e86758b4eada6e788a850e0e2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\", \"2\", \"4\", \"5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\np = [0] * n\n\nif n == 1:\n    print(1)\n    exit()\n\nfor sh in range(n // 4):\n    p[n - sh * 2 - 2] = n - sh * 2\n    p[sh * 2] = n - 1 - sh * 2\n    p[n - sh * 2 - 1] = 2 + sh * 2\n    p[sh * 2 + 1] = 1 + sh * 2\n\nif n % 4 == 1:\n    p[n // 2] = n // 2 + 1\n\nif n % 4 == 2:\n    print(-1)\n    exit()\n\nif n % 4 == 3:\n    print(-1)\n    exit()\n\nprint(\" \".join([str(i) for i in p]))",
+    "prob_desc_created_at": "1364025600",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

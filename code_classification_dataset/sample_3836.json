@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2 3 5 6\", \"-1\"]",
+    "src_uid": "d42405469c82e35361d708a689b54f47",
+    "prob_desc_notes": null,
+    "prob_desc_description": "On the great island of Baltia, there live $$$N$$$ people, numbered from $$$1$$$ to $$$N$$$. There are exactly $$$M$$$ pairs of people that are friends with each other. The people of Baltia want to organize a successful party, but they have very strict rules on what a party is and when the party is successful. On the island of Baltia, a party is a gathering of exactly $$$5$$$ people. The party is considered to be successful if either all the people at the party are friends with each other (so that they can all talk to each other without having to worry about talking to someone they are not friends with) or no two people at the party are friends with each other (so that everyone can just be on their phones without anyone else bothering them). Please help the people of Baltia organize a successful party or tell them that it's impossible to do so.",
+    "prob_desc_output_spec": "If it's possible to organize a successful party, print $$$5$$$ numbers indicating which $$$5$$$ people should be invited to the party. If it's not possible to organize a successful party, print $$$-1$$$ instead. If there are multiple successful parties possible, print any.",
+    "prob_desc_input_spec": "The first line contains two integer numbers, $$$N$$$ ($$$5 \\leq N \\leq 2*10^5$$$) and $$$M$$$ ($$$0 \\leq M \\leq 2*10^5$$$) – the number of people that live in Baltia, and the number of friendships. The next $$$M$$$ lines each contains two integers $$$U_i$$$ and $$$V_i$$$ ($$$1 \\leq U_i,V_i \\leq N$$$) – meaning that person $$$U_i$$$ is friends with person $$$V_i$$$. Two friends can not be in the list of friends twice (no pairs are repeated) and a person can be friends with themselves ($$$U_i \\ne V_i$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_085.jsonl",
+    "code_uid": "83be309bbff3f5bcac18df6b505c1526",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3\\n1 4\\n4 2\\n5 4\", \"5 4\\n1 2\\n2 3\\n3 4\\n4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.buffer.readline \r\n\r\ndef process(n, G):\r\n    n = min(n, 1000)\r\n    M = [[0 for j in range(n+1)] for i in range(n+1)]\r\n    for u, v in G:\r\n        if max(u, v) <= n:\r\n            M[u][v] = 1\r\n            M[v][u] = 1\r\n    all_connect = []\r\n    no_connect = []\r\n    if M[1][2] == 1:\r\n        all_connect.append([1, 2])\r\n    else:\r\n        no_connect.append([1, 2])\r\n    for i in range(3, n+1):\r\n        new_all_connect = []\r\n        new_no_connect = []\r\n        for i2 in range(1, i):\r\n            if M[i][i2]==1:\r\n                new_all_connect.append([i2, i])\r\n            else:\r\n                new_no_connect.append([i2, i])\r\n        for x in all_connect:\r\n            new_all_connect.append(x)\r\n            works = True\r\n            for y in x:\r\n                if M[i][y]==0:\r\n                    works = False\r\n                    break \r\n            if works:\r\n                if len(x+[i])==5:\r\n                    return x+[i]\r\n                new_all_connect.append(x+[i])\r\n        for x in no_connect:\r\n            new_no_connect.append(x)\r\n            works = True\r\n            for y in x:\r\n                if M[i][y]==1:\r\n                    works = False\r\n                    break \r\n            if works:\r\n                if len(x+[i])==5:\r\n                    return x+[i]\r\n                new_no_connect.append(x+[i])\r\n        all_connect = new_all_connect\r\n        no_connect = new_no_connect\r\n    return [-1]\r\n\r\nn, m = [int(x) for x in input().split()]\r\nG = []\r\nfor i in range(m):\r\n    u, v = [int(x) for x in input().split()]\r\n    G.append([u, v])\r\nanswer = process(n, G)\r\nsys.stdout.write(' '.join(map(str, answer))+'\\n')",
+    "prob_desc_created_at": "1633770300",
+    "tags": [
+        "brute force",
+        "math",
+        "probabilities"
+    ],
+    "hidden_unit_tests": ""
+}

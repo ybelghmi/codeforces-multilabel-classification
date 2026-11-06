@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"12\", \"1\"]",
+    "src_uid": "482d128baf37eeeb28b874934aded534",
+    "prob_desc_notes": "NoteIn the first example, the leaf nodes are $$$2,3,4,5$$$. The ways to partition the leaves are in the following image In the second example, the only leaf is node $$$10$$$ so there is only one partition. Note that node $$$1$$$ is not a leaf.",
+    "prob_desc_description": "You are given a rooted tree with $$$n$$$ nodes, labeled from $$$1$$$ to $$$n$$$. The tree is rooted at node $$$1$$$. The parent of the $$$i$$$-th node is $$$p_i$$$. A leaf is node with no children. For a given set of leaves $$$L$$$, let $$$f(L)$$$ denote the smallest connected subgraph that contains all leaves $$$L$$$.You would like to partition the leaves such that for any two different sets $$$x, y$$$ of the partition, $$$f(x)$$$ and $$$f(y)$$$ are disjoint. Count the number of ways to partition the leaves, modulo $$$998244353$$$. Two ways are different if there are two leaves such that they are in the same set in one way but in different sets in the other.",
+    "prob_desc_output_spec": "Print a single integer, the number of ways to partition the leaves, modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$2 \\leq n \\leq 200\\,000$$$) — the number of nodes in the tree. The next line contains $$$n-1$$$ integers $$$p_2, p_3, \\ldots, p_n$$$ ($$$1 \\leq p_i &lt; i$$$). ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_022.jsonl",
+    "code_uid": "fd9e70b728166d44f0b8cc4c48670ee4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 1 1 1\", \"10\\n1 2 3 4 5 6 7 8 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom itertools import repeat\ndef main():\n    n = int(stdin.readline())\n    p = [-1, -1] + map(int, stdin.readline().split(), repeat(10, n - 1))\n    ch = [[] for _ in xrange(n + 1)]\n    for i in xrange(2, n + 1):\n        ch[p[i]].append(i)\n    st = []\n    pu = st.append\n    po = st.pop\n    pu(1)\n    col = [None] * (n + 1)\n    dp = [None for _ in range(n + 1)]\n    mod = 998244353\n    while st:\n        x = po()\n        if col[x] is None:\n            pu(x)\n            col[x] = 1\n            for y in ch[x]:\n                pu(y)\n        else:\n            if ch[x]:\n                dp[x] = (1, 0, 0)\n            else:\n                dp[x] = (0, 0, 1)\n            for y in ch[x]:\n                dp[x] = (dp[x][0] * (dp[y][0] + dp[y][2]) % mod, (dp[x][0] * (dp[y][1] + dp[y][2]) + dp[x][1] * (dp[y][0] + dp[y][2])) % mod, ((dp[x][1] + dp[x][2]) * (dp[y][1] + dp[y][2]) + dp[x][2] * (dp[y][0] + dp[y][2])) % mod)\n    print (dp[1][0] + dp[1][2]) % mod\nmain()\n",
+    "prob_desc_created_at": "1555783500",
+    "tags": [
+        "dp",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

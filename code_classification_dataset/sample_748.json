@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"ab\\nabbc\\nb\\naa\\nx\\nehinopx\"]",
+    "src_uid": "df778e55a2c676acca7311d885f61d7a",
+    "prob_desc_notes": "NoteIn the first test case, one optimal solution is to distribute baba into ab and ab. In the second test case, one optimal solution is to distribute baacb into abbc and a.In the third test case, one optimal solution is to distribute baacb into ac, ab, and b.In the fourth test case, one optimal solution is to distribute aaaaa into aa, aa, and a.In the fifth test case, one optimal solution is to distribute aaxxzz into az, az, x, and x.In the sixth test case, one optimal solution is to distribute phoenix into ehinopx.",
+    "prob_desc_description": "Phoenix has a string $$$s$$$ consisting of lowercase Latin letters. He wants to distribute all the letters of his string into $$$k$$$ non-empty strings $$$a_1, a_2, \\dots, a_k$$$ such that every letter of $$$s$$$ goes to exactly one of the strings $$$a_i$$$. The strings $$$a_i$$$ do not need to be substrings of $$$s$$$. Phoenix can distribute letters of $$$s$$$ and rearrange the letters within each string $$$a_i$$$ however he wants.For example, if $$$s = $$$ baba and $$$k=2$$$, Phoenix may distribute the letters of his string in many ways, such as:   ba and ba  a and abb  ab and ab  aa and bb But these ways are invalid:   baa and ba  b and ba  baba and empty string ($$$a_i$$$ should be non-empty) Phoenix wants to distribute the letters of his string $$$s$$$ into $$$k$$$ strings $$$a_1, a_2, \\dots, a_k$$$ to minimize the lexicographically maximum string among them, i. e. minimize $$$max(a_1, a_2, \\dots, a_k)$$$. Help him find the optimal distribution and print the minimal possible value of $$$max(a_1, a_2, \\dots, a_k)$$$.String $$$x$$$ is lexicographically less than string $$$y$$$ if either $$$x$$$ is a prefix of $$$y$$$ and $$$x \\ne y$$$, or there exists an index $$$i$$$ ($$$1 \\le i \\le min(|x|, |y|))$$$ such that $$$x_i$$$ &lt; $$$y_i$$$ and for every $$$j$$$ $$$(1 \\le j &lt; i)$$$ $$$x_j = y_j$$$. Here $$$|x|$$$ denotes the length of the string $$$x$$$.",
+    "prob_desc_output_spec": "Print $$$t$$$ answers — one per test case. The $$$i$$$-th answer should be the minimal possible value of $$$max(a_1, a_2, \\dots, a_k)$$$ in the $$$i$$$-th test case.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Each test case consists of two lines. The first line of each test case consists of two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 10^5$$$) — the length of string $$$s$$$ and the number of non-empty strings, into which Phoenix wants to distribute letters of $$$s$$$, respectively. The second line of each test case contains a string $$$s$$$ of length $$$n$$$ consisting only of lowercase Latin letters. It is guaranteed that the sum of $$$n$$$ over all test cases is $$$\\le 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_004.jsonl",
+    "code_uid": "a418c7a9b1f2f31ce5b96541ada358fe",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n4 2\\nbaba\\n5 2\\nbaacb\\n5 3\\nbaacb\\n5 3\\naaaaa\\n6 4\\naaxxzz\\n7 1\\nphoenix\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\n\ndef solve(t):\n    for i in range(t):\n        nk = input().split()\n        n, k = int(nk[0]), int(nk[1])        \n        s = [x for x in input()]       \n        d = defaultdict(int)\n        for i in s:\n            d[i] += 1\n        if len(d) > 1:\n            if d[min(d)] < k:\n                c = k - d.pop(min(d))                \n                while c != 1:\n                    d.update({min(d) : d[min(d)] - 1})\n                    if not d[min(d)]:\n                        d.pop(min(d)) # будет флудить ?\n                    c -= 1                    \n                print(min(d))\n            elif d[min(d)] == k:\n                p = min(d)\n                d.pop(min(d))\n                if len(d) == 1:\n                    print(p + min(d.keys()) * (d[min(d)]//k + (1 if d[min(d)] % k else 0)))\n                else:\n                    print(p, end='')\n                    for _ in range(len(d)):\n                        f = min(d)\n                        print(f * d.pop(min(d)), end='')\n                    print()\n            else:\n                d.update({min(d) : d[min(d)] - k + 1})\n                for _ in range(len(d)):\n                    f = min(d)\n                    print(f * d.pop(min(d)), end='')\n                print()\n        else:\n            print(min(d.keys()) * (d[min(d)]//k + (1 if d[min(d)] % k else 0)))\n\nsolve(int(input()))",
+    "prob_desc_created_at": "1588343700",
+    "tags": [
+        "constructive algorithms",
+        "sortings",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

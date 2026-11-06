@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"59\\n778\\n148999\\n999999920999999999\"]",
+    "src_uid": "e25e44b8f300d6be856df50bff8ff244",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In Berland, $$$n$$$ different types of banknotes are used. Banknotes of the $$$i$$$-th type have denomination $$$10^{a_i}$$$ burles (burles are the currency used in Berland); the denomination of banknotes of the first type is exactly $$$1$$$.Let's denote $$$f(s)$$$ as the minimum number of banknotes required to represent exactly $$$s$$$ burles. For example, if the denominations of banknotes used in Berland are $$$1$$$, $$$10$$$ and $$$100$$$, then $$$f(59) = 14$$$: $$$9$$$ banknotes with denomination of $$$1$$$ burle and $$$5$$$ banknotes with denomination of $$$10$$$ burles can be used to represent exactly $$$9 \\cdot 1 + 5 \\cdot 10 = 59$$$ burles, and there's no way to do it with fewer banknotes.For a given integer $$$k$$$, find the minimum positive number of burles $$$s$$$ that cannot be represented with $$$k$$$ or fewer banknotes (that is, $$$f(s) &gt; k$$$).",
+    "prob_desc_output_spec": "For each test case, print one integer — the minimum positive number of burles $$$s$$$ that cannot be represented with $$$k$$$ or fewer banknotes.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — number of test cases. The first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 10; 1 \\le k \\le 10^9$$$). The next line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 = a_1 &lt; a_2 &lt; \\dots &lt; a_n \\le 9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_108.jsonl",
+    "code_uid": "7621a7f4622f0e83f253f18bf4f2a2e5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3 13\\n0 1 2\\n2 777\\n0 4\\n3 255\\n0 1 3\\n10 1000000000\\n0 1 2 3 4 5 6 7 8 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nimport math\r\nimport bisect\r\nfrom sys import stdin, stdout\r\nfrom math import gcd, floor, sqrt, log\r\nfrom collections import defaultdict as dd\r\nfrom bisect import bisect_left as bl, bisect_right as br\r\nfrom collections import Counter\r\nfrom collections import defaultdict as dd\r\n\r\n# sys.setrecursionlimit(100000000)\r\n\r\nflush = lambda: stdout.flush()\r\nstdstr = lambda: stdin.readline()\r\nstdint = lambda: int(stdin.readline())\r\nstdpr = lambda x: stdout.write(str(x))\r\nstdmap = lambda: map(int, stdstr().split())\r\nstdarr = lambda: list(map(int, stdstr().split()))\r\n\r\nmod = 1000000007\r\n\r\n\r\nfor _ in range(stdint()):\r\n    n,k = stdmap()\r\n    k += 1\r\n    arr = stdarr()\r\n\r\n    if(n == 1):\r\n        print(k)\r\n        continue\r\n\r\n\r\n    res = 0\r\n\r\n    for i in range(n):\r\n        if(i == n-1):\r\n            use = k\r\n        else:\r\n            use = min(k, int(\"9\" * (arr[i+1]-arr[i])))\r\n\r\n        add = use * (10**arr[i])\r\n\r\n        res += add\r\n        k -= use\r\n\r\n    print(res)\r\n",
+    "prob_desc_created_at": "1635518100",
+    "tags": [
+        "greedy",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

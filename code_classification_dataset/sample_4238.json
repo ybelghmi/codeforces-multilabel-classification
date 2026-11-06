@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n1\\n2\", \"3\\n5\\n4\\n2\\n3\\n3\\n3\\n1\"]",
+    "src_uid": "fbe031fe816692046fffe310fbc39f8d",
+    "prob_desc_notes": "NoteIn the first example $$$p = \\{5, 3, 4, 2, 1\\}$$$. The first query is to print $$$p_3$$$. The answer is $$$4$$$.The second query is to print $$$p_{p_1}$$$. The answer is $$$1$$$.The third query is to swap $$$p_1$$$ and $$$p_3$$$. Now $$$p = \\{4, 3, 5, 2, 1\\}$$$.The fourth query is to print $$$p_{p_1}$$$. The answer is $$$2$$$.",
+    "prob_desc_description": "You are given a permutation $$$p$$$ of $$$n$$$ elements. A permutation of $$$n$$$ elements is an array of length $$$n$$$ containing each integer from $$$1$$$ to $$$n$$$ exactly once. For example, $$$[1, 2, 3]$$$ and $$$[4, 3, 5, 1, 2]$$$ are permutations, but $$$[1, 2, 4]$$$ and $$$[4, 3, 2, 1, 2]$$$ are not permutations. You should perform $$$q$$$ queries.There are two types of queries:  $$$1$$$ $$$x$$$ $$$y$$$ — swap $$$p_x$$$ and $$$p_y$$$.  $$$2$$$ $$$i$$$ $$$k$$$ — print the number that $$$i$$$ will become if we assign $$$i = p_i$$$ $$$k$$$ times. ",
+    "prob_desc_output_spec": "For every second-type query, print one integer in a new line — answer to this query.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$q$$$ ($$$1 \\le n, q \\le 10^5$$$). The second line contains $$$n$$$ integers $$$p_1, p_2, \\dots, p_n$$$. Each of the next $$$q$$$ lines contains three integers. The first integer is $$$t$$$ ($$$1 \\le t \\le 2$$$) — type of query. If $$$t = 1$$$, then the next two integers are $$$x$$$ and $$$y$$$ ($$$1 \\le x, y \\le n$$$; $$$x \\ne y$$$) — first-type query. If $$$t = 2$$$, then the next two integers are $$$i$$$ and $$$k$$$ ($$$1 \\le i, k \\le n$$$) — second-type query. It is guaranteed that there is at least one second-type query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_093.jsonl",
+    "code_uid": "e62d7e35820b6aefc271c0102ce086ec",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n5 3 4 2 1\\n2 3 1\\n2 1 2\\n1 1 3\\n2 1 2\", \"5 9\\n2 3 5 1 4\\n2 3 5\\n2 5 5\\n2 5 1\\n2 5 3\\n2 5 4\\n1 5 4\\n2 5 3\\n2 2 5\\n2 5 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nimport random\r\n \r\ninp = [int(x) for x in sys.stdin.buffer.read().split()]; ii = 0\r\n \r\nn = inp[ii]; ii += 1\r\nq = inp[ii]; ii += 1\r\n \r\nP = inp[ii: ii + n]; ii += n\r\nP = [i - 1 for i in P]\r\n \r\nspecial = [+(not random.randrange(400)) for _ in range(n)]\r\ndist = [-1] * n\r\nnesta = [-1] * n\r\nmemory = [-2] * n\r\nversion = [-1] * (n + 1)\r\n \r\ndef forget(x):\r\n    if not special[x]:\r\n        xx = x\r\n        special[xx] = 1\r\n        \r\n        x = P[x]\r\n        while not special[x]:\r\n            x = P[x]\r\n        \r\n        special[xx] = 0\r\n        if xx == x:\r\n            return\r\n    version[x] += 1\r\n \r\ndef update(node):\r\n    if memory[node] < version[nesta[node]]:\r\n        d = 1\r\n        i = P[node]\r\n        while not special[i]:\r\n            i = P[i]\r\n            d += 1\r\n        \r\n        memory[node] = version[i]\r\n        nesta[node] = i\r\n        dist[node] = d\r\n \r\ndef walk(i, k):\r\n    while k and not special[i]:\r\n        k -= 1\r\n        i = P[i]\r\n    \r\n    if k:\r\n        while update(i) or dist[i] <= k:\r\n            k -= dist[i]\r\n            i = nesta[i]\r\n \r\n    while k:\r\n        k -= 1\r\n        i = P[i]\r\n    \r\n    return i\r\n \r\nfor _ in range(q):\r\n    qtype = inp[ii]; ii += 1\r\n    if qtype == 1:\r\n        x = inp[ii] - 1; ii += 1\r\n        y = inp[ii] - 1; ii += 1\r\n \r\n        P[x], P[y] = P[y], P[x]\r\n \r\n        forget(P[x])\r\n        forget(P[y])\r\n    else:\r\n        i = inp[ii] - 1; ii += 1\r\n        k = inp[ii]; ii += 1\r\n \r\n        print(walk(i, k) + 1)",
+    "prob_desc_created_at": "1640010900",
+    "tags": [
+        "brute force",
+        "data structures",
+        "divide and conquer",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

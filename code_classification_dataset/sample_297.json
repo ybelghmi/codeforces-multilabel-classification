@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"11\\n4 1\\n2 5\\n1 3\\n5 2\\n3 4\"]",
+    "src_uid": "c151fe26b4152474c78fd71c7ab49c88",
+    "prob_desc_notes": "NoteThe first test from the statement the match looks as follows:   bill  →  bilbo (lcp = 3)  galya  →  galadriel (lcp = 3)  gennady  →  gendalf (lcp = 3)  toshik  →  torin (lcp = 2)  boris  →  smaug (lcp = 0) ",
+    "prob_desc_description": "Teachers of one programming summer school decided to make a surprise for the students by giving them names in the style of the \"Hobbit\" movie. Each student must get a pseudonym maximally similar to his own name. The pseudonym must be a name of some character of the popular saga and now the teachers are busy matching pseudonyms to student names.There are n students in a summer school. Teachers chose exactly n pseudonyms for them. Each student must get exactly one pseudonym corresponding to him. Let us determine the relevance of a pseudonym b to a student with name a as the length of the largest common prefix a and b. We will represent such value as . Then we can determine the quality of matching of the pseudonyms to students as a sum of relevances of all pseudonyms to the corresponding students.Find the matching between students and pseudonyms with the maximum quality.",
+    "prob_desc_output_spec": "In the first line print the maximum possible quality of matching pseudonyms to students. In the next n lines describe the optimal matching. Each line must have the form a b (1 ≤ a, b ≤ n), that means that the student who was number a in the input, must match to the pseudonym number b in the input. The matching should be a one-to-one correspondence, that is, each student and each pseudonym should occur exactly once in your output. If there are several optimal answers, output any.",
+    "prob_desc_input_spec": "The first line contains number n (1 ≤ n ≤ 100 000) — the number of students in the summer school. Next n lines contain the name of the students. Each name is a non-empty word consisting of lowercase English letters. Some names can be repeating. The last n lines contain the given pseudonyms. Each pseudonym is a non-empty word consisting of small English letters. Some pseudonyms can be repeating. The total length of all the names and pseudonyms doesn't exceed 800 000 characters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_001.jsonl",
+    "code_uid": "57da54098f153a43ca0403ea32fc9552",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\ngennady\\ngalya\\nboris\\nbill\\ntoshik\\nbilbo\\ntorin\\ngendalf\\nsmaug\\ngaladriel\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nSIGMA = 26\n\nnodes = []\npairs = []\nres = 0\n\nclass Node:\n    def __init__(self):\n        self.ch = {}\n        self.a = []\n        self.b = []\n        self.d = 0\n\n    def add(self, s, i):\n        t = self\n        for c in s:\n            v = ord(c) - ord('a')\n            if not v in t.ch:\n                t.ch[v] = Node()\n                t.ch[v].d = t.d + 1\n                nodes.append(t.ch[v])\n            t = t.ch[v]\n        t.a.append(i)\n\n    def inc(self, s, i):\n        t = self\n        for c in s:\n            v = ord(c) - ord('a')\n            if not v in t.ch:\n                break\n            t = t.ch[v]\n        t.b.append(i)\n\n    def solve(self):\n        global pairs\n        global res\n        for i in range(SIGMA):\n            if i in self.ch:\n                self.a.extend(self.ch[i].a)\n                self.b.extend(self.ch[i].b)\n        k = min(len(self.a), len(self.b))\n        for i in range(k):\n            pairs.append(str(self.a[-1]) + ' ' + str(self.b[-1]))\n            self.a.pop()\n            self.b.pop()\n            res += self.d\n        return res\n\nsys.setrecursionlimit(2000000)\n_input = sys.stdin.readlines()\n_input = [s[:-1] for s in _input]\nN = int(_input[0])\nA = _input[1 : N + 1]\nB = _input[N + 1 :]\nT = Node()\nnodes.append(T)\nfor i, s in enumerate(A):\n    T.add(s, i + 1)\nfor i, s in enumerate(B):\n    T.inc(s, i + 1)\nfor n in reversed(nodes):\n    n.solve()\nprint(res)\nprint('\\n'.join(pairs))\n",
+    "prob_desc_created_at": "1438273200",
+    "tags": [
+        "dfs and similar",
+        "trees",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

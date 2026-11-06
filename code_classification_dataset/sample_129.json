@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\"]",
+    "src_uid": "0c9550a09f84de6bed529d007ccb4ae8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Petya got interested in grammar on his third year in school. He invented his own language called Petya's. Petya wanted to create a maximally simple language that would be enough to chat with friends, that's why all the language's grammar can be described with the following set of rules: There are three parts of speech: the adjective, the noun, the verb. Each word in his language is an adjective, noun or verb.  There are two genders: masculine and feminine. Each word in his language has gender either masculine or feminine.  Masculine adjectives end with -lios, and feminine adjectives end with -liala.  Masculine nouns end with -etr, and feminime nouns end with -etra.  Masculine verbs end with -initis, and feminime verbs end with -inites.  Thus, each word in the Petya's language has one of the six endings, given above. There are no other endings in Petya's language.  It is accepted that the whole word consists of an ending. That is, words \"lios\", \"liala\", \"etr\" and so on belong to the Petya's language.  There aren't any punctuation marks, grammatical tenses, singular/plural forms or other language complications.  A sentence is either exactly one valid language word or exactly one statement. Statement is any sequence of the Petya's language, that satisfy both conditions: Words in statement follow in the following order (from the left to the right): zero or more adjectives followed by exactly one noun followed by zero or more verbs.  All words in the statement should have the same gender.After Petya's friend Vasya wrote instant messenger (an instant messaging program) that supported the Petya's language, Petya wanted to add spelling and grammar checking to the program. As Vasya was in the country and Petya didn't feel like waiting, he asked you to help him with this problem. Your task is to define by a given sequence of words, whether it is true that the given text represents exactly one sentence in Petya's language.",
+    "prob_desc_output_spec": "If some word of the given text does not belong to the Petya's language or if the text contains more that one sentence, print \"NO\" (without the quotes). Otherwise, print \"YES\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains one or more words consisting of lowercase Latin letters. The overall number of characters (including letters and spaces) does not exceed 105. It is guaranteed that any two consecutive words are separated by exactly one space and the input data do not contain any other spaces. It is possible that given words do not belong to the Petya's language.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_000.jsonl",
+    "code_uid": "bc15bb497c13ab7802e580333fe35828",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"petr\", \"etis atis animatis etis atis amatis\", \"nataliala kataliala vetra feinites\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "'''\n\nCodeforces r86 - div2\nProblem C: Grammar Lessons\n@author: chicken\n\n'''\nimport re\ndef solve(inp):\n    pats = [r'^(\\w*lios )*(\\w*etr)( \\w*initis)*$',\n           r'^(\\w*liala )*(\\w*etra)( \\w*inites)*$',\n           r'^\\w*(lios|liala|etr|etra|initis|inites)$']\n    for p in pats:\n        if(re.match(p, inp)):\n            print 'YES'\n            return\n    \n    print 'NO'\n\nif __name__ == '__main__':\n    inp = raw_input().strip()\n    solve(inp)\n    \n    \n    ",
+    "prob_desc_created_at": "1315494000",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

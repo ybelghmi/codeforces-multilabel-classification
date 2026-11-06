@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"3\"]",
+    "src_uid": "f14e81618a81946dcaab281e1aa1ff9f",
+    "prob_desc_notes": "NoteIn the first example, the only pair of points $$$(-3, 0)$$$, $$$(3, 0)$$$ is suitable. The distance to the segment between these points from the points $$$(0, 1)$$$ and $$$(0, -1)$$$ is equal to $$$1$$$, which is less than $$$R=2$$$.In the second example, all possible pairs of points are eligible.",
+    "prob_desc_description": "You are given $$$n$$$ distinct points $$$p_1, p_2, \\ldots, p_n$$$ on the plane and a positive integer $$$R$$$. Find the number of pairs of indices $$$(i, j)$$$ such that $$$1 \\le i &lt; j \\le n$$$, and for every possible $$$k$$$ ($$$1 \\le k \\le n$$$) the distance from the point $$$p_k$$$ to the segment between points $$$p_i$$$ and $$$p_j$$$ is at most $$$R$$$.",
+    "prob_desc_output_spec": "Print the number of suitable pairs $$$(i, j)$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$, $$$R$$$ ($$$1 \\le n \\le 3000$$$, $$$1 \\le R \\le 10^5$$$) — the number of points and the maximum distance between a point and a segment. Each of the next $$$n$$$ lines contains two integers $$$x_i$$$, $$$y_i$$$ ($$$-10^5 \\le x_i, y_i \\le 10^5$$$) that define the $$$i$$$-th point $$$p_i=(x_i, y_i)$$$. All points are distinct. It is guaranteed that the answer does not change if the parameter $$$R$$$ is changed by at most $$$10^{-2}$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 3200,
+    "file_name": "train_109.jsonl",
+    "code_uid": "cfc06de167e0e52f03ba1a2731a85256",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n0 1\\n0 -1\\n3 0\\n-3 0\", \"3 3\\n1 -1\\n-1 -1\\n0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import atan2, asin\r\n\r\ndef dist(a, b):\r\n    return ((a[0]-b[0])**2 + (a[1]-b[1])**2)**0.5\r\n\r\ndef check(R, p, i, dp):\r\n    left, right = float(\"-inf\"), float(\"inf\")\r\n    for j in range(len(p)):\r\n        if j == i:\r\n            continue\r\n        d = dist(p[i], p[j])\r\n        if R >= d:\r\n            continue\r\n        delta = asin(R/d)\r\n        angle = atan2(p[j][1]-p[i][1], p[j][0]-p[i][0])\r\n        l, r = angle-delta, angle+delta\r\n        if l > right:\r\n            l, r = l-2*PI, r-2*PI\r\n        elif r < left:\r\n            l, r = l+2*PI, r+2*PI\r\n        left, right = max(left, l), min(right, r)\r\n        if left > right:\r\n            return\r\n    for j in range(len(p)):\r\n        if j == i:\r\n            continue\r\n        angle = atan2(p[j][1]-p[i][1], p[j][0]-p[i][0])\r\n        if angle > right:\r\n            angle -= 2*PI\r\n        elif angle < left:\r\n            angle += 2*PI\r\n        if left <= angle <= right:\r\n            dp[i][j] = 1\r\n\r\ndef solution():\r\n    n, R = list(map(int, input().strip().split()))\r\n    p = [list(map(int, input().strip().split())) for _ in range(n)]\r\n    dp = [[0]*n for _ in range(n)]\r\n    for i in range(n):\r\n        check(R, p, i, dp)\r\n    return sum(dp[i][j] and dp[j][i] for i in range(n) for j in range(i, n))\r\n\r\nPI = 2*atan2(1, 0)\r\nprint(solution())",
+    "prob_desc_created_at": "1636869900",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

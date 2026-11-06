@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n3 3\", \"NO\", \"YES\\n4 9\"]",
+    "src_uid": "3b725f11009768904514d87e2c7714ee",
+    "prob_desc_notes": "NoteThe matrix and the path on it in the first test looks like this:  Also there exist multiple correct answers for both the first and the third examples.",
+    "prob_desc_description": "There is a matrix A of size x × y filled with integers. For every ,  Ai, j = y(i - 1) + j. Obviously, every integer from [1..xy] occurs exactly once in this matrix. You have traversed some path in this matrix. Your path can be described as a sequence of visited cells a1, a2, ..., an denoting that you started in the cell containing the number a1, then moved to the cell with the number a2, and so on.From the cell located in i-th line and j-th column (we denote this cell as (i, j)) you can move into one of the following cells: (i + 1, j) — only if i &lt; x;  (i, j + 1) — only if j &lt; y;  (i - 1, j) — only if i &gt; 1;  (i, j - 1) — only if j &gt; 1.Notice that making a move requires you to go to an adjacent cell. It is not allowed to stay in the same cell. You don't know x and y exactly, but you have to find any possible values for these numbers such that you could start in the cell containing the integer a1, then move to the cell containing a2 (in one step), then move to the cell containing a3 (also in one step) and so on. Can you choose x and y so that they don't contradict with your sequence of moves?",
+    "prob_desc_output_spec": "If all possible values of x and y such that 1 ≤ x, y ≤ 109 contradict with the information about your path, print NO. Otherwise, print YES in the first line, and in the second line print the values x and y such that your path was possible with such number of lines and columns in the matrix. Remember that they must be positive integers not exceeding 109.",
+    "prob_desc_input_spec": "The first line contains one integer number n (1 ≤ n ≤ 200000) — the number of cells you visited on your path (if some cell is visited twice, then it's listed twice). The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 109) — the integers in the cells on your path.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_000.jsonl",
+    "code_uid": "acfd4a97b9b6193e088880935c101c18",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n1 2 3 6 9 8 5 2\", \"6\\n1 2 1 2 5 3\", \"2\\n1 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = list(map(int, input().split()))\ndiff = 0\nfailed = False\nm = 0\nfor i in range(len(a) - 1):\n    if abs(a[i] == a[i + 1]):\n        failed = True\n        break\n    elif abs(a[i] - a[i + 1]) > 1:\n        if diff == 0:\n            diff = abs(a[i] - a[i + 1])\n        elif abs(a[i] - a[i + 1]) != diff:\n            failed = True\n            break\n    if a[i] > m:\n        m = a[i]\nif a[-1] > m:\n    m = a[-1]\n\nif failed:\n    print(\"NO\")\nelse:\n\n    if diff == 0:\n        print(\"YES\")\n        print(m, 1)\n    else:\n        for i in range(len(a) - 1):\n            if abs(a[i] - a[i + 1]) == 1 and min(a[i], a[i + 1]) % diff == 0:\n                failed = True\n\n        if failed:\n            print(\"NO\")\n        elif m % diff == 0:\n            print(\"YES\")\n            print(m // diff, diff)\n        else:\n            print(\"YES\")\n            print(m // diff + 1, diff)\n",
+    "prob_desc_created_at": "1521698700",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n4\\n2\\n7\\n4\"]",
+    "src_uid": "19a3247ef9d10563db821ca19b0f9004",
+    "prob_desc_notes": "NoteThe following are the promising substrings for the first three test cases in the example:  $$$s[1 \\dots 2]$$$=\"+-\", $$$s[2 \\dots 3]$$$=\"-+\";  $$$s[1 \\dots 2]$$$=\"-+\", $$$s[2 \\dots 3]$$$=\"+-\", $$$s[1 \\dots 5]$$$=\"-+---\", $$$s[3 \\dots 5]$$$=\"---\";  $$$s[1 \\dots 3]$$$=\"---\", $$$s[2 \\dots 4]$$$=\"---\". ",
+    "prob_desc_description": "This is the hard version of Problem F. The only difference between the easy version and the hard version is the constraints.We will call a non-empty string balanced if it contains the same number of plus and minus signs. For example: strings \"+--+\" and \"++-+--\" are balanced, and strings \"+--\", \"--\" and \"\" are not balanced.We will call a string promising if the string can be made balanced by several (possibly zero) uses of the following operation:  replace two adjacent minus signs with one plus sign. In particular, every balanced string is promising. However, the converse is not true: not every promising string is balanced.For example, the string \"-+---\" is promising, because you can replace two adjacent minuses with plus and get a balanced string \"-++-\", or get another balanced string \"-+-+\".How many non-empty substrings of the given string $$$s$$$ are promising? Each non-empty promising substring must be counted in the answer as many times as it occurs in string $$$s$$$.Recall that a substring is a sequence of consecutive characters of the string. For example, for string \"+-+\" its substring are: \"+-\", \"-+\", \"+\", \"+-+\" (the string is a substring of itself) and some others. But the following strings are not its substring: \"--\", \"++\", \"-++\".",
+    "prob_desc_output_spec": "For each test case, print a single number: the number of the promising non-empty substrings of string $$$s$$$. Each non-empty promising substring must be counted in the answer as many times as it occurs in string $$$s$$$.",
+    "prob_desc_input_spec": "The first line of the input contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) —the number of test cases in the test. Then the descriptions of test cases follow. Each test case of input data consists of two lines. The first line consists of the number $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$): the length of $$$s$$$. The second line of the test case contains the string $$$s$$$ of length $$$n$$$, consisting only of characters \"+\" and \"-\". It is guaranteed that the sum of values $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_105.jsonl",
+    "code_uid": "e7954c49622720cbf6a1cfb96c101187",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n3\\n\\n+-+\\n\\n5\\n\\n-+---\\n\\n4\\n\\n----\\n\\n7\\n\\n--+---+\\n\\n6\\n\\n+++---\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\n\r\ndef Print( m ):\r\n    for r in m:\r\n        print( r )\r\n    print() \r\n\r\ndef Solve( size, s ):\r\n\r\n    cntM = 0 \r\n    delta = [ 0 ]\r\n\r\n    for idx in range( size ):\r\n        c  = s[idx]\r\n        if c == '+': \r\n            cntM -= 1\r\n        else : \r\n            cntM += 1\r\n        delta.append( cntM )\r\n\r\n    minDelta = min( delta )\r\n    maxDelta = max( delta )\r\n\r\n    sol3 = 0\r\n    \r\n    collecteds = { key : 0 for key in range( minDelta, maxDelta + 1) }\r\n    collecteds[0] = 1\r\n\r\n    sums1 = { key:0 for key in range( minDelta - 3, maxDelta + 1) }\r\n    sums1[ 0 ] = 1\r\n\r\n    for i in range( 1, size + 1 ):\r\n\r\n        k = delta[i]\r\n\r\n        #print( '\\n'*2, k ) \r\n        #print( 'col', collecteds )\r\n        #print( 'sum ', dict( sorted(sums.items() )) )\r\n        #print( 'sum1', dict( sorted(sums1.items())[3:] ) )\r\n        #print( 'sum[k] and sum1[k]', k, sums[k], sums1[k] )\r\n\r\n        sol3 += sums1[ k - 3 ] + collecteds[ k ]\r\n\r\n        collecteds[ k ] += 1\r\n\r\n        sums1[ k ] = sums1[ k - 3 ] + collecteds[ k ]\r\n\r\n    return sol3\r\n\r\n\r\ndef main():\r\n\r\n    input = sys.stdin\r\n    if len( sys.argv ) >= 2:\r\n        input = open( sys.argv[1], 'r' )\r\n\r\n    n = int( input.readline().strip() )\r\n    for i in range( n ):\r\n        input.readline()\r\n        s = input.readline().strip() \r\n        print( Solve( len( s ), s ) )\r\n\r\nif __name__ == \"__main__\":\r\n    main()    \r\n    \r\n\r\n\r\n \r\n",
+    "prob_desc_created_at": "1648737300",
+    "tags": [
+        "data structures",
+        "implementation",
+        "math",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

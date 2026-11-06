@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"NO\", \"YES\\n4\\n3 6 1\\n4 6 3\\n3 4 7\\n4 5 2\"]",
+    "src_uid": "0ef40ec5578a61c93254149c59282ee3",
+    "prob_desc_notes": "NoteThe configuration from the first sample is drawn below, and it is impossible to achieve.  The sequence of operations from the second sample is illustrated below.  ",
+    "prob_desc_description": "Note that this is the second problem of the two similar problems. You can hack this problem if you solve it. But you can hack the previous problem only if you solve both problems.You are given a tree with $$$n$$$ nodes. In the beginning, $$$0$$$ is written on all edges. In one operation, you can choose any $$$2$$$ distinct leaves $$$u$$$, $$$v$$$ and any integer number $$$x$$$ and add $$$x$$$ to values written on all edges on the simple path between $$$u$$$ and $$$v$$$. Note that in previous subtask $$$x$$$ was allowed to be any real, here it has to be integer.For example, on the picture below you can see the result of applying two operations to the graph: adding $$$2$$$ on the path from $$$7$$$ to $$$6$$$, and then adding $$$-1$$$ on the path from $$$4$$$ to $$$5$$$.   You are given some configuration of nonnegative integer pairwise different even numbers, written on the edges. For a given configuration determine if it is possible to achieve it with these operations, and, if it is possible, output the sequence of operations that leads to the given configuration. Constraints on the operations are listed in the output format section.Leave is a node of a tree of degree $$$1$$$. Simple path is a path that doesn't contain any node twice.",
+    "prob_desc_output_spec": "If there aren't any sequences of operations which lead to the given configuration, output \"NO\". If it exists, output \"YES\" in the first line. In the second line output $$$m$$$ — number of operations you are going to apply ($$$0 \\le m \\le 10^5$$$). Note that you don't have to minimize the number of the operations! In the next $$$m$$$ lines output the operations in the following format: $$$u, v, x$$$ ($$$1 \\le u, v \\le n$$$, $$$u \\not = v$$$, $$$x$$$ — integer, $$$-10^9 \\le x \\le 10^9$$$), where $$$u, v$$$ — leaves, $$$x$$$ — number we are adding.  It is guaranteed that if there exists a sequence of operations producing given configuration, then there exists a sequence of operations producing given configuration, satisfying all the conditions above.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 1000$$$) — the number of nodes in a tree. Each of the next $$$n-1$$$ lines contains three integers $$$u$$$, $$$v$$$, $$$val$$$ ($$$1 \\le u, v \\le n$$$, $$$u \\neq v$$$, $$$0 \\le val \\le 10\\,000$$$), meaning that there is an edge between nodes $$$u$$$ and $$$v$$$ with $$$val$$$ written on it. It is guaranteed that these edges form a tree. It is guaranteed that all $$$val$$$ numbers are pairwise different and even. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_003.jsonl",
+    "code_uid": "0c688992e3f3c663189296850df19f89",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 2\\n2 3 4\\n3 4 10\\n3 5 18\", \"6\\n1 2 6\\n1 3 8\\n1 4 12\\n2 5 2\\n2 6 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\nclass solution():\n    def dfs(self, x, par, adj_arr):\n        for adj in adj_arr[x]:\n            if adj != par:\n                return self.dfs(adj, x, adj_arr)\n\n        return x\n\n    def get_two_child(self, x, y, adj_arr):\n        if len(adj_arr[x]) == 1:\n            return x + 1, x + 1\n\n        child1 = adj_arr[x][0]\n        child2 = adj_arr[x][1]\n\n        if child1 == y:\n            child1 = child2\n            child2 = adj_arr[x][2]\n\n        if child2 == y:\n            child2 = adj_arr[x][2]\n\n        return self.dfs(child1, x, adj_arr) + 1, self.dfs(child2, x, adj_arr) + 1\n\n    def main(self):\n        n = int(stdin.readline())\n        a = [[] for _ in range(n)]\n        edges = []\n\n        for i in range(n - 1):\n            x, y, w = [int(val) for val in stdin.readline().split(\" \")]\n            x -= 1\n            y -= 1\n            a[x].append(y)\n            a[y].append(x)\n            edges.append((x, y, w))\n\n        for val in a:\n            if len(val) == 2:\n                print \"NO\"\n                return\n\n        print \"YES\"\n        result = []\n        for x, y, w in edges:\n            if w == 0:\n                continue\n\n            l1, l2 = self.get_two_child(x, y, a)\n            r1, r2 = self.get_two_child(y, x, a)\n\n            result.append((l1, r1, w / 2))\n            result.append((l2, r2, w / 2))\n\n            if l1 != l2:\n                result.append((l1, l2, -(w / 2)))\n\n            if r1 != r2:\n                result.append((r1, r2, -(w / 2)))\n\n        print len(result)\n        for x in result:\n            print \" \".join([str(y) for y in x])\n\nx = solution()\nx.main()\n\n\n",
+    "prob_desc_created_at": "1562339100",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

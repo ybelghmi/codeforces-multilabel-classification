@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"NO\\nNO\", \"YES\\n6 5 4 3 2 1 \\nYES\\n3 6 2 5 1 4\"]",
+    "src_uid": "581d08af78dc960f3212bdf01bc57167",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Given an integer N, find two permutations:  Permutation p of numbers from 1 to N such that pi ≠ i and pi &amp; i = 0 for all i = 1, 2, ..., N.  Permutation q of numbers from 1 to N such that qi ≠ i and qi &amp; i ≠ 0 for all i = 1, 2, ..., N. &amp; is the bitwise AND operation.",
+    "prob_desc_output_spec": "For each subtask, if the required permutation doesn't exist, output a single line containing the word \"NO\"; otherwise output the word \"YES\" in the first line and N elements of the permutation, separated by spaces, in the second line. If there are several possible permutations in a subtask, output any of them.",
+    "prob_desc_input_spec": "The input consists of one line containing a single integer N (1 ≤ N ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_003.jsonl",
+    "code_uid": "b8723372c8b23efe301d25a16d46158f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\", \"6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import*\nn=int(input())\nif n%2:\n\tprint('NO')\nelse:\n\tprint(\"YES\")\n\tk=floor(log2(n))+1\n\tres = [0 for i in range(n)]\n\toccupied = [0 for i in range(n)]\n\tswitch = 0\n\tfor i in range(n,0,-1):\n\t\tval = 2**k-1-i\n\t\tif val > n:\n\t\t\tk-=1\n\t\t\tval = 2**k-1-i\n\t\tif occupied[val-1]:\n\t\t\twhile occupied[val-1]:\n\t\t\t\tk-=1\n\t\t\t\tval = 2**k-1-i\n\t\tval = 2**k-1-i\n\t\toccupied[val-1] = 1\n\t\tres[i-1] = val\n\tfor i in res:\n\t\tprint(i,end=' ')\n\tprint()\n\nif n in [1,2,3,4,5]:\n\tprint('NO')\nelif int(log2(n)) == log2(n):\n\tprint('NO')\nelif n == 6:\n\tprint('YES')\n\tprint('3 6 2 5 1 4')\nelse:\n\tprint('YES')\n\tprint('7 3 2 5 6 4 1',end=' ')\n\tfor i in range(8,n+1):\n\t\tif int(log2(i)) == log2(i):\n\t\t\tprint(min(i*2-1,n),end=' ')\n\t\telse:\n\t\t\tprint(i-1,end=' ')\n\tprint()",
+    "prob_desc_created_at": "1514392500",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nSSSSS\\nLLLLL\\nSSSSS\\nLLLLL\\nSSSSS\", \"NO\"]",
+    "src_uid": "b15bc7ff01f239a7e4377868a7dda0a6",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A map of some object is a rectangular field consisting of n rows and n columns. Each cell is initially occupied by the sea but you can cover some some cells of the map with sand so that exactly k islands appear on the map. We will call a set of sand cells to be island if it is possible to get from each of them to each of them by moving only through sand cells and by moving from a cell only to a side-adjacent cell. The cells are called to be side-adjacent if they share a vertical or horizontal side. It is easy to see that islands do not share cells (otherwise they together form a bigger island).Find a way to cover some cells with sand so that exactly k islands appear on the n × n map, or determine that no such way exists. ",
+    "prob_desc_output_spec": "If the answer doesn't exist, print \"NO\" (without the quotes) in a single line. Otherwise, print \"YES\" in the first line. In the next n lines print the description of the map. Each of the lines of the description must consist only of characters 'S' and 'L', where 'S' is a cell that is occupied by the sea and 'L' is the cell covered with sand. The length of each line of the description must equal n. If there are multiple answers, you may print any of them. You should not maximize the sizes of islands.",
+    "prob_desc_input_spec": "The single line contains two positive integers n, k (1 ≤ n ≤ 100, 0 ≤ k ≤ n2) — the size of the map and the number of islands you should form.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_010.jsonl",
+    "code_uid": "8e164443347a38b24ce0b7cbd8e379de",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2\", \"5 25\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/python\n# -*-coding:utf-8 -*-\n\nn,k = [int(item) for item in raw_input().split()]\ntbl = [[None for j in range(n)] for i in range(n)]\ni,j = (0,0)\ngo = [[-1,0],[1,0],[0,-1],[0,1]]\nwhile i != n:\n    for item in go:\n        new_i = i + item[0]\n        new_j = j + item[1]\n        if new_i < 0 or new_j < 0 or new_i >= n or new_j >= n:\n            continue\n        if tbl[new_i][new_j] == 'L':\n            tbl[i][j] = 'S'\n    if k > 0 and tbl[i][j] == None:\n        tbl[i][j] = 'L'\n        k -= 1\n    else:\n        tbl[i][j] = 'S'\n    j += 1\n    if j == n:\n        i += 1\n        j = 0\nif k:\n    print \"NO\"\nelse:\n    print \"YES\"\n    for row in tbl:\n        print ''.join(row)\n",
+    "prob_desc_created_at": "1431016200",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

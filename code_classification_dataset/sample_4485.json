@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\n20\\n112\"]",
+    "src_uid": "c4ba92632e10b1710686930f0c4536fa",
+    "prob_desc_notes": "NoteIn first example, one of the sequences that fits the constraints is $$$[0, 2]$$$. Consider all its non-empty subsequences:  $$$[0]$$$: the bitwise XOR of this subsequence is $$$0$$$;  $$$[2]$$$: the bitwise XOR of this subsequence is $$$2$$$;  $$$[0, 2]$$$: the bitwise XOR of this subsequence is $$$2$$$. The sum of all results is $$$4$$$, so it is the answer.In second example, one of the sequences that fits the constraints is $$$[0, \\, 5, \\, 5]$$$.In third example, one of the sequences that fits the constraints is $$$[5, \\, 6, \\, 7, \\, 0, \\, 2]$$$.",
+    "prob_desc_description": "Once Divan analyzed a sequence $$$a_1, a_2, \\ldots, a_n$$$ consisting of $$$n$$$ non-negative integers as follows. He considered each non-empty subsequence of the sequence $$$a$$$, computed the bitwise XOR of its elements and added up all the XORs, obtaining the coziness of the sequence $$$a$$$.A sequence $$$c$$$ is a subsequence of a sequence $$$d$$$ if $$$c$$$ can be obtained from $$$d$$$ by deletion of several (possibly, zero or all) elements. For example, $$$[1, \\, 2, \\, 3, \\, 4]$$$, $$$[2, \\, 4]$$$, and $$$[2]$$$ are subsequences of $$$[1, \\, 2, \\, 3, \\, 4]$$$, but $$$[4, \\, 3]$$$ and $$$[0]$$$ are not.Divan was very proud of his analysis, but now he lost the sequence $$$a$$$, and also the coziness value! However, Divan remembers the value of bitwise OR on $$$m$$$ contiguous subsegments of the sequence $$$a$$$. It turns out that each element of the original sequence is contained in at least one of these $$$m$$$ segments.Divan asks you to help find the coziness of the sequence $$$a$$$ using the information he remembers. If several coziness values are possible, print any.As the result can be very large, print the value modulo $$$10^9 + 7$$$.",
+    "prob_desc_output_spec": "For each test case print the coziness any suitable sequence $$$a$$$ modulo $$$10^9 + 7$$$.",
+    "prob_desc_input_spec": "The first line contains one integer number $$$t$$$ ($$$1 \\le t \\le 10^3$$$) — the number of test cases. The first line of each test case contains two integer numbers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 2 \\cdot 10^5$$$) — the length of the sequence and the number of contiguous segments whose bitwise OR values Divan remembers, respectively. The following $$$m$$$ lines describe the segments, one per line. Each segment is described with three integers $$$l$$$, $$$r$$$, and $$$x$$$ ($$$1 \\le l \\le r \\le n$$$, $$$0 \\le x \\le 2^{30} - 1$$$) — the first and last elements of the segment and the bitwise OR of $$$a_l, a_{l + 1}, \\ldots, a_r$$$, respectively. It is guaranteed that each element of the sequence is contained in at least one of the segments. It is guaranteed that there exists a sequence that satisfies all constraints. It is guaranteed that the sum of $$$n$$$ and the sum of $$$m$$$ over all test cases do not exceed $$$2 \\cdot 10^5$$$. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_099.jsonl",
+    "code_uid": "7afc1d794ba22d9c50bd956eda4d0f07",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 1\\n1 2 2\\n3 2\\n1 3 5\\n2 3 5\\n5 4\\n1 2 7\\n3 3 7\\n4 4 0\\n4 5 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nimport math\nfrom collections import deque\nfrom heapq import heapify, heappop, heappush\nfrom bisect import bisect_left, bisect_right\n\ninput = stdin.readline\n\npower, mod = {}, 1000000007\ndef getpower(k):\n\tif(k == 0):return 1\n\tif(k == 1):return 2\n\tif(k in power):\n\t\treturn power[k]\n\tpower[k] = (getpower(k // 2) * getpower(k - k // 2)) % mod\n\treturn power[k]\n\nfor _ in range(int(input())):\n\tn, m = map(int, input().split())\n\tarr, mod, easy = [], 1000000007, [0] * 30\n\tpowerval = getpower(n - 1)\n\teasy = 0\n\tfor _ in range(m):\n\t\tl, r, x = map(int, input().split())\n\t\teasy = easy | x\n\n\tvalue, total = 1, 0\n\tfor i in range(30):\n\t\tif(easy % 2 == 0):\n\t\t\tvalue = (value * 2) % mod\n\t\t\teasy = easy // 2\n\t\t\tcontinue\n\t\ttotal += value\n\t\ttotal = total % mod\n\t\tvalue = value * 2\n\t\tvalue = value % mod\n\t\teasy = easy // 2\n\n\tprint((total * powerval)%mod)",
+    "prob_desc_created_at": "1637925300",
+    "tags": [
+        "bitmasks",
+        "combinatorics",
+        "constructive algorithms",
+        "dp",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

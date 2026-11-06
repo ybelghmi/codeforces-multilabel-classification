@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\naccx\\naegx\\nbega\\nbdda\\nYES\\naha\\naha\\nYES\\nzz\\naa\\nzz\\nNO\\nYES\\naaza\\nbbza\\nNO\\nYES\\nbbaabbaabbaabbaay\\nddccddccddccddccy\\nNO\"]",
+    "src_uid": "a15f7324d545c26725324928eaaa645c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The only difference between this problem and D1 is that you don't have to provide the way to construct the answer in D1, but you have to do it in this problem.There's a table of $$$n \\times m$$$ cells ($$$n$$$ rows and $$$m$$$ columns). The value of $$$n \\cdot m$$$ is even.A domino is a figure that consists of two cells having a common side. It may be horizontal (one of the cells is to the right of the other) or vertical (one of the cells is above the other).You need to place $$$\\frac{nm}{2}$$$ dominoes on the table so that exactly $$$k$$$ of them are horizontal and all the other dominoes are vertical. The dominoes cannot overlap and must fill the whole table.",
+    "prob_desc_output_spec": "For each test case:   print \"NO\" if it's not possible to place the dominoes on the table in the described way;  otherwise, print \"YES\" on a separate line, then print $$$n$$$ lines so that each of them contains $$$m$$$ lowercase letters of the Latin alphabet — the layout of the dominoes on the table. Each cell of the table must be marked by the letter so that for every two cells having a common side, they are marked by the same letters if and only if they are occupied by the same domino. I.e. both cells of the same domino must be marked with the same letter, but two dominoes that share a side must be marked with different letters. If there are multiple solutions, print any of them. ",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case consists of a single line. The line contains three integers $$$n$$$, $$$m$$$, $$$k$$$ ($$$1 \\le n,m \\le 100$$$, $$$0 \\le k \\le \\frac{nm}{2}$$$, $$$n \\cdot m$$$ is even) — the count of rows, columns and horizontal dominoes, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_099.jsonl",
+    "code_uid": "7dcef7b2db9c1183b624f0a31f094345",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n4 4 2\\n2 3 0\\n3 2 3\\n1 2 0\\n2 4 2\\n5 2 2\\n2 17 16\\n2 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom math import ceil\n\ninput = sys.stdin.readline\ninf = float('inf')\n\n\ndef getInt():\n    return int(input())\n\n\ndef getList():\n    return map(int, input().split())\n\ndef getStr():\n  return input().strip()\n\n\nt = getInt()\n# t = 1\n\n\ndef solve():\n  \n  # what we are trying to accomplish here is to make the empty rectangle has even height\n  # hence if n is odd first we must filled the first row with horizontal domino, if we can not return false \n  # let k denotes the reamining horizontal dominoes , now we notice both n and m is even\n  # if k is even, one viable strategy is to filled from to to bottom, because k is even and n, hence the reaming rectangles (at most two) has even side\n  # if k is odd, no mattter how we assign, k is odd hence at least one rectalge must he of odd height hence it is not possible\n  # if is also important to check if the filling exceed the width of the grid\n  n, m, k = getList()\n  \n  extra = []\n  if n & 1:\n    if k < m / 2:\n      print(\"NO\")\n      return\n    n -= 1 \n    k -= m // 2\n    extra = 'mmnn'*m\n\n  w = ceil(k/n) * 2 if n else 0\n  res = [[\" \"]*m for _ in range(n) ]\n  if (k % 2 == 0 and w <= m):\n    print(\"YES\")\n    for i in range(n):\n      for j in range(k//n + (i < k%n)) :\n        res[i][j*2] = res[i][j*2+1] = (i+j)&1 and 'a' or 'b'\n\n    for j in range(w, m):\n      for i in range(n//2):\n        res[i*2][j] = res[i*2+1][j] = (i+j) & 1 and 'c' or 'd'\n    if n and k % n :\n      for i in range(k%n, n, 2):\n        for j in w-2,w-1:\n          res[i][j] = res[i+1][j] = (i//2+j) & 1 and 'e' or 'f'\n    if extra:\n      res.insert(0, extra[:m])\n    for i in res:\n      print(*i, sep=\"\")\n  else:\n    print(\"NO\")\n\n\n\n\n\n\n    # e f\n    # e f\n\n\n\n\n\nfor _ in range(t):\n    solve()\n\n\n\n\"\"\"\naabbaa\nbbaabb\naabbaa\nbbaabb\n\n\"\"\"\n",
+    "prob_desc_created_at": "1627050900",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

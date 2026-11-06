@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"2\", \"1\"]",
+    "src_uid": "1f6491999bec55cb8d960181e830f4c8",
+    "prob_desc_notes": "NoteIn the first sample any group of three points meets our conditions.In the seconds sample only 2 groups of three points meet our conditions: {-3, -2, -1} and {-2, -1, 0}.In the third sample only one group does: {1, 10, 20}.",
+    "prob_desc_description": "Little Petya likes points a lot. Recently his mom has presented him n points lying on the line OX. Now Petya is wondering in how many ways he can choose three distinct points so that the distance between the two farthest of them doesn't exceed d.Note that the order of the points inside the group of three chosen points doesn't matter.",
+    "prob_desc_output_spec": "Print a single integer — the number of groups of three points, where the distance between two farthest points doesn't exceed d. Please do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains two integers: n and d (1 ≤ n ≤ 105; 1 ≤ d ≤ 109). The next line contains n integers x1, x2, ..., xn, their absolute value doesn't exceed 109 — the x-coordinates of the points that Petya has got. It is guaranteed that the coordinates of the points in the input strictly increase.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_000.jsonl",
+    "code_uid": "9d9bc4a47c5a78ab69d02b28fea91ec4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n1 2 3 4\", \"4 2\\n-3 -2 -1 0\", \"5 19\\n1 10 20 30 50\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import bisect\n\nN, D = map(int, input().split())\n\nA = list(map(int, input().split()))\nA.sort()\n\nans = 0\nfor i in range(N):\n    X = bisect.bisect_left(A, A[i] - D)\n    temp = i - X\n    ans += max(0, (temp * (temp - 1))//2)\nprint(ans)\n",
+    "prob_desc_created_at": "1354807800",
+    "tags": [
+        "combinatorics",
+        "binary search",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

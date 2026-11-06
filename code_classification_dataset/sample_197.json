@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"17\", \"Impossible\"]",
+    "src_uid": "6c6f29e1f4c951cd0ff15056774f897d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A TV show called \"Guess a number!\" is gathering popularity. The whole Berland, the old and the young, are watching the show.The rules are simple. The host thinks of an integer y and the participants guess it by asking questions to the host. There are four types of acceptable questions:  Is it true that y is strictly larger than number x?  Is it true that y is strictly smaller than number x?  Is it true that y is larger than or equal to number x?  Is it true that y is smaller than or equal to number x? On each question the host answers truthfully, \"yes\" or \"no\".Given the sequence of questions and answers, find any integer value of y that meets the criteria of all answers. If there isn't such value, print \"Impossible\".",
+    "prob_desc_output_spec": "Print any of such integers y, that the answers to all the queries are correct. The printed number y must meet the inequation  - 2·109 ≤ y ≤ 2·109. If there are many answers, print any of them. If such value doesn't exist, print word \"Impossible\" (without the quotes).",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 10000) — the number of questions (and answers). Next n lines each contain one question and one answer to it. The format of each line is like that: \"sign x answer\", where the sign is:   \"&gt;\" (for the first type queries),  \"&lt;\" (for the second type queries),  \"&gt;=\" (for the third type queries),  \"&lt;=\" (for the fourth type queries).  All values of x are integer and meet the inequation  - 109 ≤ x ≤ 109. The answer is an English letter \"Y\" (for \"yes\") or \"N\" (for \"no\"). Consequtive elements in lines are separated by a single space.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_000.jsonl",
+    "code_uid": "4dd876a0fb99bf08d82fa6173eadbb91",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n&gt;= 1 Y\\n&lt; 3 N\\n&lt;= -3 N\\n&gt; 55 N\", \"2\\n&gt; 100 Y\\n&lt; -100 Y\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nl = -2000000000\nr = 2000000000\nfor _ in range(n):\n    s = input().split()\n    x = int(s[1])\n    if s[0] == \">\" and s[2] == \"Y\":\n        l = max(l, x + 1)\n    elif s[0] == \">\" and s[2] == \"N\":\n        r = min(r, x)\n    elif s[0] == \">=\" and s[2] == \"Y\":\n        l = max(l, x)\n    elif s[0] == \">=\" and s[2] == \"N\":\n        r = min(r, x - 1)\n    elif s[0] == \"<\" and s[2] == \"Y\":\n        r = min(r, x - 1)\n    elif s[0] == \"<\" and s[2] == \"N\":\n        l = max(l, x)\n    elif s[0] == \"<=\" and s[2] == \"Y\":\n        r = min(r, x)\n    elif s[0] == \"<=\" and s[2] == \"N\":\n        l = max(l, x + 1)\n    # print(l, r)\nif r - l >=0:\n    print(l)\nelse:\n    print(\"Impossible\")",
+    "prob_desc_created_at": "1397376000",
+    "tags": [
+        "two pointers",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

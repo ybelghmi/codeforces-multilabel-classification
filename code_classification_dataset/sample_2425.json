@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"XXRR\"]",
+    "src_uid": "c1c9815e2274a1f147eab7bd8ee2d574",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Xenia the vigorous detective faced n (n ≥ 2) foreign spies lined up in a row. We'll consider the spies numbered from 1 to n from left to right. Spy s has an important note. He has to pass the note to spy f. Xenia interrogates the spies in several steps. During one step the spy keeping the important note can pass the note to one of his neighbours in the row. In other words, if this spy's number is x, he can pass the note to another spy, either x - 1 or x + 1 (if x = 1 or x = n, then the spy has only one neighbour). Also during a step the spy can keep a note and not pass it to anyone.But nothing is that easy. During m steps Xenia watches some spies attentively. Specifically, during step ti (steps are numbered from 1) Xenia watches spies numbers li, li + 1, li + 2, ..., ri (1 ≤ li ≤ ri ≤ n). Of course, if during some step a spy is watched, he can't do anything: neither give the note nor take it from some other spy. Otherwise, Xenia reveals the spies' cunning plot. Nevertheless, if the spy at the current step keeps the note, Xenia sees nothing suspicious even if she watches him.You've got s and f. Also, you have the steps during which Xenia watches spies and which spies she is going to watch during each step. Find the best way the spies should act in order to pass the note from spy s to spy f as quickly as possible (in the minimum number of steps).",
+    "prob_desc_output_spec": "Print k characters in a line: the i-th character in the line must represent the spies' actions on step i. If on step i the spy with the note must pass the note to the spy with a lesser number, the i-th character should equal \"L\". If on step i the spy with the note must pass it to the spy with a larger number, the i-th character must equal \"R\". If the spy must keep the note at the i-th step, the i-th character must equal \"X\". As a result of applying the printed sequence of actions spy s must pass the note to spy f. The number of printed characters k must be as small as possible. Xenia must not catch the spies passing the note. If there are miltiple optimal solutions, you can print any of them. It is guaranteed that the answer exists.",
+    "prob_desc_input_spec": "The first line contains four integers n, m, s and f (1 ≤ n, m ≤ 105; 1 ≤ s, f ≤ n; s ≠ f; n ≥ 2). Each of the following m lines contains three integers ti, li, ri (1 ≤ ti ≤ 109, 1 ≤ li ≤ ri ≤ n). It is guaranteed that t1 &lt; t2 &lt; t3 &lt; ... &lt; tm.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_022.jsonl",
+    "code_uid": "05c40f830994a49e1716a2a57e96a97b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 5 1 3\\n1 1 2\\n2 2 3\\n3 3 3\\n4 1 1\\n10 1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m,s,f=map(int,input().split())\np=s\nd=-1\nc='L'\nif s<f:\n    d=1\n    c='R'\nt=1\nts={}\nans=\"\"\nfor _ in range(m):\n    x,y,z=map(int,input().split())\n    ts[x]=(y,z)\nwhile(p!=f):\n    if t in ts:\n        (l,r)=ts[t]\n        if l<=p<=r or l<=p+d<=r:\n            ans+='X'\n        else:\n            p+=d\n            ans+=c\n    else:\n        p+=d\n        ans+=c\n    t+=1\nprint(ans)\n",
+    "prob_desc_created_at": "1378540800",
+    "tags": [
+        "implementation",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

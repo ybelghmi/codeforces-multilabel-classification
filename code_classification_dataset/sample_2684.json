@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 1 2 3\", \"100 100 100 100 100 100 100 100 100 100 100 100 100\", \"-2 -2 -2 -2\"]",
+    "src_uid": "b11644953bdd1b92eb1b18c339a268a1",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Vasya has gotten interested in programming contests in TCMCF+++ rules. On the contest n problems were suggested and every problem had a cost — a certain integral number of points (perhaps, negative or even equal to zero). According to TCMCF+++ rules, only accepted problems can earn points and the overall number of points of a contestant was equal to the product of the costs of all the problems he/she had completed. If a person didn't solve anything, then he/she didn't even appear in final standings and wasn't considered as participant. Vasya understood that to get the maximal number of points it is not always useful to solve all the problems. Unfortunately, he understood it only after the contest was finished. Now he asks you to help him: find out what problems he had to solve to earn the maximal number of points.",
+    "prob_desc_output_spec": "Print space-separated the costs of the problems that needed to be solved to get the maximal possible number of points. Do not forget, please, that it was necessary to solve at least one problem. If there are several solutions to that problem, print any of them.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 100) — the number of the suggested problems. The next line contains n space-separated integers ci ( - 100 ≤ ci ≤ 100) — the cost of the i-th task. The tasks' costs may coinсide.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_028.jsonl",
+    "code_uid": "373a57a8f14c01381bda3da5d38cc770",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 -3 3 3\", \"13\\n100 100 100 100 100 100 100 100 100 100 100 100 100\", \"4\\n-2 -2 -2 -2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = input()\nc = map(int, raw_input().split())\nminus = []\nfor i in range(n):\n    if c[i] < 0:\n        minus.append(c[i])\nres = []\nminus = sorted(minus)\nif len(minus) % 2 == 0:\n    res += minus\nelse:\n    res += minus[0:len(minus)-1]\nfor i in range(n):\n    if c[i] > 0:\n        res.append(c[i])\nif len(res) == 0:\n    res.append(max(c))\nfor i in range(len(res)):\n    print str(res[i]) + \"\",\n",
+    "prob_desc_created_at": "1289646000",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

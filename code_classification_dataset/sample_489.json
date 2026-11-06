@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nNO\"]",
+    "src_uid": "146c856f8de005fe280e87f67833c063",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Watto, the owner of a spare parts store, has recently got an order for the mechanism that can process strings in a certain way. Initially the memory of the mechanism is filled with n strings. Then the mechanism should be able to process queries of the following type: \"Given string s, determine if the memory of the mechanism contains string t that consists of the same number of characters as s and differs from s in exactly one position\".Watto has already compiled the mechanism, all that's left is to write a program for it and check it on the data consisting of n initial lines and m queries. He decided to entrust this job to you.",
+    "prob_desc_output_spec": "For each query print on a single line \"YES\" (without the quotes), if the memory of the mechanism contains the required string, otherwise print \"NO\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains two non-negative numbers n and m (0 ≤ n ≤ 3·105, 0 ≤ m ≤ 3·105) — the number of the initial strings and the number of queries, respectively. Next follow n non-empty strings that are uploaded to the memory of the mechanism. Next follow m non-empty strings that are the queries to the mechanism. The total length of lines in the input doesn't exceed 6·105. Each line consists only of letters 'a', 'b', 'c'.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_002.jsonl",
+    "code_uid": "d84cd12087f44d4a7f680d22ff9701f0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\naaaaa\\nacacaca\\naabaa\\nccacacc\\ncaaac\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\nfrom math import ceil,floor\nimport sys\n\nmemory = set()\nmod = 1000000000000000003\np = 3\n\ndef hash_(s):\n    pp = p\n    result = 0\n    for ch in s:\n        result += pp*(ord(ch)-ord('a')-1)\n        pp = (pp*p)%mod;\n        result %= mod\n    return result % mod;\n\ndef find(q):\n    hash_0 = hash_(q)\n    k = len(q)\n    pw = p\n    ext = 0\n    for j in range(len(q)):\n        for ch in 'abc':\n            if ch != q[j]:\n                if ((hash_0 % mod + ((ord(ch)-ord(q[j]))*pw)% mod ) % mod) in memory:\n                    sys.stdout.write('YES\\n')\n                    ext = 1\n                    break\n        if ext:\n            break\n        pw = (p * pw) % mod;\n    if not ext:\n        sys.stdout.write('NO\\n')\n\ndef main():\n    n,m = [int(i) for i in input().split()]\n    for i in range(n):\n        memory.add(hash_(sys.stdin.readline().strip()))\n    for i in range(m):\n        find(sys.stdin.readline().strip())\n   \n            \nif __name__ == \"__main__\":\n    ##sys.stdin = open(\"in.txt\",'r') \n    ##sys.stdout = open(\"out.txt\",'w')\n    main()\n    ##sys.stdin.close()\n    ##sys.stdout.close()",
+    "prob_desc_created_at": "1423931400",
+    "tags": [
+        "hashing",
+        "string suffix structures",
+        "data structures",
+        "binary search",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

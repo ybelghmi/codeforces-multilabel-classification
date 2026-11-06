@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n2 1 2\\n1 1 2\", \"3\\n2 2 3\\n1 1 3\\n1 1 2\", \"0\"]",
+    "src_uid": "3b2c5410441e588806690056693514a8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a square matrix consisting of n rows and n columns. We assume that the rows are numbered from 1 to n from top to bottom and the columns are numbered from 1 to n from left to right. Some cells (n - 1 cells in total) of the the matrix are filled with ones, the remaining cells are filled with zeros. We can apply the following operations to the matrix:  Swap i-th and j-th rows of the matrix;  Swap i-th and j-th columns of the matrix. You are asked to transform the matrix into a special form using these operations. In that special form all the ones must be in the cells that lie below the main diagonal. Cell of the matrix, which is located on the intersection of the i-th row and of the j-th column, lies below the main diagonal if i &gt; j.",
+    "prob_desc_output_spec": "Print the description of your actions. These actions should transform the matrix to the described special form. In the first line you should print a non-negative integer m (m ≤ 105) — the number of actions. In each of the next m lines print three space-separated integers t, i, j (1 ≤ t ≤ 2, 1 ≤ i, j ≤ n, i ≠ j), where t = 1 if you want to swap rows, t = 2 if you want to swap columns, and i and j denote the numbers of rows or columns respectively. Please note, that you do not need to minimize the number of operations, but their number should not exceed 105. If there are several solutions, you may print any of them.",
+    "prob_desc_input_spec": "The first line contains an integer n (2 ≤ n ≤ 1000) — the number of rows and columns. Then follow n - 1 lines that contain one's positions, one per line. Each position is described by two integers xk, yk (1 ≤ xk, yk ≤ n), separated by a space. A pair (xk, yk) means that the cell, which is located on the intersection of the xk-th row and of the yk-th column, contains one. It is guaranteed that all positions are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_037.jsonl",
+    "code_uid": "f05be1c61c7cca535779b5762517d3db",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 2\", \"3\\n3 1\\n1 3\", \"3\\n2 1\\n3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = []\nb = [0] * (n+1)\nc = [10000] * (n+1)\n\nfor i in range(0,n-1):\n    p1,p2 = list(map(int,input().split()))\n    a.append((p1,p2))\n    b[p1] = max(b[p1],p2)\nans = []\n\nfor i in range(1,n+1):\n    if b[i]==0: continue\n    k = 0\n    for j in range(i,n+1):\n        if b[j]==0:\n            k=j\n            break\n    if k==0:break\n    b[j]=b[i]\n    b[i]=0\n    for j in range(0,n-1):\n        if a[j][0]==i: a[j]=(k,a[j][1])\n    ans.append((1,i,k))\n    \nfor i in a:\n    c[i[1]]=min(c[i[1]],i[0])\n    \nfor i in range(1,n+1):\n    k=i\n    for j in range(i+1,n+1):\n        if c[j]<c[i]: i=j\n    if (i==k): continue\n    ans.append((2,i,k))\n    c[0]=c[i];c[i]=c[k];c[k]=c[0]\n    \nprint(len(ans))\nfor i in ans:print(i[0],i[1],i[2])",
+    "prob_desc_created_at": "1358868600",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

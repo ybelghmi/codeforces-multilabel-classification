@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 5 6\\n\\n? 3 1\\n\\n? 1 2\\n\\n! 4\"]",
+    "src_uid": "a291ee66980d8b5856b24d1541e66fd0",
+    "prob_desc_notes": "NoteNote that the example interaction contains extra empty lines so that it's easier to read. The real interaction doesn't contain any empty lines and you shouldn't print any extra empty lines as well.The image below demonstrates the tree in the sample test:",
+    "prob_desc_description": "This is an interactive problem.After getting AC after 13 Time Limit Exceeded verdicts on a geometry problem, Kuroni went to an Italian restaurant to celebrate this holy achievement. Unfortunately, the excess sauce disoriented him, and he's now lost!The United States of America can be modeled as a tree (why though) with $$$n$$$ vertices. The tree is rooted at vertex $$$r$$$, wherein lies Kuroni's hotel.Kuroni has a phone app designed to help him in such emergency cases. To use the app, he has to input two vertices $$$u$$$ and $$$v$$$, and it'll return a vertex $$$w$$$, which is the lowest common ancestor of those two vertices.However, since the phone's battery has been almost drained out from live-streaming Kuroni's celebration party, he could only use the app at most $$$\\lfloor \\frac{n}{2} \\rfloor$$$ times. After that, the phone would die and there will be nothing left to help our dear friend! :(As the night is cold and dark, Kuroni needs to get back, so that he can reunite with his comfy bed and pillow(s). Can you help him figure out his hotel's location?",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_026.jsonl",
+    "code_uid": "ba187886f099ff7620afdc75f4593b91",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n1 4\\n4 2\\n5 3\\n6 3\\n2 3\\n\\n3\\n\\n4\\n\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import collections\nimport sys\ndef getAnc(u,v):\n    print('? {} {}'.format(u,v))\n    w = int(input())\n    sys.stdout.flush()\n    return w\ndef f():\n    n = int(input())\n    neibors = [set() for i in range(n+1)]\n    for i in range(n-1):\n        a, b = [int(s) for s in input().split()]\n        neibors[a].add(b)\n        neibors[b].add(a)\n    visited = [0]*(n+1)\n    rem = [n]\n\n    def bfs(u,v,w):\n        q = collections.deque()\n        if u != w:\n            visited[u] = 1\n            rem[0] -= 1\n            q.append(u)\n        if v != w:\n            visited[v] = 1\n            rem[0] -= 1\n            q.append(v)\n        while q:\n            node = q.popleft()\n            for nb in neibors[node]:\n                if (nb != w) and (not visited[nb]):\n                    visited[nb] = 1\n                    rem[0] -= 1\n                    q.append(nb)\n\n    while rem[0] > 1:\n        for i in range(1,n+1):\n            if not visited[i]:\n                u = i\n                break\n        for i in range(u+1,n+1):\n            if not visited[i]:\n                v = i\n                break\n        if (v in neibors[u]) and rem[0] > 2:\n            for i in range(v+1,n+1):\n                if not visited[i]:\n                    x = i\n                    break\n            if x in neibors[u]:\n                u = x\n            else:\n                v = x       \n        w = getAnc(u,v)\n        bfs(u,v,w)\n    for i in range(1,n+1):\n        if not visited[i]:\n            print('! {}'.format(i))\n            return\n\n\nf()",
+    "prob_desc_created_at": "1583246100",
+    "tags": [
+        "constructive algorithms",
+        "dfs and similar",
+        "trees",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

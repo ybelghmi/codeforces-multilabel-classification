@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n0\\n4\\n0\\n2\"]",
+    "src_uid": "faae9c0868b92b2355947c9adcaefb43",
+    "prob_desc_notes": "NoteIn the first example test case, the nearest floor with an open restaurant would be the floor $$$4$$$.In the second example test case, the floor with ConneR's office still has an open restaurant, so Sensei won't have to go anywhere.In the third example test case, the closest open restaurant is on the $$$6$$$-th floor.",
+    "prob_desc_description": "Sakuzyo - ImprintingA.R.C. Markland-N is a tall building with $$$n$$$ floors numbered from $$$1$$$ to $$$n$$$. Between each two adjacent floors in the building, there is a staircase connecting them.It's lunchtime for our sensei Colin \"ConneR\" Neumann Jr, and he's planning for a location to enjoy his meal.ConneR's office is at floor $$$s$$$ of the building. On each floor (including floor $$$s$$$, of course), there is a restaurant offering meals. However, due to renovations being in progress, $$$k$$$ of the restaurants are currently closed, and as a result, ConneR can't enjoy his lunch there.CooneR wants to reach a restaurant as quickly as possible to save time. What is the minimum number of staircases he needs to walk to reach a closest currently open restaurant.Please answer him quickly, and you might earn his praise and even enjoy the lunch with him in the elegant Neumanns' way!",
+    "prob_desc_output_spec": "For each test case print a single integer — the minimum number of staircases required for ConneR to walk from the floor $$$s$$$ to a floor with an open restaurant.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases in the test. Then the descriptions of $$$t$$$ test cases follow. The first line of a test case contains three integers $$$n$$$, $$$s$$$ and $$$k$$$ ($$$2 \\le n \\le 10^9$$$, $$$1 \\le s \\le n$$$, $$$1 \\le k \\le \\min(n-1, 1000)$$$) — respectively the number of floors of A.R.C. Markland-N, the floor where ConneR is in, and the number of closed restaurants. The second line of a test case contains $$$k$$$ distinct integers $$$a_1, a_2, \\ldots, a_k$$$ ($$$1 \\le a_i \\le n$$$) — the floor numbers of the currently closed restaurants. It is guaranteed that the sum of $$$k$$$ over all test cases does not exceed $$$1000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_011.jsonl",
+    "code_uid": "ae9ce3ca86c1811aef394532353e74a0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n5 2 3\\n1 2 3\\n4 3 3\\n4 1 2\\n10 2 6\\n1 2 3 4 5 7\\n2 1 1\\n2\\n100 76 8\\n76 75 36 67 41 74 10 77\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a=int(input())\nr=0\nd=list()\nwhile r<a:\n    k=0\n    b=[int(b) for b in input().split()]\n    #print('b = ',b)\n    c=[int(c) for c in input().split()]\n    #print('c = ',c)\n    if b[1] not in c:\n        k=0\n    else:\n        t=1\n        while t<=min(max(b[1],b[0]-b[1]),1005):\n            #print(t)\n            if (b[1]+t) not in c and b[1]+t<b[0]+1:\n                #print('fffffffffffffffff')\n                k=k+1\n                break\n            elif (b[1]-t) not in c and b[1]-t>0:\n                k=k+1\n                break\n            else:\n                #print('3333333333333333333333333')\n                k=k+1\n            #print(b[1]+t)\n            t=t+1\n    d.append(k)\n    #print(k)\n    r=r+1\nr=0\nwhile r<a:\n    print(d[r])\n    r=r+1\n",
+    "prob_desc_created_at": "1579440900",
+    "tags": [
+        "binary search",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

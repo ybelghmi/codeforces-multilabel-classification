@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n4 2 4\\nYES\\n55 5 5 35\\nNO\\nNO\\nYES\\n1 1 1 1 1 1 1 1\\nNO\\nYES\\n3 1 1\\nYES\\n111111110 111111110 111111110 111111110 111111110 111111110 111111110 111111110 111111120\"]",
+    "src_uid": "6b94dcd088b0328966b54acefb5c6d22",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two positive integers $$$n$$$ ($$$1 \\le n \\le 10^9$$$) and $$$k$$$ ($$$1 \\le k \\le 100$$$). Represent the number $$$n$$$ as the sum of $$$k$$$ positive integers of the same parity (have the same remainder when divided by $$$2$$$).In other words, find $$$a_1, a_2, \\ldots, a_k$$$ such that all $$$a_i&gt;0$$$, $$$n = a_1 + a_2 + \\ldots + a_k$$$ and either all $$$a_i$$$ are even or all $$$a_i$$$ are odd at the same time.If such a representation does not exist, then report it.",
+    "prob_desc_output_spec": "For each test case print:   YES and the required values $$$a_i$$$, if the answer exists (if there are several answers, print any of them);  NO if the answer does not exist.  The letters in the words YES and NO can be printed in any case.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases in the input. Next, $$$t$$$ test cases are given, one per line. Each test case is two positive integers $$$n$$$ ($$$1 \\le n \\le 10^9$$$) and $$$k$$$ ($$$1 \\le k \\le 100$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_004.jsonl",
+    "code_uid": "28b8458492b817a649cc5bbd13c90cef",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n10 3\\n100 4\\n8 7\\n97 2\\n8 8\\n3 10\\n5 3\\n1000000000 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = input()\nt = int(t)\nwhile t > 0 :\n    line = input()\n    i = line.split()\n    x = int(i[0])\n    y = int(i[1])\n    o = x - (y-1)\n    if o%2==1 and o>0 :\n        print('YES')\n        for j in range(y-1) :\n            print('1', end = \" \")\n        print(o)\n        t = t-1\n        continue\n    e = x - (y-1)*2\n    if e%2==0 and e>0 :\n        print('YES')\n        for j in range(y-1) :\n            print(\"2\", end = \" \")\n        print(e)\n    else :\n        print(\"NO\")\n    t = t - 1\n        \n    ",
+    "prob_desc_created_at": "1589034900",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

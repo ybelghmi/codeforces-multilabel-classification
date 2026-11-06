@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n0\\n10\\n110\", \"NO\"]",
+    "src_uid": "1670a3d7dba83e29e98f0ac6fe4acb18",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Berland scientists know that the Old Berland language had exactly n words. Those words had lengths of l1, l2, ..., ln letters. Every word consisted of two letters, 0 and 1. Ancient Berland people spoke quickly and didn’t make pauses between the words, but at the same time they could always understand each other perfectly. It was possible because no word was a prefix of another one. The prefix of a string is considered to be one of its substrings that starts from the initial symbol.Help the scientists determine whether all the words of the Old Berland language can be reconstructed and if they can, output the words themselves.",
+    "prob_desc_output_spec": "If there’s no such set of words, in the single line output NO. Otherwise, in the first line output YES, and in the next N lines output the words themselves in the order their lengths were given in the input file. If the answer is not unique, output any.",
+    "prob_desc_input_spec": "The first line contains one integer N (1 ≤ N ≤ 1000) — the number of words in Old Berland language. The second line contains N space-separated integers — the lengths of these words. All the lengths are natural numbers not exceeding 1000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_029.jsonl",
+    "code_uid": "b49df763e44559e6bbc8ca97eb2d7bbc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\", \"3\\n1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nsys.setrecursionlimit(1050)\n\nclass Node:\n  def __init__(self, depth, parent):\n    self.depth = depth\n    self.parent = parent\n    self.left = None\n    self.right = None\n    self.leaf = False\n  def __str__(self):\n    return 'depth = %d, left? %s, right? %s' % (self.depth,\n        self.left != None, self.right != None)\n\nstacks = {}\n\ndef traverse(node, symbols):\n  if node.leaf:\n    s = ''.join(symbols)\n    stacks.setdefault(len(s), []).append(s)\n    return\n  if node.left != None:\n    symbols.append('0')\n    traverse(node.left, symbols)\n    symbols.pop()\n  if node.right != None:\n    symbols.append('1')\n    traverse(node.right, symbols)\n    symbols.pop()\n\nn = int(input())\noriginal_lengths = list(map(int, input().split()))\nlengths = sorted(original_lengths[:])\nroot = Node(0, None)\ncurr = root\nfor i in range(lengths[0]):\n  curr.left = Node(curr.depth+1, curr)\n  curr = curr.left\ncurr.leaf = True\nfor length in lengths[1:]:\n  curr = curr.parent\n  while curr.right != None:\n    if curr == root:\n      print('NO')\n      sys.exit()\n    curr = curr.parent\n  curr.right = Node(curr.depth+1, curr)\n  curr = curr.right\n  while curr.depth != length:\n    curr.left = Node(curr.depth+1, curr)\n    curr = curr.left\n  curr.leaf = True\nprint('YES')\ntraverse(root, [])\nfor length in original_lengths:\n  print(stacks[length].pop())\n",
+    "prob_desc_created_at": "1288018800",
+    "tags": [
+        "data structures",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

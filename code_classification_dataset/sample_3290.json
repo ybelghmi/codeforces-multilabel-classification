@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"3\", \"-1\"]",
+    "src_uid": "22a43ccaa9e5579dd193bc941855b47d",
+    "prob_desc_notes": "NoteIn the first sample, you can choose a subsequence $$$[1]$$$.In the second sample, you can choose a subsequence $$$[6, 6]$$$.In the third sample, you can choose a subsequence $$$[6, 15, 10]$$$.In the fourth sample, there is no such subsequence.",
+    "prob_desc_description": "You are given an array $$$a$$$ of length $$$n$$$ that has a special condition: every element in this array has at most 7 divisors. Find the length of the shortest non-empty subsequence of this array product of whose elements is a perfect square.A sequence $$$a$$$ is a subsequence of an array $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) elements.",
+    "prob_desc_output_spec": "Output the length of the shortest non-empty subsequence of $$$a$$$ product of whose elements is a perfect square. If there are several shortest subsequences, you can find any of them. If there's no such subsequence, print \"-1\".",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the length of $$$a$$$. The second line contains $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, $$$\\ldots$$$, $$$a_{n}$$$ ($$$1 \\le a_i \\le 10^6$$$) — the elements of the array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_051.jsonl",
+    "code_uid": "385ba174208ad7084fa90b6154e03b3c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 4 6\", \"4\\n2 3 6 6\", \"3\\n6 15 10\", \"4\\n2 3 5 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin \nfrom collections import deque, Counter, defaultdict\n\nN = int(input())\narr = list(map(int, stdin.readline().split()))\n\nMAX = 1_000_005\nlp = [0] * MAX\npr = []\npid = {1: 0}\nfor i in range(2, MAX):\n\tif not lp[i]:\n\t\tlp[i] = i\n\t\tpr.append(i)\n\t\tpid[i] = len(pr)\n\tfor p in pr:\n\t\tif p > lp[i] or i * p >= MAX:\n\t\t\tbreak\n\t\tlp[i * p] = p\n\n# lp is sieve, pr is a list of primes, pid is a dictionary keeping track of when the prime appears \nvertex = [[] for i in range(len(pid))]\nfor n in arr:\n\tnew = []\n\twhile n > 1:\n\t\tp, c = lp[n], 0\n\t\twhile lp[n] == p:\n\t\t\tn //= p \n\t\t\tc ^= 1\n\t\tif c:\n\t\t\tnew.append(p)\n\n\tif not new:\n\t\tprint (1)\n\t\texit()\n\n\tnew += [1]*(2 - len(new))\n\tu, v = pid[new[0]], pid[new[1]]\n\tvertex[u].append(v)\n\tvertex[v].append(u)\n\n\ndef bfs_path(s):\n\t# s is the index for the prime number \n\n\tq = deque()\n\tv = [-1]*len(pid)\n\tv[s] = 0\n\tq.append((s, -1))\n\twhile q:\n\t\tc, p = q.pop()\n\n\t\tfor x in vertex[c]:\n\t\t\tif v[x] != -1:\n\t\t\t\tif x != p:\n\t\t\t\t\treturn v[x] + v[c] + 1\n\t\t\telse:\n\t\t\t\tv[x] = v[c] + 1\n\t\t\t\tq.appendleft((x, c))\n\n'''\n\n\tq = deque()\n\tvertices = vertex.keys()\n\tvi = dict(zip(vertices, range(len(vertices))))\n\tdist = [-1]*len(vertices)\n\tq.append(source)\n\tdist[vi[source]] = 0\n\tfar = 0\n\tans = float(\"inf\")\n\tfor v in vertex[source]:\n\t\tq = deque()\n\t\tq.append(v)\n\t\tdist = [-1]*len(vertices)\n\t\tdist[vi[source]] = 0\n\t\tdist[vi[v]] = 1\n\t\twhile len(q):\n\t\t\tcurrent = q.pop()\n\t\t\tfor v in vertex[current]:\n\t\t\t\t# don't want to repeat an edge \n\t\t\t\tif dist[vi[v]] in (-1, 0):\n\t\t\t\t\tif v == end and dist[vi[current]] > 1:\n\t\t\t\t\t\tif dist[vi[current]] + 1 < ans:\n\t\t\t\t\t\t\tans = dist[vi[current]] + 1\n\t\t\t\t\t\tbreak \n\t\t\t\t\telif v != end:\n\t\t\t\t\t\tdist[vi[v]] = dist[vi[current]] + 1\n\t\t\t\t\t\tif dist[vi[v]] - 1 > far:\n\t\t\t\t\t\t\tfar = dist[vi[v]]\n\t\t\t\t\t\tq.appendleft(v)\n\tif ans != float(\"inf\"):\n\t\treturn ans\n\telse:\n\t\treturn 0\n'''\n\n\n\n\nans = N + 1\nfor i in range(len(pid)):\n\tif i > 0 and pr[i - 1] > MAX**0.5:\n\t\tbreak\n\tans = min(ans, bfs_path(i) or ans)\n\nprint (ans if ans <= N else -1)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "prob_desc_created_at": "1584196500",
+    "tags": [
+        "graphs",
+        "number theory",
+        "shortest paths",
+        "dfs and similar",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

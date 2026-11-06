@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\n2 1 3\\n1 2\\n2 4 6\\n1 5\", \"1\\n6 1 2 3 4 5 6\"]",
+    "src_uid": "159365b2f037647fbaa656905e6f5252",
+    "prob_desc_notes": "NoteIn the first sample output:After sorting the first subsequence we will get sequence 1 2 3 6 5 4.Sorting the second subsequence changes nothing.After sorting the third subsequence we will get sequence 1 2 3 4 5 6.Sorting the last subsequence changes nothing.",
+    "prob_desc_description": "You are given a sequence a1, a2, ..., an consisting of different integers. It is required to split this sequence into the maximum number of subsequences such that after sorting integers in each of them in increasing order, the total sequence also will be sorted in increasing order.Sorting integers in a subsequence is a process such that the numbers included in a subsequence are ordered in increasing order, and the numbers which are not included in a subsequence don't change their places.Every element of the sequence must appear in exactly one subsequence.",
+    "prob_desc_output_spec": "In the first line print the maximum number of subsequences k, which the original sequence can be split into while fulfilling the requirements. In the next k lines print the description of subsequences in the following format: the number of elements in subsequence ci (0 &lt; ci ≤ n), then ci integers l1, l2, ..., lci (1 ≤ lj ≤ n) — indices of these elements in the original sequence.  Indices could be printed in any order. Every index from 1 to n must appear in output exactly once. If there are several possible answers, print any of them.",
+    "prob_desc_input_spec": "The first line of input data contains integer n (1 ≤ n ≤ 105) — the length of the sequence. The second line of input data contains n different integers a1, a2, ..., an ( - 109 ≤ ai ≤ 109) — the elements of the sequence. It is guaranteed that all elements of the sequence are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_036.jsonl",
+    "code_uid": "eafee7208e6d2f9ec2cacfff6cfbab04",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n3 2 1 6 5 4\", \"6\\n83 -75 -49 11 37 62\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def binSearch(arr, el):\n    if len(arr) == 0: return -1\n    l, p = 0, len(arr)-1\n    while l != p:\n        s = (l+p) // 2\n        if arr[s] < el:\n            l = s + 1\n        else:\n            p = s\n    return l if arr[l] == el else -1\n\nn = int(input())\na = [int(i) for i in input().split()]\ns = sorted(a)\n\nsubsList = []\nvisited = [False for i in range(n)]\nfor i in range(n):\n    ind = i\n    newSub = False\n    while not visited[ind]:\n        if not newSub:\n            subsList.append([])\n        newSub = True\n        visited[ind] = True\n        subsList[-1].append(str(ind+1))\n        ind = binSearch(s, a[ind])\n    \nout = str(len(subsList)) + \"\\n\"\nfor lineNr in range(len(subsList)-1):\n    \n    out += str(len(subsList[lineNr])) + \" \"\n    out += \" \".join(subsList[lineNr]) + \"\\n\"\nout += str(len(subsList[-1])) + \" \"    \nout += \" \".join(subsList[-1])\nprint(out)\n        \n\n",
+    "prob_desc_created_at": "1503592500",
+    "tags": [
+        "math",
+        "dsu",
+        "implementation",
+        "sortings",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

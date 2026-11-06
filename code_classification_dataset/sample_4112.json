@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"40\\n14\\n15\"]",
+    "src_uid": "e6b39d4cea69aa241f919447f0617d5a",
+    "prob_desc_notes": "NoteIn the first test case $$$3$$$, $$$6$$$, $$$7$$$ occur in the array.   $$$f(3, 6) = (cnt_3 + cnt_6) \\cdot (3 + 6) = (3 + 2) \\cdot (3 + 6) = 45$$$. But $$$(3, 6)$$$ is bad so we ignore it.  $$$f(3, 7) = (cnt_3 + cnt_7) \\cdot (3 + 7) = (3 + 1) \\cdot (3 + 7) = 40$$$.  $$$f(6, 7) = (cnt_6 + cnt_7) \\cdot (6 + 7) = (2 + 1) \\cdot (6 + 7) = 39$$$. The answer to the problem is $$$\\max(40, 39) = 40$$$.",
+    "prob_desc_description": "You are given an array $$$a$$$ of length $$$n$$$. Let $$$cnt_x$$$ be the number of elements from the array which are equal to $$$x$$$. Let's also define $$$f(x, y)$$$ as $$$(cnt_x + cnt_y) \\cdot (x + y)$$$.Also you are given $$$m$$$ bad pairs $$$(x_i, y_i)$$$. Note that if $$$(x, y)$$$ is a bad pair, then $$$(y, x)$$$ is also bad.Your task is to find the maximum value of $$$f(u, v)$$$ over all pairs $$$(u, v)$$$, such that $$$u \\neq v$$$, that this pair is not bad, and also that $$$u$$$ and $$$v$$$ each occur in the array $$$a$$$. It is guaranteed that such a pair exists.",
+    "prob_desc_output_spec": "For each test case print a single integer — the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10\\,000$$$) — the number of test cases. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n \\le 3 \\cdot 10^5$$$, $$$0 \\le m \\le 3 \\cdot 10^5$$$) — the length of the array and the number of bad pairs. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — elements of the array. The $$$i$$$-th of the next $$$m$$$ lines contains two integers $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le x_i &lt; y_i \\le 10^9$$$), which represent a bad pair. It is guaranteed that no bad pair occurs twice in the input. It is also guaranteed that $$$cnt_{x_i} &gt; 0$$$ and $$$cnt_{y_i} &gt; 0$$$. It is guaranteed that for each test case there is a pair of integers $$$(u, v)$$$, $$$u \\ne v$$$, that is not bad, and such that both of these numbers occur in $$$a$$$. It is guaranteed that the total sum of $$$n$$$ and the total sum of $$$m$$$ don't exceed $$$3 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_090.jsonl",
+    "code_uid": "913ef15e2be9d9628687533a58eea3fd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n6 1\\n6 3 6 7 3 3\\n3 6\\n2 0\\n3 4\\n7 4\\n1 2 2 3 1 5 1\\n1 5\\n3 5\\n1 3\\n2 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io,os\nfrom collections import Counter\nfrom collections import defaultdict \ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\ndef main(t):\n\n\n    n,m = map(int, input().split())\n    arr = list(map(int,input().split()))\n\n\n    fre = {}\n    bad = set()\n\n\n    fre = Counter(arr)\n\n    for _ in range(m):\n        u,v = map(int, input().split())\n        bad.add( (min(u,v),max(u,v)) )  \n\n\n\n    counts = defaultdict(list) \n\n    frenum = []\n    \n    for key in fre:\n        if fre[key] not in counts:  \n            frenum.append(fre[key])\n        counts[fre[key]].append(key)\n\n\n    nextnum = {}\n    for ckey in counts: \n        counts[ckey].sort(reverse=True)\n\n            \n    heap = []\n    memory = {}\n\n\n    p = 0\n\n\n    best = [0]\n\n\n        \n  \n\n\n\n\n    def judge(i,j):\n        if i==j:\n            arri = counts[frenum[i]]\n   #         print(arri)\n            index_i = 0\n            while index_i < len(arri):\n                index_j = index_i + 1\n                while index_j < len(arri) and (arri[index_i] + arri[index_j])*2*frenum[i] > best[0]:\n                    u,v = arri[index_i], arri[index_j]\n                    if ( v,u ) not in bad:  \n                        best[0] = max(best[0], frenum[i]*2*(u+v))\n                        break\n                    index_j += 1\n                index_i += 1\n #               print(best[0])\n        else:\n            arri,arrj = counts[frenum[i]], counts[frenum[j]]\n#            print(arri,arrj,frenum[i],frenum[j])\n            index_i = 0\n            while index_i < len(arri):\n                index_j = 0\n                while index_j < len(arrj) and (arri[index_i] + arrj[index_j])*(frenum[i]+frenum[j]) > best[0]:\n                    u,v = max(arri[index_i], arrj[index_j]), min(arri[index_i], arrj[index_j])\n#                    print(u,v)\n                    if ( v,u ) not in bad:\n                       \n                        best[0] = max(best[0], (frenum[i]+frenum[j])*(u+v))\n                        break\n                    index_j += 1\n                index_i += 1\n#            print(best[0])\n \n\n\n    for i in range(len(frenum)):\n        for j in range(i,len(frenum)):\n            judge(i,j)\n\n    \n\n\n\n    \n    print(best[0])\n\n    \n\n\n    \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nT = int(input())\nt = 1\nwhile t<=T:\n    main(t)\n    t += 1\n\n\n",
+    "prob_desc_created_at": "1644676500",
+    "tags": [
+        "binary search",
+        "brute force",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

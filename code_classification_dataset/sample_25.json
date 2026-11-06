@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"15\\n6\\n16\\n12\\n25\"]",
+    "src_uid": "8190d3bc81a4d76f8256f31f07441a36",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Skier rides on a snowy field. Its movements can be described by a string of characters 'S', 'N', 'W', 'E' (which correspond to $$$1$$$ meter movement in the south, north, west or east direction respectively).It is known that if he moves along a previously unvisited segment of a path (i.e. this segment of the path is visited the first time), then the time of such movement is $$$5$$$ seconds. If he rolls along previously visited segment of a path (i.e., this segment of the path has been covered by his path before), then it takes $$$1$$$ second.Find the skier's time to roll all the path.",
+    "prob_desc_output_spec": "For each test case, print the desired path time in seconds.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the input. Then $$$t$$$ test cases follow. Each set is given by one nonempty string of the characters 'S', 'N', 'W', 'E'. The length of the string does not exceed $$$10^5$$$ characters. The sum of the lengths of $$$t$$$ given lines over all test cases in the input does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_000.jsonl",
+    "code_uid": "a7384951438432beb9ecfea20de4bff4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nNNN\\nNS\\nWWEN\\nWWEE\\nNWNWS\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, math\ninput = sys.stdin.readline\n\ndef main():\n     t = int(input())\n     for _ in range(t):\n          s = input().replace(\"\\n\",\"\")\n          se = set()\n          inc = 0\n          co = (0,0)\n          se.add((co,co))\n          for x in range(len(s)):\n               last_co = co\n               if s[x] == \"N\":\n                    co = (co[0]+1,co[1])\n               if s[x] == \"S\":\n                    co = (co[0]-1,co[1])\n               if s[x] == \"W\":\n                    co = (co[0],co[1]-1)\n               if s[x] == \"E\":\n                    co = (co[0],co[1]+1)\n               if True:\n                    if (co,last_co) in se:\n                         inc += 1\n                    else:\n                         se.add((last_co,co))\n                         se.add((co,last_co))\n                         inc += 5\n          print(inc)\n          \n          \n          \nmain()\n",
+    "prob_desc_created_at": "1588860300",
+    "tags": [
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

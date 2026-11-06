@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Stannis\", \"Daenerys\", \"Stannis\"]",
+    "src_uid": "67e51db4d96b9f7996aea73cbdba3584",
+    "prob_desc_notes": "NoteIn the first sample Stannis will use his move to burn a city with two people and Daenerys will be forced to burn a city with one resident. The only survivor city will have one resident left, that is, the total sum is odd, and thus Stannis wins.In the second sample, if Stannis burns a city with two people, Daenerys burns the city with one resident, or vice versa. In any case, the last remaining city will be inhabited by two people, that is, the total sum is even, and hence Daenerys wins.",
+    "prob_desc_description": "There are n cities in Westeros. The i-th city is inhabited by ai people. Daenerys and Stannis play the following game: in one single move, a player chooses a certain town and burns it to the ground. Thus all its residents, sadly, die. Stannis starts the game. The game ends when Westeros has exactly k cities left.The prophecy says that if the total number of surviving residents is even, then Daenerys wins: Stannis gets beheaded, and Daenerys rises on the Iron Throne. If the total number of surviving residents is odd, Stannis wins and everything goes in the completely opposite way.Lord Petyr Baelish wants to know which candidates to the throne he should support, and therefore he wonders, which one of them has a winning strategy. Answer to this question of Lord Baelish and maybe you will become the next Lord of Harrenholl.",
+    "prob_desc_output_spec": "Print string \"Daenerys\" (without the quotes), if Daenerys wins and \"Stannis\" (without the quotes), if Stannis wins.",
+    "prob_desc_input_spec": "The first line contains two positive space-separated integers, n and k (1 ≤ k ≤ n ≤ 2·105) — the initial number of cities in Westeros and the number of cities at which the game ends.  The second line contains n space-separated positive integers ai (1 ≤ ai ≤ 106), which represent the population of each city in Westeros.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "59600dd7f5b1b008b40f64abe03c7848",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\n1 2 1\", \"3 1\\n2 2 1\", \"6 3\\n5 20 12 7 14 101\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math,string,itertools,fractions,heapq,collections,re,array,bisect\nfrom itertools import chain, dropwhile, permutations, combinations\nfrom collections import defaultdict, deque\n\ndef VI(): return list(map(int,input().split()))\n\ndef main(n,k,a):\n    now = sum(a)\n    even = sum([x%2==0 for x in a])\n    odd = sum([x%2==1 for x in a])\n    d = n-k\n    D = \"Daenerys\"\n    S = \"Stannis\"\n    if n==k:\n        ans = [S,D][now%2==0]\n    elif d%2==0: # Daenerys last\n        if k%2==0: ans = D\n        elif even <= d//2: ans = S\n        else: ans = D\n    else: # Stannis last\n        if k%2==0:\n            if odd <= d//2 or even <= d//2: ans = D\n            else: ans = S\n        else:\n            if odd <= d//2: ans = D\n            else: ans = S\n    print(ans)\n\n\ndef main_input(info=0):\n    n,k = VI()\n    a = VI()\n    main(n,k,a)\n\nif __name__ == \"__main__\":\n    main_input()\n",
+    "prob_desc_created_at": "1433595600",
+    "tags": [
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

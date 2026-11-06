@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"1\"]",
+    "src_uid": "818e5f23028faf732047fc177eeb3851",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Tree is a connected graph without cycles. A leaf of a tree is any vertex connected with exactly one other vertex.You are given a tree with n vertices and a root in the vertex 1. There is an ant in each leaf of the tree. In one second some ants can simultaneously go to the parent vertex from the vertex they were in. No two ants can be in the same vertex simultaneously except for the root of the tree.Find the minimal time required for all ants to be in the root of the tree. Note that at start the ants are only in the leaves of the tree.",
+    "prob_desc_output_spec": "Print the only integer t — the minimal time required for all ants to be in the root of the tree.",
+    "prob_desc_input_spec": "The first line contains integer n (2 ≤ n ≤ 5·105) — the number of vertices in the tree. Each of the next n - 1 lines contains two integers xi, yi (1 ≤ xi, yi ≤ n) — the ends of the i-th edge. It is guaranteed that you are given the correct undirected tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_050.jsonl",
+    "code_uid": "8273dd43e2a35a64f198ac4b45ebff26",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"12\\n1 2\\n1 3\\n1 4\\n2 5\\n2 6\\n3 7\\n3 8\\n3 9\\n8 10\\n8 11\\n8 12\", \"2\\n2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n\nfrom __future__ import division, print_function\n\ndef bfs(node, adj, visited):\n    L = []\n    visited[node] = True    \n    L.append( (node, 1) )\n    d = []\n    while L:\n        node, depth = L.pop()\n        is_leaf = True\n        for i in adj[node]:\n            if not visited[i]:\n                is_leaf = False\n                visited[i] = True\n                L.append( (i, depth+1) )\n        if is_leaf:\n            d.append(depth)\n    d.sort()\n    res = d[0]\n    for i, v in enumerate(d):\n        if i==0:\n            continue\n        res = max(res+1, v)\n    return res\n    \n\ndef solver(ifs):\n    n = int(ifs.readline())\n    adj = [ [] for i in range(n) ]\n    for i in range(n-1):\n        x, y = list(map(int, ifs.readline().split()))\n        x, y = x-1, y-1\n        adj[x].append(y)\n        adj[y].append(x)\n    res = 0\n    visited = [False, ] * n\n    visited[0] = True\n    for node in adj[0]:\n        if not visited[node]:\n            res = max(res, bfs(node, adj, visited))\n    print(res)\n\ndef main():\n    import sys\n    if sys.version_info.major == 3:\n        from io import StringIO as StreamIO\n    else:\n         from io import BytesIO as StreamIO\n    \n    with StreamIO(sys.stdin.read()) as ifs, StreamIO() as ofs:\n        _stdout = sys.stdout\n        sys.stdout = ofs\n        solver(ifs)\n        sys.stdout = _stdout\n        sys.stdout.write(ofs.getvalue())\n    return 0\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1455116400",
+    "tags": [
+        "greedy",
+        "sortings",
+        "trees",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

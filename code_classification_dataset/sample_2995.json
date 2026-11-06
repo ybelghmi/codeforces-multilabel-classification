@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"-1\", \"-1\", \"1\", \"2\"]",
+    "src_uid": "0870110338a84f76d4870d06dc9da2df",
+    "prob_desc_notes": "NoteIn the first sample the symbol \"A\" is impossible to print as there's no \"Shift\" key on the keyboard.In the second sample the symbol \"e\" is impossible to print as there's no such key on the keyboard.In the fourth sample the symbols \"T\", \"G\" are impossible to print with one hand. The other letters that are on the keyboard can be printed. Those symbols come up in the text twice, thus, the answer is 2.",
+    "prob_desc_description": "Vasya learns to type. He has an unusual keyboard at his disposal: it is rectangular and it has n rows of keys containing m keys in each row. Besides, the keys are of two types. Some of the keys have lowercase Latin letters on them and some of the keys work like the \"Shift\" key on standard keyboards, that is, they make lowercase letters uppercase.Vasya can press one or two keys with one hand. However, he can only press two keys if the Euclidean distance between the centers of the keys does not exceed x. The keys are considered as squares with a side equal to 1. There are no empty spaces between neighbouring keys.Vasya is a very lazy boy, that's why he tries to type with one hand as he eats chips with his other one. However, it is possible that some symbol can't be typed with one hand only, because the distance between it and the closest \"Shift\" key is strictly larger than x. In this case he will have to use his other hand. Having typed the symbol, Vasya returns other hand back to the chips.You are given Vasya's keyboard and the text. Count the minimum number of times Vasya will have to use the other hand.",
+    "prob_desc_output_spec": "If Vasya can type the text, then print the minimum number of times he will have to use his other hand. Otherwise, print \"-1\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains three integers n, m, x (1 ≤ n, m ≤ 30, 1 ≤ x ≤ 50). Next n lines contain descriptions of all the keyboard keys. Each line contains the descriptions of exactly m keys, without spaces. The letter keys are marked with the corresponding lowercase letters. The \"Shift\" keys are marked with the \"S\" symbol.  Then follow the length of the text q (1 ≤ q ≤ 5·105). The last line contains the text T, which consists of q symbols, which are uppercase and lowercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_037.jsonl",
+    "code_uid": "fc338e807cd4517a6f4ede35f015b89b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2 1\\nab\\ncd\\n1\\nA\", \"2 2 1\\nab\\ncd\\n1\\ne\", \"2 2 1\\nab\\ncS\\n5\\nabcBA\", \"3 9 4\\nqwertyuio\\nasdfghjkl\\nSzxcvbnmS\\n35\\nTheQuIcKbRoWnFOXjummsovertHeLazYDOG\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter as cnt\n\n\ndef dis(ls, shifts, z):\n    x, y = ls[0], ls[1]\n    ans = [] \n\n    for shift in shifts:\n        x1, y1 = shift[0], shift[1]\n        a = (x - x1) ** 2\n        b = (y - y1) ** 2\n        d = (a + b) ** 0.5\n\n        if d > z:\n            ans.append(True)\n        else:\n            ans.append(False)\n    if False in ans:\n        return False\n    else:\n        return True\n\nn, m, z = map(int, input().split())\n\nkeys = []\nshifts = []\n\nfor x in range(n):\n    row = input()\n    keys.append(row)\n\n    if 'S' in row:\n        for y, val in enumerate(row):\n            if val == 'S':\n                shifts.append([x+1, y+1])\n\nmove = dict()\nfor x, row in enumerate(keys):\n    for y, key in enumerate(row):\n        d = dis([x+1, y+1], shifts, z)\n\n        if key in move and move[key] is False: pass\n        else:\n            move[key] = d\n\nall_keys = []\nall_keys += [key for key in keys]\nall_keys = ''.join(all_keys)\nall_keys = all_keys.replace('S', '')\n\nq = int(input())\na = input()\n\ncount = cnt(a)\nuppa = 0\nans = 0\n\nfor key in count:\n    if key.lower() not in all_keys:\n        ans = -1\n        break\n    if key.isupper():\n        uppa += 1\n        if move[key.lower()]:\n            ans += count[key]\n\nshifts = len(shifts)\n\nif shifts == 0 and uppa > 0:\n    ans = -1\n\nprint(ans)\n",
+    "prob_desc_created_at": "1307458800",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

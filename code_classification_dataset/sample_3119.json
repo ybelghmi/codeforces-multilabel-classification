@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"1\"]",
+    "src_uid": "bd519efcfaf5b43bb737337004a1c2c0",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given n points on a plane. All the points are distinct and no three of them lie on the same line. Find the number of parallelograms with the vertices at the given points.",
+    "prob_desc_output_spec": "Print the only integer c — the number of parallelograms with the vertices at the given points.",
+    "prob_desc_input_spec": "The first line of the input contains integer n (1 ≤ n ≤ 2000) — the number of points. Each of the next n lines contains two integers (xi, yi) (0 ≤ xi, yi ≤ 109) — the coordinates of the i-th point.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_042.jsonl",
+    "code_uid": "82c99a94439adb77a2c7994a093e41c1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n0 1\\n1 0\\n1 1\\n2 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\npoints = [0] * n\nD = {}\nfor i in range(n):\n    points[i] = tuple(int(x) for x in input().split())\n\nfor i in range(n):\n    for j in range(i+1, n):\n        x1, y1 = points[i]\n        x2, y2 = points[j]\n        u, v = x2 - x1, y2 - y1\n        if u < 0 or u == 0 and v < 0:\n            u, v = -u, -v\n        if (u, v) in D:\n            D[(u, v)] += 1\n        else:\n            D[(u, v)] = 1\n\nS = sum(D[i] * (D[i] - 1) // 2 for i in D)\nprint(S // 2)\n                \n",
+    "prob_desc_created_at": "1460127600",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"200\"]",
+    "src_uid": "e4c9774939343984bcfdeaf19e393807",
+    "prob_desc_notes": "NoteIn the first example, only possible value of $$$a_{2}$$$ is $$$2$$$.In the second example, $$$a_{1} = a_{2}$$$ so there are $$$200$$$ different values because all restored elements should be integers between $$$1$$$ and $$$200$$$. ",
+    "prob_desc_description": "Ivan unexpectedly saw a present from one of his previous birthdays. It is array of $$$n$$$ numbers from $$$1$$$ to $$$200$$$. Array is old and some numbers are hard to read. Ivan remembers that for all elements at least one of its neighbours ls not less than it, more formally:$$$a_{1} \\le a_{2}$$$,$$$a_{n} \\le a_{n-1}$$$ and$$$a_{i} \\le max(a_{i-1}, \\,\\, a_{i+1})$$$ for all $$$i$$$ from $$$2$$$ to $$$n-1$$$.Ivan does not remember the array and asks to find the number of ways to restore it. Restored elements also should be integers from $$$1$$$ to $$$200$$$. Since the number of ways can be big, print it modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Print number of ways to restore the array modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "First line of input contains one integer $$$n$$$ ($$$2 \\le n \\le 10^{5}$$$) — size of the array. Second line of input contains $$$n$$$ integers $$$a_{i}$$$ — elements of array. Either $$$a_{i} = -1$$$ or $$$1 \\le a_{i} \\le 200$$$. $$$a_{i} = -1$$$ means that $$$i$$$-th element can't be read.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_007.jsonl",
+    "code_uid": "3cd295e86f637aa3be265f30dea89584",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 -1 2\", \"2\\n-1 -1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\n\nnumb, sign = 0, 1\na = []\ns = os.read(0, os.fstat(0).st_size)\nfor i in range(len(s)):\n    if s[i] >= 48:\n        numb = 10 * numb + s[i] - 48\n    else:\n        if s[i] == 45:\n            sign = -1\n        else:\n            a.append(sign * numb)\n            numb, sign = 0, 1\nif s[-1] >= 48:\n    a.append(sign * numb)\n\nMOD = 998244353\nmod_add = lambda x: x-MOD if x >= MOD else x\nmod_sub = lambda x: x+MOD if x < 0 else x\n\nf0, f1 = [1] * 201, [0] * 201\nfor i in range(a[0]):\n    nf0, nf1 = [0] * 201, [0] * 201\n    if a[i + 2] == -1:\n        for j in range(1, 201):\n            nf0[j] = mod_add(mod_add(nf0[j - 1] + f0[j - 1])+ f1[j - 1])\n            nf1[j] = mod_add(mod_sub(mod_add(mod_sub(nf1[j - 1] - f0[j - 1]) + f0[j]) - f1[j - 1]) + f1[200])\n    else:\n        for j in range(1, 201):\n            nf0[j], nf1[j] = nf0[j - 1], nf1[j - 1]\n            if j == a[i + 2]:\n                nf0[j] = mod_add(mod_add(nf0[j] + f0[j - 1])+ f1[j - 1])\n                nf1[j] = mod_add(mod_sub(mod_add(mod_sub(nf1[j] - f0[j - 1]) + f0[j]) - f1[j - 1]) + f1[200])\n    f0, f1 = nf0, nf1\n\nos.write(1, str(f1[200]).encode())",
+    "prob_desc_created_at": "1540398900",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

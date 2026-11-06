@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"Impossible\", \"3\"]",
+    "src_uid": "12b64f77fc9dd44a7e0287ff0a716a6a",
+    "prob_desc_notes": "NoteLet's take a look at the third sample. The text will be split into three messages: \"Hello!\", \"Do you like fish?\" and \"Why?\".",
+    "prob_desc_description": "Fangy the little walrus, as all the modern walruses, loves to communicate via text messaging. One day he faced the following problem: When he sends large texts, they are split into parts each containing n characters (which is the size of one text message). Thus, whole sentences and words get split!Fangy did not like it, so he faced the task of breaking the text into minimal messages on his own so that no sentence were broken into pieces when it is sent and the number of text messages to be sent would be minimal. If two consecutive sentences are in different messages, the space between them can be ignored (Fangy does not write this space).The little walrus's text looks in the following manner: TEXT ::= SENTENCE | SENTENCE SPACE TEXTSENTENCE ::= WORD SPACE SENTENCE | WORD ENDEND ::= {'.', '?', '!'}WORD ::= LETTER | LETTER WORDLETTER ::= {'a'..'z', 'A'..'Z'}SPACE ::= ' 'SPACE stands for the symbol of a space.So, how many messages did Fangy send?",
+    "prob_desc_output_spec": "On the first and only line print the number of text messages Fangy will need. If it is impossible to split the text, print \"Impossible\" without the quotes.",
+    "prob_desc_input_spec": "The first line contains an integer n, which is the size of one message (2 ≤ n ≤ 255). The second line contains the text. The length of the text does not exceed 104 characters. It is guaranteed that the text satisfies the above described format. Specifically, this implies that the text is not empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_035.jsonl",
+    "code_uid": "475cd15ab57f6076fd4f6e6aa22ca057",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"25\\nHello. I am a little walrus.\", \"2\\nHow are you?\", \"19\\nHello! Do you like fish? Why?\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\na = map(len, (\" \" + raw_input()).replace('?', '.').replace('!', '.')[:-1].split('.'))\nres = 0\nt = -1\nfor i in a:\n    if i > n:\n        print \"Impossible\"\n        exit()\n    if t + i + 1 <= n:\n        t += i + 1\n    else:\n        res += 1\n        t = i\nif t != 0:\n    res += 1\nprint res",
+    "prob_desc_created_at": "1301155200",
+    "tags": [
+        "expression parsing",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

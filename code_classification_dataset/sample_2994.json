@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"6\"]",
+    "src_uid": "7ff7f47cee182d2542754e412f6aab1a",
+    "prob_desc_notes": "NoteIn the first sample case, the optimal value of f is reached on intervals [1, 2] and [2, 5].In the second case maximal value of f is reachable only on the whole array.",
+    "prob_desc_description": "Something happened in Uzhlyandia again... There are riots on the streets... Famous Uzhlyandian superheroes Shean the Sheep and Stas the Giraffe were called in order to save the situation. Upon the arriving, they found that citizens are worried about maximum values of the Main Uzhlyandian Function f, which is defined as follows:In the above formula, 1 ≤ l &lt; r ≤ n must hold, where n is the size of the Main Uzhlyandian Array a, and |x| means absolute value of x. But the heroes skipped their math lessons in school, so they asked you for help. Help them calculate the maximum value of f among all possible values of l and r for the given array a.",
+    "prob_desc_output_spec": "Print the only integer — the maximum value of f.",
+    "prob_desc_input_spec": "The first line contains single integer n (2 ≤ n ≤ 105) — the size of the array a. The second line contains n integers a1, a2, ..., an (-109 ≤ ai ≤ 109) — the array elements.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_037.jsonl",
+    "code_uid": "58422609128940db80603396a2214b9e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 4 2 3 1\", \"4\\n1 5 4 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\n_l = list(map(int, input().split()))\nl = [abs(_l[i] - _l[i + 1]) for i in range(n - 1)]\np, n, res = 0, 0, 0\nfor e in l:\n    _p = max(0, n + e)\n    _n = max(0, p - e)\n    p, n = _p, _n\n    res = max(p, n, res)\nprint(res)",
+    "prob_desc_created_at": "1490803500",
+    "tags": [
+        "dp",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

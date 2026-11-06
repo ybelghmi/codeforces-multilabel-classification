@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5.0000000000 15.5000000000\", \"4.5000000000 13.5000000000\"]",
+    "src_uid": "899c5b77bfc0b4b99aff310741c9c0dd",
+    "prob_desc_notes": "NoteLet's analyze the first sample. Vasya's proficiency in the cards whose content he already knows equals 6 and 15.5 correspondingly. The three theorems that are left are only enough to make one exam card. If we consider all possible variants of theorems included in the card we can see that in the best case scenario Vasya gets the card that contains theorems 4 and 7 (his proficiency would equal 15.5) and in the worst case scenario he gets theorems 3 and 5 (his proficiency would equal 5).The ⌊ x⌋ operation denotes taking integer part of real number x (rounding down).",
+    "prob_desc_description": "Vasya is about to take his first university exam in about several minutes. And it's not just some ordinary exam, it's on mathematical analysis. Of course, right now Vasya can only think of one thing: what the result of his talk with the examiner will be...To prepare for the exam, one has to study proofs of n theorems. It is known that there will be k examination cards on the exam and each card contains  distinct theorems. Besides, no theorem is mentioned in more than one card (that is,  theorems won't be mentioned in any card). During the exam several students may get the same card.We do not know the exact way theorems are distributed by cards, however the students that took the exam before Vasya told him what theorems their cards contained. Vasya evaluates his level of proficiency in the i-th theorem by some number ai. The level of proficiency in some card is the average of the levels of proficiency in the theorems that are included in the card. Now Vasya wants to know the minimally and maximally possible levels of his proficiency in the card he gets on the exam. Vasya wants to determine it by the data he has collected from other students. Unfortunately, Vasya has no time left to do the math and he asked you to help him.",
+    "prob_desc_output_spec": "Print two real numbers, representing Vasya's minimum and maximum proficiency in the card he will get on the exam. The absolute or relative error should not exceed 10 - 6.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ k ≤ n ≤ 100) — the number of theorems and the number of cards correspondingly. The second line contains n integers ai (0 ≤ ai ≤ 100), the i-th number (1 ≤ i ≤ n) corresponds to Vasya's proficiency in the i-th theorem. The third line contains number q (0 ≤ q ≤ 100) — the number of people that have taken the exam before Vasya. Each of the following q lines contains the description of a student's card:  integers from 1 to n inclusive. They are the numbers of theorems included in the card in the order in which they are enumerated in the input data. The numbers are given in an arbitrary order. It is guaranteed that the given cards are valid (that is, that all theorems in one card are different and that different people get cards that either don't contain the same theorems or coincide up to the theorems' permutation).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_065.jsonl",
+    "code_uid": "fc38ac9302b56682a1c88fab29faf86b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 3\\n7 15 0 19 10 5 12\\n2\\n1 6\\n7 4\", \"4 2\\n10 8 1 17\\n2\\n2 3\\n3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "num_problems, num_cards = map(int, input().split())\ncard_size = num_problems // num_cards\nskill = [ 0 ] + list(map(int, input().split()))\nseen = (num_problems + 1) * [ False ]\nnum_queries = int(input())\nlow = 100\nhigh = 0\nfor i in range(num_queries):\n    proficiency = 0\n    for pos in map(int, input().split()):\n        proficiency += skill[pos]\n        seen[pos] = True\n    proficiency /= card_size\n    low = min(low, proficiency)\n    high = max(high, proficiency)\nremaining = []\nfor pos in range(1, num_problems + 1):\n    if not seen[pos]:\n        remaining.append(skill[pos])\nif len(remaining) != num_problems - num_cards * card_size:\n    remaining.sort()\n    low = min(low, sum(remaining[:card_size]) / card_size)\n    high = max(high, sum(remaining[-card_size:]) / card_size)\nprint('%.8f %.8f' % (low, high))\n",
+    "prob_desc_created_at": "1318604400",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

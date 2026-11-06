@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"7\", \"17\", \"17\"]",
+    "src_uid": "60f377a15c6b15f649159af6272e9d02",
+    "prob_desc_notes": "NoteIn the first example Misha can buy shovels on positions $$$1$$$ and $$$4$$$ (both with costs $$$2$$$) during the first purchase and get one of them for free using the first or the third special offer. And then he can buy shovels on positions $$$3$$$ and $$$6$$$ (with costs $$$4$$$ and $$$3$$$) during the second purchase and get the second one for free using the first or the third special offer. Then he can buy the shovel on a position $$$7$$$ with cost $$$1$$$. So the total cost is $$$4 + 2 + 1 = 7$$$.In the second example Misha can buy shovels on positions $$$1$$$, $$$2$$$, $$$3$$$, $$$4$$$ and $$$8$$$ (costs are $$$6$$$, $$$8$$$, $$$5$$$, $$$1$$$ and $$$2$$$) and get three cheapest (with costs $$$5$$$, $$$1$$$ and $$$2$$$) for free. And then he can buy shovels on positions $$$6$$$, $$$7$$$ and $$$9$$$ (all with costs $$$1$$$) without using any special offers. So the total cost is $$$6 + 8 + 1 + 1 + 1 = 17$$$.In the third example Misha can buy four cheapest shovels without using any special offers and get the total cost $$$17$$$.",
+    "prob_desc_description": "There are $$$n$$$ shovels in the nearby shop. The $$$i$$$-th shovel costs $$$a_i$$$ bourles.Misha has to buy exactly $$$k$$$ shovels. Each shovel can be bought no more than once.Misha can buy shovels by several purchases. During one purchase he can choose any subset of remaining (non-bought) shovels and buy this subset.There are also $$$m$$$ special offers in the shop. The $$$j$$$-th of them is given as a pair $$$(x_j, y_j)$$$, and it means that if Misha buys exactly $$$x_j$$$ shovels during one purchase then $$$y_j$$$ most cheapest of them are for free (i.e. he will not pay for $$$y_j$$$ most cheapest shovels during the current purchase).Misha can use any offer any (possibly, zero) number of times, but he cannot use more than one offer during one purchase (but he can buy shovels without using any offers).Your task is to calculate the minimum cost of buying $$$k$$$ shovels, if Misha buys them optimally.",
+    "prob_desc_output_spec": "Print one integer — the minimum cost of buying $$$k$$$ shovels if Misha buys them optimally.",
+    "prob_desc_input_spec": "The first line of the input contains three integers $$$n, m$$$ and $$$k$$$ ($$$1 \\le n, m \\le 2 \\cdot 10^5, 1 \\le k \\le min(n, 2000)$$$) — the number of shovels in the shop, the number of special offers and the number of shovels Misha has to buy, correspondingly. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 2 \\cdot 10^5$$$), where $$$a_i$$$ is the cost of the $$$i$$$-th shovel. The next $$$m$$$ lines contain special offers. The $$$j$$$-th of them is given as a pair of integers $$$(x_i, y_i)$$$ ($$$1 \\le y_i \\le x_i \\le n$$$) and means that if Misha buys exactly $$$x_i$$$ shovels during some purchase, then he can take $$$y_i$$$ most cheapest of them for free.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_017.jsonl",
+    "code_uid": "0882e852550c8d2e7cffabab390955af",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 4 5\\n2 5 4 2 6 3 1\\n2 1\\n6 5\\n2 1\\n3 1\", \"9 4 8\\n6 8 5 1 8 1 1 2 1\\n9 2\\n8 4\\n5 3\\n9 7\", \"5 1 4\\n2 5 7 4 6\\n5 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "IN = input\nrint = lambda: int(IN())\nrmint = lambda: map(int, IN().split())\nrlist = lambda: list(rmint())\n\nn, m, k = rmint()\na = rlist()\nt = []\nfor i in range(m):\n    x, y = rmint()\n    t.append((x, y))\nt.sort()\na.sort()\npr = [0]\nfor i in a: pr.append(pr[-1] + i)\nf = 4096 * [0]\n\n\ndef s(l, r):\n    if l > r: return 0\n    else: return pr[r + 1] - pr[l]\n\n\nans = s(0, k-1)\n\n\ndef upd(x, y):\n    global ans\n    f[x] = min(f[x], y)\n    ans = min(ans, y + s(x, k - 1))\n\n\nfor i in range(1, k + 1):\n    f[i] = f[i - 1] + a[i - 1]\n    for p in t:\n        x, y = p\n        if i - x < 0: break\n        upd(i, f[i - x] + s(i - x + y, i - 1))\n\nprint(ans)\n",
+    "prob_desc_created_at": "1555425300",
+    "tags": [
+        "dp",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

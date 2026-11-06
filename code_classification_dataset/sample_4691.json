@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"54\\n56\"]",
+    "src_uid": "9089fb2547751ca140a65f03fe78c916",
+    "prob_desc_notes": "NoteIn the first test case, one of optimal solutions is four paths $$$1 \\to 2 \\to 3 \\to 5$$$, $$$1 \\to 2 \\to 3 \\to 5$$$, $$$1 \\to 4$$$, $$$1 \\to 4$$$, here $$$c=[4,2,2,2,2]$$$. The value equals to $$$4\\cdot 6+ 2\\cdot 2+2\\cdot 1+2\\cdot 5+2\\cdot 7=54$$$.In the second test case, one of optimal solution is three paths $$$1 \\to 2 \\to 3 \\to 5$$$, $$$1 \\to 2 \\to 3 \\to 5$$$, $$$1 \\to 4$$$, here $$$c=[3,2,2,1,2]$$$. The value equals to $$$3\\cdot 6+ 2\\cdot 6+2\\cdot 1+1\\cdot 4+2\\cdot 10=56$$$.",
+    "prob_desc_description": "You are given a rooted tree consisting of $$$n$$$ vertices. The vertices are numbered from $$$1$$$ to $$$n$$$, and the root is the vertex $$$1$$$. You are also given a score array $$$s_1, s_2, \\ldots, s_n$$$.A multiset of $$$k$$$ simple paths is called valid if the following two conditions are both true.   Each path starts from $$$1$$$.  Let $$$c_i$$$ be the number of paths covering vertex $$$i$$$. For each pair of vertices $$$(u,v)$$$ ($$$2\\le u,v\\le n$$$) that have the same parent, $$$|c_u-c_v|\\le 1$$$ holds.  The value of the path multiset is defined as $$$\\sum\\limits_{i=1}^n c_i s_i$$$.It can be shown that it is always possible to find at least one valid multiset. Find the maximum value among all valid multisets.",
+    "prob_desc_output_spec": "For each test case, print a single integer — the maximum value of a path multiset.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains two space-separated integers $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) and $$$k$$$ ($$$1 \\le k \\le 10^9$$$) — the size of the tree and the required number of paths. The second line contains $$$n - 1$$$ space-separated integers $$$p_2,p_3,\\ldots,p_n$$$ ($$$1\\le p_i\\le n$$$), where $$$p_i$$$ is the parent of the $$$i$$$-th vertex. It is guaranteed that this value describe a valid tree with root $$$1$$$. The third line contains $$$n$$$ space-separated integers $$$s_1,s_2,\\ldots,s_n$$$ ($$$0 \\le s_i \\le 10^4$$$) — the scores of the vertices. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10 ^ 5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_103.jsonl",
+    "code_uid": "0aa4f7c04879e29daa20b32f27724b29",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n5 4\\n\\n1 2 1 3\\n\\n6 2 1 5 7\\n\\n5 3\\n\\n1 2 1 3\\n\\n6 6 1 4 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\r\nfrom types import GeneratorType\r\n\r\n\r\ndef bootstrap(f, stack=[]):\r\n    def wrappedfunc(*args, **kwargs):\r\n        if stack:\r\n            return f(*args, **kwargs)\r\n        to = f(*args, **kwargs)\r\n        while True:\r\n            if type(to) is GeneratorType:\r\n                stack.append(to)\r\n                to = next(to)\r\n            else:\r\n                stack.pop()\r\n                if not stack:\r\n                    break\r\n                to = stack[-1].send(to)\r\n        return to\r\n\r\n    return wrappedfunc\r\n\r\n \r\ndef readint():\r\n    return int(stdin.readline())\r\n \r\ndef readarray(typ):\r\n    return list(map(typ, stdin.readline().split()))\r\n \r\ndef print_list(l):\r\n    print(' '.join(list(map(str, l))))\r\n \r\nans = 0\r\n\r\n@bootstrap\r\ndef dfs(u, adj, ss, ks, cum_scores):\r\n    global ans\r\n    k = ks[u]\r\n    nn = len(adj[u])\r\n \r\n    ans += ss[u] * k\r\n    \r\n    if nn == 0: # leaf\r\n        cum_scores[u] = ss[u]\r\n        yield cum_scores[u]\r\n \r\n    scores = []\r\n    ks_ = [k // nn for _ in range(nn)]\r\n \r\n    for v, k_ in zip(adj[u], ks_):\r\n        ks[v] = k_\r\n        score = yield dfs(v, adj, ss, ks, cum_scores)\r\n        scores.append(score)\r\n    \r\n    vals = sorted(scores, reverse=True)\r\n    for val in vals[:k % nn]:\r\n        ans += val\r\n \r\n    cum_scores[u] = ss[u] + vals[k % nn]\r\n    yield cum_scores[u]\r\n    \r\n \r\n \r\nt = readint()\r\nfor _ in range(t):\r\n    ans = 0\r\n    n, k = readarray(int)\r\n    ps = readarray(int)\r\n    ss = readarray(int)\r\n \r\n    adj = [[] for _ in range(n)]\r\n    for i, p in enumerate(ps):\r\n        adj[p-1].append(i+1)\r\n \r\n    ks = [k] + [0] * (n-1)\r\n    cum_scores = [0] * n\r\n    \r\n    dfs(0, adj, ss, ks, cum_scores)\r\n    \r\n    print(ans)\r\n",
+    "prob_desc_created_at": "1665844500",
+    "tags": [
+        "dfs and similar",
+        "dp",
+        "greedy",
+        "sortings",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

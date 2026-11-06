@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\", \"NO\\nNO\"]",
+    "src_uid": "90a47422f7ae53beb0a817422d760c6e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Lately, a national version of a bingo game has become very popular in Berland. There are n players playing the game, each player has a card with numbers. The numbers on each card are distinct, but distinct cards can have equal numbers. The card of the i-th player contains mi numbers.During the game the host takes numbered balls one by one from a bag. He reads the number aloud in a high and clear voice and then puts the ball away. All participants cross out the number if it occurs on their cards. The person who crosses out all numbers from his card first, wins. If multiple people cross out all numbers from their cards at the same time, there are no winners in the game. At the beginning of the game the bag contains 100 balls numbered 1 through 100, the numbers of all balls are distinct.You are given the cards for each player. Write a program that determines whether a player can win the game at the most favorable for him scenario or not.",
+    "prob_desc_output_spec": "Print n lines, the i-th line must contain word \"YES\" (without the quotes), if the i-th player can win, and \"NO\" (without the quotes) otherwise.",
+    "prob_desc_input_spec": "The first line of the input contains integer n (1 ≤ n ≤ 100) — the number of the players. Then follow n lines, each line describes a player's card. The line that describes a card starts from integer mi (1 ≤ mi ≤ 100) that shows how many numbers the i-th player's card has. Then follows a sequence of integers ai, 1, ai, 2, ..., ai, mi (1 ≤ ai, k ≤ 100) — the numbers on the i-th player's card. The numbers in the lines are separated by single spaces. It is guaranteed that all the numbers on each card are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_007.jsonl",
+    "code_uid": "2d9d57a5ed1e8ad2daea5f62d491dc12",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1\\n3 2 4 1\\n2 10 11\", \"2\\n1 1\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding: utf-8 -*-\n\nn = int(input())\ncards = [[set(map(int, input().split()[1:])), i, True] for i in range(n)]\n\ncards.sort(key=lambda x: len(x[0]))\nfor i in range(n-1, -1, -1):\n    if not cards[i][2]:\n        continue\n    for j in range(0, i):\n        if cards[j][0] == cards[i][0]:\n            cards[j][2] = cards[i][2] = False\n            break\n        if cards[j][0] < cards[i][0]:\n            cards[i][2] = False\n            break\n\ncards.sort(key=lambda x: x[1])\nfor card in cards:\n    print('YES' if card[2] else 'NO')\n    ",
+    "prob_desc_created_at": "1386399600",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 3 2 1\", \"No solution\"]",
+    "src_uid": "50a7fe83f2fb8d33b37e188332e2b2fa",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Arnie the Worm has finished eating an apple house yet again and decided to move. He made up his mind on the plan, the way the rooms are located and how they are joined by corridors. He numbered all the rooms from 1 to n. All the corridors are bidirectional.Arnie wants the new house to look just like the previous one. That is, it should have exactly n rooms and, if a corridor from room i to room j existed in the old house, it should be built in the new one. We know that during the house constructing process Arnie starts to eat an apple starting from some room and only stops when he eats his way through all the corridors and returns to the starting room. It is also known that Arnie eats without stopping. That is, until Arnie finishes constructing the house, he is busy every moment of his time gnawing a new corridor. Arnie doesn't move along the already built corridors.However, gnawing out corridors in one and the same order any time you change a house is a very difficult activity. That's why Arnie, knowing the order in which the corridors were located in the previous house, wants to gnaw corridors in another order. It is represented as a list of rooms in the order in which they should be visited. The new list should be lexicographically smallest, but it also should be strictly lexicographically greater than the previous one. Help the worm. ",
+    "prob_desc_output_spec": "Print m + 1 positive integers that do not exceed n. Those numbers are the description of the new path, according to which Arnie should gnaw out his new house. If it is impossible to find new path you should print out No solution. The first number in your answer should be equal to the last one. Also it should be equal to the main entrance.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (3 ≤ n ≤ 100, 3 ≤ m ≤ 2000). It is the number of rooms and corridors in Arnie's house correspondingly. The next line contains m + 1 positive integers that do not exceed n. They are the description of Arnie's old path represented as a list of rooms he visited during the gnawing. It is guaranteed that the last number in the list coincides with the first one. The first room described in the list is the main entrance, that's why Arnie should begin gnawing from it. You may assume that there is no room which is connected to itself and there is at most one corridor between any pair of rooms. However, it is possible to find some isolated rooms which are disconnected from others.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_051.jsonl",
+    "code_uid": "9350dc3ecf91f837cf4f90437041eec2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n1 2 3 1\", \"3 3\\n1 3 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\ndef readint(): return int(raw_input())\ndef readarray(foo): return [foo(x) for x in raw_input().split()]\n\n\ndef ok(to, s, t):\n\tif s == t:\n\t\tif len(to[s]) % 2 != 0: return False\n\telse:\n\t\tif len(to[s]) % 2 == 0: return False\n\n\tleft = 0\n\tfor u in xrange(0, len(to)):\n\t\tl = len(to[u])\n\t\tif u != s and u != t and l % 2 != 0: return False\n\t\tleft += 0 if l == 0 else 1\n\n\tif left == 0: return s == t\n\n\tused = set()\n\tq = deque([s])\n\tused.add(s)\n\twhile q:\n\t\tu = q.popleft()\n\t\tfor v in to[u]:\n\t\t\tif v in used: continue\n\t\t\tused.add(v)\n\t\t\tq.append(v)\n\treturn len(used) == left\n\t\n\ndef reconstruct(to, u, t):\n\twhile u != t or len(to[u]) > 0:\n\t\tfound = False\n\t\tfor v in sorted(to[u]):\n\t\t\tto[u].remove(v)\n\t\t\tto[v].remove(u)\n\t\t\tif not ok(to, v, t):\n\t\t\t\tto[u].add(v)\n\t\t\t\tto[v].add(u)\n\t\t\t\tcontinue\n\t\t\tyield v\n\t\t\tfound = True\n\t\t\tu = v\n\t\t\tbreak\n\t\tassert found\n\t\t\n\ndef run():\n\tn, m = readarray(int)\n\ta = readarray(lambda x: int(x) - 1)\n\tto = [set() for u in xrange(n)]\n\tt = a[0]\n\tfor i in xrange(m - 1, -1, -1):\n\t\tu, v = a[i:i + 2]\n\t\tto[u].add(v)\n\t\tto[v].add(u)\n\t\tfor w in sorted(to[u]):\n\t\t\tif w <= v: continue\n\t\t\tto[u].remove(w)\n\t\t\tto[w].remove(u)\n\t\t\tif not ok(to, w, t):\n\t\t\t\tto[u].add(w)\n\t\t\t\tto[w].add(u)\n\t\t\t\tcontinue\n\t\t\tres = a[:i + 1] + [w] + list(reconstruct(to, w, t))\n\t\t\treturn \" \".join([str(x + 1) for x in res])\n\treturn \"No solution\"\nprint run()\n\n",
+    "prob_desc_created_at": "1298649600",
+    "tags": [
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n1 2 4 3 0\", \"6\\n3 9 2 9 8 0\"]",
+    "src_uid": "5a3bbc6668268dabb49316a1c8d4ea8c",
+    "prob_desc_notes": "NoteFor the first case, the prefix products of this sequence modulo m are [1, 2, 3, 4, 0].For the second case, the prefix products of this sequence modulo m are [3, 7, 4, 6, 8, 0].",
+    "prob_desc_description": "You are given an integer m, and a list of n distinct integers between 0 and m - 1.You would like to construct a sequence satisfying the properties:  Each element is an integer between 0 and m - 1, inclusive.  All prefix products of the sequence modulo m are distinct.  No prefix product modulo m appears as an element of the input list.  The length of the sequence is maximized. Construct any sequence satisfying the properties above.",
+    "prob_desc_output_spec": "On the first line, print the number k, denoting the length of your sequence. On the second line, print k space separated integers, denoting your sequence.",
+    "prob_desc_input_spec": "The first line of input contains two integers n and m (0 ≤ n &lt; m ≤ 200 000) — the number of forbidden prefix products and the modulus. If n is non-zero, the next line of input contains n distinct integers between 0 and m - 1, the forbidden prefix products. If n is zero, this line doesn't exist.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_051.jsonl",
+    "code_uid": "25d0761f13a23b6619cb8e739dd2595c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"0 5\", \"3 10\\n2 9 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n \ndef gcdExtended(a, b):  \n  \n    # Base Case  \n    if a == 0 :   \n        return b, 0, 1\n             \n    gcd, x1, y1 = gcdExtended(b%a, a)  \n     \n    # Update x and y using results of recursive  \n    # call  \n    x = y1 - (b//a) * x1  \n    y = x1  \n     \n    return gcd, x, y \n \ndef rev_elem(x, m):\n    return (gcdExtended(x, m)[1] % m + m) % m\n \nn, m = map(int, input().split())\na = []\nif n > 0:\n    a = [int(i) for i in input().split()]\n \nbanned = [False] * (m + 5)\nfor i in a:\n    banned[i] = True\n \ncycle = [[] for i in range(m + 5)]\nd, dp, p = [], [], []\nfor i in range(m):\n    cycle[math.gcd(m, i)].append(i)\ncycle = [[i for i in j if not banned[i]] for j in cycle]\n \nd = [i for i in range(1, m + 1) if m % i == 0]\ndp = [len(cycle[i]) for i in d]\np = [-1 for i in d]\nans, lst = -1, -1\n \nfor i in range(len(d)):\n    if dp[i] > ans:\n        ans, lst = dp[i], i\n    for j in range(i + 1, len(d)):\n        if d[j] % d[i] != 0 or dp[j] > dp[i] + len(cycle[d[j]]):\n            continue\n        dp[j] = dp[i] + len(cycle[d[j]])\n        p[j] = i\nprint(ans)\n        \npos, dpos, pref = [], [], []\ncur = lst\nwhile cur != -1:\n    dpos.append(d[cur])\n    cur = p[cur]\ndpos.reverse()\n \nfor i in dpos:\n    pref += cycle[i]\ncur = 1\nfor i in pref:\n    ad = 1\n    if math.gcd(i, m) != math.gcd(cur, m):\n        ad = ((cur * math.gcd(i, m) // math.gcd(cur, math.gcd(i, m))) // cur) % m\n    ncur = (cur * ad) % m\n    ad *= i // math.gcd(ncur, m) * (rev_elem(ncur // math.gcd(ncur, m), m // math.gcd(ncur, m)))\n\n    ad %= m\n    cur = (cur * ad) % m\n \n    pos.append(ad)\n \nprint(*pos)",
+    "prob_desc_created_at": "1492356900",
+    "tags": [
+        "dp",
+        "graphs",
+        "constructive algorithms",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

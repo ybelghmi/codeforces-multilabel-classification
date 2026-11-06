@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"63\", \"300000\", \"1000\"]",
+    "src_uid": "6832d12db46bce3bb1bd6b0950b1eb32",
+    "prob_desc_notes": "NoteIn the first example, it is possible to form a valid sequence from all blocks.One of the valid sequences is the following:[4|2|1] [1|32|2] [2|8|3] [3|16|3] [3|4|4] [4|1|2]The first block from the input ([2|1|4] $$$\\to$$$ [4|1|2]) and second ([1|2|4] $$$\\to$$$ [4|2|1]) are flipped.In the second example, the optimal answers can be formed from the first three blocks as in the following (the second or the third block from the input is flipped):[2|100000|1] [1|100000|1] [1|100000|2]In the third example, it is not possible to form a valid sequence of two or more blocks, so the answer is a sequence consisting only of the first block since it is the block with the largest value.",
+    "prob_desc_description": "You are given $$$n$$$ blocks, each of them is of the form [color$$$_1$$$|value|color$$$_2$$$], where the block can also be flipped to get [color$$$_2$$$|value|color$$$_1$$$]. A sequence of blocks is called valid if the touching endpoints of neighboring blocks have the same color. For example, the sequence of three blocks A, B and C is valid if the left color of the B is the same as the right color of the A and the right color of the B is the same as the left color of C.The value of the sequence is defined as the sum of the values of the blocks in this sequence.Find the maximum possible value of the valid sequence that can be constructed from the subset of the given blocks. The blocks from the subset can be reordered and flipped if necessary. Each block can be used at most once in the sequence.",
+    "prob_desc_output_spec": "Print exactly one integer — the maximum total value of the subset of blocks, which makes a valid sequence.",
+    "prob_desc_input_spec": "The first line of input contains a single integer $$$n$$$ ($$$1 \\le n \\le 100$$$) — the number of given blocks. Each of the following $$$n$$$ lines describes corresponding block and consists of $$$\\mathrm{color}_{1,i}$$$, $$$\\mathrm{value}_i$$$ and $$$\\mathrm{color}_{2,i}$$$ ($$$1 \\le \\mathrm{color}_{1,i}, \\mathrm{color}_{2,i} \\le 4$$$, $$$1 \\le \\mathrm{value}_i \\le 100\\,000$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_078.jsonl",
+    "code_uid": "3f9a42063d58d3e398fd529f1a1c342f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n2 1 4\\n1 2 4\\n3 4 4\\n2 8 3\\n3 16 3\\n1 32 2\", \"7\\n1 100000 1\\n1 100000 2\\n1 100000 2\\n4 50000 3\\n3 50000 4\\n4 50000 4\\n3 50000 3\", \"4\\n1 1000 1\\n2 500 2\\n3 250 3\\n4 125 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from random import randint\n\nvalues = [[] for _ in range(10)]\ntypes = [[0, 1, 2, 3], [1, 4, 5, 6], [2, 5, 7, 8], [3, 6, 8, 9]]\nb = [1]*10\nB = 128\nfor i in range(9):\n    b[i+1] = b[i]*B\n\nfor i in range(4):\n    values[types[i][i]].append(0)\n\nn = int(input())\nfor _ in range(n):\n    i, v, j = map(int,input().split())\n    t = types[i-1][j-1]\n    if i == j:\n        values[t][0] += v\n    else:\n        values[t].append(v)\n\n\nfor i in range(4):\n    for j in range(i+1,4):\n        t = types[i][j]\n        values[t].sort()\n        while len(values[t])>3:\n            v=values[t].pop()+ values[t].pop()\n            values[t][-1]+= v\n        values[t].sort(reverse = True)\n\ncur=[{},{},{},{}]\nm = 0\nfor i in range(4):\n    for j in range(i,4):\n        t = types[i][j]\n        if values[t]:\n            cur[i][b[t]] = values[t][0]\n            m = max(m,values[t][0])\n\ndef cnt(k,t):\n    return k//b[t]%B\n\nfor _ in range(n):\n    next = [{},{},{},{}]\n    for i in range(4):\n        for j in range(4):\n            t = types[i][j]\n            for k, v in cur[i].items():\n                c = cnt(k,t)\n                if len(values[t])>c:\n                    nk = k+b[t]\n                    if nk not in next[j]:\n                        next[j][nk] = values[t][c] + v\n                        m = max(m, values[t][c] + v)\n    cur = next\n\nprint (m)",
+    "prob_desc_created_at": "1536248100",
+    "tags": [
+        "dp",
+        "graphs",
+        "bitmasks",
+        "dfs and similar",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n6 3\\n6 5\\n1 3\\n1 4\\n5 2\"]",
+    "src_uid": "6a4e5b549514814a6c72d3b1e211a7f6",
+    "prob_desc_notes": "NoteThe scheme for the first example (R denotes the lamp connected to the grid, the numbers on wires are their importance values):",
+    "prob_desc_description": "Polycarp has decided to decorate his room because the New Year is soon. One of the main decorations that Polycarp will install is the garland he is going to solder himself.Simple garlands consisting of several lamps connected by one wire are too boring for Polycarp. He is going to solder a garland consisting of $$$n$$$ lamps and $$$n - 1$$$ wires. Exactly one lamp will be connected to power grid, and power will be transmitted from it to other lamps by the wires. Each wire connectes exactly two lamps; one lamp is called the main lamp for this wire (the one that gets power from some other wire and transmits it to this wire), the other one is called the auxiliary lamp (the one that gets power from this wire). Obviously, each lamp has at most one wire that brings power to it (and this lamp is the auxiliary lamp for this wire, and the main lamp for all other wires connected directly to it).Each lamp has a brightness value associated with it, the $$$i$$$-th lamp has brightness $$$2^i$$$. We define the importance of the wire as the sum of brightness values over all lamps that become disconnected from the grid if the wire is cut (and all other wires are still working).Polycarp has drawn the scheme of the garland he wants to make (the scheme depicts all $$$n$$$ lamp and $$$n - 1$$$ wires, and the lamp that will be connected directly to the grid is marked; the wires are placed in such a way that the power can be transmitted to each lamp). After that, Polycarp calculated the importance of each wire, enumerated them from $$$1$$$ to $$$n - 1$$$ in descending order of their importance, and then wrote the index of the main lamp for each wire (in the order from the first wire to the last one).The following day Polycarp bought all required components of the garland and decided to solder it — but he could not find the scheme. Fortunately, Polycarp found the list of indices of main lamps for all wires. Can you help him restore the original scheme?",
+    "prob_desc_output_spec": "If it is impossible to restore the original scheme, print one integer $$$-1$$$. Otherwise print the scheme as follows. In the first line, print one integer $$$k$$$ ($$$1 \\le k \\le n$$$) — the index of the lamp that is connected to the power grid. Then print $$$n - 1$$$ lines, each containing two integers $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le x_i, y_i \\le n$$$, $$$x_i \\ne y_i$$$) — the indices of the lamps connected by some wire. The descriptions of the wires (and the lamps connected by a wire) can be printed in any order. The printed description must correspond to a scheme of a garland such that Polycarp could have written the list $$$a_1$$$, $$$a_2$$$, ..., $$$a_{n - 1}$$$ from it. If there are multiple such schemes, output any of them.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the number of lamps. The second line contains $$$n - 1$$$ integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_{n - 1}$$$ ($$$1 \\le a_i \\le n$$$), where $$$a_i$$$ is the index of the main lamp for the $$$i$$$-th wire (wires are numbered in descending order of importance).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_024.jsonl",
+    "code_uid": "8c32c62dfb88c2bbd8155902497db3f8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n3 6 3 1 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\n \na = list(map(int,input().split()))\n \ndic = {}\nuexmax = n\nans = []\n \nfor i in range(n-1):\n \n    if i == 0:\n        dic[a[i]] = 1\n \n    else:\n \n        if a[i] in dic:\n            dic[uexmax] = 1\n            ans.append([ a[i-1] , uexmax ])\n        else:\n            dic[a[i]] = 1\n            ans.append([ a[i-1] , a[i] ])\n \n    while uexmax in dic:\n        uexmax -= 1\n \nans.append ( [a[-1] , uexmax] )\n \nprint (a[0])\n \nfor i in range(n-1):\n    print (\" \".join(map(str,ans[i])))",
+    "prob_desc_created_at": "1577552700",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

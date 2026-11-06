@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n4\\n0\\n5\\n2\\n2\\n2\", \"9\\n-1\\n3\"]",
+    "src_uid": "f7d189ade5178cc71a856618b173b07e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The last product of the R2 company in the 2D games' field is a new revolutionary algorithm of searching for the shortest path in a 2 × n maze.Imagine a maze that looks like a 2 × n rectangle, divided into unit squares. Each unit square is either an empty cell or an obstacle. In one unit of time, a person can move from an empty cell of the maze to any side-adjacent empty cell. The shortest path problem is formulated as follows. Given two free maze cells, you need to determine the minimum time required to go from one cell to the other.Unfortunately, the developed algorithm works well for only one request for finding the shortest path, in practice such requests occur quite often. You, as the chief R2 programmer, are commissioned to optimize the algorithm to find the shortest path. Write a program that will effectively respond to multiple requests to find the shortest path in a 2 × n maze.",
+    "prob_desc_output_spec": "Print m lines. In the i-th line print the answer to the i-th request — either the size of the shortest path or -1, if we can't reach the second cell from the first one.",
+    "prob_desc_input_spec": "The first line contains two integers, n and m (1 ≤ n ≤ 2·105; 1 ≤ m ≤ 2·105) — the width of the maze and the number of queries, correspondingly. Next two lines contain the maze. Each line contains n characters, each character equals either '.' (empty cell), or 'X' (obstacle). Each of the next m lines contains two integers vi and ui (1 ≤ vi, ui ≤ 2n) — the description of the i-th request. Numbers vi, ui mean that you need to print the value of the shortest path from the cell of the maze number vi to the cell number ui. We assume that the cells of the first line of the maze are numbered from 1 to n, from left to right, and the cells of the second line are numbered from n + 1 to 2n from left to right. It is guaranteed that both given cells are empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_021.jsonl",
+    "code_uid": "9885975a447f99908ceac74c9d8731a6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 7\\n.X..\\n...X\\n5 1\\n1 3\\n7 7\\n1 4\\n6 1\\n4 7\\n5 7\", \"10 3\\nX...X..X..\\n..X...X..X\\n11 7\\n7 18\\n18 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nfrom bisect import bisect_left\ndef main():\n    RL = lambda: stdin.readline()\n    read_ints = lambda: map(int, RL().split())\n    n, m = read_ints()\n    s = RL().strip()\n    t = RL().strip()\n    ma = [0] * n\n    sps = []\n    for i in xrange(n):\n        if s[i] == 'X':\n            ma[i] += 1\n        if t[i] == 'X':\n            ma[i] += 2\n        if ma[i]:\n            sps.append(i)\n    gr = [0] * n\n    c = 0\n    for i in xrange(n-1):\n        gr[i] = c\n        if (ma[i] | ma[i+1]) == 3:\n            c += 1\n    gr[-1] = c\n    def coor(v):\n        h = 0 if v <= n else 1\n        w = v-1 if v <= n else v-n-1\n        return (h, w)\n    l = len(sps)\n    def nei(w):\n        return bisect_left(sps, w)\n    dif = [0]\n    for i in xrange(l-1):\n        dif.append(dif[-1])\n        if (ma[sps[i]] & ma[sps[i+1]]) == 0:\n            dif[-1] += 1\n    dif.append(dif[-1])\n    ans = []\n    for _ in xrange(m):\n        v, w = map(coor, read_ints())\n        if gr[v[1]] != gr[w[1]]:\n            ans.append(-1)\n            continue\n        if v[1] > w[1]:\n            v, w = w, v\n        vidx, widx = map(nei, (v[1], w[1]))\n        #print vidx, widx, sps[vidx], sps[widx]\n        if vidx == widx:\n            ans.append(w[1] - v[1] + (0 if v[0] == w[0] else 1))\n            continue\n        l0 = sps[vidx] - v[1] + (0 if v[0] == 2-ma[sps[vidx]] else 1)\n        widx -= 1\n        l1 = dif[widx] - dif[vidx] + sps[widx] - sps[vidx]\n        l2 = w[1] - sps[widx] + (0 if w[0] == 2-ma[sps[widx]] else 1)\n        #print l0, l1, l2\n        ans.append(l0 + l1 + l2)\n    stdout.write('\\n'.join(map(str, ans)))\nmain()\n",
+    "prob_desc_created_at": "1397977200",
+    "tags": [
+        "data structures",
+        "divide and conquer"
+    ],
+    "hidden_unit_tests": ""
+}

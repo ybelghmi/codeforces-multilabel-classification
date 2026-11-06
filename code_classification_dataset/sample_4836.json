@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n3\"]",
+    "src_uid": "49ba9921ae8b6bc53726e7a521eefe39",
+    "prob_desc_notes": "NoteFor the first test case in the sample input, the following figure shows one way to fit the given five rectangles into the 2D box with minimum height:  In the figure above, the number inside each rectangle is its width. The width of the 2D box is $$$16$$$ (indicated with arrow below). The minimum height required for the 2D box in this case is $$$2$$$ (indicated on the left).In the second test case, you can have a minimum height of three by keeping two blocks (one each of widths eight and two) on each of the three levels.",
+    "prob_desc_description": "You are given $$$n$$$ rectangles, each of height $$$1$$$. Each rectangle's width is a power of $$$2$$$ (i. e. it can be represented as $$$2^x$$$ for some non-negative integer $$$x$$$). You are also given a two-dimensional box of width $$$W$$$. Note that $$$W$$$ may or may not be a power of $$$2$$$. Moreover, $$$W$$$ is at least as large as the width of the largest rectangle.You have to find the smallest height of this box, such that it is able to fit all the given rectangles. It is allowed to have some empty space left in this box after fitting all the rectangles.You cannot rotate the given rectangles to make them fit into the box. Moreover, any two distinct rectangles must not overlap, i. e., any two distinct rectangles must have zero intersection area.See notes for visual explanation of sample input.",
+    "prob_desc_output_spec": "Output $$$t$$$ integers. The $$$i$$$-th integer should be equal to the answer to the $$$i$$$-th test case — the smallest height of the box.",
+    "prob_desc_input_spec": "The first line of input contains one integer $$$t$$$ ($$$1 \\le t \\le 5 \\cdot 10^3$$$) — the number of test cases. Each test case consists of two lines. For each test case:  the first line contains two integers $$$n$$$ ($$$1 \\le n \\le 10^5$$$) and $$$W$$$ ($$$1 \\le W \\le 10^9$$$); the second line contains $$$n$$$ integers $$$w_1, w_2, \\dots, w_n$$$ ($$$1 \\le w_i \\le 10^6$$$), where $$$w_i$$$ is the width of the $$$i$$$-th rectangle. Each $$$w_i$$$ is a power of $$$2$$$; additionally, $$$\\max\\limits_{i=1}^{n} w_i \\le W$$$.  The sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_107.jsonl",
+    "code_uid": "fd305de81b695766a5fab7315172f590",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n5 16\\n1 2 8 4 8\\n6 10\\n2 8 8 2 2 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# Main\r\ndef main():\r\n    num_tests = int(input())\r\n\r\n    for i in range(num_tests):\r\n        # Get the number of blocks and the box width\r\n        n, w = map(int,input().split())\r\n\r\n        # Build the dictionary of blocks\r\n        # blocks = {}\r\n        # for i in list(map(int,input().split())):\r\n        #     if i in blocks:\r\n        #         blocks[i] += 1\r\n        #     else:\r\n        #         blocks[i] = 1\r\n        l = list(map(int,input().split()))\r\n        blocks = dict((x,l.count(x)) for x in set(l))\r\n\r\n        # Now work through the blocks until the dictionary is empty\r\n        num_rows = 1\r\n        space_left = w\r\n        while len(blocks) > 0:\r\n            # Find the largest block that will fit\r\n            # This sets next_block to the largest power of 2 less than the space left\r\n            next_block = 1 << (space_left.bit_length() - 1)\r\n            while next_block not in blocks:\r\n                next_block //= 2\r\n                if next_block == 0:\r\n                    break\r\n\r\n            # If we didn't find a block that fits move on to the next row\r\n            if next_block == 0:\r\n                num_rows += 1\r\n                space_left = w\r\n            # We found a block that fits\r\n            else:\r\n                space_left -= next_block\r\n                blocks[next_block] -= 1\r\n                # If this was the last block of this size delete the dictionary entry\r\n                if blocks[next_block] == 0:\r\n                    del blocks[next_block]\r\n                # If the row is full and there are blocks left start the next row\r\n                if space_left == 0 and len(blocks) > 0:\r\n                    num_rows += 1\r\n                    space_left = w\r\n\r\n        # All done so print the number of rows\r\n        print(num_rows)\r\n\r\nmain()",
+    "prob_desc_created_at": "1617028500",
+    "tags": [
+        "binary search",
+        "bitmasks",
+        "data structures",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

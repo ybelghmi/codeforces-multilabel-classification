@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n1\\n1\\n2\\n1\\n-1\"]",
+    "src_uid": "7ad14848b3b9f075477fbf0c5f648c77",
+    "prob_desc_notes": "NoteFor the $$$1$$$-st test case, since $$$s$$$ and $$$t$$$ are equal, you don't need to apply any operation.For the $$$2$$$-nd test case, you only need to apply one operation on the entire string ab to convert it to ba.For the $$$3$$$-rd test case, you only need to apply one operation on the entire string abc to convert it to cab.For the $$$4$$$-th test case, you need to apply the operation twice: first on the entire string abc to convert it to cab and then on the substring of length $$$2$$$ beginning at the second character to convert it to cba.For the $$$5$$$-th test case, you only need to apply one operation on the entire string abab to convert it to baba.For the $$$6$$$-th test case, it is not possible to convert string $$$s$$$ to $$$t$$$.",
+    "prob_desc_description": "You are given two strings $$$s$$$ and $$$t$$$, each of length $$$n$$$ and consisting of lowercase Latin alphabets. You want to make $$$s$$$ equal to $$$t$$$. You can perform the following operation on $$$s$$$ any number of times to achieve it —   Choose any substring of $$$s$$$ and rotate it clockwise once, that is, if the selected substring is $$$s[l,l+1...r]$$$, then it becomes $$$s[r,l,l + 1 ... r - 1]$$$. All the remaining characters of $$$s$$$ stay in their position. For example, on rotating the substring $$$[2,4]$$$ , string \"abcde\" becomes \"adbce\". A string $$$a$$$ is a substring of a string $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) characters from the beginning and several (possibly, zero or all) characters from the end.Find the minimum number of operations required to convert $$$s$$$ to $$$t$$$, or determine that it's impossible.",
+    "prob_desc_output_spec": "For each test case, output the minimum number of operations to convert $$$s$$$ to $$$t$$$. If it is not possible to convert $$$s$$$ to $$$t$$$, output $$$-1$$$ instead.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ $$$(1\\leq t \\leq 2000)$$$ — the number of test cases. The description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ $$$(1\\leq n \\leq 2000)$$$ — the length of the strings.  The second and the third lines contain strings $$$s$$$ and $$$t$$$ respectively. The sum of $$$n$$$ over all the test cases does not exceed $$$2000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_050.jsonl",
+    "code_uid": "7eca10c9f82a669d27abaa16b70ddb7e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n1\\na\\na\\n2\\nab\\nba\\n3\\nabc\\ncab\\n3\\nabc\\ncba\\n4\\nabab\\nbaba\\n4\\nabcc\\naabc\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def num(c):\n    return ord(c) - 97\n\nimport sys\ninput = sys.stdin.readline\n\nt = int(input())\nfor _ in range(t):\n    n = int(input())\n    s1 = input().strip()\n    s2 = input().strip()\n\n    char1 = [0] * 26\n    char2 = [0] * 26\n    for c in s1:\n        char1[num(c)] += 1\n    for c in s2:\n        char2[num(c)] += 1\n    if char1 != char2:\n        print(-1)\n        continue\n\n    dp = [[(False, 0, 0) for j in range(n+1)] for i in range(n + 1)]\n    dp[0][0] = [True, 0,[0]*26]\n\n    def upd(a, b, val, sett):\n        if not dp[a][b][0] or val > dp[a][b][1]:\n            dp[a][b] = (True, val, sett)\n    \n    for i in range(n):\n        for j in range(n):\n            valid, val, tab = dp[i][j]\n            if not valid:\n                continue\n            \n            top = s1[i]\n            bot = s2[j]\n\n            if top == bot:\n                #upd(i+1, j+1, val + 1, tab)\n                if not dp[i + 1][j + 1][0] or val + 1 > dp[i + 1][j + 1][1]:\n                    dp[i + 1][j + 1] = [True, val + 1, tab]\n\n            if tab[num(top)] > 0:\n                sett = tab[:]\n                sett[num(top)] -= 1\n                \n                #upd(i+1, j, val, sett)\n                if not dp[i + 1][j][0] or val > dp[i + 1][j][1]:\n                    dp[i + 1][j] = [True, val, sett]\n\n            sett = tab[:]\n            sett[num(bot)] += 1\n            #upd(i, j + 1, val, sett)\n            if not dp[i][j + 1][0] or val > dp[i][j + 1][1]:\n                dp[i][j + 1] = [True, val, sett]\n\n            del dp[i][j][2]\n\n    poss = [dp[i][n][1] for i in range(n + 1)]\n        \n\n    print(n - max(poss))\n            \n    ",
+    "prob_desc_created_at": "1590935700",
+    "tags": [
+        "dp",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

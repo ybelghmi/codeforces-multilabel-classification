@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 1\", \"1 1\", \"1 1\", \"3 4\"]",
+    "src_uid": "6b049bd466b050f2dd0a305a381bc0bf",
+    "prob_desc_notes": "NoteThe picture below shows the rectangles in the first and second samples. The possible answers are highlighted.  The picture below shows the rectangles in the third and fourth samples.  ",
+    "prob_desc_description": "You are given $$$n$$$ rectangles on a plane with coordinates of their bottom left and upper right points. Some $$$(n-1)$$$ of the given $$$n$$$ rectangles have some common point. A point belongs to a rectangle if this point is strictly inside the rectangle or belongs to its boundary.Find any point with integer coordinates that belongs to at least $$$(n-1)$$$ given rectangles.",
+    "prob_desc_output_spec": "Print two integers $$$x$$$ and $$$y$$$ — the coordinates of any point that belongs to at least $$$(n-1)$$$ given rectangles.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 132\\,674$$$) — the number of given rectangles. Each the next $$$n$$$ lines contains four integers $$$x_1$$$, $$$y_1$$$, $$$x_2$$$ and $$$y_2$$$ ($$$-10^9 \\le x_1 &lt; x_2 \\le 10^9$$$, $$$-10^9 \\le y_1 &lt; y_2 \\le 10^9$$$) — the coordinates of the bottom left and upper right corners of a rectangle.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_008.jsonl",
+    "code_uid": "bf69563439d55a97172689024f59060f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0 0 1 1\\n1 1 2 2\\n3 0 4 1\", \"3\\n0 0 1 1\\n0 1 1 2\\n1 0 2 1\", \"4\\n0 0 5 5\\n0 0 4 4\\n1 1 4 4\\n1 1 4 4\", \"5\\n0 0 10 8\\n1 2 6 7\\n2 3 5 6\\n3 4 4 5\\n8 1 9 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\n\ndef max_arr(a):\n    tem = [(-float('inf'), -float('inf'), float('inf'), float('inf'))]\n    for i in range(len(a) - 1, -1, -1):\n        tem.append(\n            (max(tem[-1][0], a[i][0]), max(tem[-1][1], a[i][1]), min(tem[-1][2], a[i][2]), min(tem[-1][3], a[i][3])))\n    return tem[::-1]\n\n\nvalid = lambda p: p[2] - p[0] > -1 and p[3] - p[1] > -1\nrints = lambda: [int(x) for x in stdin.readline().split()]\nrints_2d = lambda n: [rints() for _ in range(n)]\n\nn = int(input())\na = rints_2d(n)\ncum = max_arr(a)\nif valid(cum[0]):\n    print('%d %d' % (cum[0][0], cum[0][1]))\nelse:\n    tem = [(-float('inf'), -float('inf'), float('inf'), float('inf'))]\n    for i in range(n):\n        cur = (max(tem[-1][0], cum[i + 1][0]), max(tem[-1][1], cum[i + 1][1]), min(tem[-1][2], cum[i + 1][2]),\n               min(tem[-1][3], cum[i + 1][3]))\n\n        if valid(cur):\n            print('%d %d' % (cur[0], cur[1]))\n            exit()\n        else:\n            tem.append((max(tem[-1][0], a[i][0]), max(tem[-1][1], a[i][1]), min(tem[-1][2], a[i][2]),\n                        min(tem[-1][3], a[i][3])))\n",
+    "prob_desc_created_at": "1535387700",
+    "tags": [
+        "sortings",
+        "implementation",
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

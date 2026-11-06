@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n0\", \"2\\n0\", \"8\"]",
+    "src_uid": "da11e843698b3ad997e12be2dbd0b71f",
+    "prob_desc_notes": "NoteConsider the first example. For the first question, the possible arrangements are \"aabb\" and \"bbaa\", and for the second question, index $$$1$$$ contains 'a' and index $$$2$$$ contains 'b' and there is no valid arrangement in which all 'a' and 'b' are in the same half.",
+    "prob_desc_description": "There is a colony of villains with several holes aligned in a row, where each hole contains exactly one villain.Each colony arrangement can be expressed as a string of even length, where the $$$i$$$-th character of the string represents the type of villain in the $$$i$$$-th hole. Iron Man can destroy a colony only if the colony arrangement is such that all villains of a certain type either live in the first half of the colony or in the second half of the colony.His assistant Jarvis has a special power. It can swap villains of any two holes, i.e. swap any two characters in the string; he can do this operation any number of times.Now Iron Man asks Jarvis $$$q$$$ questions. In each question, he gives Jarvis two numbers $$$x$$$ and $$$y$$$. Jarvis has to tell Iron Man the number of distinct colony arrangements he can create from the original one using his powers such that all villains having the same type as those originally living in $$$x$$$-th hole or $$$y$$$-th hole live in the same half and the Iron Man can destroy that colony arrangement.Two colony arrangements are considered to be different if there exists a hole such that different types of villains are present in that hole in the arrangements.",
+    "prob_desc_output_spec": "For each question output the number of arrangements possible modulo $$$10^9+7$$$.",
+    "prob_desc_input_spec": "The first line contains a string $$$s$$$ ($$$2 \\le |s| \\le 10^{5}$$$), representing the initial colony arrangement. String $$$s$$$ can have both lowercase and uppercase English letters and its length is even. The second line contains a single integer $$$q$$$ ($$$1 \\le q \\le 10^{5}$$$) — the number of questions. The $$$i$$$-th of the next $$$q$$$ lines contains two integers $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le x_i, y_i \\le |s|$$$, $$$x_i \\ne y_i$$$) — the two numbers given to the Jarvis for the $$$i$$$-th question.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_041.jsonl",
+    "code_uid": "c31f7cc49264014d1cbe0de4319a71f1",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"abba\\n2\\n1 4\\n1 2\", \"AAaa\\n2\\n1 2\\n1 3\", \"abcd\\n1\\n1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nMOD = 1000000007\ns = stdin.readline().strip()\nn = len(s)\nbuc = [0] * 101\nfac = [0] * (n + 1)\ninv = [0] * (n + 1)\ndp = [0] * (n + 1)\n# temp_dp = [0] * (n+1)\nans = [[0] * 55 for _ in range(55)]\n\n\ndef find(c: 'str') -> 'int':\n    if 'A' <= c <= 'Z':\n        return ord(c) - ord('A') + 26\n    else:\n        return ord(c) - ord('a')\n\n\ndef add(a: 'int', b: 'int') -> 'int':\n    a += b\n    if a >= MOD:\n        a -= MOD\n    return a\n\n\ndef sub(a: 'int', b: 'int') -> 'int':\n    a -= b\n    if a < 0:\n        a += MOD\n    return a\n\n\n# c = Counter(s)\n\n# # store frequency\n# for k in c.keys():\n#     buc[find(k)] = c[k]\n\nfor i in s:\n    buc[find(i)] += 1  # naive count is fater than counter\n\n# compute factorial and inv\n\nfac[0] = 1\nfor i in range(1, n + 1):\n    fac[i] = (fac[i - 1] * i) % MOD\ninv[n] = pow(fac[n], MOD - 2, MOD)\nfor i in range(n - 1, -1, -1):\n    inv[i] = (inv[i + 1] * (i + 1)) % MOD\n\nnum = pow(fac[n // 2], 2, MOD)\nfor i in range(0, 52):\n    num = (num * inv[buc[i]]) % MOD\n\ndp[0] = 1\n\nfor i in range(0, 52):\n    if not buc[i]:\n        continue\n    for j in range(n, buc[i] - 1, -1):\n        dp[j] = add(dp[j], dp[j - buc[i]])\n\nfor i in range(52):\n    ans[i][i] = dp[n // 2]\n\nfor i in range(52):\n    if not buc[i]:\n        continue\n    temp_dp = dp.copy()\n    for k in range(buc[i], n + 1):\n        temp_dp[k] = sub(temp_dp[k], temp_dp[k - buc[i]])\n\n    for j in range(i + 1, 52):\n        if not buc[j]:\n            continue\n        for k in range(buc[j], n + 1):\n            temp_dp[k] = sub(temp_dp[k], temp_dp[k - buc[j]])\n\n        ans[i][j] = (2 * temp_dp[n // 2]) % MOD\n\n        for k in range(n, buc[j] - 1, -1):\n            temp_dp[k] = add(temp_dp[k], temp_dp[k - buc[j]])\n\nq = int(input())\nl = stdin.read().splitlines()\nfor i in l:\n    x, y = map(int, i.split())\n    l, r = find(s[x - 1]), find(s[y - 1])\n    if l > r:\n        l, r = r, l\n    print(num * ans[l][r] % MOD)\n",
+    "prob_desc_created_at": "1549208100",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

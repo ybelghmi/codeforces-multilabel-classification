@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n12\", \"18\\n14\\n36\\n47\\n14\\n29\\n30\\n0\\n84\"]",
+    "src_uid": "a587188db6f0c17927923a158fdca1be",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Tyndex is again well ahead of the rivals! The reaction to the release of Zoozle Chrome browser was the release of a new browser Tyndex.Brome!The popularity of the new browser is growing daily. And the secret is not even the Tyndex.Bar installed (the Tyndex.Bar automatically fills the glass with the finest 1664 cognac after you buy Tyndex.Bottles and insert in into a USB port). It is highly popular due to the well-thought interaction with the user.Let us take, for example, the system of automatic address correction. Have you entered codehorses instead of codeforces? The gloomy Zoozle Chrome will sadly say that the address does not exist. Tyndex.Brome at the same time will automatically find the closest address and sent you there. That's brilliant!How does this splendid function work? That's simple! For each potential address a function of the F error is calculated by the following rules:  for every letter ci from the potential address c the closest position j of the letter ci in the address (s) entered by the user is found. The absolute difference |i - j| of these positions is added to F. So for every i (1 ≤ i ≤ |c|) the position j is chosen such, that ci = sj, and |i - j| is minimal possible.  if no such letter ci exists in the address entered by the user, then the length of the potential address |c| is added to F. After the values of the error function have been calculated for all the potential addresses the most suitable one is found. To understand the special features of the above described method better, it is recommended to realize the algorithm of calculating the F function for an address given by the user and some set of potential addresses. Good luck!",
+    "prob_desc_output_spec": "On each n line of the output file print a single number: the value of the error function when the current potential address is chosen. Please, do not use %lld specificator to read or write 64-bit integers in C++. It is preffered to use cout (also you may use %I64d).",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n ≤ 105, 1 ≤ k ≤ 105). They are the number of potential addresses and the length of the address entered by the user. The next line contains k lowercase Latin letters. They are the address entered by the user (s). Each next i-th (1 ≤ i ≤ n) line contains a non-empty sequence of lowercase Latin letters. They are the potential address. It is guaranteed that the total length of all the lines does not exceed 2·105.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_060.jsonl",
+    "code_uid": "c1a87f71af8d1885c410a2d7857d8246",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 10\\ncodeforces\\ncodeforces\\ncodehorses\", \"9 9\\nvkontakte\\nvcontacte\\nvkontrakte\\nvkollapse\\nvkrokodile\\nvtopke\\nvkapuste\\nvpechke\\nvk\\nvcodeforcese\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import bisect_left\n\nn, k = map(int, input().split())\nq = 'abcdefghijklmnopqrstuvwxyz'\n\na = {i: [] for i in q}\nfor i, j in enumerate(input()): a[j].append(i)\n\ndef g(t): return [(t[i] + t[i - 1]) // 2 for i in range(1, len(t))]\nc = {i: g(a[i]) for i in q}\n\ndef f():\n    global a, c\n    s, t = 0, input()\n    d = len(t)\n    for i, j in enumerate(t):\n        if a[j]:\n            if c[j]: s += abs(i - a[j][bisect_left(c[j], i)])\n            else: s += abs(i - a[j][0])\n        else: s += d\n    return str(s)\n\nprint('\\n'.join(f() for i in range(n)))",
+    "prob_desc_created_at": "1298649600",
+    "tags": [
+        "binary search",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

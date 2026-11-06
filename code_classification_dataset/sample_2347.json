@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"second\", \"first\", \"second\"]",
+    "src_uid": "d3684227d1f12cf36dc302e1ffee8370",
+    "prob_desc_notes": "NoteSequence x  =  x1x2... x|x| is lexicographically larger than sequence y  =  y1y2... y|y|, if either |x|  &gt;  |y| and x1  =  y1,  x2  =  y2, ... ,  x|y|  =  y|y|, or there is such number r (r  &lt;  |x|, r  &lt;  |y|), that x1  =  y1,  x2  =  y2,  ... ,  xr  =  yr and xr  +  1  &gt;  yr  +  1.We use notation |a| to denote length of sequence a.",
+    "prob_desc_description": "Vasya has become interested in wrestling. In wrestling wrestlers use techniques for which they are awarded points by judges. The wrestler who gets the most points wins.When the numbers of points of both wrestlers are equal, the wrestler whose sequence of points is lexicographically greater, wins.If the sequences of the awarded points coincide, the wrestler who performed the last technique wins. Your task is to determine which wrestler won.",
+    "prob_desc_output_spec": "If the first wrestler wins, print string \"first\", otherwise print \"second\"",
+    "prob_desc_input_spec": "The first line contains number n — the number of techniques that the wrestlers have used (1 ≤ n ≤ 2·105).  The following n lines contain integer numbers ai (|ai| ≤ 109, ai ≠ 0). If ai is positive, that means that the first wrestler performed the technique that was awarded with ai points. And if ai is negative, that means that the second wrestler performed the technique that was awarded with ( - ai) points. The techniques are given in chronological order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_021.jsonl",
+    "code_uid": "bac3ff162edd68e6bc981a84559b9880",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1\\n2\\n-3\\n-4\\n3\", \"3\\n-1\\n-2\\n3\", \"2\\n4\\n-4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\ninp = stdin.readlines()\n\np1 = []\np2 = []\ns = 0\nlast = \"first\"\n\nfor c in inp[1:]:\n    s += int(c)\n    #print (int(c),s)\n    if int(c) > 0:\n        p1.append(abs(int(c)))\n        last = \"first\"\n    else:\n        p2.append(abs(int(c)))\n        last = \"second\"\n\n\nif s > 0:\n    print \"first\"\nelif s < 0:\n    print \"second\"\nelse:\n    found = False\n    for (t1,t2) in zip(p1,p2):\n        if t1 > t2:\n            print \"first\"\n            found = True\n            break\n        elif t2 > t1:\n            print \"second\"\n            found = True\n            break\n    if not found:\n        print last\n\n",
+    "prob_desc_created_at": "1417618800",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

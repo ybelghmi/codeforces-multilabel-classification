@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n0 0 0 0\\n0 1 1 0\\n0 0 0 0\\nNO\\nYES\\n0 0\\n0 0\\nNO\\nYES\\n0 1 0 0\\n1 4 2 1\\n0 2 0 0\\n1 3 1 0\"]",
+    "src_uid": "8afcdfaabba66fb9cefc5b6ceabac0d0",
+    "prob_desc_notes": "NoteIn the first test case, we can obtain the resulting grid by increasing the number in row $$$2$$$, column $$$3$$$ once. Both of the cells that contain $$$1$$$ have exactly one neighbor that is greater than zero, so the grid is good. Many other solutions exist, such as the grid $$$$$$0\\;1\\;0\\;0$$$$$$ $$$$$$0\\;2\\;1\\;0$$$$$$ $$$$$$0\\;0\\;0\\;0$$$$$$ All of them are accepted as valid answers.In the second test case, it is impossible to make the grid good.In the third test case, notice that no cell has a number greater than zero on it, so the grid is automatically good.",
+    "prob_desc_description": "You are given a grid with $$$n$$$ rows and $$$m$$$ columns, where each cell has a non-negative integer written on it. We say the grid is good if for each cell the following condition holds: if it has a number $$$k &gt; 0$$$ written on it, then exactly $$$k$$$ of its neighboring cells have a number greater than $$$0$$$ written on them. Note that if the number in the cell is $$$0$$$, there is no such restriction on neighboring cells.You are allowed to take any number in the grid and increase it by $$$1$$$. You may apply this operation as many times as you want, to any numbers you want. Perform some operations (possibly zero) to make the grid good, or say that it is impossible. If there are multiple possible answers, you may find any of them.Two cells are considered to be neighboring if they have a common edge.",
+    "prob_desc_output_spec": "If it is impossible to obtain a good grid, print a single line containing \"NO\". Otherwise, print a single line containing \"YES\", followed by $$$n$$$ lines each containing $$$m$$$ integers, which describe the final state of the grid. This final grid should be obtainable from the initial one by applying some operations (possibly zero). If there are multiple possible answers, you may print any of them.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 5000$$$)  — the number of test cases. The description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n, m \\le 300$$$)  — the number of rows and columns, respectively. The following $$$n$$$ lines contain $$$m$$$ integers each, the $$$j$$$-th element in the $$$i$$$-th line $$$a_{i, j}$$$ is the number written in the $$$j$$$-th cell of the $$$i$$$-th row ($$$0 \\le a_{i, j} \\le 10^9$$$). It is guaranteed that the sum of $$$n \\cdot m$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_008.jsonl",
+    "code_uid": "92cdae90147fbe5aed37b4d9026c8bf3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3 4\\n0 0 0 0\\n0 1 0 0\\n0 0 0 0\\n2 2\\n3 0\\n0 0\\n2 2\\n0 0\\n0 0\\n2 3\\n0 0 0\\n0 4 0\\n4 4\\n0 0 0 0\\n0 2 0 1\\n0 0 0 0\\n0 0 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\nfor _ in range(t):\n    n, m = map(int, input().split())\n    a = []\n    for _ in range(n):\n        a.append(list(map(int, input().split())))\n\n    flag = True\n    for i in range(n):\n        for j in range(m):\n            x = 4\n            if (i == 0 or i == n-1) and (j == 0 or j == m-1):\n                x = 2\n            elif i == 0 or i == n-1 or j == 0 or j == m-1:\n                x = 3\n\n            if a[i][j] > x:\n                flag = False\n                break\n            else:\n                a[i][j] = x\n        if not flag:\n            break\n\n    if flag:\n        print('YES')\n        for i in range(n):\n            print(*a[i])\n    else:\n        print('NO')\n\n    \n\n    ",
+    "prob_desc_created_at": "1593873900",
+    "tags": [
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

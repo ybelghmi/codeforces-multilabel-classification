@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2 1 1\\n\\n3 1 2\\n\\n3 2 1\\n\\n1 2 2\"]",
+    "src_uid": "7c721cdb8e5709bba242957344851d48",
+    "prob_desc_notes": "NoteThe final grid from the sample is pictured below. Bob wins because there are no two adjacent cells with tokens of the same color. $$$$$$\\begin{matrix}2&amp;3\\\\3&amp;1\\end{matrix}$$$$$$The sample is only given to demonstrate the input and output format. It is not guaranteed to represent an optimal strategy for Bob or the real behavior of the interactor.",
+    "prob_desc_description": "This is an interactive problem.Alice and Bob are playing a game. There is $$$n\\times n$$$ grid, initially empty. We refer to the cell in row $$$i$$$ and column $$$j$$$ by $$$(i, j)$$$ for $$$1\\le i, j\\le n$$$. There is an infinite supply of tokens that come in $$$3$$$ colors labelled $$$1$$$, $$$2$$$, and $$$3$$$.The game proceeds with turns as follows. Each turn begins with Alice naming one of the three colors, let's call it $$$a$$$. Then, Bob chooses a color $$$b\\ne a$$$, chooses an empty cell, and places a token of color $$$b$$$ on that cell.We say that there is a conflict if there exist two adjacent cells containing tokens of the same color. Two cells are considered adjacent if they share a common edge.If at any moment there is a conflict, Alice wins. Otherwise, if $$$n^2$$$ turns are completed (so that the grid becomes full) without any conflicts, Bob wins.We have a proof that Bob has a winning strategy. Play the game as Bob and win.The interactor is adaptive. That is, Alice's color choices can depend on Bob's previous moves.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_100.jsonl",
+    "code_uid": "d803640f9805f25501d328aad0e6a76b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1\\n\\n2\\n\\n1\\n\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\r\nblack=[]\r\nwhite=[]\r\nfor i in range(1,n+1):\r\n    for j in range(1,n+1):\r\n        if (i+j)%2:\r\n            white.append((i,j))\r\n        else:\r\n            black.append((i,j))\r\nmove=0\r\nwhile move<n**2:\r\n    p=int(input())\r\n    move+=1\r\n    if p==1:\r\n        if black:\r\n            x,y=black.pop()\r\n            print(2,x,y)\r\n        else :\r\n            x,y=white.pop()\r\n            print(3,x,y)\r\n    elif p==2:\r\n        if white:\r\n            x,y=white.pop()\r\n            print(1,x,y)\r\n        else :\r\n            x,y=black.pop()\r\n            print(3,x,y)\r\n    else :\r\n        if black:\r\n            x,y=black.pop()\r\n            print(2,x,y)\r\n        else:\r\n            x,y=white.pop()\r\n            print(1,x,y)\r\n            \r\n",
+    "prob_desc_created_at": "1617460500",
+    "tags": [
+        "constructive algorithms",
+        "games",
+        "graphs",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

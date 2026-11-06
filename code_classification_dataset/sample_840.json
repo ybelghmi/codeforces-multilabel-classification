@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\", \"Yes\", \"No\"]",
+    "src_uid": "6190db9007f8f5eba095a6fcfc3652fc",
+    "prob_desc_notes": "NoteIn sample case two zzcxx can be split into subsequences zc and zxx each of which is adorable.There's no suitable partition in sample case three.",
+    "prob_desc_description": "Let's call a string adorable if its letters can be realigned in such a way that they form two consequent groups of equal symbols (note that different groups must contain different symbols). For example, ababa is adorable (you can transform it to aaabb, where the first three letters form a group of a-s and others — a group of b-s), but cccc is not since in each possible consequent partition letters in these two groups coincide.You're given a string s. Check whether it can be split into two non-empty subsequences such that the strings formed by these subsequences are adorable. Here a subsequence is an arbitrary set of indexes of the string.",
+    "prob_desc_output_spec": "Print «Yes» if the string can be split according to the criteria above or «No» otherwise. Each letter can be printed in arbitrary case.",
+    "prob_desc_input_spec": "The only line contains s (1 ≤ |s| ≤ 105) consisting of lowercase latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_004.jsonl",
+    "code_uid": "c2f1e9e2fba7f182137e8c3bf9a40bd5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"ababa\", \"zzcxx\", \"yeee\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "R = lambda : map(int, input().split())\ns = input()\n\nfrom collections import Counter\nc = Counter(s)\n\nif len(c)>4 or len(c)<2:\n    print(\"No\"); exit();\n\nif (len(c)==4):\n    print(\"Yes\"); exit();\n\nif len(c)==3 and max(c.values())>1:\n    print(\"Yes\"); exit();\n\nif len(c)==2 and min(c.values())>1:\n    print(\"Yes\"); exit();\n\nprint(\"No\");",
+    "prob_desc_created_at": "1521822900",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

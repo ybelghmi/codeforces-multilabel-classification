@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 3 5 \\n2 4\", \"4 \\n3 \\n2 \\n1\", \"10 30 50 101\"]",
+    "src_uid": "ab9fde55578b8a46ad508fb91307f0d6",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Ivan has an array consisting of n different integers. He decided to reorder all elements in increasing order. Ivan loves merge sort so he decided to represent his array with one or several increasing sequences which he then plans to merge into one sorted array.Ivan represent his array with increasing sequences with help of the following algorithm.While there is at least one unused number in array Ivan repeats the following procedure:  iterate through array from the left to the right;  Ivan only looks at unused numbers on current iteration;  if current number is the first unused number on this iteration or this number is greater than previous unused number on current iteration, then Ivan marks the number as used and writes it down. For example, if Ivan's array looks like [1, 3, 2, 5, 4] then he will perform two iterations. On first iteration Ivan will use and write numbers [1, 3, 5], and on second one — [2, 4].Write a program which helps Ivan and finds representation of the given array with one or several increasing sequences in accordance with algorithm described above.",
+    "prob_desc_output_spec": "Print representation of the given array in the form of one or more increasing sequences in accordance with the algorithm described above. Each sequence must be printed on a new line.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 2·105) — the number of elements in Ivan's array. The second line contains a sequence consisting of distinct integers a1, a2, ..., an (1 ≤ ai ≤ 109) — Ivan's array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_029.jsonl",
+    "code_uid": "669d3dc5c14c8f91e6832fa7cae7545f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 3 2 5 4\", \"4\\n4 3 2 1\", \"4\\n10 30 50 101\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nlst = list(map(int, input().strip().split()))\n\nans = [[lst[0]],]\nhead = [lst[0]]\n\nadded = False\nfor i in range(1, n):\n    t = lst[i]\n    if (head[len(head)-1]) > t:\n        ans.append([t])\n        head.append(t)\n    else:\n        l, r = 0, len(head)-1\n        while r-l > 1:\n            mm = l + int((r-l)/2)\n            if head[mm] < t:\n                r = mm\n            else:\n                l = mm\n        if head[l] < t:\n            ans[l].append(t)\n            head[l] = t\n        else:\n            ans[r].append(t)\n            head[r] = t\n\nfor ls in ans:\n    print(' ' .join(str(x) for x in ls))",
+    "prob_desc_created_at": "1505739900",
+    "tags": [
+        "data structures",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

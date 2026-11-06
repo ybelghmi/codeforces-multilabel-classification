@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"-1\"]",
+    "src_uid": "5337df1fb8a9b96ab7b66aa197a5b910",
+    "prob_desc_notes": "NoteIn the first sample, the robots from strongest to weakest must be (4, 2, 1, 3), which Bessie can deduce after knowing the results of the first four rap battles.In the second sample, both (1, 3, 2) and (3, 1, 2) are possible orderings of the robots from strongest to weakest after both rap battles.",
+    "prob_desc_description": "While Farmer John rebuilds his farm in an unfamiliar portion of Bovinia, Bessie is out trying some alternative jobs. In her new gig as a reporter, Bessie needs to know about programming competition results as quickly as possible. When she covers the 2016 Robot Rap Battle Tournament, she notices that all of the robots operate under deterministic algorithms. In particular, robot i will beat robot j if and only if robot i has a higher skill level than robot j. And if robot i beats robot j and robot j beats robot k, then robot i will beat robot k. Since rapping is such a subtle art, two robots can never have the same skill level.Given the results of the rap battles in the order in which they were played, determine the minimum number of first rap battles that needed to take place before Bessie could order all of the robots by skill level.",
+    "prob_desc_output_spec": "Print the minimum k such that the ordering of the robots by skill level is uniquely defined by the first k rap battles. If there exists more than one ordering that satisfies all m relations, output -1.",
+    "prob_desc_input_spec": "The first line of the input consists of two integers, the number of robots n (2 ≤ n ≤ 100 000) and the number of rap battles m (). The next m lines describe the results of the rap battles in the order they took place. Each consists of two integers ui and vi (1 ≤ ui, vi ≤ n, ui ≠ vi), indicating that robot ui beat robot vi in the i-th rap battle. No two rap battles involve the same pair of robots. It is guaranteed that at least one ordering of the robots satisfies all m relations.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_052.jsonl",
+    "code_uid": "72c0d3fdbaa0b2aa0260c96af082236d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 5\\n2 1\\n1 3\\n2 3\\n4 2\\n4 3\", \"3 2\\n1 2\\n3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def g(k):\n    p = [[] for i in range(n)]\n    d = [0] * n\n    for x, y in t[:k]:\n        p[x].append(y)\n        d[y] += 1\n    x = 0\n    for y in range(n):\n        if d[y] == 0:\n            if x: return 0\n            x = y\n    while x:\n        q, x = p[x], 0\n        for y in q:\n            d[y] -= 1\n            if d[y] == 0:\n                if x: return 0\n                x = y\n    return 1\nf = lambda: map(int, input().split())\nn, m = f()\nt = [tuple(f()) for i in range(m)]\nn += 1\nm += 1\nl, r = 1, m\nwhile l < r:\n    s = l + r >> 1\n    if g(s): r = s\n    else: l = s + 1\nprint(-1 if r == m else l)",
+    "prob_desc_created_at": "1458318900",
+    "tags": [
+        "dp",
+        "binary search",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

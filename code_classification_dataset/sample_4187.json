@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n3\\n3\\n1\\n2\"]",
+    "src_uid": "43009fe44c2b5905c8160ac7ae9c595a",
+    "prob_desc_notes": "NoteThe first test case was described ih the statement. It can be seen that:   $$$k_1 = 0$$$ (initial array): $$$a_3 = 1$$$;  $$$k_2 = 1$$$ (after the $$$1$$$-st step): $$$a_1 = 2$$$;  $$$k_3 = 2$$$ (after the $$$2$$$-nd step): $$$a_2 = 3$$$;  $$$k_4 = 1$$$ (after the $$$1$$$-st step): $$$a_6 = 3$$$. For the second test case, Initial array:$$$1$$$ $$$1$$$After the $$$1$$$-st step:$$$2$$$ $$$2$$$After the $$$2$$$-nd step:$$$2$$$ $$$2$$$......It can be seen that:   $$$k_1 = 0$$$ (initial array): $$$a_1 = 1$$$;  $$$k_2 = 1000000000$$$: $$$a_2 = 2$$$; ",
+    "prob_desc_description": "Black is gifted with a Divine array $$$a$$$ consisting of $$$n$$$ ($$$1 \\le n \\le 2000$$$) integers. Each position in $$$a$$$ has an initial value. After shouting a curse over the array, it becomes angry and starts an unstoppable transformation.The transformation consists of infinite steps. Array $$$a$$$ changes at the $$$i$$$-th step in the following way: for every position $$$j$$$, $$$a_j$$$ becomes equal to the number of occurrences of $$$a_j$$$ in $$$a$$$ before starting this step.Here is an example to help you understand the process better:  Initial array:$$$2$$$ $$$1$$$ $$$1$$$ $$$4$$$ $$$3$$$ $$$1$$$ $$$2$$$After the $$$1$$$-st step:$$$2$$$ $$$3$$$ $$$3$$$ $$$1$$$ $$$1$$$ $$$3$$$ $$$2$$$After the $$$2$$$-nd step:$$$2$$$ $$$3$$$ $$$3$$$ $$$2$$$ $$$2$$$ $$$3$$$ $$$2$$$After the $$$3$$$-rd step:$$$4$$$ $$$3$$$ $$$3$$$ $$$4$$$ $$$4$$$ $$$3$$$ $$$4$$$...... In the initial array, we had two $$$2$$$-s, three $$$1$$$-s, only one $$$4$$$ and only one $$$3$$$, so after the first step, each element became equal to the number of its occurrences in the initial array: all twos changed to $$$2$$$, all ones changed to $$$3$$$, four changed to $$$1$$$ and three changed to $$$1$$$.The transformation steps continue forever.You have to process $$$q$$$ queries: in each query, Black is curious to know the value of $$$a_x$$$ after the $$$k$$$-th step of transformation.",
+    "prob_desc_output_spec": "For each test case, print $$$q$$$ answers. The $$$i$$$-th of them should be the value of $$$a_{x_i}$$$ after the $$$k_i$$$-th step of transformation. It can be shown that the answer to each query is unique.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 1000$$$). Description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$1 \\le n \\le 2000$$$) — the size of the array $$$a$$$. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le n$$$) — the initial values of array $$$a$$$. The third line of each test case contains a single integer $$$q$$$ ($$$1 \\le q \\le 100\\,000$$$) — the number of queries. Next $$$q$$$ lines contain the information about queries — one query per line. The $$$i$$$-th line contains two integers $$$x_i$$$ and $$$k_i$$$ ($$$1 \\le x_i \\le n$$$; $$$0 \\le k_i \\le 10^9$$$), meaning that Black is asking for the value of $$$a_{x_i}$$$ after the $$$k_i$$$-th step of transformation. $$$k_i = 0$$$ means that Black is interested in values of the initial array. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$2000$$$ and the sum of $$$q$$$ over all test cases doesn't exceed $$$100\\,000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_092.jsonl",
+    "code_uid": "1519eed611ef1f2558cdf16d89978328",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n7\\n2 1 1 4 3 1 2\\n4\\n3 0\\n1 1\\n2 2\\n6 1\\n2\\n1 1\\n2\\n1 0\\n2 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n   n = int(input())\r\n   lst = list(map(int,input().split()))\r\n   og,last = [0]*(n+1),0\r\n   og[0] = lst\r\n   for i in range(1,n+1):\r\n      time = [og[i-1].count(j) for j in og[i-1]]\r\n      if og[i-1] == time :\r\n         og[i] = time\r\n         last = i\r\n         break\r\n      else:\r\n         og[i] = time\r\n         last = i\r\n   q = int(input())\r\n   for k in range(q):\r\n      a,k = map(int,input().split())\r\n      if k < last:\r\n         print(og[k][a-1])\r\n      else:\r\n         print(og[last][a-1])",
+    "prob_desc_created_at": "1635143700",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

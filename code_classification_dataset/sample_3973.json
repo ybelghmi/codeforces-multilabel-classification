@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"abc\\ndiane\\nbbcaabbba\\nyouarethecutestuwuu\"]",
+    "src_uid": "21e361d7f907f2543a616c901e60c6f2",
+    "prob_desc_notes": "NoteIn the first test case, each substring of \"abc\" occurs exactly once.In the third test case, each substring of \"bbcaabbba\" occurs an odd number of times. In particular, \"b\" occurs $$$5$$$ times, \"a\" and \"bb\" occur $$$3$$$ times each, and each of the remaining substrings occurs exactly once.",
+    "prob_desc_description": "You are given an integer $$$n$$$. Find any string $$$s$$$ of length $$$n$$$ consisting only of English lowercase letters such that each non-empty substring of $$$s$$$ occurs in $$$s$$$ an odd number of times. If there are multiple such strings, output any. It can be shown that such string always exists under the given constraints.A string $$$a$$$ is a substring of a string $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) characters from the beginning and several (possibly, zero or all) characters from the end.",
+    "prob_desc_output_spec": "For each test case, print a single line containing the string $$$s$$$. If there are multiple such strings, output any. It can be shown that such string always exists under the given constraints.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 500$$$) — the number of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$). It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$3 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_087.jsonl",
+    "code_uid": "4015c11356857e55f65cb7cea3e598ad",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3\\n5\\n9\\n19\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import itertools\r\nimport queue\r\nimport math\r\nimport sys\r\nfrom collections import *\r\nfrom random import *\r\n\r\n#sys.setrecursionlimit(99999)\r\neps = sys.float_info.epsilon\r\nP = 2\r\nINF = 1e9 + 1\r\nMOD = 1000000007\r\n\r\n\r\ndef is_prime(n):\r\n    if n == 0 or n == 1:\r\n        return False\r\n    d = 2\r\n    while d * d <= n:\r\n        if n % d == 0:\r\n            return False\r\n        d += 1\r\n    return True\r\n\r\n\r\ndef div_up(n, k):\r\n    if n % k == 0:\r\n        return n // k\r\n    else:\r\n        return n // k + 1\r\n\r\n\r\ndef num_len(n, base):\r\n    if n == 0:\r\n        return 1\r\n    res = 0\r\n    while n:\r\n        res += 1\r\n        n //= 10\r\n    return res\r\n\r\n\r\ndef dfs_sample(graph, cl, p, v):\r\n    cl[v] = 1\r\n    for to in graph[v]:\r\n        if cl[to] == 1 and p[v] != to:\r\n            # yay, cycle\r\n            pass\r\n        elif cl[to] == 0:\r\n            p[to] = v\r\n            dfs_sample(graph, cl, p, to)\r\n    cl[v] = 2\r\n\r\n\r\ndef down(a):\r\n    for i in range(1, len(a)):\r\n        if a[i] > a[i - 1]:\r\n            return False\r\n    return True\r\n\r\n\r\ndef up(a):\r\n    for i in range(1, len(a)):\r\n        if a[i] < a[i - 1]:\r\n            return False\r\n    return True\r\n\r\n\r\ndef code(c):\r\n    return ord(c) - 32\r\n\r\n\r\ndef _hash_(s):\r\n    res, p = 0, 1\r\n    for i in range(len(s)):\r\n        res += (code(s[i]) * p)\r\n        res %= MOD\r\n        p *= P\r\n        p %= MOD\r\n    return res % MOD\r\n\r\n\r\ndef remove_edge(v, u, graph):\r\n    graph[v].remove(u)\r\n    graph[u].remove(v)\r\n\r\n\r\ndef all_eq(a):\r\n    for i in range(1, len(a)):\r\n        if a[i] != a[i - 1]:\r\n            return False\r\n    return True\r\n\r\n\r\ndef ok(s):\r\n    for i in range(len(s)):\r\n        for j in range(i, len(s)):\r\n            if s.count(s[i:j+1]) % 2 == 0:\r\n                return False\r\n    return True\r\n\r\n\r\ndef solve():\r\n    n = int(input())\r\n    if n == 1:\r\n        print('a')\r\n        return\r\n    if n % 2 == 0:\r\n        print('a' * (n // 2) + 'b' + 'a' * (n // 2 - 1))\r\n    else:\r\n        n -= 1\r\n        print('a' * (n // 2) + 'b' + 'a' * (n // 2 - 1) + 'c')\r\n\r\n\r\nfor _ in range(int(input())):\r\n    solve()\r\n\r\n\r\ndef debug():\r\n    pass\r\n\r\n\r\n# debug()",
+    "prob_desc_created_at": "1627569300",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

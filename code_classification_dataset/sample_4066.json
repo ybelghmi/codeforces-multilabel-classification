@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7\\n5\\n11\\n28\\n9\\n5\\n2\\n15\"]",
+    "src_uid": "8b007a212a940f09a9306b0c0091e2ad",
+    "prob_desc_notes": "NoteIn the first test case:At the start of the first day, house $$$3$$$, $$$6$$$, $$$8$$$ are infected. Choose house $$$2$$$ to protect.At the start of the second day, house $$$3$$$, $$$4$$$, $$$5$$$, $$$6$$$, $$$7$$$, $$$8$$$, $$$9$$$ are infected. Choose house $$$10$$$ to protect.At the start of the third day, no more houses are infected.In the second test case:At the start of the first day, house $$$2$$$, $$$5$$$ are infected. Choose house $$$1$$$ to protect.At the start of the second day, house $$$2$$$, $$$3$$$, $$$4$$$, $$$5$$$, $$$6$$$ are infected. No more available houses can be protected.",
+    "prob_desc_description": "There are $$$n$$$ houses numbered from $$$1$$$ to $$$n$$$ on a circle. For each $$$1 \\leq i \\leq n - 1$$$, house $$$i$$$ and house $$$i + 1$$$ are neighbours; additionally, house $$$n$$$ and house $$$1$$$ are also neighbours.Initially, $$$m$$$ of these $$$n$$$ houses are infected by a deadly virus. Each morning, Cirno can choose a house which is uninfected and protect the house from being infected permanently.Every day, the following things happen in order:  Cirno chooses an uninfected house, and protect it permanently.  All uninfected, unprotected houses which have at least one infected neighbor become infected. Cirno wants to stop the virus from spreading. Find the minimum number of houses that will be infected in the end, if she optimally choose the houses to protect.Note that every day Cirno always chooses a house to protect before the virus spreads. Also, a protected house will not be infected forever.",
+    "prob_desc_output_spec": "For each test case, output an integer on a separate line, which is the minimum number of infected houses in the end.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. Description of test cases follows. The first line of each test case consists of two positive integers $$$n, m$$$ ($$$5 \\leq n \\leq 10^9$$$, $$$1 \\leq m \\leq \\min(n, 10^5)$$$) — the number of houses on the circle, and the number of houses that are initially infected.  The second line of each test case consists of $$$m$$$ distinct positive integers $$$a_1, a_2, \\cdots , a_m$$$ ($$$1 \\leq a_i \\leq n$$$) — the indices of the houses infected initially. It is guaranteed that the sum of $$$m$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_089.jsonl",
+    "code_uid": "289fad1fd6a2cfc58e01b62037501211",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n\\n10 3\\n\\n3 6 8\\n\\n6 2\\n\\n2 5\\n\\n20 3\\n\\n3 7 12\\n\\n41 5\\n\\n1 11 21 31 41\\n\\n10 5\\n\\n2 4 6 8 10\\n\\n5 5\\n\\n3 2 5 4 1\\n\\n1000000000 1\\n\\n1\\n\\n1000000000 4\\n\\n1 1000000000 10 16\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\r\nfor i in range(n):\r\n    n_,m=list(map(int,input().split()))\r\n    arr=sorted(list(map(int,input().split())))\r\n\r\n    # print(arr)\r\n    arr_=[]\r\n\r\n    arr_.append(n_-arr[-1]+arr[0]-1)\r\n\r\n    for j in range(m-1):\r\n\r\n\r\n        arr_.append(arr[j+1]-arr[j]-1)\r\n\r\n    arr_.sort(reverse=True)\r\n        # arr_.reverse()\r\n\r\n    s=0\r\n    # print(arr_)\r\n    co=0\r\n    for j in arr_:\r\n        \r\n        if j>=4*co+1:\r\n            # print(j)\r\n            # print(arr_)\r\n            if j==(4*co+1):\r\n                s+=1\r\n            else:\r\n                s+=j-(4*co+1)\r\n        else:\r\n            break\r\n        co+=1\r\n\r\n    # print(s)\r\n    # if s==0 and m<n_:\r\n    #     s+=1\r\n\r\n\r\n    print(n_-s)\r\n\r\n",
+    "prob_desc_created_at": "1659276300",
+    "tags": [
+        "greedy",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

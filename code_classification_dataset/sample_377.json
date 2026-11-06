@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12 4\", \"0 0\", \"5 5\"]",
+    "src_uid": "b5f5fc50e36b2afa3b5f16dacdf5710b",
+    "prob_desc_notes": "NoteIn the first sample, the solution is traight_alon.In the second sample, the solution is an empty string, so the output can be «0 0», «0 1», «0 2», and so on.In the third sample, the solution is either nagio or oisii.",
+    "prob_desc_description": "After Fox Ciel got off a bus, she found that the bus she was on was a wrong bus and she lost her way in a strange town. However, she fortunately met her friend Beaver Taro and asked which way to go to her castle. Taro's response to her was a string s, and she tried to remember the string s correctly.However, Ciel feels n strings b1, b2, ... , bn are really boring, and unfortunately she dislikes to remember a string that contains a boring substring. To make the thing worse, what she can remember is only the contiguous substring of s.Determine the longest contiguous substring of s that does not contain any boring string, so that she can remember the longest part of Taro's response.",
+    "prob_desc_output_spec": "Output in the first line two space-separated integers len and pos: the length of the longest contiguous substring of s that does not contain any bi, and the first position of the substring (0-indexed). The position pos must be between 0 and |s| - len inclusive, where |s| is the length of string s. If there are several solutions, output any.",
+    "prob_desc_input_spec": "In the first line there is a string s. The length of s will be between 1 and 105, inclusive. In the second line there is a single integer n (1 ≤ n ≤ 10).  Next n lines, there is a string bi (1 ≤ i ≤ n). Each length of bi will be between 1 and 10, inclusive. Each character of the given strings will be either a English alphabet (both lowercase and uppercase) or a underscore ('_') or a digit. Assume that these strings are case-sensitive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_001.jsonl",
+    "code_uid": "920313a75277c38caae4792af5401157",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"Go_straight_along_this_street\\n5\\nstr\\nlong\\ntree\\nbiginteger\\nellipse\", \"IhaveNoIdea\\n9\\nI\\nh\\na\\nv\\ne\\nN\\no\\nI\\nd\", \"unagioisii\\n2\\nioi\\nunagi\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s = raw_input().strip()\nkeys = [ None for i in range(int(raw_input())) ]\nfor i in range(len(keys)):\n    keys[i] = raw_input().strip()\nbest_length, best_pos = 0, 0\n\ndef kosher(left, right):\n    pos_range = range(right - 1, left - 1, -1)\n    for key in keys:\n        if len(key) > right - left:\n            continue\n        for pos in pos_range:\n            key_pos = len(key) - right + pos\n            if key_pos == -1 or key[key_pos] != s[pos]:\n                break\n            if key_pos == 0:\n                return False\n    return True\n\nleft, right = 0, 0\nwhile True:\n        if kosher(left, right + 1):\n            right += 1\n            length = right - left\n            if length > best_length:\n                best_length = length\n                best_pos = left\n            if right == len(s):\n                break\n        else:\n            left += 1\n\nprint('%d %d' % (best_length, best_pos))\n",
+    "prob_desc_created_at": "1304175600",
+    "tags": [
+        "dp",
+        "hashing",
+        "greedy",
+        "two pointers",
+        "data structures",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"4\", \"7\", \"0\"]",
+    "src_uid": "6208dbdf9567b759b0026db4af4545a9",
+    "prob_desc_notes": "NoteIn the first example you can put all student, for example, in the following way: *.AB*In the second example you can put four students, for example, in the following way: *BAB*BIn the third example you can put seven students, for example, in the following way: B*ABAB**A*BThe letter A means a student-programmer, and the letter B — student-athlete.",
+    "prob_desc_description": "There are $$$n$$$ consecutive seat places in a railway carriage. Each place is either empty or occupied by a passenger.The university team for the Olympiad consists of $$$a$$$ student-programmers and $$$b$$$ student-athletes. Determine the largest number of students from all $$$a+b$$$ students, which you can put in the railway carriage so that:  no student-programmer is sitting next to the student-programmer;  and no student-athlete is sitting next to the student-athlete. In the other words, there should not be two consecutive (adjacent) places where two student-athletes or two student-programmers are sitting.Consider that initially occupied seat places are occupied by jury members (who obviously are not students at all).",
+    "prob_desc_output_spec": "Print the largest number of students, which you can put in the railway carriage so that no student-programmer is sitting next to a student-programmer and no student-athlete is sitting next to a student-athlete.",
+    "prob_desc_input_spec": "The first line contain three integers $$$n$$$, $$$a$$$ and $$$b$$$ ($$$1 \\le n \\le 2\\cdot10^{5}$$$, $$$0 \\le a, b \\le 2\\cdot10^{5}$$$, $$$a + b &gt; 0$$$) — total number of seat places in the railway carriage, the number of student-programmers and the number of student-athletes. The second line contains a string with length $$$n$$$, consisting of characters \".\" and \"*\". The dot means that the corresponding place is empty. The asterisk means that the corresponding place is occupied by the jury member.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_007.jsonl",
+    "code_uid": "9cd2a2e7681065575c63cdc7ca223f76",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 1 1\\n*...*\", \"6 2 3\\n*...*.\", \"11 3 10\\n.*....**.*.\", \"3 2 3\\n***\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "mod = 1000000007\nii = lambda : int(input())\nsi = lambda : input()\ndgl = lambda : list(map(int, input()))\nf = lambda : map(int, input().split())\nil = lambda : list(map(int, input().split()))\nls = lambda : list(input())\nfrom itertools import *\nn,a,b=f()\ns=si()\nl=[]\nst=0\nfor i,j in groupby(s):\n    if i=='.':\n        l.append(len(list(j)))\nfor i in l:\n    a,b=max(a,b),min(a,b)\n    if a>0 or b>0:\n        if i&1:\n            st+=min(a,(i+1)//2)\n            a=max(0,a-(i+1)//2)\n            st+=min(b,i//2)\n            b=max(0,b-i//2)\n        else:\n            st+=min(a,i//2)\n            a=max(0,a-i//2)\n            st+=min(b,i//2)\n            b=max(0,b-i//2)\nprint(st)",
+    "prob_desc_created_at": "1523370900",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

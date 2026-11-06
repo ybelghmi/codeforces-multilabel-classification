@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Teddy\\nAlice\\nBob\\nJulia\\nCharlie\\nJack\"]",
+    "src_uid": "753113fa5130a67423f2e205c97f8017",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The ship crashed into a reef and is sinking. Now the entire crew must be evacuated. All n crew members have already lined up in a row (for convenience let's label them all from left to right with positive integers from 1 to n) and await further instructions. However, one should evacuate the crew properly, in a strict order. Specifically:The first crew members to leave the ship are rats. Then women and children (both groups have the same priority) leave the ship. After that all men are evacuated from the ship. The captain leaves the sinking ship last.If we cannot determine exactly who should leave the ship first for any two members of the crew by the rules from the previous paragraph, then the one who stands to the left in the line leaves the ship first (or in other words, the one whose number in the line is less).For each crew member we know his status as a crew member, and also his name. All crew members have different names. Determine the order in which to evacuate the crew.",
+    "prob_desc_output_spec": "Print n lines. The i-th of them should contain the name of the crew member who must be the i-th one to leave the ship.",
+    "prob_desc_input_spec": "The first line contains an integer n, which is the number of people in the crew (1 ≤ n ≤ 100). Then follow n lines. The i-th of those lines contains two words — the name of the crew member who is i-th in line, and his status on the ship. The words are separated by exactly one space. There are no other spaces in the line. The names consist of Latin letters, the first letter is uppercase, the rest are lowercase. The length of any name is from 1 to 10 characters. The status can have the following values: rat for a rat, woman for a woman, child for a child, man for a man, captain for the captain. The crew contains exactly one captain.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_006.jsonl",
+    "code_uid": "61868140103ea29a33149967d74b93f5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\nJack captain\\nAlice woman\\nCharlie man\\nTeddy rat\\nBob child\\nJulia woman\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "d = {\n    'rat':[],\n    'child':[],\n    'man':[],\n    'captain':[]\n}\ni = int(input())\nwhile i:\n    s = input()\n    data = s.split()\n    if data[1] == 'child' or data[1] == 'woman':\n        d['child'].append(data[0])\n    else:\n        d[data[1]].append(data[0])\n    i = i -1\n\nfor p in d['rat']:\n    print(p)\nfor p in d['child']:\n    print(p)\nfor p in d['man']:\n    print(p)\nfor p in d['captain']:\n    print(p)",
+    "prob_desc_created_at": "1298908800",
+    "tags": [
+        "implementation",
+        "sortings",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

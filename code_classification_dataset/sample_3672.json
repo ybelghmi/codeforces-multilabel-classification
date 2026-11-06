@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"11\"]",
+    "src_uid": "f73370c8ea81b8b81a79701d8e2ec785",
+    "prob_desc_notes": "NoteIn the first sample the following teams are good: (i = 1, j = 2, k = 3), (i = 2, j = 5, k = 1), (i = 1, j = 4, k = 3), (i = 5, j = 1, k = 4).Note, that for example the team (i = 3, j = 1, k = 2) is also good, but is considered to be the same as the team (i = 1, j = 2, k = 3).",
+    "prob_desc_description": "BCPC stands for Byteforces Collegiate Programming Contest, and is the most famous competition in Byteforces.BCPC is a team competition. Each team is composed by a coach and three contestants. Blenda is the coach of the Bit State University(BSU), and she is very strict selecting the members of her team.  In BSU there are n students numbered from 1 to n. Since all BSU students are infinitely smart, the only important parameters for Blenda are their reading and writing speed. After a careful measuring, Blenda have found that the i-th student have a reading speed equal to ri (words per minute), and a writing speed of wi (symbols per minute). Since BSU students are very smart, the measured speeds are sometimes very big and Blenda have decided to subtract some constant value c from all the values of reading speed and some value d from all the values of writing speed. Therefore she considers ri' = ri - c and wi' = wi - d. The student i is said to overwhelm the student j if and only if ri'·wj' &gt; rj'·wi'. Blenda doesn’t like fights in teams, so she thinks that a team consisting of three distinct students i, j and k is good if i overwhelms j, j overwhelms k, and k overwhelms i. Yes, the relation of overwhelming is not transitive as it often happens in real life.Since Blenda is busy preparing a training camp in Codeforces, you are given a task to calculate the number of different good teams in BSU. Two teams are considered to be different if there is at least one student that is present in one team but is not present in the other. In other words, two teams are different if the sets of students that form these teams are different.",
+    "prob_desc_output_spec": "Print the number of different teams in BSU, that are good according to Blenda's definition.",
+    "prob_desc_input_spec": "In the first line of the input three integers n, c and d (3 ≤ n ≤ 345678, 1 ≤ c, d ≤ 109) are written. They denote the number of students Blenda can use to form teams, the value subtracted from all reading speeds and the value subtracted from all writing speeds respectively. Each of the next n lines contains two integers ri and wi (0 &lt; ri, wi ≤ 109, |ri - c| + |wi - d| &gt; 0). There are no two students, such that both their reading and writing speeds coincide, i.e. for every i ≠ j condition |ri - rj| + |wi - wj| &gt; 0 holds.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_077.jsonl",
+    "code_uid": "6db51cc6b8308735670d3fc3354642dc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2 2\\n1 1\\n4 1\\n2 3\\n3 2\\n3 4\", \"7 6 6\\n3 2\\n1 7\\n5 7\\n3 7\\n6 4\\n8 9\\n8 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom itertools import repeat\nfrom math import cos, sin, atan2\ndef main():\n    n, c, d = map(int, stdin.readline().split())\n    dat = map(int, stdin.read().split(), repeat(10, 2 * n))\n    a = []\n    aa = a.append\n    for i in xrange(n):\n        x, y = dat[i*2] - c, dat[i*2+1] - d\n        t = atan2(y, x)\n        ss, cs = sin(t), cos(t)\n        aa(((t, atan2(x * ss + y * cs, x * cs + y * ss)), x, y))\n    a.sort()\n    a.extend(a)\n    ans = n * (n - 1) * (n - 2) / 6\n    i = 0\n    k = 1\n    while i < n:\n        t = a[i]\n        for j in xrange(i + 1, n):\n            if t[1] * a[j][2] - t[2] * a[j][1] == 0 and t[1] * a[j][1] >= 0 and t[2] * a[j][2] >= 0:\n                pass\n            else:\n                break\n        else:\n            j = n\n        if k < j:\n            k = j\n        for l in xrange(k, i + n):\n            if t[1] * a[l][2] - t[2] * a[l][1] <= 0:\n                k = l\n                break\n        else:\n            k = i + n\n        for l in xrange(k, i + n):\n            if t[1] * a[l][2] - t[2] * a[l][1] < 0:\n                break\n        else:\n            l = i + n\n        ans -= (j - i) * (j - i - 1) * (j - i - 2) / 6\n        ans -= (j - i) * (j - i - 1) / 2 * (l - j)\n        ans -= (j - i) * (k - j) * (k - j - 1) / 2\n        ans -= (j - i) * (k - j) * (l - k)\n        i = j\n        k = l\n    print ans\nmain()\n",
+    "prob_desc_created_at": "1446309000",
+    "tags": [
+        "two pointers",
+        "binary search",
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"3\", \"0\"]",
+    "src_uid": "ea0de6955a0ddf56980cb1ac7216e8b7",
+    "prob_desc_notes": "NoteIn the first example there are 3 subsets of 2 numbers. [50, 4] has product 200 with roundness 2, [4, 20] — product 80, roundness 1, [50, 20] — product 1000, roundness 3.In the second example subset [15, 16, 25] has product 6000, roundness 3.In the third example all subsets has product with roundness 0.",
+    "prob_desc_description": "Let's call the roundness of the number the number of zeros to which it ends.You have an array of n numbers. You need to choose a subset of exactly k numbers so that the roundness of the product of the selected numbers will be maximum possible.",
+    "prob_desc_output_spec": "Print maximal roundness of product of the chosen subset of length k.",
+    "prob_desc_input_spec": "The first line contains two integer numbers n and k (1 ≤ n ≤ 200, 1 ≤ k ≤ n). The second line contains n space-separated integer numbers a1, a2, ..., an (1 ≤ ai ≤ 1018).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_018.jsonl",
+    "code_uid": "9ac7c4e23468759a018bda26abbaa681",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n50 4 20\", \"5 3\\n15 16 3 25 9\", \"3 3\\n9 77 13\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from decimal import Decimal\n\n\ndef calc(c):\n    d = 0\n    p = 0\n    while c % 2 == 0:\n        c /= 2\n        d += 1\n    while c % 5 == 0:\n        c /= 5\n        p += 1\n    return d, p\n\n\nn, k = map(int, raw_input().split())\na = list(map(int, raw_input().split()))\ndp = [[-1] * 5050 for i in range(k+1)]\nfor i in range(n):\n    d, p = calc(Decimal(a[i]))\n    for i in range(k - 2, -1, -1):\n        for j in range(5000):\n            if dp[i][j] != -1:\n                dp[i + 1][j + p] = max(dp[i + 1][j + p], dp[i][j] + d)\n    dp[0][p] = max(dp[0][p], d)\n\n\nans = 0\nfor j in range(5050):\n    if dp[k-1][j] != -1:\n        ans = max(ans, min(j, dp[k-1][j]))\n\nprint(ans)",
+    "prob_desc_created_at": "1501773300",
+    "tags": [
+        "dp",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"16\", \"13\"]",
+    "src_uid": "c1eb165162df7d602c376d8555d8aef8",
+    "prob_desc_notes": "NoteIn the first example, the score is maximized if the input sequence is split into two parts as (3, 4), (7, 2). It gives the total score of .In the second example, the score is maximized if the first part consists of the first three elements, and the second part consists of the rest. Then, the score is .",
+    "prob_desc_description": "Rebel spy Heidi has just obtained the plans for the Death Star from the Empire and, now on her way to safety, she is trying to break the encryption of the plans (of course they are encrypted – the Empire may be evil, but it is not stupid!). The encryption has several levels of security, and here is how the first one looks.Heidi is presented with a screen that shows her a sequence of integers A and a positive integer p. She knows that the encryption code is a single number S, which is defined as follows:Define the score of X to be the sum of the elements of X modulo p.Heidi is given a sequence A that consists of N integers, and also given an integer p. She needs to split A into 2 parts such that:   Each part contains at least 1 element of A, and each part consists of contiguous elements of A.  The two parts do not overlap.  The total sum S of the scores of those two parts is maximized. This is the encryption code. Output the sum S, which is the encryption code.",
+    "prob_desc_output_spec": "Output the number S as described in the problem statement.",
+    "prob_desc_input_spec": "The first line of the input contains two space-separated integer N and p (2 ≤ N ≤ 100 000, 2 ≤ p ≤ 10 000) – the number of elements in A, and the modulo for computing scores, respectively. The second line contains N space-separated integers which are the elements of A. Each integer is from the interval [1, 1 000 000].",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_024.jsonl",
+    "code_uid": "d0d643ee20c7cba804e9f0cd2c319a4a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 10\\n3 4 7 2\", \"10 12\\n16 3 24 13 9 8 7 5 12 12\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "line = input().split()\nn = int(line[0])\np = int(line[1])\na = input().split()\nsuma = 0\nfor i in range(n):\n    a[i] = int(a[i])\n    suma += a[i]\n\nMax = 0\nsum = 0\n\nfor i in range(n-1):\n    sum += a[i]\n    total = (sum % p) + ((suma-sum) % p)\n    if (total>Max):\n        Max = total\nprint(Max)",
+    "prob_desc_created_at": "1523689500",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

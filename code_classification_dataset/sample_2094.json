@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"-1\", \"0\"]",
+    "src_uid": "45e51f3dee9a22cee86e1a98da519e2d",
+    "prob_desc_notes": "NoteIn the first test sample there are two Spyke calls between secretaries: secretary 2 and secretary 4, secretary 3 and secretary 5.In the second test sample the described situation is impossible as conferences aren't allowed.",
+    "prob_desc_description": "Polycarpus is the director of a large corporation. There are n secretaries working for the corporation, each of them corresponds via the famous Spyke VoIP system during the day. We know that when two people call each other via Spyke, the Spyke network assigns a unique ID to this call, a positive integer session number.One day Polycarpus wondered which secretaries are talking via the Spyke and which are not. For each secretary, he wrote out either the session number of his call or a 0 if this secretary wasn't talking via Spyke at that moment.Help Polycarpus analyze these data and find out the number of pairs of secretaries that are talking. If Polycarpus has made a mistake in the data and the described situation could not have taken place, say so.Note that the secretaries can correspond via Spyke not only with each other, but also with the people from other places. Also, Spyke conferences aren't permitted — that is, one call connects exactly two people.",
+    "prob_desc_output_spec": "Print a single integer — the number of pairs of chatting secretaries, or -1 if Polycarpus's got a mistake in his records and the described situation could not have taken place.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 103) — the number of secretaries in Polycarpus's corporation. The next line contains n space-separated integers: id1, id2, ..., idn (0 ≤ idi ≤ 109). Number idi equals the number of the call session of the i-th secretary, if the secretary is talking via Spyke, or zero otherwise. Consider the secretaries indexed from 1 to n in some way.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_017.jsonl",
+    "code_uid": "45ef74eb0006bbccb32284b84271c175",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n0 1 7 1 7 10\", \"3\\n1 1 1\", \"1\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\nids = [int(i) for i in raw_input().split()]\n\nfreq = {}\nfor idi in ids:\n    if not idi:\n        continue\n    if idi in freq.keys():\n        freq[idi] += 1\n    else:\n        freq[idi] = 1\n\na = 0\nfor fr in freq.values():\n    if fr < 2:\n        continue\n    if fr == 2:\n        a += 1\n    else:\n        a = -1\n        break\n\nprint a",
+    "prob_desc_created_at": "1365796800",
+    "tags": [
+        "sortings",
+        "implementation",
+        "*special"
+    ],
+    "hidden_unit_tests": ""
+}

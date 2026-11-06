@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"7\\n0\\n0\\n3\\n1\\n2\"]",
+    "src_uid": "07ac198c1086323517540ecd0669eb4c",
+    "prob_desc_notes": "NoteThe first test case is considered in the statement.The second test case contains a tree of two vertices. $$$200000$$$ operations are applied to it. The first one removes all two vertices, the other operations do not change the tree.In the third test case, a tree of three vertices is given. As a result of the first operation, only $$$1$$$ vertex remains in it (with the index $$$2$$$), the second operation makes the tree empty.",
+    "prob_desc_description": "A tree is an undirected connected graph in which there are no cycles. This problem is about non-rooted trees. A leaf of a tree is a vertex that is connected to at most one vertex.The gardener Vitaly grew a tree from $$$n$$$ vertices. He decided to trim the tree. To do this, he performs a number of operations. In one operation, he removes all leaves of the tree.  Example of a tree. For example, consider the tree shown in the figure above. The figure below shows the result of applying exactly one operation to the tree.  The result of applying the operation \"remove all leaves\" to the tree. Note the special cases of the operation:  applying an operation to an empty tree (of $$$0$$$ vertices) does not change it;  applying an operation to a tree of one vertex removes this vertex (this vertex is treated as a leaf);  applying an operation to a tree of two vertices removes both vertices (both vertices are treated as leaves). Vitaly applied $$$k$$$ operations sequentially to the tree. How many vertices remain?",
+    "prob_desc_output_spec": "For each test case output on a separate line a single integer — the number of vertices that remain in the tree after applying $$$k$$$ operations.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case is preceded by an empty line. Each test case consists of several lines. The first line of the test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 4 \\cdot 10^5$$$, $$$1 \\le k \\le 2 \\cdot 10^5$$$) — the number of vertices in the tree and the number of operations, respectively. Then $$$n - 1$$$ lines follow, each of them contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u, v \\le n$$$, $$$u \\neq v$$$) which describe a pair of vertices connected by an edge. It is guaranteed that the given graph is a tree and has no loops or multiple edges. It is guaranteed that the sum of $$$n$$$ from all test cases does not exceed $$$4 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_093.jsonl",
+    "code_uid": "874db6ecec3d0f52fc6738604dbbc3d3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\n14 1\\n1 2\\n2 3\\n2 4\\n4 5\\n4 6\\n2 7\\n7 8\\n8 9\\n8 10\\n3 11\\n3 12\\n1 13\\n13 14\\n\\n2 200000\\n1 2\\n\\n3 2\\n1 2\\n2 3\\n\\n5 1\\n5 1\\n3 2\\n2 1\\n5 4\\n\\n6 2\\n5 1\\n2 5\\n5 6\\n4 2\\n3 4\\n\\n7 1\\n4 3\\n5 1\\n1 3\\n6 1\\n1 7\\n2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nfrom collections import defaultdict, deque\r\n\r\ndef count_indegrees(graph,n):\r\n    indegrees = [0 for i in range(n)]\r\n    for node in graph:\r\n        for neighbor in graph[node]:\r\n            indegrees[neighbor] += 1\r\n    return indegrees\r\n\r\nfor x in range(t):\r\n    input()\r\n    n,k = [int(x) for x in input().split()]\r\n\r\n    graph = defaultdict(list)\r\n    for aaa in range(n-1):\r\n        a,b =[int(x) for x in input().split()]\r\n        a -= 1\r\n        b -= 1\r\n        graph[a].append(b)\r\n        graph[b].append(a)\r\n\r\n    indegrees = count_indegrees(graph, n)\r\n    with_1 = deque([])\r\n    for x in range(len(indegrees)):\r\n        if indegrees[x] <= 1:\r\n            with_1.append(x)\r\n\r\n    pro = 0\r\n    for x in range(k):\r\n        if len(with_1) == 0:\r\n            break\r\n        \r\n        nex = deque([])\r\n        while len(with_1) != 0:\r\n            node = with_1.popleft()\r\n            pro += 1\r\n            for neighbor in graph[node]:\r\n                indegrees[neighbor] -= 1\r\n                if indegrees[neighbor] == 1:\r\n                    nex.append(neighbor)\r\n\r\n        with_1 = nex\r\n\r\n    print(n-pro)\r\n\r\n",
+    "prob_desc_created_at": "1634135700",
+    "tags": [
+        "brute force",
+        "data structures",
+        "dfs and similar",
+        "greedy",
+        "implementation",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

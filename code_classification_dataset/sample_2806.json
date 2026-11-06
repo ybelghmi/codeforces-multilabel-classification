@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"YES\", \"NO\"]",
+    "src_uid": "de41c260a37ec9db2371efb9d246a470",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One day Anna got the following task at school: to arrange several numbers in a circle so that any two neighboring numbers differs exactly by 1. Anna was given several numbers and arranged them in a circle to fulfill the task. Then she wanted to check if she had arranged the numbers correctly, but at this point her younger sister Maria came and shuffled all numbers. Anna got sick with anger but what's done is done and the results of her work had been destroyed. But please tell Anna: could she have hypothetically completed the task using all those given numbers?",
+    "prob_desc_output_spec": "Print the single line \"YES\" (without the quotes), if Anna could have completed the task correctly using all those numbers (using all of them is necessary). If Anna couldn't have fulfilled the task, no matter how hard she would try, print \"NO\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains an integer n — how many numbers Anna had (3 ≤ n ≤ 105). The next line contains those numbers, separated by a space. All numbers are integers and belong to the range from 1 to 109.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_032.jsonl",
+    "code_uid": "bceb5ad684afd3f6ebd19f915e773e98",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2 3 2\", \"6\\n1 1 2 2 2 3\", \"6\\n2 4 1 1 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nn = int(input())\nc = {}\nfor i in [int(i) for i in input().split()]:\n    c[i] = c.get(i, 0) + 1\nmaxi = max(c)\nl = sorted(c)\nfor u in l[:-1]:\n    if u + 1 not in c:\n        print(\"NO\")\n        sys.exit()\n    c[u + 1] -= c[u]\n    if 0 > c[u + 1]:\n        print(\"NO\")\n        sys.exit()\narr = list(c.values())\nif arr.count(0) == 1 and c[maxi] == 0:\n    print(\"YES\")\nelse:\n    print(\"NO\")\n\n",
+    "prob_desc_created_at": "1321337400",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

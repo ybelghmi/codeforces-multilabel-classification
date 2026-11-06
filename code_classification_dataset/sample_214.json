@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"11\", \"-1\"]",
+    "src_uid": "ddc9b2bacfaa4f4e91d5072240c1e811",
+    "prob_desc_notes": "NoteIn the first sample one of the possible ways for building a hierarchy is to take applications with indexes 1, 2 and 4, which give 11 as the minimum total cost. In the second sample it is impossible to build the required hierarchy, so the answer is -1.",
+    "prob_desc_description": "Nick's company employed n people. Now Nick needs to build a tree hierarchy of «supervisor-surbodinate» relations in the company (this is to say that each employee, except one, has exactly one supervisor). There are m applications written in the following form: «employee ai is ready to become a supervisor of employee bi at extra cost ci». The qualification qj of each employee is known, and for each application the following is true: qai &gt; qbi. Would you help Nick calculate the minimum cost of such a hierarchy, or find out that it is impossible to build it.",
+    "prob_desc_output_spec": "Output the only line — the minimum cost of building such a hierarchy, or -1 if it is impossible to build it.",
+    "prob_desc_input_spec": "The first input line contains integer n (1 ≤ n ≤ 1000) — amount of employees in the company. The following line contains n space-separated numbers qj (0 ≤ qj ≤ 106)— the employees' qualifications. The following line contains number m (0 ≤ m ≤ 10000) — amount of received applications. The following m lines contain the applications themselves, each of them in the form of three space-separated numbers: ai, bi and ci (1 ≤ ai, bi ≤ n, 0 ≤ ci ≤ 106). Different applications can be similar, i.e. they can come from one and the same employee who offered to become a supervisor of the same person but at a different cost. For each application qai &gt; qbi.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "8cd62b93598894b27a68f5269f5a81c3",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n7 2 3 1\\n4\\n1 2 5\\n2 4 1\\n3 4 1\\n1 3 5\", \"3\\n1 2 3\\n2\\n3 1 2\\n3 1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\n\nn = int(input())\nlis = list(map(int,input().split()))\nm =  int(input())\nedges = []\nfor d in range(m):\n    edges.append(list(map(int,input().split())))\n    \nedges.sort(key  = lambda x: x[2])\nvisited = []\ncount = 0\nfor i in range(m):\n    if edges[i][1] not in visited:\n        visited.append(edges[i][1])\n        count += edges[i][2]\n\nif len(visited) == n-1:\n    print(count)\nelse:\n    print(-1)\n",
+    "prob_desc_created_at": "1276182000",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "greedy",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

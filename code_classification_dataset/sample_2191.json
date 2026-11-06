@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 1\", \"2 2\", \"5 4\"]",
+    "src_uid": "57d2eb75a14f1b66009bdb503fd31f91",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One popular blog site edits the uploaded photos like this. It cuts a rectangular area out of them so that the ratio of height to width (i.e. the height / width quotient) can vary from 0.8 to 1.25 inclusively. Besides, at least one side of the cut area should have a size, equal to some power of number 2 (2x for some integer x). If those rules don't indicate the size of the cut are clearly, then the way with which the cut part possesses the largest area is chosen. Of course, both sides of the cut area should be integer. If there are several answers to this problem, you should choose the answer with the maximal height.",
+    "prob_desc_output_spec": "Print two integers which are the height and width of the cut area.",
+    "prob_desc_input_spec": "The first line contains a pair of integers h and w (1 ≤ h, w ≤ 109) which are the height and width of the uploaded photo in pixels.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_018.jsonl",
+    "code_uid": "8394acce85b6cd91a19c742b8979d42b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 1\", \"2 2\", \"5 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nline = input().split()\nh = int(line[0])\nw = int(line[1])\nq = 1\n\t\n\n#Four cases\n\n#log(h), calculare w\nh1 = math.pow(2,math.floor(math.log(h,2)))\nw1 = w\nwhile(h1/w1>1.25): h1 /= 2\nif h1/w1<0.8 and h1%4 == 0 and h1 * 1.25 < w1: w1 = h1 * 1.25 \n\n#log(w), calculate h\nw2 = math.pow(2,math.floor(math.log(w,2)))\nh2 = h\nif h2/w2>1.25 and w2%4 == 0 and h2 > w2 * 1.25: h2 = w2 * 1.25\nelif h2/w2>1.25: h2 = w2 \nwhile(h2/w2<0.8):\n\tw2 /= 2\nif h2/w2>1.25: \n\th2 = -1\n\tw2 = -1  \n\nif h1*w1 > h2*w2:\n\tprint(str(int(h1)) + \" \" + str(int(w1)))\t\nelif h1*w1 < h2*w2:\n\tprint(str(int(h2)) + \" \" + str(int(w2)))\nelif h1*w1 == h2*w2 and h1 > h2:\n\tprint(str(int(h1)) + \" \" + str(int(w1)))\nelif h1*w1 == h2*w2 and h1 <= h2:\n\tprint(str(int(h2)) + \" \" + str(int(w2)))\n\n\n",
+    "prob_desc_created_at": "1294329600",
+    "tags": [
+        "binary search",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

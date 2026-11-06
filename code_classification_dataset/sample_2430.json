@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Alice\", \"Alice\", \"Bob\"]",
+    "src_uid": "3185ae6b4b681a10a21d02e67f08fd19",
+    "prob_desc_notes": "NoteConsider the first test sample. Alice moves first, and the only move she can do is to choose 2 and 3, then to add 1 to the set. Next Bob moves, there is no valid move anymore, so the winner is Alice.",
+    "prob_desc_description": "It is so boring in the summer holiday, isn't it? So Alice and Bob have invented a new game to play. The rules are as follows. First, they get a set of n distinct integers. And then they take turns to make the following moves. During each move, either Alice or Bob (the player whose turn is the current) can choose two distinct integers x and y from the set, such that the set doesn't contain their absolute difference |x - y|. Then this player adds integer |x - y| to the set (so, the size of the set increases by one).If the current player has no valid move, he (or she) loses the game. The question is who will finally win the game if both players play optimally. Remember that Alice always moves first.",
+    "prob_desc_output_spec": "Print a single line with the winner's name. If Alice wins print \"Alice\", otherwise print \"Bob\" (without quotes).",
+    "prob_desc_input_spec": "The first line contains an integer n (2 ≤ n ≤ 100) — the initial number of elements in the set. The second line contains n distinct space-separated integers a1, a2, ..., an (1 ≤ ai ≤ 109) — the elements of the set.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_022.jsonl",
+    "code_uid": "629a75939a80b8a2bd146ba93ae79c17",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2 3\", \"2\\n5 3\", \"3\\n5 6 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from fractions import gcd\n\nn = int(input())\na = list(map(int,input().split()))\n\nans = a[0]\nfor i in a:\n    ans = gcd(ans,i)\n\ncnt = max(a)//ans\nleft = cnt-n\n\nif left%2 == 1:\n    print(\"Alice\")\n    \nelse:\n    print(\"Bob\")\n\n",
+    "prob_desc_created_at": "1379691000",
+    "tags": [
+        "number theory",
+        "games",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

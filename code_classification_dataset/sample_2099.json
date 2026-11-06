@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"12\", \"0\"]",
+    "src_uid": "bcbe9d196a6a6048729d0f967a1e89ba",
+    "prob_desc_notes": "NoteIn the first sample there are two ways: the first way is not to add anything, the second way is to add a single edge from vertex 2 to vertex 5.",
+    "prob_desc_description": "Olya has got a directed non-weighted graph, consisting of n vertexes and m edges. We will consider that the graph vertexes are indexed from 1 to n in some manner. Then for any graph edge that goes from vertex v to vertex u the following inequation holds: v &lt; u.Now Olya wonders, how many ways there are to add an arbitrary (possibly zero) number of edges to the graph so as the following conditions were met:  You can reach vertexes number i + 1, i + 2, ..., n from any vertex number i (i &lt; n).  For any graph edge going from vertex v to vertex u the following inequation fulfills: v &lt; u.  There is at most one edge between any two vertexes.  The shortest distance between the pair of vertexes i, j (i &lt; j), for which j - i ≤ k holds, equals j - i edges.  The shortest distance between the pair of vertexes i, j (i &lt; j), for which j - i &gt; k holds, equals either j - i or j - i - k edges.  We will consider two ways distinct, if there is the pair of vertexes i, j (i &lt; j), such that first resulting graph has an edge from i to j and the second one doesn't have it.Help Olya. As the required number of ways can be rather large, print it modulo 1000000007 (109 + 7).",
+    "prob_desc_output_spec": "Print a single integer — the answer to the problem modulo 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The first line contains three space-separated integers n, m, k (2 ≤ n ≤ 106, 0 ≤ m ≤ 105, 1 ≤ k ≤ 106). The next m lines contain the description of the edges of the initial graph. The i-th line contains a pair of space-separated integers ui, vi (1 ≤ ui &lt; vi ≤ n) — the numbers of vertexes that have a directed edge from ui to vi between them.  It is guaranteed that any pair of vertexes ui, vi has at most one edge between them. It also is guaranteed that the graph edges are given in the order of non-decreasing ui. If there are multiple edges going from vertex ui, then it is guaranteed that these edges are given in the order of increasing vi.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_017.jsonl",
+    "code_uid": "9d0e595f17f864a648a715287c6138fb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 8 2\\n1 2\\n2 3\\n3 4\\n3 6\\n4 5\\n4 7\\n5 6\\n6 7\", \"7 0 2\", \"7 2 1\\n1 3\\n3 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\nN = 10 ** 6\nMOD = 10**9 + 7\n\n\ndef task():\n    n, m, k = map(int, stdin.readline().split())\n    Sum = [0] * (N + 1)\n    Power = [0] * (N + 1)\n    for i in xrange(m):\n        u, v = map(int, stdin.readline().split())\n        if v - u == k + 1:\n            Sum[u - 1] = 1\n        elif v - u != 1:\n            print 0\n            quit()\n\n    for i in xrange(n - 1, -1, -1):\n        Sum[i] += Sum[i + 1]\n\n    Power[0] = 1\n    for i in xrange(1, N + 1):\n        Power[i] = (Power[i - 1] * 2) % MOD\n\n    answer = 0\n    if not Sum[0]:\n        answer += 1\n\n    for i in xrange(n - k - 1):\n        if Sum[0] - Sum[i]:\n            continue\n        if Sum[i + k + 1]:\n            continue\n        answer += Power[min(n - k - 2, i + k) - i - (Sum[i + 1] - Sum[i + k + 1])]\n        answer %= MOD\n\n    print answer\n\n\ntask()\n",
+    "prob_desc_created_at": "1368968400",
+    "tags": [
+        "combinatorics",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

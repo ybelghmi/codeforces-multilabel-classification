@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 5\\n1 5\\n3 5\\n2 4\\n2 6\", \"-1\", \"4 4\\n1 4\\n7 4\\n4 1\\n4 7\"]",
+    "src_uid": "f13be8bcb3291ffcc555a268f421bf3a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A star map in Berland is a checked field n × m squares. In each square there is or there is not a star. The favourite constellation of all Berland's astronomers is the constellation of the Cross. This constellation can be formed by any 5 stars so, that for some integer x (radius of the constellation) the following is true:   the 2nd is on the same vertical line as the 1st, but x squares up  the 3rd is on the same vertical line as the 1st, but x squares down  the 4th is on the same horizontal line as the 1st, but x squares left  the 5th is on the same horizontal line as the 1st, but x squares right Such constellations can be very numerous, that's why they are numbered with integers from 1 on the following principle: when two constellations are compared, the one with a smaller radius gets a smaller index; if their radii are equal — the one, whose central star if higher than the central star of the other one; if their central stars are at the same level — the one, whose central star is to the left of the central star of the other one.Your task is to find the constellation with index k by the given Berland's star map.",
+    "prob_desc_output_spec": "If the number of the constellations is less than k, output -1. Otherwise output 5 lines, two integers each — coordinates of the required constellation. Output the stars in the following order: central, upper, lower, left, right.",
+    "prob_desc_input_spec": "The first line contains three integers n, m and k (1 ≤ n, m ≤ 300, 1 ≤ k ≤ 3·107) — height and width of the map and index of the required constellation respectively. The upper-left corner has coordinates (1, 1), and the lower-right — (n, m). Then there follow n lines, m characters each — description of the map. j-th character in i-th line is «*», if there is a star in the corresponding square, and «.» if this square is empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_013.jsonl",
+    "code_uid": "b2ccf044b92f842f1f6f06b029e6cf3c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 6 1\\n....*.\\n...***\\n....*.\\n..*...\\n.***..\", \"5 6 2\\n....*.\\n...***\\n....*.\\n..*...\\n.***..\", \"7 7 2\\n...*...\\n.......\\n...*...\\n*.***.*\\n...*...\\n.......\\n...*...\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom array import array  # noqa: F401\n\n\ndef input():\n    return sys.stdin.buffer.readline().decode('utf-8')\n\n\nn, m, k = map(int, input().split())\na = [tuple(map(lambda c: c == '*', input().rstrip())) for _ in range(n)]\ncnt = [0] * 400\n\nfor i in range(1, n - 1):\n    for j in range(1, m - 1):\n        if not a[i][j]:\n            continue\n        for rad, ui, di, lj, rj in zip(range(1, 400), range(i - 1, -1, -1), range(i + 1, n), range(j - 1, -1, -1), range(j + 1, m)):\n            if all((a[ui][j], a[di][j], a[i][lj], a[i][rj])):\n                cnt[rad] += 1\n\nrad = -1\nfor i in range(300):\n    cnt[i + 1] += cnt[i]\n    if cnt[i] >= k:\n        rad = i\n        k -= cnt[i - 1]\n        break\nelse:\n    print(-1)\n    exit()\n\nfor i in range(rad, n - rad):\n    for j in range(rad, m - rad):\n        if all((a[i][j], a[i - rad][j], a[i + rad][j], a[i][j - rad], a[i][j + rad])):\n            k -= 1\n            if k == 0:\n                print(f'{i+1} {j+1}\\n{i-rad+1} {j+1}\\n{i+rad+1} {j+1}\\n{i+1} {j-rad+1}\\n{i+1} {j+rad+1}')\n                exit()\n",
+    "prob_desc_created_at": "1286002800",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

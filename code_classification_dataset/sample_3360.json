@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n2 3\\n2 4\\n6 6\\n5 2\\n4\\n2 2\\n2 3\\n3 3\\n3 2\\n3\\n2 5\\n4 5\\n4 2\"]",
+    "src_uid": "2ba73e9b1359a17d10cf2f06a30c871d",
+    "prob_desc_notes": "NoteIt is guaranteed that the solution always exists and is unique. It is guaranteed that in the correct solution the coordinates of the polygon vertices are between 2 and N - 2. A vertex (x1, y1) is lexicographically smaller than vertex (x2, y2) if x1 &lt; x2 or .",
+    "prob_desc_description": "Now that Heidi has made sure her Zombie Contamination level checker works, it's time to strike! This time, the zombie lair is a strictly convex polygon on the lattice. Each vertex of the polygon occupies a point on the lattice. For each cell of the lattice, Heidi knows the level of Zombie Contamination – the number of corners of the cell that are inside or on the border of the lair.Given this information, Heidi wants to know the exact shape of the lair to rain destruction on the zombies. Help her!",
+    "prob_desc_output_spec": "For each test case, give the following output: The first line of the output should contain one integer V, the number of vertices of the polygon that is the secret lair. The next V lines each should contain two integers, denoting the vertices of the polygon in the clockwise order, starting from the lexicographically smallest vertex.",
+    "prob_desc_input_spec": "The input contains multiple test cases. The first line of each test case contains one integer N, the size of the lattice grid (5 ≤ N ≤ 500). The next N lines each contain N characters, describing the level of Zombie Contamination of each cell in the lattice. Every character of every line is a digit between 0 and 4.  Cells are given in the same order as they are shown in the picture above: rows go in the decreasing value of y coordinate, and in one row cells go in the order of increasing x coordinate. This means that the first row corresponds to cells with coordinates (1, N), ..., (N, N) and the last row corresponds to cells with coordinates (1, 1), ..., (N, 1). The last line of the file contains a zero. This line should not be treated as a test case. The sum of the N values for all tests in one file will not exceed 5000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_054.jsonl",
+    "code_uid": "1702f9ee543c773b723e54c7e7505b29",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n00000000\\n00000110\\n00012210\\n01234200\\n02444200\\n01223200\\n00001100\\n00000000\\n5\\n00000\\n01210\\n02420\\n01210\\n00000\\n7\\n0000000\\n0122100\\n0134200\\n0013200\\n0002200\\n0001100\\n0000000\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n\ndef lexComp(a, b):\n    if a[0] != b[0]:\n        return -1 if a[0] < b[0] else 1\n    if a[1] != b[1]:\n        return -1 if a[1] < b[1] else 1\n    return 0\n\ndef turn(a, b, c):\n    return (b[0] - a[0]) * (c[1] - b[1]) - (b[1] - a[1]) * (c[0] - b[0])\n    \ndef dist2(a, b):\n    return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2\n\ndef solve(n):\n    a = [list(map(int, input())) for _ in range(n)]\n    points = []\n    for i in range(n):\n        for j in range(n):\n            if a[i][j] == 1:\n                curPoints = []\n                for dx in range(0, 2):\n                    for dy in range(0, 2):\n                        ok = True\n                        for ddx in range(0, 2):\n                            for ddy in range(0, 2):\n                                x, y = i - 1 + dx + ddx, j - 1 + dy + ddy\n                                if 0 <= x < n and 0 <= y < n and a[x][y] == 0:\n                                    ok = False\n                        if ok:\n                            curPoints.append((i + dx, j + dy))\n                points.append(curPoints[0])\n    points = list(set(points))\n    for i in range(1, len(points)):\n        if lexComp(points[0], points[i]) > 0:\n            points[0], points[i] = points[i], points[0]\n    points[1:] = sorted(points[1:], key=lambda p: (math.atan2(p[1] - points[0][1], p[0] - points[0][0]), dist2(p, points[0])))\n    hull = []\n    for p in points:\n        while len(hull) >= 2 and turn(hull[-2], hull[-1], p) <= 0:\n            hull.pop()\n        hull.append(p)\n    hull = [(p[1], n - p[0]) for p in hull]\n    hull = hull[::-1]\n    start = 0\n    for i in range(1, len(hull)):\n        if lexComp(hull[i], hull[start]) < 0:\n            start = i\n    newHull = hull[start:]\n    newHull.extend(hull[:start])\n    hull = newHull\n    print(len(hull))\n    for p in hull:\n        print(p[0], p[1])\n    \nwhile True:\n    n = int(input())\n    if n == 0:\n        break\n    solve(n)\n",
+    "prob_desc_created_at": "1468137600",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

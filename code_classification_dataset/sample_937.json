@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\\n0\\n500\\n2128012501878\\n899999999999999999\"]",
+    "src_uid": "50738d19041f2e97e2e448eff3feed84",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a positive integer $$$n$$$. In one move, you can increase $$$n$$$ by one (i.e. make $$$n := n + 1$$$). Your task is to find the minimum number of moves you need to perform in order to make the sum of digits of $$$n$$$ be less than or equal to $$$s$$$.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer: the minimum number of moves you need to perform in order to make the sum of digits of $$$n$$$ be less than or equal to $$$s$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 2 \\cdot 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The only line of the test case contains two integers $$$n$$$ and $$$s$$$ ($$$1 \\le n \\le 10^{18}$$$; $$$1 \\le s \\le 162$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_005.jsonl",
+    "code_uid": "db1243f680b2a769c0b2379280066c8f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 1\\n1 1\\n500 4\\n217871987498122 10\\n100000000000000001 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\n    d,s=input().split()\n    n=[int(i) for i in d]\n    s=int(s)\n    if sum(n)<=s:\n        print(0)\n    else:\n        c=0\n        t=len(n)\n        for i in range(len(n)):\n            if c+n[i]<s:\n                c+=n[i]\n            else:\n                break\n        f=d[i:]\n        t=t-i\n        g=10**t-int(f)\n        print(g)\n",
+    "prob_desc_created_at": "1599230100",
+    "tags": [
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

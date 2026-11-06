@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"j\", \"ab\"]",
+    "src_uid": "58fa5c2f270e2c34e8f9671d5ffdb9c8",
+    "prob_desc_notes": "NoteIn the first sample the first 9 letters of the English alphabet (a, b, c, d, e, f, g, h, i) occur in the problem titles, so the answer is letter j.In the second sample the titles contain 26 English letters, so the shortest original title cannot have length 1. Title aa occurs as a substring in the first title.",
+    "prob_desc_description": "Coming up with a new problem isn't as easy as many people think. Sometimes it is hard enough to name it. We'll consider a title original if it doesn't occur as a substring in any titles of recent Codeforces problems. You've got the titles of n last problems — the strings, consisting of lowercase English letters. Your task is to find the shortest original title for the new problem. If there are multiple such titles, choose the lexicographically minimum one. Note, that title of the problem can't be an empty string.A substring s[l... r] (1 ≤ l ≤ r ≤ |s|) of string s = s1s2... s|s| (where |s| is the length of string s) is string slsl + 1... sr.String x = x1x2... xp is lexicographically smaller than string y = y1y2... yq, if either p &lt; q and x1 = y1, x2 = y2, ... , xp = yp, or there exists such number r (r &lt; p, r &lt; q), that x1 = y1, x2 = y2, ... , xr = yr and xr + 1 &lt; yr + 1. The string characters are compared by their ASCII codes.",
+    "prob_desc_output_spec": "Print a string, consisting of lowercase English letters — the lexicographically minimum shortest original title.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 30) — the number of titles you've got to consider. Then follow n problem titles, one per line. Each title only consists of lowercase English letters (specifically, it doesn't contain any spaces) and has the length from 1 to 20, inclusive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "1bcf78b3454917a035b41a25ec6d0adf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nthreehorses\\ngoodsubstrings\\nsecret\\nprimematrix\\nbeautifulyear\", \"4\\naa\\nbdefghijklmn\\nopqrstuvwxyz\\nc\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "cs1 = {chr(x) for x in range(ord('a'), ord('z') + 1)}\ncs2 = {x + y for x in cs1 for y in cs1}\nfor i in range(int(input())):\n    s = input()\n    for i in range(len(s) - 1):\n        cs1.discard(s[i:i + 1])\n        cs2.discard(s[i:i + 2])\n    cs1.discard(s[len(s) - 1:len(s)])\nprint(min(cs1) if cs1 else min(cs2))",
+    "prob_desc_created_at": "1362065400",
+    "tags": [
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

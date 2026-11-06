@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"dbcadabcdbcadabc\", \"aaaaa\"]",
+    "src_uid": "245371912e9828e763a49a85f4f6d2d9",
+    "prob_desc_notes": "NoteIn the first test, it is optimal to make one duplication: \"dbcadabc\" $$$\\to$$$ \"dbcadabcdbcadabc\".In the second test it is optimal to delete the last $$$3$$$ characters, then duplicate the string $$$3$$$ times, then delete the last $$$3$$$ characters to make the string have length $$$k$$$.\"abcd\" $$$\\to$$$ \"abc\" $$$\\to$$$ \"ab\" $$$\\to$$$ \"a\" $$$\\to$$$ \"aa\" $$$\\to$$$ \"aaaa\" $$$\\to$$$ \"aaaaaaaa\" $$$\\to$$$ \"aaaaaaa\" $$$\\to$$$ \"aaaaaa\" $$$\\to$$$ \"aaaaa\".",
+    "prob_desc_description": "This is the hard version of the problem. The only difference is the constraints on $$$n$$$ and $$$k$$$. You can make hacks only if all versions of the problem are solved.You have a string $$$s$$$, and you can do two types of operations on it:   Delete the last character of the string.  Duplicate the string: $$$s:=s+s$$$, where $$$+$$$ denotes concatenation. You can use each operation any number of times (possibly none).Your task is to find the lexicographically smallest string of length exactly $$$k$$$ that can be obtained by doing these operations on string $$$s$$$.A string $$$a$$$ is lexicographically smaller than a string $$$b$$$ if and only if one of the following holds:  $$$a$$$ is a prefix of $$$b$$$, but $$$a\\ne b$$$;  In the first position where $$$a$$$ and $$$b$$$ differ, the string $$$a$$$ has a letter that appears earlier in the alphabet than the corresponding letter in $$$b$$$. ",
+    "prob_desc_output_spec": "Print the lexicographically smallest string of length $$$k$$$ that can be obtained by doing the operations on string $$$s$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$, $$$k$$$ ($$$1 \\leq n, k \\leq 5\\cdot 10^5$$$) — the length of the original string $$$s$$$ and the length of the desired string. The second line contains the string $$$s$$$, consisting of $$$n$$$ lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_084.jsonl",
+    "code_uid": "14c9673b25110d0177d42e6fcbb98af6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8 16\\ndbcadabc\", \"4 5\\nabcd\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\r\nimport sys\r\nfrom collections import defaultdict,deque\r\nfrom io import BytesIO, IOBase\r\nimport sys\r\nimport threading\r\n# MOD = 998244353\r\n# nmax = 5000\r\n\r\n# fact = [1] * (nmax+1)\r\n# for i in range(2, nmax+1):\r\n#     fact[i] = fact[i-1] * i % MOD\r\n    \r\n# inv = [1] * (nmax+1)\r\n# for i in range(2, nmax+1):\r\n#     inv[i] = pow(fact[i], MOD-2, MOD)\r\n \r\n \r\n# def C(n, m):\r\n#     return fact[n] * inv[m] % MOD * inv[n-m] % MOD if 0 <= m <= n else 0\r\n# from itertools import permutations\r\n# from bisect import bisect_left\r\n# d=[]\r\n# for i in range(1,7):\r\n#     def solve(j,p):\r\n#         if j==i:\r\n#             return d.append(p)\r\n#         for el in [0,1]:\r\n#             solve(j+1,10*p+el)\r\n#     solve(0,0)\r\n# from collections import Counter\r\n# from bisect import bisect_left\r\ndef main():\r\n    n,p=map(int,input().split())\r\n    s=list(input())\r\n    j=n\r\n    i=1\r\n    while i<n:\r\n        if s[i]>s[0]:\r\n            j=i\r\n            break\r\n        elif s[i]==s[0]:\r\n            k=i\r\n            l=0\r\n            while k<n  and  s[k]==s[l]:\r\n                k+=1\r\n                l+=1\r\n            if k>=n or  s[k]>s[l]:\r\n                j=i \r\n                break\r\n            else :\r\n                i=k\r\n        else :\r\n            i+=1\r\n    s=\"\".join(s[:j])\r\n    l=len(s[:j])\r\n    t=p//l\r\n    g=p%l\r\n    print((s[:j]*t)+(s[:j])[:g])\r\n        \r\n        \r\n        \r\n#----------------------------------------------------------------------------------------\r\n \r\n \r\n# region fastio\r\n \r\nBUFSIZE = 8192\r\n \r\n \r\nclass FastIO(IOBase):\r\n    newlines = 0\r\n \r\n    def __init__(self, file):\r\n        self._fd = file.fileno()\r\n        self.buffer = BytesIO()\r\n        self.writable = 'x' in file.mode or 'r' not in file.mode\r\n        self.write = self.buffer.write if self.writable else None\r\n \r\n    def read(self):\r\n        while True:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            if not b:\r\n                break\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines = 0\r\n        return self.buffer.read()\r\n \r\n    def readline(self):\r\n        while self.newlines == 0:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            self.newlines = b.count(b'\\n') + (not b)\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines -= 1\r\n        return self.buffer.readline()\r\n \r\n    def flush(self):\r\n        if self.writable:\r\n            os.write(self._fd, self.buffer.getvalue())\r\n            self.buffer.truncate(0), self.buffer.seek(0)\r\n \r\n \r\nclass IOWrapper(IOBase):\r\n    def __init__(self, file):\r\n        self.buffer = FastIO(file)\r\n        self.flush = self.buffer.flush\r\n        self.writable = self.buffer.writable\r\n        self.write = lambda s: self.buffer.write(s.encode('ascii'))\r\n        self.read = lambda: self.buffer.read().decode('ascii')\r\n        self.readline = lambda: self.buffer.readline().decode('ascii')\r\n \r\n \r\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\r\ninput = lambda: sys.stdin.readline().rstrip('\\r\\n')\r\n \r\n \r\n# endregion\r\n \r\nif __name__ == '__main__':\r\n    main()",
+    "prob_desc_created_at": "1624026900",
+    "tags": [
+        "binary search",
+        "data structures",
+        "greedy",
+        "hashing",
+        "string suffix structures",
+        "strings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

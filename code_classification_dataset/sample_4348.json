@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"BRRBRBR\\nBRBRBRB\\nB\\nB\\nBRRBRBBRBR\"]",
+    "src_uid": "280487a73e6070a7dc7deb44332d6319",
+    "prob_desc_notes": "NoteIn the first test case, if the squares are painted \"BRRBRBR\", the imperfectness is $$$1$$$ (since squares $$$2$$$ and $$$3$$$ have the same color), which is the minimum possible imperfectness.",
+    "prob_desc_description": "As their story unravels, a timeless tale is told once again...Shirahime, a friend of Mocha's, is keen on playing the music game Arcaea and sharing Mocha interesting puzzles to solve. This day, Shirahime comes up with a new simple puzzle and wants Mocha to solve them. However, these puzzles are too easy for Mocha to solve, so she wants you to solve them and tell her the answers. The puzzles are described as follow.There are $$$n$$$ squares arranged in a row, and each of them can be painted either red or blue.Among these squares, some of them have been painted already, and the others are blank. You can decide which color to paint on each blank square.Some pairs of adjacent squares may have the same color, which is imperfect. We define the imperfectness as the number of pairs of adjacent squares that share the same color.For example, the imperfectness of \"BRRRBBR\" is $$$3$$$, with \"BB\" occurred once and \"RR\" occurred twice.Your goal is to minimize the imperfectness and print out the colors of the squares after painting. ",
+    "prob_desc_output_spec": "For each test case, print a line with a string only containing 'B' and 'R', the colors of the squares after painting, which imperfectness is minimized. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "Each test contains multiple test cases.  The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Each test case consists of two lines. The first line of each test case contains an integer $$$n$$$ ($$$1\\leq n\\leq 100$$$) — the length of the squares row. The second line of each test case contains a string $$$s$$$ with length $$$n$$$, containing characters 'B', 'R' and '?'. Here 'B' stands for a blue square, 'R' for a red square, and '?' for a blank square.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_095.jsonl",
+    "code_uid": "484d65f9b0ffe65f50f0abee8f9f21bf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n7\\n?R???BR\\n7\\n???R???\\n1\\n?\\n1\\nB\\n10\\n?R??RB??B?\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for t in range(int(input())):\r\n    n=int(input())\r\n    s=input()\r\n\r\n    if s==('?'*n):\r\n        s=s.replace('?','R',1)\r\n    \r\n    while '?' in s:\r\n        s=s.replace('R?','RB')\r\n        s=s.replace('B?','BR')\r\n        s=s.replace('?R','BR')\r\n        s=s.replace('?B','RB')\r\n    \r\n    print(s)",
+    "prob_desc_created_at": "1629038100",
+    "tags": [
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

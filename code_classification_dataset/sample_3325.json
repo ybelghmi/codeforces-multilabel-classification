@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"6\", \"7\"]",
+    "src_uid": "2e41dde8b3466e5a8c26e3d4eda1fd53",
+    "prob_desc_notes": "NoteIn the first example Ivan will choose this compressed version: c1 is 10, s1 is a.In the second example Ivan will choose this compressed version: c1 is 1, s1 is abcab.In the third example Ivan will choose this compressed version: c1 is 2, s1 is c, c2 is 1, s2 is z, c3 is 4, s3 is ab.",
+    "prob_desc_description": "Ivan wants to write a letter to his friend. The letter is a string s consisting of lowercase Latin letters.Unfortunately, when Ivan started writing the letter, he realised that it is very long and writing the whole letter may take extremely long time. So he wants to write the compressed version of string s instead of the string itself.The compressed version of string s is a sequence of strings c1, s1, c2, s2, ..., ck, sk, where ci is the decimal representation of number ai (without any leading zeroes) and si is some string consisting of lowercase Latin letters. If Ivan writes string s1 exactly a1 times, then string s2 exactly a2 times, and so on, the result will be string s.The length of a compressed version is |c1| + |s1| + |c2| + |s2|... |ck| + |sk|. Among all compressed versions Ivan wants to choose a version such that its length is minimum possible. Help Ivan to determine minimum possible length.",
+    "prob_desc_output_spec": "Output one integer number — the minimum possible length of a compressed version of s.",
+    "prob_desc_input_spec": "The only line of input contains one string s consisting of lowercase Latin letters (1 ≤ |s| ≤ 8000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_053.jsonl",
+    "code_uid": "28ccd236ba0acc0afcddcb6a83e01f37",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"aaaaaaaaaa\", \"abcab\", \"cczabababab\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def prefix(s):\n    p = [0]\n    for i in range(1, len(s)):\n        j = p[-1]\n        while j > 0 and s[j] != s[i]:\n            j = p[j - 1]\n        if s[i] == s[j]:\n            j += 1\n        p.append(j)\n    return p\n\n\ns = input()\nn = len(s)\nans = [0] * (n + 1)\ni = n - 1\n\nwhile i >= 0:\n    p = prefix(s[i:])\n    ans[i] = 2 + ans[i + 1]\n    for j in range(len(p)):\n        z = 1\n        if (j + 1) % (j + 1 - p[j]) == 0:\n            z = (j + 1) // (j + 1 - p[j])\n        res = len(str(z)) + (j + 1) // z + ans[i + j + 1]\n        ans[i] = min(ans[i], res)\n    i -= 1\n\nprint(ans[0])\n",
+    "prob_desc_created_at": "1500217500",
+    "tags": [
+        "dp",
+        "string suffix structures",
+        "hashing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

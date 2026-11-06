@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"30.00000 0.00000\"]",
+    "src_uid": "9829e1913e64072aadc9df5cddb63573",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Olympic Games in Bercouver are in full swing now. Here everyone has their own objectives: sportsmen compete for medals, and sport commentators compete for more convenient positions to give a running commentary. Today the main sport events take place at three round stadiums, and the commentator's objective is to choose the best point of observation, that is to say the point from where all the three stadiums can be observed. As all the sport competitions are of the same importance, the stadiums should be observed at the same angle. If the number of points meeting the conditions is more than one, the point with the maximum angle of observation is prefered. Would you, please, help the famous Berland commentator G. Berniev to find the best point of observation. It should be noted, that the stadiums do not hide each other, the commentator can easily see one stadium through the other.",
+    "prob_desc_output_spec": "Print the coordinates of the required point with five digits after the decimal point. If there is no answer meeting the conditions, the program shouldn't print anything. The output data should be left blank.",
+    "prob_desc_input_spec": "The input data consists of three lines, each of them describes the position of one stadium. The lines have the format x,  y,  r, where (x, y) are the coordinates of the stadium's center ( -  103 ≤ x,  y ≤ 103), and r (1 ≤ r  ≤ 103) is its radius. All the numbers in the input data are integer, stadiums do not have common points, and their centers are not on the same line. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_019.jsonl",
+    "code_uid": "e4fb13974249bae71328dbf739fda73e",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"0 0 10\\n60 0 10\\n30 30 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "V=[list(map(int,input().split())) for _ in range(3)]\na=[]\nfor i in range(3):\n    da=V[i][0]-V[(i+1)%3][0]\n    db=V[i][1]-V[(i+1)%3][1]\n    drs=V[i][2]**2-V[(i+1)%3][2]**2 #Let drs=0\n    das=(V[i][0]+V[(i+1)%3][0])*da \n    dbs=(V[i][1]+V[(i+1)%3][1])*db\n    a.append([2*da,2*db,drs,das+dbs])\n\ndef Gauss(n,m):\n    for i in range(n-1):\n        Max=i\n        for j in range(i,n):\n            if a[j][i]>a[Max][i]:\n                Max=j\n        for j in range(m):\n            a[i][j],a[Max][j]=a[Max][j],a[i][j]\n        if a[i][i]==0:\n            continue\n        for j in range(i+1,m):\n            a[i][j]/=a[i][i]\n        a[i][i]=1\n        for j in range(i+1,n):\n            tmp=a[j][i]/a[i][i]\n            for k in range(i,m):\n                a[j][k]-=tmp*a[i][k]\nGauss(3,4)\ndef gett(x,y):\n    a=V[0][0]\n    b=V[0][1]\n    r=V[0][2]\n    A=x[0]**2+y[0]**2\n    B=2*x[0]*(x[1]-a)+2*y[0]*(y[1]-b)-r*r\n    C=(x[1]-a)**2+(y[1]-b)**2\n    if A==0:\n        if B==0:\n            print()\n            exit(0)\n        else:\n            return C/B\n    delta=B**2-4*A*C\n    if delta<0:\n        print()\n        exit(0)\n    t1=(-B+delta**(1/2))/(2*A)\n    t2=(-B-delta**(1/2))/(2*A)\n    if min(t1,t2)>0:\n        return min(t1,t2)\n    elif max(t1,t2)<0:\n        print()\n        exit(0)\n    else:\n        return max(t1,t2)\nif abs(a[2][2])<1e-7:\n    if abs(a[2][3])>1e-7:\n        print()\n        exit(0)\n    y=(-a[1][2],a[1][3])\n    x=(-a[0][2]+a[0][1]*a[1][2],a[0][3]-a[0][1]*a[1][3])\n    t=gett(x,y)\n    y=-a[1][2]*t+a[1][3]\n    x=(-a[0][2]+a[0][1]*a[1][2])*t+a[0][3]-a[0][1]*a[1][3]\n    print(\"%.5f %.5f\" % (x,y))\nelse:\n    t=a[2][3]/a[2][2]\n    if a[1][1]==0 and a[1][3]-a[1][2]*t!=0:\n        print()\n        exit(0)\n    if a[1][1]==0:\n        y=0\n    else:\n        y=(a[1][3]-a[1][2]*t)/a[1][1]\n    if a[0][0]==0 and a[0][3]-a[0][2]*t-a[0][1]*y!=0:\n        print()\n        exit(0)\n    if a[0][0]==0:\n        x=0\n    else:\n        x=(a[0][3]-a[0][2]*t-a[0][1]*y)/a[0][0]\n    print(\"%.5f %.5f\" % (x,y))\n\n \n \n",
+    "prob_desc_created_at": "1267117200",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"NO\\nYES\\nYES\\nYES\\nNO\"]",
+    "src_uid": "fe939f7503f928ff4dbe8d05c5643f38",
+    "prob_desc_notes": "NoteThe queries of type $$$2$$$ of the example:  Neither bill fits;  Both bills fit (just checking that you got that bills can overlap);  Both bills fit (both bills are actually the same);  All bills fit (too much of free space in a wallet is not a problem);  Only bill $$$1 \\times 5$$$ fit (all the others don't, thus it's \"NO\"). ",
+    "prob_desc_description": "Polycarp has recently got himself a new job. He now earns so much that his old wallet can't even store all the money he has.Berland bills somehow come in lots of different sizes. However, all of them are shaped as rectangles (possibly squares). All wallets are also produced in form of rectangles (possibly squares).A bill $$$x \\times y$$$ fits into some wallet $$$h \\times w$$$ if either $$$x \\le h$$$ and $$$y \\le w$$$ or $$$y \\le h$$$ and $$$x \\le w$$$. Bills can overlap with each other in a wallet and an infinite amount of bills can fit into a wallet. That implies that all the bills Polycarp currently have fit into a wallet if every single one of them fits into it independently of the others.Now you are asked to perform the queries of two types:  $$$+~x~y$$$ — Polycarp earns a bill of size $$$x \\times y$$$;  $$$?~h~w$$$ — Polycarp wants to check if all the bills he has earned to this moment fit into a wallet of size $$$h \\times w$$$. It is guaranteed that there is at least one query of type $$$1$$$ before the first query of type $$$2$$$ and that there is at least one query of type $$$2$$$ in the input data.For each query of type $$$2$$$ print \"YES\" if all the bills he has earned to this moment fit into a wallet of given size. Print \"NO\" otherwise.",
+    "prob_desc_output_spec": "For each query of type $$$2$$$ print \"YES\" if all the bills he has earned to this moment fit into a wallet of given size. Print \"NO\" otherwise.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 5 \\cdot 10^5$$$) — the number of queries. Each of the next $$$n$$$ lines contains a query of one of these two types:   $$$+~x~y$$$ ($$$1 \\le x, y \\le 10^9$$$) — Polycarp earns a bill of size $$$x \\times y$$$;  $$$?~h~w$$$ ($$$1 \\le h, w \\le 10^9$$$) — Polycarp wants to check if all the bills he has earned to this moment fit into a wallet of size $$$h \\times w$$$.  It is guaranteed that there is at least one query of type $$$1$$$ before the first query of type $$$2$$$ and that there is at least one query of type $$$2$$$ in the input data.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_019.jsonl",
+    "code_uid": "ab132d357a5df31213f40b412b8ced8e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9\\n+ 3 2\\n+ 2 3\\n? 1 20\\n? 3 3\\n? 2 3\\n+ 1 5\\n? 10 10\\n? 1 5\\n+ 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\n\nQ=int(input())\nnx=0\nny=0\nfor i in range(Q):\n    q,x,y=input().split()\n    x,y=int(x),int(y)\n    if x>y:\n        x,y=y,x\n\n    if q==\"+\":\n        nx=max(nx,x)\n        ny=max(ny,y)\n    else:\n        if x>=nx and y>=ny:\n            print(\"YES\")\n        else:\n            print(\"NO\")\n    \n",
+    "prob_desc_created_at": "1547217300",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

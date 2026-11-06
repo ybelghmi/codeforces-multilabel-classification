@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 49 \\n20 40 30 50 10\\n26 32 20 38 44 50 \\n8 23 18 13 3 \\n1 10 13 4 19 22 25 16 7\"]",
+    "src_uid": "ca9d97e731e86cf8223520f39ef5d945",
+    "prob_desc_notes": null,
+    "prob_desc_description": "We have a secret array. You don't know this array and you have to restore it. However, you know some facts about this array:  The array consists of $$$n$$$ distinct positive (greater than $$$0$$$) integers.  The array contains two elements $$$x$$$ and $$$y$$$ (these elements are known for you) such that $$$x &lt; y$$$.  If you sort the array in increasing order (such that $$$a_1 &lt; a_2 &lt; \\ldots &lt; a_n$$$), differences between all adjacent (consecutive) elements are equal (i.e. $$$a_2 - a_1 = a_3 - a_2 = \\ldots = a_n - a_{n-1})$$$. It can be proven that such an array always exists under the constraints given below.Among all possible arrays that satisfy the given conditions, we ask you to restore one which has the minimum possible maximum element. In other words, you have to minimize $$$\\max(a_1, a_2, \\dots, a_n)$$$.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer: $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$), where $$$a_i$$$ is the $$$i$$$-th element of the required array. If there are several answers, you can print any (it also means that the order of elements doesn't matter). It can be proven that such an array always exists under the given constraints.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Then $$$t$$$ test cases follow. The only line of the test case contains three integers $$$n$$$, $$$x$$$ and $$$y$$$ ($$$2 \\le n \\le 50$$$; $$$1 \\le x &lt; y \\le 50$$$) — the length of the array and two elements that are present in the array, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_004.jsonl",
+    "code_uid": "bd64f7bc53f67b0e349ed8de49363a04",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 1 49\\n5 20 50\\n6 20 50\\n5 3 8\\n9 13 22\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\nimport sys\nfrom atexit import register\nfrom io import BytesIO\nsys.stdin = BytesIO(os.read(0, os.fstat(0).st_size))\nsys.stdout = BytesIO()\nregister(lambda: os.write(1, sys.stdout.getvalue()))\ninput = lambda: sys.stdin.readline().rstrip('\\r\\n')\nraw_input = lambda: sys.stdin.readline().rstrip('\\r\\n')\n\ndef find_f(a):\n    lst = [1,]\n    f = 2\n    if a % f == 0:\n        lst.append(f)\n    f += 1\n    while f*f <= a:\n        if a % f == 0:\n            lst.append(f)\n        f += 2\n    return lst\n\nfor _ in xrange(int(input())):\n    n,x,y = (int(x) for x in input().split())\n    lst=find_f(y-x)\n    ans = 10**10\n    ans_lst = None\n    for f in range(1,51):\n        possible_ans = list(range(y,0,-f))[::-1] + list(range(y,(n+1)*f,f))[1:]\n        try:\n            ind_y = possible_ans.index(y)\n            ind_x = possible_ans.index(x)\n        except ValueError:\n            continue\n        if ind_y - ind_x > n:\n            continue\n        if ind_y+1-n >= 0 and ind_x >= ind_y+1-n:\n            ans_lst = possible_ans[ind_y+1-n:ind_y+1]\n            break\n        \n        if ind_y < n and possible_ans[n-1] < ans:\n            ans = possible_ans[n-1]\n            ans_lst = possible_ans[:n]\n        \n    print(\" \".join((str(i) for i in ans_lst)))\n    # if y-x <= n and y-n>0:\n    #     print(range(y-n,y+1))\n    # elif y-x <= n:\n    #     print(range(1,1+n))\n    ",
+    "prob_desc_created_at": "1599230100",
+    "tags": [
+        "number theory",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

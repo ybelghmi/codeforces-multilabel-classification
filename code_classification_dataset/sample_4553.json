@@ -1,0 +1,33 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2 5 5\", \"1 2 2\"]",
+    "src_uid": "f3ed9a3d4566cdb04cdc26be51027d44",
+    "prob_desc_notes": "NoteIn the first test case, the minimum number of exchanges needed to exchange a chocolate of type $$$6$$$ to a chocolate of type $$$9$$$ is $$$5$$$. The sequence of exchanges is as follows: $$$6 \\rightarrow 2 \\rightarrow 0 \\rightarrow 1 \\rightarrow 7 \\rightarrow 9$$$.In the second test case, the minimum number of exchanges needed to exchange a chocolate of type $$$4$$$ to a chocolate of type $$$8$$$ is $$$2$$$. The sequence of exchanges is as follows: $$$4 \\rightarrow 0 \\rightarrow 8$$$.",
+    "prob_desc_description": "Christmas is coming, Icy has just received a box of chocolates from her grandparents! The box contains $$$n$$$ chocolates. The $$$i$$$-th chocolate has a non-negative integer type $$$a_i$$$.Icy believes that good things come in pairs. Unfortunately, all types of chocolates are distinct (all $$$a_i$$$ are distinct). Icy wants to make at least one pair of chocolates the same type. As a result, she asks her grandparents to perform some chocolate exchanges. Before performing any chocolate exchanges, Icy chooses two chocolates with indices $$$x$$$ and $$$y$$$ ($$$1 \\le x, y \\le n$$$, $$$x \\ne y$$$).In a chocolate exchange, Icy's grandparents choose a non-negative integer $$$k$$$, such that $$$2^k \\ge a_x$$$, and change the type of the chocolate $$$x$$$ from $$$a_x$$$ to $$$2^k - a_x$$$ (that is, perform $$$a_x := 2^k - a_x$$$).The chocolate exchanges will be stopped only when $$$a_x = a_y$$$. Note that other pairs of equal chocolate types do not stop the procedure.Icy's grandparents are smart, so they would choose the sequence of chocolate exchanges that minimizes the number of exchanges needed. Since Icy likes causing trouble, she wants to maximize the minimum number of exchanges needed by choosing $$$x$$$ and $$$y$$$ appropriately. She wonders what is the optimal pair $$$(x, y)$$$ such that the minimum number of exchanges needed is maximized across all possible choices of $$$(x, y)$$$.Since Icy is not good at math, she hopes that you can help her solve the problem.",
+    "prob_desc_output_spec": "Output three integers $$$x$$$, $$$y$$$, and $$$m$$$. $$$x$$$ and $$$y$$$ are indices of the optimal chocolates to perform exchanges on. Your output must satisfy $$$1 \\le x, y \\le n$$$, $$$x \\ne y$$$. $$$m$$$ is the number of exchanges needed to obtain $$$a_x = a_y$$$. We can show that $$$m \\le 10^9$$$ for any pair of chocolates. If there are multiple solutions, output any.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the number of chocolates. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 10^9$$$). It is guaranteed that all $$$a_i$$$ are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_100.jsonl",
+    "code_uid": "d4bca23d181485f9f5095ca56ac22a5e",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n5 6 7 8 9\", \"2\\n4 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import *\r\n \r\nn = int(stdin.readline())\r\ntree = [{} for _ in range(31)]\r\nidx, iid = {}, 0\r\n \r\nfor x in map(int, stdin.readline().split()):\r\n    iid += 1\r\n    idx[x] = iid\r\n    tree[x.bit_length()][x] = (x, 0)\r\n \r\nx, y, m = 0, 0, 0\r\n \r\nfor i in range(30, 0, -1):\r\n    if not tree[i]:\r\n        continue\r\n    k, mp = 1 << i, tree[i]\r\n    kk = k >> 1\r\n    for a in mp:\r\n        av, ac = mp[a]\r\n        b = k - a if a > kk else 0\r\n        j = b.bit_length()\r\n        if b in tree[j]:\r\n            bv, bc = tree[j][b]\r\n            r = ac + bc + 1\r\n            if r > m:\r\n                x, y, m = av, bv, r\r\n            if ac + 1 > bc:\r\n                tree[j][b] = (av, ac + 1)\r\n        else:\r\n            tree[j][b] = (av, ac + 1)\r\n \r\nprint(idx[x], idx[y], m)",
+    "prob_desc_created_at": "1639661700",
+    "tags": [
+        "dfs and similar",
+        "dp",
+        "games",
+        "graphs",
+        "implementation",
+        "math",
+        "number theory",
+        "shortest paths",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

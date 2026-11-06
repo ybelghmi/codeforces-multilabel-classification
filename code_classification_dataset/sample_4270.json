@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"2\", \"0\", \"3\", \"1\"]",
+    "src_uid": "87d3c1d8d3d1f34664ff32081222117d",
+    "prob_desc_notes": "NoteIn the first example the question marks can be replaced in the following way: \"aaaababbbb\". $$$f_1 = 4$$$, $$$f_2 = 4$$$, thus the answer is $$$4$$$. Replacing it like this is also possible: \"aaaabbbbbb\". That way $$$f_1 = 4$$$, $$$f_2 = 6$$$, however, the minimum of them is still $$$4$$$.In the second example one of the possible strings is \"aabbccdda\".In the third example at least one letter won't appear in the string, thus, the minimum of values $$$f_i$$$ is always $$$0$$$.",
+    "prob_desc_description": "You are given a string $$$s$$$ of length $$$n$$$. Each character is either one of the first $$$k$$$ lowercase Latin letters or a question mark.You are asked to replace every question mark with one of the first $$$k$$$ lowercase Latin letters in such a way that the following value is maximized.Let $$$f_i$$$ be the maximum length substring of string $$$s$$$, which consists entirely of the $$$i$$$-th Latin letter. A substring of a string is a contiguous subsequence of that string. If the $$$i$$$-th letter doesn't appear in a string, then $$$f_i$$$ is equal to $$$0$$$.The value of a string $$$s$$$ is the minimum value among $$$f_i$$$ for all $$$i$$$ from $$$1$$$ to $$$k$$$.What is the maximum value the string can have?",
+    "prob_desc_output_spec": "Print a single integer — the maximum value of the string after every question mark is replaced with one of the first $$$k$$$ lowercase Latin letters.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$; $$$1 \\le k \\le 17$$$) — the length of the string and the number of first Latin letters used. The second line contains a string $$$s$$$, consisting of $$$n$$$ characters. Each character is either one of the first $$$k$$$ lowercase Latin letters or a question mark.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_094.jsonl",
+    "code_uid": "969d66385f4f66d2d8faf899a2e66eb0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 2\\na??ab????b\", \"9 4\\n?????????\", \"2 3\\n??\", \"15 3\\n??b?babbc??b?aa\", \"4 4\\ncabd\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io,os\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\nfrom collections import deque \n\n \nn, k = map(int,input().split())\ns = input()\n\n \n \n \ndef judge(needed):\n \n    \n    inf = 2147483647\n    minstate = [inf]*(1<<k)\n    minstate[0] = 0\n \n    effect = [[inf]*(n+1) for j in range(k)]\n \n\n    \n    for j in range(k):\n        accu = 0\n        index = inf\n        for i in range(n)[::-1]:\n            if s[i]==ord('?') or s[i]==97+j:\n                accu += 1\n            else:\n                accu = 0\n\n   \n\n            if accu>=needed:\n                index = i + needed\n            effect[j][i] = index\n#            effect[j][i] = min(effect[j][i],inf*inf+inf*inf)\n\n\n   \n#    print(effect)                \n             \n\n    for state in range(1,1<<k):\n\n        minimum = minstate[state]\n\n        for j in range(k):\n            if (1<<j) & state==0: continue\n\n            index = minstate[state^(1<<j)]\n            if index<n:\n                minimum = min(minimum, effect[j][index]) \n\n\n\n        minstate[state] = minimum \n   \n \n#    print(minstate) \n \n \n \n    if minstate[-1]<=n:  return True\n    return False\n \n \nfront = 0\nrear = n//k+1\n \nwhile front < rear:\n    mid = (front+rear)//2\n    flag = judge(mid)\n#    print(mid,flag)\n \n    if flag:  \n        front = mid + 1\n    else:\n        rear = mid \n \nprint(front-1)\n",
+    "prob_desc_created_at": "1626273300",
+    "tags": [
+        "binary search",
+        "bitmasks",
+        "brute force",
+        "dp",
+        "strings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

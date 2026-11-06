@@ -1,0 +1,32 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"14\\n16\"]",
+    "src_uid": "fcfcb69edb84eeecfa735c3cf80c978b",
+    "prob_desc_notes": "NoteIn the first example case Vladimir can pick 1 flower of the first type and 3 flowers of the second type, in this case the total happiness equals $$$5 + (1 + 2 \\cdot 4) = 14$$$.In the second example Vladimir can pick 2 flowers of the first type, 2 flowers of the second type, and 1 flower of the third type, in this case the total happiness equals $$$(5 + 1 \\cdot 2) + (4 + 1 \\cdot 2) + 3 = 16$$$.",
+    "prob_desc_description": "Vladimir would like to prepare a present for his wife: they have an anniversary! He decided to buy her exactly $$$n$$$ flowers.Vladimir went to a flower shop, and he was amazed to see that there are $$$m$$$ types of flowers being sold there, and there is unlimited supply of flowers of each type. Vladimir wants to choose flowers to maximize the happiness of his wife. He knows that after receiving the first flower of the $$$i$$$-th type happiness of his wife increases by $$$a_i$$$ and after receiving each consecutive flower of this type her happiness increases by $$$b_i$$$. That is, if among the chosen flowers there are $$$x_i &gt; 0$$$ flowers of type $$$i$$$, his wife gets $$$a_i + (x_i - 1) \\cdot b_i$$$ additional happiness (and if there are no flowers of type $$$i$$$, she gets nothing for this particular type).Please help Vladimir to choose exactly $$$n$$$ flowers to maximize the total happiness of his wife.",
+    "prob_desc_output_spec": "For each test case output a single integer: the maximum total happiness of Vladimir's wife after choosing exactly $$$n$$$ flowers optimally.",
+    "prob_desc_input_spec": "The first line contains the only integer $$$t$$$ ($$$1 \\leq t \\leq 10\\,000$$$), the number of test cases. It is followed by $$$t$$$ descriptions of the test cases. Each test case description starts with two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 10^9$$$, $$$1 \\le m \\le 100\\,000$$$), the number of flowers Vladimir needs to choose and the number of types of available flowers. The following $$$m$$$ lines describe the types of flowers: each line contains integers $$$a_i$$$ and $$$b_i$$$ ($$$0 \\le a_i, b_i \\le 10^9$$$) for $$$i$$$-th available type of flowers. The test cases are separated by a blank line. It is guaranteed that the sum of values $$$m$$$ among all test cases does not exceed $$$100\\,000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_004.jsonl",
+    "code_uid": "c83e391c69e98703b5dba5668eb05314",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4 3\\n5 0\\n1 4\\n2 2\\n\\n5 3\\n5 2\\n4 2\\n3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = lambda: sys.stdin.readline().rstrip()\nQ=int(input())\nfor test in range(Q):\n  t,n=map(int,input().split())\n  ba=[list(map(int,input().split()))for _ in range(n)]\n  ba.sort()\n  bb=[b for b,a in ba]\n  sumb=[0]+[b for b,a in ba[::-1]]\n  for i in range(n):sumb[i+1]+=sumb[i]\n  ans=0\n  from bisect import bisect_left,bisect_right\n  for i in range(n):\n    k=n-bisect_left(bb,ba[i][1])\n    if n-i<=min(k,t):\n      ans=max(ans,ba[i][1]*(t-min(k,t))+sumb[min(k,t)])\n    else:\n      ans=max(ans,ba[i][1]*(t-min(k+1,t))+ba[i][0]+sumb[min(k,t-1)])\n  print(ans)\n  if test==Q-1:\n    break\n  s=input()",
+    "prob_desc_created_at": "1595149200",
+    "tags": [
+        "dp",
+        "greedy",
+        "two pointers",
+        "sortings",
+        "data structures",
+        "binary search",
+        "dfs and similar",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

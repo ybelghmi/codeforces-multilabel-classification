@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n0\\n3\"]",
+    "src_uid": "e75b88ce4341062c20b6014da1152d29",
+    "prob_desc_notes": "NoteIn the first test case, you can, for example, put one extra block into the first box and make $$$a = [4, 2, 2]$$$. If your nephew chooses the box with $$$4$$$ blocks, then we will move two blocks to the second box and two blocks to the third box. If he chooses the box with $$$2$$$ blocks then he will move these two blocks to the other box with $$$2$$$ blocks.In the second test case, you don't need to put any extra blocks, since no matter which box your nephew chooses, he can always make other boxes equal.In the third test case, you should put $$$3$$$ extra blocks. For example, you can put $$$2$$$ blocks in the first box and $$$1$$$ block in the third box. You'll get array $$$a = [2, 3, 1]$$$.",
+    "prob_desc_description": "You are asked to watch your nephew who likes to play with toy blocks in a strange way.He has $$$n$$$ boxes and the $$$i$$$-th box has $$$a_i$$$ blocks. His game consists of two steps:   he chooses an arbitrary box $$$i$$$;  he tries to move all blocks from the $$$i$$$-th box to other boxes.  If he can make the same number of blocks in each of $$$n - 1$$$ other boxes then he will be happy, otherwise, will be sad. Note that your nephew can only move the blocks from the chosen box to the other boxes; he cannot move blocks from the other boxes.You don't want to make your nephew sad, so you decided to put several extra blocks into some boxes in such a way that no matter which box $$$i$$$ he chooses he won't be sad. What is the minimum number of extra blocks you need to put?",
+    "prob_desc_output_spec": "For each test case, print a single integer — the minimum number of blocks you need to put. It can be proved that the answer always exists, i. e. the number of blocks is finite.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The first line of each test case contains the integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$) — the number of boxes. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 10^9$$$) — the number of blocks in each box. It's guaranteed that the sum of $$$n$$$ over test cases doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_002.jsonl",
+    "code_uid": "6dfaf6a3ea6472d1dfbce0a6ae5656d7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3\\n3 2 2\\n4\\n2 2 3 2\\n3\\n0 3 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nfor _ in range(int(input())):\n    n=int(input())\n    a=list(map(int,input().split()))\n    m=max(a)\n    an=0\n    if n==2:print(0)\n    else:\n        an=0\n        s=sum(a)\n        p=m*(n-1)\n        if p<s:\n            i=s//(n-1)\n            p=i*(n-1)\n        if p<s:\n            p=(i+1)*(n-1)\n        an=p-sum(a)\n        print(abs(an))",
+    "prob_desc_created_at": "1605796500",
+    "tags": [
+        "binary search",
+        "sortings",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

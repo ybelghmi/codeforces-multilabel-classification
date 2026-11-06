@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 2 4\", \"11\\n1 2 4 2 4 2 4 2 4 2 4\", \"7\\n1 2 3 1 3 2 1\", \"2\\n1 4\"]",
+    "src_uid": "c9d07fdf0d3293d5564275ebbabbcf12",
+    "prob_desc_notes": "NoteBelow you can see the graph from the first example:The given path is passing through vertexes $$$1$$$, $$$2$$$, $$$3$$$, $$$4$$$. The sequence $$$1-2-4$$$ is good because it is the subsequence of the given path, its first and the last elements are equal to the first and the last elements of the given path respectively, and the shortest path passing through vertexes $$$1$$$, $$$2$$$ and $$$4$$$ in that order is $$$1-2-3-4$$$. Note that subsequences $$$1-4$$$ and $$$1-3-4$$$ aren't good because in both cases the shortest path passing through the vertexes of these sequences is $$$1-3-4$$$.In the third example, the graph is full so any sequence of vertexes in which any two consecutive elements are distinct defines a path consisting of the same number of vertexes.In the fourth example, the paths $$$1-2-4$$$ and $$$1-3-4$$$ are the shortest paths passing through the vertexes $$$1$$$ and $$$4$$$.",
+    "prob_desc_description": "The main characters have been omitted to be short.You are given a directed unweighted graph without loops with $$$n$$$ vertexes and a path in it (that path is not necessary simple) given by a sequence $$$p_1, p_2, \\ldots, p_m$$$ of $$$m$$$ vertexes; for each $$$1 \\leq i &lt; m$$$ there is an arc from $$$p_i$$$ to $$$p_{i+1}$$$.Define the sequence $$$v_1, v_2, \\ldots, v_k$$$ of $$$k$$$ vertexes as good, if $$$v$$$ is a subsequence of $$$p$$$, $$$v_1 = p_1$$$, $$$v_k = p_m$$$, and $$$p$$$ is one of the shortest paths passing through the vertexes $$$v_1$$$, $$$\\ldots$$$, $$$v_k$$$ in that order.A sequence $$$a$$$ is a subsequence of a sequence $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) elements. It is obvious that the sequence $$$p$$$ is good but your task is to find the shortest good subsequence.If there are multiple shortest good subsequences, output any of them. ",
+    "prob_desc_output_spec": "In the first line output a single integer $$$k$$$ ($$$2 \\leq k \\leq m$$$) — the length of the shortest good subsequence. In the second line output $$$k$$$ integers $$$v_1$$$, $$$\\ldots$$$, $$$v_k$$$ ($$$1 \\leq v_i \\leq n$$$) — the vertexes in the subsequence. If there are multiple shortest subsequences, print any. Any two consecutive numbers should be distinct.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 100$$$) — the number of vertexes in a graph.  The next $$$n$$$ lines define the graph by an adjacency matrix: the $$$j$$$-th character in the $$$i$$$-st line is equal to $$$1$$$ if there is an arc from vertex $$$i$$$ to the vertex $$$j$$$ else it is equal to $$$0$$$. It is guaranteed that the graph doesn't contain loops. The next line contains a single integer $$$m$$$ ($$$2 \\le m \\le 10^6$$$) — the number of vertexes in the path.  The next line contains $$$m$$$ integers $$$p_1, p_2, \\ldots, p_m$$$ ($$$1 \\le p_i \\le n$$$) — the sequence of vertexes in the path. It is guaranteed that for any $$$1 \\leq i &lt; m$$$ there is an arc from $$$p_i$$$ to $$$p_{i+1}$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_003.jsonl",
+    "code_uid": "d149f7c4d7e511a632579b453f282d36",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n0110\\n0010\\n0001\\n1000\\n4\\n1 2 3 4\", \"4\\n0110\\n0010\\n1001\\n1000\\n20\\n1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4\", \"3\\n011\\n101\\n110\\n7\\n1 2 3 1 3 2 1\", \"4\\n0110\\n0001\\n0001\\n1000\\n3\\n1 2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\n\n\ndef all_path_shortest(adj_list):\n    src_to_dst = {node: defaultdict(lambda: float('inf')) for node in adj_list}\n\n    for src in adj_list:\n        for dest in adj_list[src]:\n            src_to_dst[src][dest] = 1\n\n    for src in adj_list:\n        src_to_dst[src][src] = 0\n\n\n    # Using node k, can we get from src to dest faster\n    for k in adj_list:\n        for src in adj_list:\n            for dest in adj_list:\n                if src_to_dst[src][k] + src_to_dst[k][dest] < src_to_dst[src][dest]:\n                    src_to_dst[src][dest] = src_to_dst[src][k] + src_to_dst[k][dest]\n\n    return src_to_dst\n\n# Input parsing\nn = int(raw_input())\nadj_matrix = [raw_input() for _ in range(n)]\nraw_input()\npath = [int(e) - 1 for e in raw_input().split()]\n\nadj_list = {i: [k for k in range(n) if adj_matrix[i][k] == '1'] for i in range(n)}\nshortest_paths = all_path_shortest(adj_list)\n\nres_path = []\nhops = 0\n\n\nfor i, curr_node in enumerate(path):\n    if i == 0 or i == len(path) - 1:\n        res_path.append(curr_node)\n        hops = 0\n    else:\n\n        last_added_node = res_path[-1]\n        next_node = path[i + 1]\n\n        dist_between = shortest_paths[last_added_node][next_node]\n\n        if dist_between < hops + 1:\n            res_path.append(curr_node)\n            hops = 0\n    # How many hops have we had since last adding node?\n    hops += 1\n\nprint len(res_path)\nprint ' '.join(str(e + 1) for e in res_path)\n",
+    "prob_desc_created_at": "1566311700",
+    "tags": [
+        "dp",
+        "graphs",
+        "greedy",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

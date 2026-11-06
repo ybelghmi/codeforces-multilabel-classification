@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 1\\n? 1 1\\n? 3 4\\n! 0011\"]",
+    "src_uid": "771786a15a4e38902279dff1bac1d7b6",
+    "prob_desc_notes": "NoteFor first query $$$1,1$$$, the interactor should flip $$$[1,1]$$$ or $$$[1,4]$$$. It chose to flip $$$[1,4]$$$, so the sequence became 1100.For second query $$$1,1$$$, the interactor should flip $$$[1,1]$$$ or $$$[1,4]$$$. It again chose to flip $$$[1,4]$$$, so the sequence became 0011.For third query $$$3,4$$$, the interactor should flip $$$[1,4]$$$ or $$$[3,4]$$$. It chose to flip $$$[3,4]$$$, so the sequence became 0000.Q: How does interactor choose between $$$[1,r]$$$ and $$$[l,n]$$$? Is it really random?A: The interactor will use a secret pseudorandom number generator. Only $$$s$$$ and your queries will be hashed and used as the seed. So if you give the same sequence of queries twice for the same secret string, you will get the same results. Except this, you can consider the choices fully random, like flipping a fair coin. You needn't (and shouldn't) exploit the exact generator to pass this problem.",
+    "prob_desc_description": "This is an interactive problem.Chouti was tired of studying, so he opened the computer and started playing a puzzle game.Long long ago, the boy found a sequence $$$s_1, s_2, \\ldots, s_n$$$ of length $$$n$$$, kept by a tricky interactor. It consisted of $$$0$$$s and $$$1$$$s only and the number of $$$1$$$s is $$$t$$$. The boy knows nothing about this sequence except $$$n$$$ and $$$t$$$, but he can try to find it out with some queries with the interactor.We define an operation called flipping. Flipping $$$[l,r]$$$ ($$$1 \\leq l \\leq r \\leq n$$$) means for each $$$x \\in [l,r]$$$, changing $$$s_x$$$ to $$$1-s_x$$$.In each query, the boy can give the interactor two integers $$$l,r$$$ satisfying $$$1 \\leq l \\leq r \\leq n$$$ and the interactor will either flip $$$[1,r]$$$ or $$$[l,n]$$$ (both outcomes have the same probability and all decisions made by interactor are independent from each other, see Notes section for more details). The interactor will tell the current number of $$$1$$$s after each operation. Note, that the sequence won't be restored after each operation.Help the boy to find the original sequence in no more than $$$10000$$$ interactions.\"Weird legend, dumb game.\" he thought. However, after several tries, he is still stuck with it. Can you help him beat this game?",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_040.jsonl",
+    "code_uid": "cc2bc552fa0fe1492d6850e0531ddd8e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n2\\n2\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n#import pdb\n#pdb.set_trace()\ndef ask(l,r):\n    print(\"? %d %d\"%(l,r))\n    sys.stdout.flush()\n    return int(input())\n\ndef reverse(l,r):\n    for i in range(l,r+1):\n        flipped[i]^=1\n\ndef flip(l,r,cur):\n    global m\n    while True:\n        ones=0\n        for i in range(l):\n            ones+=flipped[i]^ans[i]\n        expect=n-m-l+2*ones#expected 1s if the right segment will be flipped\n        res=ask(l+1,r+1)\n        if res==expect:\n            reverse(l,n-1)\n            m=res\n        else:\n            if l!=cur:\n                ones+=flipped[l]^ans[l]\n            if res==m-ones*2+cur-1:\n                ans[cur]=1^flipped[cur]\n            else:\n                ans[cur]=flipped[cur]\n            reverse(0,r)\n            m=res\n            break\n\nn,m=map(int,input().split())\nif n==1:\n    print(\"! %d\"%m)\n    sys.exit(0)\nflipped=[0]*n\nans=[0]*n\nif n%2==0:\n    for i in range(n):\n        flip(i,i,i)\n    print(\"! \",end=\"\")\n    for i in range(n):\n        print(ans[i],end=\"\")\n    print(\"\")\n    sys.stdout.flush()\nelse:\n    while True:\n        res=ask(2,n)\n        if res+m==n:\n            reverse(0,n-1)\n            m=res\n        else:\n            reverse(1,n-1)\n            if res==n-m+1:\n                ans[0]=1^flipped[0]\n            else:\n                ans[0]=flipped[0]\n            m=res\n            break\n    for i in range(n-1):\n        flip(i,i+1,i+1)\n    print(\"! \", end=\"\")\n    for i in range(n):\n        print(ans[i],end=\"\")\n    print(\"\")\n    sys.stdout.flush()",
+    "prob_desc_created_at": "1544970900",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

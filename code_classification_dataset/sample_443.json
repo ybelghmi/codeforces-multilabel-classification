@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\nHe\\nllo\", \"2\\nCodef\\norces\", \"-1\", \"8\\na\\nb\\na\\nc\\na\\nb\\na\\nc\"]",
+    "src_uid": "c4da69789d875853beb4f92147825ebf",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given the string s of length n and the numbers p, q. Split the string s to pieces of length p and q.For example, the string \"Hello\" for p = 2, q = 3 can be split to the two strings \"Hel\" and \"lo\" or to the two strings \"He\" and \"llo\".Note it is allowed to split the string s to the strings only of length p or to the strings only of length q (see the second sample test).",
+    "prob_desc_output_spec": "If it's impossible to split the string s to the strings of length p and q print the only number \"-1\". Otherwise in the first line print integer k — the number of strings in partition of s. Each of the next k lines should contain the strings in partition. Each string should be of the length p or q. The string should be in order of their appearing in string s — from left to right. If there are several solutions print any of them.",
+    "prob_desc_input_spec": "The first line contains three positive integers n, p, q (1 ≤ p, q ≤ n ≤ 100). The second line contains the string s consists of lowercase and uppercase latin letters and digits.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_002.jsonl",
+    "code_uid": "4205f4d3a382ebdccbd3cc69b628b592",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2 3\\nHello\", \"10 9 5\\nCodeforces\", \"6 4 5\\nPrivet\", \"8 1 1\\nabacabac\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def divide(n, k, s, t):\n    array = []\n    for j in xrange(k, len(s) - t, n):\n        mini = s[j:j + n]\n        #print \"mini \" + mini + str(len(mini))\n        if len(mini) == n:\n            array.append(mini)\n    return array\n\n\ndef splitter():\n    n, p, q =[int(x) for x in raw_input().split()]\n    text = raw_input()\n    maxi = 0\n    mini = 0\n    index = 0\n    if p > q:\n        maxi = p\n        mini = q\n    else:\n        maxi = q\n        mini = p\n    #print \"max\" + str(max)\n    permisionmax = n % maxi == 0\n    maxnum = (n / maxi) + 1\n    permisionmin = n % mini == 0\n    minnum = (n / mini) + 1\n\n    mx = 0\n    mn = 0\n    suma = 0\n    while suma < n:\n        suma = suma + maxi\n        mx = mx + 1\n        res = n - suma\n        if res % mini == 0 and res > 0:\n            rm = res / mini\n            suma = suma + (mini * rm)\n            mn = rm\n            break\n    #print suma\n    if suma != n:\n        mx = 0\n        mn = 0\n        suma = 0\n        while suma < n:\n            suma = suma + mini\n            mn = mn + 1\n            res = n - suma\n            if res % mini == 0:\n                rm = res / maxi\n                suma = suma + (maxi * rm)\n                mx = rm\n                break\n            maxnum -= 1\n\n    permisionboth = True\n    if suma != n or mx == 0 or mn == 0 or mini == maxi:\n        permisionboth = False\n\n    #permisionboth = n - (minnum * min) - (maxnum * max) == 0\n    if not permisionmax and not permisionmin and not permisionboth:\n        return [-1]\n    elif permisionboth:\n        #print \"ambos\"\n        t = n - (maxi *mx)\n        maxlist = divide(maxi, index, text, t)\n        index = maxi * mx\n        minlist = divide(mini, index, text, 0)\n        return [len(maxlist) + len(minlist)] + maxlist + minlist\n    elif permisionmin:\n        #print \"minimo\"\n        return [n / mini] + divide(mini, index, text, 0)\n    else:\n        #print \"maximo\"\n        return [n / maxi] + divide(maxi, index, text, 0)\n\n\nss = splitter()\nfor i in ss:\n    print i",
+    "prob_desc_created_at": "1451055600",
+    "tags": [
+        "implementation",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

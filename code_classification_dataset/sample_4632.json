@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5 2 1 3 4\"]",
+    "src_uid": "6b75105015e5bf753ee93f6e0639a816",
+    "prob_desc_notes": "NoteThe following illustrates the first example.  ",
+    "prob_desc_description": "Andi and Budi were given an assignment to tidy up their bookshelf of $$$n$$$ books. Each book is represented by the book title — a string $$$s_i$$$ numbered from $$$1$$$ to $$$n$$$, each with length $$$m$$$. Andi really wants to sort the book lexicographically ascending, while Budi wants to sort it lexicographically descending.Settling their fight, they decided to combine their idea and sort it asc-desc-endingly, where the odd-indexed characters will be compared ascendingly, and the even-indexed characters will be compared descendingly.A string $$$a$$$ occurs before a string $$$b$$$ in asc-desc-ending order if and only if in the first position where $$$a$$$ and $$$b$$$ differ, the following holds:  if it is an odd position, the string $$$a$$$ has a letter that appears earlier in the alphabet than the corresponding letter in $$$b$$$;  if it is an even position, the string $$$a$$$ has a letter that appears later in the alphabet than the corresponding letter in $$$b$$$. ",
+    "prob_desc_output_spec": "Output $$$n$$$ integers — the indices of the strings after they are sorted asc-desc-endingly.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\leq n \\cdot m \\leq 10^6$$$). The $$$i$$$-th of the next $$$n$$$ lines contains a string $$$s_i$$$ consisting of $$$m$$$ uppercase Latin letters — the book title. The strings are pairwise distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_102.jsonl",
+    "code_uid": "847ca4c47d524ca214d023c581bc7b90",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2\\nAA\\nAB\\nBB\\nBA\\nAZ\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import functools\r\nimport sys\r\ninput = lambda: sys.stdin.readline().rstrip()\r\n    \r\ndef compare(a, b):\r\n    for i in range(m):\r\n        if a[0][i] != b[0][i]:\r\n            if i % 2 == 0:\r\n                if a[0][i] < b[0][i]:\r\n                    return -1\r\n                else:\r\n                    return 1\r\n            else:\r\n                if a[0][i] > b[0][i]:\r\n                    return -1\r\n                else:\r\n                    return 1\r\n\r\nn, m = map(int, input().split())\r\n \r\nli = []\r\nfor i in range(n):\r\n    s = input()\r\n    \r\n    li.append((s, i))\r\n    \r\nli.sort(key=functools.cmp_to_key(compare))\r\nr = [v[1] + 1 for v in li]\r\n \r\nprint(*r)",
+    "prob_desc_created_at": "1633181700",
+    "tags": [
+        "data structures",
+        "sortings",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

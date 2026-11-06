@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"aa\", \"abca\"]",
+    "src_uid": "c01fc2cb6efc7eef290be12015f8d920",
+    "prob_desc_notes": "NoteIn the first example you can remove any character of $$$s$$$ to obtain the string \"aa\".In the second example \"abca\" &lt; \"abcd\" &lt; \"abcda\" &lt; \"abda\" &lt; \"acda\" &lt; \"bcda\".",
+    "prob_desc_description": "You are given a string $$$s$$$ consisting of $$$n$$$ lowercase Latin letters.You have to remove at most one (i.e. zero or one) character of this string in such a way that the string you obtain will be lexicographically smallest among all strings that can be obtained using this operation.String $$$s = s_1 s_2 \\dots s_n$$$ is lexicographically smaller than string $$$t = t_1 t_2 \\dots t_m$$$ if $$$n &lt; m$$$ and $$$s_1 = t_1, s_2 = t_2, \\dots, s_n = t_n$$$ or there exists a number $$$p$$$ such that $$$p \\le min(n, m)$$$ and $$$s_1 = t_1, s_2 = t_2, \\dots, s_{p-1} = t_{p-1}$$$ and $$$s_p &lt; t_p$$$.For example, \"aaa\" is smaller than \"aaaa\", \"abb\" is smaller than \"abc\", \"pqr\" is smaller than \"z\".",
+    "prob_desc_output_spec": "Print one string — the smallest possible lexicographically string that can be obtained by removing at most one character from the string $$$s$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the length of $$$s$$$. The second line of the input contains exactly $$$n$$$ lowercase Latin letters — the string $$$s$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_020.jsonl",
+    "code_uid": "4d11c7f5103873c1181250dba643b83f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\naaa\", \"5\\nabcda\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\ns = input()\nmin = n - 1\nfor i in range(n - 1):\n    if s[i] > s[i + 1]:\n        min = i\n        break\nprint(s[:min] + s[min + 1:])",
+    "prob_desc_created_at": "1542033300",
+    "tags": [
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

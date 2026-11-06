@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2.5 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\\n0 1\", \"No\", \"Yes\\n1 0 0 1 0\"]",
+    "src_uid": "9826775301204c45799ad6bf07c89cb2",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Alice's computer is broken, so she can't play her favorite card game now. To help Alice, Bob wants to answer $$$n$$$ her questions. Initially, Bob holds one card with number $$$0$$$ in the left hand and one in the right hand. In the $$$i$$$-th question, Alice asks Bob to replace a card in the left or right hand with a card with number $$$k_i$$$ (Bob chooses which of two cards he changes, Bob must replace exactly one card).After this action, Alice wants the numbers on the left and right cards to belong to given segments (segments for left and right cards can be different). Formally, let the number on the left card be $$$x$$$, and on the right card be $$$y$$$. Then after the $$$i$$$-th swap the following conditions must be satisfied: $$$a_{l, i} \\le x \\le b_{l, i}$$$, and $$$a_{r, i} \\le y \\le b_{r,i}$$$.Please determine if Bob can answer all requests. If it is possible, find a way to do it.",
+    "prob_desc_output_spec": "At the first line, print \"Yes\", if Bob can answer all queries, and \"No\" otherwise. If Bob can answer all $$$n$$$ queries, then at the second line print $$$n$$$ numbers: a way to satisfy all requirements. If in $$$i$$$-th query Bob needs to replace the card in the left hand, print $$$0$$$, otherwise print $$$1$$$. If there are multiple answers, print any.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n \\le 100\\,000$$$, $$$2 \\le m \\le 10^9$$$) — the number of questions and the maximum possible value on the card. Then $$$n$$$ queries are described. Every description contains 3 lines. The first line of the description of the $$$i$$$-th query contains a single integer $$$k_i$$$ ($$$0 \\le k_i \\le m$$$) — the number on a new card. The second line of the description of the $$$i$$$-th query contains two integers $$$a_{l, i}$$$ and $$$b_{l, i}$$$ ($$$0 \\le a_{l, i} \\le b_{l, i} \\le m$$$) — the minimum and maximum values of the card at the left hand after the replacement. The third line of the description of the $$$i$$$-th query contains two integers $$$a_{r, i}$$$ and $$$b_{r,i}$$$ ($$$0 \\le a_{r, i} \\le b_{r,i} \\le m$$$) — the minimum and maximum values of the card at the right hand after the replacement.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_096.jsonl",
+    "code_uid": "dc8cbcc8641e3e32dbae90ccc3a2e9aa",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 10\\n3\\n0 3\\n0 2\\n2\\n0 4\\n0 2\", \"2 10\\n3\\n0 3\\n0 2\\n2\\n3 4\\n0 1\", \"5 10\\n3\\n0 3\\n0 3\\n7\\n4 7\\n1 3\\n2\\n2 3\\n3 7\\n8\\n1 8\\n1 8\\n6\\n1 6\\n7 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\r\n\r\nn, m = [int(y) for y in stdin.readline().split()]\r\n\r\nx = []\r\nleft_lower = []\r\nleft_upper = []\r\nright_lower = []\r\nright_upper = []\r\n\r\nfor _ in range(n):\r\n    x.append(int(stdin.readline()))\r\n    y0, y1 = [int(y) for y in stdin.readline().split()]\r\n    left_lower.append(y0)\r\n    left_upper.append(y1)\r\n    y0, y1 = [int(y) for y in stdin.readline().split()]\r\n    right_lower.append(y0)\r\n    right_upper.append(y1)\r\n\r\nleft_possible = [[m,0] for i in range(n)]\r\nleft_possible.append([0,m])\r\nright_possible = [[m,0] for i in range(n)]\r\nright_possible.append([0,m])\r\n\r\nfor i in range(n-1,-1,-1):\r\n    if left_lower[i] <= x[i] <= left_upper[i]:\r\n        if left_possible[i+1][0] <= x[i] <= left_possible[i+1][1]:\r\n            right_possible[i][0] = right_lower[i]\r\n            right_possible[i][1] = right_upper[i]\r\n        else:\r\n            right_possible[i][0] = max(right_lower[i], right_possible[i+1][0])\r\n            right_possible[i][1] = min(right_upper[i], right_possible[i+1][1])\r\n\r\n    if right_lower[i] <= x[i] <= right_upper[i]:\r\n        if right_possible[i+1][0] <= x[i] <= right_possible[i+1][1]:\r\n            left_possible[i][0] = left_lower[i]\r\n            left_possible[i][1] = left_upper[i]\r\n        else:\r\n            left_possible[i][0] = max(left_lower[i], left_possible[i+1][0])\r\n            left_possible[i][1] = min(left_upper[i], left_possible[i+1][1])\r\n\r\nif left_possible[0][0] == 0 or right_possible[0][0] == 0:\r\n    stdout.write('YES\\n')\r\n    left = 0\r\n    right = 0\r\n    answer = []\r\n    for i in range(n):\r\n        if right_possible[i][0] <= right <= right_possible[i][1]:\r\n            answer.append('0')\r\n            left = x[i]\r\n        else:\r\n            answer.append('1')\r\n            right = x[i]\r\n\r\n    stdout.write(' '.join(answer)+'\\n')\r\n\r\nelse:\r\n    stdout.write('NO\\n')\r\n",
+    "prob_desc_created_at": "1624183500",
+    "tags": [
+        "binary search",
+        "constructive algorithms",
+        "data structures",
+        "dp",
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

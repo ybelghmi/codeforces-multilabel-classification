@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"bc\", \"alvuw\", \"qoztvz\"]",
+    "src_uid": "5f4009d4065f5ad39e662095f8f5c068",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two strings $$$s$$$ and $$$t$$$, both consisting of exactly $$$k$$$ lowercase Latin letters, $$$s$$$ is lexicographically less than $$$t$$$.Let's consider list of all strings consisting of exactly $$$k$$$ lowercase Latin letters, lexicographically not less than $$$s$$$ and not greater than $$$t$$$ (including $$$s$$$ and $$$t$$$) in lexicographical order. For example, for $$$k=2$$$, $$$s=$$$\"az\" and $$$t=$$$\"bf\" the list will be [\"az\", \"ba\", \"bb\", \"bc\", \"bd\", \"be\", \"bf\"].Your task is to print the median (the middle element) of this list. For the example above this will be \"bc\".It is guaranteed that there is an odd number of strings lexicographically not less than $$$s$$$ and not greater than $$$t$$$.",
+    "prob_desc_output_spec": "Print one string consisting exactly of $$$k$$$ lowercase Latin letters — the median (the middle element) of list of strings of length $$$k$$$ lexicographically not less than $$$s$$$ and not greater than $$$t$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$k$$$ ($$$1 \\le k \\le 2 \\cdot 10^5$$$) — the length of strings. The second line of the input contains one string $$$s$$$ consisting of exactly $$$k$$$ lowercase Latin letters. The third line of the input contains one string $$$t$$$ consisting of exactly $$$k$$$ lowercase Latin letters. It is guaranteed that $$$s$$$ is lexicographically less than $$$t$$$. It is guaranteed that there is an odd number of strings lexicographically not less than $$$s$$$ and not greater than $$$t$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_000.jsonl",
+    "code_uid": "79a2a90bd973d98b2309d06a12525932",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\naz\\nbf\", \"5\\nafogk\\nasdji\", \"6\\nnijfvj\\ntvqhwp\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nimport sys, bisect, heapq, math\nsys.setrecursionlimit(10**9+7)\ndef fi(): return int(sys.stdin.readline())\ndef fi2(): return map(int, sys.stdin.readline().split())\ndef fi3(): return sys.stdin.readline().rstrip()\ndef fo(*args):\n    for s in args: sys.stdout.write(str(s)+' ')\n    sys.stdout.write('\\n')\n##    sys.stdout.flush()\ndef puts(*args):\n    for s in args: sys.stdout.write(str(s))\nOUT = []\ndef bfo(*args):\n    for s in args: OUT.append(str(s)+' ')\n    OUT.append('\\n')\ndef bputs(*args):\n    for s in args: OUT.append(str(s))        \ndef flush():\n    sto = ''.join(OUT); fo(sto)\n##\nalpha = 'abcdefghijklmnopqrstuvwxyz'; mod = 10**9+7; inf = 10**18+5; nax = 101010\ninv = {}\nfor i in range(26):\n    inv[alpha[i]] = i\n\n##\n\nclass base26:\n    def __init__(self, s):\n        s = s[::-1]\n        self.a = [0 for i in range(len(s)+10)]\n        for i in range(len(s)):\n            self.a[i] = inv[s[i]]\n    def getstr(self):\n        s = []\n        for x in self.a:\n            s.append(alpha[x])\n        s.reverse()\n        s = ''.join(s)\n        return s\n    def __add__(self, other):\n        A = [0 for i in range(len(self.a))]\n        carry = 0\n        for i in range(len(self.a)):\n            S = self.a[i]+other.a[i]+carry\n            if(S <= 25):\n                A[i] = S\n                carry = 0\n            else:\n                A[i] = S%26\n                carry = 1\n        N = base26('')\n        N.a = A\n        return N\n\n    def div2(self):\n        carry = 0\n        n = len(self.a)\n        for i in range(n-1, -1, -1):\n            K = self.a[i]+carry*26\n            if(K%2 == 0):\n                carry = 0\n                self.a[i] = K/2\n            else:\n                carry = 1\n                self.a[i] = K/2\n        \n        \n\nk = fi()\ns = fi3()\nt = fi3()\n\na = base26(s)\nb = base26(t)\n\nc = a + b\nc.div2()\n\nres = c.getstr()\nres = res[-k:]\nbfo(res)\n\nflush()\n\n",
+    "prob_desc_created_at": "1554041100",
+    "tags": [
+        "number theory",
+        "bitmasks",
+        "math",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

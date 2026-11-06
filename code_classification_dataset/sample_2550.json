@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"0\", \"-1\"]",
+    "src_uid": "44cf7e01a72d7d8182b05678a7e5b5d3",
+    "prob_desc_notes": "NoteIn the first example the sequence can be changed to LULUU. So the length of the changed subsegment is $$$3 - 1 + 1 = 3$$$.In the second example the given sequence already leads the robot to $$$(x, y)$$$, so the length of the changed subsegment is $$$0$$$.In the third example the robot can't end his path in the cell $$$(x, y)$$$.",
+    "prob_desc_description": "Vasya has got a robot which is situated on an infinite Cartesian plane, initially in the cell $$$(0, 0)$$$. Robot can perform the following four kinds of operations:   U — move from $$$(x, y)$$$ to $$$(x, y + 1)$$$;  D — move from $$$(x, y)$$$ to $$$(x, y - 1)$$$;  L — move from $$$(x, y)$$$ to $$$(x - 1, y)$$$;  R — move from $$$(x, y)$$$ to $$$(x + 1, y)$$$. Vasya also has got a sequence of $$$n$$$ operations. Vasya wants to modify this sequence so after performing it the robot will end up in $$$(x, y)$$$.Vasya wants to change the sequence so the length of changed subsegment is minimum possible. This length can be calculated as follows: $$$maxID - minID + 1$$$, where $$$maxID$$$ is the maximum index of a changed operation, and $$$minID$$$ is the minimum index of a changed operation. For example, if Vasya changes RRRRRRR to RLRRLRL, then the operations with indices $$$2$$$, $$$5$$$ and $$$7$$$ are changed, so the length of changed subsegment is $$$7 - 2 + 1 = 6$$$. Another example: if Vasya changes DDDD to DDRD, then the length of changed subsegment is $$$1$$$. If there are no changes, then the length of changed subsegment is $$$0$$$. Changing an operation means replacing it with some operation (possibly the same); Vasya can't insert new operations into the sequence or remove them.Help Vasya! Tell him the minimum length of subsegment that he needs to change so that the robot will go from $$$(0, 0)$$$ to $$$(x, y)$$$, or tell him that it's impossible.",
+    "prob_desc_output_spec": "Print one integer — the minimum possible length of subsegment that can be changed so the resulting sequence of operations moves the robot from $$$(0, 0)$$$ to $$$(x, y)$$$. If this change is impossible, print $$$-1$$$.",
+    "prob_desc_input_spec": "The first line contains one integer number $$$n~(1 \\le n \\le 2 \\cdot 10^5)$$$ — the number of operations. The second line contains the sequence of operations — a string of $$$n$$$ characters. Each character is either U, D, L or R. The third line contains two integers $$$x, y~(-10^9 \\le x, y \\le 10^9)$$$ — the coordinates of the cell where the robot should end its path.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_024.jsonl",
+    "code_uid": "b094bdaec6c2d7d43432cb7e8fa36113",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nRURUU\\n-2 3\", \"4\\nRULR\\n1 1\", \"3\\nUUU\\n100 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\ns=list(input())\na,b = map(int, input().split())\nL=s.count('L')\nU=s.count('U')\nR=s.count('R')\nD=s.count('D')\nx=0\ny=0\nxmin=0\nymin=0\nminn=2*n\nwhile x+y<2*n:\n    if abs(a-(R-L))+abs(b-(U-D))>y-x and y!=n:\n        i=s[y]\n        if i=='L':\n            L-=1\n        elif i=='R':\n            R-=1\n        elif i=='D':\n            D-=1\n        elif i=='U':\n            U-=1 \n        y+=1\n    elif abs(a-(R-L))+abs(b-(U-D))<=y-x or y==n:\n        if y-x<minn and abs(a-(R-L))+abs(b-(U-D))<=y-x:\n            minn=y-x\n        i=s[x]\n        if i=='L':\n            L+=1\n        elif i=='R':\n            R+=1\n        elif i=='D':\n            D+=1\n        elif i=='U':\n            U+=1\n        x+=1\n\n            \nif abs(a)+abs(b)>len(s):\n    print(-1)\nelif (len(s)-(abs(a)+abs(b)))%2!=0:\n    print(-1)\nelse:\n    print(minn)\n    ",
+    "prob_desc_created_at": "1540478100",
+    "tags": [
+        "two pointers",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

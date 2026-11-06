@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"1\", \"5\"]",
+    "src_uid": "5b84295330fa07a9b42570766012990b",
+    "prob_desc_notes": "NoteIn the example one of the possible score sequences leading to the maximum number of draws is as follows: 0:0, 1:0, 2:0, 2:1, 3:1, 3:2, 3:3, 3:4.",
+    "prob_desc_description": "You still have partial information about the score during the historic football match. You are given a set of pairs $$$(a_i, b_i)$$$, indicating that at some point during the match the score was \"$$$a_i$$$: $$$b_i$$$\". It is known that if the current score is «$$$x$$$:$$$y$$$», then after the goal it will change to \"$$$x+1$$$:$$$y$$$\" or \"$$$x$$$:$$$y+1$$$\". What is the largest number of times a draw could appear on the scoreboard?The pairs \"$$$a_i$$$:$$$b_i$$$\" are given in chronological order (time increases), but you are given score only for some moments of time. The last pair corresponds to the end of the match.",
+    "prob_desc_output_spec": "Print the maximum number of moments of time, during which the score was a draw. The starting moment of the match (with a score 0:0) is also counted.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 10000$$$) — the number of known moments in the match. Each of the next $$$n$$$ lines contains integers $$$a_i$$$ and $$$b_i$$$ ($$$0 \\le a_i, b_i \\le 10^9$$$), denoting the score of the match at that moment (that is, the number of goals by the first team and the number of goals by the second team). All moments are given in chronological order, that is, sequences $$$x_i$$$ and $$$y_j$$$ are non-decreasing. The last score denotes the final result of the match.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_000.jsonl",
+    "code_uid": "f9aa930988e75e8042681043b661ff8d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 0\\n3 1\\n3 4\", \"3\\n0 0\\n0 0\\n0 0\", \"1\\n5 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    n = int(input())\n    a1, b1 = 0, 0\n    ans = 1\n    for i in range(n):\n        a2, b2 = map(int, input().split())\n        if a2 == a1 and b2 == b1:\n            continue\n        ans += max(0, min(a2, b2) - max(a1, b1) + 1)\n        if a1 == b1:\n            ans -= 1\n        a1 = a2\n        b1 = b2\n    print(ans)\n\n\nmain()\n",
+    "prob_desc_created_at": "1550917200",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

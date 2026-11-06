@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"20\", \"0\"]",
+    "src_uid": "e1700255e0bbca4351342c5560ca3a5d",
+    "prob_desc_notes": "NoteIn the first example the photos should be split into 2 groups: [40, 50] and [110, 120, 130]. The processing time of the first group is 10, and the processing time of the second group is 20. Maximum among 10 and 20 is 20. It is impossible to split the photos into groups in a such way that the processing time of division is less than 20.In the second example the photos should be split into four groups, each containing one photo. So the minimal possible processing time of a division is 0.",
+    "prob_desc_description": "Evlampiy has found one more cool application to process photos. However the application has certain limitations.Each photo i has a contrast vi. In order for the processing to be truly of high quality, the application must receive at least k photos with contrasts which differ as little as possible.Evlampiy already knows the contrast vi for each of his n photos. Now he wants to split the photos into groups, so that each group contains at least k photos. As a result, each photo must belong to exactly one group.He considers a processing time of the j-th group to be the difference between the maximum and minimum values of vi in the group. Because of multithreading the processing time of a division into groups is the maximum processing time among all groups.Split n photos into groups in a such way that the processing time of the division is the minimum possible, i.e. that the the maximum processing time over all groups as least as possible.",
+    "prob_desc_output_spec": "Print the minimal processing time of the division into groups.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ k ≤ n ≤ 3·105) — number of photos and minimum size of a group. The second line contains n integers v1, v2, ..., vn (1 ≤ vi ≤ 109), where vi is the contrast of the i-th photo.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_058.jsonl",
+    "code_uid": "3265339a1da01f1bce0a83f7e033deac",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2\\n50 110 130 40 120\", \"4 1\\n2 3 4 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def f(m):\n    global dp, sdp\n    l = 0\n    for i in range(n):\n        while l < n and v[l] < v[i] - m:\n            l += 1\n        if l - 1 > i - k:\n            dp[i] = False\n        else:\n            dp[i] = (sdp[i - k + 1] != sdp[l - 1])\n        sdp[i + 1] = sdp[i] + (1 if dp[i] else 0)\n    return dp[n - 1]\n\nn, k = map(int, input().split())\ndp = [False for i in range(n + 2)]\nsdp = [0 for i in range(n + 2)]\ndp[-1] = True\nsdp[0] = 1\nv = list(map(int, input().split()))\nv.sort()\nle = -1\nr = v[-1] - v[0]\nwhile r - le > 1:\n    m = (r + le) // 2\n    if f(m):\n        r = m\n    else:\n        le = m  \nprint(r)",
+    "prob_desc_created_at": "1508573100",
+    "tags": [
+        "dp",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

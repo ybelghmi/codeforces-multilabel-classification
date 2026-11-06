@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5 4 -3 -2 -1 0 1 2 -3 4 5\", \"0 -1 2 -1 2\"]",
+    "src_uid": "5a1e2e638f353c499005573387e2f7de",
+    "prob_desc_notes": "NoteIn the first example, the array goes through the following changes:   Initial: $$$[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]$$$  $$$&gt; 2$$$: $$$[-5, -4, -3, -2, -1, 0, 1, 2, -3, -4, -5]$$$  $$$&gt; -4$$$: $$$[-5, -4, 3, 2, 1, 0, -1, -2, 3, -4, -5]$$$  $$$&lt; 5$$$: $$$[5, 4, -3, -2, -1, 0, 1, 2, -3, 4, 5]$$$ ",
+    "prob_desc_description": "You are given an array of $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$.You will perform $$$q$$$ operations. In the $$$i$$$-th operation, you have a symbol $$$s_i$$$ which is either \"&lt;\" or \"&gt;\" and a number $$$x_i$$$.You make a new array $$$b$$$ such that $$$b_j = -a_j$$$ if $$$a_j s_i x_i$$$ and $$$b_j = a_j$$$ otherwise (i.e. if $$$s_i$$$ is '&gt;', then all $$$a_j &gt; x_i$$$ will be flipped). After doing all these replacements, $$$a$$$ is set to be $$$b$$$.You want to know what your final array looks like after all operations.",
+    "prob_desc_output_spec": "Print $$$n$$$ integers $$$c_1, c_2, \\ldots, c_n$$$ representing the array after all operations.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n,q$$$ ($$$1 \\leq n,q \\leq 10^5$$$) — the number of integers and the number of queries. The next line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$-10^5 \\leq a_i \\leq 10^5$$$) — the numbers. Each of the next $$$q$$$ lines contains a character and an integer $$$s_i, x_i$$$. ($$$s_i \\in \\{&lt;, &gt;\\}, -10^5 \\leq x_i \\leq 10^5$$$) – the queries.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_014.jsonl",
+    "code_uid": "238db5202ff7e8dd6704ef7807e12a30",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"11 3\\n-5 -4 -3 -2 -1 0 1 2 3 4 5\\n&gt; 2\\n&gt; -4\\n&lt; 5\", \"5 5\\n0 1 -2 -1 2\\n&lt; -2\\n&lt; -1\\n&lt; 0\\n&lt; 1\\n&lt; 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nN, Q = map(int, input().split())\nA = list(map(int, input().split()))\nSign = [0]*(3+10**5)\nSX = [tuple(sys.stdin.readline().split()) for _ in range(Q)]\nmini = 3 + 10**5\nSign = [0]*(3+10**5)\nkeep = 1\nfor (s, x) in SX[::-1]:\n    x = int(x)\n    ax = abs(x) + int((s == '>') ^ (x < 0))\n    sin = 1 if s == '<' else -1\n    if mini > ax:\n        t = sin*keep\n        for i in range(mini-1, ax-1, -1):\n            Sign[i] = t\n        mini = ax\n    keep *= (2*(s == '>') - 1) * (2*(0 < x) - 1)\nAns = [None]*N\nfor i, a in enumerate(A):\n    s = Sign[abs(a)]\n    if s == 0:\n        s = (2*(a > 0) - 1)*keep\n    Ans[i] = s*abs(a)\nprint(*Ans)",
+    "prob_desc_created_at": "1555783500",
+    "tags": [
+        "data structures",
+        "implementation",
+        "bitmasks",
+        "divide and conquer"
+    ],
+    "hidden_unit_tests": ""
+}

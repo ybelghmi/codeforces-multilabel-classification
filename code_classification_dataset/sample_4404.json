@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n6\\n3\\n3\\n10\\n3\\n2000000000000000000\\n3\\n4\", \"200\\n300\\n100\\n100\\n50\"]",
+    "src_uid": "f32b9d3b5c93e566e16c1de963a159a8",
+    "prob_desc_notes": "NoteIn the first example:After the first and second queries, the set will contain elements $$$\\{0, 1, 2\\}$$$. The smallest non-negative number that is divisible by $$$1$$$ and is not in the set is $$$3$$$.After the fourth query, the set will contain the elements $$$\\{0, 1, 2, 4\\}$$$. The smallest non-negative number that is divisible by $$$2$$$ and is not in the set is $$$6$$$.In the second example:  Initially, the set contains only the element $$$\\{0\\}$$$.  After adding an integer $$$100$$$ the set contains elements $$$\\{0, 100\\}$$$.  $$$100\\text{-mex}$$$ of the set is $$$200$$$.  After adding an integer $$$200$$$ the set contains elements $$$\\{0, 100, 200\\}$$$.  $$$100\\text{-mex}$$$ of the set $$$300$$$.  After removing an integer $$$100$$$ the set contains elements $$$\\{0, 200\\}$$$.  $$$100\\text{-mex}$$$ of the set is $$$100$$$.  After adding an integer $$$50$$$ the set contains elements $$$\\{0, 50, 200\\}$$$.  $$$50\\text{-mex}$$$ of the set is $$$100$$$.  After removing an integer $$$50$$$ the set contains elements $$$\\{0, 200\\}$$$.  $$$100\\text{-mex}$$$ of the set is $$$50$$$. ",
+    "prob_desc_description": "This is the hard version of the problem. The only difference is that in this version there are remove queries.Initially you have a set containing one element — $$$0$$$. You need to handle $$$q$$$ queries of the following types:+ $$$x$$$ — add the integer $$$x$$$ to the set. It is guaranteed that this integer is not contained in the set; - $$$x$$$ — remove the integer $$$x$$$ from the set. It is guaranteed that this integer is contained in the set; ? $$$k$$$ — find the $$$k\\text{-mex}$$$ of the set. In our problem, we define the $$$k\\text{-mex}$$$ of a set of integers as the smallest non-negative integer $$$x$$$ that is divisible by $$$k$$$ and which is not contained in the set.",
+    "prob_desc_output_spec": "For each query of type ? output a single integer — the $$$k\\text{-mex}$$$ of the set.",
+    "prob_desc_input_spec": "The first line contains an integer $$$q$$$ ($$$1 \\leq q \\leq 2 \\cdot 10^5$$$) — the number of queries. The following $$$q$$$ lines describe the queries. An addition query of integer $$$x$$$ is given in the format + $$$x$$$ ($$$1 \\leq x \\leq 10^{18}$$$). It is guaranteed that $$$x$$$ is not contained in the set. A remove query of integer $$$x$$$ is given in the format - $$$x$$$ ($$$1 \\leq x \\leq 10^{18}$$$). It is guaranteed that $$$x$$$ is contained in the set. A search query of $$$k\\text{-mex}$$$ is given in the format ? $$$k$$$ ($$$1 \\leq k \\leq 10^{18}$$$). It is guaranteed that there is at least one query of type ?.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_097.jsonl",
+    "code_uid": "f47513b6b0669ed30cac2bec8fb23a1b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"18\\n\\n+ 1\\n\\n+ 2\\n\\n? 1\\n\\n+ 4\\n\\n? 2\\n\\n+ 6\\n\\n? 3\\n\\n+ 7\\n\\n+ 8\\n\\n? 1\\n\\n? 2\\n\\n+ 5\\n\\n? 1\\n\\n+ 1000000000000000000\\n\\n? 1000000000000000000\\n\\n- 4\\n\\n? 1\\n\\n? 2\", \"10\\n\\n+ 100\\n\\n? 100\\n\\n+ 200\\n\\n? 100\\n\\n- 100\\n\\n? 100\\n\\n+ 50\\n\\n? 50\\n\\n- 50\\n\\n? 50\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\r\nimport math\r\nfrom sys import stdin\r\ninput=lambda :stdin.readline()[:-1]\r\n    \r\n\r\nn=int(input())\r\nquery=[]\r\nfor i in range(n):\r\n  x,y=input().split()\r\n  y=int(y)\r\n  if x=='+':\r\n    query.append((0,y))\r\n  elif x=='-':\r\n    query.append((1,y))\r\n  else:\r\n    query.append((2,y))\r\n\r\nD=max(1,int((n*math.log2(n))**0.5))\r\nL=0\r\nwhile L<n:\r\n  R=min(n,L+D)\r\n  s=set()\r\n  for x,y in query[:L]:\r\n    if x==0:\r\n      s.add(y)\r\n    if x==1:\r\n      s.remove(y)\r\n  \r\n  removed=set()\r\n  memo={}\r\n  for x,y in query[L:R]:\r\n    if x==0:\r\n      s.add(y)\r\n      if y in removed:\r\n        removed.remove(y)\r\n    if x==1:\r\n      s.remove(y)\r\n      removed.add(y)\r\n    if x==2:\r\n      if y in memo:\r\n        tmp=memo[y]\r\n      else:\r\n        tmp=y\r\n      while tmp in s:\r\n        tmp+=y\r\n      memo[y]=tmp\r\n      ans=tmp\r\n      for i in removed:\r\n        if i%y==0:\r\n          ans=min(ans,i)\r\n      print(ans)\r\n  L=R",
+    "prob_desc_created_at": "1666519500",
+    "tags": [
+        "brute force",
+        "data structures",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

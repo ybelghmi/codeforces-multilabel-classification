@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6\\n15\"]",
+    "src_uid": "648ec67565c506c3e2ffd007ad44e8c3",
+    "prob_desc_notes": "NoteIn the first test case, integer $$$6$$$ have following divisors: $$$[1, 2, 3, 6]$$$. There are $$$4$$$ of them and the difference between any two of them is at least $$$1$$$. There is no smaller integer with at least $$$4$$$ divisors.In the second test case, integer $$$15$$$ have following divisors: $$$[1, 3, 5, 15]$$$. There are $$$4$$$ of them and the difference between any two of them is at least $$$2$$$.The answer $$$12$$$ is INVALID because divisors are $$$[1, 2, 3, 4, 6, 12]$$$. And the difference between, for example, divisors $$$2$$$ and $$$3$$$ is less than $$$d=2$$$.",
+    "prob_desc_description": "Positive integer $$$x$$$ is called divisor of positive integer $$$y$$$, if $$$y$$$ is divisible by $$$x$$$ without remainder. For example, $$$1$$$ is a divisor of $$$7$$$ and $$$3$$$ is not divisor of $$$8$$$.We gave you an integer $$$d$$$ and asked you to find the smallest positive integer $$$a$$$, such that  $$$a$$$ has at least $$$4$$$ divisors;  difference between any two divisors of $$$a$$$ is at least $$$d$$$.",
+    "prob_desc_output_spec": "For each test case print one integer $$$a$$$ — the answer for this test case.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 3000$$$) — the number of test cases. The first line of each test case contains a single integer $$$d$$$ ($$$1 \\leq d \\leq 10000$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_100.jsonl",
+    "code_uid": "82bfeebd63c6cfa61dbf5a71fc773227",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nfor i in range(t):\r\n    d = int(input())\r\n    p1 = 1 + d\r\n    while True:\r\n        m = True\r\n        for j in range(2, int(p1 ** 0.5) + 1):\r\n            if p1 % j != 0:\r\n                continue\r\n            else:\r\n                m = False\r\n                break\r\n        if m != False:\r\n            break\r\n        else:\r\n            p1 += 1\r\n    p2 = p1 + d\r\n    while True:\r\n        m = True\r\n        for j in range(2, int((p2 ** 0.5)) + 1):\r\n            if p2 % j != 0:\r\n                continue\r\n            else:\r\n                m = False\r\n                break\r\n        if m != False:\r\n            break\r\n        else:\r\n            p2 += 1\r\n\r\n    if (p1 * p2) <= p1**3:\r\n        print(p1 * p2)\r\n    else:\r\n        print(p1**3)",
+    "prob_desc_created_at": "1611066900",
+    "tags": [
+        "binary search",
+        "constructive algorithms",
+        "greedy",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

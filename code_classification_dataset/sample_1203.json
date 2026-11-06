@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"16\", \"2\", \"5\"]",
+    "src_uid": "fcffdbea244897515e729b678bdbd543",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A tourist wants to visit country Zeydabad for Zbazi (a local game in Zeydabad).The country Zeydabad is a rectangular table consisting of n rows and m columns. Each cell on the country is either 'z' or '.'.The tourist knows this country is named Zeydabad because there are lots of ''Z-pattern\"s in the country. A ''Z-pattern\" is a square which anti-diagonal is completely filled with 'z' and its upper and lower rows are also completely filled with 'z'. All other cells of a square can be arbitrary.  Note that a ''Z-pattern\" can consist of only one cell (see the examples).So he wants to count the number of ''Z-pattern\"s in the country (a necessary skill for Zbazi).Now your task is to help tourist with counting number of ''Z-pattern\"s.As input/output can reach huge size it is recommended to use fast input/output methods: for example, prefer to use gets/scanf/printf instead of getline/cin/cout in C++, prefer to use BufferedReader/PrintWriter instead of Scanner/System.out in Java.",
+    "prob_desc_output_spec": "Print the only integer a — the number of ''Z-pattern\"s in Zeydabad.",
+    "prob_desc_input_spec": "The first line contains two integers n, m (1 ≤ n, m ≤ 3000) — the number of rows and columns respectively. Each of the next n lines contains m characters 'z' or '.' — the description of Zeydabad.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_007.jsonl",
+    "code_uid": "24dbef6397c4a9d00048e5dddce893de",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4\\nzzzz\\nzzz.\\n.z..\\nzzzz\", \"1 4\\nz.z.\", \"2 2\\nzz\\nzz\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n\nfrom __future__ import division, print_function\n\ndef least_significant_bit(i):\n    return ((i) & -(i))\n\nclass FenwickTree():\n    def __init__(self, n):\n        # 1-indexed\n        self.n = n + 1 \n        self.data = [0,] * self.n\n    \n    def add(self, index, value):\n        # 1-indexed\n        i = index + 1\n        while i < self.n:\n            self.data[i] += value\n            i += least_significant_bit(i)\n        \n    def prefix_sum(self, index):\n        # 1-indexed\n        i = index + 1\n        result = 0\n        while i > 0:\n            result += self.data[i]\n            i -= least_significant_bit(i)\n        return result\n    \n    def range_sum(self, start, end):\n        return self.prefix_sum(end) - self.prefix_sum(start-1)\n\ndef solver(ifs):\n    n, m = list(map(int, ifs.readline().split()))\n    grid = [\n        [(True if c=='z' else False) for c in ifs.readline()]\n        for _ in range(n)]\n    ifs.close()\n    left = [0, ] * (n * m)\n    right = [0, ] * (n * m)\n    for i in range(n):\n        row = grid[i]\n        s = i*m\n        left[s+0] = 1 if row[0] else 0\n        for j in range(1, m):\n            if row[j]:\n                left[s+j] = left[s+j-1] + 1\n        right[s+m-1] = 1 if row[m-1] else 0\n        for j in range(m-2, -1, -1):\n            if row[j]:\n                right[s+j] = right[s+j+1] + 1\n    res = 0\n    for i, j in [(0, a) for a in range(m)] + [(b, m-1) for b in range(1, n)]:\n        lend = min(n-i, j+1)\n        d = [1 if grid[i+pos][j-pos] else 0 for pos in range(lend)]\n        for pos in range(lend-2, -1, -1):\n            d[pos] = d[pos+1] + 1 if d[pos] else 0\n        tbr = [ [] for _ in range(lend + 1)]\n        ft = FenwickTree(lend)\n        for pos, val in enumerate(d):\n            while tbr[pos]:\n                ft.add(tbr[pos].pop(), -1)\n            c = min(val, left[(i+pos)*m + j-pos])\n            if c > 0:\n                ft.add(pos, 1)\n                tbr[pos + c].append(pos)\n            d = right[(i+pos)*m + j-pos]\n            if d > 0:\n                res += ft.range_sum(max(0,pos-d+1), pos)\n    print(res)\n\ndef main():\n    import sys\n    if sys.version_info.major == 3:\n        from io import StringIO as StreamIO\n    else:\n         from io import BytesIO as StreamIO\n    \n    with StreamIO(sys.stdin.read()) as ifs, StreamIO() as ofs:\n        _stdout = sys.stdout\n        sys.stdout = ofs\n        solver(ifs)\n        sys.stdout = _stdout\n        sys.stdout.write(ofs.getvalue())\n    return 0\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1455894000",
+    "tags": [
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

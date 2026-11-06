@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1 0 1 1\", \"1 2 2\", \"1 6 40 201 705 1635 1854\", \"1 9 9 0 1 5 5 0 1 0\"]",
+    "src_uid": "bc0089608493d9160eefb769e5c87475",
+    "prob_desc_notes": "NoteIn the first example, the permutations that are lexicographically smaller than $$$[1,3,4,2]$$$ are:  $$$[1,2,3,4]$$$, $$$f([1,2,3,4])=1$$$;  $$$[1,2,4,3]$$$, $$$f([1,2,4,3])=3$$$;  $$$[1,3,2,4]$$$, $$$f([1,3,2,4])=4$$$. Thus our answer is $$$[1,0,1,1]$$$.In the second example, the permutations that are lexicographically smaller than $$$[3,2,1]$$$ are:  $$$[1,2,3]$$$, $$$f([1,2,3])=1$$$;  $$$[1,3,2]$$$, $$$f([1,3,2])=3$$$;  $$$[2,1,3]$$$, $$$f([2,1,3])=3$$$;  $$$[2,3,1]$$$, $$$f([2,3,1])=2$$$;  $$$[3,1,2]$$$, $$$f([3,1,2])=2$$$. Thus our answer is $$$[1,2,2]$$$.",
+    "prob_desc_description": "We call an array $$$a$$$ of length $$$n$$$ fancy if for each $$$1 &lt; i \\le n$$$ it holds that $$$a_i = a_{i-1} + 1$$$.Let's call $$$f(p)$$$ applied to a permutation$$$^\\dagger$$$ of length $$$n$$$ as the minimum number of subarrays it can be partitioned such that each one of them is fancy. For example $$$f([1,2,3]) = 1$$$, while $$$f([3,1,2]) = 2$$$ and $$$f([3,2,1]) = 3$$$.Given $$$n$$$ and a permutation $$$p$$$ of length $$$n$$$, we define a permutation $$$p'$$$ of length $$$n$$$ to be $$$k$$$-special if and only if:  $$$p'$$$ is lexicographically smaller$$$^\\ddagger$$$ than $$$p$$$, and  $$$f(p') = k$$$. Your task is to count for each $$$1 \\le k \\le n$$$ the number of $$$k$$$-special permutations modulo $$$m$$$.$$$^\\dagger$$$ A permutation is an array consisting of $$$n$$$ distinct integers from $$$1$$$ to $$$n$$$ in arbitrary order. For example, $$$[2,3,1,5,4]$$$ is a permutation, but $$$[1,2,2]$$$ is not a permutation ($$$2$$$ appears twice in the array) and $$$[1,3,4]$$$ is also not a permutation ($$$n=3$$$ but there is $$$4$$$ in the array).$$$^\\ddagger$$$ A permutation $$$a$$$ of length $$$n$$$ is lexicographically smaller than a permutation $$$b$$$ of length $$$n$$$ if and only if the following holds: in the first position where $$$a$$$ and $$$b$$$ differ, the permutation $$$a$$$ has a smaller element than the corresponding element in $$$b$$$.",
+    "prob_desc_output_spec": "Print $$$n$$$ integers, where the $$$k$$$-th integer is the number of $$$k$$$-special permutations modulo $$$m$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 2000$$$, $$$10 \\le m \\le 10^9$$$) — the length of the permutation and the required modulo. The second line contains $$$n$$$ distinct integers $$$p_1, p_2, \\ldots, p_n$$$ ($$$1 \\le p_i \\le n$$$) — the permutation $$$p$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 3300,
+    "file_name": "train_101.jsonl",
+    "code_uid": "1041bd09f5d3e80ee600d24eeec67255",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4 666012\\n1 3 4 2\", \"3 10\\n3 2 1\", \"7 1000000000\\n7 2 1 3 5 4 6\", \"10 11\\n10 9 8 7 6 5 4 3 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, input().split())\r\n\r\ndef modmul(a, b, c = 0):\r\n    return (a * b + c) % m\r\n\r\n\r\ncomb = [[1]]\r\nfor i in range(2010):\r\n    prev = comb[-1]\r\n    nex = [1]\r\n    for i in range(i):\r\n        nex.append((prev[i] + prev[i + 1]) % m)\r\n    nex.append(1)\r\n    comb.append(nex)\r\n\r\nfact = [1]\r\nfor i in range(1, 3000):\r\n    fact.append((i * fact[i - 1]) % m)\r\n\r\np = list(map(lambda x: int(x) - 1, input().split()))\r\nrem = [1] * n\r\npairs = n - 1\r\n\r\nbase = 0\r\n\r\nout = [[0] * (n + 1) for _ in range(n + 1)]\r\nfor i in range(n):\r\n    diff = [0] * 3\r\n    spec = [0] * 3\r\n\r\n    for j in range(p[i]):\r\n        d = 0\r\n\r\n        if rem[j] == 0:\r\n            continue\r\n        \r\n        if j and rem[j - 1]:\r\n            d += 1\r\n\r\n        #if j < n - 1 and rem[j + 1]:\r\n        #    d += 1\r\n\r\n        if i and j == p[i - 1] + 1:\r\n            spec[d] += 1\r\n        else:\r\n            diff[d] += 1\r\n\r\n    for d in range(3):\r\n        pp = pairs - d\r\n        if pp < 0:\r\n            continue\r\n        if diff[d] == 0 and spec[d] == 0:\r\n            continue\r\n\r\n        remain = n - i - 1\r\n\r\n        for sq in range(pp + 1):\r\n            ways = comb[pp][sq]\r\n            order = remain - sq\r\n            assert order >= 0\r\n\r\n            ct = modmul(ways, fact[order])\r\n            \r\n            out[base][sq] += modmul(ct, diff[d] + spec[d])\r\n            if spec[d]:\r\n                out[base][sq + 1] += ct\r\n\r\n    j = p[i]\r\n    rem[j] = 0\r\n    if j and rem[j - 1]:\r\n        pairs -= 1\r\n    if j < n - 1 and rem[j + 1]:\r\n        pairs -= 1\r\n\r\n    if i and p[i] == p[i - 1] + 1:\r\n        base += 1\r\n\r\nwhile len(out) > 1:\r\n    prev = out.pop()\r\n    for i in range(n):\r\n        out[-1][i] += prev[i]\r\n        if i > 0:\r\n            out[-1][i] += prev[i - 1]\r\n\r\nout = out[0]\r\n\r\nres = []\r\nfor i in range(n):\r\n    basee = out[n - 1 - i]\r\n    for j in range(i):\r\n        basee -= modmul(res[j], comb[n - j - 1][n - i - 1])\r\n        #print(i, j, basee)\r\n    res.append(basee % m)\r\nprint(' '.join(map(str, res)))\r\n",
+    "prob_desc_created_at": "1667745300",
+    "tags": [
+        "combinatorics",
+        "dp",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

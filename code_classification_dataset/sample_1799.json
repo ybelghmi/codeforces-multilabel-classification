@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4 1\\n5 2\\n4 2\\n5 3\"]",
+    "src_uid": "c9d39bee8247706f2c7fc8f9d69910f6",
+    "prob_desc_notes": "NoteThe multiverse initially consisted of 5 universes, with the Doctor being in the second.First, link 1 was broken, leaving the multiverse with 4 universes, and the Doctor in the first.Then, a universe was added to the leftmost end of the multiverse, increasing the multiverse length to 5, and the Doctor was then in the second universe.Then, the rightmost link was broken.Finally, a universe was added between the first and the second universe.",
+    "prob_desc_description": "The Third Doctor Who once correctly said that travel between parallel universes is \"like travelling sideways\". However, he incorrectly thought that there were infinite parallel universes, whereas in fact, as we now all know, there will never be more than 250.Heidi recently got her hands on a multiverse observation tool. She was able to see all $$$n$$$ universes lined up in a row, with non-existent links between them. She also noticed that the Doctor was in the $$$k$$$-th universe.The tool also points out that due to restrictions originating from the space-time discontinuum, the number of universes will never exceed $$$m$$$.Obviously, the multiverse is unstable because of free will. Each time a decision is made, one of two events will randomly happen: a new parallel universe is created, or a non-existent link is broken.More specifically,    When a universe is created, it will manifest itself between any two adjacent universes or at one of the ends.   When a link is broken, it could be cut between any two adjacent universes. After separating the multiverse into two segments, the segment NOT containing the Doctor will cease to exist. Heidi wants to perform a simulation of $$$t$$$ decisions. Each time a decision is made, Heidi wants to know the length of the multiverse (i.e. the number of universes), and the position of the Doctor.",
+    "prob_desc_output_spec": "Output $$$t$$$ lines. Each line should contain $$$l$$$, the current length of the multiverse and $$$k$$$, the current position of the Doctor. It is guaranteed that the sequence of the steps will be valid, i.e. the multiverse will have length at most $$$m$$$ and when the link breaking is performed, there will be at least one universe in the multiverse.",
+    "prob_desc_input_spec": "The first line contains four integers $$$n$$$, $$$k$$$, $$$m$$$ and $$$t$$$ ($$$2 \\le k \\le n \\le m \\le 250$$$, $$$1 \\le t \\le 1000$$$). Each of the following $$$t$$$ lines is in one of the following formats:    \"$$$1$$$ $$$i$$$\" — meaning that a universe is inserted at the position $$$i$$$ ($$$1 \\le i \\le l + 1$$$), where $$$l$$$ denotes the current length of the multiverse.  \"$$$0$$$ $$$i$$$\" — meaning that the $$$i$$$-th link is broken ($$$1 \\le i \\le l - 1$$$), where $$$l$$$ denotes the current length of the multiverse. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_013.jsonl",
+    "code_uid": "e19024de397163807de7633e653d5045",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2 10 4\\n0 1\\n1 1\\n0 4\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "lengte, dokter, _, t = map(int, input().split())\n\nfor _ in range(t):\n    x, b = map(int, input().split())\n    if x == 1:\n        if b < dokter +1:\n            dokter += 1\n        lengte += 1\n    else:\n        if b < dokter:\n            dokter -= b\n            lengte -= b\n        else:\n            lengte -= (lengte - b)\n    print(lengte,dokter)\n",
+    "prob_desc_created_at": "1562483100",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

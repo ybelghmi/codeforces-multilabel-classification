@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"-1\\n-4\\n3\\n12\"]",
+    "src_uid": "3a45b6acdcf3800d1cb4ef8ac96ed4cf",
+    "prob_desc_notes": "NoteLet $$$f(i, j) = i \\cdot j - k \\cdot (a_i | a_j)$$$.In the first test case,   $$$f(1, 2) = 1 \\cdot 2 - k \\cdot (a_1 | a_2) = 2 - 3 \\cdot (1 | 1) = -1$$$.  $$$f(1, 3) = 1 \\cdot 3 - k \\cdot (a_1 | a_3) = 3 - 3 \\cdot (1 | 3) = -6$$$.  $$$f(2, 3) = 2 \\cdot 3 - k \\cdot (a_2 | a_3) = 6 - 3 \\cdot (1 | 3) = -3$$$. So the maximum is $$$f(1, 2) = -1$$$.In the fourth test case, the maximum is $$$f(3, 4) = 12$$$.",
+    "prob_desc_description": "You are given $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ and an integer $$$k$$$. Find the maximum value of $$$i \\cdot j - k \\cdot (a_i | a_j)$$$ over all pairs $$$(i, j)$$$ of integers with $$$1 \\le i &lt; j \\le n$$$. Here, $$$|$$$ is the bitwise OR operator.",
+    "prob_desc_output_spec": "For each test case, print a single integer  — the maximum possible value of $$$i \\cdot j - k \\cdot (a_i | a_j)$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10\\,000$$$)  — the number of test cases. The first line of each test case contains two integers $$$n$$$ ($$$2 \\le n \\le 10^5$$$) and $$$k$$$ ($$$1 \\le k \\le \\min(n, 100)$$$). The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\le a_i \\le n$$$). It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$3 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_087.jsonl",
+    "code_uid": "94e29cff4e92f511067e34ac4ff4ad6e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3 3\\n1 1 3\\n2 2\\n1 2\\n4 3\\n0 1 2 3\\n6 6\\n3 2 0 0 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nfrom collections import deque\r\ninput = lambda: sys.stdin.readline().rstrip()\r\nwrite = lambda: sys.stdout.write()\r\ndef driver():\r\n    T = int(input())\r\n    for _ in range(T):\r\n        x, y = deque([int(g) for g in input().split()])\r\n        maxi = -1000000000\r\n        item = deque([int(h) for h in input().split()])\r\n        for i in range(max(0, x - 150), x):\r\n            for j in range(i + 1, x):\r\n                ans = ((i + 1) * (j + 1)) - y * (item[i] | item[j])\r\n                maxi = max(maxi, ans)\r\n        sys.stdout.write(str(maxi)+\"\\n\")\r\n\r\nif __name__ == '__main__':\r\n    driver()",
+    "prob_desc_created_at": "1627569300",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

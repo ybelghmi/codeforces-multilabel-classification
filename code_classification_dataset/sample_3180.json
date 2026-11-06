@@ -1,0 +1,23 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"0\", \"1\"]",
+    "src_uid": "54c748dd983b6a0ea1af1153d08f1c01",
+    "prob_desc_notes": "NoteThe first example case is shown on the figure. The four pieces that remain standing vertically are highlighted with orange.In the second example case, all pieces fall down since the first piece topples all the other pieces.In the last example case, a single piece has not been pushed in either direction.",
+    "prob_desc_description": "Little Chris knows there's no fun in playing dominoes, he thinks it's too random and doesn't require skill. Instead, he decided to play with the dominoes and make a \"domino show\".Chris arranges n dominoes in a line, placing each piece vertically upright. In the beginning, he simultaneously pushes some of the dominoes either to the left or to the right. However, somewhere between every two dominoes pushed in the same direction there is at least one domino pushed in the opposite direction.After each second, each domino that is falling to the left pushes the adjacent domino on the left. Similarly, the dominoes falling to the right push their adjacent dominoes standing on the right. When a vertical domino has dominoes falling on it from both sides, it stays still due to the balance of the forces. The figure shows one possible example of the process.  Given the initial directions Chris has pushed the dominoes, find the number of the dominoes left standing vertically at the end of the process!",
+    "prob_desc_output_spec": "Output a single integer, the number of the dominoes that remain vertical at the end of the process.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 3000), the number of the dominoes in the line. The next line contains a character string s of length n. The i-th character of the string si is equal to    \"L\", if the i-th domino has been pushed to the left;  \"R\", if the i-th domino has been pushed to the right;  \".\", if the i-th domino has not been pushed.  It is guaranteed that if si = sj = \"L\" and i &lt; j, then there exists such k that i &lt; k &lt; j and sk = \"R\"; if si = sj = \"R\" and i &lt; j, then there exists such k that i &lt; k &lt; j and sk = \"L\".",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_045.jsonl",
+    "code_uid": "66c459b2aa2890b8f301d2e893485653",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"14\\n.L.R...LR..L..\", \"5\\nR....\", \"1\\n.\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\ns = input()\ns = list(s)\nv = 0\nwhile(True):\n    lExits = False\n    rExits = False\n    if ('L' in s):\n        l = s.index('L')\n        lExits = True\n    if ('R' in s):\n        r = s.index('R')\n        rExits = True\n    if (lExits == False and rExits == False):\n        break\n    if (lExits == True and rExits == False):\n        for i in range(l+1):\n            s[i] = 'F'\n        break\n    if (lExits == False and rExits == True):\n        for i in range(r,n):\n            s[i] = 'F'\n        break\n    if (lExits == True and rExits == True):\n        if (l < r):\n            for i in range(l+1):\n                s[i] = 'F'\n        else:\n            for i in range(r,l+1):\n                s[i] = 'F'\n            if ((l - r) % 2 == 0):\n                s[r] = '.'\nc = 0\nfor i in s:\n    if (i == '.'):\n        c += 1\nprint(c)\n    \n",
+    "prob_desc_created_at": "1395502200",
+    "tags": [],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 3\", \"6 4 1 4 2\"]",
+    "src_uid": "2c51fa9ddc72caaebb29dd65a2db030e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are n cities in Berland. Each city has its index — an integer number from 1 to n. The capital has index r1. All the roads in Berland are two-way. The road system is such that there is exactly one path from the capital to each city, i.e. the road map looks like a tree. In Berland's chronicles the road map is kept in the following way: for each city i, different from the capital, there is kept number pi — index of the last city on the way from the capital to i.Once the king of Berland Berl XXXIV decided to move the capital from city r1 to city r2. Naturally, after this the old representation of the road map in Berland's chronicles became incorrect. Please, help the king find out a new representation of the road map in the way described above.",
+    "prob_desc_output_spec": "Output n - 1 numbers — new representation of the road map in the same format.",
+    "prob_desc_input_spec": "The first line contains three space-separated integers n, r1, r2 (2 ≤ n ≤ 5·104, 1 ≤ r1 ≠ r2 ≤ n) — amount of cities in Berland, index of the old capital and index of the new one, correspondingly. The following line contains n - 1 space-separated integers — the old representation of the road map. For each city, apart from r1, there is given integer pi — index of the last city on the way from the capital to city i. All the cities are described in order of increasing indexes.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_006.jsonl",
+    "code_uid": "a731f2543ab28ad2e2d56ebc1ccc9e44",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 3\\n2 2\", \"6 2 4\\n6 1 2 4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport os\nimport string\n(n,r1,r2)=[int(x) for x in raw_input().split()]\nline=[int(x) for x in raw_input().split()]\nfa=[0]*(n+1)\nj=0\nfor i in xrange(1,n+1):\n    if (i==r1):\n        continue;\n    fa[i]=line[j]\n    j+=1\nans=fa[:]\np=r2\nwhile p!=r1:\n    ans[fa[p]]=p\n    p=fa[p]\nans[r2]=-1\nfor t in [str(x) for x in ans if x>0]:\n    print t,",
+    "prob_desc_created_at": "1286802000",
+    "tags": [
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

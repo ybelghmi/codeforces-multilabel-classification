@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"11\", \"6\", \"102\"]",
+    "src_uid": "e7e0f9069166fe992abe6f0e19caa6a1",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Artem has an array of n positive integers. Artem decided to play with it. The game consists of n moves. Each move goes like this. Artem chooses some element of the array and removes it. For that, he gets min(a, b) points, where a and b are numbers that were adjacent with the removed number. If the number doesn't have an adjacent number to the left or right, Artem doesn't get any points. After the element is removed, the two parts of the array glue together resulting in the new array that Artem continues playing with. Borya wondered what maximum total number of points Artem can get as he plays this game.",
+    "prob_desc_output_spec": "In a single line print a single integer — the maximum number of points Artem can get.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 5·105) — the number of elements in the array. The next line contains n integers ai (1 ≤ ai ≤ 106) — the values of the array elements.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_009.jsonl",
+    "code_uid": "333adf2388d5949b1fdf6540e78ba4fe",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3 1 5 2 6\", \"5\\n1 2 3 4 5\", \"5\\n1 100 101 100 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\ns = [int(x) for x in stdin.readlines()[1].split()]\nn = len(s)\n\nres = 0\nt = []\n\nfor i in xrange(n):\n    t.append(s[i])\n    while len(t) > 2 and (t[-2] <= min(t[-1], t[-3])):\n        res += min(t[-1], t[-3])\n        t[-2] = t[-1]\n        t.pop()\n\nfor i in xrange(1, len(t) - 1):\n    res += min(t[i - 1], t[i + 1])\n\nprint res",
+    "prob_desc_created_at": "1403191800",
+    "tags": [
+        "data structures",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

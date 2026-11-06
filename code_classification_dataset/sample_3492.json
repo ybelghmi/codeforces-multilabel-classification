@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n1 3\\nYES\\n1\"]",
+    "src_uid": "41dce27e55f7c83ad5cc5862e5165cb4",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In 2N - 1 boxes there are apples and oranges. Your task is to choose N boxes so, that they will contain not less than half of all the apples and not less than half of all the oranges.",
+    "prob_desc_output_spec": "For each test output two lines. In the first line output YES, if it's possible to choose N boxes, or NO otherwise. If the answer is positive output in the second line N numbers — indexes of the chosen boxes. Boxes are numbered from 1 in the input order. Otherwise leave the second line empty. Separate the numbers with one space.",
+    "prob_desc_input_spec": "The first input line contains one number T — amount of tests. The description of each test starts with a natural number N — amount of boxes. Each of the following 2N - 1 lines contains numbers ai and oi — amount of apples and oranges in the i-th box (0 ≤ ai, oi ≤ 109). The sum of N in all the tests in the input doesn't exceed 105. All the input numbers are integer.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_063.jsonl",
+    "code_uid": "d5b27753edc2f4287dfb4eb0deaa5cb1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2\\n10 15\\n5 7\\n20 18\\n1\\n0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\n\n\nwhile t:\n\tt = t-1\n\tboxes = []\n\tn = int(input())\n\tnum_box = (2*n)-1\n\tfor i in range(num_box):\n\t\tpair = input().split()\n\t\tapples = int(pair[0])\n\t\toranges = int(pair[1])\n\t\tboxes.append((apples, oranges, i+1))\n\n\tprint(\"YES\")\n\tboxes.sort(reverse=True)\n\n\torange_boxes = list(zip(*boxes))[1]\n\ttotal_oranges = sum(orange_boxes)\n\n\thalf_sum1 = sum(orange_boxes[::2])\n\thalf_sum2 = sum(orange_boxes[1::2])\n\n\tindex_list = list(list(zip(*boxes))[2])\n\tindex_list1 = index_list[::2]\n\tindex_list2 = index_list[1::2]\n\tindex_list2.append(index_list1[0])\n\n\tif half_sum1 >= half_sum2:\n\t\tprint(*index_list1, sep=' ')\n\n\telse: \n\t\tprint(*index_list2, sep=' ')",
+    "prob_desc_created_at": "1278687600",
+    "tags": [
+        "constructive algorithms",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

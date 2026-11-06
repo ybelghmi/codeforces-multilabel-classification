@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"2\", \"3\", \"1\"]",
+    "src_uid": "df60f2bfe4456061ea823a8fdcd79f79",
+    "prob_desc_notes": "NoteIn the first test, this is one of the optimal sequences of operations: $$$4$$$ $$$3$$$ $$$2$$$ $$$2$$$ $$$3$$$ $$$\\rightarrow$$$ $$$4$$$ $$$3$$$ $$$3$$$ $$$3$$$ $$$\\rightarrow$$$ $$$4$$$ $$$4$$$ $$$3$$$ $$$\\rightarrow$$$ $$$5$$$ $$$3$$$.In the second test, this is one of the optimal sequences of operations: $$$3$$$ $$$3$$$ $$$4$$$ $$$4$$$ $$$4$$$ $$$3$$$ $$$3$$$ $$$\\rightarrow$$$ $$$4$$$ $$$4$$$ $$$4$$$ $$$4$$$ $$$3$$$ $$$3$$$ $$$\\rightarrow$$$ $$$4$$$ $$$4$$$ $$$4$$$ $$$4$$$ $$$4$$$ $$$\\rightarrow$$$ $$$5$$$ $$$4$$$ $$$4$$$ $$$4$$$ $$$\\rightarrow$$$ $$$5$$$ $$$5$$$ $$$4$$$ $$$\\rightarrow$$$ $$$6$$$ $$$4$$$.In the third and fourth tests, you can't perform the operation at all.",
+    "prob_desc_description": "You are given an array $$$a_1, a_2, \\dots, a_n$$$. You can perform the following operation any number of times:  Choose a pair of two neighboring equal elements $$$a_i = a_{i + 1}$$$ (if there is at least one such pair).  Replace them by one element with value $$$a_i + 1$$$. After each such operation, the length of the array will decrease by one (and elements are renumerated accordingly). What is the minimum possible length of the array $$$a$$$ you can get?",
+    "prob_desc_output_spec": "Print the only integer — the minimum possible length you can get after performing the operation described above any number of times.",
+    "prob_desc_input_spec": "The first line contains the single integer $$$n$$$ ($$$1 \\le n \\le 500$$$) — the initial length of the array $$$a$$$. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 1000$$$) — the initial array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_018.jsonl",
+    "code_uid": "637abbc4b07398ddf6dc36c42f325d33",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n4 3 2 2 3\", \"7\\n3 3 4 4 4 3 3\", \"3\\n1 3 5\", \"1\\n1000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, gettrace\n\nif not gettrace():\n    def input():\n        return next(stdin)[:-1]\n\n\n# def input():\n#    return stdin.buffer.readline()\n\nINF = 10000\n\n\ndef main():\n    n = int(input())\n    aa = [int(a) for a in input().split()]\n\n    dp = [[0] * (n+1) for _ in range(n)]\n\n    def calc_dp(i, j):\n        if i + 1 == j:\n            dp[i][j] = aa[i]\n        if dp[i][j] != 0:\n            return dp[i][j]\n        dp[i][j] = -1\n        for k in range(i+1, j):\n            lf = calc_dp(i, k)\n            rg = calc_dp(k, j)\n            if lf > 0 and lf == rg:\n                dp[i][j] = lf + 1\n                break\n        return dp[i][j]\n\n    dp2 = list(range(0,n+1))\n    for i in range(n):\n        for j in range(i+1, n+1):\n            if calc_dp(i, j) > 0:\n                dp2[j] = min(dp2[j], dp2[i] + 1)\n    print(dp2[n])\n\n\n\n\n\nif __name__ == \"__main__\":\n    main()",
+    "prob_desc_created_at": "1583764500",
+    "tags": [
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

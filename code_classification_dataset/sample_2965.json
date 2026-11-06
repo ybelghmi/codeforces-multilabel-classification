@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"5.5\\n2 1 2\\n1 3\", \"8.0\\n1 1\\n2 4 2\\n1 3\"]",
+    "src_uid": "06c7834aa4d06d6fcebfa410054f1b8c",
+    "prob_desc_notes": "NoteIn the first sample case the first cart should contain the 1st and 2nd items, and the second cart should contain the 3rd item. This way each cart has a stool and each cart has a 50% discount for the cheapest item. The total price of all items will be: 2·0.5 + (3 + 3·0.5) = 1 + 4.5 = 5.5.",
+    "prob_desc_description": "One day Polycarpus stopped by a supermarket on his way home. It turns out that the supermarket is having a special offer for stools. The offer is as follows: if a customer's shopping cart contains at least one stool, the customer gets a 50% discount on the cheapest item in the cart (that is, it becomes two times cheaper). If there are several items with the same minimum price, the discount is available for only one of them!Polycarpus has k carts, and he wants to buy up all stools and pencils from the supermarket. Help him distribute the stools and the pencils among the shopping carts, so that the items' total price (including the discounts) is the least possible.Polycarpus must use all k carts to purchase the items, no shopping cart can remain empty. Each shopping cart can contain an arbitrary number of stools and/or pencils.",
+    "prob_desc_output_spec": "In the first line print a single real number with exactly one  decimal place — the minimum total price of the items, including the discounts. In the following k lines print the descriptions of the items in the carts. In the i-th line print the description of the i-th cart as \"t b1 b2 ... bt\" (without the quotes), where t is the number of items in the i-th cart, and the sequence b1, b2, ..., bt (1 ≤ bj ≤ n) gives the indices of items to put in this cart in the optimal distribution. All indices of items in all carts should be pairwise different, each item must belong to exactly one cart. You can print the items in carts and the carts themselves in any order. The items are numbered from 1 to n in the order in which they are specified in the input. If there are multiple optimal distributions, you are allowed to print any of them.",
+    "prob_desc_input_spec": "The first input line contains two integers n and k (1 ≤ k ≤ n ≤ 103) — the number of items in the supermarket and the number of carts, correspondingly. Next n lines describe the items as \"ci ti\" (without the quotes), where ci (1 ≤ ci ≤ 109) is an integer denoting the price of the i-th item, ti (1 ≤ ti ≤ 2) is an integer representing the type of item i (1 for a stool and 2 for a pencil). The numbers in the lines are separated by single spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_036.jsonl",
+    "code_uid": "d950ddfa81e46840f57a99cf319fff1b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n2 1\\n3 2\\n3 1\", \"4 3\\n4 1\\n1 2\\n2 2\\n3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, raw_input().split())\na, b = [], []\nfor i in range(1, n + 1):\n    c, t = map(int, raw_input().split())\n    if t > 1: b.append((c, i))\n    else: a.append((c, i))\nif k > len(a):\n    k -= len(a) + 1\n    s = sum(c for c, i in a)\n    print str(s / 2 + sum(c for c, i in b)) + ('.5' if s % 2 else '.0')\n    print '\\n'.join('1 ' + str(i) for c, i in a) \n    print '\\n'.join('1 ' + str(i) for c, i in b[: k])\n    print len(b) - k, ' '.join(str(i) for c, i in b[k: ]) \nelse:\n    k -= 1\n    a.sort(reverse = True)\n    s = sum(c for c, i in a[: k]) - (min(min(c for c, i in b), min(c for c, i in a[k: ])) if b else min(c for c, i in a[k: ]))\n    print str(s / 2 + sum(c for c, i in a[k: ]) + sum(c for c, i in b)) + ('.5' if s % 2 else '.0')\n    print '\\n'.join('1 ' + str(i) for c, i in a[: k]) \n    print n - k, ' '.join(str(i) for c, i in a[k:]), ' '.join(str(i) for c, i in b)",
+    "prob_desc_created_at": "1331478300",
+    "tags": [
+        "constructive algorithms",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

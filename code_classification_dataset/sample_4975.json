@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 3 3 0 1 2\\n\\n1 0 1\\n\\n1 0 2\\n\\n2 2 1 1\\n\\n3\\n1111\\n1111\\n1111\\n0001\"]",
+    "src_uid": "beae75b649ca6ed26180954faf73e5a3",
+    "prob_desc_notes": "NoteIn the given example:The first query asks whether there's a passage from room $$$3$$$ to any of the other rooms.The second query asks about the direction of the passage between rooms $$$0$$$ and $$$1$$$.After a couple other queries, we concluded that you can go from any room to any other room except if you start at room $$$3$$$, and you can't get out of this room, so we printed the matrix:1111111111110001The interactor answered with $$$1$$$, telling us the answer is correct.",
+    "prob_desc_description": "This is an interactive problem.Baby Ehab loves crawling around his apartment. It has $$$n$$$ rooms numbered from $$$0$$$ to $$$n-1$$$. For every pair of rooms, $$$a$$$ and $$$b$$$, there's either a direct passage from room $$$a$$$ to room $$$b$$$, or from room $$$b$$$ to room $$$a$$$, but never both.Baby Ehab wants to go play with Baby Badawy. He wants to know if he could get to him. However, he doesn't know anything about his apartment except the number of rooms. He can ask the baby sitter two types of questions:   is the passage between room $$$a$$$ and room $$$b$$$ directed from $$$a$$$ to $$$b$$$ or the other way around?  does room $$$x$$$ have a passage towards any of the rooms $$$s_1$$$, $$$s_2$$$, ..., $$$s_k$$$? He can ask at most $$$9n$$$ queries of the first type and at most $$$2n$$$ queries of the second type.After asking some questions, he wants to know for every pair of rooms $$$a$$$ and $$$b$$$ whether there's a path from $$$a$$$ to $$$b$$$ or not. A path from $$$a$$$ to $$$b$$$ is a sequence of passages that starts from room $$$a$$$ and ends at room $$$b$$$.",
+    "prob_desc_output_spec": "To print the answer for a test case, print a line containing \"3\", followed by $$$n$$$ lines, each containing a binary string of length $$$n$$$. The $$$j$$$-th character of the $$$i$$$-th string should be $$$1$$$ if there's a path from room $$$i$$$ to room $$$j$$$, and $$$0$$$ if there isn't. The $$$i$$$-th character of the $$$i$$$-th string should be $$$1$$$ for each valid $$$i$$$. After printing the answer, we will respond with a single integer. If it's $$$1$$$, you printed a correct answer and should keep solving the test cases (or exit if it is the last one). If it's $$$-1$$$, you printed a wrong answer and should terminate to get Wrong answer verdict. Otherwise, you can get an arbitrary verdict because your solution will continue to read from a closed stream.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 30$$$) — the number of test cases you need to solve. Then each test case starts with an integer $$$n$$$ ($$$4 \\le n \\le 100$$$) — the number of rooms. The sum of $$$n$$$ across the test cases doesn't exceed $$$500$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_110.jsonl",
+    "code_uid": "371b7ee024837c275765f903b8431928",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n4\\n\\n0\\n\\n0\\n\\n1\\n\\n1\\n\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def ask1(i, j):print('1', i, j);return int(input()) != 0\r\ndef ask2(i, a):print('2', i, len(a), *a);return int(input()) != 0\r\ndef answer(a):\r\n    print('3')\r\n    for x in a:        print(*x, sep = '')\r\n    assert(int(input()) != -1)\r\nfor _ in range(int(input())):\r\n    n = int(input());ans = [[0] * n for i in range(n)];path = []\r\n    for i in range(n):\r\n        l, r = -1, i\r\n        while r - l > 1:\r\n            m = (l + r) >> 1\r\n            if ask1(path[m], i):l = m\r\n            else:r = m\r\n        path = path[:r] + [i] + path[r:]\r\n    for i in range(n):\r\n        for j in range(i, n):ans[path[i]][path[j]] = 1\r\n    l, r = n - 1, n - 1\r\n    for i in range(n - 1, -1, -1):\r\n        while l > 0 and ask2(path[i], path[:l]):l -= 1\r\n        if i == l:\r\n            for x in range(l, r + 1):\r\n                for y in range(x, r + 1):ans[path[y]][path[x]] = 1\r\n            l, r = i - 1, i - 1\r\n    answer(ans)",
+    "prob_desc_created_at": "1618839300",
+    "tags": [
+        "binary search",
+        "graphs",
+        "interactive",
+        "sortings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

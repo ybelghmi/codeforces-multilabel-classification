@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n10\"]",
+    "src_uid": "5a2d51da609b3c22bb8d801ebfb63822",
+    "prob_desc_notes": "NoteIn the first example, you can take the following sets of three problems:  problems $$$1$$$, $$$2$$$, $$$4$$$;  problems $$$1$$$, $$$3$$$, $$$4$$$;  problems $$$2$$$, $$$3$$$, $$$4$$$. Thus, the number of ways is equal to three.",
+    "prob_desc_description": "Monocarp is the coach of the Berland State University programming teams. He decided to compose a problemset for a training session for his teams.Monocarp has $$$n$$$ problems that none of his students have seen yet. The $$$i$$$-th problem has a topic $$$a_i$$$ (an integer from $$$1$$$ to $$$n$$$) and a difficulty $$$b_i$$$ (an integer from $$$1$$$ to $$$n$$$). All problems are different, that is, there are no two tasks that have the same topic and difficulty at the same time.Monocarp decided to select exactly $$$3$$$ problems from $$$n$$$ problems for the problemset. The problems should satisfy at least one of two conditions (possibly, both):  the topics of all three selected problems are different;  the difficulties of all three selected problems are different. Your task is to determine the number of ways to select three problems for the problemset.",
+    "prob_desc_output_spec": "Print the number of ways to select three training problems that meet either of the requirements described in the statement.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 50000$$$) — the number of testcases. The first line of each testcase contains an integer $$$n$$$ ($$$3 \\le n \\le 2 \\cdot 10^5$$$) — the number of problems that Monocarp have. In the $$$i$$$-th of the following $$$n$$$ lines, there are two integers $$$a_i$$$ and $$$b_i$$$ ($$$1 \\le a_i, b_i \\le n$$$) — the topic and the difficulty of the $$$i$$$-th problem. It is guaranteed that there are no two problems that have the same topic and difficulty at the same time. The sum of $$$n$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_090.jsonl",
+    "code_uid": "f421d8bf92d891c61167ed09506429f0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4\\n2 4\\n3 4\\n2 1\\n1 3\\n5\\n1 5\\n2 4\\n3 3\\n4 2\\n5 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\r\nimport sys\r\nfrom io import BytesIO, IOBase\r\nfrom collections import Counter, defaultdict\r\nfrom sys import stdin, stdout\r\nimport io\r\nimport math\r\nfrom math import *\r\nimport heapq\r\nimport bisect\r\nimport collections\r\ndef ceil(a, b):\r\n    return (a + b - 1) // b\r\ninf = float('inf')\r\n\r\ndef get():\r\n    return stdin.readline().rstrip()\r\nmod = 10 ** 5 + 7\r\n# for _ in range(int(get())):\r\n# n=int(get())\r\n# l=list(map(int,get().split()))\r\n# = map(int,get().split())\r\n#######################################################\r\n# combinations\r\ndef nCr(n, r):\r\n    p = 1\r\n    k = 1\r\n    if (n - r < r):\r\n        r = n - r\r\n\r\n    if (r != 0):\r\n        while (r):\r\n            p *= n\r\n            k *= r\r\n            m = gcd(p, k)\r\n            p //= m\r\n            k //= m\r\n            n -= 1\r\n            r -= 1\r\n    else:\r\n        p = 1\r\n    return p\r\nfor _ in range(int(get())):\r\n    n=int(get())\r\n    l1=defaultdict(int)\r\n    l2=defaultdict(int)\r\n    x=0\r\n    y=0\r\n    l3=[]\r\n    for i in range(n):\r\n        a,b = map(int,get().split())\r\n        l3.append([a,b])\r\n        l1[a]+=1\r\n        l2[b]+=1\r\n    ans=int(nCr(n,3))\r\n    for i in range(len(l3)):\r\n        ans-=(l1[l3[i][0]]-1)*(l2[l3[i][1]]-1)\r\n    print(ans)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "prob_desc_created_at": "1633856700",
+    "tags": [
+        "combinatorics",
+        "data structures",
+        "geometry",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

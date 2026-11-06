@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\nA\\n0\\n\\n3\\nace\\n3\\ncoc\"]",
+    "src_uid": "833e5aaee828fa2db3882e46bea1a0df",
+    "prob_desc_notes": "NoteIn the first test case, the longest common subsequence is \"A\". There are no common subsequences of length $$$2$$$.In the second test case, sets of characters of strings don't intersect, so any non-empty string can't be a common subsequence.",
+    "prob_desc_description": "You are given $$$n$$$ strings $$$s_1, s_2, \\ldots, s_n$$$, each consisting of lowercase and uppercase English letters. In addition, it's guaranteed that each character occurs in each string at most twice. Find the longest common subsequence of these strings.A string $$$t$$$ is a subsequence of a string $$$s$$$ if $$$t$$$ can be obtained from $$$s$$$ by deletion of several (possibly, zero or all) symbols.",
+    "prob_desc_output_spec": "For each test case print the answer in two lines: In the first line print the length of the longest common subsequence.  In the second line print the longest common subsequence. If there are multiple such subsequences, print any of them.",
+    "prob_desc_input_spec": "Each test consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 5$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$2 \\leq n \\leq 10$$$) — the number of strings. Each of the next $$$n$$$ lines contains the corresponding string $$$s_i$$$. Each $$$s_i$$$ is non-empty, consists only of uppercase and lowercase English letters, and no character appears more than twice in each string.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_091.jsonl",
+    "code_uid": "9c4f04d98c6512932e3bb99353aba792",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2\\nABC\\nCBA\\n2\\nbacab\\ndefed\\n3\\nabcde\\naBcDe\\nace\\n2\\ncodeforces\\ntechnocup\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "''' F. Strange LCS\nhttps://codeforces.com/contest/1589/problem/F\n'''\n\nimport io, os, sys\ninput = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline  # decode().strip() if str\noutput = sys.stdout.write\n\ndef atoi(c):\n\tif 'a' <= c <= 'z': return ord(c) - ord('a')\n\treturn ord(c) - ord('A') + 26\n\ndef itoa(i):\n\tif i >= 26: return chr(i + ord('A') - 26)\n\treturn chr(i + ord('a'))\n\n\n# see also CF 463D\n# https://codeforces.com/contest/1588/submission/135825460\n\n# find longest path in DAG where\n# * node (c, mask) = V\n#   * char c appears in all strs\n#   * mask[i] = c appears in strs[i] as 1st/2nd occurrence\n#   * V = Nd vector, V[i] = index (c, mask) in strs[i]\n# * edge (c1, mask1)=V1 -> (c2, mask2)=V2\n#   * if V[i] < V2[i], i.e. (c1, mask) appears before (c2, mask) in all strs\n\ndef solve(N, strs):\n\t# cnt[c] = num strs containing char c\n\tcnt = [0]*52\n\n\t# pos[c][i][b] = idx of b-th occurrence of char c in strs[i]\n\tpos = [[[-1]*2 for _ in range(N)] for _ in range(52)]\n\n\tfor i, s in enumerate(strs):\n\t\tfor j, c in enumerate(s):\n\t\t\tc = atoi(c)\n\t\t\tif pos[c][i][0] == -1:\n\t\t\t\tpos[c][i][0] = j\n\t\t\t\tcnt[c] += 1\n\t\t\telse:\n\t\t\t\tpos[c][i][1] = j\n\n\t# longest path from node (c, mask)\n\tdef dfs(c, mask, memo):\n\t\tif (c, mask) in memo: return memo[c, mask]\n\t\tres = ''\n\t\tfor nc in range(52):\n\t\t\tif cnt[nc] < N: continue\n\t\t\tnmask = 0     # min valid pos of nc\n\t\t\tvalid = True  # whether can move to (nc, nmask)\n\t\t\tfor i in range(N):\n\t\t\t\t# cur pos of c < 1st pos of nc -> use 1st pos\n\t\t\t\tif pos[c][i][(mask>>i) & 1] < pos[nc][i][0]: continue\n\n\t\t\t\t# cur pos of c < 2nd pos of nc -> use 2nd pos\n\t\t\t\tif pos[c][i][(mask>>i) & 1] < pos[nc][i][1]:\n\t\t\t\t\tnmask |= 1 << i\n\t\t\t\t\tcontinue\n\n\t\t\t\t# cur pos of c > 2nd pos of nc -> invalid\n\t\t\t\tvalid = False\n\t\t\t\tbreak\n\n\t\t\tif valid: \n\t\t\t\tcand = dfs(nc, nmask, memo)\n\t\t\t\tif len(res) < len(cand): res = cand\n\t\t\n\t\tmemo[c, mask] = itoa(c) + res\n\t\treturn memo[c, mask]\n\n\n\t# try starting path from each char, 1st occurrence (mask=0)\n\tres = ''\n\tmemo = {}\n\tfor c in range(52):\n\t\tif cnt[c] < N: continue\n\t\tcand = dfs(c, 0, memo)\n\t\tif len(res) < len(cand): res = cand\n\n\treturn res\n\n\ndef main():\n\tT = int(input())\n\tfor _ in range(T):\n\t\tN = int(input())\n\t\tstrs = [input().decode().strip() for _ in range(N)]\n\t\tout = solve(N, strs)\n\t\tprint(len(out))\n\t\tprint(out)\n\n\nif __name__ == '__main__':\n\tmain()\n\n",
+    "prob_desc_created_at": "1636869900",
+    "tags": [
+        "bitmasks",
+        "dp",
+        "graphs",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

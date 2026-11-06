@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nNO\"]",
+    "src_uid": "aae82b2687786818996e4e94c5505d8e",
+    "prob_desc_notes": "NoteIn the first example we have the list $$$\\{4, 2, 2, 7\\}$$$, and we have the target $$$k = 5$$$. One way to achieve it is the following: first we choose the third element, obtaining the list $$$\\{2, 0, 5\\}$$$. Next we choose the first element, obtaining the list $$$\\{-2, 3\\}$$$. Finally, we choose the first element, obtaining the list $$$\\{5\\}$$$. ",
+    "prob_desc_description": "You are given a list of $$$n$$$ integers. You can perform the following operation: you choose an element $$$x$$$ from the list, erase $$$x$$$ from the list, and subtract the value of $$$x$$$ from all the remaining elements. Thus, in one operation, the length of the list is decreased by exactly $$$1$$$.Given an integer $$$k$$$ ($$$k&gt;0$$$), find if there is some sequence of $$$n-1$$$ operations such that, after applying the operations, the only remaining element of the list is equal to $$$k$$$.",
+    "prob_desc_output_spec": "For each test case, print YES if you can achieve $$$k$$$ with a sequence of $$$n-1$$$ operations. Otherwise, print NO. You may print each letter in any case (for example, \"YES\", \"Yes\", \"yes\", \"yEs\" will all be recognized as a positive answer).",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$2 \\leq n \\leq 2\\cdot 10^5$$$, $$$1 \\leq k \\leq 10^9$$$), the number of integers in the list, and the target value, respectively. The second line of each test case contains the $$$n$$$ integers of the list $$$a_1, a_2, \\ldots, a_n$$$ ($$$-10^9 \\leq a_i \\leq 10^9$$$). It is guaranteed that the sum of $$$n$$$ over all test cases is not greater that $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_091.jsonl",
+    "code_uid": "7917c677c2fe3ecc1852694601d789ce",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n4 5\\n\\n4 2 2 7\\n\\n5 4\\n\\n1 9 1 3 4\\n\\n2 17\\n\\n17 0\\n\\n2 17\\n\\n18 18\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def merge(a,b):\r\n    A=len(a)\r\n    B=len(b)\r\n    m=[]\r\n    i,j=0,0\r\n    while i<A and j<B:\r\n        ai,bj=a[i],b[j]\r\n        if ai<=bj:\r\n            m.append(ai)\r\n            i+=1\r\n        else:\r\n            m.append(b[j])\r\n            j+=1\r\n    m=m+a[i:A]+b[j:B]\r\n    return m\r\n\r\ndef mergesort(lst):\r\n    llst=len(lst)\r\n    if llst<=1:\r\n        return lst\r\n    return merge(mergesort(lst[0:llst//2]),mergesort(lst[llst//2:llst]))\r\n\r\n\r\n\"\"\"def check(i,j,k,lst):\r\n    if i>=j or j<=0 or i>=len(lst)-1:\r\n        return False\r\n    ab=lst[j]-lst[i]\r\n    if ab==k:\r\n        return True\r\n    elif ab < k:\r\n        return False\r\n    else:\r\n        return check(i+1,j,k,lst) or check(i,j-1,k,lst)\"\"\"\r\n\r\n\r\nt= int(input())\r\na=[]\r\nfor f in range (t):\r\n    n,k=tuple(map(int, input().split()))\r\n    l=mergesort(list(map(int, input().split())))\r\n    \"\"\"if(check(0,n-1,k,mergesort(l))):\r\n        a.append('YES')\r\n    else:\r\n        a.append('NO')\"\"\"\r\n    i,j=0,1\r\n    while i<n and j<n:\r\n        if l[j]-l[i]==k:\r\n            a.append('YES')\r\n            break\r\n        elif l[j]-l[i]<k:\r\n            j+=1\r\n        else:\r\n            i+=1\r\n    if(len(a)==f):\r\n        a.append('NO')\r\n    \r\n\r\n\r\n\"\"\"def permutations(x):\r\n    r,perm=[],[[]]\r\n    for m in range (len(x)):\r\n        for p in range (len(perm)):\r\n            for q in range(len(perm[p])+1):\r\n                z=perm[p].copy()\r\n                z.insert(q,x[m])\r\n                r.append(z)\r\n        perm = r\r\n        r = []\r\n    return perm           \r\n\r\n\r\n\r\n\r\n\r\ndef summer(lst):\r\n    ln=len(lst)\r\n    s=lst[0]\r\n    \r\n    return s\"\"\"\r\n\r\n\"\"\"t= int(input())\r\na=[]\r\nfor i in range (t):\r\n    n,k=tuple(map(int, input().split()))\r\n    l=list(map(int, input().split()))\r\n    s=sum(l)\r\n    if k > max(l)-min(l):\r\n        a.append('NO')\r\n        continue\r\n    flag=False\r\n    for j in range (n):\r\n        for m in range(j+1):\r\n            if k==abs(l[j]-l[m]):\r\n                a.append('YES')\r\n                flag=True\r\n                break\r\n        if flag:\r\n            break\r\n    if not flag:\r\n        a.append('NO')\"\"\"\r\n\r\n\r\nfor i in range (t):\r\n    print(a[i])",
+    "prob_desc_created_at": "1648132500",
+    "tags": [
+        "data structures",
+        "greedy",
+        "math",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

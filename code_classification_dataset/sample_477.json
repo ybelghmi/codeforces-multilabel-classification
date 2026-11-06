@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n0\\n4\"]",
+    "src_uid": "29e84addbc88186bce40d68cf124f5da",
+    "prob_desc_notes": "NoteFirst test case considered in the statement.In the second test case integers $$$a$$$ and $$$b$$$ are already equal, so you don't need to perform any operations.In the third test case you have to apply the first, the second, the third and the fourth operation to $$$b$$$ ($$$b$$$ turns into $$$20 + 1 + 2 + 3 + 4 = 30$$$).",
+    "prob_desc_description": "You are given two integers $$$a$$$ and $$$b$$$. You can perform a sequence of operations: during the first operation you choose one of these numbers and increase it by $$$1$$$; during the second operation you choose one of these numbers and increase it by $$$2$$$, and so on. You choose the number of these operations yourself.For example, if $$$a = 1$$$ and $$$b = 3$$$, you can perform the following sequence of three operations:   add $$$1$$$ to $$$a$$$, then $$$a = 2$$$ and $$$b = 3$$$;  add $$$2$$$ to $$$b$$$, then $$$a = 2$$$ and $$$b = 5$$$;  add $$$3$$$ to $$$a$$$, then $$$a = 5$$$ and $$$b = 5$$$. Calculate the minimum number of operations required to make $$$a$$$ and $$$b$$$ equal. ",
+    "prob_desc_output_spec": "For each test case print one integer — the minimum numbers of operations required to make $$$a$$$ and $$$b$$$ equal. ",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. The only line of each test case contains two integers $$$a$$$ and $$$b$$$ ($$$1 \\le a, b \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_002.jsonl",
+    "code_uid": "42ace6bb6ebe9fcab0d0631a21b2b0e3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 3\\n11 11\\n30 20\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport collections\nfrom collections import Counter\nimport itertools\nimport math\nimport timeit\n\n#input = sys.stdin.readline\n\n#########################\n# imgur.com/Pkt7iIf.png #\n#########################\n\ndef sieve(n):\n    if n < 2: return list()\n    prime = [True for _ in range(n + 1)]\n    p = 3\n    while p * p <= n:\n        if prime[p]:\n            for i in range(p * 2, n + 1, p):\n                prime[i] = False\n        p += 2\n    r = [2]\n    for p in range(3, n + 1, 2):\n        if prime[p]:\n            r.append(p)\n    return r\n\ndef divs(n, start=1):\n    divisors = []\n    for i in range(start, int(math.sqrt(n) + 1)):\n        if n % i == 0:\n            if n / i == i:\n                divisors.append(i)\n            else:\n                divisors.extend([i, n // i])\n    return divisors\n\ndef divn(n, primes):\n    divs_number = 1\n    for i in primes:\n        if n == 1:\n            return divs_number\n        t = 1\n        while n % i == 0:\n            t += 1\n            n //= i\n        divs_number *= t\n\ndef flin(d, x, default = -1):\n    left = right = -1\n    for i in range(len(d)):\n        if d[i] == x:\n            if left == -1: left = i\n            right = i\n    if left == -1:\n        return (default, default)\n    else:\n        return (left, right)\n\ndef ceil(n, k): return int(n // k + (n % k != 0))\ndef ii(): return int(input())\ndef mi(): return map(int, input().split())\ndef li(): return list(map(int, input().split()))\ndef lcm(a, b): return abs(a * b) // math.gcd(a, b)\ndef prr(a, sep=' '): print(sep.join(map(str, a)))\ndef dd(): return collections.defaultdict(int)\ndef ddl(): return collections.defaultdict(list)\n\n\nt = ii()\nfor _ in range(t):\n    a, b = mi()\n    m = abs(a - b)\n    x = ceil(math.sqrt(8*m + 1) - 1, 2)\n    r = x * (x + 1) // 2\n    if r == m or (r - m) % 2 == 0:\n        print(x)\n    elif (r - m) % 2 and x % 2 == 0:\n        print(x + 1)\n    else:\n        print(x + 2)\n",
+    "prob_desc_created_at": "1576766100",
+    "tags": [
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

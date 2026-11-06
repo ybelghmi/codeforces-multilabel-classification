@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\"]",
+    "src_uid": "d8c2cb03579142f45d46f1fe22a9b8c0",
+    "prob_desc_notes": "NoteThere are $$$6$$$ big enough nested subsets with minimum possible extra space in the example:   $$$\\{1, 5\\}$$$: we can't add any other matryoshka and keep it nested; it's extra space is $$$1$$$;  $$$\\{1, 6\\}$$$;  $$$\\{2, 4, 5\\}$$$;  $$$\\{2, 4, 6\\}$$$;  $$$\\{3, 4, 5\\}$$$;  $$$\\{3, 4, 6\\}$$$. There are no more \"good\" subsets because, for example, subset $$$\\{6, 7\\}$$$ is not big enough (we can add the $$$4$$$-th matryoshka to it) or subset $$$\\{4, 6, 7\\}$$$ has extra space equal to $$$2$$$.",
+    "prob_desc_description": "There are famous Russian nesting dolls named matryoshkas sold in one of the souvenir stores nearby, and you'd like to buy several of them. The store has $$$n$$$ different matryoshkas. Any matryoshka is a figure of volume $$$out_i$$$ with an empty space inside of volume $$$in_i$$$ (of course, $$$out_i &gt; in_i$$$).You don't have much free space inside your bag, but, fortunately, you know that matryoshkas can be nested one inside another. Formally, let's call a set of matryoshkas nested if we can rearrange dolls in such a way, that the first doll can be nested inside the second one, the second doll — inside the third one and so on. Matryoshka $$$i$$$ can be nested inside matryoshka $$$j$$$ if $$$out_i \\le in_j$$$. So only the last doll will take space inside your bag.Let's call extra space of a nested set of dolls as a total volume of empty space inside this structure. Obviously, it's equal to $$$in_{i_1} + (in_{i_2} - out_{i_1}) + (in_{i_3} - out_{i_2}) + \\dots + (in_{i_k} - out_{i_{k-1}})$$$, where $$$i_1$$$, $$$i_2$$$, ..., $$$i_k$$$ are the indices of the chosen dolls in the order they are nested in each other.Finally, let's call a nested subset of the given sequence as big enough if there isn't any doll from the sequence that can be added to the nested subset without breaking its nested property.You want to buy many matryoshkas, so you should choose a big enough nested subset to buy it. But you will be disappointed if too much space in your bag will be wasted, so you want to choose a big enough subset so that its extra space is minimum possible among all big enough subsets. Now you wonder, how many different nested subsets meet these conditions (they are big enough, and there is no big enough subset such that its extra space is less than the extra space of the chosen subset). Two subsets are considered different if there exists at least one index $$$i$$$ such that one of the subsets contains the $$$i$$$-th doll, and another subset doesn't.Since the answer can be large, print it modulo $$$10^9 + 7$$$.",
+    "prob_desc_output_spec": "Print one integer — the number of big enough nested subsets such that extra space of each of these subsets is minimum possible. Since the answer can be large, print it modulo $$$10^9 + 7$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of matryoshkas. The next $$$n$$$ lines contain a description of each doll: two integers $$$out_i$$$ and $$$in_i$$$ ($$$1 \\le in_i &lt; out_i \\le 10^9$$$) — the outer and inners volumes of the $$$i$$$-th matryoshka.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_024.jsonl",
+    "code_uid": "9d9a57b0d3c3e3fd16312e3653a2c92a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n4 1\\n4 2\\n4 2\\n2 1\\n5 4\\n6 4\\n3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import bisect_left as lb\n\nMOD = 10 ** 9 + 7\n\nn = int(input())\na = [tuple(map(int, input().split())) for _ in range(n)]\na = sorted((in_, out) for out, in_ in a)\n\ndp_suf = [None] * n\n\nfor i in range(n - 1, -1, -1):\n    in_, out = a[i]\n    j = lb(a, (out, 0))\n    if j == n:\n        empty, count = in_, 1\n    else:\n        empty, count = dp_suf[j]\n        empty -= out - in_\n    if i < n - 1:\n        if empty > dp_suf[i + 1][0]:\n            empty, count = dp_suf[i + 1]\n        elif empty == dp_suf[i + 1][0]:\n            count += dp_suf[i + 1][1]\n    dp_suf[i] = empty, count % MOD\n\nprint(dp_suf[0][1])",
+    "prob_desc_created_at": "1563806100",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "shortest paths",
+        "sortings",
+        "data structures",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"9\"]",
+    "src_uid": "dae132800359378ca1b9f5be4b8c0df9",
+    "prob_desc_notes": "NoteIn the first example, after reversing [2, 3], the array will become [1, 1, 2, 2], where the length of the longest non-decreasing subsequence is 4.In the second example, after reversing [3, 7], the array will become [1, 1, 1, 1, 2, 2, 2, 2, 2, 1], where the length of the longest non-decreasing subsequence is 9.",
+    "prob_desc_description": "A dragon symbolizes wisdom, power and wealth. On Lunar New Year's Day, people model a dragon with bamboo strips and clothes, raise them with rods, and hold the rods high and low to resemble a flying dragon.A performer holding the rod low is represented by a 1, while one holding it high is represented by a 2. Thus, the line of performers can be represented by a sequence a1, a2, ..., an.Little Tommy is among them. He would like to choose an interval [l, r] (1 ≤ l ≤ r ≤ n), then reverse al, al + 1, ..., ar so that the length of the longest non-decreasing subsequence of the new sequence is maximum.A non-decreasing subsequence is a sequence of indices p1, p2, ..., pk, such that p1 &lt; p2 &lt; ... &lt; pk and ap1 ≤ ap2 ≤ ... ≤ apk. The length of the subsequence is k.",
+    "prob_desc_output_spec": "Print a single integer, which means the maximum possible length of the longest non-decreasing subsequence of the new sequence.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 2000), denoting the length of the original sequence. The second line contains n space-separated integers, describing the original sequence a1, a2, ..., an (1 ≤ ai ≤ 2, i = 1, 2, ..., n).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_015.jsonl",
+    "code_uid": "d7aac35829c4beb79482f0d791db8fe8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2 1 2\", \"10\\n1 1 2 2 2 1 1 2 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\na=[int(k)-1 for k in input().split(\" \")]\n\nnbmax= [0,0,0,0]\n\nfor k in a:\n    if k:\n        nbmax[1]=max(nbmax[1]+1,nbmax[0]+1)\n        nbmax[3]=max(nbmax[3]+1,nbmax[2]+1)\n    else:\n        nbmax[0]+=1\n        nbmax[2]=max(nbmax[1]+1,nbmax[2]+1)\n\nprint (max(nbmax))",
+    "prob_desc_created_at": "1518609900",
+    "tags": [
+        "dp",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

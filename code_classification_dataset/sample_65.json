@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\", \"97\", \"-1\"]",
+    "src_uid": "d7f73762ff7a01c33280257e556a9b36",
+    "prob_desc_notes": "NoteIn the first test, we are obliged to include all $$$7$$$ sticks and get one $$$8$$$ digit on the scoreboard.In the second test, we have sticks turned on so that units are formed. For $$$5$$$ of additionally included sticks, you can get the numbers $$$07$$$, $$$18$$$, $$$34$$$, $$$43$$$, $$$70$$$, $$$79$$$, $$$81$$$ and $$$97$$$, of which we choose the maximum  — $$$97$$$.In the third test, it is impossible to turn on exactly $$$5$$$ sticks so that a sequence of numbers appears on the scoreboard.",
+    "prob_desc_description": " Denis, after buying flowers and sweets (you will learn about this story in the next task), went to a date with Nastya to ask her to become a couple. Now, they are sitting in the cafe and finally... Denis asks her to be together, but ... Nastya doesn't give any answer. The poor boy was very upset because of that. He was so sad that he punched some kind of scoreboard with numbers. The numbers are displayed in the same way as on an electronic clock: each digit position consists of $$$7$$$ segments, which can be turned on or off to display different numbers. The picture shows how all $$$10$$$ decimal digits are displayed:   After the punch, some segments stopped working, that is, some segments might stop glowing if they glowed earlier. But Denis remembered how many sticks were glowing and how many are glowing now. Denis broke exactly $$$k$$$ segments and he knows which sticks are working now. Denis came up with the question: what is the maximum possible number that can appear on the board if you turn on exactly $$$k$$$ sticks (which are off now)? It is allowed that the number includes leading zeros.",
+    "prob_desc_output_spec": "Output a single number consisting of $$$n$$$ digits  — the maximum number that can be obtained if you turn on exactly $$$k$$$ sticks or $$$-1$$$, if it is impossible to turn on exactly $$$k$$$ sticks so that a correct number appears on the scoreboard digits.",
+    "prob_desc_input_spec": "The first line contains integer $$$n$$$ $$$(1 \\leq n \\leq 2000)$$$  — the number of digits on scoreboard and $$$k$$$ $$$(0 \\leq k \\leq 2000)$$$  — the number of segments that stopped working. The next $$$n$$$ lines contain one binary string of length $$$7$$$, the $$$i$$$-th of which encodes the $$$i$$$-th digit of the scoreboard. Each digit on the scoreboard consists of $$$7$$$ segments. We number them, as in the picture below, and let the $$$i$$$-th place of the binary string be $$$0$$$ if the $$$i$$$-th stick is not glowing and $$$1$$$ if it is glowing. Then a binary string of length $$$7$$$ will specify which segments are glowing now.    Thus, the sequences \"1110111\", \"0010010\", \"1011101\", \"1011011\", \"0111010\", \"1101011\", \"1101111\", \"1010010\", \"1111111\", \"1111011\" encode in sequence all digits from $$$0$$$ to $$$9$$$ inclusive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_000.jsonl",
+    "code_uid": "e014c70f304c2beafcf4fb7d84fc8bb8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 7\\n0000000\", \"2 5\\n0010010\\n0010010\", \"3 5\\n0100001\\n1001001\\n1010011\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, input().split())\nss = []\nks = []\nkss = []\nka = 0\nciv = ['1110111', '0010010', '1011101', '1011011', '0111010', '1101011', '1101111', '1010010', '1111111', '1111011']\ncivn = [6, 2, 5, 5, 4, 5, 6, 3, 7, 6]\nit = ''\npref = []\nfor i in range(n):\n    s = input()\n    ss.append(s)\n    maa = 10\n    kk = []\n    kks = []\n    for j in range(10):\n        ma = 0\n        for jj in range(7):\n            if s[jj] == '1' and civ[j][jj] == '0':\n                ma = 10\n            elif s[jj] == '0' and civ[j][jj] == '1':\n                ma += 1\n        if ma < maa:\n            maa = ma\n            kk = [j]\n        elif ma == maa:\n            kk.append(j)\n        if ma < 10:\n            kks.append(j)\n    ka += maa\n    pref.append(ka)\n    ks.append(kk[:])\n    kss.append(kks[:])\nif ka > k:\n    print(-1)\n    exit()\nsum = 0\nssk = kss[:]\nfor i in range(n):\n    maxs = pref[-1] - pref[i]\n    y = max(kss[i])\n    while civn[y] - ss[i].count('1') + sum + maxs > k:\n        kss[i].pop(kss[i].index(y))\n        y = max(kss[i])\n    it += str(y)\n    sum += civn[y] - ss[i].count('1')\nk -= sum\nif k == 0:\n    print(it)\n    exit()\nfor i in range(n-1,-1,-1):\n    x = int(it[i])\n    ma = civn[x]\n    mi = x\n    for j in range(len(kss[i])):\n        if civn[kss[i][j]] >= ma and k - (civn[kss[i][j]] - civn[x]) >= 0:\n            ma = civn[kss[i][j]]\n            mi = kss[i][j]\n    k += civn[x]\n    k -= civn[mi]\n    it = it[:i] + str(mi) + it[i+1:]\n    if k == 0:\n        break\nif k != 0:\n    print(-1)\nelse:\n    print(it)",
+    "prob_desc_created_at": "1587653100",
+    "tags": [
+        "dp",
+        "bitmasks",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"3\", \"0\", \"801604029\"]",
+    "src_uid": "ef0b654b1276dddda6d96c127693f637",
+    "prob_desc_notes": "NoteFor the first example, in the first second, the probability that player $$$1$$$ will give the player $$$2$$$ a biscuit is $$$\\frac{1}{2}$$$, and the probability that player $$$2$$$ will give the player $$$1$$$ a biscuit is $$$\\frac{1}{2}$$$. But anyway, the game will stop after exactly $$$1$$$ second because only one player will occupy all biscuits after $$$1$$$ second, so the answer is $$$1$$$.",
+    "prob_desc_description": "Slime and his $$$n$$$ friends are at a party. Slime has designed a game for his friends to play.At the beginning of the game, the $$$i$$$-th player has $$$a_i$$$ biscuits. At each second, Slime will choose a biscuit randomly uniformly among all $$$a_1 + a_2 + \\ldots + a_n$$$ biscuits, and the owner of this biscuit will give it to a random uniform player among $$$n-1$$$ players except himself. The game stops when one person will have all the biscuits.As the host of the party, Slime wants to know the expected value of the time that the game will last, to hold the next activity on time.For convenience, as the answer can be represented as a rational number $$$\\frac{p}{q}$$$ for coprime $$$p$$$ and $$$q$$$, you need to find the value of $$$(p \\cdot q^{-1})\\mod 998\\,244\\,353$$$. You can prove that $$$q\\mod 998\\,244\\,353 \\neq 0$$$.",
+    "prob_desc_output_spec": "Print one integer: the expected value of the time that the game will last, modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n\\ (2\\le n\\le 100\\,000)$$$: the number of people playing the game. The second line contains $$$n$$$ non-negative integers $$$a_1,a_2,\\dots,a_n\\ (1\\le a_1+a_2+\\dots+a_n\\le 300\\,000)$$$, where $$$a_i$$$ represents the number of biscuits the $$$i$$$-th person own at the beginning.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 3200,
+    "file_name": "train_070.jsonl",
+    "code_uid": "5c2cd86865ed5086d539d15ad8394429",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 1\", \"2\\n1 2\", \"5\\n0 0 0 0 35\", \"5\\n8 4 2 0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport __pypy__\nrange = xrange\ninput = raw_input\n\nMOD = 998244353\nmodmult = __pypy__.intop.int_mulmod\nmu = lambda a,b: modmult(a, b, MOD)\n\nbig = 3*10**5 + 10\nmodinv = [1]*big\nfor i in range(2,big):\n    modinv[i] = mu(-(MOD//i), modinv[MOD%i])\n\nn = int(input())\nA = [int(x) for x in input().split()]\nm = sum(A)\n\nAA = []\nBB = []\nCC = []\nDD = []\nfor i in range(m):\n    a = -mu(i, modinv[m])\n    b = 1 - mu(mu(m - i, modinv[m]), mu(n - 2, modinv[n - 1]))\n    c = -mu(mu(m - i, modinv[m]), mu(1    , modinv[n - 1]))\n\n    AA.append(a)\n    BB.append(b)\n    CC.append(c)\n    DD.append(1)\n\ndef solve(m,A,B,C,D):\n    cur = [A[m - 1], B[m - 1], D[m - 1]]\n    for i in reversed(range(m - 1)):\n        k = mu(-cur[1], pow(C[i], MOD-2, MOD))\n        cur = [mu(k, (A[i] if i else 0)), cur[0] + mu(k, B[i]), cur[2] + mu(k, D[i])]\n        cur = [c % MOD for c in cur]\n\n    X = [mu(cur[2], pow(cur[1], MOD - 2, MOD))]\n    for i in range(m - 1):\n        X.append(mu(D[i] - (mu(A[i], X[i - 1]) if i else 0) - mu(B[i], X[i]), pow(C[i], MOD - 2, MOD)))\n    \n    #ans = [(A[i] * X[i - 1] if i else 0) + B[i] * X[i] + (C[i] * X[i + 1] if i + 1 < m else 0) for i in range(m)]\n    #assert ans == D\n    return X\n\nF = solve(m, AA, BB, CC, DD)\nF.append(0)\nnum = sum(F[a] for a in A) % MOD - mu(n - 1, F[0])\nden = n\n\nprint mu(num, pow(den, MOD - 2, MOD))\n",
+    "prob_desc_created_at": "1589286900",
+    "tags": [
+        "probabilities",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

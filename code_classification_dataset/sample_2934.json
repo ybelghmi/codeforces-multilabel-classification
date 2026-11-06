@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2.5 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n3\\n0\\n4\", \"0\"]",
+    "src_uid": "4bdf819b73ffb708ad571accf3b8c23d",
+    "prob_desc_notes": "NoteIn the first test case, Karen knows 3 recipes.  The first one recommends brewing the coffee between 91 and 94 degrees, inclusive.  The second one recommends brewing the coffee between 92 and 97 degrees, inclusive.  The third one recommends brewing the coffee between 97 and 99 degrees, inclusive. A temperature is admissible if at least 2 recipes recommend it.She asks 4 questions.In her first question, she wants to know the number of admissible integer temperatures between 92 and 94 degrees, inclusive. There are 3: 92, 93 and 94 degrees are all admissible.In her second question, she wants to know the number of admissible integer temperatures between 93 and 97 degrees, inclusive. There are 3: 93, 94 and 97 degrees are all admissible.In her third question, she wants to know the number of admissible integer temperatures between 95 and 96 degrees, inclusive. There are none.In her final question, she wants to know the number of admissible integer temperatures between 90 and 100 degrees, inclusive. There are 4: 92, 93, 94 and 97 degrees are all admissible.In the second test case, Karen knows 2 recipes.  The first one, \"wikiHow to make Cold Brew Coffee\", recommends brewing the coffee at exactly 1 degree.  The second one, \"What good is coffee that isn't brewed at at least 36.3306 times the temperature of the surface of the sun?\", recommends brewing the coffee at exactly 200000 degrees. A temperature is admissible if at least 1 recipe recommends it.In her first and only question, she wants to know the number of admissible integer temperatures that are actually reasonable. There are none.",
+    "prob_desc_description": "To stay woke and attentive during classes, Karen needs some coffee!  Karen, a coffee aficionado, wants to know the optimal temperature for brewing the perfect cup of coffee. Indeed, she has spent some time reading several recipe books, including the universally acclaimed \"The Art of the Covfefe\".She knows n coffee recipes. The i-th recipe suggests that coffee should be brewed between li and ri degrees, inclusive, to achieve the optimal taste.Karen thinks that a temperature is admissible if at least k recipes recommend it.Karen has a rather fickle mind, and so she asks q questions. In each question, given that she only wants to prepare coffee with a temperature between a and b, inclusive, can you tell her how many admissible integer temperatures fall within the range?",
+    "prob_desc_output_spec": "For each question, output a single integer on a line by itself, the number of admissible integer temperatures between a and b degrees, inclusive.",
+    "prob_desc_input_spec": "The first line of input contains three integers, n, k (1 ≤ k ≤ n ≤ 200000), and q (1 ≤ q ≤ 200000), the number of recipes, the minimum number of recipes a certain temperature must be recommended by to be admissible, and the number of questions Karen has, respectively. The next n lines describe the recipes. Specifically, the i-th line among these contains two integers li and ri (1 ≤ li ≤ ri ≤ 200000), describing that the i-th recipe suggests that the coffee be brewed between li and ri degrees, inclusive. The next q lines describe the questions. Each of these lines contains a and b, (1 ≤ a ≤ b ≤ 200000), describing that she wants to know the number of admissible integer temperatures between a and b degrees, inclusive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_036.jsonl",
+    "code_uid": "0e36092af208f9828540fde125760d85",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 4\\n91 94\\n92 97\\n97 99\\n92 94\\n93 97\\n95 96\\n90 100\", \"2 1 1\\n1 1\\n200000 200000\\n90 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k,q=map(int, raw_input().split())\ndp=[0 for i in xrange(200005)]\nsl=[0 for i in xrange(200005)]\nfor i in xrange(n):\n\tx,y=map(int, raw_input().split())\n\tdp[x]+=1\n\tdp[y+1]-=1\nc=0\nfor i in xrange(200005):\n\tc+=dp[i]\n\tif c>=k:\n\t\tsl[i]=1\nfor i in xrange(1,200005):\n\tsl[i]=sl[i]+sl[i-1]\nfor i in xrange(q):\n\tx,y=map(int, raw_input().split())\n\tprint sl[y]-sl[x-1]",
+    "prob_desc_created_at": "1497710100",
+    "tags": [
+        "data structures",
+        "binary search",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

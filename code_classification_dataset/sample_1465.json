@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"AD\", \"no solution\"]",
+    "src_uid": "3504eb7b57d0e4acf9c301f8cc05e592",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Our brave travelers reached an island where pirates had buried treasure. However as the ship was about to moor, the captain found out that some rat ate a piece of the treasure map.The treasure map can be represented as a rectangle n × m in size. Each cell stands for an islands' square (the square's side length equals to a mile). Some cells stand for the sea and they are impenetrable. All other cells are penetrable (i.e. available) and some of them contain local sights. For example, the large tree on the hills or the cave in the rocks.Besides, the map also has a set of k instructions. Each instruction is in the following form:\"Walk n miles in the y direction\"The possible directions are: north, south, east, and west. If you follow these instructions carefully (you should fulfill all of them, one by one) then you should reach exactly the place where treasures are buried. Unfortunately the captain doesn't know the place where to start fulfilling the instructions — as that very piece of the map was lost. But the captain very well remembers that the place contained some local sight. Besides, the captain knows that the whole way goes through the island's penetrable squares.The captain wants to know which sights are worth checking. He asks you to help him with that. ",
+    "prob_desc_output_spec": "Print all local sights that satisfy to the instructions as a string without any separators in the alphabetical order. If no sight fits, print \"no solution\" without the quotes.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (3 ≤ n, m ≤ 1000). Then follow n lines containing m integers each — the island map's description. \"#\" stands for the sea. It is guaranteed that all cells along the rectangle's perimeter are the sea. \".\" stands for a penetrable square without any sights and the sights are marked with uppercase Latin letters from \"A\" to \"Z\". Not all alphabet letters can be used. However, it is guaranteed that at least one of them is present on the map. All local sights are marked by different letters. The next line contains number k (1 ≤ k ≤ 105), after which k lines follow. Each line describes an instruction. Each instruction possesses the form \"dir len\", where dir stands for the direction and len stands for the length of the way to walk. dir can take values \"N\", \"S\", \"W\" and \"E\" for North, South, West and East correspondingly. At that, north is to the top, South is to the bottom, west is to the left and east is to the right. len is an integer from 1 to 1000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_009.jsonl",
+    "code_uid": "96f43b83f4f1a1b5fc8a3d54c3e2e78c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 10\\n##########\\n#K#..#####\\n#.#..##.##\\n#..L.#...#\\n###D###A.#\\n##########\\n4\\nN 2\\nS 1\\nE 1\\nW 2\", \"3 4\\n####\\n#.A#\\n####\\n2\\nW 1\\nN 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n \nn, m = map(int, stdin.readline().rstrip().split())\nisland = []\npos = {}\nfor i in range(n):\n    island.append(stdin.readline().rstrip())\n    for j, c in enumerate(island[i]):\n        if c >= 'A' and c <= 'Z':\n            pos[c] = [i, j]\n \nl_reach = [[-1 for j in range(m)] for i in range(n)]\nr_reach = [[-1 for j in range(m)] for i in range(n)]\nu_reach = [[-1 for j in range(m)] for i in range(n)]\nd_reach = [[-1 for j in range(m)] for i in range(n)]\n \nfor i in range(1, n-1):\n    for j in range(1, m-1):\n        if island[i][j] != '#':\n            l_reach[i][j] = 1 + l_reach[i][j-1]\n            u_reach[i][j] = 1 + u_reach[i-1][j]\n \nfor i in range(n-2, 0, -1):\n    for j in range(m-2, 0, -1):\n        if island[i][j] != '#':\n            r_reach[i][j] = 1 + r_reach[i][j+1]\n            d_reach[i][j] = 1 + d_reach[i+1][j]\n \ndir = [None] * 100\ndir[ord('N')] = [-1, 0, u_reach]\ndir[ord('W')] = [0, -1, l_reach]\ndir[ord('S')] = [1, 0, d_reach]\ndir[ord('E')] = [0, 1, r_reach]\n \nfor c in range(int(stdin.readline().rstrip())):\n    x, y, d = dir[ord(stdin.read(1))]\n    c = int(stdin.readline()[1:-1])\n    to_delete = []\n    for k, v in pos.items():\n        if c > d[v[0]][v[1]]:\n            to_delete.append(k)\n        else:\n            v[0] += c * x\n            v[1] += c * y\n \n    for k in to_delete:\n        del pos[k]\n \nans = ''.join(sorted(pos.keys()))\nprint(ans if ans else 'no solution')",
+    "prob_desc_created_at": "1313766000",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

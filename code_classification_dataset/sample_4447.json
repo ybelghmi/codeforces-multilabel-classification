@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"b\\nac\\nabcdebfadg\\nbcdefghijklmnopqrstuvwxyza\\nbcdefghijklmnopqrstuvwxyaz\"]",
+    "src_uid": "faf5ec909f5147c11454e1ecb9c372ee",
+    "prob_desc_notes": "NoteIn the first test case, we couldn't have the string \"a\", since the letter a would transit to itself. Lexicographically the second string \"b\" is suitable as an answer.In the second test case, the string \"aa\" is not suitable, since a would transit to itself. \"ab\" is not suitable, since the circle would be closed with $$$2$$$ letters, but it must contain all $$$26$$$. The next string \"ac\" is suitable.Below you can see the schemes for the first three test cases. The non-involved letters are skipped, they can be arbitrary placed in the gaps.  ",
+    "prob_desc_description": "There was a string $$$s$$$ which was supposed to be encrypted. For this reason, all $$$26$$$ lowercase English letters were arranged in a circle in some order, afterwards, each letter in $$$s$$$ was replaced with the one that follows in clockwise order, in that way the string $$$t$$$ was obtained. You are given a string $$$t$$$. Determine the lexicographically smallest string $$$s$$$ that could be a prototype of the given string $$$t$$$.A string $$$a$$$ is lexicographically smaller than a string $$$b$$$ of the same length if and only if:   in the first position where $$$a$$$ and $$$b$$$ differ, the string $$$a$$$ has a letter, that appears earlier in the alphabet than the corresponding letter in $$$b$$$.  ",
+    "prob_desc_output_spec": "For each test case, output a single line containing the lexicographically smallest string $$$s$$$ which could be a prototype of $$$t$$$.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 3 \\cdot 10^4$$$) — the number of test cases. The description of test cases follows. The first line of each test case contains one integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the length of the string $$$t$$$. The next line contains the string $$$t$$$ of the length $$$n$$$, containing lowercase English letters. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_098.jsonl",
+    "code_uid": "6b8c2604c15164ef477a37f2187dc8fe",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n1\\n\\na\\n\\n2\\n\\nba\\n\\n10\\n\\ncodeforces\\n\\n26\\n\\nabcdefghijklmnopqrstuvwxyz\\n\\n26\\n\\nabcdefghijklmnopqrstuvwxzy\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from heapq import _heapify_max, heapify, heappush, heappop\r\nfrom bisect import bisect_left, bisect_right, bisect, insort\r\nimport math, sys, os\r\nfrom string import ascii_lowercase\r\nfrom re import A, L\r\nfrom collections import defaultdict, Counter\r\nfrom math import log, ceil, sqrt, floor, gcd, log2, factorial\r\nfrom itertools import chain, combinations, count\r\nfrom functools import reduce\r\n\r\n'''\r\nint: int(input())\r\nstr: input().split()[0] \r\nints: list(map(int, input().split()))\r\nstrs: input().split()\r\n'''\r\ninput = sys.stdin.readline\r\nprintt = lambda x: sys.stdout.write(str(x) + \"\\n\")\r\nprintts = lambda x: sys.stdout.write(\" \".join(map(str,x)) + \"\\n\")\r\ndivisors = lambda n: set(chain.from_iterable((i, n // i) for i in range(1, int(sqrt(n)) + 1) if not n % i))\r\nis_prime = lambda n: False if (n < 2) else (True if n in [2,3] else (False if n % 2 == 0 else (not any(n % i == 0 for i in range(3, 1 + floor(sqrt(n)), 2)))))\r\nn_is_power_of_p = lambda n, p: not log(n, p) % 1\r\nlcm = lambda a,b: int(a*b/gcd(a,b)) ## PyPy3 doesn't have lcm -_-\r\nis_sqr = lambda num: sqrt(num).is_integer()\r\n\r\ndef heapsort(iterable):\r\n\th = []\r\n\tfor value in iterable:\r\n\t\theappush(h, value)\r\n\treturn [heappop(h) for i in range(len(h))]\r\n\r\n\r\n'''\r\nheapify(arr)\r\nheappush(arr,n)\r\nheappop(arr)\r\n'''\r\n\r\ndef yes(): printt(\"YES\")\r\ndef no(): printt(\"NO\")\r\nmod = 998244353 \r\n# for case in range(1):\r\nfor case in range(int(input())):\r\n\t'''\r\nn = int(input())\r\ns = input().split()[0]\r\nmap(int, input().split())\r\narr = list(map(int, input().split()))\r\narr = input().split()\r\nfrr = [list(map(int, input().split())) for _ in range(n)]\r\n\t\r\n\t'''\r\n\tn = int(input())\r\n\tt = input().split()[0]\r\n\tused = [False] * 26\r\n\tletters=ascii_lowercase\r\n\tchainn = {}\r\n\tres = ''\r\n\tuniqs = len(set(t))\r\n\tdef loopCheck(l,c):\r\n\t\twhile l in chainn:\r\n\t\t\tl = chainn[l]\r\n\t\t\tif l == c: return True\r\n\t\treturn False\r\n\r\n\tfor i in range(n):\r\n\t\tif t[i] in chainn: continue\r\n\t\tfor j in range(26):\r\n\t\t\tif used[j] or t[i] == letters[j] or (loopCheck(letters[j], t[i]) and len(chainn) < 25): continue\r\n\t\t\tchainn[t[i]] = letters[j]\r\n\t\t\tused[j] = True\r\n\t\t\tbreak\r\n\t\t\r\n\tprintt(''.join(chainn[ch] for ch in t))\r\n\t\r\n\t\t\t\t\r\n\r\n\r\n'''\r\n\r\n\r\n\r\n\r\n'''",
+    "prob_desc_created_at": "1664721300",
+    "tags": [
+        "dfs and similar",
+        "dsu",
+        "graphs",
+        "greedy",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

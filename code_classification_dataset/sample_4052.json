@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n1\\n78\\n10\\n899999999\\n8000\\n887654321\"]",
+    "src_uid": "5312a505bd59b55a6c5487f67a33d81a",
+    "prob_desc_notes": "NoteIn the example:  $$$1 - 0 = 10^0$$$,  $$$2 - 1 = 10^0$$$,  $$$178 - 78 = 10^2$$$,  $$$20 - 10 = 10^1$$$,  $$$999999999 - 899999999 = 10^8$$$,  $$$9000 - 8000 = 10^3$$$,  $$$987654321 - 887654321 = 10^8$$$. Note that in each test case, we get the maximum possible round number.",
+    "prob_desc_description": "At the store, the salespeople want to make all prices round. In this problem, a number that is a power of $$$10$$$ is called a round number. For example, the numbers $$$10^0 = 1$$$, $$$10^1 = 10$$$, $$$10^2 = 100$$$ are round numbers, but $$$20$$$, $$$110$$$ and $$$256$$$ are not round numbers. So, if an item is worth $$$m$$$ bourles (the value of the item is not greater than $$$10^9$$$), the sellers want to change its value to the nearest round number that is not greater than $$$m$$$. They ask you: by how many bourles should you decrease the value of the item to make it worth exactly $$$10^k$$$ bourles, where the value of $$$k$$$ — is the maximum possible ($$$k$$$ — any non-negative integer).For example, let the item have a value of $$$178$$$-bourles. Then the new price of the item will be $$$100$$$, and the answer will be $$$178-100=78$$$.",
+    "prob_desc_output_spec": "For each test case, output on a separate line a single integer $$$d$$$ ($$$0 \\le d &lt; m$$$) such that if you reduce the cost of the item by $$$d$$$ bourles, the cost of the item will be the maximal possible round number. More formally: $$$m - d = 10^k$$$, where $$$k$$$ — the maximum possible non-negative integer.",
+    "prob_desc_input_spec": "The first line of input data contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases . Each test case is a string containing a single integer $$$m$$$ ($$$1 \\le m \\le 10^9$$$) — the price of the item.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_089.jsonl",
+    "code_uid": "bed36c2b9831f87a8da837397ee414a4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n\\n1\\n\\n2\\n\\n178\\n\\n20\\n\\n999999999\\n\\n9000\\n\\n987654321\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\r\n\r\nfor _ in [0] * int(input()):\r\n    number = int(input())\r\n    k = 1\r\n\r\n    if number == 1 or math.log(number, 10) == int(math.log(number, 10)):\r\n        print(0)\r\n\r\n    elif number < 10:\r\n        print(number - 1)\r\n\r\n\r\n    else:\r\n        while k <= (number // 10):\r\n            k *= 10\r\n\r\n        print(number - k)\r\n",
+    "prob_desc_created_at": "1657463700",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

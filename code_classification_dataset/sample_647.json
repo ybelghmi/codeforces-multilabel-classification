@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"7.25298806364175601379\", \"0.00000000000000000000\"]",
+    "src_uid": "94d98a05741019f648693085d2f08872",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two circles. Find the area of their intersection.",
+    "prob_desc_output_spec": "Print the area of the intersection of the circles. The answer will be considered correct if the absolute or relative error doesn't exceed 10 - 6.",
+    "prob_desc_input_spec": "The first line contains three integers x1, y1, r1 ( - 109 ≤ x1, y1 ≤ 109, 1 ≤ r1 ≤ 109) — the position of the center and the radius of the first circle. The second line contains three integers x2, y2, r2 ( - 109 ≤ x2, y2 ≤ 109, 1 ≤ r2 ≤ 109) — the position of the center and the radius of the second circle.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_003.jsonl",
+    "code_uid": "031c79928624ec619372aea1998659e5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"0 0 4\\n6 0 4\", \"0 0 5\\n11 0 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nfrom decimal import *\ndef sqrt(v):\n    a = Decimal(0)\n    b = v\n    while a != b:\n        a = b\n        b = (a+v/a)/TWO\n    return a\ndef taylor_acos(v):\n    return PI/2 - taylor_asin(v)\ndef taylor_asin(v):\n    curr = v\n    vsq = v**2\n    ans = v\n    coef = Decimal(1.)\n    for i in xrange(3, 101, 2):\n        curr *= vsq\n        coef = coef * (i-2) / (i-1)\n        ans += curr * coef / i\n    return ans\ndef acos(v):\n    if v <= S:\n        return Decimal(taylor_acos(v))\n    return Decimal(taylor_asin(sqrt(1-v**2)))\ndef sector(a, b, c, csq):\n    d = Decimal(b**2+csq-a**2)\n    e = TWO*Decimal(b)*c\n    f = acos(d/e)\n    return f*(Decimal(b)**2)\ngetcontext().prec = 500\nPI = Decimal(math.pi)\nTWO = Decimal(2)\nS = 1/sqrt(Decimal(2))\nx1, y1, r1 = map(int, raw_input().split())\nx2, y2, r2 = map(int, raw_input().split())\nasq, bsq, csq = r1**2, r2**2, (x1-x2)**2+(y1-y2)**2\na, b, c = r1, r2, sqrt(Decimal(csq))\nif asq + 2*a*b + bsq <= csq:\n    print 0\nelif csq <= asq - 2*a*b + bsq:\n    print PI*min(a, b)**2\nelse:\n    area = sqrt(Decimal(2*(asq*bsq+asq*csq+bsq*csq)-asq**2-bsq**2-csq**2))/TWO\n    first_sector = sector(a, b, c, csq)\n    second_sector = sector(b, a, c, csq)\n    print first_sector+second_sector-sqrt(Decimal(2*(asq*bsq+asq*csq+bsq*csq)-asq**2-bsq**2-csq**2))/TWO",
+    "prob_desc_created_at": "1448636400",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

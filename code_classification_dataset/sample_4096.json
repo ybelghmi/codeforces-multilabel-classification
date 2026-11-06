@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n1 2\\n3 4\\nNO\\nYES\\n3 4\\n7 8\\n11 12\\n2 1\\n6 5\\n10 9\\nYES\\n1 2\\n3 4\\n5 6\\n7 8\\n9 10\\n11 12\\n13 14\"]",
+    "src_uid": "d4fc7e683f389e0c7bbee8e115cef459",
+    "prob_desc_notes": "NoteIn the first test case, splitting into pairs $$$(1, 2)$$$ and $$$(3, 4)$$$ is suitable, same as splitting into $$$(1, 4)$$$ and $$$(3, 2)$$$.In the second test case, $$$(1 + 0) \\cdot 2 = 1 \\cdot (2 + 0) = 2$$$ is not divisible by $$$4$$$, so there is no partition.",
+    "prob_desc_description": "A new entertainment has appeared in Buryatia — a mathematical circus! The magician shows two numbers to the audience — $$$n$$$ and $$$k$$$, where $$$n$$$ is even. Next, he takes all the integers from $$$1$$$ to $$$n$$$, and splits them all into pairs $$$(a, b)$$$ (each integer must be in exactly one pair) so that for each pair the integer $$$(a + k) \\cdot b$$$ is divisible by $$$4$$$ (note that the order of the numbers in the pair matters), or reports that, unfortunately for viewers, such a split is impossible.Burenka really likes such performances, so she asked her friend Tonya to be a magician, and also gave him the numbers $$$n$$$ and $$$k$$$.Tonya is a wolf, and as you know, wolves do not perform in the circus, even in a mathematical one. Therefore, he asks you to help him. Let him know if a suitable splitting into pairs is possible, and if possible, then tell it.",
+    "prob_desc_output_spec": "For each test case, first output the string \"YES\" if there is a split into pairs, and \"NO\" if there is none. If there is a split, then in the following $$$\\frac{n}{2}$$$ lines output pairs of the split, in each line print $$$2$$$ numbers — first the integer $$$a$$$, then the integer $$$b$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. The following is a description of the input data sets. The single line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$2 \\leq n \\leq 2 \\cdot 10^5$$$, $$$0 \\leq k \\leq 10^9$$$, $$$n$$$ is even) — the number of integers and the number being added $$$k$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_090.jsonl",
+    "code_uid": "f8d305b6370b60602a0a646b9b4a4d42",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n4 1\\n\\n2 0\\n\\n12 10\\n\\n14 11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "tests = int(input())\n\ndef solve(n, k):\n\tif(k&1):\n\t\tprint(\"YES\")\n\t\tfor i in range(1, n+1, 2):\n\t\t\tprint(str(i) + \" \" + str(i+1))\n\telse:\n\t\tif(k % 4 == 0):\n\t\t\tprint(\"NO\")\n\t\telse:\n\t\t\tprint(\"YES\")\n\t\t\tfor i in range(1, n+1, 4):\n\t\t\t\tprint(str(i+1) + \" \" + str(i))\n\t\t\t\tif(i+3 <= n):\n\t\t\t\t\tprint(str(i+2) + \" \" + str(i+3))\n\t\t\t\t \n\t\n\t\n\nfor _ in range(tests):\n\tn, k = [int(i) for i in input().split(\" \")]\n\tsolve(n, k)\n\n",
+    "prob_desc_created_at": "1660660500",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

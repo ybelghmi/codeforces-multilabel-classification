@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 2\", \"3 4\"]",
+    "src_uid": "38dc16395b742f2a0e9f359a8bf33061",
+    "prob_desc_notes": "NoteIn the first sample the appropriate pairs are (0, 3) and (0, 4). In the second sample the appropriate pairs are (0, 4), (1, 4), (2, 4) and (3, 4).",
+    "prob_desc_description": "Petya is a beginner programmer. He has already mastered the basics of the C++ language and moved on to learning algorithms. The first algorithm he encountered was insertion sort. Petya has already written the code that implements this algorithm and sorts the given integer zero-indexed array a of size n in the non-decreasing order. for (int i = 1; i &lt; n; i = i + 1){   int j = i;    while (j &gt; 0 &amp;&amp; a[j] &lt; a[j - 1])   {      swap(a[j], a[j - 1]); // swap elements a[j] and a[j - 1]      j = j - 1;   }}Petya uses this algorithm only for sorting of arrays that are permutations of numbers from 0 to n - 1. He has already chosen the permutation he wants to sort but he first decided to swap some two of its elements. Petya wants to choose these elements in such a way that the number of times the sorting executes function swap, was minimum. Help Petya find out the number of ways in which he can make the swap and fulfill this requirement.It is guaranteed that it's always possible to swap two elements of the input permutation in such a way that the number of swap function calls decreases.",
+    "prob_desc_output_spec": "Print two integers: the minimum number of times the swap function is executed and the number of such pairs (i, j) that swapping the elements of the input permutation with indexes i and j leads to the minimum number of the executions.",
+    "prob_desc_input_spec": "The first line contains a single integer n (2 ≤ n ≤ 5000) — the length of the permutation. The second line contains n different integers from 0 to n - 1, inclusive — the actual permutation.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_044.jsonl",
+    "code_uid": "6110a275ecf73d262745aae08323ca65",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n4 0 3 1 2\", \"5\\n1 2 3 4 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "arr = [0 for i in range(5001)]\n\n\ndef insertion_sort(n, a):\n    def modify(t):\n        while t > 0:\n            arr[t] += 1\n            t -= t & (-t)\n\n    def query(t):\n        res = 0\n        while t < 5001:\n            res += arr[t]\n            t += t & (-t)\n        return res\n\n    s = 0\n    ans = 0\n    way = 0\n\n    for i in range(n):\n        a[i] += 1\n\n    for i in range(n):\n        global arr\n        arr = [0 for j in range(5001)]\n        for j in range(i + 1, n):\n            if a[i] < a[j]:\n                continue\n            s += 1\n            tmp = 1 + 2 * query(a[j])\n            if tmp > ans:\n                ans = tmp\n                way = 1\n            elif tmp == ans:\n                way += 1\n            modify(a[j])\n\n    return s - ans, way\n\n\nif __name__ == \"__main__\":\n    n = int(input())\n    a = list(map(int, input().split()))\n    result = insertion_sort(n, a)\n    print(*result)\n",
+    "prob_desc_created_at": "1384443000",
+    "tags": [
+        "dp",
+        "implementation",
+        "data structures",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"2\", \"4\"]",
+    "src_uid": "a45cfc2855f82f162133930d9834a9f0",
+    "prob_desc_notes": "NoteIn the first sample the table is already good.In the second sample you may remove the first and third column.In the third sample you have to remove all the columns (note that the table where all rows are empty is considered good by definition).Let strings s and t have equal length. Then, s is lexicographically larger than t if they are not equal and the character following the largest common prefix of s and t (the prefix may be empty) in s is alphabetically larger than the corresponding character of t.",
+    "prob_desc_description": "You are given an n × m rectangular table consisting of lower case English letters. In one operation you can completely remove one column from the table. The remaining parts are combined forming a new table. For example, after removing the second column from the tableabcdedfghijk we obtain the table:acdefghjk A table is called good if its rows are ordered from top to bottom lexicographically, i.e. each row is lexicographically no larger than the following one. Determine the minimum number of operations of removing a column needed to make a given table good.",
+    "prob_desc_output_spec": "Print a single number — the minimum number of columns that you need to remove in order to make the table good.",
+    "prob_desc_input_spec": "The first line contains two integers  — n and m (1 ≤ n, m ≤ 100). Next n lines contain m small English letters each — the characters of the table.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_023.jsonl",
+    "code_uid": "4b17c4879eb097b873773518c8398bf1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 10\\ncodeforces\", \"4 4\\ncase\\ncare\\ntest\\ncode\", \"5 4\\ncode\\nforc\\nesco\\ndefo\\nrces\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, raw_input().split())\n\ns = [raw_input() for _ in range(n)]\nf = [''] * n\nc = 0\n\nfor i in range(m):\n    t = [f[j] + s[j][i] for j in range(n)]\n    if t == sorted(t):\n        f = t\n    else:\n        c += 1\nprint c\n\n",
+    "prob_desc_created_at": "1418833800",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

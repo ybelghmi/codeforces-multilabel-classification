@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\\n2\\n4\"]",
+    "src_uid": "a4f183775262fdc42dc5fc621c196ec9",
+    "prob_desc_notes": "NoteIn the first query you have to get string $$$\\text{DSAWW}\\underline{D}\\text{AW}$$$.In second and third queries you can not decrease the area of $$$Grid(s)$$$.",
+    "prob_desc_description": "You have a string $$$s$$$ — a sequence of commands for your toy robot. The robot is placed in some cell of a rectangular grid. He can perform four commands:  'W' — move one cell up;  'S' — move one cell down;  'A' — move one cell left;  'D' — move one cell right. Let $$$Grid(s)$$$ be the grid of minimum possible area such that there is a position in the grid where you can place the robot in such a way that it will not fall from the grid while running the sequence of commands $$$s$$$. For example, if $$$s = \\text{DSAWWAW}$$$ then $$$Grid(s)$$$ is the $$$4 \\times 3$$$ grid:  you can place the robot in the cell $$$(3, 2)$$$;  the robot performs the command 'D' and moves to $$$(3, 3)$$$;  the robot performs the command 'S' and moves to $$$(4, 3)$$$;  the robot performs the command 'A' and moves to $$$(4, 2)$$$;  the robot performs the command 'W' and moves to $$$(3, 2)$$$;  the robot performs the command 'W' and moves to $$$(2, 2)$$$;  the robot performs the command 'A' and moves to $$$(2, 1)$$$;  the robot performs the command 'W' and moves to $$$(1, 1)$$$.   You have $$$4$$$ extra letters: one 'W', one 'A', one 'S', one 'D'. You'd like to insert at most one of these letters in any position of sequence $$$s$$$ to minimize the area of $$$Grid(s)$$$.What is the minimum area of $$$Grid(s)$$$ you can achieve?",
+    "prob_desc_output_spec": "Print $$$T$$$ integers: one per query. For each query print the minimum area of $$$Grid(s)$$$ you can achieve.",
+    "prob_desc_input_spec": "The first line contains one integer $$$T$$$ ($$$1 \\le T \\le 1000$$$) — the number of queries. Next $$$T$$$ lines contain queries: one per line. This line contains single string $$$s$$$ ($$$1 \\le |s| \\le 2 \\cdot 10^5$$$, $$$s_i \\in \\{\\text{W}, \\text{A}, \\text{S}, \\text{D}\\}$$$) — the sequence of commands. It's guaranteed that the total length of $$$s$$$ over all queries doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_004.jsonl",
+    "code_uid": "74f687aef1c1cd1ad27b5c6c7f0e8b99",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\nDSAWWAW\\nD\\nWA\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport math\nimport bisect\nimport atexit\nimport io\nimport heapq\nfrom collections import defaultdict, Counter\nMOD = int(1e9+7)\n\n\n\n# n = map(int, raw_input().split())\n# input = map(int, raw_input().split())\ndef main():\n    n = map(int, raw_input().split())[0]\n    for i in range(n):\n        st = raw_input()\n        dx, dy = defaultdict(list), defaultdict(list)\n        x, y = 0, 0\n        mxx, mix, mxy, miy = 0, 0, 0, 0\n        dy[0].append(0)\n        dx[0].append(0)\n        for idx, c in enumerate(st):\n            if c=='A':\n                y-=1\n                dy[y].append(idx)\n            if c=='D':\n                y+=1\n                dy[y].append(idx)\n            if c=='W':\n                x+=1\n                dx[x].append(idx)\n            if c=='S':\n                x-=1\n                dx[x].append(idx)\n            mxx = max(x, mxx)\n            mix = min(mix, x)\n            mxy = max(mxy, y)\n            miy = min(miy, y)\n        # print mxx,mix,mxy,miy\n        xx, yy = 0, 0\n        if mxx!=0:\n            if mxx - mix >1 and dx[mxx] and dx[mix] and dx[mxx][0] > dx[mix][-1]:\n                xx = 1\n        if mix!=0:\n            if mxx - mix >1 and dx[mxx] and dx[mix] and dx[mix][0] > dx[mxx][-1]:\n                xx = 1\n        # print dy[mxy],mxy\n        if mxy!=0:\n            if mxy - miy >1 and dy[mxy] and dy[miy] and dy[mxy][0]>dy[miy][-1]:\n                yy = 1\n        if miy!=0:\n            if mxy - miy >1 and dy[mxy] and dy[miy] and dy[mxy][-1]<dy[miy][0]:\n                yy = 1\n        print min((mxx-mix+1-xx)*(mxy-miy+1), (mxx-mix+1)*(mxy-miy+1-yy))\n\n\n\n\nmain()\n",
+    "prob_desc_created_at": "1565188500",
+    "tags": [
+        "dp",
+        "greedy",
+        "math",
+        "implementation",
+        "data structures",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

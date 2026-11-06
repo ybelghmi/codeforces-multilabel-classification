@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"14\", \"42\", \"Never\"]",
+    "src_uid": "da1f63de2a4df0815449f59f1829429f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Joe has been hurt on the Internet. Now he is storming around the house, destroying everything in his path.Joe's house has n floors, each floor is a segment of m cells. Each cell either contains nothing (it is an empty cell), or has a brick or a concrete wall (always something one of three). It is believed that each floor is surrounded by a concrete wall on the left and on the right.Now Joe is on the n-th floor and in the first cell, counting from left to right. At each moment of time, Joe has the direction of his gaze, to the right or to the left (always one direction of the two). Initially, Joe looks to the right.Joe moves by a particular algorithm. Every second he makes one of the following actions:   If the cell directly under Joe is empty, then Joe falls down. That is, he moves to this cell, the gaze direction is preserved.  Otherwise consider the next cell in the current direction of the gaze.   If the cell is empty, then Joe moves into it, the gaze direction is preserved.  If this cell has bricks, then Joe breaks them with his forehead (the cell becomes empty), and changes the direction of his gaze to the opposite.  If this cell has a concrete wall, then Joe just changes the direction of his gaze to the opposite (concrete can withstand any number of forehead hits).  Joe calms down as soon as he reaches any cell of the first floor.The figure below shows an example Joe's movements around the house.  Determine how many seconds Joe will need to calm down.",
+    "prob_desc_output_spec": "Print a single number — the number of seconds Joe needs to reach the first floor; or else, print word \"Never\" (without the quotes), if it can never happen. Please, do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (2 ≤ n ≤ 100, 1 ≤ m ≤ 104). Next n lines contain the description of Joe's house. The i-th of these lines contains the description of the (n - i + 1)-th floor of the house — a line that consists of m characters: \".\" means an empty cell, \"+\" means bricks and \"#\" means a concrete wall. It is guaranteed that the first cell of the n-th floor is empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_060.jsonl",
+    "code_uid": "c399bf7e71118ce662ada3228c26b6de",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 5\\n..+.#\\n#+..+\\n+.#+.\", \"4 10\\n...+.##+.+\\n+#++..+++#\\n++.#++++..\\n.+##.++#.+\", \"2 2\\n..\\n++\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class Joe(object):\n    def __init__(self, map):\n        self.x = 1\n        self.y = 0\n        self.map = [list('#' + floor + '#') for floor in map]\n        self.dir = 1\n\n    def get_floor_time(self, floor, next_floor):\n        iter = 0\n        time = 0\n        empty = 0\n        wall = {-1: False, 1: False}\n        fl = len(floor)\n            \n        while not (wall[-1] and wall[1]):\n            if next_floor[self.x] == '.':\n                return time\n            next_x = self.x + self.dir\n\n            #for i in range(fl):\n            while floor[next_x] == '.':\n                self.x = next_x\n                empty += 1\n                time += 1\n                if next_floor[self.x] == '.':\n                    return time\n                next_x = self.x + self.dir\n                \n            if floor[next_x] == '+':\n                floor[next_x] = '.'\n            elif floor[next_x] == '#':\n                wall[self.dir] = True\n            self.dir *= -1\n            if wall[self.dir]:\n                time += empty * 2 + 2\n                self.dir *= -1\n            else:\n                self.x += self.dir * empty\n                time += 1 + empty\n        return None\n        \n    def get_time(self):\n        res_time = 0\n        while self.y < len(self.map) - 1:\n            time = self.get_floor_time(self.map[self.y], self.map[self.y + 1])\n            if time is None:\n                return 'Never'\n            res_time += time + 1\n            self.y += 1\n            \n        return res_time\n\nif __name__ == '__main__':\n    n, m = map(int, raw_input().split(' '))\n    \n    map = []\n    for _ in range(n):\n        map.append(raw_input())\n    \n    print Joe(map).get_time()",
+    "prob_desc_created_at": "1353938400",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

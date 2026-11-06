@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n6\\n12\"]",
+    "src_uid": "f4cf2759d6f6941044f913cb89f39dbe",
+    "prob_desc_notes": "NoteIn the first sample operation doesn't change the string, so it will become the same as it was after $$$1$$$ operations.In the second sample the string will change as follows: $$$s$$$ = babaa $$$s$$$ = abaab $$$s$$$ = baaba $$$s$$$ = abbaa $$$s$$$ = baaab $$$s$$$ = ababa",
+    "prob_desc_description": "Polycarp found the string $$$s$$$ and the permutation $$$p$$$. Their lengths turned out to be the same and equal to $$$n$$$.A permutation of $$$n$$$ elements — is an array of length $$$n$$$, in which every integer from $$$1$$$ to $$$n$$$ occurs exactly once. For example, $$$[1, 2, 3]$$$ and $$$[4, 3, 5, 1, 2]$$$ are permutations, but $$$[1, 2, 4]$$$, $$$[4, 3, 2, 1, 2]$$$ and $$$[0, 1, 2]$$$ are not.In one operation he can multiply $$$s$$$ by $$$p$$$, so he replaces $$$s$$$ with string $$$new$$$, in which for any $$$i$$$ from $$$1$$$ to $$$n$$$ it is true that $$$new_i = s_{p_i}$$$. For example, with $$$s=wmbe$$$ and $$$p = [3, 1, 4, 2]$$$, after operation the string will turn to $$$s=s_3 s_1 s_4 s_2=bwem$$$.Polycarp wondered after how many operations the string would become equal to its initial value for the first time. Since it may take too long, he asks for your help in this matter.It can be proved that the required number of operations always exists. It can be very large, so use a 64-bit integer type. ",
+    "prob_desc_output_spec": "Output $$$t$$$ lines, each of which contains the answer to the corresponding test case of input. As an answer output single integer — the minimum number of operations, after which the string $$$s$$$ will become the same as it was before operations.",
+    "prob_desc_input_spec": "The first line of input contains one integer $$$t$$$ ($$$1 \\le t \\le 5000$$$) — the number of test cases in input. The first line of each case contains single integer $$$n$$$ ($$$1 \\le n \\le 200$$$) — the length of string and permutation. The second line of each case contains a string $$$s$$$ of length $$$n$$$, containing lowercase Latin letters. The third line of each case contains $$$n$$$ integers — permutation $$$p$$$ ($$$1 \\le p_i \\le n$$$), all $$$p_i$$$ are different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_094.jsonl",
+    "code_uid": "783d4400ddbe525f2eed42f4a5a0df45",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n5\\n\\nababa\\n\\n3 4 5 2 1\\n\\n5\\n\\nababa\\n\\n2 1 4 5 3\\n\\n10\\n\\ncodeforces\\n\\n8 6 1 7 5 2 9 3 10 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import *\nfrom heapq import *\nfrom bisect import *\nfrom itertools import *\nfrom string import *\nfrom math import *\n \n \ndef solve():\n    n = int(input())\n    s = input()\n    P = list(map(int, input().split()))\n    P = [x - 1 for x in P]\n\n    seen = set()\n    components = []\n\n    def dfs(u, component):\n        if u not in seen:\n            seen.add(u)\n            component.append(u)\n            dfs(P[u], component)\n\n    for i in range(n):\n        if i not in seen:\n            component = []\n            dfs(i, component)\n            components.append(component)\n\n    def find_cycle_length(vals):\n        a = ''.join(s[i] for i in vals)\n        m = len(a)\n        for k in range(1,m+1):\n            if m % k != 0: continue\n            if all(a[j] == a[j-k] for j in range(k,m)):\n                return k\n        assert False\n\n \n    ans = [find_cycle_length(comp) for comp in components]\n    return lcm(*ans)\n \n \ndef main():\n    T = int(input())\n    for _ in range(T):\n        print(solve())\n \n \nif __name__ == \"__main__\":\n    main()",
+    "prob_desc_created_at": "1654612500",
+    "tags": [
+        "graphs",
+        "math",
+        "number theory",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"PATH\\n4\\n1 2 3 4\", \"CYCLES\\n4\\n4 1 2 3 \\n4\\n7 1 5 6\"]",
+    "src_uid": "2136f0aed9da00c3f991235f5074f71e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Today is tuesday, that means there is a dispute in JOHNNY SOLVING team again: they try to understand who is Johnny and who is Solving. That's why guys asked Umnik to help them. Umnik gave guys a connected graph with $$$n$$$ vertices without loops and multiedges, such that a degree of any vertex is at least $$$3$$$, and also he gave a number $$$1 \\leq k \\leq n$$$. Because Johnny is not too smart, he promised to find a simple path with length at least $$$\\frac{n}{k}$$$ in the graph. In reply, Solving promised to find $$$k$$$ simple by vertices cycles with representatives, such that:   Length of each cycle is at least $$$3$$$.  Length of each cycle is not divisible by $$$3$$$.  In each cycle must be a representative - vertex, which belongs only to this cycle among all printed cycles. You need to help guys resolve the dispute, for that you need to find a solution for Johnny: a simple path with length at least $$$\\frac{n}{k}$$$ ($$$n$$$ is not necessarily divided by $$$k$$$), or solution for Solving: $$$k$$$ cycles that satisfy all the conditions above. If there is no any solution - print $$$-1$$$. ",
+    "prob_desc_output_spec": "Print PATH in the first line, if you solve problem for Johnny. In the second line print the number of vertices in the path $$$c$$$ ($$$c \\geq \\frac{n}{k}$$$). And in the third line print vertices describing the path in route order. Print CYCLES in the first line, if you solve problem for Solving. In the following lines describe exactly $$$k$$$ cycles in the following format: in the first line print the size of the cycle $$$c$$$ ($$$c \\geq 3$$$). In the second line print the cycle in route order. Also, the first vertex in the cycle must be a representative. Print $$$-1$$$ if there is no any solution. The total amount of printed numbers in the output must be at most $$$10^6$$$. It's guaranteed, that if exists any solution then there is a correct output satisfies this restriction.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$m$$$ and $$$k$$$ ($$$1 \\leq k \\leq n \\leq 2.5 \\cdot 10^5, 1 \\leq m \\leq 5 \\cdot 10^5$$$) Next $$$m$$$ lines describe edges of the graph in format $$$v$$$, $$$u$$$ ($$$1 \\leq v, u \\leq n$$$). It's guaranteed that $$$v \\neq u$$$ and all $$$m$$$ pairs are distinct. It's guaranteed that a degree of each vertex is at least $$$3$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_016.jsonl",
+    "code_uid": "a0895fa863ad326294c60f4c2b022edf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 6 2\\n1 2\\n1 3\\n1 4\\n2 3\\n2 4\\n3 4\", \"10 18 2\\n1 2\\n1 3\\n1 4\\n1 5\\n1 6\\n1 7\\n1 8\\n1 9\\n1 10\\n2 3\\n3 4\\n2 4\\n5 6\\n6 7\\n5 7\\n8 9\\n9 10\\n8 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\n# Will extremly quickly convert s into a list of integers.\n# The format of the string is required to be integers (positive or negative)\n# separated with a single character with ascii value <'-', so like a whitespace.\n# It also handles the string ending with an additional character < '-', like a trailing newline.\n\ns = sys.stdin.read()\ninp = []\nnumb = 0\n \nfor i in range(len(s)):\n    if s[i]>='0':\n        numb = 10*numb + ord(s[i])-48\n    else:\n        inp.append(numb)\n        numb = 0\nif s[-1]>='0':\n    inp.append(numb)\n\nii = 0\nn = inp[ii]\nii+=1\nm = inp[ii]\nii+=1\nk = inp[ii]\nii+=1\n\ncoupl = [[] for _ in range(n)]\nfor _ in range(m):\n    u = inp[ii]-1\n    ii += 1\n    v = inp[ii]-1\n    ii += 1\n\n    coupl[u].append(v)\n    coupl[v].append(u)\n\nP = [-1]*n\nD = [1]*n\nfound = [False]*n\n\ncycle_nodes = []\n\nQ = [0]\nwhile Q:\n    node = Q.pop()\n    if found[node]:\n        continue\n    found[node] = True\n    found_any = False\n    for nei in coupl[node]:\n        if not found[nei]:\n            P[nei] = node\n            D[nei] = D[node]+1\n            Q.append(nei)\n            found_any = True\n    if not found_any:\n        cycle_nodes.append(node)\n\ni = max(range(n),key=lambda i:D[i])\nif k*D[i]>=n:\n    print 'PATH'\n    print D[i]\n    out = []\n    while i!=-1:\n        out.append(i)\n        i = P[i]\n    print ' '.join(str(x+1) for x in out)\nelif len(cycle_nodes)>=k:\n    print 'CYCLES'\n    out = []\n    for i in cycle_nodes[:k]:\n        minD = min(D[nei] for nei in coupl[i] if (D[i] - D[nei] + 1)%3!=0) \n        tmp = []\n        if minD == D[i]-1:\n            a,b = [nei for nei in coupl[i] if (D[i] - D[nei] + 1)%3==0][:2]\n            if D[a]<D[b]:\n                a,b = b,a\n            tmp.append(i)\n            while a!=b:\n                tmp.append(a)\n                a = P[a]\n            tmp.append(a)\n        else:\n            while D[i]!=minD:\n                tmp.append(i)\n                i = P[i]\n            tmp.append(i)\n        out.append(str(len(tmp)))\n        out.append(' '.join(str(x+1) for x in tmp))\n    print '\\n'.join(out)\nelse:\n    print -1\n",
+    "prob_desc_created_at": "1548167700",
+    "tags": [
+        "constructive algorithms",
+        "graphs",
+        "dfs and similar",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

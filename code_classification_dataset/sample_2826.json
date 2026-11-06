@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"3\"]",
+    "src_uid": "4abdd16670a796be3a0bff63b9798fed",
+    "prob_desc_notes": "NoteIn the first sample none of two cards brings extra moves, so you should play the one that will bring more points.In the second sample you should first play the third card that doesn't bring any points but lets you play both remaining cards.",
+    "prob_desc_description": "Ilya plays a card game by the following rules.A player has several cards. Each card contains two non-negative integers inscribed, one at the top of the card and one at the bottom. At the beginning of the round the player chooses one of his cards to play it. If the top of the card contains number ai, and the bottom contains number bi, then when the player is playing the card, he gets ai points and also gets the opportunity to play additional bi cards. After the playing the card is discarded.More formally: let's say that there is a counter of the cards that can be played. At the beginning of the round the counter equals one. When a card is played, the counter decreases by one for the played card and increases by the number bi, which is written at the bottom of the card. Then the played card is discarded. If after that the counter is not equal to zero, the player gets the opportunity to play another card from the remaining cards. The round ends when the counter reaches zero or the player runs out of cards.Of course, Ilya wants to get as many points as possible. Can you determine the maximum number of points he can score provided that you know his cards?",
+    "prob_desc_output_spec": "Print the single number — the maximum number of points you can score in one round by the described rules.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 1000) — the number of cards Ilya has. Each of the next n lines contains two non-negative space-separated integers — ai and bi (0 ≤ ai, bi ≤ 104) — the numbers, written at the top and the bottom of the i-th card correspondingly.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_032.jsonl",
+    "code_uid": "a9e14429ffc11fc8b7681b45fec9f277",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 0\\n2 0\", \"3\\n1 0\\n2 0\\n0 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\nc=[]\nvalue=0\ncount=1\nfor i in range(n):\n    a,b=map(int,input().split())\n    if b!=0:\n        value+=a\n        count+=b-1\n    else:\n        c.append(a)\nc.sort()\nif len(c)>0:\n    index=len(c)-1\n    for i in range(count):\n        value+=c[index]\n        index-=1\n        if index==-1:\n            break\n    print(value)\nelif len(c)==n:\n    print(c[-1])\nelse:\n    print(value)\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "prob_desc_created_at": "1330095600",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

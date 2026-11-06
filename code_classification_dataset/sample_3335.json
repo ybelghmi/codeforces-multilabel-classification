@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"27\"]",
+    "src_uid": "9366e1626b33b4f4e49cf35200c0448f",
+    "prob_desc_notes": "NoteIn the first test case m = 20 = 1, f(0) = 0, f(1) = a0 = 3.In the second sample m = 20 + 21 + 23 = 11, the maximum value of function equals f(5) = a0 + a2 = 17 + 10 = 27.",
+    "prob_desc_description": "Valera has array a, consisting of n integers a0, a1, ..., an - 1, and function f(x), taking an integer from 0 to 2n - 1 as its single argument. Value f(x) is calculated by formula , where value bit(i) equals one if the binary representation of number x contains a 1 on the i-th position, and zero otherwise.For example, if n = 4 and x = 11 (11 = 20 + 21 + 23), then f(x) = a0 + a1 + a3.Help Valera find the maximum of function f(x) among all x, for which an inequality holds: 0 ≤ x ≤ m.",
+    "prob_desc_output_spec": "Print a single integer — the maximum value of function f(x) for all .",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105) — the number of array elements. The next line contains n space-separated integers a0, a1, ..., an - 1 (0 ≤ ai ≤ 104) — elements of array a. The third line contains a sequence of digits zero and one without spaces s0s1... sn - 1 — the binary representation of number m. Number m equals .",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_053.jsonl",
+    "code_uid": "0118d7b43401e674d83f9b4687b0f462",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3 8\\n10\", \"5\\n17 0 10 2 1\\n11010\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "m = int(input())\nlistValue = input().split()\nx = input().rstrip('\\n')\n\nvalues = [int(v) for v in listValue]\nreverse_x = list(x)\nreverse_int = [int(s) for s in reverse_x]\nreverse_list = [0] * m\nsum_list = 0\nfor i in range(m):\n    if reverse_x[i] == '1':\n        reverse_list[i] = max(reverse_list[i - 1] + values[i], sum_list)\n    else:\n        reverse_list[i] = reverse_list[i - 1]\n    sum_list += values[i]\n\nprint(reverse_list[-1])\n",
+    "prob_desc_created_at": "1381419000",
+    "tags": [
+        "implementation",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n4\\n1\\n1\"]",
+    "src_uid": "53ff11122a277d1eb29fe2034017fd75",
+    "prob_desc_notes": "NoteIn the first test case, you can increase the length of the first stick by $$$1$$$, then decrease the length of the third stick by $$$1$$$. In total, you perform $$$2$$$ operations, such that the three sticks form an equilateral triangle of side length $$$2$$$.In the fourth test case, you can decrease the length of the seventh stick by $$$1$$$. An equilateral triangle of side length $$$1$$$ can be selected and formed by the second, fourth, and seventh sticks.",
+    "prob_desc_description": "You are given $$$n$$$ sticks with positive integral length $$$a_1, a_2, \\ldots, a_n$$$.You can perform the following operation any number of times (possibly zero):   choose one stick, then either increase or decrease its length by $$$1$$$. After each operation, all sticks should have positive lengths. What is the minimum number of operations that you have to perform such that it is possible to select three of the $$$n$$$ sticks and use them without breaking to form an equilateral triangle?An equilateral triangle is a triangle where all of its three sides have the same length.",
+    "prob_desc_output_spec": "For each test case, print one integer on a single line — the minimum number of operations to be made.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$3 \\le n \\le 300$$$) — the number of sticks. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — the lengths of the sticks. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$300$$$. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_097.jsonl",
+    "code_uid": "6a6398d4fbaf0d733f6bd806c7155959",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n3\\n\\n1 2 3\\n\\n4\\n\\n7 3 7 3\\n\\n5\\n\\n3 4 2 1 1\\n\\n8\\n\\n3 1 4 1 5 9 2 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# Coded By Block_Cipher\r\n \r\nimport math\r\nimport os\r\nimport random\r\nimport re\r\nimport sys\r\nfrom math import gcd\r\nfrom math import sqrt\r\n# from collections import Counter\r\n \r\n\r\n# sys.stdin = open('input.txt', 'r')\r\n# sys.stdout = open('output.txt', 'w')\r\n\r\nfor _ in range(int(input())):\r\n\tn = int(input())\r\n\tarr = list(map(int,input().split()))\r\n\r\n\r\n\tarr.sort()\r\n\r\n\tans = 900000000000\r\n\tfor i in range(n-2):\r\n\t\tans = min(ans,arr[i+2]- arr[i])\r\n\tprint(ans)",
+    "prob_desc_created_at": "1663934700",
+    "tags": [
+        "brute force",
+        "greedy",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

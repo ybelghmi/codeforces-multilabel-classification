@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\"]",
+    "src_uid": "35d68cc84b4c0025f03f857779f540d7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "People in the Tomskaya region like magic formulas very much. You can see some of them below.Imagine you are given a sequence of positive integer numbers p1, p2, ..., pn. Lets write down some magic formulas:Here, \"mod\" means the operation of taking the residue after dividing.The expression  means applying the bitwise xor (excluding \"OR\") operation to integers x and y. The given operation exists in all modern programming languages. For example, in languages C++ and Java it is represented by \"^\", in Pascal — by \"xor\".People in the Tomskaya region like magic formulas very much, but they don't like to calculate them! Therefore you are given the sequence p, calculate the value of Q.",
+    "prob_desc_output_spec": "The only line of output should contain a single integer — the value of Q.",
+    "prob_desc_input_spec": "The first line of the input contains the only integer n (1 ≤ n ≤ 106). The next line contains n integers: p1, p2, ..., pn (0 ≤ pi ≤ 2·109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_016.jsonl",
+    "code_uid": "770748ad86c824958dcc54a2ad59e0b3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,a=int(input()),list(map(int,input().split()))\nx,s=[0]*(n+1),0\nfor i in range(1,n+1):\n\tx[i]=i^x[i-1]\n\tif (n//i)%2:s^=x[i-1]\n\ts^=x[n%i]\n\ts^=a[i-1]\nprint(s)\n",
+    "prob_desc_created_at": "1398409200",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

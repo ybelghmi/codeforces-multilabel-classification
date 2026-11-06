@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"NO\", \"YES\", \"NO\"]",
+    "src_uid": "02a9081aed29ea92aae13950a6d48325",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Valera is a little boy. Yesterday he got a huge Math hometask at school, so Valera didn't have enough time to properly learn the English alphabet for his English lesson. Unfortunately, the English teacher decided to have a test on alphabet today. At the test Valera got a square piece of squared paper. The length of the side equals n squares (n is an odd number) and each unit square contains some small letter of the English alphabet.Valera needs to know if the letters written on the square piece of paper form letter \"X\". Valera's teacher thinks that the letters on the piece of paper form an \"X\", if:  on both diagonals of the square paper all letters are the same;  all other squares of the paper (they are not on the diagonals) contain the same letter that is different from the letters on the diagonals. Help Valera, write the program that completes the described task for him.",
+    "prob_desc_output_spec": "Print string \"YES\", if the letters on the paper form letter \"X\". Otherwise, print string \"NO\". Print the strings without quotes.",
+    "prob_desc_input_spec": "The first line contains integer n (3 ≤ n &lt; 300; n is odd). Each of the next n lines contains n small English letters — the description of Valera's paper.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_000.jsonl",
+    "code_uid": "f6f6ab90185fab0c8d4c701f9fe615b5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nxooox\\noxoxo\\nsoxoo\\noxoxo\\nxooox\", \"3\\nwsw\\nsws\\nwsw\", \"3\\nxpx\\npxp\\nxpe\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding:utf-8 -*-\nimport sys\n#n_list = map(int, raw_input().split(' '))\n\n\ndef some_func():\n    \"\"\"\n    \"\"\"\n    n =input()\n    n_list = []\n    for i in range(n):\n        n_list.append(raw_input())\n\n    count1 = 0\n    count2 = 0\n    for i in range(n):\n        count1+=n_list[i].count(n_list[0][0])\n        count2+=n_list[i].count(n_list[0][1])\n    flag = 1\n    for i in range(n):\n        for j in range(n):\n            if i==j  and n_list[i][j] != n_list[0][0]:\n                flag = 0\n                break\n            if i+j == n-1 and  n_list[i][j] !=n_list[0][0]:\n                flag = 0\n                break\n    if flag and count1 == 2*n-1 and count2 == n*n-2*n+1:\n        print \"YES\"\n    else:\n        print \"NO\"\n\n\n\n\n\nif __name__ == '__main__':\n    some_func()\n\n\n",
+    "prob_desc_created_at": "1395243000",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

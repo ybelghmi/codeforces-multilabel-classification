@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\", \"3\\n2 6\\n3 2\\n6 3\"]",
+    "src_uid": "237919f0be8013f9df040beb61dc7e5b",
+    "prob_desc_notes": "NoteLet's say that a disk consists of 8 clusters and contains two files. The first file occupies two clusters and the second file occupies three clusters. Let's look at examples of correct and incorrect positions of files after defragmentation. Example 2: each file must occupy a contiguous area of memory.Example 3: the order of files to each other is not important, at first the second file can be written, and then — the first one.Example 4: violating the order of file fragments to each other is not allowed.Example 5: unused clusters should be located at the end, and in this example the unused clusters are 3, 7, 8.",
+    "prob_desc_description": "In this problem you have to implement an algorithm to defragment your hard disk. The hard disk consists of a sequence of clusters, numbered by integers from 1 to n. The disk has m recorded files, the i-th file occupies clusters with numbers ai, 1, ai, 2, ..., ai, ni. These clusters are not necessarily located consecutively on the disk, but the order in which they are given corresponds to their sequence in the file (cluster ai, 1 contains the first fragment of the i-th file, cluster ai, 2 has the second fragment, etc.). Also the disc must have one or several clusters which are free from files.You are permitted to perform operations of copying the contents of cluster number i to cluster number j (i and j must be different). Moreover, if the cluster number j used to keep some information, it is lost forever. Clusters are not cleaned, but after the defragmentation is complete, some of them are simply declared unusable (although they may possibly still contain some fragments of files).Your task is to use a sequence of copy operations to ensure that each file occupies a contiguous area of memory. Each file should occupy a consecutive cluster section, the files must follow one after another from the beginning of the hard disk. After defragmentation all free (unused) clusters should be at the end of the hard disk. After defragmenting files can be placed in an arbitrary order. Clusters of each file should go consecutively from first to last. See explanatory examples in the notes.Print the sequence of operations leading to the disk defragmentation. Note that you do not have to minimize the number of operations, but it should not exceed 2n.",
+    "prob_desc_output_spec": "In the first line print a single integer k (0 ≤ k ≤ 2n) — the number of operations needed to defragment the disk. Next k lines should contain the operations' descriptions as \"i j\" (copy the contents of the cluster number i to the cluster number j). ",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 200) — the number of clusters and the number of files, correspondingly. Next m lines contain descriptions of the files. The first number in the line is ni (ni ≥ 1), the number of clusters occupied by the i-th file. Then follow ni numbers ai, 1, ai, 2, ..., ai, ni (1 ≤ ai, j ≤ n). It is guaranteed that each cluster number occurs not more than once and , that is, there exists at least one unused cluster. Numbers on each line are separated by spaces. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_018.jsonl",
+    "code_uid": "6e8aedb45b75082fa7bc151998e4edc3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 2\\n2 1 2\\n3 3 4 5\", \"7 2\\n2 1 3\\n3 2 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, raw_input().split())\nmem = [-1] * 210\ndata = []\nfor x in xrange(m):\n    f = map(int, raw_input().split())[1:]\n    for y in f:\n        mem[y] = x\n    data.append(f)\nfree = -1\nfor x in xrange(1, n+1):\n    if mem[x] == -1:\n        free = x\n        break\nans = []\ncnt = 0\nfor x in xrange(m):\n    for i in xrange(len(data[x])):\n        cnt += 1\n        if data[x][i] == cnt: continue\n        y = mem[cnt]\n        if y == -1:\n            ans.append((data[x][i], cnt))\n            mem[data[x][i]] = -1\n            free = data[x][i]\n            data[x][i] = cnt\n            mem[cnt] = x\n            continue\n        for j in xrange(len(data[y])):\n            if data[y][j] == cnt:\n                ans.append((cnt, free))\n                ans.append((data[x][i], cnt))\n                data[y][j] = free\n                mem[free] = y\n                free = data[x][i]\n                mem[free] = -1\n                data[x][i] = cnt\n                mem[cnt] = x\nprint len(ans)\nfor (x, y) in ans:\n    print x, y\n",
+    "prob_desc_created_at": "1335078000",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

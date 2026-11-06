@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 1\", \"2 1 3\"]",
+    "src_uid": "412c9de03713ca8b5d1461d0213b8eec",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The employees of the R1 company often spend time together: they watch football, they go camping, they solve contests. So, it's no big deal that sometimes someone pays for someone else.Today is the day of giving out money rewards. The R1 company CEO will invite employees into his office one by one, rewarding each one for the hard work this month. The CEO knows who owes money to whom. And he also understands that if he invites person x to his office for a reward, and then immediately invite person y, who has lent some money to person x, then they can meet. Of course, in such a situation, the joy of person x from his brand new money reward will be much less. Therefore, the R1 CEO decided to invite the staff in such an order that the described situation will not happen for any pair of employees invited one after another.However, there are a lot of employees in the company, and the CEO doesn't have a lot of time. Therefore, the task has been assigned to you. Given the debt relationships between all the employees, determine in which order they should be invited to the office of the R1 company CEO, or determine that the described order does not exist.",
+    "prob_desc_output_spec": "Print -1 if the described order does not exist. Otherwise, print the permutation of n distinct integers. The first number should denote the number of the person who goes to the CEO office first, the second number denote the person who goes second and so on. If there are multiple correct orders, you are allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains space-separated integers n and m  — the number of employees in R1 and the number of debt relations. Each of the following m lines contains two space-separated integers ai, bi (1 ≤ ai, bi ≤ n; ai ≠ bi), these integers indicate that the person number ai owes money to a person a number bi. Assume that all the employees are numbered from 1 to n. It is guaranteed that each pair of people p, q is mentioned in the input data at most once. In particular, the input data will not contain pairs p, q and q, p simultaneously.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_004.jsonl",
+    "code_uid": "43f6c7b28b461d368e97916e5822c1cc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 1\\n1 2\", \"3 3\\n1 2\\n2 3\\n3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nn,m=map(int,sys.stdin.readline().split())\nP={}\nfor i in range(m):\n    a,b=map(int,sys.stdin.readline().split())\n    P[(a-1,b-1)]=1\n\nA=[-1]*n\nA[0]=0\nfor i in range(1,n):\n    j=1\n    A[i]=i\n    x=i\n    while(x>0 and (A[x-1],A[x]) in P):\n        A[x-1],A[x]=A[x],A[x-1]\n        x-=1\nAnss=\"\"\nfor i in range(n):\n    Anss+=str(A[i]+1)+\" \"\nsys.stdout.write(Anss)\n",
+    "prob_desc_created_at": "1397837400",
+    "tags": [
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

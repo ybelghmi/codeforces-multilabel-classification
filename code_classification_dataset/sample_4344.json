@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1 2\\n1 2\\n3\\n1 3\\n2 3\\n2 3\\n5\\n1 3\\n2 4\\n2 4\\n3 4\\n3 4\\n0\\n2\\n1 2\\n1 2\\n0\\n4\\n1 2\\n1 5\\n1 4\\n1 2\\n1\\n5 2\"]",
+    "src_uid": "5c013cdc91f88c102532a86058893f0d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "An important meeting is to be held and there are exactly $$$n$$$ people invited. At any moment, any two people can step back and talk in private. The same two people can talk several (as many as they want) times per meeting.Each person has limited sociability. The sociability of the $$$i$$$-th person is a non-negative integer $$$a_i$$$. This means that after exactly $$$a_i$$$ talks this person leaves the meeting (and does not talk to anyone else anymore). If $$$a_i = 0$$$, the $$$i$$$-th person leaves the meeting immediately after it starts.A meeting is considered most productive if the maximum possible number of talks took place during it.You are given an array of sociability $$$a$$$, determine which people should talk to each other so that the total number of talks is as large as possible.",
+    "prob_desc_output_spec": "Print $$$t$$$ answers to all test cases. On the first line of each answer print the number $$$k$$$ — the maximum number of talks possible in a meeting. On each of the next $$$k$$$ lines print two integers $$$i$$$ and $$$j$$$ ($$$1 \\le i, j \\le n$$$ and $$$i \\neq j$$$) — the numbers of people who will have another talk. If there are several possible answers, you may print any of them.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The next $$$2t$$$ lines contain descriptions of the test cases. The first line of each test case description contains an integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) —the number of people in the meeting. The second line consists of $$$n$$$ space-separated integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 2 \\cdot 10^5$$$) — the sociability parameters of all people.  It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$. It is also guaranteed that the sum of all $$$a_i$$$ (over all test cases and all $$$i$$$) does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_095.jsonl",
+    "code_uid": "4cc35dd5568df63acf848804ebbac953",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n2\\n2 3\\n3\\n1 2 3\\n4\\n1 2 3 4\\n3\\n0 0 2\\n2\\n6 2\\n3\\n0 0 2\\n5\\n8 2 0 1 1\\n5\\n0 1 0 0 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, math, collections\r\n\r\n\r\ndef get_ints(): return map(int, sys.stdin.readline().strip().split())\r\n\r\n\r\ndef get_array(): return list(map(int, sys.stdin.readline().strip().split()))\r\n\r\n\r\ndef input(): return sys.stdin.readline().strip()\r\n\r\n\r\nMOD = 1000000007\r\n\r\nfor _ in range(int(input())):\r\n    n = int(input())\r\n    arr = get_array()\r\n    A = [[arr[i], i + 1] for i in range(n)]\r\n    A.sort()\r\n    # s = sum([A[i][0] for i in range(n - 1)])\r\n    s = 0\r\n    for i in range(n - 1):\r\n        s += A[i][0]\r\n    mx = A[-1][0]\r\n    ans = []\r\n    for i in range(n - 1):\r\n        if s <= mx:\r\n            break\r\n        while s > mx and A[i][0]:\r\n            ans.append((A[i][1], A[i + 1][1]))\r\n            A[i][0] -= 1\r\n            A[i + 1][0] -= 1\r\n            s -= 2\r\n    for i in range(n - 1):\r\n        while A[i][0] and mx:\r\n            ans.append((A[i][1], A[-1][1]))\r\n            A[i][0] -= 1\r\n            mx -= 1\r\n    print(len(ans))\r\n    for ele in ans:\r\n        print(*ele)\r\n",
+    "prob_desc_created_at": "1632839700",
+    "tags": [
+        "constructive algorithms",
+        "graphs",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

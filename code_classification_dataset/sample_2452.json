@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"#b\\n#big\\n#big\", \"#book\\n#co\\n#cold\", \"#\\n#\\n#art\\n#at\", \"#apple\\n#apple\\n#fruit\"]",
+    "src_uid": "27baf9b1241c0f8e3a2037b18f39fe34",
+    "prob_desc_notes": "NoteWord a1, a2, ..., am of length m is lexicographically not greater than word b1, b2, ..., bk of length k, if one of two conditions hold:   at first position i, such that ai ≠ bi, the character ai goes earlier in the alphabet than character bi, i.e. a has smaller character than b in the first position where they differ;  if there is no such position i and m ≤ k, i.e. the first word is a prefix of the second or two words are equal. The sequence of words is said to be sorted in lexicographical order if each word (except the last one) is lexicographically not greater than the next word.For the words consisting of lowercase English letters the lexicographical order coincides with the alphabet word order in the dictionary.According to the above definition, if a hashtag consisting of one character '#' it is lexicographically not greater than any other valid hashtag. That's why in the third sample we can't keep first two hashtags unchanged and shorten the other two.",
+    "prob_desc_description": "Vasya is an administrator of a public page of organization \"Mouse and keyboard\" and his everyday duty is to publish news from the world of competitive programming. For each news he also creates a list of hashtags to make searching for a particular topic more comfortable. For the purpose of this problem we define hashtag as a string consisting of lowercase English letters and exactly one symbol '#' located at the beginning of the string. The length of the hashtag is defined as the number of symbols in it without the symbol '#'.The head administrator of the page told Vasya that hashtags should go in lexicographical order (take a look at the notes section for the definition).Vasya is lazy so he doesn't want to actually change the order of hashtags in already published news. Instead, he decided to delete some suffixes (consecutive characters at the end of the string) of some of the hashtags. He is allowed to delete any number of characters, even the whole string except for the symbol '#'. Vasya wants to pick such a way to delete suffixes that the total number of deleted symbols is minimum possible. If there are several optimal solutions, he is fine with any of them.",
+    "prob_desc_output_spec": "Print the resulting hashtags in any of the optimal solutions.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 500 000) — the number of hashtags being edited now. Each of the next n lines contains exactly one hashtag of positive length. It is guaranteed that the total length of all hashtags (i.e. the total length of the string except for characters '#') won't exceed 500 000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_023.jsonl",
+    "code_uid": "f1d9236bcb4d08dedd2a6468e7411e2e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n#book\\n#bigtown\\n#big\", \"3\\n#book\\n#cool\\n#cold\", \"4\\n#car\\n#cart\\n#art\\n#at\", \"3\\n#apple\\n#apple\\n#fruit\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def cut_to_lexicographic(word_bigger, word_smaller):\n    if len(word_bigger) > len(word_smaller):\n        return word_bigger[:len(word_smaller)]\n    for l in range(len(word_bigger)):\n        if word_bigger[l] != word_smaller[l]:\n            return word_smaller[:l]\n    return word_bigger\n\n\nn = int(input())\narray = [str(input()) for c in range(n)]\n\nb = n - 2\nwhile b > -1:\n    if array[b + 1] >= array[b]:\n        b = b - 1\n    else:\n        array[b] = cut_to_lexicographic(array[b], array[b+1])\nprint(\"\\n\".join(array))",
+    "prob_desc_created_at": "1487930700",
+    "tags": [
+        "binary search",
+        "implementation",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

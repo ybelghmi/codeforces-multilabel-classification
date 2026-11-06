@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\"]",
+    "src_uid": "e12d86f0c8645424b942d3dd9038e04d",
+    "prob_desc_notes": "NoteIn the third sample Vasya considers the first and fifth laptops outdated as all of their properties cannot match those of the third laptop. The fourth one is the cheapest among the laptops that are left. Thus, Vasya chooses the fourth laptop.",
+    "prob_desc_description": "Vasya is choosing a laptop. The shop has n laptops to all tastes.Vasya is interested in the following properties: processor speed, ram and hdd. Vasya is a programmer and not a gamer which is why he is not interested in all other properties.If all three properties of a laptop are strictly less than those properties of some other laptop, then the first laptop is considered outdated by Vasya. Among all laptops Vasya does not consider outdated, he chooses the cheapest one.There are very many laptops, which is why Vasya decided to write a program that chooses the suitable laptop. However, Vasya doesn't have his own laptop yet and he asks you to help him.",
+    "prob_desc_output_spec": "Print a single number — the number of a laptop Vasya will choose. The laptops are numbered with positive integers from 1 to n in the order in which they are given in the input data.",
+    "prob_desc_input_spec": "The first line contains number n (1 ≤ n ≤ 100). Then follow n lines. Each describes a laptop as speed ram hdd cost. Besides,    speed, ram, hdd and cost are integers  1000 ≤ speed ≤ 4200 is the processor's speed in megahertz  256 ≤ ram ≤ 4096 the RAM volume in megabytes  1 ≤ hdd ≤ 500 is the HDD in gigabytes  100 ≤ cost ≤ 1000 is price in tugriks  All laptops have different prices.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_016.jsonl",
+    "code_uid": "dfa7dc6209ae64164b9e4c9dbba82edf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2100 512 150 200\\n2000 2048 240 350\\n2300 1024 200 320\\n2500 2048 80 300\\n2000 512 180 150\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nlaptops = []\nfor i in range(n):\n    speed, ram, hdd, cost = map(int, input().split())\n    laptops.append([False, speed, ram, hdd, cost])\n\nfor i in range(n):\n    for j in range(n):\n        if laptops[i][1] < laptops[j][1] and laptops[i][2] < laptops[j][2] and laptops[i][3] < laptops[j][3]:\n            laptops[i][0] = True\n\nminPrice = 1001\nbest = 1\nfor i in range(n):\n    if not laptops[i][0]:\n        if laptops[i][4] < minPrice:\n            minPrice = laptops[i][4]\n            best = i+1\nprint(best)",
+    "prob_desc_created_at": "1313766000",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

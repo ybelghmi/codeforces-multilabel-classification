@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"X..\\n..X\\n.X.\\nXX\\nXX\\n.X..X.\\nX..X..\\n..X..X\\n.X..X.\\nX..X..\\n..X..X\"]",
+    "src_uid": "1cbbf71a8e50b58547d1f74437509319",
+    "prob_desc_notes": "NoteLet's analyze the first test case.The following tables can be printed as the correct answer: X....X.X. or ..XX...X.  It can be proved that there cannot be less than $$$3$$$ characters 'X' in the answer.Note that the following table is invalid because cell $$$(3, 2)$$$ does not contain the character 'X':  X...X...X In the second test case, the only correct table is:  XXXX  Each subtable of size $$$1 \\times 1$$$ must contain a 'X' character, so all characters in the table must be equal to 'X'.",
+    "prob_desc_description": "Madoka decided to participate in an underground sports programming competition. And there was exactly one task in it:A square table of size $$$n \\times n$$$, where $$$n$$$ is a multiple of $$$k$$$, is called good if only the characters '.' and 'X' are written in it, as well as in any subtable of size $$$1 \\times k$$$ or $$$k \\times 1$$$, there is at least one character 'X'. In other words, among any $$$k$$$ consecutive vertical or horizontal cells, there must be at least one containing the character 'X'.Output any good table that has the minimum possible number of characters 'X', and also the symbol 'X' is written in the cell $$$(r, c)$$$. Rows are numbered from $$$1$$$ to $$$n$$$ from top to bottom, columns are numbered from $$$1$$$ to $$$n$$$ from left to right.",
+    "prob_desc_output_spec": "For each test case, output $$$n$$$ lines, each consisting of $$$n$$$ characters '.' and 'X', — the desired table. If there are several answers, then you can output anyone.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Description of the test cases follows. The first and the only line of each test case contains four integers $$$n$$$, $$$k$$$, $$$r$$$, $$$c$$$ ($$$1 \\le n \\le 500, 1 \\le k \\le n, 1 \\le r, c \\le n$$$) — the size of the table, the integer $$$k$$$ and the coordinates of the cell, which must contain the character 'X'. It is guaranteed that $$$n$$$ is a multiple of $$$k$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$500$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_104.jsonl",
+    "code_uid": "e4f142430b7888a717ebd63c1f60dcc0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n3 3 3 2\\n\\n2 1 1 2\\n\\n6 3 4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def solve() -> None:\r\n    n, k, r, c = map(int, input().split())\r\n    res = [['.'] * n for _ in range(n)]\r\n\r\n    rk = (r-1) % k\r\n    ck = (c-1) % k\r\n    mx = max(rk, ck)\r\n    for i in range(n):\r\n        j = i % k\r\n        if i % k == rk:\r\n            j = ck\r\n        elif i % k == ck:\r\n            j = rk\r\n        while j < n:\r\n            res[i][j] = 'X'\r\n            j += k\r\n    \r\n    for i in range(n):\r\n        print(\"\".join(res[i]))\r\n\r\nt = int(input())\r\nfor _ in range(t):\r\n    solve()",
+    "prob_desc_created_at": "1662129300",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

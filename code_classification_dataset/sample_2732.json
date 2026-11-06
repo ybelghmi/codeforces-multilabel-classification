@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"6\"]",
+    "src_uid": "e95fb7d4309747834b37d4bc3468afb7",
+    "prob_desc_notes": "NoteIn the first example you are given memory clusters with sizes 8, 4, 3, 2, 2 and arrays with sizes 8, 4, 4. There are few ways to obtain an answer equals 2: you can locate array with size 8 to the cluster with size 8, and one of the arrays with size 4 to the cluster with size 4. Another way is to locate two arrays with size 4 to the one cluster with size 8.In the second example you are given 10 memory clusters with size 1 and 6 arrays with size 1. You can choose any 6 clusters and locate all given arrays to them.",
+    "prob_desc_description": "You get to work and turn on the computer. You start coding and give little thought to the RAM role in the whole process. In this problem your task is to solve one of the problems you encounter in your computer routine.We'll consider the RAM as a sequence of cells that can contain data. Some cells already contain some data, some are empty. The empty cells form the so-called memory clusters. Thus, a memory cluster is a sequence of some consecutive empty memory cells. You have exactly n memory clusters, the i-th cluster consists of ai cells. You need to find memory for m arrays in your program. The j-th array takes 2bj consecutive memory cells. There possibly isn't enough memory for all m arrays, so your task is to determine what maximum number of arrays can be located in the available memory clusters. Of course, the arrays cannot be divided between the memory clusters. Also, no cell can belong to two arrays.",
+    "prob_desc_output_spec": "Print a single integer — the answer to the problem.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and m (1 ≤ n, m ≤ 106). The next line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 109). The next line contains m integers b1, b2, ..., bm (1 ≤ 2bi ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_029.jsonl",
+    "code_uid": "0ab1d17cdd57527e7e6c7a41e78503c2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n8 4 3 2 2\\n3 2 2\", \"10 6\\n1 1 1 1 1 1 1 1 1 1\\n0 0 0 0 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nfrom collections import Counter, defaultdict\nfrom itertools import permutations, combinations\nraw_input = stdin.readline\npr = stdout.write\n\n\ndef in_arr():\n    return map(int,raw_input().split())\n\n\ndef pr_num(n):\n    stdout.write(str(n)+'\\n')\n\n\ndef pr_arr(arr):\n    for i in arr:\n        stdout.write(str(i)+' ')\n    stdout.write('\\n')\n\n\nrange = xrange # not for python 3.0+\n\n# main code\n\nn,m=in_arr()\nl=in_arr()\nd1=Counter(in_arr())\nd=Counter()\nfor i in l:\n    for j in range(30):\n        if (1<<j)&i:\n            d[j]+=1\nfor i in range(28,-1,-1):\n    d[i]+=2*d[i+1]\nans=0\nfor i in range(30):\n    \n    ans+=min(d1[i],d[i])\n    d[i+1]=min(max(0,d[i]-d1[i])/2,d[i+1])\npr_num(ans)\n        \n",
+    "prob_desc_created_at": "1368784800",
+    "tags": [
+        "binary search",
+        "bitmasks",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

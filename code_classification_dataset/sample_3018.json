@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"21 7 15 21 3\", \"0 0\", \"1 3 3\"]",
+    "src_uid": "f94165f37e968442fa7f8be051018ad9",
+    "prob_desc_notes": "NoteThe picture shows the tree from the first example: ",
+    "prob_desc_description": "You are given a weighted tree consisting of $$$n$$$ vertices. Recall that a tree is a connected graph without cycles. Vertices $$$u_i$$$ and $$$v_i$$$ are connected by an edge with weight $$$w_i$$$.You are given $$$m$$$ queries. The $$$i$$$-th query is given as an integer $$$q_i$$$. In this query you need to calculate the number of pairs of vertices $$$(u, v)$$$ ($$$u &lt; v$$$) such that the maximum weight of an edge on a simple path between $$$u$$$ and $$$v$$$ doesn't exceed $$$q_i$$$.",
+    "prob_desc_output_spec": "Print $$$m$$$ integers — the answers to the queries. The $$$i$$$-th value should be equal to the number of pairs of vertices $$$(u, v)$$$ ($$$u &lt; v$$$) such that the maximum weight of an edge on a simple path between $$$u$$$ and $$$v$$$ doesn't exceed $$$q_i$$$. Queries are numbered from $$$1$$$ to $$$m$$$ in the order of the input.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 2 \\cdot 10^5$$$) — the number of vertices in the tree and the number of queries. Each of the next $$$n - 1$$$ lines describes an edge of the tree. Edge $$$i$$$ is denoted by three integers $$$u_i$$$, $$$v_i$$$ and $$$w_i$$$ — the labels of vertices it connects ($$$1 \\le u_i, v_i \\le n$$$, $$$u_i \\ne v_i$$$) and the weight of the edge ($$$1 \\le w_i \\le 2 \\cdot 10^5$$$). It is guaranteed that the given edges form a tree. The last line of the input contains $$$m$$$ integers $$$q_1, q_2, \\dots, q_m$$$ ($$$1 \\le q_i \\le 2 \\cdot 10^5$$$), where $$$q_i$$$ is the maximum weight of an edge in the $$$i$$$-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_038.jsonl",
+    "code_uid": "6276d6fe09749355a2c6c883c4ded9f2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 5\\n1 2 1\\n3 2 3\\n2 4 1\\n4 5 2\\n5 7 4\\n3 6 2\\n5 2 3 4 1\", \"1 2\\n1 2\", \"3 3\\n1 2 1\\n2 3 2\\n1 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def find_ancestor(i, father):\n    if father[i] == i:\n        return i\n    father[i] = find_ancestor(father[i], father)\n    return father[i]\n\ndef connect(i, j, father, n_child):\n    i_anc = find_ancestor(i, father)\n    j_anc = find_ancestor(j, father)\n    if n_child[i_anc] > n_child[j_anc]:\n        n_child[i_anc] += n_child[j_anc]\n        father[j_anc] = i_anc\n    else:\n        n_child[j_anc] += n_child[i_anc]\n        father[i_anc] = j_anc\n\nn, m = map(int, input().split())\nedges = []\nfather = [i for i in range(n)]\nn_child = [1]*n\n\nfor i in range(n-1):\n    i, j, w = map(int, input().split())\n    edges.append((i-1, j-1, w))\n\nedges.sort(key=lambda x: -x[2])\nqueries = list(map(int, input().split()))\n\ns_queries = sorted(queries)\n\n# final map the index to the query\nans = {}\n\nw_limit = []\nans_cum = 0\nfor query in s_queries:\n    while len(edges) and edges[-1][2] <= query:\n        i, j, w = edges[-1]\n        edges.pop()\n        i_anc = find_ancestor(i, father)\n        j_anc = find_ancestor(j, father)\n        # it's tree father may not be same\n        ans_cum += n_child[i_anc] * n_child[j_anc]\n        connect(i, j, father, n_child)\n    ans[query] = ans_cum\n\nprint(\" \".join(list(map(str, [ans[query] for query in queries]))))\n",
+    "prob_desc_created_at": "1567175700",
+    "tags": [
+        "graphs",
+        "dsu",
+        "divide and conquer",
+        "sortings",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

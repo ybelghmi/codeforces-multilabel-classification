@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"6\", \"3\"]",
+    "src_uid": "05548be393d794bf106708627220b9a3",
+    "prob_desc_notes": "NoteConsider the first example. There is only one subsegment with the sum $$$0$$$. It starts in the second element and ends in the fourth element. It's enough to insert one element so the array doesn't contain any subsegments with the sum equal to zero. For example, it is possible to insert the integer $$$1$$$ between second and third elements of the array.There are no subsegments having sum $$$0$$$ in the second example so you don't need to do anything.",
+    "prob_desc_description": "Kolya got an integer array $$$a_1, a_2, \\dots, a_n$$$. The array can contain both positive and negative integers, but Kolya doesn't like $$$0$$$, so the array doesn't contain any zeros.Kolya doesn't like that the sum of some subsegments of his array can be $$$0$$$. The subsegment is some consecutive segment of elements of the array. You have to help Kolya and change his array in such a way that it doesn't contain any subsegments with the sum $$$0$$$. To reach this goal, you can insert any integers between any pair of adjacent elements of the array (integers can be really any: positive, negative, $$$0$$$, any by absolute value, even such a huge that they can't be represented in most standard programming languages).Your task is to find the minimum number of integers you have to insert into Kolya's array in such a way that the resulting array doesn't contain any subsegments with the sum $$$0$$$.",
+    "prob_desc_output_spec": "Print the minimum number of integers you have to insert into Kolya's array in such a way that the resulting array doesn't contain any subsegments with the sum $$$0$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$2 \\le n \\le 200\\,000$$$) — the number of elements in Kolya's array. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$-10^{9} \\le a_i \\le 10^{9}, a_i \\neq 0$$$) — the description of Kolya's array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "7b7bea8fc89ccfef316829ac8520ed1f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 -5 3 2\", \"5\\n4 -2 3 -9 2\", \"9\\n-1 1 -1 1 -1 1 1 -1 -1\", \"8\\n16 -5 -11 -15 10 5 4 -4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = list(map(int,input().split()))\np = {0: 1};c=0;result = 0\nfor i in range(n):\n    c+=a[i]\n    if c in p:\n\n        result += 1\n\n        p = {0 : 1}\n\n        c = a[i]\n    p[c] = 1\n\n\nprint(result)",
+    "prob_desc_created_at": "1601280300",
+    "tags": [
+        "data structures",
+        "constructive algorithms",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

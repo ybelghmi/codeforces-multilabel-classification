@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"16\", \"-1\", \"3\"]",
+    "src_uid": "935fe98558b863d320a0b75d9301d880",
+    "prob_desc_notes": "NoteThe first test from the statement demonstrates the first example shown in the statement of the problem.The second test from the statement demonstrates the second example shown in the statement of the problem.In the third sample there are two possible paths that have distinct lengths, consequently, the sought length of the segment isn't defined uniquely.In the fourth sample, even though two distinct paths correspond to the query, they have the same lengths, so the sought length of the segment is defined uniquely.",
+    "prob_desc_description": "In Berland a bus travels along the main street of the capital. The street begins from the main square and looks like a very long segment. There are n bus stops located along the street, the i-th of them is located at the distance ai from the central square, all distances are distinct, the stops are numbered in the order of increasing distance from the square, that is, ai &lt; ai + 1 for all i from 1 to n - 1. The bus starts its journey from the first stop, it passes stops 2, 3 and so on. It reaches the stop number n, turns around and goes in the opposite direction to stop 1, passing all the intermediate stops in the reverse order. After that, it again starts to move towards stop n. During the day, the bus runs non-stop on this route.The bus is equipped with the Berland local positioning system. When the bus passes a stop, the system notes down its number.One of the key features of the system is that it can respond to the queries about the distance covered by the bus for the parts of its path between some pair of stops. A special module of the system takes the input with the information about a set of stops on a segment of the path, a stop number occurs in the set as many times as the bus drove past it. This module returns the length of the traveled segment of the path (or -1 if it is impossible to determine the length uniquely). The operation of the module is complicated by the fact that stop numbers occur in the request not in the order they were visited but in the non-decreasing order.For example, if the number of stops is 6, and the part of the bus path starts at the bus stop number 5, ends at the stop number 3 and passes the stops as follows: , then the request about this segment of the path will have form: 3, 4, 5, 5, 6. If the bus on the segment of the path from stop 5 to stop 3 has time to drive past the 1-th stop (i.e., if we consider a segment that ends with the second visit to stop 3 on the way from 5), then the request will have form: 1, 2, 2, 3, 3, 4, 5, 5, 6.You will have to repeat the Berland programmers achievement and implement this function.",
+    "prob_desc_output_spec": "In the single line please print the distance covered by a bus. If it is impossible to determine it unambiguously, print  - 1.",
+    "prob_desc_input_spec": "The first line contains integer n (2 ≤ n ≤ 2·105) — the number of stops. The second line contains n integers (1 ≤ ai ≤ 109) — the distance from the i-th stop to the central square. The numbers in the second line go in the increasing order. The third line contains integer m (1 ≤ m ≤ 4·105) — the number of stops the bus visited on some segment of the path. The fourth line contains m integers (1 ≤ bi ≤ n) — the sorted list of numbers of the stops visited by the bus on the segment of the path. The number of a stop occurs as many times as it was visited by a bus. It is guaranteed that the query corresponds to some segment of the path.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_027.jsonl",
+    "code_uid": "536b24fac5ed132271aaee83ddf56f59",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n2 3 5 7 11 13\\n5\\n3 4 5 5 6\", \"6\\n2 3 5 7 11 13\\n9\\n1 2 2 3 3 4 5 5 6\", \"3\\n10 200 300\\n4\\n1 2 2 3\", \"3\\n1 2 3\\n4\\n1 2 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "r = lambda: list(map(int, input().split()))\nri = lambda: int(input())\nn, a, m, b = ri(), r(), ri(), r()\nc = [0] * n\nfor e in b: c[e - 1] += 1\nc[0] *= 2; c[-1] *= 2\nd = 0\ndf= 0\nr = max(e // 2 for e in c)\nc = [e - r * 2 for e in c]\nif any(c):\n    for i in range(n - 1):\n        de = a[i+1] - a[i]\n        d += min(c[i], c[i+1]) * de\n        df += de    \n    print(d + r * 2 * df)\nelse:\n    de = a[1] - a[0]\n    for i in range(1, n - 1):\n        if a[i + 1] - a[i] != de: print(-1); break\n    else: print(r * de * 2 * (n - 1) - de)",
+    "prob_desc_created_at": "1428854400",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "hashing",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

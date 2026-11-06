@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"..R\\n...\\nR..\\n-1\\nR\\n.....\\nR....\\n.....\\n....R\\n.....\\n-1\"]",
+    "src_uid": "d5549c0627c236d82541a67ccbe7977d",
+    "prob_desc_notes": "NoteIn the first test case, you should find stable arrangement of $$$2$$$ rooks on the $$$3 \\times 3$$$ chessboard. Placing them in cells $$$(3, 1)$$$ and $$$(1, 3)$$$ gives stable arrangement.In the second test case it can be shown that it is impossbile to place $$$3$$$ rooks on the $$$3 \\times 3$$$ chessboard to get stable arrangement.",
+    "prob_desc_description": "You have an $$$n \\times n$$$ chessboard and $$$k$$$ rooks. Rows of this chessboard are numbered by integers from $$$1$$$ to $$$n$$$ from top to bottom and columns of this chessboard are numbered by integers from $$$1$$$ to $$$n$$$ from left to right. The cell $$$(x, y)$$$ is the cell on the intersection of row $$$x$$$ and collumn $$$y$$$ for $$$1 \\leq x \\leq n$$$ and $$$1 \\leq y \\leq n$$$.The arrangement of rooks on this board is called good, if no rook is beaten by another rook.A rook beats all the rooks that shares the same row or collumn with it.The good arrangement of rooks on this board is called not stable, if it is possible to move one rook to the adjacent cell so arrangement becomes not good. Otherwise, the good arrangement is stable. Here, adjacent cells are the cells that share a side.  Such arrangement of $$$3$$$ rooks on the $$$4 \\times 4$$$ chessboard is good, but it is not stable: the rook from $$$(1, 1)$$$ can be moved to the adjacent cell $$$(2, 1)$$$ and rooks on cells $$$(2, 1)$$$ and $$$(2, 4)$$$ will beat each other. Please, find any stable arrangement of $$$k$$$ rooks on the $$$n \\times n$$$ chessboard or report that there is no such arrangement.",
+    "prob_desc_output_spec": "If there is a stable arrangement of $$$k$$$ rooks on the $$$n \\times n$$$ chessboard, output $$$n$$$ lines of symbols . and R. The $$$j$$$-th symbol of the $$$i$$$-th line should be equals R if and only if there is a rook on the cell $$$(i, j)$$$ in your arrangement. If there are multiple solutions, you may output any of them. If there is no stable arrangement, output $$$-1$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. The first line of each test case contains two integers $$$n$$$, $$$k$$$ ($$$1 \\leq k \\leq n \\leq 40$$$) — the size of the chessboard and the number of rooks.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_092.jsonl",
+    "code_uid": "49359710760521c10edab75b6eb38300",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n3 2\\n\\n3 3\\n\\n1 1\\n\\n5 2\\n\\n40 33\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n  n,k = [int(x) for x in input().split()]\r\n  if (2*k-1 <=n):\r\n    a = [list(\".\"*n) for _ in range(n)]\r\n    for i in range(0,2*k,2):\r\n      a[i][i]='R'\r\n    for i in a:\r\n      print(\"\".join(i))\r\n  else:\r\n    print(-1)",
+    "prob_desc_created_at": "1641220500",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

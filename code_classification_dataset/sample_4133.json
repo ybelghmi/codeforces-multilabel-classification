@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3 1\\n1 0\\n0 0\\n6 3\"]",
+    "src_uid": "994a9cb52cf0fdab72be068eab1b27ef",
+    "prob_desc_notes": "NoteFor the first test case, you can apply the first operation $$$1$$$ time to get $$$a=9$$$ and $$$b=6$$$. It can be shown that $$$3$$$ is the maximum excitement possible.For the second test case, no matter how many operations you apply, the fans will always have an excitement equal to $$$1$$$. Since the initial excitement is also $$$1$$$, you don't need to apply any operation.For the third case, the fans can get infinite excitement by applying the first operation an infinite amount of times.For the fourth test case, you can apply the second operation $$$3$$$ times to get $$$a=0$$$ and $$$b=6$$$. Since, $$$gcd(0,6)=6$$$, the fans will get an excitement of $$$6$$$.",
+    "prob_desc_description": "Welcome to Rockport City!It is time for your first ever race in the game against Ronnie. To make the race interesting, you have bet $$$a$$$ dollars and Ronnie has bet $$$b$$$ dollars. But the fans seem to be disappointed. The excitement of the fans is given by $$$gcd(a,b)$$$, where $$$gcd(x, y)$$$ denotes the greatest common divisor (GCD) of integers $$$x$$$ and $$$y$$$. To make the race more exciting, you can perform two types of operations:  Increase both $$$a$$$ and $$$b$$$ by $$$1$$$.  Decrease both $$$a$$$ and $$$b$$$ by $$$1$$$. This operation can only be performed if both $$$a$$$ and $$$b$$$ are greater than $$$0$$$. In one move, you can perform any one of these operations. You can perform arbitrary (possibly zero) number of moves. Determine the maximum excitement the fans can get and the minimum number of moves required to achieve it.Note that $$$gcd(x,0)=x$$$ for any $$$x \\ge 0$$$.",
+    "prob_desc_output_spec": "For each test case, print a single line containing two integers.  If the fans can get infinite excitement, print 0 0. Otherwise, the first integer must be the maximum excitement the fans can get, and the second integer must be the minimum number of moves required to achieve that excitement.",
+    "prob_desc_input_spec": "The first line of input contains a single integer $$$t$$$ ($$$1\\leq t\\leq 5\\cdot 10^3$$$) — the number of test cases. The first and the only line of each test case contains two integers $$$a$$$ and $$$b$$$ ($$$0\\leq a, b\\leq 10^{18}$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_091.jsonl",
+    "code_uid": "7ab00dd50b4882da40006117c9737716",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n8 5\\n1 2\\n4 4\\n3 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import gcd\r\ntt = int(input())\r\nfor t in range(tt):\r\n    a,b = map(int, input().split())\r\n    MAX = max(a,b)\r\n    MIN = min(a,b)\r\n    if gcd(a,b) == MAX-MIN:\r\n        print(MAX-MIN,0)\r\n    elif a==b:\r\n        print(0,0)\r\n    else:\r\n        d = MAX-MIN\r\n        if d>0:\r\n            f = MAX-(MAX%d)\r\n        s = f+d\r\n        print(d,min(abs(MAX-f),abs(MAX-s)))",
+    "prob_desc_created_at": "1625668500",
+    "tags": [
+        "greedy",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

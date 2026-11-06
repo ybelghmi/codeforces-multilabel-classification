@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0.000000\", \"50.000000\"]",
+    "src_uid": "4931c42108f487b81b702db3617f0af6",
+    "prob_desc_notes": "NoteIn the second example, if we add two breaks to receive LXXRXR, Jack will march: LXXRXRLXXRXRL... instead of LRLRLRLRLRLRL... and will make the correct step in half the cases. If we didn't add any breaks, the sequence would be incorrect — Jack can't step on his right foot twice in a row.",
+    "prob_desc_description": "Jack has become a soldier now. Unfortunately, he has trouble with the drill. Instead of marching beginning with the left foot and then changing legs with each step, as ordered, he keeps repeating a sequence of steps, in which he sometimes makes the wrong steps or — horror of horrors! — stops for a while. For example, if Jack uses the sequence 'right, left, break', when the sergeant yells: 'Left! Right! Left! Right! Left! Right!', Jack first makes a step with the right foot, then one with the left foot, then he is confused and stops for a moment, then again - this time according to the order - starts with the right foot, then uses the left foot, then - to the sergeant's irritation - he stops to catch his breath, to incorrectly start with the right foot again... Marching this way, Jack will make the step that he is supposed to in the given moment in only one third of cases.When the officers convinced him he should do something about it, Jack decided to modify the basic sequence of steps that he repeats. However, in order not to get too tired, he has decided that the only thing he'll do is adding any number of breaks in any positions of the original sequence (a break corresponds to stopping for the duration of one step). Of course, Jack can't make a step on the same foot twice in a row, if there is no pause between these steps. It is, however, not impossible that the sequence of steps he used so far is incorrect (it would explain a lot, actually).Help Private Jack! Given the sequence of steps he keeps repeating, calculate the maximal percentage of time that he can spend marching correctly after adding some breaks to his scheme.",
+    "prob_desc_output_spec": "Output the maximum percentage of time that Jack can spend marching correctly, rounded down to exactly six digits after the decimal point.",
+    "prob_desc_input_spec": "The first line of input contains a sequence consisting only of characters 'L', 'R' and 'X', where 'L' corresponds to a step with the left foot, 'R' — with the right foot, and 'X' — to a break. The length of the sequence will not exceed 106.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_021.jsonl",
+    "code_uid": "4b317123cc3f3befa70fc5cae18bb02e",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"X\", \"LXRR\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "__author__ = 'Darren'\n\n\ndef solve():\n    original = input()\n    temp = [original[0]]\n    for i in range(1, len(original)):\n        if original[i] == original[i-1] != 'X':\n            temp.append('X')\n        temp.append(original[i])\n    augmented = ''.join(temp)\n    answer = 0\n    if augmented[0] == augmented[-1] != 'X':\n        answer = max(rate(augmented+'X'), rate('X'+augmented))\n    else:\n        answer = rate(augmented)\n    print('%d.%06d' % (answer / 1000000, answer % 1000000))\n\n\ndef rate(seq):\n    correct, total, unknown, indicator = 0, 0, 0, 0\n    left_step = True\n    for action in seq:\n        if action == 'X':\n            total += 1\n            left_step = not left_step\n        else:\n            if left_step and action == 'L' or not left_step and action == 'R':\n                correct += 1\n                total += 1\n                indicator = 0\n                left_step = not left_step\n            else:\n                correct += 1\n                total += 2\n                unknown += indicator\n                indicator = 1 - indicator\n    if total % 2 == 1:\n        total += 1\n        unknown += indicator\n    if correct * 2 > total:\n        correct -= unknown\n        total -= unknown * 2\n    return correct * 100000000 // total\n\n\nif __name__ == '__main__':\n    solve()\n",
+    "prob_desc_created_at": "1272294000",
+    "tags": [
+        "dp",
+        "binary search",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

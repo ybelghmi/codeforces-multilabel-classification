@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"aeren\\nari\\narousal\\naround\\nari\\nmonogon\\nmonogamy\\nmonthly\\nkevinvu\\nkuroni\\nkurioni\\nkorone\\nanton\\nloves\\nadhoc\\nproblems\"]",
+    "src_uid": "6983823efdc512f8759203460cd6bb4c",
+    "prob_desc_notes": "NoteIn the $$$1$$$-st test case one of the possible answers is $$$s = [aeren, ari, arousal, around, ari]$$$.Lengths of longest common prefixes are:  Between $$$\\color{red}{a}eren$$$ and $$$\\color{red}{a}ri$$$ $$$\\rightarrow 1$$$  Between $$$\\color{red}{ar}i$$$ and $$$\\color{red}{ar}ousal$$$ $$$\\rightarrow 2$$$  Between $$$\\color{red}{arou}sal$$$ and $$$\\color{red}{arou}nd$$$ $$$\\rightarrow 4$$$  Between $$$\\color{red}{ar}ound$$$ and $$$\\color{red}{ar}i$$$ $$$\\rightarrow 2$$$ ",
+    "prob_desc_description": "The length of the longest common prefix of two strings $$$s = s_1 s_2 \\ldots s_n$$$ and $$$t = t_1 t_2 \\ldots t_m$$$ is defined as the maximum integer $$$k$$$ ($$$0 \\le k \\le min(n,m)$$$) such that $$$s_1 s_2 \\ldots s_k$$$ equals $$$t_1 t_2 \\ldots t_k$$$.Koa the Koala initially has $$$n+1$$$ strings $$$s_1, s_2, \\dots, s_{n+1}$$$.For each $$$i$$$ ($$$1 \\le i \\le n$$$) she calculated $$$a_i$$$ — the length of the longest common prefix of $$$s_i$$$ and $$$s_{i+1}$$$.Several days later Koa found these numbers, but she couldn't remember the strings.So Koa would like to find some strings $$$s_1, s_2, \\dots, s_{n+1}$$$ which would have generated numbers $$$a_1, a_2, \\dots, a_n$$$. Can you help her?If there are many answers print any. We can show that answer always exists for the given constraints. ",
+    "prob_desc_output_spec": "For each test case: Output $$$n+1$$$ lines. In the $$$i$$$-th line print string $$$s_i$$$ ($$$1 \\le |s_i| \\le 200$$$), consisting of lowercase Latin letters. Length of the longest common prefix of strings $$$s_i$$$ and $$$s_{i+1}$$$ has to be equal to $$$a_i$$$. If there are many answers print any. We can show that answer always exists for the given constraints.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 100$$$) — the number of elements in the list $$$a$$$. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\le a_i \\le 50$$$) — the elements of $$$a$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$100$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "8d6737fd38ee0c5e10373391e7b6c34c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4\\n1 2 4 2\\n2\\n5 3\\n3\\n1 3 1\\n3\\n0 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def listtostring(L):\n\tt=''\n\tfor i in range(0,len(L)):\n\t\tt+=L[i]\n\treturn t\n\nt=int(input())\nfor i in range(0,t):\n\tn=int(input())\n\tL=list(map(int,input().split()))\n\tif(max(L)==0):\n\t\tprint(\"a\")\n\t\tfor i in range(0,n):\n\t\t\tprint(chr(97+(i+1)%26))\n\telse:\n\t\t\n\t\tM=['a' for j in range (1+max(L))]\n\t\tprint(listtostring(M))\n\t\tk=0\n\t\tfor i in range(0,n):\n\t\t\tif(M[L[i]]=='a'):\n\t\t\t\tM[L[i]]='b'\n\t\t\telse:\n\t\t\t\tM[L[i]]='a'\n\n\t\t\n\t\t\t\n\t\t\tprint(listtostring(M))\n\n",
+    "prob_desc_created_at": "1595601300",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

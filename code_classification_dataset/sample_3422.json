@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"9\"]",
+    "src_uid": "89e80e6c86a824a18597f28adf49a846",
+    "prob_desc_notes": "NoteIn the first test case, we can obtain $$$4$$$ bracket sequences by replacing all characters '?' with either '(' or ')':  \"((\". Its depth is $$$0$$$;  \"))\". Its depth is $$$0$$$;  \")(\". Its depth is $$$0$$$;  \"()\". Its depth is $$$1$$$. So, the answer is $$$1 = 0 + 0 + 0 + 1$$$.In the second test case, we can obtain $$$4$$$ bracket sequences by replacing all characters '?' with either '(' or ')':  \"(((())\". Its depth is $$$2$$$;  \"()()))\". Its depth is $$$2$$$;  \"((()))\". Its depth is $$$3$$$;  \"()(())\". Its depth is $$$2$$$. So, the answer is $$$9 = 2 + 2 + 3 + 2$$$.",
+    "prob_desc_description": "This is the easy version of this problem. The only difference is the limit of $$$n$$$ - the length of the input string. In this version, $$$1 \\leq n \\leq 2000$$$. The hard version of this challenge is not offered in the round for the second division. Let's define a correct bracket sequence and its depth as follow:  An empty string is a correct bracket sequence with depth $$$0$$$.  If \"s\" is a correct bracket sequence with depth $$$d$$$ then \"(s)\" is a correct bracket sequence with depth $$$d + 1$$$.  If \"s\" and \"t\" are both correct bracket sequences then their concatenation \"st\" is a correct bracket sequence with depth equal to the maximum depth of $$$s$$$ and $$$t$$$. For a (not necessarily correct) bracket sequence $$$s$$$, we define its depth as the maximum depth of any correct bracket sequence induced by removing some characters from $$$s$$$ (possibly zero). For example: the bracket sequence $$$s = $$$\"())(())\" has depth $$$2$$$, because by removing the third character we obtain a correct bracket sequence \"()(())\" with depth $$$2$$$.Given a string $$$a$$$ consists of only characters '(', ')' and '?'. Consider all (not necessarily correct) bracket sequences obtained by replacing all characters '?' in $$$a$$$ by either '(' or ')'. Calculate the sum of all the depths of all these bracket sequences. As this number can be large, find it modulo $$$998244353$$$.Hacks in this problem in the first division can be done only if easy and hard versions of this problem was solved.",
+    "prob_desc_output_spec": "Print the answer modulo $$$998244353$$$ in a single line.",
+    "prob_desc_input_spec": "The only line contains a non-empty string consist of only '(', ')' and '?'. The length of the string is at most $$$2000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_058.jsonl",
+    "code_uid": "70620df207ac9e480d3ed07eee56318c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"??\", \"(?(?))\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nimport __pypy__\nmulmod = __pypy__.intop.int_mulmod\n\nMOD = 998244353  \nhalf = pow(2, MOD - 2, MOD)\n\nS = input()\nn = len(S)\nA = []\nfor c in S:\n    if c == '?':\n        A.append(0)\n    elif c == '(':\n        A.append(1)\n    else:\n        A.append(2)\n\nDPL = [[0]*(n - l + 1) for l in range(n + 1)]\nDPR = [[0]*(n - l + 1) for l in range(n + 1)]\n\nfor l in range(1, n + 1):\n    for x in range(n - l + 1):\n        if A[x] == 0:\n            DPL[l][x] = mulmod(half, DPR[l - 1][x + 1] + DPL[l - 1][x + 1], MOD)\n        elif A[x] == 1:\n            DPL[l][x] = DPR[l - 1][x + 1] \n        else:\n            DPL[l][x] = DPL[l - 1][x + 1]\n    \n    for x in range(n - l + 1):\n        if A[x + l - 1] == 0:\n            DPR[l][x] = mulmod(half, DPR[l - 1][x] + DPL[l - 1][x] + 1, MOD)\n        elif A[x + l - 1] == 1:\n            DPR[l][x] = DPR[l - 1][x] \n        else:\n            DPR[l][x] = DPL[l - 1][x] + 1\n\nprint DPL[n][0] * pow(2, sum(1 for a in A if a == 0), MOD) % MOD\n",
+    "prob_desc_created_at": "1575556500",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "probabilities"
+    ],
+    "hidden_unit_tests": ""
+}

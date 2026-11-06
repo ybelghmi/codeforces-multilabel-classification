@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"0\"]",
+    "src_uid": "3adc75a180d89077aa90bbe3d8546e4d",
+    "prob_desc_notes": "NoteIn the first sample, Anatoly has to swap third and fourth cockroaches. He needs 1 turn to do this.In the second sample, the optimum answer is to paint the second and the fourth cockroaches red. This requires 2 turns.In the third sample, the colors of cockroaches in the line are alternating already, thus the answer is 0.",
+    "prob_desc_description": "Anatoly lives in the university dorm as many other students do. As you know, cockroaches are also living there together with students. Cockroaches might be of two colors: black and red. There are n cockroaches living in Anatoly's room.Anatoly just made all his cockroaches to form a single line. As he is a perfectionist, he would like the colors of cockroaches in the line to alternate. He has a can of black paint and a can of red paint. In one turn he can either swap any two cockroaches, or take any single cockroach and change it's color.Help Anatoly find out the minimum number of turns he needs to make the colors of cockroaches in the line alternate.",
+    "prob_desc_output_spec": "Print one integer — the minimum number of moves Anatoly has to perform in order to make the colors of cockroaches in the line to alternate.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 100 000) — the number of cockroaches. The second line contains a string of length n, consisting of characters 'b' and 'r' that denote black cockroach and red cockroach respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_001.jsonl",
+    "code_uid": "0f613c30ae91f6da52fe4ce9be51a76e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nrbbrr\", \"5\\nbbbbb\", \"3\\nrbr\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter,defaultdict,deque\n#alph = 'abcdefghijklmnopqrstuvwxyz'\n#from math import factorial as fact\n#import math\n\n#tt = 1#int(input())\n#total=0\n#n = int(input())\n#n,m,k = [int(x) for x in input().split()]\n#n = int(input())\n#n,m = [int(x) for x in input().split()]\n\n\nn = int(input())\nif n==1:\n   print(0)\n   exit()\nc = 0\narr = [x for x in input()]+['a','a']\nv1 = 'rb'*(n//2)+'r'*(n%2)\nr1,r2,b1,b2 = 0,0,0,0\n\nfor i in range(n):\n   if arr[i] =='r':\n      if v1[i] =='b':\n         b1+=1\n      else:\n         b2+=1\n   else:\n      if v1[i] == 'r':\n         r1+=1\n      else:\n         r2+=1\nprint(min(max(r1,b1),max(r2,b2)))\n   \n\n\n         \n   \n   \n",
+    "prob_desc_created_at": "1474635900",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

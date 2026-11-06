@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"25\", \"138\"]",
+    "src_uid": "3bf7c6e2491367b2afcb73fd14f62dd2",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Kalila and Dimna are two jackals living in a huge jungle. One day they decided to join a logging factory in order to make money. The manager of logging factory wants them to go to the jungle and cut n trees with heights a1, a2, ..., an. They bought a chain saw from a shop. Each time they use the chain saw on the tree number i, they can decrease the height of this tree by one unit. Each time that Kalila and Dimna use the chain saw, they need to recharge it. Cost of charging depends on the id of the trees which have been cut completely (a tree is cut completely if its height equal to 0). If the maximum id of a tree which has been cut completely is i (the tree that have height ai in the beginning), then the cost of charging the chain saw would be bi. If no tree is cut completely, Kalila and Dimna cannot charge the chain saw. The chainsaw is charged in the beginning. We know that for each i &lt; j, ai &lt; aj and bi &gt; bj and also bn = 0 and a1 = 1. Kalila and Dimna want to cut all the trees completely, with minimum cost. They want you to help them! Will you?",
+    "prob_desc_output_spec": "The only line of output must contain the minimum cost of cutting all the trees completely. Please, do not write the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line of input contains an integer n (1 ≤ n ≤ 105). The second line of input contains n integers a1, a2, ..., an (1 ≤ ai ≤ 109). The third line of input contains n integers b1, b2, ..., bn (0 ≤ bi ≤ 109). It's guaranteed that a1 = 1, bn = 0, a1 &lt; a2 &lt; ... &lt; an and b1 &gt; b2 &gt; ... &gt; bn.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_018.jsonl",
+    "code_uid": "6fea2bd2e2b3cf5ea1d5f7f19dfe19d4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 3 4 5\\n5 4 3 2 0\", \"6\\n1 2 3 10 20 30\\n6 5 4 3 2 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "read = lambda: map(int, input().split())\nn = int(input())\na = list(read())\nb = list(read())\ndp = [0] * n\nch = [0]\n\n\ndef get(i, x):\n    return b[i] * x + dp[i]\n\n\ndef f1():\n    if len(ch) < 2:\n        return 0\n    return get(ch[0], a[i]) >= get(ch[1], a[i])\n\n\ndef f2():\n    if len(ch) < 2:\n        return 0\n    i1 = ch[-1]\n    x = (dp[i1] - dp[i]) / (b[i] - b[i1])\n    return get(ch[-2], x) <= get(i, x)\n\n\nfor i in range(1, n):\n    while f1():\n        ch.pop(0)\n    dp[i] = get(ch[0], a[i])\n    while f2():\n        ch.pop()\n    ch.append(i)\nprint(dp[n - 1])\n",
+    "prob_desc_created_at": "1371992400",
+    "tags": [
+        "dp",
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

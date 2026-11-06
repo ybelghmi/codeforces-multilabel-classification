@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"AGACGTCT\", \"AGCT\", \"===\", \"===\"]",
+    "src_uid": "d6423f380e6ba711d175d91e73f97b47",
+    "prob_desc_notes": "NoteIn the first example you can replace the first question mark with the letter 'A', the second question mark with the letter 'G', the third question mark with the letter 'T', then each nucleotide in the genome would be presented twice.In the second example the genome is already decoded correctly and each nucleotide is exactly once in it.In the third and the fourth examples it is impossible to decode the genom. ",
+    "prob_desc_description": "The process of mammoth's genome decoding in Berland comes to its end!One of the few remaining tasks is to restore unrecognized nucleotides in a found chain s. Each nucleotide is coded with a capital letter of English alphabet: 'A', 'C', 'G' or 'T'. Unrecognized nucleotides are coded by a question mark '?'. Thus, s is a string consisting of letters 'A', 'C', 'G', 'T' and characters '?'.It is known that the number of nucleotides of each of the four types in the decoded genome of mammoth in Berland should be equal.Your task is to decode the genome and replace each unrecognized nucleotide with one of the four types so that the number of nucleotides of each of the four types becomes equal.",
+    "prob_desc_output_spec": "If it is possible to decode the genome, print it. If there are multiple answer, print any of them. If it is not possible, print three equals signs in a row: \"===\" (without quotes).",
+    "prob_desc_input_spec": "The first line contains the integer n (4 ≤ n ≤ 255) — the length of the genome. The second line contains the string s of length n — the coded genome. It consists of characters 'A', 'C', 'G', 'T' and '?'.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_033.jsonl",
+    "code_uid": "29a584a597e5dad49537e256e6f4353d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\nAG?C??CT\", \"4\\nAGCT\", \"6\\n????G?\", \"4\\nAA??\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=input(\"\")\nGene= list(input(\"\"))\nl= len(Gene)/4\nfor i in range(len(Gene)):\n    if Gene[i]=='?':\n        if Gene.count(\"A\")!=l:\n            Gene[i]=\"A\"\n        elif Gene.count(\"C\")!=l:\n            Gene[i]=\"C\"\n        elif Gene.count(\"G\")!=l:\n            Gene[i]=\"G\"\n        elif Gene.count(\"T\")!=l:\n            Gene[i]=\"T\"\n\nif Gene.count(\"A\")==Gene.count(\"G\") and Gene.count(\"A\")==Gene.count(\"T\") and Gene.count(\"A\")==Gene.count(\"C\") and Gene.count(\"G\")==Gene.count(\"T\") and Gene.count(\"G\")==Gene.count(\"C\") and Gene.count(\"T\")==Gene.count(\"C\"):\n    for i in Gene:\n        print(i,end=\"\")\nelse:\n    print(\"===\")\n",
+    "prob_desc_created_at": "1482113100",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

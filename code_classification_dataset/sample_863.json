@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\"]",
+    "src_uid": "69f4e340b3f6e1d807e0545ebea1fe2f",
+    "prob_desc_notes": "NoteIn the sample, your task is to find three consecutive planks with the minimum sum of heights. In the given case three planks with indexes 3, 4 and 5 have the required attribute, their total height is 8.",
+    "prob_desc_description": "There is a fence in front of Polycarpus's home. The fence consists of n planks of the same width which go one after another from left to right. The height of the i-th plank is hi meters, distinct planks can have distinct heights.    Fence for n = 7 and h = [1, 2, 6, 1, 1, 7, 1] Polycarpus has bought a posh piano and is thinking about how to get it into the house. In order to carry out his plan, he needs to take exactly k consecutive planks from the fence. Higher planks are harder to tear off the fence, so Polycarpus wants to find such k consecutive planks that the sum of their heights is minimal possible.Write the program that finds the indexes of k consecutive planks with minimal total height. Pay attention, the fence is not around Polycarpus's home, it is in front of home (in other words, the fence isn't cyclic).",
+    "prob_desc_output_spec": "Print such integer j that the sum of the heights of planks j, j + 1, ..., j + k - 1 is the minimum possible. If there are multiple such j's, print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains integers n and k (1 ≤ n ≤ 1.5·105, 1 ≤ k ≤ n) — the number of planks in the fence and the width of the hole for the piano. The second line contains the sequence of integers h1, h2, ..., hn (1 ≤ hi ≤ 100), where hi is the height of the i-th plank of the fence.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_004.jsonl",
+    "code_uid": "c38dd8162c3dbe6df27dc1ed480a5e93",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 3\\n1 2 6 1 1 7 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k = map(int,raw_input().split())\ncerca = map(int,raw_input().split())\npos = 0\nsoma = 0\ni = 0\nfor j in range(k):\n\tsoma += cerca[i]\n\ti += 1\nsommax = soma\n\nfor e in range(1,n):\n\tif e > (n-k): break\n\tsoma -= cerca[e-1]\n\tsoma += cerca[e + k-1]\n\tif soma < sommax:\n\t\tsommax = soma\n\t\tpos = e\nprint pos+1\n\t\t\n",
+    "prob_desc_created_at": "1384156800",
+    "tags": [
+        "dp",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

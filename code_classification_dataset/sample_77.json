@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"210\", \"30\"]",
+    "src_uid": "816a82bee65cf79ba8e4d61babcd0301",
+    "prob_desc_notes": "NoteIn the first example we can choose next parameters: $$$a = [1, 1, 1, 1]$$$, $$$b = [1, 1, 1, 1]$$$, $$$x = [0, 0, 0, 0]$$$, then $$$f_i^{(k)} = k \\bmod p_i$$$.In the second example we can choose next parameters: $$$a = [1, 1, 2]$$$, $$$b = [1, 1, 0]$$$, $$$x = [0, 0, 1]$$$.",
+    "prob_desc_description": "You are given a tuple generator $$$f^{(k)} = (f_1^{(k)}, f_2^{(k)}, \\dots, f_n^{(k)})$$$, where $$$f_i^{(k)} = (a_i \\cdot f_i^{(k - 1)} + b_i) \\bmod p_i$$$ and $$$f^{(0)} = (x_1, x_2, \\dots, x_n)$$$. Here $$$x \\bmod y$$$ denotes the remainder of $$$x$$$ when divided by $$$y$$$. All $$$p_i$$$ are primes.One can see that with fixed sequences $$$x_i$$$, $$$y_i$$$, $$$a_i$$$ the tuples $$$f^{(k)}$$$ starting from some index will repeat tuples with smaller indices. Calculate the maximum number of different tuples (from all $$$f^{(k)}$$$ for $$$k \\ge 0$$$) that can be produced by this generator, if $$$x_i$$$, $$$a_i$$$, $$$b_i$$$ are integers in the range $$$[0, p_i - 1]$$$ and can be chosen arbitrary. The answer can be large, so print the remainder it gives when divided by $$$10^9 + 7$$$",
+    "prob_desc_output_spec": "Print one integer — the maximum number of different tuples modulo $$$10^9 + 7$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of elements in the tuple. The second line contains $$$n$$$ space separated prime numbers — the modules $$$p_1, p_2, \\ldots, p_n$$$ ($$$2 \\le p_i \\le 2 \\cdot 10^6$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2900,
+    "file_name": "train_000.jsonl",
+    "code_uid": "a6c9d900ce4a35b98ae2dd0c1b114598",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 3 5 7\", \"3\\n5 3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport time\nmod=1000000007\ndef sieve(s):\n\tis_not_prime=[False]*(s+1)\n\tprime=[]\n\tsmall=[0]*(s+1)\n\tcnt=[0]*(s+1)\n\tother=[0]*(s+1)\n\tfor i in xrange(2, s+1):\n\t\tif not is_not_prime[i]:\n\t\t\tprime.append(i)\n\t\t\tsmall[i]=i\n\t\t\tcnt[i]=1\n\t\t\tother[i]=1\n\t\tfor p in prime:\n\t\t\tnext=p*i\n\t\t\tif next>s:\n\t\t\t\tbreak\n\t\t\tis_not_prime[next]=True\n\t\t\tsmall[next]=p\n\t\t\tif i%p==0:\n\t\t\t\tcnt[next]=cnt[i]+1\n\t\t\t\tother[next]=other[i]\n\t\t\t\tbreak\n\t\t\tcnt[next]=1\n\t\t\tother[next]=i\n\tprint>>sys.stderr, len(prime)\n\treturn small, cnt, other\ndef add(value):\n\tany=False\n\tback_up=value\n\twhile value!=1:\n\t\told=d.get(small[value], (0, 0))\n\t\tif old[0]<cnt[value]:\n\t\t\td[small[value]]=(cnt[value], 0)\n\t\t\tany=True\n\t\tvalue=other[value]\n\tif any:\n\t\tvalue=back_up\n\t\twhile value!=1:\n\t\t\told=d[small[value]]\n\t\t\tif old[0]==cnt[value]:\n\t\t\t\td[small[value]]=(old[0], old[1]+1)\n\t\t\tvalue=other[value]\n\treturn any\ndef test(value):\n\tany=False\n\twhile value!=1:\n\t\told=d[small[value]]\n\t\tif old[0]==cnt[value] and old[1]==1:\n\t\t\tany=True\n\t\tvalue=other[value]\n\treturn any\nsmall, cnt, other=sieve(2000000)\nprint>>sys.stderr, time.clock()\nn=input()\nd=dict()\nhas_zero=False\np=sorted(map(int, raw_input().split()), reverse=True)\nl=[]\nfor value in p:\n\tif not add(value):\n\t\tif not add(value-1):\n\t\t\thas_zero=True\n\t\telse:\n\t\t\tl+=[value-1]\nif not has_zero:\n\tfor value in l:\n\t\tif not test(value):\n\t\t\thas_zero=True\n\nresult=1\nfor p, _ in d.items():\n\tc=_[0]\n\tresult=result*pow(p, c, mod)%mod\nif has_zero:\n\tresult=(result+1)%mod\nprint result\n",
+    "prob_desc_created_at": "1537707900",
+    "tags": [
+        "constructive algorithms",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 4 3 5\", \"1 4 3 5\"]",
+    "src_uid": "bda2ca1fd65084bb9d8659c0a591743d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a weighted undirected graph. The vertices are enumerated from 1 to n. Your task is to find the shortest path between the vertex 1 and the vertex n.",
+    "prob_desc_output_spec": "Write the only integer -1 in case of no path. Write the shortest path in opposite case. If there are many solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (2 ≤ n ≤ 105, 0 ≤ m ≤ 105), where n is the number of vertices and m is the number of edges. Following m lines contain one edge each in form ai, bi and wi (1 ≤ ai, bi ≤ n, 1 ≤ wi ≤ 106), where ai, bi are edge endpoints and wi is the length of the edge. It is possible that the graph has loops and multiple edges between pair of vertices.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_007.jsonl",
+    "code_uid": "8bceaf78342b1a958d531ee6c4cc58f4",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"5 6\\n1 2 2\\n2 5 5\\n2 3 4\\n1 4 1\\n4 3 3\\n3 5 1\", \"5 6\\n1 2 2\\n2 5 5\\n2 3 4\\n1 4 1\\n4 3 3\\n3 5 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq\nimport sys\n\n# Dijktra's shortest path algorithm. Prints the path from source to target.\n# If no path exists -1 is printed\n\n# testing if building a string for the path is faster, instead\n# of printing each node in the path,\n# see Peta's submission 5963629\n\n# testing another way of input,\n# a,b,c = [int(x) for x in sys.stdin.readline().split()]\n\n\ndef dijkstra(adj, source, target):\n    INF = ((1<<63) - 1)//2\n    n = len(adj)\n    pred = [ - 1 for x in range(n) ]\n    dist = [ INF for i in range(n) ]\n    dist[source] = 0\n    Q = []\n    heapq.heappush(Q, [dist[source], source])\n\n    while(Q):\n        u = heapq.heappop(Q)  # u is a list of tuples [u_dist, u_id]\n        u_dist = u[0]\n        u_id = u[1]\n        if u_id == target:\n            break\n        if u_dist > dist[u_id]:\n           continue\n        for v in adj[u_id]:\n           v_id = v[0]\n           w_uv = v[1]\n           if dist[u_id] +  w_uv < dist[v_id]:\n               dist[v_id] = dist[u_id] + w_uv\n               heapq.heappush(Q, [dist[v_id], v_id])\n               pred[v_id] = u_id\n               \n    if dist[target]==INF:\n        print(-1)\n    else:\n        st = []\n        node = target\n        while(True):\n            st.append(str(node+1))\n            node = pred[node]\n            if(node==-1):\n                break\n        path = st[::-1]\n        print(\" \".join(path))\n\n        #for num in reversed(st):\n        #    print(num+1, end=' ')\n\n        #path = st[::-1]\n        #for num in path:\n        #    print(num+1, end=' ')\n    \n#----------------------------------------------------------\n\n# n, m = map(int, sys.stdin.readline().split())\nn, m = [int(x) for x in sys.stdin.readline().split()]\n\nadj = [ [] for x in range(n) ]\n\nfor i in range(m):\n    #a, b, w = map(int, sys.stdin.readline().split())\n    a, b, w = [int(x) for x in sys.stdin.readline().split()]\n    adj[a-1].append([b-1, w])\n    adj[b-1].append([a-1, w])\n\nsource = 0\ntarget = n-1\ndijkstra(adj, 0, n-1)\n\n\n\n\n\n",
+    "prob_desc_created_at": "1276875000",
+    "tags": [
+        "shortest paths",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

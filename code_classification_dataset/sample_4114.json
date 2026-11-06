@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0 0\\n4 2 2 1 4\\n5 4 2 2 1 5\"]",
+    "src_uid": "b7f81193098e573cde08f33572a87dc8",
+    "prob_desc_notes": "NoteIn the second test case:   For the length $$$0$$$: $$$[4, 2, 1, 3] \\rightarrow [4, 2, 1, 3]$$$: $$$4$$$ inversions.  For the length $$$1$$$: $$$[4, 2, \\mathbf{1}, 3] \\rightarrow [1, 4, 2, 3]$$$: $$$2$$$ inversions.  For the length $$$2$$$: $$$[4, \\mathbf{2}, \\mathbf{1}, 3] \\rightarrow [2, 1, 4, 3]$$$, or $$$[4, 2, \\mathbf{1}, \\textbf{3}] \\rightarrow [1, 3, 4, 2]$$$: $$$2$$$ inversions.  For the length $$$3$$$: $$$[4, \\mathbf{2}, \\mathbf{1}, \\mathbf{3}] \\rightarrow [2, 1, 3, 4]$$$: $$$1$$$ inversion.  For the length $$$4$$$: $$$[\\mathbf{4}, \\mathbf{2}, \\mathbf{1}, \\mathbf{3}] \\rightarrow [4, 2, 1, 3]$$$: $$$4$$$ inversions. ",
+    "prob_desc_description": "You are given a permutation $$$p$$$ of length $$$n$$$.You can choose any subsequence, remove it from the permutation, and insert it at the beginning of the permutation keeping the same order.For every $$$k$$$ from $$$0$$$ to $$$n$$$, find the minimal possible number of inversions in the permutation after you choose a subsequence of length exactly $$$k$$$.",
+    "prob_desc_output_spec": "For each test case output $$$n + 1$$$ integers. The $$$i$$$-th of them must be the answer for the subsequence length of $$$i - 1$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 50\\,000$$$) — the number of test cases. The first line of each test case contains one integer $$$n$$$ ($$$1 \\le n \\le 5 \\cdot 10^5$$$) — the length of the permutation. The second line of each test case contains the permutation $$$p_1, p_2, \\ldots, p_n$$$ ($$$1 \\le p_i \\le n$$$). It is guaranteed that the total sum of $$$n$$$ doesn't exceed $$$5 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 3500,
+    "file_name": "train_090.jsonl",
+    "code_uid": "a0a9c8f9306b988006d37759c833d6ea",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1\\n1\\n4\\n4 2 1 3\\n5\\n5 1 3 2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nI=lambda:[*map(int,sys.stdin.readline().split())]\r\n\r\ndef mergeinv(l):\r\n\tif len(l) == 1:\r\n\t\treturn [0, l]\r\n\tmid = len(l) // 2\r\n\tx, l1 = mergeinv(l[:mid])\r\n\ty, l2 = mergeinv(l[mid:])\r\n\tind1 = 0\r\n\tind2 = 0\r\n\tout = []\r\n\tinvs = x + y\r\n\twhile ind1 < len(l1) or ind2 < len(l2):\r\n\t\tif ind1 == len(l1):\r\n\t\t\tout.append(l2[ind2])\r\n\t\t\tind2 += 1\r\n\t\telif ind2 == len(l2):\r\n\t\t\tout.append(l1[ind1])\r\n\t\t\tinvs += ind2\r\n\t\t\tind1 += 1\r\n\t\telse:\r\n\t\t\tif l1[ind1] < l2[ind2]:\r\n\t\t\t\tout.append(l1[ind1])\r\n\t\t\t\tinvs += ind2\r\n\t\t\t\tind1 += 1\r\n\t\t\telse:\r\n\t\t\t\tout.append(l2[ind2])\r\n\t\t\t\tind2 += 1\r\n\treturn [invs, out]\r\nt, = I()\r\nfor _ in range(t):\r\n\tn, = I()\r\n\tp = I()\r\n\tinvs, x = mergeinv(p)\r\n\tc = [0] * n\r\n\tfor i in range(n):\r\n\t\tc[i] = i + 2 - 2 * p[i]\r\n\tc.sort(reverse = True)\r\n\ts = 0\r\n\tout = [invs]\r\n\tfor i in range(n):\r\n\t\ts += c[i]\r\n\t\tout.append(invs - s - i * (i + 1) // 2)\r\n\tprint(*out)\r\n",
+    "prob_desc_created_at": "1644676500",
+    "tags": [
+        "data structures",
+        "greedy",
+        "math",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

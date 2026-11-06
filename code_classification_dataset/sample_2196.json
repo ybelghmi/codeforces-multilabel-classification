@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"0\"]",
+    "src_uid": "ff4a128ad18ccc846c44647cec5cf485",
+    "prob_desc_notes": "NoteIn the first sample line of the psychos transforms as follows: [10 9 7 8 6 5 3 4 2 1]  →  [10 8 4]  →  [10]. So, there are two steps.",
+    "prob_desc_description": "There are n psychos standing in a line. Each psycho is assigned a unique integer from 1 to n. At each step every psycho who has an id greater than the psycho to his right (if exists) kills his right neighbor in the line. Note that a psycho might kill and get killed at the same step. You're given the initial arrangement of the psychos in the line. Calculate how many steps are needed to the moment of time such, that nobody kills his neighbor after that moment. Look notes to understand the statement more precise.",
+    "prob_desc_output_spec": "Print the number of steps, so that the line remains the same afterward.",
+    "prob_desc_input_spec": "The first line of input contains integer n denoting the number of psychos, (1 ≤ n ≤ 105). In the second line there will be a list of n space separated distinct integers each in range 1 to n, inclusive — ids of the psychos in the line from left to right.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_018.jsonl",
+    "code_uid": "690d23801f6a83ac2f1a0d6f01044a81",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n10 9 7 8 6 5 3 4 2 1\", \"6\\n1 2 3 4 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\naa = list(map(int,input().split()))\nlive = []\nans=0\nfor i in range(n-1,-1,-1):\n    c = 0\n    while len(live)!=0 and live[-1][0]<aa[i]:\n        c = max(c+1,live[-1][1])\n        live.pop()\n    if c>ans: ans =c\n    live.append((aa[i],c))\nprint(ans)",
+    "prob_desc_created_at": "1371992400",
+    "tags": [
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

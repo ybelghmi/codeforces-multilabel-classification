@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"Still Rozdil\"]",
+    "src_uid": "ce68f1171d9972a1b40b0450a05aa9cd",
+    "prob_desc_notes": "NoteIn the first sample there are only two cities where the Little Elephant can go. The travel time for the first town equals 7, to the second one — 4. The town which is closest to Rodzil (the only one) is the second one, so the answer is 2.In the second sample the closest cities are cities two and five, the travelling time to both of them equals 4, so the answer is \"Still Rozdil\".",
+    "prob_desc_description": "The Little Elephant loves Ukraine very much. Most of all he loves town Rozdol (ukr. \"Rozdil\").However, Rozdil is dangerous to settle, so the Little Elephant wants to go to some other town. The Little Elephant doesn't like to spend much time on travelling, so for his journey he will choose a town that needs minimum time to travel to. If there are multiple such cities, then the Little Elephant won't go anywhere.For each town except for Rozdil you know the time needed to travel to this town. Find the town the Little Elephant will go to or print \"Still Rozdil\", if he stays in Rozdil.",
+    "prob_desc_output_spec": "Print the answer on a single line — the number of the town the Little Elephant will go to. If there are multiple cities with minimum travel time, print \"Still Rozdil\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 105) — the number of cities. The next line contains n integers, separated by single spaces: the i-th integer represents the time needed to go from town Rozdil to the i-th town. The time values are positive integers, not exceeding 109. You can consider the cities numbered from 1 to n, inclusive. Rozdil is not among the numbered cities.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_005.jsonl",
+    "code_uid": "bb756e6128c4f5deb649bc1dd8b7e923",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n7 4\", \"7\\n7 4 47 100 4 9 12\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import re\nimport sys\nfrom bisect import bisect, bisect_left, insort, insort_left\nfrom collections import Counter, defaultdict, deque\nfrom copy import deepcopy\nfrom decimal import Decimal\nfrom itertools import (\n    accumulate, combinations, combinations_with_replacement, groupby,\n    permutations, product)\nfrom math import (acos, asin, atan, ceil, cos, degrees, factorial, gcd, hypot,\n                  log2, pi, radians, sin, sqrt, tan)\nfrom operator import itemgetter, mul\nfrom string import ascii_lowercase, ascii_uppercase, digits\n\n\ndef inp():\n    return(int(input()))\n\n\ndef inlist():\n    return(list(map(int, input().split())))\n\n\ndef instr():\n    s = input()\n    return(list(s[:len(s)]))\n\n\ndef invr():\n    return(map(int, input().split()))\n\n\nn = inp()\n\na = inlist()\n\nmin1 = 1000000001\nmin2 = min1+1\nind = 0\nfor i in range(n):\n    if a[i] < min1:\n        min1 = a[i]\n        ind = i\n    elif a[i] < min2 and a[i] >= min1:\n        min2 = a[i]\nif min1 == min2:\n    print(\"Still Rozdil\")\nelse:\n    print(ind + 1)\n",
+    "prob_desc_created_at": "1342020600",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

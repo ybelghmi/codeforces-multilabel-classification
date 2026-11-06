@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\\n(1,1) (2,1) (2,2)\\n(1,1) (1,2)\\n(1,1) (2,1)\\n(1,1)\"]",
+    "src_uid": "92618025041c92192411ddcb8985a5a8",
+    "prob_desc_notes": "NoteNote to the sample. Initially the matrix is empty. Then Inna follows her first path, the path penalty equals the number of cells in it — 3. Note that now no path can go through cell (2, 2), as it now contains a candy. The next two candies go to cells (1, 2) and (2, 1). Inna simply leaves the last candy at cell (1, 1), the path contains only this cell. The total penalty is: 3 + 2 + 2 + 1 = 8.Note that Inna couldn't use cell (1, 1) to place, for instance, the third candy as in this case she couldn't have made the path for the fourth candy.",
+    "prob_desc_description": "Inna loves sweets very much. That's why she decided to play a game called \"Sweet Matrix\".Inna sees an n × m matrix and k candies. We'll index the matrix rows from 1 to n and the matrix columns from 1 to m. We'll represent the cell in the i-th row and j-th column as (i, j). Two cells (i, j) and (p, q) of the matrix are adjacent if |i - p| + |j - q| = 1. A path is a sequence of the matrix cells where each pair of neighbouring cells in the sequence is adjacent. We'll call the number of cells in the sequence the path's length.Each cell of the matrix can have at most one candy. Initiallly, all the cells are empty. Inna is trying to place each of the k candies in the matrix one by one. For each candy Inna chooses cell (i, j) that will contains the candy, and also chooses the path that starts in cell (1, 1) and ends in cell (i, j) and doesn't contain any candies. After that Inna moves the candy along the path from cell (1, 1) to cell (i, j), where the candy stays forever. If at some moment Inna can't choose a path for the candy, she loses. If Inna can place all the candies in the matrix in the described manner, then her penalty equals the sum of lengths of all the paths she has used.Help Inna to minimize the penalty in the game.",
+    "prob_desc_output_spec": "In the first line print an integer — Inna's minimum penalty in the game. In the next k lines print the description of the path for each candy. The description of the path of the candy that is placed i-th should follow on the i-th line. The description of a path is a sequence of cells. Each cell must be written in the format (i, j), where i is the number of the row and j is the number of the column. You are allowed to print extra whitespaces in the line. If there are multiple optimal solutions, print any of them. Please follow the output format strictly! If your program passes the first pretest, then the output format is correct.",
+    "prob_desc_input_spec": "The first line of the input contains three integers n, m and k (1 ≤ n, m ≤ 50, 1 ≤ k ≤ n·m).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": null,
+    "file_name": "train_053.jsonl",
+    "code_uid": "ac16fde2f2a4d88d328aa3b11ffd6f57",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "string = input()\nl = string.split(\" \")\nn, m, k = int(l[0]),int(l[1]),int(l[2])\nl = [{(1,1),}]\ncount = 1\nIn = 0\nwhile count < k:\n\ts = set()\n\tfor i in l[In]:\n\t\tx = i[0]+1\n\t\ty = i[1]\n\t\tif x<=n and y<=m:\n\t\t\tt = [0,0]\n\t\t\tt[0],t[1] = x, y\n\t\t\ts.add(tuple(t))\n\t\tx = i[0]\n\t\ty = i[1]+1\n\t\tif x<=n and y<=m:\n\t\t\tt = [0,0]\n\t\t\tt[0],t[1] = x, y\n\t\t\ts.add(tuple(t))\n\tl.append(s)\n\tIn+=1\n\tcount+=len(l[In])\nl2 = []\nCount = 0\nflag = 0\nfor i in l:\n\tfor h in i:\n\t\tif Count==k:\n\t\t\tflag = 1\n\t\t\tbreak\n\t\tl3 = [h]\n\t\tx,y = h[0],h[1]\n\t\twhile x!=1 or y!=1:\n\t\t\tif x>y:\n\t\t\t\tx-=1\n\t\t\t\tl3.append((x,y))\n\t\t\telse:\n\t\t\t\ty-=1\n\t\t\t\tl3.append((x,y))\n\t\tl2.append(l3)\n\t\tCount+=1\n\tif flag==1:\n\t\tbreak\n\ncost = 0\nstring = \"\"\nfor i in range(k):\n\tlength = len(l2[k-i-1])\n\tcost+=length\n\tfor j in range(length):\n\t\tt = l2[k-i-1][length - j - 1]\n\t\tx,y = t[0],t[1]\n\t\tstring += \"(\"+str(x)+\",\"+str(y)+\") \"\n\tstring += \"\\n\"\n\t\nprint(cost)\nprint(string)\n\t\n",
+    "prob_desc_created_at": "1392132600",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

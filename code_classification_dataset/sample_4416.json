@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n7\\n0\\n1\"]",
+    "src_uid": "2f12b2bb23497119bb70ca0839991d68",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array $$$a$$$ of $$$n$$$ integers. Find the number of pairs $$$(i, j)$$$ ($$$1 \\le i &lt; j \\le n$$$) where the sum of $$$a_i + a_j$$$ is greater than or equal to $$$l$$$ and less than or equal to $$$r$$$ (that is, $$$l \\le a_i + a_j \\le r$$$).For example, if $$$n = 3$$$, $$$a = [5, 1, 2]$$$, $$$l = 4$$$ and $$$r = 7$$$, then two pairs are suitable:   $$$i=1$$$ and $$$j=2$$$ ($$$4 \\le 5 + 1 \\le 7$$$);  $$$i=1$$$ and $$$j=3$$$ ($$$4 \\le 5 + 2 \\le 7$$$). ",
+    "prob_desc_output_spec": "For each test case, output a single integer — the number of index pairs $$$(i, j)$$$ ($$$i &lt; j$$$), such that $$$l \\le a_i + a_j \\le r$$$.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$). Then $$$t$$$ test cases follow. The first line of each test case contains three integers $$$n, l, r$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$, $$$1 \\le l \\le r \\le 10^9$$$) — the length of the array and the limits on the sum in the pair. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$). It is guaranteed that the sum of $$$n$$$ overall test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_097.jsonl",
+    "code_uid": "ad8c38b2611f4b80a5ad0735bdebfc1a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3 4 7\\n5 1 2\\n5 5 8\\n5 1 2 4 3\\n4 100 1000\\n1 1 1 1\\n5 9 13\\n2 5 5 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# _\r\n#####################################################################################################################\r\n\r\ndef nPairs(lengthOfArray, l, r, array):\r\n    iFinal = lengthOfArray - 1\r\n    array.sort()\r\n    total = 0\r\n    for i in range(iFinal):\r\n        curr_l, curr_r = l - array[i], r - array[i]\r\n        if curr_r < array[i+1]:\r\n            break\r\n        elif curr_l > array[-1]:\r\n            continue\r\n        if curr_l <= array[i]:\r\n            iFirst = i + 1\r\n        else:\r\n            iFirst = binSearchLowBound(curr_l, i+1, lengthOfArray, array)\r\n        if curr_r >= array[-1]:\r\n            iLast = iFinal\r\n        else:\r\n            iLast = binSearchUpBound(curr_r, i+1, lengthOfArray, array)\r\n        # print(curr_l, curr_r, iFirst, iLast)\r\n        total += iLast - iFirst + 1\r\n\r\n    return total\r\n\r\n\r\ndef binSearchLowBound(value, iLow, iHigh, array):\r\n    iEstimated = (iLow + iHigh)//2\r\n    if array[iEstimated] < value:\r\n        return binSearchLowBound(value, iEstimated+1, iHigh, array)\r\n\r\n    elif array[iEstimated - 1] >= value:\r\n        return binSearchLowBound(value, iLow, iEstimated, array)\r\n\r\n    return iEstimated\r\n\r\n\r\ndef binSearchUpBound(value, iLow, iHigh, array):\r\n    iEstimated = (iLow + iHigh)//2\r\n    if array[iEstimated] > value:\r\n        return binSearchUpBound(value, iLow, iEstimated, array)\r\n\r\n    elif array[iEstimated+1] <= value:\r\n        return binSearchUpBound(value, iEstimated+1, iHigh, array)\r\n\r\n    return iEstimated\r\n\r\n\r\ndef testCase_1538c():\r\n    return map(int, input().split(' ')), list(map(int, input().split(' ')))\r\n\r\n\r\nnTestCases = int(input())\r\ntestCases = tuple(testCase_1538c() for x in range(nTestCases))\r\ntuple(print(nPairs(*testCase[0], testCase[1])) for testCase in testCases)\r\n",
+    "prob_desc_created_at": "1623335700",
+    "tags": [
+        "binary search",
+        "data structures",
+        "math",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

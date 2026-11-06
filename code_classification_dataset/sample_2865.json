@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"6\", \"0\"]",
+    "src_uid": "29f891dc2fa4012cce8cc4b894ae4742",
+    "prob_desc_notes": "NoteIn the first sample, t = \"aaabbccccaaacc\", and string s = \"aabbc\". The only occurrence of string s in string t starts at position p = 2.In the second sample, t = \"aaabbbbbbaaaaaaacccceeeeeeeeaa\", and s = \"aaa\". The occurrences of s in t start at positions p = 1, p = 10, p = 11, p = 12, p = 13 and p = 14.",
+    "prob_desc_description": "Each employee of the \"Blake Techologies\" company uses a special messaging app \"Blake Messenger\". All the stuff likes this app and uses it constantly. However, some important futures are missing. For example, many users want to be able to search through the message history. It was already announced that the new feature will appear in the nearest update, when developers faced some troubles that only you may help them to solve.All the messages are represented as a strings consisting of only lowercase English letters. In order to reduce the network load strings are represented in the special compressed form. Compression algorithm works as follows: string is represented as a concatenation of n blocks, each block containing only equal characters. One block may be described as a pair (li, ci), where li is the length of the i-th block and ci is the corresponding letter. Thus, the string s may be written as the sequence of pairs .Your task is to write the program, that given two compressed string t and s finds all occurrences of s in t. Developers know that there may be many such occurrences, so they only ask you to find the number of them. Note that p is the starting position of some occurrence of s in t if and only if tptp + 1...tp + |s| - 1 = s, where ti is the i-th character of string t.Note that the way to represent the string in compressed form may not be unique. For example string \"aaaa\" may be given as , , ...",
+    "prob_desc_output_spec": "Print a single integer — the number of occurrences of s in t.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and m (1 ≤ n, m ≤ 200 000) — the number of blocks in the strings t and s, respectively. The second line contains the descriptions of n parts of string t in the format \"li-ci\" (1 ≤ li ≤ 1 000 000) — the length of the i-th part and the corresponding lowercase English letter. The second line contains the descriptions of m parts of string s in the format \"li-ci\" (1 ≤ li ≤ 1 000 000) — the length of the i-th part and the corresponding lowercase English letter.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_033.jsonl",
+    "code_uid": "32005c2347482e11a612a388a8369ce9",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n3-a 2-b 4-c 3-a 2-c\\n2-a 2-b 1-c\", \"6 1\\n3-a 6-b 7-a 4-c 8-e 2-a\\n3-a\", \"5 5\\n1-h 1-e 1-l 1-l 1-o\\n1-w 1-o 1-r 1-l 1-d\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def ziped(a):\n    p = []\n    for i in a:\n        x = int(i.split('-')[0])\n        y = i.split('-')[1]\n        if len(p) > 0 and p[-1][1] == y:\n                p[-1][0] += x\n        else:\n                p.append([x, y])\n    return p\n\ndef solve(a, b , c):\n    \n    ans = 0\n    if len(b) == 1:\n        for token in a:\n            #print(\"token\",token)\n            if c(token, b[0]):\n                ans += token[0] - b[0][0] + 1\n        return ans\n\t\t\n    if len(b) == 2:\n        for i in range(len(a) - 1):\n            if c(a[i], b[0]) and c(a[i + 1], b[-1]):\n                ans += 1\n        return ans\n\t\t\n    v = b[1 : -1] + [[100500, '#']] + a\n    p = [0] * len(v)\n    for i in range(1, len(v)):\n        j = p[i - 1]\n        while j > 0 and v[i] != v[j]:\n            j = p[j - 1]\n        if v[i] == v[j]:\n            j += 1\n        p[i] = j\n\t\t\n    for i in range(len(v) - 1):\n        if p[i] == len(b) - 2 and c(v[i - p[i]], b[0]) and c(v[i + 1], b[-1]):\n            ans += 1\n    return ans\n\nn, m = map(int, input().split())\na = ziped(input().split())\nb = ziped(input().split())\nprint(solve(a, b, lambda x, y: x[1] == y[1] and x[0] >= y[0]))\n",
+    "prob_desc_created_at": "1457022900",
+    "tags": [
+        "hashing",
+        "string suffix structures",
+        "implementation",
+        "data structures",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

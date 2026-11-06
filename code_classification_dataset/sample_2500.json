@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"17\"]",
+    "src_uid": "88f8f2c2f68589654709800ea9b19ecf",
+    "prob_desc_notes": "NoteIn the first sample it's possible to get from any station to any other (with greater index) using only one ticket. The total number of pairs is 6, so the answer is also 6.Consider the second sample:   ρ1, 2 = 1  ρ1, 3 = 2  ρ1, 4 = 3  ρ1, 5 = 3  ρ2, 3 = 1  ρ2, 4 = 2  ρ2, 5 = 2  ρ3, 4 = 1  ρ3, 5 = 1  ρ4, 5 = 1 Thus the answer equals 1 + 2 + 3 + 3 + 1 + 2 + 2 + 1 + 1 + 1 = 17.",
+    "prob_desc_description": "Vasya commutes by train every day. There are n train stations in the city, and at the i-th station it's possible to buy only tickets to stations from i + 1 to ai inclusive. No tickets are sold at the last station.Let ρi, j be the minimum number of tickets one needs to buy in order to get from stations i to station j. As Vasya is fond of different useless statistic he asks you to compute the sum of all values ρi, j among all pairs 1 ≤ i &lt; j ≤ n.",
+    "prob_desc_output_spec": "Print the sum of ρi, j among all pairs of 1 ≤ i &lt; j ≤ n.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (2 ≤ n ≤ 100 000) — the number of stations. The second line contains n - 1 integer ai (i + 1 ≤ ai ≤ n), the i-th of them means that at the i-th station one may buy tickets to each station from i + 1 to ai inclusive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_024.jsonl",
+    "code_uid": "f0d48c7b079068d4a6350ab1d59e23b9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4 4 4\", \"5\\n2 3 5 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\na=list(map(int, input().split()))\na=[ai-1 for ai in a]\na[n:n] = [n - 1]\n\ndp=[0]*n\nans=0\ni=n-2\n\nnmax=2**17\ntree=[[0,0]]*2*nmax;\n\n#Build Segment tree\nj=0\nwhile j<n:\n    tree[nmax + j] = [a[j], j]\n    j=j+1\nj=nmax-1\nwhile j>0:\n    tree[j]=max(tree[j*2],tree[j*2+1])\n    j=j-1\n    \n#get max of a interval [left, right]\ndef get(left, right):\n    ans=[-1,-1]\n    left=left+nmax\n    right=right+nmax+1\n    while left<right:\n        if (left & 1): \n            ans = max(ans, tree[left])\n            left = left + 1\n        if (right & 1): \n            right = right - 1\n            ans = max(ans, tree[right])\n        left = left // 2\n        right = right // 2 \n    return ans[1]\n\nwhile i>=0:\n    m = get(i + 1, a[i]);\n    dp[i] =  dp[m] - (a[i] - m) + n - i - 1\n    ans += dp[i]\n    i=i-1\n\nprint(ans)",
+    "prob_desc_created_at": "1463416500",
+    "tags": [
+        "dp",
+        "greedy",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

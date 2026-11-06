@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2 3\", \"1 2\", \"2 4\"]",
+    "src_uid": "cc49df31741e921cd5c2db0a900a6bb5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A company of $$$n$$$ friends wants to order exactly two pizzas. It is known that in total there are $$$9$$$ pizza ingredients in nature, which are denoted by integers from $$$1$$$ to $$$9$$$.Each of the $$$n$$$ friends has one or more favorite ingredients: the $$$i$$$-th of friends has the number of favorite ingredients equal to $$$f_i$$$ ($$$1 \\le f_i \\le 9$$$) and your favorite ingredients form the sequence $$$b_{i1}, b_{i2}, \\dots, b_{if_i}$$$ ($$$1 \\le b_{it} \\le 9$$$).The website of CodePizza restaurant has exactly $$$m$$$ ($$$m \\ge 2$$$) pizzas. Each pizza is characterized by a set of $$$r_j$$$ ingredients $$$a_{j1}, a_{j2}, \\dots, a_{jr_j}$$$ ($$$1 \\le r_j \\le 9$$$, $$$1 \\le a_{jt} \\le 9$$$) , which are included in it, and its price is $$$c_j$$$.Help your friends choose exactly two pizzas in such a way as to please the maximum number of people in the company. It is known that a person is pleased with the choice if each of his/her favorite ingredients is in at least one ordered pizza. If there are several ways to choose two pizzas so as to please the maximum number of friends, then choose the one that minimizes the total price of two pizzas.",
+    "prob_desc_output_spec": "Output two integers $$$j_1$$$ and $$$j_2$$$ ($$$1 \\le j_1,j_2 \\le m$$$, $$$j_1 \\ne j_2$$$) denoting the indices of two pizzas in the required set. If there are several solutions, output any of them. Pizza indices can be printed in any order.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 10^5, 2 \\le m \\le 10^5$$$) — the number of friends in the company and the number of pizzas, respectively. Next, the $$$n$$$ lines contain descriptions of favorite ingredients of the friends: the $$$i$$$-th of them contains the number of favorite ingredients $$$f_i$$$ ($$$1 \\le f_i \\le 9$$$) and a sequence of distinct integers $$$b_{i1}, b_{i2}, \\dots, b_{if_i}$$$ ($$$1 \\le b_{it} \\le 9$$$). Next, the $$$m$$$ lines contain pizza descriptions: the $$$j$$$-th of them contains the integer price of the pizza $$$c_j$$$ ($$$1 \\le c_j \\le 10^9$$$), the number of ingredients $$$r_j$$$ ($$$1 \\le r_j \\le 9$$$) and the ingredients themselves as a sequence of distinct integers $$$a_{j1}, a_{j2}, \\dots, a_{jr_j}$$$ ($$$1 \\le a_{jt} \\le 9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_064.jsonl",
+    "code_uid": "85feaf01f1b04af9813ec52ef61c5d68",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\n2 6 7\\n4 2 3 9 5\\n3 2 3 9\\n100 1 7\\n400 3 3 2 5\\n100 2 9 2\\n500 3 2 9 5\", \"4 3\\n1 1\\n1 2\\n1 3\\n1 4\\n10 4 1 2 3 4\\n20 4 1 2 3 4\\n30 4 1 2 3 4\", \"1 5\\n9 9 8 7 6 5 4 3 2 1\\n3 4 1 2 3 4\\n1 4 5 6 7 8\\n4 4 1 3 5 7\\n1 4 2 4 6 8\\n5 4 1 9 2 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import*\nimport itertools\nn, m = map(int, stdin.readline().split())\nfriends = [0]*512\nexists = [0]*512\ncosts_min = [0]*512\ncosts_2 = [0]*512\nindex_min = [0]*512\nindex_2 = [0]*512\ncount_friends = [0]*512\ndef top_to_idx(top):\n    ans = 0\n    for t in top:\n        ans += 1 << (t-1)\n    return ans\ndef idx_to_top(idx):\n    ans = []\n    for i in range(9):\n        if idx & (1 << i):\n            ans.append(i+1)\n    return ans\nfor i in range(n):\n    top = list(map(int, stdin.readline().split()))[1:]\n    friends[top_to_idx(top)] += 1\ndef subset(i, j):\n    for s in range(9):\n        if i & (1 << s) and not (j & (1 << s)):\n            return False\n    return True\nfor i in range(512):\n    for j in range(512):\n        if subset(j, i):\n            count_friends[i] += friends[j]\nfor i in range(m):\n    pizza = list(map(int, stdin.readline().split()))\n    top_idx = top_to_idx(pizza[2:])\n    cost = pizza[0]\n    exists[top_idx] = True\n    if costs_min[top_idx] == 0 or cost < costs_min[top_idx]:\n        costs_2[top_idx] = costs_min[top_idx]\n        index_2[top_idx] = index_min[top_idx]\n        costs_min[top_idx] = cost\n        index_min[top_idx] = i+1\n    elif costs_2[top_idx] == 0 or cost < costs_2[top_idx]:\n        costs_2[top_idx] = cost\n        index_2[top_idx] = i+1\nbest_matches = -1\nbest_cost = -1\nbest = None\nfor p1 in range(512):\n    for p2 in range(p1, 512):\n        if not exists[p1] or not exists[p2]:\n            continue\n        if p1 == p2 and index_2[p1] == 0:\n            continue\n        p = p1 | p2\n        matches = count_friends[p]\n        cost = costs_min[p1] + costs_min[p2] if p1 != p2 else costs_min[p1] + costs_2[p2]\n        if best_matches == -1 or matches > best_matches or (matches == best_matches and cost < best_cost):\n            best = (index_min[p1], index_min[p2]) if p1 != p2 else (index_min[p1], index_2[p2])\n            best_matches = matches\n            best_cost = cost\nprint best[0],best[1]\n    ",
+    "prob_desc_created_at": "1560955500",
+    "tags": [
+        "bitmasks",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

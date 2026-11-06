@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"1\"]",
+    "src_uid": "63e130256e23bd0693c6a1bede5e937e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are less than 60 years left till the 900-th birthday anniversary of a famous Italian mathematician Leonardo Fibonacci. Of course, such important anniversary needs much preparations.Dima is sure that it'll be great to learn to solve the following problem by the Big Day: You're given a set A, consisting of numbers l, l + 1, l + 2, ..., r; let's consider all its k-element subsets; for each such subset let's find the largest common divisor of Fibonacci numbers with indexes, determined by the subset elements. Among all found common divisors, Dima is interested in the largest one.Dima asked to remind you that Fibonacci numbers are elements of a numeric sequence, where F1 = 1, F2 = 1, Fn = Fn - 1 + Fn - 2 for n ≥ 3.Dima has more than half a century ahead to solve the given task, but you only have two hours. Count the residue from dividing the sought largest common divisor by m.",
+    "prob_desc_output_spec": "Print a single integer — the residue from dividing the sought greatest common divisor by m.",
+    "prob_desc_input_spec": "The first line contains four space-separated integers m, l, r and k (1 ≤ m ≤ 109; 1 ≤ l &lt; r ≤ 1012; 2 ≤ k ≤ r - l + 1). Please, do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use cin, cout streams or the %I64d specifier.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_043.jsonl",
+    "code_uid": "44a15a661135a9b3ad098d554c01034b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 1 8 2\", \"10 1 8 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def recfib(n,m):\n    if n==0: return (0,1,)\n    a, b = recfib(n / 2,m)\n    return ((b*b+a*a)%m, b*(2*a+b)%m) if n%2 else (a*((2*b)-a)%m, ((b*b+a*a))%m)\nm,l,r,k = map(long, raw_input().split())\nD = (r-l)/(k-1)\nwhile D > 1 and (1+(r/D)-((l+D-1)/D))<k:\n    N = 1 + (r/D)\n    D -= ( ((N*D)-r) + (N-1) ) / N\nprint(recfib(D, m)[0])\n\n",
+    "prob_desc_created_at": "1348500600",
+    "tags": [
+        "number theory",
+        "math",
+        "matrices",
+        "implementation",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 2\", \"3 3\"]",
+    "src_uid": "4a55e76aa512b8ce0f3f84bc6da3f86f",
+    "prob_desc_notes": "NoteConsider the first sample. The tree contains three leaves: 3, 4 and 5. If we put the maximum number 3 at node 3, then the first player moves there and the result will be 3. On the other hand, it is easy to see that for any rearrangement the first player can guarantee the result of at least 2.In the second sample no matter what the arragment is the first player can go along the path that ends with a leaf with number 3.",
+    "prob_desc_description": "Demiurges Shambambukli and Mazukta love to watch the games of ordinary people. Today, they noticed two men who play the following game.There is a rooted tree on n nodes, m of which are leaves (a leaf is a nodes that does not have any children), edges of the tree are directed from parent to children. In the leaves of the tree integers from 1 to m are placed in such a way that each number appears exactly in one leaf.Initially, the root of the tree contains a piece. Two players move this piece in turns, during a move a player moves the piece from its current nodes to one of its children; if the player can not make a move, the game ends immediately. The result of the game is the number placed in the leaf where a piece has completed its movement. The player who makes the first move tries to maximize the result of the game and the second player, on the contrary, tries to minimize the result. We can assume that both players move optimally well.Demiurges are omnipotent, so before the game they can arbitrarily rearrange the numbers placed in the leaves. Shambambukli wants to rearrange numbers so that the result of the game when both players play optimally well is as large as possible, and Mazukta wants the result to be as small as possible. What will be the outcome of the game, if the numbers are rearranged by Shambambukli, and what will it be if the numbers are rearranged by Mazukta? Of course, the Demiurges choose the best possible option of arranging numbers.",
+    "prob_desc_output_spec": "Print two space-separated integers — the maximum possible and the minimum possible result of the game.",
+    "prob_desc_input_spec": "The first line contains a single integer n — the number of nodes in the tree (1 ≤ n ≤ 2·105). Each of the next n - 1 lines contains two integers ui and vi (1 ≤ ui, vi ≤ n) — the ends of the edge of the tree; the edge leads from node ui to node vi. It is guaranteed that the described graph is a rooted tree, and the root is the node 1.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_034.jsonl",
+    "code_uid": "d53024926b076561090d577dcfecb21a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2\\n1 3\\n2 4\\n2 5\", \"6\\n1 2\\n1 3\\n3 4\\n1 5\\n5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def readlist(f): return map(f, raw_input().split())\ndef readint(): return int(raw_input())\ndef printlist(l): print ' '.join(map(str, l))\n\nN = readint()\nE = [[] for i in range(N)]\nfor i in range(N-1):\n  u, v = readlist(int)\n  u -= 1\n  v -= 1\n  E[u].append(v)\n  E[v].append(u)\n\nF = [None]*N\nC = [[] for i in range(N)]\nS = [0]\nwhile len(S) > 0:\n  u = S.pop()\n  for v in E[u]:\n    if v != F[u]:\n      F[v] = u\n      C[u].append(v)\n      S.append(v)\n\npol = [0]*N\npol[0] = 1\nS.append(0)\nwhile len(S) > 0:\n  u = S.pop()\n  for v in C[u]:\n    pol[v] = -pol[u]\n    S.append(v)\n\nNB = [0]*N\nM = 0\nfor i in range(N):\n  if len(C[i]) == 0:\n    M += 1\n    S.append(i)\n    NB[i] = 1\n\ndone = [0]*N\nres1 = [0]*N\nres2 = [0]*N\n\nwhile len(S) > 0:\n  u = S.pop()\n\n  if len(C[u]) > 0:\n    if pol[u] > 0:\n      res2[u] = 0\n      for v in C[u]:\n        res2[u] += res2[v] + 1\n      res2[u] -= 1\n      res1[u] = 0\n      for v in C[u]:\n        res1[u] = max(res1[u], NB[u] - (NB[v] - res1[v]))\n    else:\n      res1[u] = NB[u] - 1\n      for v in C[u]:\n        res1[u] -= (NB[v] - res1[v])\n      res1[u] += 1\n      res2[u] = N-1\n      for v in C[u]:\n        res2[u] = min(res2[u], res2[v])\n  if F[u] != None:\n    done[F[u]] += 1\n    NB[F[u]] += NB[u]\n    if done[F[u]] == len(C[F[u]]):\n      S.append(F[u])\nprint res1[0]+1, res2[0]+1\n",
+    "prob_desc_created_at": "1430064000",
+    "tags": [
+        "dp",
+        "dfs and similar",
+        "trees",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

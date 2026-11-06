@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n3\"]",
+    "src_uid": "63108f3cc494df3c7bb62381c03801b3",
+    "prob_desc_notes": "NoteIn the first test case, the initial array contains elements $$$[6, 8, 4, 2]$$$. Element $$$a_4=2$$$ in this array is adjacent to $$$a_4=2$$$ (since $$$\\frac{lcm(2, 2)}{gcd(2, 2)}=\\frac{2}{2}=1=1^2$$$) and $$$a_2=8$$$ (since $$$\\frac{lcm(8,2)}{gcd(8, 2)}=\\frac{8}{2}=4=2^2$$$). Hence, $$$d_4=2$$$, and this is the maximal possible value $$$d_i$$$ in this array.In the second test case, the initial array contains elements $$$[12, 3, 20, 5, 80, 1]$$$. The elements adjacent to $$$12$$$ are $$$\\{12, 3\\}$$$, the elements adjacent to $$$3$$$ are $$$\\{12, 3\\}$$$, the elements adjacent to $$$20$$$ are $$$\\{20, 5, 80\\}$$$, the elements adjacent to $$$5$$$ are $$$\\{20, 5, 80\\}$$$, the elements adjacent to $$$80$$$ are $$$\\{20, 5, 80\\}$$$, the elements adjacent to $$$1$$$ are $$$\\{1\\}$$$. After one second, the array is transformed into $$$[36, 36, 8000, 8000, 8000, 1]$$$.",
+    "prob_desc_description": "Let us call two integers $$$x$$$ and $$$y$$$ adjacent if $$$\\frac{lcm(x, y)}{gcd(x, y)}$$$ is a perfect square. For example, $$$3$$$ and $$$12$$$ are adjacent, but $$$6$$$ and $$$9$$$ are not.Here $$$gcd(x, y)$$$ denotes the greatest common divisor (GCD) of integers $$$x$$$ and $$$y$$$, and $$$lcm(x, y)$$$ denotes the least common multiple (LCM) of integers $$$x$$$ and $$$y$$$.You are given an array $$$a$$$ of length $$$n$$$. Each second the following happens: each element $$$a_i$$$ of the array is replaced by the product of all elements of the array (including itself), that are adjacent to the current value. Let $$$d_i$$$ be the number of adjacent elements to $$$a_i$$$ (including $$$a_i$$$ itself). The beauty of the array is defined as $$$\\max_{1 \\le i \\le n} d_i$$$. You are given $$$q$$$ queries: each query is described by an integer $$$w$$$, and you have to output the beauty of the array after $$$w$$$ seconds.",
+    "prob_desc_output_spec": "For each query output a single integer — the beauty of the array at the corresponding moment.",
+    "prob_desc_input_spec": "The first input line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^5)$$$ — the number of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 3 \\cdot 10^5$$$) — the length of the array. The following line contains $$$n$$$ integers $$$a_1, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 10^6$$$) — array elements.  The next line contain a single integer $$$q$$$ ($$$1 \\le q \\le 3 \\cdot 10^5$$$) — the number of queries. The following $$$q$$$ lines contain a single integer $$$w$$$ each ($$$0 \\le w \\le 10^{18}$$$) — the queries themselves. It is guaranteed that the sum of values $$$n$$$ over all test cases does not exceed $$$3 \\cdot 10^5$$$, and the sum of values $$$q$$$ over all test cases does not exceed $$$3 \\cdot 10^5$$$",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_084.jsonl",
+    "code_uid": "0b5434ac898e94510e93f67531bd6ba9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4\\n6 8 4 2\\n1\\n0\\n6\\n12 3 20 5 80 1\\n1\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, random\ninput = lambda : sys.stdin.readline().rstrip()\n\nwrite = lambda x: sys.stdout.write(x+\"\\n\"); writef = lambda x: print(\"{:.12f}\".format(x))\ndebug = lambda x: sys.stderr.write(x+\"\\n\")\nYES=\"Yes\"; NO=\"No\"; pans = lambda v: print(YES if v else NO); inf=10**18\nLI = lambda : list(map(int, input().split()))\ndef debug(_l_):\n    for s in _l_.split():\n        print(f\"{s}={eval(s)}\", end=\" \")\n    print()\ndef dlist(*l, fill=0):\n    if len(l)==1:\n        return [fill]*l[0]\n    ll = l[1:]\n    return [dlist(*ll, fill=fill) for _ in range(l[0])]\n\ndef hurui(n):\n    \"\"\"線形篩\n    pl: 素数のリスト\n    mpf: iを割り切る最小の素因数\n    \"\"\"\n    pl = []\n    mpf = [None]*(n+1)\n    for d in range(2,n+1):\n        if mpf[d] is None:\n            mpf[d] = d\n            pl.append(d)\n        for p in pl:\n            if p*d>n or p>mpf[d]:\n                break\n            mpf[p*d] = p\n    return pl, mpf\nfrom collections import defaultdict\ndef factor(num):\n    d = defaultdict(int)\n    if num==1:\n        d.update({})\n        return d\n    while num>1:\n        d[mpf[num]] += 1\n        num //= mpf[num]\n    return d\ndef fs(num):\n    f = factor(num)\n    ans = [1]\n    for k,v in f.items():\n        tmp = []\n        for i in range(len(ans)):\n            val = 1\n            for _ in range(v):\n                val *= k\n                ans.append(ans[i]*val)\n    return ans\npl, mpf = hurui(1000100)\n\nt = int(input())\nfor i in range(t):\n    n = int(input())\n    a = list(map(int, input().split()))\n    c = {}\n    for v in a:\n        f = factor(v)\n        k = tuple(sorted([kk for kk,vv in f.items() if vv%2]))\n        c.setdefault(k,0)\n        c[k] += 1\n    ans0 = max(c.values())\n    nc = {}\n    for k in c.keys():\n        if c[k]%2==0:\n            nk = tuple()\n        else:\n            nk = k\n        nc.setdefault(nk, 0)\n        nc[nk] += c[k]\n    ans1 = max(nc.values())\n    q = int(input())\n    for i in range(q):\n        w = int(input())\n        if w==0:\n            print(ans0)\n        else:\n            print(ans1)",
+    "prob_desc_created_at": "1609857300",
+    "tags": [
+        "bitmasks",
+        "graphs",
+        "hashing",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

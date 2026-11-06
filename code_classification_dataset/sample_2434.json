@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n3\\n5\\n11\\n17\\n23\\n29\\n59\\n89\\n0\"]",
+    "src_uid": "12157ec4a71f0763a898172b38ff1ef2",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Dreamoon likes sequences very much. So he created a problem about the sequence that you can't find in OEIS: You are given two integers $$$d, m$$$, find the number of arrays $$$a$$$, satisfying the following constraints:  The length of $$$a$$$ is $$$n$$$, $$$n \\ge 1$$$  $$$1 \\le a_1 &lt; a_2 &lt; \\dots &lt; a_n \\le d$$$  Define an array $$$b$$$ of length $$$n$$$ as follows: $$$b_1 = a_1$$$, $$$\\forall i &gt; 1, b_i = b_{i - 1} \\oplus a_i$$$, where $$$\\oplus$$$ is the bitwise exclusive-or (xor). After constructing an array $$$b$$$, the constraint $$$b_1 &lt; b_2 &lt; \\dots &lt; b_{n - 1} &lt; b_n$$$ should hold. Since the number of possible arrays may be too large, you need to find the answer modulo $$$m$$$.",
+    "prob_desc_output_spec": "For each test case, print the number of arrays $$$a$$$, satisfying all given constrains, modulo $$$m$$$.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) denoting the number of test cases in the input. Each of the next $$$t$$$ lines contains two integers $$$d, m$$$ ($$$1 \\leq d, m \\leq 10^9$$$). Note that $$$m$$$ is not necessary the prime!",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_022.jsonl",
+    "code_uid": "9bf265a24bdd6428d87b6fa7690216d5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n1 1000000000\\n2 999999999\\n3 99999998\\n4 9999997\\n5 999996\\n6 99995\\n7 9994\\n8 993\\n9 92\\n10 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nfor q in range(t):\n    n,m=map(int,input().split())\n    st=1\n    ans=1\n    while st<=n:\n        ans*=min(st*2-st+1,n-st+2)\n        st*=2\n    print((ans-1)%m)\n\n",
+    "prob_desc_created_at": "1585924500",
+    "tags": [
+        "dp",
+        "constructive algorithms",
+        "bitmasks",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

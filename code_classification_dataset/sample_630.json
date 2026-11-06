@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"4\"]",
+    "src_uid": "98348af1203460b3f69239d3e8f635b9",
+    "prob_desc_notes": "NoteIn the first sample, if we rearrange elements of the sequence as  - 1, 2, 1, the whole sequence ai would be Fibonacci-ish.In the second sample, the optimal way to rearrange elements is , , , , 28.",
+    "prob_desc_description": "Yash has recently learnt about the Fibonacci sequence and is very excited about it. He calls a sequence Fibonacci-ish if   the sequence consists of at least two elements  f0 and f1 are arbitrary  fn + 2 = fn + 1 + fn for all n ≥ 0. You are given some sequence of integers a1, a2, ..., an. Your task is rearrange elements of this sequence in such a way that its longest possible prefix is Fibonacci-ish sequence.",
+    "prob_desc_output_spec": "Print the length of the longest possible Fibonacci-ish prefix of the given sequence after rearrangement.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (2 ≤ n ≤ 1000) — the length of the sequence ai. The second line contains n integers a1, a2, ..., an (|ai| ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_003.jsonl",
+    "code_uid": "11bb6e8a96c3a8748f736fe3943ef0a8",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 -1\", \"5\\n28 35 7 14 21\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n\nn = int(input())\na = [int(x) for x in input().split()]\n\nsorted_a = sorted(a)\ndict_a = {}\nfor x in a:\n    if not x in dict_a:\n        dict_a[x] = 1\n    else:\n        dict_a[x] += 1\n\nsorted_uniq_a = sorted(dict_a.keys())\n\nmax_fib_prefix = [a[0], a[1]]\nfor i in range(0, len(sorted_uniq_a)):\n    for j in range(0, len(sorted_uniq_a)):\n        if i != j or dict_a[sorted_uniq_a[i]] > 1:\n            if sorted_uniq_a[i] + sorted_uniq_a[j] > sorted_uniq_a[-1]:\n                break\n\n            fib_prefix = [sorted_uniq_a[i], sorted_uniq_a[j]]\n            dict_a[sorted_uniq_a[i]] -= 1\n            dict_a[sorted_uniq_a[j]] -= 1\n\n            while True:\n                next_fib = fib_prefix[-1] + fib_prefix[-2]\n                if not next_fib in dict_a or dict_a[next_fib] == 0:\n                    break\n                fib_prefix.append(next_fib)\n                dict_a[next_fib] -= 1\n\n            for x in fib_prefix:\n                dict_a[x] += 1\n\n            if len(fib_prefix) > len(max_fib_prefix):\n                max_fib_prefix = fib_prefix\n\nprint(len(max_fib_prefix))\n",
+    "prob_desc_created_at": "1456506900",
+    "tags": [
+        "dp",
+        "hashing",
+        "math",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10 1\\n8 1\\n7 1\\n10 2\\n8 2\\n7 1\\n9 3\", \"0 0\\n4 1\\n8 2\\n12 3\", \"7 1\\n17 1\\n19 2\\n21 3\\n8 1\"]",
+    "src_uid": "d84d878719124acf7ab3af6ae787ceee",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a functional graph. It is a directed graph, in which from each vertex goes exactly one arc. The vertices are numerated from 0 to n - 1.Graph is given as the array f0, f1, ..., fn - 1, where fi — the number of vertex to which goes the only arc from the vertex i. Besides you are given array with weights of the arcs w0, w1, ..., wn - 1, where wi — the arc weight from i to fi.    The graph from the first sample test. Also you are given the integer k (the length of the path) and you need to find for each vertex two numbers si and mi, where:  si — the sum of the weights of all arcs of the path with length equals to k which starts from the vertex i;  mi — the minimal weight from all arcs on the path with length k which starts from the vertex i. The length of the path is the number of arcs on this path.",
+    "prob_desc_output_spec": "Print n lines, the pair of integers si, mi in each line.",
+    "prob_desc_input_spec": "The first line contains two integers n, k (1 ≤ n ≤ 105, 1 ≤ k ≤ 1010). The second line contains the sequence f0, f1, ..., fn - 1 (0 ≤ fi &lt; n) and the third — the sequence w0, w1, ..., wn - 1 (0 ≤ wi ≤ 108).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_004.jsonl",
+    "code_uid": "8a63fe32f330300b071bd0967cfcbfaa",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"7 3\\n1 2 3 4 3 2 6\\n6 3 1 4 2 2 3\", \"4 4\\n0 1 2 3\\n0 1 2 3\", \"5 3\\n1 2 3 4 0\\n4 1 2 14 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nn, k = map(int, sys.stdin.buffer.readline().decode('utf-8').split())\na = list(map(int, sys.stdin.buffer.readline().decode('utf-8').split()))\nb = list(map(int, sys.stdin.buffer.readline().decode('utf-8').split()))\n\nlogk = len(bin(k)) - 2\nsum_w, sum_w_p = b[:], b[:]\nmin_w, min_w_p = b[:], b[:]\ndest, dest_p = a[:], a[:]\n\nans_sum, ans_min, pos = [0]*n, b[:], list(range(n))\nif k & 1:\n    ans_sum = b[:]\n    pos = [a[i] for i in range(n)]\nk >>= 1\n\nfor j in range(1, logk):\n    for i in range(n):\n        d = dest[i]\n        p = 0 if d > i else 1\n        dest_p[i] = d\n        dest[i] = (dest_p if p else dest)[d]\n        sum_w_p[i] = sum_w[i]\n        sum_w[i] += (sum_w_p if p else sum_w)[d]\n        min_w_p[i] = min_w[i]\n        if min_w[i] > (min_w_p if p else min_w)[d]:\n            min_w[i] = (min_w_p if p else min_w)[d]\n\n    if k & 1:\n        for i in range(n):\n            ans_sum[i] += sum_w[pos[i]]\n            if ans_min[i] > min_w[pos[i]]:\n                ans_min[i] = min_w[pos[i]]\n            pos[i] = dest[pos[i]]\n    k >>= 1\n\n\nsys.stdout.buffer.write('\\n'.join(\n    (str(ans_sum[i]) + ' ' + str(ans_min[i]) for i in range(n))).encode('utf-8'))\n",
+    "prob_desc_created_at": "1469804400",
+    "tags": [
+        "data structures",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"? 1\\n? 2\\n? 3\\n? 4\\n? 5\\n! 3\"]",
+    "src_uid": "c091ca39dd5708f391b52de63faac6b9",
+    "prob_desc_notes": "NoteIn the example, the first line contains an integer $$$5$$$ indicating that the length of the array is $$$n = 5$$$.The example makes five \"?\" queries, after which we conclude that the array is $$$a = [3,2,1,4,5]$$$ and $$$k = 3$$$ is local minimum.",
+    "prob_desc_description": "This is an interactive problem.Homer likes arrays a lot and he wants to play a game with you. Homer has hidden from you a permutation $$$a_1, a_2, \\dots, a_n$$$ of integers $$$1$$$ to $$$n$$$. You are asked to find any index $$$k$$$ ($$$1 \\leq k \\leq n$$$) which is a local minimum. For an array $$$a_1, a_2, \\dots, a_n$$$, an index $$$i$$$ ($$$1 \\leq i \\leq n$$$) is said to be a local minimum if $$$a_i &lt; \\min\\{a_{i-1},a_{i+1}\\}$$$, where $$$a_0 = a_{n+1} = +\\infty$$$. An array is said to be a permutation of integers $$$1$$$ to $$$n$$$, if it contains all integers from $$$1$$$ to $$$n$$$ exactly once.Initially, you are only given the value of $$$n$$$ without any other information about this permutation.At each interactive step, you are allowed to choose any $$$i$$$ ($$$1 \\leq i \\leq n$$$) and make a query with it. As a response, you will be given the value of $$$a_i$$$. You are asked to find any index $$$k$$$ which is a local minimum after at most $$$100$$$ queries.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_093.jsonl",
+    "code_uid": "e61c59d256400331876bf2f233b1e948",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3\\n2\\n1\\n4\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#import io, os\r\n#input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\r\n\r\nimport math\r\nn=int(input())\r\nhi=n\r\nlo=1\r\nif n==1:\r\n  print(\"!\",n)\r\nelse:\r\n  print(\"?\",1,flush=True)\r\n  a=int(input())\r\n  print(\"?\",2,flush=True)\r\n  b=int(input())\r\n  \r\n  print(\"?\",n,flush=True)\r\n  c=int(input())\r\n  print(\"?\",n-1,flush=True)\r\n  d=int(input())\r\n  \r\n  if c<d:\r\n    print(\"!\",n)\r\n  \r\n  elif a<b:\r\n    print(\"!\",1)\r\n  \r\n  else:\r\n    while lo<hi:\r\n      mid=lo+((hi-lo)//2) \r\n  \r\n      print(\"?\",mid-1,flush=True)\r\n      a=int(input())\r\n      print(\"?\",mid,flush=True)\r\n      b=int(input())\r\n      print(\"?\",mid+1,flush=True)\r\n      c=int(input())\r\n      if b<a and b<c:\r\n        print(\"!\",mid)\r\n        break\r\n      elif a<b:\r\n        hi=mid\r\n      elif c<b:\r\n        lo=lo+(math.ceil((hi-lo)/2)) ",
+    "prob_desc_created_at": "1612708500",
+    "tags": [
+        "binary search",
+        "interactive",
+        "ternary search"
+    ],
+    "hidden_unit_tests": ""
+}

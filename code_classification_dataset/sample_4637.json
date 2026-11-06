@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"abdc\\na\\nb\\ndeforces\\ncf\\nxyzzw\"]",
+    "src_uid": "adbaa266446e6d8d95a6cbc0b83cc7c7",
+    "prob_desc_notes": "NoteThe first test case is explained in the statement.In the second test case, no operations can be performed on $$$s$$$.In the third test case,   Initially, $$$s =$$$ \"bbbbbbbbbb\".  After $$$1$$$ operation, $$$s =$$$ \"b\". In the fourth test case,   Initially, $$$s =$$$ \"codeforces\".  After $$$1$$$ operation, $$$s =$$$ \"odeforces\".  After $$$2$$$ operations, $$$s =$$$ \"deforces\". ",
+    "prob_desc_description": "You are given a string $$$s$$$ consisting of lowercase letters of the English alphabet. You must perform the following algorithm on $$$s$$$:  Let $$$x$$$ be the length of the longest prefix of $$$s$$$ which occurs somewhere else in $$$s$$$ as a contiguous substring (the other occurrence may also intersect the prefix). If $$$x = 0$$$, break. Otherwise, remove the first $$$x$$$ characters of $$$s$$$, and repeat. A prefix is a string consisting of several first letters of a given string, without any reorders. An empty prefix is also a valid prefix. For example, the string \"abcd\" has 5 prefixes: empty string, \"a\", \"ab\", \"abc\" and \"abcd\".For instance, if we perform the algorithm on $$$s =$$$ \"abcabdc\",   Initially, \"ab\" is the longest prefix that also appears somewhere else as a substring in $$$s$$$, so $$$s =$$$ \"cabdc\" after $$$1$$$ operation.  Then, \"c\" is the longest prefix that also appears somewhere else as a substring in $$$s$$$, so $$$s =$$$ \"abdc\" after $$$2$$$ operations.  Now $$$x=0$$$ (because there are no non-empty prefixes of \"abdc\" that also appear somewhere else as a substring in $$$s$$$), so the algorithm terminates. Find the final state of the string after performing the algorithm.",
+    "prob_desc_output_spec": "For each test case, print a single line containing the string $$$s$$$ after executing the algorithm. It can be shown that such string is non-empty.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. This is followed by $$$t$$$ lines, each containing a description of one test case. Each line contains a string $$$s$$$. The given strings consist only of lowercase letters of the English alphabet and have lengths between $$$1$$$ and $$$2 \\cdot 10^5$$$ inclusive. It is guaranteed that the sum of the lengths of $$$s$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_102.jsonl",
+    "code_uid": "9381cf628dd4afece180abe9c3117707",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\nabcabdc\\na\\nbbbbbbbbbb\\ncodeforces\\ncffcfccffccfcffcfccfcffccffcfccf\\nzyzyzwxxyyxxyyzzyzzxxwzxwywxwzxxyzzw\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nwhile (t > 0):\r\n    t -= 1\r\n    s1 = str(input())\r\n    s2 = \"\"\r\n    i = 0\r\n    mn = set()\r\n    while True:\r\n        if (s1[-i-1] not in mn):\r\n            s2 = s1[-i-1:]\r\n            mn.add(s1[-i-1])\r\n        i += 1\r\n        if i == len(s1):\r\n            break\r\n    print(s2)",
+    "prob_desc_created_at": "1647764100",
+    "tags": [
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"2\", \"2\", \"4\", \"4\"]",
+    "src_uid": "97e149fe5933bf1c9dbe8d958c1b2e05",
+    "prob_desc_notes": "NoteIn the first example, Gildong can click the cell $$$(2, 2)$$$, then the working screen becomes: BWWWWWWWWWWWWWWBThen there are four white lines — the $$$2$$$-nd and $$$3$$$-rd row, and the $$$2$$$-nd and $$$3$$$-rd column.In the second example, clicking the cell $$$(2, 3)$$$ makes the $$$2$$$-nd row a white line.In the third example, both the $$$2$$$-nd column and $$$5$$$-th row become white lines by clicking the cell $$$(3, 2)$$$.",
+    "prob_desc_description": "Gildong has bought a famous painting software cfpaint. The working screen of cfpaint is square-shaped consisting of $$$n$$$ rows and $$$n$$$ columns of square cells. The rows are numbered from $$$1$$$ to $$$n$$$, from top to bottom, and the columns are numbered from $$$1$$$ to $$$n$$$, from left to right. The position of a cell at row $$$r$$$ and column $$$c$$$ is represented as $$$(r, c)$$$. There are only two colors for the cells in cfpaint — black and white.There is a tool named eraser in cfpaint. The eraser has an integer size $$$k$$$ ($$$1 \\le k \\le n$$$). To use the eraser, Gildong needs to click on a cell $$$(i, j)$$$ where $$$1 \\le i, j \\le n - k + 1$$$. When a cell $$$(i, j)$$$ is clicked, all of the cells $$$(i', j')$$$ where $$$i \\le i' \\le i + k - 1$$$ and $$$j \\le j' \\le j + k - 1$$$ become white. In other words, a square with side equal to $$$k$$$ cells and top left corner at $$$(i, j)$$$ is colored white.A white line is a row or a column without any black cells.Gildong has worked with cfpaint for some time, so some of the cells (possibly zero or all) are currently black. He wants to know the maximum number of white lines after using the eraser exactly once. Help Gildong find the answer to his question.",
+    "prob_desc_output_spec": "Print one integer: the maximum number of white lines after using the eraser exactly once.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 2000$$$) — the number of rows and columns, and the size of the eraser. The next $$$n$$$ lines contain $$$n$$$ characters each without spaces. The $$$j$$$-th character in the $$$i$$$-th line represents the cell at $$$(i,j)$$$. Each character is given as either 'B' representing a black cell, or 'W' representing a white cell.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_046.jsonl",
+    "code_uid": "3a3a933f615d92a7741b3157a5bbecec",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\nBWWW\\nWBBW\\nWBBW\\nWWWB\", \"3 1\\nBWB\\nWWB\\nBWB\", \"5 3\\nBWBBB\\nBWBBB\\nBBBBB\\nBBBBB\\nWBBBW\", \"2 2\\nBW\\nWB\", \"2 1\\nWW\\nWW\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import fileinput\ndef D(a):print(a)\ndef S(s,I):return int(s.split(\" \")[I])\ndef sm(I,B,E):\n    if(B==0):return S[I][E]\n    return S[I][E]-S[I][B-1]\ndef main():\n    global S\n    z=0\n    A=0\n    N=0\n    K=0\n    C=0\n    for l in fileinput.input():\n        z+=1\n        if(z<2):\n            N=S(l,0)\n            K=S(l,1)\n            A=[0]*N\n            S=[0]*N\n            C=[0]*N\n            for i in range(N):\n                A[i]=[0]*N\n                S[i]=[0]*N\n                C[i]=[0]*N\n            continue\n        for i in range(N):\n            if(l[i]=='B'):\n                A[z-2][i]=1\n    for i in range(N):\n        S[i][0]=A[i][0]\n        for j in xrange(1,N):\n            S[i][j]=S[i][j-1]+A[i][j]\n    for i in range(N-K+1):\n        T=0\n        for j in range(N):\n            if(S[j][N-1]==0):\n                T+=1\n        for j in range(K-1):\n            if(S[j][N-1]!=0 and sm(j,i,i+K-1)==S[j][N-1]):\n                T+=1\n        for j in xrange(K-1,N):\n            if(S[j][N-1]!=0 and sm(j,i,i+K-1)==S[j][N-1]):\n                T+=1\n            C[i][j-K+1]+=T\n            if(S[j-K+1][N-1]!=0 and sm(j-K+1,i,i+K-1)==S[j-K+1][N-1]):\n                T-=1\n    for i in range(N):\n        S[i][0]=A[0][i]\n        for j in xrange(1,N):\n            S[i][j]=S[i][j-1]+A[j][i]\n    for i in range(N-K+1):\n        T=0\n        for j in range(N):\n            if(S[j][N-1]==0):\n                T+=1\n        for j in range(K-1):\n            if(S[j][N-1]!=0 and sm(j,i,i+K-1)==S[j][N-1]):\n                T+=1\n        for j in xrange(K-1,N):\n            if(S[j][N-1]!=0 and sm(j,i,i+K-1)==S[j][N-1]):\n                T+=1\n            C[j-K+1][i]+=T\n            if(S[j-K+1][N-1]!=0 and sm(j-K+1,i,i+K-1)==S[j-K+1][N-1]):\n                T-=1\n    X=0\n    for i in range(N):\n        for j in range(N):\n            X=max(X,C[i][j])\n    D(X)\nmain()\n",
+    "prob_desc_created_at": "1565526900",
+    "tags": [
+        "dp",
+        "two pointers",
+        "implementation",
+        "data structures",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

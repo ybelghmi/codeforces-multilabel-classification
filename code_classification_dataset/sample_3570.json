@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"6 1 0 0\", \"12 4 1 0 0 0 0\"]",
+    "src_uid": "2612df3281cbb9abe328f82e2d755a08",
+    "prob_desc_notes": "NoteIn the first example 1-palindromes are substring «a», «b», «b», «a», «bb», «abba», the substring «bb» is 2-palindrome. There are no 3- and 4-palindromes here.",
+    "prob_desc_description": "Palindromic characteristics of string s with length |s| is a sequence of |s| integers, where k-th number is the total number of non-empty substrings of s which are k-palindromes.A string is 1-palindrome if and only if it reads the same backward as forward.A string is k-palindrome (k &gt; 1) if and only if:   Its left half equals to its right half.  Its left and right halfs are non-empty (k - 1)-palindromes. The left half of string t is its prefix of length ⌊|t| / 2⌋, and right half — the suffix of the same length. ⌊|t| / 2⌋ denotes the length of string t divided by 2, rounded down.Note that each substring is counted as many times as it appears in the string. For example, in the string \"aaa\" the substring \"a\" appears 3 times.",
+    "prob_desc_output_spec": "Print |s| integers — palindromic characteristics of string s.",
+    "prob_desc_input_spec": "The first line contains the string s (1 ≤ |s| ≤ 5000) consisting of lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_069.jsonl",
+    "code_uid": "d0d337a3157316b7b92058828607f5a7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"abba\", \"abacaba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s = raw_input()\nn = len(s)\nres = [0] * (n + 1)\ndp = [[0] * n for _ in xrange(n)]\n\nfor l in xrange(1, n + 1):\n    for i in xrange(n - l + 1):\n        j = i + l - 1\n        if l == 1:\n            dp[i][j] = 1\n            continue\n        if s[i] == s[j] and (l == 2 or dp[i + 1][j - 1] > 0):\n            dp[i][j] = 1\n        else:\n            continue\n        sub_l = l / 2\n        if dp[i][i + sub_l - 1] > 0:\n            dp[i][j] = dp[i][i + sub_l - 1] + 1\n\nfor i in xrange(n):\n    for j in xrange(n):\n        res[dp[i][j]] += 1\n\nfor i in xrange(n - 1, 0, -1):\n    res[i] += res[i + 1]\n\nprint ' '.join(map(str, res[1:]))\n",
+    "prob_desc_created_at": "1501511700",
+    "tags": [
+        "dp",
+        "hashing",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

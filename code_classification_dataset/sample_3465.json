@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"36\", \"20\"]",
+    "src_uid": "73dc4636261b323bd7b6040d4b3e856d",
+    "prob_desc_notes": "NoteIn the first example the most euphony name will be looser. It is easy to calculate that its euphony is 36.",
+    "prob_desc_description": "Vasya plays the LionAge II. He was bored of playing with a stupid computer, so he installed this popular MMORPG, to fight with his friends. Vasya came up with the name of his character — non-empty string s, consisting of a lowercase Latin letters. However, in order not to put up a front of friends, Vasya has decided to change no more than k letters of the character name so that the new name sounded as good as possible. Euphony of the line is defined as follows: for each pair of adjacent letters x and y (x immediately precedes y) the bonus c(x, y) is added to the result. Your task is to determine what the greatest Euphony can be obtained by changing at most k letters in the name of the Vasya's character.",
+    "prob_desc_output_spec": "Output the only number — maximum possible euphony оf the new character's name.",
+    "prob_desc_input_spec": "The first line contains character's name s and an integer number k (0 ≤ k ≤ 100). The length of the nonempty string s does not exceed 100. The second line contains an integer number n (0 ≤ n ≤ 676) — amount of pairs of letters, giving bonus to the euphony. The next n lines contain description of these pairs «x y c», which means that sequence xy gives bonus c (x, y — lowercase Latin letters,  - 1000 ≤ c ≤ 1000). It is guaranteed that no pair x y mentioned twice in the input data.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_061.jsonl",
+    "code_uid": "2f04b84a8702209413814615274ac404",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"winner 4\\n4\\ns e 7\\no s 8\\nl o 13\\no o 8\", \"abcdef 1\\n5\\na b -10\\nb c 5\\nc d 5\\nd e 5\\ne f 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "E = 26\nR = range(E)\ns,k  =raw_input().split()\noa = lambda c: ord(c)-ord('a')\ns,k = map(oa,s),int(k)\nn = input()\nb = [0]*E**2\nfor _ in xrange(n):\n    f,t,a = raw_input().split()\n    b[oa(f)*E+oa(t)] = int(a)\nl = len(s)\nd = [[[-1000000000]*E for j in xrange(k+1)] for i in xrange(l)]\nfor j in xrange(k+1):\n    for u in R:\n        if u==s[0] or j: \n            d[0][j][u] = 0\nfor i in xrange(1,l):\n    for j in xrange(min(k+1,i+2)):\n        d[i][j][s[i]]=max(d[i][j][s[i]],max(d[i-1][j][v]+b[v*E+s[i]] for v in R))\n        if not j: continue \n        for u in R:\n            if u==s[i]: continue\n            d[i][j][u]=max(d[i][j][u],max(d[i-1][j-1][v]+b[v*E+u] for v in R))\nprint max(d[l-1][j][u] for j in xrange(k+1) for u in R)",
+    "prob_desc_created_at": "1302422400",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

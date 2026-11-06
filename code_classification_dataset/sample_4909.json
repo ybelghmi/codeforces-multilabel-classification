@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1028\\n1\\n3\\n729229716\\n652219904\"]",
+    "src_uid": "fc8381e8c97190749b356f10cf80209e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are $$$n$$$ bags, each bag contains $$$m$$$ balls with numbers from $$$1$$$ to $$$m$$$. For every $$$i \\in [1, m]$$$, there is exactly one ball with number $$$i$$$ in each bag.You have to take exactly one ball from each bag (all bags are different, so, for example, taking the ball $$$1$$$ from the first bag and the ball $$$2$$$ from the second bag is not the same as taking the ball $$$2$$$ from the first bag and the ball $$$1$$$ from the second bag). After that, you calculate the number of balls with odd numbers among the ones you have taken. Let the number of these balls be $$$F$$$.Your task is to calculate the sum of $$$F^k$$$ over all possible ways to take $$$n$$$ balls, one from each bag.",
+    "prob_desc_output_spec": "For each test case, print one integer — the sum of $$$F^k$$$ over all possible ways to take $$$n$$$ balls, one from each bag. Since it can be huge, print it modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 5000$$$) — the number of test cases. Each test case consists of one line containing three integers $$$n$$$, $$$m$$$ and $$$k$$$ ($$$1 \\le n, m \\le 998244352$$$; $$$1 \\le k \\le 2000$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_109.jsonl",
+    "code_uid": "1728526b7ec7c9ac31e5a00a1ec65327",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n2 3 8\\n\\n1 1 1\\n\\n1 5 10\\n\\n3 7 2000\\n\\n1337666 42424242 2000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\r\ninput=lambda :stdin.readline()[:-1]\r\n\r\nmod=998244353\r\nm=2010\r\nS=[[0]*m for i in range(m)]\r\nfor n in range(1,m):\r\n  for k in range(1,n+1):\r\n    if k==1 or n==k:\r\n      S[n][k]=1\r\n    else:\r\n      S[n][k]=S[n-1][k-1]+k*S[n-1][k]\r\n      S[n][k]%=mod\r\n\r\ndef fpow(x,k):\r\n  res=1\r\n  if k<0:\r\n    return 0\r\n  while k:\r\n    if k&1:\r\n      res=res*x%mod\r\n    x=x*x%mod\r\n    k>>=1\r\n  return res\r\n\r\n\r\ndef solve():\r\n  N,M,K=map(int,input().split())\r\n  ans=0\r\n  res=fpow(M,N)\r\n  Minv=fpow(M,mod-2)\r\n  for i in range(1,K+1):\r\n    res*=(N-i+1)*((M+1)//2)%mod*Minv%mod\r\n    res%=mod\r\n    ans+=res*S[K][i]%mod\r\n    ans%=mod\r\n  \r\n  print(ans)\r\n\r\nfor _ in range(int(input())):\r\n  solve()",
+    "prob_desc_created_at": "1659623700",
+    "tags": [
+        "combinatorics",
+        "dp",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

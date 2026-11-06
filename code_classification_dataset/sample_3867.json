@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"XXX\\n..X\\nXXX\\nXXXX\\n.X.X\\n.X..\\n.XXX\\n.X...\\n.XXXX\\n.X...\\n.X...\\nXXXXX\\nXXXXXXXXXX\\n..\\n..\"]",
+    "src_uid": "669390a40a6ef9bf1547c71823da169b",
+    "prob_desc_notes": "NoteLet's use $$$(x,y)$$$ to describe the cell on $$$x$$$-th row and $$$y$$$-th column.In the following pictures white, yellow, and blue cells stand for the cells that grow a sunflower, the cells lightning stroke, and the cells sunflower on which are removed, respectively.In the first test case, one possible solution is to remove sunflowers on $$$(1,2)$$$, $$$(2,3)$$$ and $$$(3 ,2)$$$. Another acceptable solution is to remove sunflowers on $$$(1,2)$$$, $$$(2,2)$$$ and $$$(3,2)$$$. This output is considered wrong because there are 2 simple paths between any pair of cells (there is a cycle). For example, there are 2 simple paths between $$$(1,1)$$$ and $$$(3,3)$$$.  $$$(1,1)\\to (1,2)\\to (1,3)\\to (2,3)\\to (3,3)$$$  $$$(1,1)\\to (2,1)\\to (3,1)\\to (3,2)\\to (3,3)$$$ This output is considered wrong because you can't walk from $$$(1,1)$$$ to $$$(3,3)$$$.",
+    "prob_desc_description": "There are many sunflowers in the Garden of the Sun.Garden of the Sun is a rectangular table with $$$n$$$ rows and $$$m$$$ columns, where the cells of the table are farmlands. All of the cells grow a sunflower on it. Unfortunately, one night, the lightning stroke some (possibly zero) cells, and sunflowers on those cells were burned into ashes. In other words, those cells struck by the lightning became empty. Magically, any two empty cells have no common points (neither edges nor corners).Now the owner wants to remove some (possibly zero) sunflowers to reach the following two goals:    When you are on an empty cell, you can walk to any other empty cell. In other words, those empty cells are connected.   There is exactly one simple path between any two empty cells. In other words, there is no cycle among the empty cells. You can walk from an empty cell to another if they share a common edge.Could you please give the owner a solution that meets all her requirements?Note that you are not allowed to plant sunflowers. You don't need to minimize the number of sunflowers you remove. It can be shown that the answer always exists.",
+    "prob_desc_output_spec": "For each test case, print $$$n$$$ lines. Each should contain $$$m$$$ characters, representing one row of the table. Each character should be either 'X' or '.', representing an empty cell and a cell with a sunflower, respectively. If there are multiple answers, you can print any. It can be shown that the answer always exists.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1\\le t\\le 10^4$$$) — the number of test cases. The description of the test cases follows. The first line contains two integers $$$n$$$, $$$m$$$ ($$$1 \\le n,m \\le 500$$$) — the number of rows and columns.  Each of the next $$$n$$$ lines contains $$$m$$$ characters. Each character is either 'X' or '.', representing an empty cell and a cell that grows a sunflower, respectively. It is guaranteed that the sum of $$$n \\cdot m$$$ for all test cases does not exceed $$$250\\,000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_085.jsonl",
+    "code_uid": "3b758af957b840cfe4bce60eff7a5d8b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3 3\\nX.X\\n...\\nX.X\\n4 4\\n....\\n.X.X\\n....\\n.X.X\\n5 5\\n.X...\\n....X\\n.X...\\n.....\\nX.X.X\\n1 10\\n....X.X.X.\\n2 2\\n..\\n..\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\n\r\nt=int(input())\r\n\r\nfor tests in range(t):\r\n    n,m=map(int,input().split())\r\n    MAP=[list(input().strip()) for i in range(n)]\r\n\r\n    if m<=1:\r\n        for i in range(n):\r\n            MAP[i][0]=\"X\"\r\n\r\n    for j in range(1,m,3):\r\n        for i in range(n):\r\n            MAP[i][j]=\"X\"\r\n\r\n    for j in range(2,m,3):\r\n\r\n        if j+1<m:\r\n                    \r\n            for i in range(n):\r\n                if MAP[i][j]==\"X\":\r\n                    MAP[i][j+1]=\"X\"\r\n                    break\r\n\r\n            else:\r\n                for i in range(n):\r\n                    if MAP[i][j+1]==\"X\":\r\n                        MAP[i][j]=\"X\"\r\n                        break\r\n\r\n                else:\r\n                    MAP[0][j]=MAP[0][j+1]=\"X\"\r\n\r\n    if m%3==1:\r\n        for i in range(n):\r\n            if MAP[i][m-1]==\"X\":\r\n                MAP[i][m-2]=\"X\"\r\n        \r\n    for i in range(n):\r\n        print(\"\".join(MAP[i]))\r\n\r\n    #print()\r\n            \r\n\r\n    \r\n",
+    "prob_desc_created_at": "1615377900",
+    "tags": [
+        "constructive algorithms",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

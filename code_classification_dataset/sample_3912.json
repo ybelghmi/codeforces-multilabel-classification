@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n27\\n1\\n4\\n1\\n1\\n2\\n35\\n2\\n77\\n1\\n4\\n1\\n6\"]",
+    "src_uid": "22c0489eec3d8e290fcbcf1aeb3bb66c",
+    "prob_desc_notes": "NoteIn the first test case, you can't delete $$$2$$$ digits from the number $$$237$$$, as all the numbers $$$2$$$, $$$3$$$, and $$$7$$$ are prime. However, you can delete $$$1$$$ digit, obtaining a number $$$27 = 3^3$$$.In the second test case, you can delete all digits except one, as $$$4 = 2^2$$$ is a composite number.",
+    "prob_desc_description": "During the hypnosis session, Nicholas suddenly remembered a positive integer $$$n$$$, which doesn't contain zeros in decimal notation. Soon, when he returned home, he got curious: what is the maximum number of digits that can be removed from the number so that the number becomes not prime, that is, either composite or equal to one?For some numbers doing so is impossible: for example, for number $$$53$$$ it's impossible to delete some of its digits to obtain a not prime integer. However, for all $$$n$$$ in the test cases of this problem, it's guaranteed that it's possible to delete some of their digits to obtain a not prime number.Note that you cannot remove all the digits from the number.A prime number is a number that has no divisors except one and itself. A composite is a number that has more than two divisors. $$$1$$$ is neither a prime nor a composite number.",
+    "prob_desc_output_spec": "For every test case, print two numbers in two lines. In the first line print the number of digits, that you have left in the number. In the second line print the digits left after all delitions.  If there are multiple solutions, print any.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains one positive integer $$$t$$$ ($$$1 \\le t \\le 10^3$$$), denoting the number of test cases. Description of the test cases follows. The first line of each test case contains one positive integer $$$k$$$ ($$$1 \\le k \\le 50$$$) — the number of digits in the number. The second line of each test case contains a positive integer $$$n$$$, which doesn't contain zeros in decimal notation ($$$10^{k-1} \\le n &lt; 10^{k}$$$). It is guaranteed that it is always possible to remove less than $$$k$$$ digits to make the number not prime. It is guaranteed that the sum of $$$k$$$ over all test cases does not exceed $$$10^4$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_086.jsonl",
+    "code_uid": "a446a743c141a3f71fab8ddb5e44397f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n3\\n237\\n5\\n44444\\n3\\n221\\n2\\n35\\n3\\n773\\n1\\n4\\n30\\n626221626221626221626221626221\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import sqrt\r\n\r\n\"\"\"\r\ndef IsPrime(n):\r\n    if n==1:\r\n        return False\r\n    elif n==2:\r\n        return True\r\n    elif n%2 ==0:\r\n        return False\r\n    else:\r\n        for i in range(3,int(sqrt(n))+1,2):\r\n            if n%i ==0:\r\n                return False\r\n        return True\r\n\"\"\"\r\ncomposite_number=(\"1\",\"4\",\"6\",\"8\",\"9\")\r\n\r\ndef do():\r\n    number_of_digits=int(input())\r\n    the_number=input()\r\n    for s in the_number:\r\n        if s in composite_number:\r\n            return (\"1\",s)\r\n    t=the_number[1:].find(\"2\")\r\n    if  t!=-1:\r\n        return (\"2\",the_number[t:t+2])\r\n    elif the_number[0]==\"2\":\r\n        if the_number[1:].find(\"7\")!=-1:\r\n            return (\"2\",\"27\")\r\n    t=the_number[1:].find(\"5\")\r\n    if  t!=-1:\r\n        return (\"2\",the_number[t:t+2])\r\n    elif the_number[0]==\"5\":\r\n        if the_number[1:].find(\"7\")!=-1:\r\n            return (\"2\",\"57\")\r\n    t=the_number.count(\"3\")\r\n    if  t>1:\r\n        return (\"2\",\"33\")\r\n    t=the_number.count(\"7\")\r\n    if  t>1:\r\n        return (\"2\",\"77\")\r\n    #d=the_number[:the_number.index(\"3\")]\r\n    number_list=list(the_number)\r\n    number_list=[int(x) for x in number_list]\r\n    j=0\r\n    i=0\r\n    for j in range(0,len(number_list)-1):\r\n        for i in range(j+1,len(number_list)):\r\n            if (number_list[j]+number_list[i])%3 == 0:\r\n                return (\"2\",\"{0}{1}\".format(number_list[j],number_list[i]))\r\n    print(the_number)\r\n\r\n\r\ntry:\r\n    number_of_tests=int(input())\r\n    while number_of_tests>0:\r\n        '''\r\n        if 1000-number_of_tests ==106:\r\n            number_of_digits=int(input())\r\n            the_number=input()\r\n            print(\"v\"+the_number)'''\r\n        number_of_tests-=1\r\n        x,y=do()\r\n        print(x,y,sep=\"\\n\")\r\nexcept ValueError:\r\n    print(\"Invalid input\")\r\nexcept Exception as e:\r\n    print(str(e).replace(\" \",\"\"))",
+    "prob_desc_created_at": "1629988500",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "implementation",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"1\", \"0\"]",
+    "src_uid": "06e9649963715e56d97297c6104fbc00",
+    "prob_desc_notes": "NoteIn the first sample, Kolya will squeeze the juice from two oranges and empty the waste section afterwards.In the second sample, the orange won't fit in the juicer so Kolya will have no juice at all.",
+    "prob_desc_description": "Kolya is going to make fresh orange juice. He has n oranges of sizes a1, a2, ..., an. Kolya will put them in the juicer in the fixed order, starting with orange of size a1, then orange of size a2 and so on. To be put in the juicer the orange must have size not exceeding b, so if Kolya sees an orange that is strictly greater he throws it away and continues with the next one.The juicer has a special section to collect waste. It overflows if Kolya squeezes oranges of the total size strictly greater than d. When it happens Kolya empties the waste section (even if there are no more oranges) and continues to squeeze the juice. How many times will he have to empty the waste section?",
+    "prob_desc_output_spec": "Print one integer — the number of times Kolya will have to empty the waste section.",
+    "prob_desc_input_spec": "The first line of the input contains three integers n, b and d (1 ≤ n ≤ 100 000, 1 ≤ b ≤ d ≤ 1 000 000) — the number of oranges, the maximum size of the orange that fits in the juicer and the value d, which determines the condition when the waste section should be emptied. The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 1 000 000) — sizes of the oranges listed in the order Kolya is going to try to put them in the juicer.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_016.jsonl",
+    "code_uid": "be0352652a2fd219c75726aedb577c03",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 7 10\\n5 6\", \"1 5 10\\n7\", \"3 10 10\\n5 7 7\", \"1 1 1\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def solve(arr,h,d):\n    sums = 0\n    count = 0\n    for i in arr :\n        if i <= h :\n            sums += i\n        if sums > d :\n            count += 1\n            sums = 0\n    print(count)\n        \nn,h,d = input().split()\narr = input().split()\narr = [int(x) for x in arr]\nsolve(arr,int(h),int(d))\n",
+    "prob_desc_created_at": "1472056500",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

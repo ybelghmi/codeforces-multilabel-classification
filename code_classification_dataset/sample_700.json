@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"41\"]",
+    "src_uid": "85f90533a9840e944deef9f3b4229cb8",
+    "prob_desc_notes": "NoteIn the test sample DZY can obtain \"abcbbc\", value = 1·1 + 2·2 + 3·2 + 4·2 + 5·2 + 6·2 = 41.",
+    "prob_desc_description": "DZY loves collecting special strings which only contain lowercase letters. For each lowercase letter c DZY knows its value wc. For each special string s = s1s2... s|s| (|s| is the length of the string) he represents its value with a function f(s), where Now DZY has a string s. He wants to insert k lowercase letters into this string in order to get the largest possible value of the resulting string. Can you help him calculate the largest possible value he could get? ",
+    "prob_desc_output_spec": "Print a single integer — the largest possible value of the resulting string DZY could get.",
+    "prob_desc_input_spec": "The first line contains a single string s (1 ≤ |s| ≤ 103). The second line contains a single integer k (0 ≤ k ≤ 103). The third line contains twenty-six integers from wa to wz. Each such number is non-negative and doesn't exceed 1000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_003.jsonl",
+    "code_uid": "3f811245bd38a25baed3637caf7e15fa",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"abc\\n3\\n1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s = list(input())\nk = int(input())\nw = list(map(int, input().split(\" \")))\nlength = len(w) + k\nans= []\nfor i in s:\n    ans.append(w[ord(i)-97])\nwhile k > 0:\n    ans.append(max(w))\n    k -= 1\nres = 0\nfor j in range(len(ans)):\n    res += (j+1)*ans[j]\nprint(res)\n",
+    "prob_desc_created_at": "1405256400",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

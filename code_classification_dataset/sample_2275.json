@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\\n19\"]",
+    "src_uid": "00b1e45e9395d23e850ce1a0751b8378",
+    "prob_desc_notes": "NoteSteps for the first test case are: $$$59 \\rightarrow 58 \\rightarrow 57 \\rightarrow 19 \\rightarrow 18 \\rightarrow 6 \\rightarrow 2 \\rightarrow 1 \\rightarrow 0$$$.In the second test case you have to divide $$$n$$$ by $$$k$$$ $$$18$$$ times and then decrease $$$n$$$ by $$$1$$$.",
+    "prob_desc_description": "You are given an integer $$$n$$$ and an integer $$$k$$$.In one step you can do one of the following moves:   decrease $$$n$$$ by $$$1$$$;  divide $$$n$$$ by $$$k$$$ if $$$n$$$ is divisible by $$$k$$$. For example, if $$$n = 27$$$ and $$$k = 3$$$ you can do the following steps: $$$27 \\rightarrow 26 \\rightarrow 25 \\rightarrow 24 \\rightarrow 8 \\rightarrow 7 \\rightarrow 6 \\rightarrow 2 \\rightarrow 1 \\rightarrow 0$$$.You are asked to calculate the minimum number of steps to reach $$$0$$$ from $$$n$$$. ",
+    "prob_desc_output_spec": "For each query print the minimum number of steps to reach $$$0$$$ from $$$n$$$ in single line. ",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of queries. The only line of each query contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 10^{18}$$$, $$$2 \\le k \\le 10^{18}$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_019.jsonl",
+    "code_uid": "1e3f3ddc813e321a7fc03e354a546f31",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n59 3\\n1000000000000000000 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nfor _ in range(t):\n    n,k = map(int,input().split())\n    counter=0\n    while(n!=0):\n        if(n%k==0):\n            n=n//k\n            counter+=1\n        else:\n            counter+=(n%k)\n            n=n-(n%k)\n         \n    print(int(counter))\n    \n",
+    "prob_desc_created_at": "1559745300",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

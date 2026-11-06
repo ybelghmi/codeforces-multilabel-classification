@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"1\", \"0\"]",
+    "src_uid": "27eac8ca184bf08aa724d49057bfba71",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Peter has a sequence of integers a1, a2, ..., an. Peter wants all numbers in the sequence to equal h. He can perform the operation of \"adding one on the segment [l, r]\": add one to all elements of the sequence with indices from l to r (inclusive). At that, Peter never chooses any element as the beginning of the segment twice. Similarly, Peter never chooses any element as the end of the segment twice. In other words, for any two segments [l1, r1] and [l2, r2], where Peter added one, the following inequalities hold: l1 ≠ l2 and r1 ≠ r2.How many distinct ways are there to make all numbers in the sequence equal h? Print this number of ways modulo 1000000007 (109 + 7). Two ways are considered distinct if one of them has a segment that isn't in the other way.",
+    "prob_desc_output_spec": "Print a single integer — the answer to the problem modulo 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The first line contains two integers n, h (1 ≤ n, h ≤ 2000). The next line contains n integers a1, a2, ..., an (0 ≤ ai ≤ 2000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_051.jsonl",
+    "code_uid": "53410eff7aa4c0fc467925067c74f17c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 1 1\", \"5 1\\n1 1 1 1 1\", \"4 3\\n3 2 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import print_function\nfrom collections import defaultdict\n\nimport sys\n\nd = defaultdict(int)\n\n#input = raw_input\n\nN, h = [int(x) for x in input().split()]\nA = [int(x) for x in input().split()]\n\nB = [0]\nfor a in A:\n    B.append(h-a)\n    if h-a < 0:\n        print(0)\n        sys.exit(0)\nB.append(0)\n\nMOD = 10**9+7\n\nd[0, False, False] = 1\n\nfor i in range(1, N+2):\n    for op in [False, True]:\n        for cl in [False, True]:\n            last_close = B[i-1] - B[i] + int(op)\n            #\n            if cl and B[i] == 0: continue # can't close anything\n            if last_close not in [0, 1]: continue # doesn't add up\n            s = d[i-1, False, bool(last_close)] + d[i-1, True, bool(last_close)]\n            if cl: s *= B[i]\n            #if i == 2 and op:\n            #    print(cl, s, last_close,\n            #          d[i-1, False, bool(last_close)] ,\n            #          d[i-1, True, bool(last_close)])\n            d[i, op, cl] = s % MOD\n\n#print(d)\n\n#for i in range(N+2):\n#    print(\"\\n\", i, end=\": \")\n#    for op in [False, True]:\n#        for cl in [False, True]:\n#            print(d[i, op, cl], end=\" \")\n#print()\n\n\n\nprint(d[N+1, False, False])\n",
+    "prob_desc_created_at": "1410535800",
+    "tags": [
+        "dp",
+        "combinatorics"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"9\\n8\\n11\\n8\\n8\\n8\\n9\"]",
+    "src_uid": "bab40fe0052e2322116c084008c43366",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Connected undirected weighted graph without self-loops and multiple edges is given. Graph contains n vertices and m edges.For each edge (u, v) find the minimal possible weight of the spanning tree that contains the edge (u, v).The weight of the spanning tree is the sum of weights of all edges included in spanning tree.",
+    "prob_desc_output_spec": "Print m lines. i-th line should contain the minimal possible weight of the spanning tree that contains i-th edge. The edges are numbered from 1 to m in order of their appearing in input.",
+    "prob_desc_input_spec": "First line contains two integers n and m (1 ≤ n ≤ 2·105, n - 1 ≤ m ≤ 2·105) — the number of vertices and edges in graph. Each of the next m lines contains three integers ui, vi, wi (1 ≤ ui, vi ≤ n, ui ≠ vi, 1 ≤ wi ≤ 109) — the endpoints of the i-th edge and its weight.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_019.jsonl",
+    "code_uid": "549fb73b0a26d7b8bd5feed1366e110c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 7\\n1 2 3\\n1 3 1\\n1 4 5\\n2 3 2\\n2 5 3\\n3 4 2\\n4 5 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def find(u):\n    if u == par[u] :\n        return u\n    par[u] = find(par[u])\n    return par[u]\n\ndef union(u,v):\n    if len(ev[u]) < len(ev[v]):\n        u, v = v, u\n    par[v] = u\n    for j in ev[v] & ev[u]:\n        ans[j] -= w\n    ev[u] ^= ev[v]\n\nn, m = map(int, input().split())\nev = [set() for _ in range(n + 1)]\nans,d = [0] * m, []\nfor i in range(m):\n    u, v, w = map(int, input().split()) \n    d.append((w, u, v))\n    ev[u].add(i)\n    ev[v].add(i)\n    ans[i] = w\n\npar = [i for i in range(n + 1)]\ng = 0\n\nd.sort()\nfor w, u, v in d:\n    u,v = find(u), find(v)\n    if u != v:\n        g += w\n        union(u,v)\n\n\nfor i in range(m):\n    ans[i] += g\nprint(*ans)\n",
+    "prob_desc_created_at": "1450537200",
+    "tags": [
+        "graphs",
+        "dsu",
+        "data structures",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

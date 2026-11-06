@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 3 7 \\n-1\\n2 2 2 3 9 \\n1 2 6\"]",
+    "src_uid": "ce667a8fb60841c994aebedb35a3b0d8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a number $$$n$$$ and an array $$$b_1, b_2, \\ldots, b_{n+2}$$$, obtained according to the following algorithm:   some array $$$a_1, a_2, \\ldots, a_n$$$ was guessed;  array $$$a$$$ was written to array $$$b$$$, i.e. $$$b_i = a_i$$$ ($$$1 \\le i \\le n$$$);  The $$$(n+1)$$$-th element of the array $$$b$$$ is the sum of the numbers in the array $$$a$$$, i.e. $$$b_{n+1} = a_1+a_2+\\ldots+a_n$$$;  The $$$(n+2)$$$-th element of the array $$$b$$$ was written some number $$$x$$$ ($$$1 \\le x \\le 10^9$$$), i.e. $$$b_{n+2} = x$$$; The  array $$$b$$$ was shuffled. For example, the array $$$b=[2, 3, 7, 12 ,2]$$$ it could be obtained in the following ways:   $$$a=[2, 2, 3]$$$ and $$$x=12$$$;  $$$a=[3, 2, 7]$$$ and $$$x=2$$$. For the given array $$$b$$$, find any array $$$a$$$ that could have been guessed initially.",
+    "prob_desc_output_spec": "For each test case, output:    \"-1\", if the array $$$b$$$ could not be obtained from any array $$$a$$$;  $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$, otherwise.  If there are several arrays of $$$a$$$, you can output any.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$). Then $$$t$$$ test cases follow. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$). The second row of each test case contains $$$n+2$$$ integers $$$b_1, b_2, \\ldots, b_{n+2}$$$ ($$$1 \\le b_i \\le 10^9$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_107.jsonl",
+    "code_uid": "33258fb49090db2fd83f71dcb3bc8748",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3\\n2 3 7 12 2\\n4\\n9 1 7 1 6 5\\n5\\n18 2 2 3 2 9 2\\n3\\n2 6 9 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nlines = list(map(str.strip, sys.stdin.readlines()))\r\n\r\nfor line in lines[2::2]:\r\n    b = list(map(int, line.split(\" \")))\r\n    total = sum(b)\r\n    b.sort()\r\n    badindex = -1\r\n    for i in range(len(b)-1,len(b)-3, -1):\r\n        candidate = b[i]\r\n        for idx, num in enumerate(b):\r\n            if total - num - candidate == candidate and idx != i:\r\n                badindex = idx\r\n                break\r\n        if badindex != -1:\r\n            break\r\n    # if sum(b[:-2]) == b[-2]:\r\n    #     badindex = len(b) - 2\r\n    # if sum(b[:-2]) == b[-1]:\r\n    #     badindex = len(b) - 1\r\n    if badindex == -1:\r\n        print(-1)\r\n        continue\r\n    del b[badindex]\r\n    b.pop()\r\n    print(*b)",
+    "prob_desc_created_at": "1618065300",
+    "tags": [
+        "constructive algorithms",
+        "data structures",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\", \"-1\"]",
+    "src_uid": "76875cf21b3bfc4db69156ed31f16b5b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Recently Luba bought a monitor. Monitor is a rectangular matrix of size n × m. But then she started to notice that some pixels cease to work properly. Luba thinks that the monitor will become broken the first moment when it contains a square k × k consisting entirely of broken pixels. She knows that q pixels are already broken, and for each of them she knows the moment when it stopped working. Help Luba to determine when the monitor became broken (or tell that it's still not broken even after all q pixels stopped working).",
+    "prob_desc_output_spec": "Print one number — the minimum moment the monitor became broken, or \"-1\" if it's still not broken after these q pixels stopped working.",
+    "prob_desc_input_spec": "The first line contains four integer numbers n, m, k, q (1 ≤ n, m ≤ 500, 1 ≤ k ≤ min(n, m), 0 ≤ q ≤ n·m) — the length and width of the monitor, the size of a rectangle such that the monitor is broken if there is a broken rectangle with this size, and the number of broken pixels. Each of next q lines contain three integer numbers xi, yi, ti (1 ≤ xi ≤ n, 1 ≤ yi ≤ m, 0 ≤ t ≤ 109) — coordinates of i-th broken pixel (its row and column in matrix) and the moment it stopped working. Each pixel is listed at most once. We consider that pixel is already broken at moment ti.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_016.jsonl",
+    "code_uid": "967e1eb8a79f67f406a759abfa5e3474",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3 2 5\\n2 1 8\\n2 2 8\\n1 2 1\\n1 3 4\\n2 3 2\", \"3 3 2 5\\n1 2 2\\n2 2 1\\n2 3 5\\n3 2 10\\n2 1 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom itertools import repeat\nfrom collections import deque\ndef main():\n    n, m, k, q = map(int, stdin.readline().split())\n    dat = map(int, stdin.read().split(), repeat(10, 3 * q))\n    inf = 10 ** 9 + 1\n    a = [[inf] * m for i in xrange(n)]\n    for i in xrange(q):\n        x, y, z = dat[i*3:i*3+3]\n        a[x-1][y-1] = z\n    r = [[0] * m for i in xrange(n)]\n    for i in xrange(n):\n        st = deque()\n        for j in xrange(k):\n            t = (a[i][j], j)\n            while st and st[-1] <= t:\n                st.pop()\n            st.append(t)\n        r[i][k-1] = st[0][0]\n        for j in xrange(k, m):\n            t = (a[i][j], j)\n            while st and j - st[0][1] >= k:\n                st.popleft()\n            while st and st[-1] <= t:\n                st.pop()\n            st.append(t)\n            r[i][j] = st[0][0]\n    ans = inf\n    for i in xrange(k-1, m):\n        st = deque()\n        for j in xrange(k):\n            t = (r[j][i], j)\n            while st and st[-1] <= t:\n                st.pop()\n            st.append(t)\n        if ans > st[0][0]:\n            ans = st[0][0]\n        for j in xrange(k, n):\n            t = (r[j][i], j)\n            while st and j - st[0][1] >= k:\n                st.popleft()\n            while st and st[-1] <= t:\n                st.pop()\n            st.append(t)\n            if ans > st[0][0]:\n                ans = st[0][0]\n    if ans == inf:\n        ans = -1\n    print ans\nmain()\n",
+    "prob_desc_created_at": "1504623900",
+    "tags": [
+        "data structures",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

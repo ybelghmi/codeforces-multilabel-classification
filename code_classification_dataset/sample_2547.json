@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\n()()\"]",
+    "src_uid": "970cd8ce0cf7214b7f2be337990557c9",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This is yet another problem on regular bracket sequences.A bracket sequence is called regular, if by inserting \"+\" and \"1\" into it we get a correct mathematical expression. For example, sequences \"(())()\", \"()\" and \"(()(()))\" are regular, while \")(\", \"(()\" and \"(()))(\" are not. You have a pattern of a bracket sequence that consists of characters \"(\", \")\" and \"?\". You have to replace each character \"?\" with a bracket so, that you get a regular bracket sequence.For each character \"?\" the cost of its replacement with \"(\" and \")\" is given. Among all the possible variants your should choose the cheapest.",
+    "prob_desc_output_spec": "Print the cost of the optimal regular bracket sequence in the first line, and the required sequence in the second. Print -1, if there is no answer. If the answer is not unique, print any of them. ",
+    "prob_desc_input_spec": "The first line contains a non-empty pattern of even length, consisting of characters \"(\", \")\" and \"?\". Its length doesn't exceed 5·104. Then there follow m lines, where m is the number of characters \"?\" in the pattern. Each line contains two integer numbers ai and bi (1 ≤ ai,  bi ≤ 106), where ai is the cost of replacing the i-th character \"?\" with an opening bracket, and bi — with a closing one.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_024.jsonl",
+    "code_uid": "fa9d413ee1b49c968dfea843d02e873c",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"(??)\\n1 2\\n2 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# coding: utf-8\n\n\"\"\"\n题解\n判断一个括号序列是否合法常见的有两种方式，栈和前缀和。\n使用前缀和时，初始化一个计数器为0，从左向右扫描序列，遇到左括号时计数器加一，右括号计数器减一。扫描过程中，计数器的值不能出现负数；扫描完成后，计数器的和为0，此时这个序列满足括号匹配规则。\n这道题使用这种思路来做，就是一个贪心问题。\n我们先将所有 ? 都当做右括号来处理。从左向右扫描序列，当计数器变为负数时，将左边的一个 ? 变为左括号，计数器加2 ，扫描完成后检查计数器是否为0。\n考虑到这道题还要求替换成本最小，因此选择 ? 变为左括号时，要选择变完之后成本最小的那个。这里可以使用一个优先队列来存储 ? 替换为左右括号的成本，减少插入和获取的时间。\n\"\"\"\n\nfrom heapq import heappush, heappop\n\ndef solution():\n    line = raw_input() # 输入的原始序列\n    result = []  # 替换后的结果\n    cost = 0 # 替换后的总成本\n    priority_queue = [] # 优先队列\n    cnt = 0 # 计数器\n    for index, char in enumerate(line):\n        if char == '(':\n            result.append(char)\n            cnt += 1\n        else:\n            result.append(')')\n            cnt -= 1\n            # 读到问号，从标准输入获取替换成本，放入优先队列\n            if char == '?':\n                left_cost, right_cost = map(int, raw_input().split())\n                heappush(priority_queue, (left_cost - right_cost, index))\n                cost += right_cost  # 问号默认先按右括号处理\n\n            if cnt < 0:\n                if not priority_queue:  # 计数器出现负数，又没有 ? 可以替换为左括号\n                    break\n\n                # 挑选从右括号变为左括号后，成本减小最大的那个问号，贪心\n                tmp_cost, tmp_index = heappop(priority_queue)\n                cost += tmp_cost\n                result[tmp_index] = '('\n                cnt += 2\n\n    if cnt != 0:\n        print -1\n    else:\n        print cost\n        print ''.join(result)\n\n\nif __name__ == '__main__':\n    solution()",
+    "prob_desc_created_at": "1267963200",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

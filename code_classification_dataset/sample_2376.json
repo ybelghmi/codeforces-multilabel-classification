@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\npushStack\\n1 popStack\\npushStack\\npushQueue\\n2 popStack popQueue\\npushStack\\npushQueue\\npushFront\\n3 popStack popQueue popFront\", \"pushStack\\npushQueue\\npushFront\\n3 popStack popQueue popFront\"]",
+    "src_uid": "07ae50199dd94f72313ee7675fefadb7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Dima has a birthday soon! It's a big day! Saryozha's present to Dima is that Seryozha won't be in the room and won't disturb Dima and Inna as they celebrate the birthday. Inna's present to Dima is a stack, a queue and a deck.Inna wants her present to show Dima how great a programmer he is. For that, she is going to give Dima commands one by one. There are two types of commands:  Add a given number into one of containers. For the queue and the stack, you can add elements only to the end. For the deck, you can add elements to the beginning and to the end.  Extract a number from each of at most three distinct containers. Tell all extracted numbers to Inna and then empty all containers. In the queue container you can extract numbers only from the beginning. In the stack container you can extract numbers only from the end. In the deck number you can extract numbers from the beginning and from the end. You cannot extract numbers from empty containers. Every time Dima makes a command of the second type, Inna kisses Dima some (possibly zero) number of times. Dima knows Inna perfectly well, he is sure that this number equals the sum of numbers he extracts from containers during this operation.As we've said before, Dima knows Inna perfectly well and he knows which commands Inna will give to Dima and the order of the commands. Help Dima find the strategy that lets him give as more kisses as possible for his birthday!",
+    "prob_desc_output_spec": "Each command of the input must correspond to one line of the output — Dima's action. For the command of the first type (adding) print one word that corresponds to Dima's choice:   pushStack — add to the end of the stack;  pushQueue — add to the end of the queue;  pushFront — add to the beginning of the deck;  pushBack — add to the end of the deck.  For a command of the second type first print an integer k (0 ≤ k ≤ 3), that shows the number of extract operations, then print k words separated by space. The words can be:   popStack — extract from the end of the stack;  popQueue — extract from the beginning of the line;  popFront — extract from the beginning from the deck;  popBack — extract from the end of the deck.  The printed operations mustn't extract numbers from empty containers. Also, they must extract numbers from distinct containers. The printed sequence of actions must lead to the maximum number of kisses. If there are multiple sequences of actions leading to the maximum number of kisses, you are allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105) — the number of Inna's commands. Then n lines follow, describing Inna's commands. Each line consists an integer:   Integer a (1 ≤ a ≤ 105) means that Inna gives Dima a command to add number a into one of containers.  Integer 0 shows that Inna asks Dima to make at most three extractions from different containers. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_021.jsonl",
+    "code_uid": "dc19979d6a78e9f92e39efcf0e58aa99",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n0\\n1\\n0\\n1\\n2\\n0\\n1\\n2\\n3\\n0\", \"4\\n1\\n2\\n3\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\npq,q = [],[]\nst = [\"Queue\",\"Stack\",\"Front\",\"Back\"]\nfor i in xrange(0,n+1):\n    a = 0\n    if i<n :  a = int(raw_input())\n    if a!=0 : \n        pq.append(a)\n        q.append(a)\n    else :\n        sz,mx,f = 0,[1E7,1E7,1E7],[0,0,0]\n        pq.sort(reverse=True)\n        for val in pq:\n            if sz<3 : \n                mx[sz] = val\n                sz+=1\n            else : break\n        for val in q:\n            if val==mx[0] and mx[0]!=1E7 and f[0]==0 :\n                print \"push\" + st[0]\n                f[0] = 1\n            elif val==mx[1] and mx[1]!=1E7 and f[1]==0 :\n                print \"push\" + st[1]\n                f[1] = 1\n            elif val==mx[2] and mx[2]!=1E7 and f[2]==0 :\n                print \"push\" + st[2]\n                f[2] = 1\n            else : print \"push\" + st[3]\n        pq,q = [],[]\n        if i==n : break\n        lis = str(sz)\n        if sz!=0 : lis+= \" pop\" + \" pop\".join([st[j] for j in xrange(0,sz)]) \n        print lis\n\n",
+    "prob_desc_created_at": "1382715000",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

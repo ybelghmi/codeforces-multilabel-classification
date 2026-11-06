@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"No\", \"Yes\", \"No\"]",
+    "src_uid": "8fd51c391728b433cc94923820e908ff",
+    "prob_desc_notes": "NoteIn the first example the first player is unable to make a turn, so he loses.In the second example first player turns the string into \"q\", then second player is unable to move, so he loses.",
+    "prob_desc_description": "Two people are playing a game with a string $$$s$$$, consisting of lowercase latin letters. On a player's turn, he should choose two consecutive equal letters in the string and delete them. For example, if the string is equal to \"xaax\" than there is only one possible turn: delete \"aa\", so the string will become \"xx\". A player not able to make a turn loses.Your task is to determine which player will win if both play optimally.",
+    "prob_desc_output_spec": "If the first player wins, print \"Yes\". If the second player wins, print \"No\".",
+    "prob_desc_input_spec": "The only line contains the string $$$s$$$, consisting of lowercase latin letters ($$$1 \\leq |s| \\leq 100\\,000$$$), where $$$|s|$$$ means the length of a string $$$s$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "0ac7e679160fa139a0478a0bbb566a16",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"abacaba\", \"iiq\", \"abba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s = input()\nn = len(s)\na = []\na.append(s[0])\n\nans = 0\n\nfor i in range(1, n):\n    if a:\n        cur = a.pop()\n        if cur == s[i]:\n            ans += 1\n            continue\n        else:\n            a.append(cur)\n            a.append(s[i])\n    else:\n        a.append(s[i])\n\nif ans % 2:\n    print('Yes')\nelse:\n    print('No')",
+    "prob_desc_created_at": "1548167700",
+    "tags": [
+        "data structures",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\"]",
+    "src_uid": "9e0d271b9bada1364dfcb47297549652",
+    "prob_desc_notes": "NoteYou can choose subsegment a2, a3, a4, a5, a6 and change its 3rd element (that is a4) to 4.",
+    "prob_desc_description": "DZY has a sequence a, consisting of n integers.We'll call a sequence ai, ai + 1, ..., aj (1 ≤ i ≤ j ≤ n) a subsegment of the sequence a. The value (j - i + 1) denotes the length of the subsegment.Your task is to find the longest subsegment of a, such that it is possible to change at most one number (change one number to any integer you want) from the subsegment to make the subsegment strictly increasing.You only need to output the length of the subsegment you find.",
+    "prob_desc_output_spec": "In a single line print the answer to the problem — the maximum length of the required subsegment.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105). The next line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_005.jsonl",
+    "code_uid": "987a7ab3298f178177736b2326a9bd1d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n7 2 3 1 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = list(map(int,input().split()))\nl,r = [1]*n,[1]*n\nfor i in range(1,n):\n    if a[i-1]<a[i]: l[i]+=l[i-1]\nfor i in range(n-2,0,-1):\n    if a[i+1]>a[i]: r[i]+=r[i+1]\nz = max(l)\nif z<n: z+=1\nfor i in range(1,n-1):\n    if a[i-1]+1<a[i+1]: z=max(z,l[i-1]+r[i+1]+1)\nprint(z)",
+    "prob_desc_created_at": "1405256400",
+    "tags": [
+        "dp",
+        "two pointers",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

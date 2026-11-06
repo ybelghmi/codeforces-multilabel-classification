@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n1 0\\n2 3\\n4 1\", \"NO\"]",
+    "src_uid": "5c026adda2ae3d7b707d5054bd84db3f",
+    "prob_desc_notes": "NoteIn the first example area of the triangle should be equal to $$$\\frac{nm}{k} = 4$$$. The triangle mentioned in the output is pictured below:   In the second example there is no triangle with area $$$\\frac{nm}{k} = \\frac{16}{7}$$$.",
+    "prob_desc_description": "Vasya has got three integers $$$n$$$, $$$m$$$ and $$$k$$$. He'd like to find three integer points $$$(x_1, y_1)$$$, $$$(x_2, y_2)$$$, $$$(x_3, y_3)$$$, such that $$$0 \\le x_1, x_2, x_3 \\le n$$$, $$$0 \\le y_1, y_2, y_3 \\le m$$$ and the area of the triangle formed by these points is equal to $$$\\frac{nm}{k}$$$.Help Vasya! Find such points (if it's possible). If there are multiple solutions, print any of them.",
+    "prob_desc_output_spec": "If there are no such points, print \"NO\". Otherwise print \"YES\" in the first line. The next three lines should contain integers $$$x_i, y_i$$$ — coordinates of the points, one point per line. If there are multiple solutions, print any of them. You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The single line contains three integers $$$n$$$, $$$m$$$, $$$k$$$ ($$$1\\le n, m \\le 10^9$$$, $$$2 \\le k \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_005.jsonl",
+    "code_uid": "3ab5974739b59a2f7707451462505fae",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3 3\", \"4 4 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#Code by Sounak, IIESTS\n#------------------------------warmup----------------------------\n\nimport os\nimport sys\nimport math\nfrom io import BytesIO, IOBase\nfrom fractions import Fraction\nimport collections\nfrom itertools import permutations\nfrom collections import defaultdict\n\n\nBUFSIZE = 8192\n \n \nclass FastIO(IOBase):\n    newlines = 0\n    \n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\n        self.write = self.buffer.write if self.writable else None\n     \n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n \n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b\"\\n\") + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n \n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n \n \nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\n  \nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\n\n#-------------------game starts now-----------------------------------------------------\nn,m,k=map(int,input().split())\ng=math.gcd(n*m,k)\nd=(n*m)//g\nf=k//g\n#print(d,f)\nif d%f!=0 and f!=2:\n    print(\"NO\")\nelse:\n    j=1\n    l=1\n    copy1,copy2=n,m\n    ch=1\n    if k%2==0:\n        k//=2\n        ch=0\n    while k%2==0:\n        k//=2\n        if n%2==0:\n            n//=2\n        else:\n            m//=2\n    for i in range (3,int(math.sqrt(k))+1,2):\n        while k%i==0:\n            k//=i\n            if n%i==0:\n                n//=i\n            else:\n                m//=i\n    if k>2:\n        if n%k==0:\n            n//=k\n        else:\n            m//=k\n    if ch==1:\n        if n*2<=copy1:\n            n*=2\n        else:\n            m*=2\n    print(\"YES\")\n    print(\"0 0\")\n    print(0,m)\n    print(n,0)",
+    "prob_desc_created_at": "1537707900",
+    "tags": [
+        "number theory",
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

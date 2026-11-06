@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7\", \"2\"]",
+    "src_uid": "b3d093272fcb289108fe45be8c72f38e",
+    "prob_desc_notes": "NoteIn the first example the shark travels inside a location on days $$$1$$$ and $$$2$$$ (first location), then on $$$4$$$-th and $$$5$$$-th days (second location), then on $$$7$$$-th and $$$8$$$-th days (third location). There are three locations in total.In the second example the shark only moves inside a location on the $$$2$$$-nd day, so there is only one location.",
+    "prob_desc_description": "For long time scientists study the behavior of sharks. Sharks, as many other species, alternate short movements in a certain location and long movements between locations.Max is a young biologist. For $$$n$$$ days he watched a specific shark, and now he knows the distance the shark traveled in each of the days. All the distances are distinct. Max wants to know now how many locations the shark visited. He assumed there is such an integer $$$k$$$ that if the shark in some day traveled the distance strictly less than $$$k$$$, then it didn't change the location; otherwise, if in one day the shark traveled the distance greater than or equal to $$$k$$$; then it was changing a location in that day. Note that it is possible that the shark changed a location for several consecutive days, in each of them the shark traveled the distance at least $$$k$$$.The shark never returned to the same location after it has moved from it. Thus, in the sequence of $$$n$$$ days we can find consecutive nonempty segments when the shark traveled the distance less than $$$k$$$ in each of the days: each such segment corresponds to one location. Max wants to choose such $$$k$$$ that the lengths of all such segments are equal.Find such integer $$$k$$$, that the number of locations is as large as possible. If there are several such $$$k$$$, print the smallest one.",
+    "prob_desc_output_spec": "Print a single integer $$$k$$$, such that    the shark was in each location the same number of days,  the number of locations is maximum possible satisfying the first condition,  $$$k$$$ is smallest possible satisfying the first and second conditions. ",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 10^5$$$) — the number of days. The second line contains $$$n$$$ distinct positive integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\leq a_i \\leq 10^9$$$) — the distance traveled in each of the day.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_001.jsonl",
+    "code_uid": "9c3b3af8a5de182cb68e237b62d1e00e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n1 2 7 3 4 8 5 6\", \"6\\n25 1 2 3 14 36\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import bisect;\ndef getIntList():\n    return list(map(int, input().split()));\ndef getTransIntList(n):\n    first=getIntList();\n    m=len(first);\n    result=[[0]*n for _ in range(m)];\n    for i in range(m):\n        result[i][0]=first[i];\n    for j in range(1, n):\n        curr=getIntList();\n        for i in range(m):\n            result[i][j]=curr[i];\n    return result;\nn=int(input());\na=getIntList();\nanums=[(a[i], i) for i in range(n)];\nanums.sort();\nlocation=0;\nlength=0;\nk=1;\npieces=[];\ndef upgrade(x):\n    curr=(x, x+1)\n    i=bisect.bisect(pieces, curr);\n    joinLeft=False;\n    joinRight=False;\n    if i>0 and pieces[i-1][1]==x:\n        joinLeft=True;\n    if i<len(pieces) and pieces[i][0]==x+1:\n        joinRight=True;\n    if joinLeft:\n        if joinRight:\n            pieces[i-1]=(pieces[i-1][0], pieces[i][1])\n            pieces.pop(i);\n        else:\n            pieces[i-1]=(pieces[i-1][0], x+1);\n        return pieces[i-1][1]-pieces[i-1][0];\n    else:\n        if joinRight:\n            pieces[i]=(x, pieces[i][1])\n        else:\n            pieces.insert(i, curr);\n        return pieces[i][1]-pieces[i][0];\ncurrLength=0;\ncurrSum=0;\nfor x in anums:\n    currSum+=1;\n    val, num=x;\n    l=upgrade(num);\n    #print(pieces);\n    currLength=max(currLength, l);\n    #print(currLength,\"*\",len(pieces),\"==\",currSum)\n    if currLength*len(pieces)==currSum:\n        currK=val+1;\n        currLocation=len(pieces);\n        if currLocation>location:\n            location=currLocation;\n            k=currK;\n    if (location+2)*currLength-1>n:\n        break;\nprint(k);",
+    "prob_desc_created_at": "1526574900",
+    "tags": [
+        "data structures",
+        "dsu",
+        "trees",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

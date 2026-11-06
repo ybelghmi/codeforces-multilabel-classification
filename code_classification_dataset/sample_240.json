@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\"]",
+    "src_uid": "f73b832bbbfe688e378f3d693cfa23b8",
+    "prob_desc_notes": "NoteIn the first example Vova can put a brick on parts 2 and 3 to make the wall $$$[2, 2, 2, 2, 5]$$$ and then put 3 bricks on parts 1 and 2 and 3 bricks on parts 3 and 4 to make it $$$[5, 5, 5, 5, 5]$$$.In the second example Vova can put no bricks in the wall.In the third example the wall is already complete.",
+    "prob_desc_description": "Vova's family is building the Great Vova Wall (named by Vova himself). Vova's parents, grandparents, grand-grandparents contributed to it. Now it's totally up to Vova to put the finishing touches.The current state of the wall can be respresented by a sequence $$$a$$$ of $$$n$$$ integers, with $$$a_i$$$ being the height of the $$$i$$$-th part of the wall.Vova can only use $$$2 \\times 1$$$ bricks to put in the wall (he has infinite supply of them, however).Vova can put bricks only horizontally on the neighbouring parts of the wall of equal height. It means that if for some $$$i$$$ the current height of part $$$i$$$ is the same as for part $$$i + 1$$$, then Vova can put a brick there and thus increase both heights by 1. Obviously, Vova can't put bricks in such a way that its parts turn out to be off the borders (to the left of part $$$1$$$ of the wall or to the right of part $$$n$$$ of it).Note that Vova can't put bricks vertically.Vova is a perfectionist, so he considers the wall completed when:  all parts of the wall has the same height;  the wall has no empty spaces inside it. Can Vova complete the wall using any amount of bricks (possibly zero)?",
+    "prob_desc_output_spec": "Print \"YES\" if Vova can complete the wall using any amount of bricks (possibly zero). Print \"NO\" otherwise.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of parts in the wall. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — the initial heights of the parts of the wall.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "58df8499c2696816e827ff4b08230d0f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 1 1 2 5\", \"3\\n4 5 3\", \"2\\n10 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys,math\nfrom collections import defaultdict\nfrom io import BytesIO\n\nsys.stdin = BytesIO(sys.stdin.read())\ninput = lambda: sys.stdin.readline().rstrip('\\r\\n')\nn = int(input())\narr = [int(x) for x in input().split(' ')]\n#n,k = map(int, input().split(' '))\n#print(arr)\n\n#print(arr)\nh = max(arr)\nres = list()\nfor el in arr:\n    if len(res) == 0 or res[-1] != el:\n        if len(res) > 0:\n            if res[-1] < el:\n                print('NO')\n                exit()\n        res.append(el)\n    else:\n        res.pop()\nif len(res) > 1:\n    print('NO')\nelif len(res) == 0:\n    print('YES')\nelse:\n    print('NO' if res[-1] < h else 'YES')\n",
+    "prob_desc_created_at": "1545143700",
+    "tags": [
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

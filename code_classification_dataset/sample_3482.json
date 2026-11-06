@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"-1\", \"0\", \"3\"]",
+    "src_uid": "56b207a6d280dc5ea39ced365b402a96",
+    "prob_desc_notes": "NoteIn the first sample test, Okabe can take the path , paying only when moving to (2, 3) and (4, 4).In the fourth sample, Okabe can take the path  , paying when moving to (1, 2), (3, 4), and (5, 4).",
+    "prob_desc_description": "Okabe likes to be able to walk through his city on a path lit by street lamps. That way, he doesn't get beaten up by schoolchildren.Okabe's city is represented by a 2D grid of cells. Rows are numbered from 1 to n from top to bottom, and columns are numbered 1 to m from left to right. Exactly k cells in the city are lit by a street lamp. It's guaranteed that the top-left cell is lit.Okabe starts his walk from the top-left cell, and wants to reach the bottom-right cell. Of course, Okabe will only walk on lit cells, and he can only move to adjacent cells in the up, down, left, and right directions. However, Okabe can also temporarily light all the cells in any single row or column at a time if he pays 1 coin, allowing him to walk through some cells not lit initially. Note that Okabe can only light a single row or column at a time, and has to pay a coin every time he lights a new row or column. To change the row or column that is temporarily lit, he must stand at a cell that is lit initially. Also, once he removes his temporary light from a row or column, all cells in that row/column not initially lit are now not lit.Help Okabe find the minimum number of coins he needs to pay to complete his walk!",
+    "prob_desc_output_spec": "Print the minimum number of coins Okabe needs to pay to complete his walk, or -1 if it's not possible.",
+    "prob_desc_input_spec": "The first line of input contains three space-separated integers n, m, and k (2 ≤ n, m, k ≤ 104). Each of the next k lines contains two space-separated integers ri and ci (1 ≤ ri ≤ n, 1 ≤ ci ≤ m) — the row and the column of the i-th lit cell. It is guaranteed that all k lit cells are distinct. It is guaranteed that the top-left cell is lit.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_062.jsonl",
+    "code_uid": "e824cc9dbd2407eff33fca75ac9e0e47",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4 5\\n1 1\\n2 1\\n2 3\\n3 3\\n4 3\", \"5 5 4\\n1 1\\n2 1\\n3 1\\n3 2\", \"2 2 4\\n1 1\\n1 2\\n2 1\\n2 2\", \"5 5 4\\n1 1\\n2 2\\n3 3\\n4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom collections import deque\ndef main():\n    n, m, k = map(int, stdin.readline().split())\n    a = [map(int, stdin.readline().split()) for _ in xrange(k)]\n    row = [dict() for i in xrange(n + 10)]\n    col = [dict() for i in xrange(m + 10)]\n    inf = 10010001\n    d = [inf] * k\n    q = []\n    pu = q.append\n    for i in xrange(k):\n        r, c = a[i]\n        row[r][c] = i\n        col[c][r] = i\n        if r == c == 1:\n            d[i] = 0\n            pu(i)\n    done = [None] * k\n    while q:\n        v = []\n        for x in q:\n            r, c = a[x]\n            qq = deque()\n            qq.append(x)\n            done[x] = 1\n            while qq:\n                y = qq.popleft()\n                r, c = a[y]\n                for cc in (c-1, c+1):\n                    if cc in row[r] and done[row[r][cc]] is None:\n                        z = row[r][cc]\n                        done[z] = 1\n                        qq.append(z)\n                for rr in (r-1, r+1):\n                    if rr in col[c] and done[col[c][rr]] is None:\n                        z = col[c][rr]\n                        done[z] = 1\n                        qq.append(z)\n                d[y] = d[x]\n                v.append(y)\n        sr = set()\n        sc = set()\n        del q[:]\n        for x in v:\n            r, c = a[x]\n            for rr in xrange(r - 2, r + 3):\n                sr.add(rr)\n            for cc in xrange(c - 2, c + 3):\n                sc.add(cc)\n        for i in sr:\n            for j in row[i].viewvalues():\n                if d[j] == inf:\n                    d[j] = d[x] + 1\n                    pu(j)\n            row[i] = {}\n        for i in sc:\n            for j in col[i].viewvalues():\n                if d[j] == inf:\n                    d[j] = d[x] + 1\n                    pu(j)\n            col[i] = {}\n    ans = inf\n    for i in xrange(k):\n        r, c = a[i]\n        if r == n and c == m:\n            if ans > d[i]:\n                ans = d[i]\n        if r >= n - 1:\n            if ans > d[i] + 1:\n                ans = d[i] + 1\n        if c >= m - 1:\n            if ans > d[i] + 1:\n                ans = d[i] + 1\n    if ans == inf:\n        print -1\n    else:\n        print ans\nmain()\n",
+    "prob_desc_created_at": "1498401300",
+    "tags": [
+        "graphs",
+        "dfs and similar",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

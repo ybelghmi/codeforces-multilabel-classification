@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"10\", \"2\"]",
+    "src_uid": "8b57854277fb7baead123473a609301d",
+    "prob_desc_notes": "NoteIn the first example, all correct lamp colouring configurations are $$$[1, 1, 2, 1]$$$, $$$[1, 1, 2, 2]$$$, $$$[1, 2, 1, 2]$$$, $$$[1, 2, 2, 1]$$$, $$$[1, 2, 2, 2]$$$, $$$[2, 1, 1, 1]$$$, $$$[2, 1, 1, 2]$$$, $$$[2, 1, 2, 1]$$$, $$$[2, 2, 1, 1]$$$, and $$$[2, 2, 1, 2]$$$.",
+    "prob_desc_description": "Pak Chanek has a mirror in the shape of a circle. There are $$$N$$$ lamps on the circumference numbered from $$$1$$$ to $$$N$$$ in clockwise order. The length of the arc from lamp $$$i$$$ to lamp $$$i+1$$$ is $$$D_i$$$ for $$$1 \\leq i \\leq N-1$$$. Meanwhile, the length of the arc between lamp $$$N$$$ and lamp $$$1$$$ is $$$D_N$$$.Pak Chanek wants to colour the lamps with $$$M$$$ different colours. Each lamp can be coloured with one of the $$$M$$$ colours. However, there cannot be three different lamps such that the colours of the three lamps are the same and the triangle made by considering the three lamps as vertices is a right triangle (triangle with one of its angles being exactly $$$90$$$ degrees).The following are examples of lamp colouring configurations on the circular mirror. Figure 1. an example of an incorrect colouring because lamps $$$1$$$, $$$2$$$, and $$$3$$$ form a right triangleFigure 2. an example of a correct colouringFigure 3. an example of a correct colouring Before colouring the lamps, Pak Chanek wants to know the number of distinct colouring configurations he can make. Count the number of distinct possible lamp colouring configurations, modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_output_spec": "An integer representing the number of possible lamp colouring configurations, modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$N$$$ and $$$M$$$ ($$$1 \\le N \\le 3 \\cdot 10^5$$$, $$$2 \\le M \\le 3 \\cdot 10^5$$$) — the number of lamps in the mirror and the number of different colours used. The second line contains $$$N$$$ integers $$$D_1, D_2, \\ldots, D_N$$$ ($$$1 \\le D_i \\le 10^9$$$) — the lengths of the arcs between the lamps in the mirror.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_093.jsonl",
+    "code_uid": "9f90cdd73a4f7bda0404fb9bcfca0b40",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n10 10 6 14\", \"1 2\\n10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os,sys\r\nfrom io import BytesIO, IOBase\r\n \r\ndef pair_same(n, m, k, p, r, fac):\r\n    return ( ((fac[m]*pow(fac[m-p], r-2, r))%r) *\r\n    ((pow(((m-p)*(m-p-1))%r, k-p, r)*pow(m-p, n-2*k, r))%r) )%r\r\n \r\n \r\n \r\ndef solve(n, m, ls):\r\n    r = 998244353\r\n    fac = [1]\r\n    for i in range(1, m+1):\r\n        fac.append((fac[-1]*i)%r)\r\n    prefix = [0]\r\n    for p in ls:\r\n        prefix.append(prefix[-1]+p)\r\n    tot = prefix.pop()\r\n    if tot%2 ==1:\r\n        k=0\r\n    else:\r\n        k = 0\r\n        rr = 0\r\n        for l in range(len(prefix)):\r\n            while rr < len(prefix) and prefix[rr] - prefix[l] < tot//2:\r\n                rr += 1\r\n            if rr == len(prefix):\r\n                break\r\n            if prefix[rr] - prefix[l] == tot//2:\r\n                k += 1\r\n    res = 0\r\n    for p in range(k+1):\r\n        res = (res + fac[k]*pow((fac[p]*fac[k-p])%r, r-2, r)*pair_same(n, m, k, p, r, fac))%r\r\n    print(res)\r\n \r\n    \r\ndef main():\r\n \r\n    n, m = list(map(int, input().split(\" \")))\r\n    ls = list(map(int, input().split(\" \")))\r\n    solve(n, m, ls)\r\n \r\n# Fast IO Region\r\nBUFSIZE = 8192\r\nclass FastIO(IOBase):\r\n    newlines = 0\r\n    def __init__(self, file):\r\n        self._fd = file.fileno()\r\n        self.buffer = BytesIO()\r\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\r\n        self.write = self.buffer.write if self.writable else None\r\n    def read(self):\r\n        while True:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            if not b:\r\n                break\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines = 0\r\n        return self.buffer.read()\r\n    def readline(self):\r\n        while self.newlines == 0:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            self.newlines = b.count(b\"\\n\") + (not b)\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines -= 1\r\n        return self.buffer.readline()\r\n    def flush(self):\r\n        if self.writable:\r\n            os.write(self._fd, self.buffer.getvalue())\r\n            self.buffer.truncate(0), self.buffer.seek(0)\r\nclass IOWrapper(IOBase):\r\n    def __init__(self, file):\r\n        self.buffer = FastIO(file)\r\n        self.flush = self.buffer.flush\r\n        self.writable = self.buffer.writable\r\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\r\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\r\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\r\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\r\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\r\nif __name__ == \"__main__\":\r\n    main()\r\n",
+    "prob_desc_created_at": "1662298500",
+    "tags": [
+        "binary search",
+        "combinatorics",
+        "geometry",
+        "math",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

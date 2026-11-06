@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\\n18\\n90\\n180\"]",
+    "src_uid": "d11b56fe172110d5dfafddf880e48f18",
+    "prob_desc_notes": "NoteThe answer for the first query is on the picture above.The answer for the second query is reached on a regular $$$18$$$-gon. For example, $$$\\angle{v_2 v_1 v_6} = 50^{\\circ}$$$.The example angle for the third query is $$$\\angle{v_{11} v_{10} v_{12}} = 2^{\\circ}$$$.In the fourth query, minimal possible $$$n$$$ is $$$180$$$ (not $$$90$$$).",
+    "prob_desc_description": "You are given an angle $$$\\text{ang}$$$. The Jury asks You to find such regular $$$n$$$-gon (regular polygon with $$$n$$$ vertices) that it has three vertices $$$a$$$, $$$b$$$ and $$$c$$$ (they can be non-consecutive) with $$$\\angle{abc} = \\text{ang}$$$ or report that there is no such $$$n$$$-gon.  If there are several answers, print the minimal one. It is guarantied that if answer exists then it doesn't exceed $$$998244353$$$.",
+    "prob_desc_output_spec": "For each query print single integer $$$n$$$ ($$$3 \\le n \\le 998244353$$$) — minimal possible number of vertices in the regular $$$n$$$-gon or $$$-1$$$ if there is no such $$$n$$$.",
+    "prob_desc_input_spec": "The first line contains single integer $$$T$$$ ($$$1 \\le T \\le 180$$$) — the number of queries.  Each of the next $$$T$$$ lines contains one integer $$$\\text{ang}$$$ ($$$1 \\le \\text{ang} &lt; 180$$$) — the angle measured in degrees. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_026.jsonl",
+    "code_uid": "f5192c6cb6362a8930d1960809b9dec3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n54\\n50\\n2\\n178\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "L = [-1] * 181\n\nfor i in range(3, 400):\n    for j in range(1, i-1):\n        if L[180*j/i] == -1 and 180*j%i==0:\n            L[180*j/i] = i\nT = input()\nfor i in range(T):\n    ang = input()\n    print L[ang]",
+    "prob_desc_created_at": "1546007700",
+    "tags": [
+        "geometry",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

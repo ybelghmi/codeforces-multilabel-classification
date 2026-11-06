@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"11\", \"14\"]",
+    "src_uid": "43501b998dbf4c4fef891a8591e32a42",
+    "prob_desc_notes": "NoteOn the image, each game of the championship is denoted with an English letter ($$$a$$$ to $$$n$$$). Winner of game $$$i$$$ is denoted as $$$Wi$$$, loser is denoted as $$$Li$$$. Teams you're a fan of are highlighted with red background.In the first example, team $$$6$$$ will play in 6 games if it looses the first upper bracket game (game $$$c$$$) and wins all lower bracket games (games $$$h, j, l, m$$$). In the second example, teams $$$7$$$ and $$$8$$$ have to play with each other in the first game of upper bracket (game $$$d$$$). Team $$$8$$$ can win all remaining games in upper bracket, when teams $$$1$$$ and $$$7$$$ will compete in the lower bracket. In the third example, your favourite teams can play in all games of the championship. ",
+    "prob_desc_description": "The biggest event of the year – Cota 2 world championship \"The Innernational\" is right around the corner. $$$2^n$$$ teams will compete in a double-elimination format (please, carefully read problem statement even if you know what is it) to identify the champion. Teams are numbered from $$$1$$$ to $$$2^n$$$ and will play games one-on-one. All teams start in the upper bracket.All upper bracket matches will be held played between teams that haven't lost any games yet. Teams are split into games by team numbers. Game winner advances in the next round of upper bracket, losers drop into the lower bracket.Lower bracket starts with $$$2^{n-1}$$$ teams that lost the first upper bracket game. Each lower bracket round consists of two games. In the first game of a round $$$2^k$$$ teams play a game with each other (teams are split into games by team numbers). $$$2^{k-1}$$$ loosing teams are eliminated from the championship, $$$2^{k-1}$$$ winning teams are playing $$$2^{k-1}$$$ teams that got eliminated in this round of upper bracket (again, teams are split into games by team numbers). As a result of each round both upper and lower bracket have $$$2^{k-1}$$$ teams remaining. See example notes for better understanding.Single remaining team of upper bracket plays with single remaining team of lower bracket in grand-finals to identify championship winner.You are a fan of teams with numbers $$$a_1, a_2, ..., a_k$$$. You want the championship to have as many games with your favourite teams as possible. Luckily, you can affect results of every championship game the way you want. What's maximal possible number of championship games that include teams you're fan of?",
+    "prob_desc_output_spec": "Output single integer — maximal possible number of championship games that include teams you're fan of.",
+    "prob_desc_input_spec": "First input line has two integers $$$n, k$$$ — $$$2^n$$$ teams are competing in the championship. You are a fan of $$$k$$$ teams ($$$2 \\le n \\le 17; 0 \\le k \\le 2^n$$$). Second input line has $$$k$$$ distinct integers $$$a_1, \\ldots, a_k$$$ — numbers of teams you're a fan of ($$$1 \\le a_i \\le 2^n$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_078.jsonl",
+    "code_uid": "d454572add493461d7b5b967dafe25b5",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\n6\", \"3 3\\n1 7 8\", \"3 4\\n1 3 5 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nn, k = [int(x) for x in input().split()]\nA = [int(x) - 1 for x in input().split()] if k else []\n\nn = 2**n\n\nmarked = [0]*n\nfor a in A:\n    marked[a] = 1\n\nm = 1\nwhile m < n: m *= 2\n\ninf = 10**9\n\ndata = [[-inf]*(2*m) for _ in range(4)]\nfor i in range(0,n,2):\n    data[0][(m + i) >> 1] = 0\n    if marked[i]:\n        data[1][(m + i) >> 1] = 1\n        data[2][(m + i) >> 1] = 1\n        if marked[i + 1]:\n            data[3][(m + i) >> 1] = 1\n    elif marked[i + 1]:\n        data[1][(m + i) >> 1] = 1\n        data[2][(m + i) >> 1] = 1\n\nfor i in reversed(range(m >> 1)):\n    lchild = 2*i\n    rchild = 2*i + 1\n\n    for goal in range(4):\n        for a in range(4):\n            for b in range(4):\n                if a | b == goal:\n                    data[goal][i] = max(data[goal][i], data[a][lchild] + data[b][rchild] + (a & 1 or b & 1) + (a & 2 > 0 or b & 2 > 0) + (goal & 2 > 0))\nprint max(data[k][1] + (k > 0) for k in range(4))\n\n",
+    "prob_desc_created_at": "1582473900",
+    "tags": [
+        "dp",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

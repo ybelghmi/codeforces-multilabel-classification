@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1\"]",
+    "src_uid": "5c92ede00232d6a22385be29ecd06ddd",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Little Elephant loves playing with arrays. He has array a, consisting of n positive integers, indexed from 1 to n. Let's denote the number with index i as ai. Additionally the Little Elephant has m queries to the array, each query is characterised by a pair of integers lj and rj (1 ≤ lj ≤ rj ≤ n). For each query lj, rj the Little Elephant has to count, how many numbers x exist, such that number x occurs exactly x times among numbers alj, alj + 1, ..., arj.Help the Little Elephant to count the answers to all queries.",
+    "prob_desc_output_spec": "In m lines print m integers — the answers to the queries. The j-th line should contain the answer to the j-th query.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and m (1 ≤ n, m ≤ 105) — the size of array a and the number of queries to it. The next line contains n space-separated positive integers a1, a2, ..., an (1 ≤ ai ≤ 109). Next m lines contain descriptions of queries, one per line. The j-th of these lines contains the description of the j-th query as two space-separated integers lj and rj (1 ≤ lj ≤ rj ≤ n).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_055.jsonl",
+    "code_uid": "3fa08e2fa912d70e6f0c3174b65f2c0d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 2\\n3 1 2 2 3 3 7\\n1 7\\n3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "'''input\n7 2\n3 1 2 2 3 3 7\n1 7\n3 4\n'''\n\n''' Given an array, tell count of values in range [l,r] repeated at least 3 times\n'''\nfrom collections import defaultdict\n\nans = 0\ndef main():\n\n    def add(pos):\n        global ans\n        if count[arr[pos]] == arr[pos]: ans -= 1\n        count[arr[pos]] += 1\n        if count[arr[pos]] == arr[pos]: ans += 1\n\n\n    def remove(pos):\n        global ans\n        if count[arr[pos]] == arr[pos]: ans -= 1\n        count[arr[pos]] -= 1\n        if count[arr[pos]] == arr[pos]: ans += 1\n\n    def cmp(a, b):\n        if a[-1] == b[-1]:\n            if a[-1]%2==0:\n                return 1 if a[1] > b[1] else -1             # Right limit\n            else:\n                return -1 if a[1] > b[1] else 1             # Right limit\n        return 1 if a[-1] > b[-1] else -1               # Band wise\n\n\n\n    count = defaultdict(int)\n    currL, currR= 0, 0\n    n, q = map(int, raw_input().split())\n    band = int(n**0.5 + 0.5)\n    arr = map(int, raw_input().split())\n    queries = []\n    for i in range(q):\n        a, b = map(int, raw_input().split())\n        # 0 inexing\n        a-=1; b-=1\n        queries.append((a,b, i, a/band))\n\n\n    queries.sort(cmp)\n\n    anss = []\n    # ans at any time contains for [currL, currR)\n    for query in queries:\n        L,R, pos, blok = query\n        while currL < L: remove(currL); currL+=1\n        while currL > L: add(currL-1);  currL-=1\n        while currR <= R: add(currR); currR+=1\n        while currR > R+1: remove(currR-1); currR-=1\n        anss.append((pos, ans))\n\n    anss.sort()\n    for val in anss:\n        print val[1]\n\nmain()\n",
+    "prob_desc_created_at": "1346427000",
+    "tags": [
+        "data structures",
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

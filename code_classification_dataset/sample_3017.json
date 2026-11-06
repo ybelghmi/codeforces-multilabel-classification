@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 1 2 2\", \"1 1\"]",
+    "src_uid": "c234cb0321e2bd235cd539a63364b152",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have array a that contains all integers from 1 to n twice. You can arbitrary permute any numbers in a.Let number i be in positions xi, yi (xi &lt; yi) in the permuted array a. Let's define the value di = yi - xi — the distance between the positions of the number i. Permute the numbers in array a to minimize the value of the sum .",
+    "prob_desc_output_spec": "Print 2n integers — the permuted array a that minimizes the value of the sum s.",
+    "prob_desc_input_spec": "The only line contains integer n (1 ≤ n ≤ 5·105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_038.jsonl",
+    "code_uid": "87f999b1b2eb6d05eb6646fa7498fb0f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\", \"1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\nA = [0] * (2*n)\nper1 = 0\nper2 = n\nfor i in range(1, n):\n    if i % 2==1:\n        A[per1] = i\n        A[per1+n-i] = i\n        per1+=1\n    else:\n        A[per2] = i\n        A[per2+n-i] = i\n        per2+=1\n\nA[-1] = n\nif n % 2 == 1:\n    A[n//2] = n\nelse:\n    A[-(n//2+1)] = n\nprint(' '.join(map(str, A)))",
+    "prob_desc_created_at": "1455116400",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

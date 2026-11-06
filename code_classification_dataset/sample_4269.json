@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n10\\n143922563\\n698570404\"]",
+    "src_uid": "d8066e517678dfd6a11f2bfa9e0faed0",
+    "prob_desc_notes": "NoteIn the first test case, it can be proven that the maximum $$$F(a)$$$ among all good arrays $$$a$$$ is equal to $$$2$$$. The excellent arrays are:   $$$[2, 1, 2]$$$;  $$$[0, 3, 2]$$$;  $$$[2, 3, 2]$$$;  $$$[3, 0, 1]$$$. ",
+    "prob_desc_description": "Let's call an integer array $$$a_1, a_2, \\dots, a_n$$$ good if $$$a_i \\neq i$$$ for each $$$i$$$.Let $$$F(a)$$$ be the number of pairs $$$(i, j)$$$ ($$$1 \\le i &lt; j \\le n$$$) such that $$$a_i + a_j = i + j$$$.Let's say that an array $$$a_1, a_2, \\dots, a_n$$$ is excellent if:   $$$a$$$ is good;  $$$l \\le a_i \\le r$$$ for each $$$i$$$;  $$$F(a)$$$ is the maximum possible among all good arrays of size $$$n$$$. Given $$$n$$$, $$$l$$$ and $$$r$$$, calculate the number of excellent arrays modulo $$$10^9 + 7$$$.",
+    "prob_desc_output_spec": "For each test case, print the number of excellent arrays modulo $$$10^9 + 7$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases.  The first and only line of each test case contains three integers $$$n$$$, $$$l$$$, and $$$r$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$; $$$-10^9 \\le l \\le 1$$$; $$$n \\le r \\le 10^9$$$). It's guaranteed that the sum of $$$n$$$ doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_094.jsonl",
+    "code_uid": "a5bb98103cda5b3e586b09c2486192b8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3 0 3\\n4 -3 5\\n42 -33 55\\n69 -42 146\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nimport sys\n\n# 1 2 3 4\n#\n# 1+k, 2+k | 3-k, 4-k\n# 1-k >= l => k <= 1-l\n# n+k <= r => k <= r-n\n# if k <= min(1-l, r-n)\n# then C(n,n/2) even, C(n,n/2) + C(n, n/2+1)\n#\n\nMOD = 1000000007\n\n\ndef bpow(a, b):\n    global MOD\n\n    if b == 0:\n        return 1\n    c = bpow(a, b//2)\n    c *= c\n    c %= MOD\n    if b % 2 == 1:\n        c *= a\n        c %= MOD\n    return c\n\n\ndef factorial():\n    global MOD\n\n    fa = [1]\n    for i in range(1, 200001):\n        fa.append(fa[-1]*i)\n        fa[-1] %= MOD\n\n    return fa\n\n\ndef inv(fa):\n    global MOD\n\n    iv = [1]\n    for i in range(1, 200001):\n        iv.append(bpow(fa[i], MOD-2))\n\n    return iv\n\n\ndef C(fa, iv, a, b):\n    if a < b or a < 0 or b < 0:\n        return 0\n\n    global MOD\n    r = fa[a] * iv[a-b]\n    r %= MOD\n    r *= iv[b]\n    r %= MOD\n\n    return r\n\n\ndef solve(n, l, r):\n    global MOD, fa, iv\n    res = 0\n\n    k = min(1-l, r-n)\n    if k >= 1:\n        res = k * C(fa, iv, n, n//2)\n        res %= MOD\n\n        if n % 2 == 1:\n            res += k * C(fa, iv, n, n//2 + 1)\n            res %= MOD\n\n    # 1 2 3 4\n    lf = 1\n    rt = n\n    while True:\n        k += 1\n        #lf = max(1, l + k)\n        #rt = min(n, r - k)\n        while lf - k < l:\n            lf += 1\n        while rt + k > r:\n            rt -= 1\n\n        if rt - lf + 1 < 0:\n            break\n\n        res += C(fa, iv, rt - lf + 1, n//2 - lf + 1)\n        res %= MOD\n\n        if n % 2 == 1:\n            res += C(fa, iv, rt - lf + 1, n//2 + 1 - lf + 1)\n            res %= MOD\n\n    return res\n\n\ntry:\n    fa = factorial()\n    iv = inv(fa)\n    t = int(stdin.readline())\n\n    for _ in range(t):\n        n, l, r = map(int, stdin.readline().split())\n        res = solve(n, l, r)\n        stdout.write(str(res) + '\\n')\nexcept:\n    print(sys.exc_info())\n",
+    "prob_desc_created_at": "1626273300",
+    "tags": [
+        "binary search",
+        "combinatorics",
+        "constructive algorithms",
+        "implementation",
+        "math",
+        "sortings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

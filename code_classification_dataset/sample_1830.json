@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n1 \\n4\\n1 4 3 2\"]",
+    "src_uid": "61ba68bdc7a1e3c60135cbae30d9e088",
+    "prob_desc_notes": "NoteIn the first example, we get sum is $$$a_1 = 0$$$.In the second example, we get sum is $$$a_1 + a_4 + a_3 + a_2 = 0$$$.",
+    "prob_desc_description": "You are given $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$, such that for each $$$1\\le i \\le n$$$ holds $$$i-n\\le a_i\\le i-1$$$.Find some nonempty subset of these integers, whose sum is equal to $$$0$$$. It can be shown that such a subset exists under given constraints. If there are several possible subsets with zero-sum, you can find any of them.",
+    "prob_desc_output_spec": "For each test case, output two lines. In the first line, output $$$s$$$ ($$$1\\le s \\le n$$$) — the number of elements in your subset. In the second line, output $$$s$$$ integers $$$i_1, i_2, \\dots, i_s$$$ ($$$1\\le i_k \\le n$$$). All integers have to be pairwise different, and $$$a_{i_1} + a_{i_2} + \\dots + a_{i_s}$$$ has to be equal to $$$0$$$. If there are several possible subsets with zero-sum, you can find any of them.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10^6$$$). The description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$1\\le n \\le 10^6$$$). The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$i-n \\le a_i \\le i-1$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_013.jsonl",
+    "code_uid": "d135a5c8f908de090baae828a5b46319",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n5\\n0 1 2 3 4\\n4\\n-3 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\n\nt = input()\ninp = stdin.readlines()\nout = []\n\nfor itr in xrange(t):\n    n = int(inp[itr << 1].strip())\n    a = map(int, inp[itr << 1 | 1].strip().split())\n    \n    found = -1\n    \n    for i in xrange(n):\n        if a[i] == 0:\n            found = i\n            break\n        else:\n            a[i] = i + 1 - a[i]\n\n    if found != -1:\n        out.append(\"1\")\n        out.append(str(found + 1))\n        continue\n\n    vis = [0] * n\n\n    i = 0\n    idxlist = []\n    start = 0\n    while vis[i] == 0:\n        vis[i] = 1\n        \n        i = a[i] - 1\n        if vis[i] == 1: start = i\n\n    idxlist.append(str(start + 1))\n    \n    i = a[start] - 1\n    while i != start:\n        idxlist.append(str(i + 1))\n        i = a[i] - 1\n        \n    out.append(str(len(idxlist)))\n    out.append(\" \".join(idxlist))\n\nstdout.write(\"\\n\".join(out))",
+    "prob_desc_created_at": "1577628300",
+    "tags": [
+        "constructive algorithms",
+        "graphs",
+        "dfs and similar",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

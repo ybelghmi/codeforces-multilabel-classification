@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"3 4\"]",
+    "src_uid": "c80cdf090685d40fd34c3fd082a81469",
+    "prob_desc_notes": null,
+    "prob_desc_description": "While resting on the ship after the \"Russian Code Cup\" a boy named Misha invented an interesting game. He promised to give his quadrocopter to whoever will be the first one to make a rectangular table of size n × m, consisting of positive integers such that the sum of the squares of numbers for each row and each column was also a square.Since checking the correctness of the table manually is difficult, Misha asks you to make each number in the table to not exceed 108.",
+    "prob_desc_output_spec": "Print the table that meets the condition: n lines containing m integers, separated by spaces. If there are multiple possible answers, you are allowed to print anyone. It is guaranteed that there exists at least one correct answer.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 100)  — the size of the table. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_048.jsonl",
+    "code_uid": "4fd6f3b42ffeec2ce4fae8770f7d49e2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\", \"1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, raw_input().split())\ndef f(k):\n    if k == 1:\n        return [1]\n    elif k == 2:\n        return [3, 4]\n    elif k % 2:\n        return [2] + [1] * (k - 2) + [(k + 1) / 2]\n    else:\n        return [1] * (k - 1) + [(k - 1)/ 2]\nfor i in f(n):\n    for j in f(m):\n        print i * j,\n    print\n",
+    "prob_desc_created_at": "1397749200",
+    "tags": [
+        "dp",
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

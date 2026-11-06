@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\\n1\\n2\\n2\\n2\", \"YES\\nYES\\nYES\\nYES\\nNO\\nYES\\n3\\n3\\n1\\n1\\n2\"]",
+    "src_uid": "c4f97a986dccc433835addca8efec972",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Mahmoud wants to write a new dictionary that contains n words and relations between them. There are two types of relations: synonymy (i. e. the two words mean the same) and antonymy (i. e. the two words mean the opposite). From time to time he discovers a new relation between two words.He know that if two words have a relation between them, then each of them has relations with the words that has relations with the other. For example, if like means love and love is the opposite of hate, then like is also the opposite of hate. One more example: if love is the opposite of hate and hate is the opposite of like, then love means like, and so on.Sometimes Mahmoud discovers a wrong relation. A wrong relation is a relation that makes two words equal and opposite at the same time. For example if he knows that love means like and like is the opposite of hate, and then he figures out that hate means like, the last relation is absolutely wrong because it makes hate and like opposite and have the same meaning at the same time.After Mahmoud figured out many relations, he was worried that some of them were wrong so that they will make other relations also wrong, so he decided to tell every relation he figured out to his coder friend Ehab and for every relation he wanted to know is it correct or wrong, basing on the previously discovered relations. If it is wrong he ignores it, and doesn't check with following relations.After adding all relations, Mahmoud asked Ehab about relations between some words based on the information he had given to him. Ehab is busy making a Codeforces round so he asked you for help.",
+    "prob_desc_output_spec": "First, print m lines, one per each relation. If some relation is wrong (makes two words opposite and have the same meaning at the same time) you should print \"NO\" (without quotes) and ignore it, otherwise print \"YES\" (without quotes). After that print q lines, one per each question. If the two words have the same meaning, output 1. If they are opposites, output 2. If there is no relation between them, output 3. See the samples for better understanding.",
+    "prob_desc_input_spec": "The first line of input contains three integers n, m and q (2 ≤ n ≤ 105, 1 ≤ m, q ≤ 105) where n is the number of words in the dictionary, m is the number of relations Mahmoud figured out and q is the number of questions Mahmoud asked after telling all relations. The second line contains n distinct words a1, a2, ..., an consisting of small English letters with length not exceeding 20, which are the words in the dictionary. Then m lines follow, each of them contains an integer t (1 ≤ t ≤ 2) followed by two different words xi and yi which has appeared in the dictionary words. If t = 1, that means xi has a synonymy relation with yi, otherwise xi has an antonymy relation with yi. Then q lines follow, each of them contains two different words which has appeared in the dictionary. That are the pairs of words Mahmoud wants to know the relation between basing on the relations he had discovered. All words in input contain only lowercase English letters and their lengths don't exceed 20 characters. In all relations and in all questions the two words are different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_007.jsonl",
+    "code_uid": "0e2c6f8b50f65df269ef9882a1c3f3c7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3 4\\nhate love like\\n1 love like\\n2 love hate\\n1 hate like\\nlove like\\nlove hate\\nlike hate\\nhate like\", \"8 6 5\\nhi welcome hello ihateyou goaway dog cat rat\\n1 hi welcome\\n1 ihateyou goaway\\n2 hello ihateyou\\n2 hi goaway\\n2 hi hello\\n1 hi hello\\ndog cat\\ndog hi\\nhi hello\\nihateyou goaway\\nwelcome ihateyou\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m, q = [int(x) for x in raw_input().split()]\na = raw_input().split()\n\nc = {x: ([x], []) for x in a}\n\nfor _ in range(m):\n    t, x, y = raw_input().split()\n\n    sign = 1 if t == '2' else 0\n\n    if c[x][0] is c[y][1-sign]:\n        print \"NO\"\n        continue\n\n    print \"YES\"\n\n    if c[x][0] is c[y][sign]:\n        continue\n\n    c1, c2 = c[x], c[y]\n    if len(c1[0]) + len(c1[1]) < len(c2[0]) + len(c2[1]):\n        c1, c2 = c2, c1\n\n    s1, a1 = c1\n    if sign == 0:\n        s2, a2 = c2\n    else:\n        a2, s2 = c2\n\n    s1 += s2\n    a1 += a2\n\n    cs = s1, a1\n    for x in s2:\n        c[x] = cs\n    ca = a1, s1\n    for x in a2:\n        c[x] = ca\n\n\nfor _ in range(q):\n    x, y = raw_input().split()\n\n    if c[x][0] is c[y][0]:\n        print 1\n    elif c[x][0] is c[y][1]:\n        print 2\n    else:\n        print 3\n",
+    "prob_desc_created_at": "1486487100",
+    "tags": [
+        "dp",
+        "graphs",
+        "dsu",
+        "data structures",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

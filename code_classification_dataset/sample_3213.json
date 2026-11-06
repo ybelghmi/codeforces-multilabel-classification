@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"6\"]",
+    "src_uid": "7c1f7740bdac042147e969a98897f594",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Jeff's friends know full well that the boy likes to get sequences and arrays for his birthday. Thus, Jeff got sequence p1, p2, ..., pn for his birthday.Jeff hates inversions in sequences. An inversion in sequence a1, a2, ..., an is a pair of indexes i, j (1 ≤ i &lt; j ≤ n), such that an inequality ai &gt; aj holds.Jeff can multiply some numbers of the sequence p by -1. At that, he wants the number of inversions in the sequence to be minimum. Help Jeff and find the minimum number of inversions he manages to get.",
+    "prob_desc_output_spec": "In a single line print the answer to the problem — the minimum number of inversions Jeff can get.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 2000). The next line contains n integers — sequence p1, p2, ..., pn (|pi| ≤ 105). The numbers are separated by spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_046.jsonl",
+    "code_uid": "c61c162e25f0fa19aa548cb2e7cf1bf9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2 1\", \"9\\n-2 0 -1 0 -1 2 1 0 -1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\ninp = input()\nseq = inp.split(' ')\nseq = [ abs(int(x)) for x in seq ]\nMax = max(seq)\nnxt = [0] * n\ncnt = [0] * n\npos = [n] * (Max+1)\nfor i in range(n-1, -1, -1):\n    nxt[i] = pos[seq[i]]\n    pos[seq[i]] = i\nfor i in range(0, Max+1):\n    j = pos[i]\n    while(j<n):\n        front = sum(cnt[0:j])\n        back  = sum(cnt[j+1:n])\n        if(front < back):\n            seq[j] = 0 - seq[j]\n        j = nxt[j]\n    j = pos[i]\n    while(j < n):\n        cnt[j] = 1\n        j = nxt[j]\n#for i in range(0, n-1):\n#    print(seq[i], sep=' ')\n#print(seq[n-1])\ninv = 0\nfor i in range(len(seq)):\n    for j in range(i+1, len(seq)):\n        if(seq[i] > seq[j]):\n            inv += 1\nprint(inv)\n",
+    "prob_desc_created_at": "1380900600",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

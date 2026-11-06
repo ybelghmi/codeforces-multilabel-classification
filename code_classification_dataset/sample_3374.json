@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4 3 3\", \"5 8 9 8 5\"]",
+    "src_uid": "c01c7a6f289e6c4a7a1e2fb2492a069e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The country has n cities and n - 1 bidirectional roads, it is possible to get from every city to any other one if you move only along the roads. The cities are numbered with integers from 1 to n inclusive.All the roads are initially bad, but the government wants to improve the state of some roads. We will assume that the citizens are happy about road improvement if the path from the capital located in city x to any other city contains at most one bad road.Your task is — for every possible x determine the number of ways of improving the quality of some roads in order to meet the citizens' condition. As those values can be rather large, you need to print each value modulo 1 000 000 007 (109 + 7).",
+    "prob_desc_output_spec": "Print n integers a1, a2, ..., an, where ai is the sought number of ways to improve the quality of the roads modulo 1 000 000 007 (109 + 7), if the capital of the country is at city number i.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (2 ≤ n ≤ 2·105) — the number of cities in the country. Next line contains n - 1 positive integers p2, p3, p4, ..., pn (1 ≤ pi ≤ i - 1) — the description of the roads in the country. Number pi means that the country has a road connecting city pi and city i. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_055.jsonl",
+    "code_uid": "d622d5b4b11e5bb08880b011fc1c6021",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1\", \"5\\n1 2 3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nMOD = 1000000007\n\nn = int (sys.stdin.readline ())\na = [[] for i in range (n)]\np = map (int, sys.stdin.readline ().split ())\nfor i in range (1, n):\n\ta[p[i - 1] - 1] += [i]\n\nf = [1] * n\n\nfor v in range (n)[::-1]:\n\tfor u in a[v]:\n\t\tf[v] = (f[v] * (f[u] + 1)) % MOD\n\ng = [1] * n\n\nfor v in range (n):\n\tlo = [1]\n\tfor u in a[v]:\n\t\tlo += [lo[-1] * (f[u] + 1) % MOD]\n\thi = [1]\n\tfor u in a[v][::-1]:\n\t\thi += [hi[-1] * (f[u] + 1) % MOD]\n\tfor i, u in enumerate (a[v]):\n\t\tg[u] = (g[u] * (g[v] * lo[i] * hi[len (a[v]) - 1 - i] + 1)) % MOD\n\nsys.stdout.write (' '.join (map (str, [(f[i] * g[i]) % MOD for i in range (n)])))\n\n",
+    "prob_desc_created_at": "1431016200",
+    "tags": [
+        "dp",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

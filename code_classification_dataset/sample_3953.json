@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2 2 1 \\n1 3 3 1 1\"]",
+    "src_uid": "1fea137016452340beb13dd7518f00c9",
+    "prob_desc_notes": null,
+    "prob_desc_description": "It is the hard version of the problem. The only difference is that in this version $$$3 \\le k \\le n$$$.You are given a positive integer $$$n$$$. Find $$$k$$$ positive integers $$$a_1, a_2, \\ldots, a_k$$$, such that:  $$$a_1 + a_2 + \\ldots + a_k = n$$$  $$$LCM(a_1, a_2, \\ldots, a_k) \\le \\frac{n}{2}$$$ Here $$$LCM$$$ is the least common multiple of numbers $$$a_1, a_2, \\ldots, a_k$$$.We can show that for given constraints the answer always exists.",
+    "prob_desc_output_spec": "For each test case print $$$k$$$ positive integers $$$a_1, a_2, \\ldots, a_k$$$, for which all conditions are satisfied.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ $$$(1 \\le t \\le 10^4)$$$  — the number of test cases. The only line of each test case contains two integers $$$n$$$, $$$k$$$ ($$$3 \\le n \\le 10^9$$$, $$$3 \\le k \\le n$$$). It is guaranteed that the sum of $$$k$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_087.jsonl",
+    "code_uid": "e5624b2c2df43f8561ce7265c0d181cc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n6 4\\n9 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#import io, os\r\n#input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\r\n\r\nt = int(input())\r\n\r\nfor _ in range(t):\r\n\r\n  n, k = map(int,input().split())\r\n  final = []\r\n\r\n  while k > 3:\r\n    n -= 1\r\n    k -= 1\r\n    final.append(1)\r\n\r\n\r\n  if n % 2 == 1:\r\n    final.append(n//2)\r\n    final.append(1)\r\n    final.append(n//2)\r\n    print(*final)\r\n  elif n % 4 == 0:\r\n    final.extend([n // 4, n // 2, n // 4])\r\n    print(*final)\r\n\r\n  else:\r\n    final.extend([n//2 -1 , 2, n//2 -1])\r\n    print(*final)\r\n",
+    "prob_desc_created_at": "1615991700",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

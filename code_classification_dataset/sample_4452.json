@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"9\\n297\\n0\\n14\"]",
+    "src_uid": "1e54530bc8cff81199b9cc1a6e51d638",
+    "prob_desc_notes": "NoteIn the first test case, the optimal segment is $$$l = 7$$$, $$$r = 8$$$. The beauty of this segment equals to $$$(6 - 1) + (5 - 1) = 9$$$.In the second test case, the optimal segment is $$$l = 2$$$, $$$r = 4$$$. The beauty of this segment equals $$$(100 - 2) + (200 - 1) = 297$$$.",
+    "prob_desc_description": "You are given an array $$$a$$$ that contains $$$n$$$ integers. You can choose any proper subsegment $$$a_l, a_{l + 1}, \\ldots, a_r$$$ of this array, meaning you can choose any two integers $$$1 \\le l \\le r \\le n$$$, where $$$r - l + 1 &lt; n$$$. We define the beauty of a given subsegment as the value of the following expression:$$$$$$\\max(a_{1}, a_{2}, \\ldots, a_{l-1}, a_{r+1}, a_{r+2}, \\ldots, a_{n}) - \\min(a_{1}, a_{2}, \\ldots, a_{l-1}, a_{r+1}, a_{r+2}, \\ldots, a_{n}) + \\max(a_{l}, \\ldots, a_{r}) - \\min(a_{l}, \\ldots, a_{r}).$$$$$$Please find the maximum beauty among all proper subsegments.",
+    "prob_desc_output_spec": "For each testcase print a single integer — the maximum beauty of a proper subsegment.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\leq t \\leq 1000$$$) — the number of test cases. Then follow the descriptions of each test case. The first line of each test case contains a single integer $$$n$$$ $$$(4 \\leq n \\leq 10^5)$$$ — the length of the array. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\leq a_{i} \\leq 10^9$$$) — the elements of the given array. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_098.jsonl",
+    "code_uid": "accd1ab314ec8506510d9f43430ec28b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n8\\n1 2 2 3 1 5 6 1\\n5\\n1 2 3 100 200\\n4\\n3 3 3 3\\n6\\n7 8 3 1 1 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nfor _ in range(t):\r\n    n = int(input())\r\n    a = list(map(int,input().split()))\r\n    maxpos=0\r\n    minpos=1\r\n    ans=0\r\n    for i in range(n):\r\n        if a[i]>=a[maxpos]:\r\n            maxpos=i\r\n        if a[i]<=a[minpos]:\r\n            minpos=i\r\n    min1=999999999999999\r\n    max1=0    \r\n    #print(maxpos,minpos)\r\n    for i in range(min(minpos,maxpos)):\r\n        if a[i]<min1:\r\n            min1=a[i]\r\n        if a[i]>max1:\r\n            max1=a[i]\r\n    min2=999999999999999\r\n    max2=0    \r\n    for i in range(min(minpos,maxpos)+1,max(minpos,maxpos)):\r\n        if a[i]<min2:\r\n            min2=a[i]\r\n        if a[i]>max2:\r\n            max2=a[i]\r\n    min3=9999999999999\r\n    max3=0   \r\n    for i in range(max(minpos,maxpos)+1,n):\r\n        if a[i]<min3:\r\n            min3=a[i]\r\n        if a[i]>max3:\r\n            max3=a[i]\r\n    \r\n    mina = min(min1,min2,min3)\r\n    maxa = max(max1,max2,max3)\r\n    ans = a[maxpos]-a[minpos]+maxa-mina\r\n    print(ans)\r\n    ",
+    "prob_desc_created_at": "1660829700",
+    "tags": [
+        "brute force",
+        "data structures",
+        "greedy",
+        "math",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

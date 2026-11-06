@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"NO\", \"YES\"]",
+    "src_uid": "9cf8b711a3fcf5dd5059f323f107a0bd",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have matrix a of size n × n. Let's number the rows of the matrix from 1 to n from top to bottom, let's number the columns from 1 to n from left to right. Let's use aij to represent the element on the intersection of the i-th row and the j-th column. Matrix a meets the following two conditions:   for any numbers i, j (1 ≤ i, j ≤ n) the following inequality holds: aij ≥ 0;  . Matrix b is strictly positive, if for any numbers i, j (1 ≤ i, j ≤ n) the inequality bij &gt; 0 holds. You task is to determine if there is such integer k ≥ 1, that matrix ak is strictly positive.",
+    "prob_desc_output_spec": "If there is a positive integer k ≥ 1, such that matrix ak is strictly positive, print \"YES\" (without the quotes). Otherwise, print \"NO\" (without the quotes). ",
+    "prob_desc_input_spec": "The first line contains integer n (2 ≤ n ≤ 2000) — the number of rows and columns in matrix a. The next n lines contain the description of the rows of matrix a. The i-th line contains n non-negative integers ai1, ai2, ..., ain (0 ≤ aij ≤ 50). It is guaranteed that .",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_077.jsonl",
+    "code_uid": "7c3a71881ab6ade147d41ec0b2f50cc6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 0\\n0 1\", \"5\\n4 5 6 1 2\\n1 2 3 4 5\\n6 4 1 2 4\\n1 1 1 1 1\\n4 4 4 4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!py2\n\ndef solve(N, A):\n    graph = [set() for _ in xrange(N)]\n    rgraph = [set() for _ in xrange(N)]\n    \n    for u, row in enumerate(A):\n        for v, val in enumerate(row):\n            if val:\n                graph[u].add(v)\n                rgraph[v].add(u)\n    \n    # Try to write row 0 in terms of row i\n    stack, seen = [0], {0}\n    while stack:\n        node = stack.pop()\n        for nei in graph[node]:\n            if nei not in seen:\n                seen.add(nei)\n                stack.append(nei)\n    if len(seen) != N:\n        return False\n\n    # Try to write row i in terms of row 0\n    stack, seen = [0], {0}\n    while stack:\n        node = stack.pop()\n        for nei in rgraph[node]:\n            if nei not in seen:\n                seen.add(nei)\n                stack.append(nei)\n    return len(seen) == N\n\n\nN = int(raw_input())\nA = [[+(x != '0') for x in raw_input().split()]\n     for _ in xrange(N)]\nprint \"YES\" if solve(N, A) else \"NO\"\n",
+    "prob_desc_created_at": "1394983800",
+    "tags": [
+        "math",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

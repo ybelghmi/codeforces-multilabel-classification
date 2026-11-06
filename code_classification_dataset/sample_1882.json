@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\"]",
+    "src_uid": "c5d15bbebfe57bc7cddb443229fb7d61",
+    "prob_desc_notes": "NoteIf you happen to know how to solve this problem without using the specific properties of the graph formulated in the problem statement, then you are able to get a prize of one million dollars!The picture for the sample test.  ",
+    "prob_desc_description": "The clique problem is one of the most well-known NP-complete problems. Under some simplification it can be formulated as follows. Consider an undirected graph G. It is required to find a subset of vertices C of the maximum size such that any two of them are connected by an edge in graph G. Sounds simple, doesn't it? Nobody yet knows an algorithm that finds a solution to this problem in polynomial time of the size of the graph. However, as with many other NP-complete problems, the clique problem is easier if you consider a specific type of a graph.Consider n distinct points on a line. Let the i-th point have the coordinate xi and weight wi. Let's form graph G, whose vertices are these points and edges connect exactly the pairs of points (i, j), such that the distance between them is not less than the sum of their weights, or more formally: |xi - xj| ≥ wi + wj.Find the size of the maximum clique in such graph.",
+    "prob_desc_output_spec": "Print a single number — the number of vertexes in the maximum clique of the given graph.",
+    "prob_desc_input_spec": "The first line contains the integer n (1 ≤ n ≤ 200 000) — the number of points. Each of the next n lines contains two numbers xi, wi (0 ≤ xi ≤ 109, 1 ≤ wi ≤ 109) — the coordinate and the weight of a point. All xi are different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_014.jsonl",
+    "code_uid": "7da1179ef77c9bcd71630921c0eb9e52",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 3\\n3 1\\n6 1\\n0 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nx = [0] * n\nw = [0] * n\nfor i in range(n):\n    x[i], w[i] = map(int, input().split())\nxw = [[0] * 2 for _ in range(n)]\nfor i in range(n):\n    xw[i][0] = x[i] + w[i]\n    xw[i][1] = x[i] - w[i]\nxw.sort()\nnow = xw[0][1]\nans = 0\nfor i in range(n):\n    if now <= xw[i][1]:\n        now = xw[i][0]\n        ans += 1\nprint(ans)",
+    "prob_desc_created_at": "1426610700",
+    "tags": [
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

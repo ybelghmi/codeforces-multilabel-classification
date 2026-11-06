@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"24500\", \"-1\"]",
+    "src_uid": "34eb5063498e0849ecf231a0bd3dfc69",
+    "prob_desc_notes": "NoteThe optimal way to gather everybody in Metropolis in the first sample test is to use flights that take place on days 1, 2, 8 and 9. The only alternative option is to send jury member from second city back home on day 15, that would cost 2500 more.In the second sample it is impossible to send jury member from city 2 back home from Metropolis.",
+    "prob_desc_description": "Country of Metropolia is holding Olympiad of Metrpolises soon. It mean that all jury members of the olympiad should meet together in Metropolis (the capital of the country) for the problem preparation process.There are n + 1 cities consecutively numbered from 0 to n. City 0 is Metropolis that is the meeting point for all jury members. For each city from 1 to n there is exactly one jury member living there. Olympiad preparation is a long and demanding process that requires k days of work. For all of these k days each of the n jury members should be present in Metropolis to be able to work on problems.You know the flight schedule in the country (jury members consider themselves important enough to only use flights for transportation). All flights in Metropolia are either going to Metropolis or out of Metropolis. There are no night flights in Metropolia, or in the other words, plane always takes off at the same day it arrives. On his arrival day and departure day jury member is not able to discuss the olympiad. All flights in Megapolia depart and arrive at the same day.Gather everybody for k days in the capital is a hard objective, doing that while spending the minimum possible money is even harder. Nevertheless, your task is to arrange the cheapest way to bring all of the jury members to Metrpolis, so that they can work together for k days and then send them back to their home cities. Cost of the arrangement is defined as a total cost of tickets for all used flights. It is allowed for jury member to stay in Metropolis for more than k days.",
+    "prob_desc_output_spec": "Output the only integer that is the minimum cost of gathering all jury members in city 0 for k days and then sending them back to their home cities. If it is impossible to gather everybody in Metropolis for k days and then send them back to their home cities, output \"-1\" (without the quotes).",
+    "prob_desc_input_spec": "The first line of input contains three integers n, m and k (1 ≤ n ≤ 105, 0 ≤ m ≤ 105, 1 ≤ k ≤ 106).  The i-th of the following m lines contains the description of the i-th flight defined by four integers di, fi, ti and ci (1 ≤ di ≤ 106, 0 ≤ fi ≤ n, 0 ≤ ti ≤ n, 1 ≤ ci ≤ 106, exactly one of fi and ti equals zero), the day of departure (and arrival), the departure city, the arrival city and the ticket cost.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_048.jsonl",
+    "code_uid": "5eeb4707b060ca7ae3bb9dc246cecc3a",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2 6 5\\n1 1 0 5000\\n3 2 0 5500\\n2 2 0 6000\\n15 0 2 9000\\n9 0 1 7000\\n8 0 2 6500\", \"2 4 5\\n1 2 0 5000\\n2 1 0 4500\\n2 1 0 3000\\n8 0 1 6000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def bs_ceil(arr, val):\n    l, r = -1, len(arr)\n    # 0 to n\n    while r - l > 1:\n        mid = (l + r) / 2\n        if arr[mid][0] >= val:\n            r = mid\n        else:\n            l = mid\n    return r\n\n\nn, m, k = map(int, raw_input().split())\nD = [float('inf')] * (n + 1)\nA = [float('inf')] * (n + 1)\narr1 = []\narr2 = []\nfor i in xrange(m):\n    d, s1, s2, c = map(int, raw_input().split())\n    if s2 == 0:\n        arr1.append((d, s1, c))\n    if s1 == 0:\n        arr2.append((d, s2, c))\narr1.sort()\narr2.sort()\n\nn1, n2 = len(arr1), len(arr2)\nf, tc = 0, 0\na1, a2 = [], []\nfor i in xrange(n1):\n    d, s1, c = arr1[i]\n    if D[s1] == float('inf'):\n        D[s1] = c\n        f, tc = f + 1, tc + D[s1]\n    else:\n        tc -= D[s1]\n        D[s1] = min(D[s1], c)\n        tc += D[s1]\n    if f == n and (a1 == [] or a1[-1][1] > tc):\n        a1.append((d, tc))\n\nf, tc = 0, 0\nfor i in reversed(xrange(n2)):\n    d, s1, c = arr2[i]\n    if A[s1] == float('inf'):\n        A[s1] = c\n        f, tc = f + 1, tc + A[s1]\n    else:\n        tc -= A[s1]\n        A[s1] = min(A[s1], c)\n        tc += A[s1]\n    if f == n and (a2 == [] or a2[-1][1] > tc):\n        a2.append((d, tc))\n\n#print a1, a2\na2 = a2[::-1]\nn1, n2 = len(a1), len(a2)\nans = float('inf')\nif len(a2) > 0:\n    for i in xrange(n1):\n        d, c = a1[i]\n        p = bs_ceil(a2, d + k + 1)\n        if p != len(a2):\n            ans = min(ans, c + a2[p][1])\nif ans == float('inf'):\n    print -1\nelse:\n    print ans",
+    "prob_desc_created_at": "1504702500",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

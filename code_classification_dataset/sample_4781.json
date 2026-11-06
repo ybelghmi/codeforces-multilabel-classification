@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7\\n1\\n1\\n3\"]",
+    "src_uid": "895d5850e420a36ae3b5f0a50e359423",
+    "prob_desc_notes": "NoteIn the first test case, the initial heap sizes are $$$[1, 2, 10, 100]$$$. We can move the stones as follows.   move $$$3$$$ stones and $$$6$$$ from the $$$3$$$-rd heap to the $$$2$$$-nd and $$$1$$$ heap respectively. The heap sizes will be $$$[7, 5, 1, 100]$$$;  move $$$6$$$ stones and $$$12$$$ stones from the last heap to the $$$3$$$-rd and $$$2$$$-nd heap respectively. The heap sizes will be $$$[7, 17, 7, 82]$$$. In the second test case, the last heap is $$$1$$$, and we can not increase its size.In the third test case, it is better not to move any stones.In the last test case, the final achievable configuration of the heaps can be $$$[3, 5, 3, 4, 3, 3]$$$.",
+    "prob_desc_description": "There are $$$n$$$ heaps of stone. The $$$i$$$-th heap has $$$h_i$$$ stones. You want to change the number of stones in the heap by performing the following process once:   You go through the heaps from the $$$3$$$-rd heap to the $$$n$$$-th heap, in this order.  Let $$$i$$$ be the number of the current heap.  You can choose a number $$$d$$$ ($$$0 \\le 3 \\cdot d \\le h_i$$$), move $$$d$$$ stones from the $$$i$$$-th heap to the $$$(i - 1)$$$-th heap, and $$$2 \\cdot d$$$ stones from the $$$i$$$-th heap to the $$$(i - 2)$$$-th heap.  So after that $$$h_i$$$ is decreased by $$$3 \\cdot d$$$, $$$h_{i - 1}$$$ is increased by $$$d$$$, and $$$h_{i - 2}$$$ is increased by $$$2 \\cdot d$$$.  You can choose different or same $$$d$$$ for different operations. Some heaps may become empty, but they still count as heaps. What is the maximum number of stones in the smallest heap after the process?",
+    "prob_desc_output_spec": "For each test case, print the maximum number of stones that the smallest heap can contain.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 2\\cdot 10^5$$$). Description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$3 \\le n \\le 2 \\cdot 10^5$$$). The second lines of each test case contains $$$n$$$ integers $$$h_1, h_2, h_3, \\ldots, h_n$$$ ($$$1 \\le h_i \\le 10^9$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_106.jsonl",
+    "code_uid": "a3df397dc7af08405eb0f19c08762911",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4\\n1 2 10 100\\n4\\n100 100 100 1\\n5\\n5 1 1 1 8\\n6\\n1 2 3 4 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nimport math\r\nfrom collections import Counter \r\n \r\n \r\n \r\n \r\nalfabet = {'a': 1, 'b': 2,'c': 3,'d': 4,'e': 5,'f': 6,'g': 7,'h': 8,'i': 9,'j': 10,'k': 11,'l': 12,'m': 13,'n': 14,'o': 15,'p': 16,'q': 17,'r': 18,'s': 19,'t': 20,'u': 21,'v': 22,'w': 23,'x': 24,'y': 25,'z': 26}\r\nalfabet_2={'1':\"a\", '2':\"b\", '3':\"c\", '4':\"d\", '5':\"e\", '6':\"f\", '7':\"g\", '8':\"h\", '9':\"i\", '10':\"j\", '11':\"k\", '12':\"l\", '13':\"m\", '14':\"n\", '15':\"o\", '16':\"p\", '17':\"q\", '18':\"r\", '19':\"s\", '20':\"t\", '21':\"u\", '22':\"v\", '23':\"w\", '24':\"x\", '25':\"y\", '26':\"z\"}\r\n \r\nz=int(input()) \r\nfor contorr in range(z):\r\n n=int(input()) \r\n \r\n# n,k= map(int, sys.stdin.readline().split())\r\n \r\n vector=list(map(int, sys.stdin.readline().split()))\r\n \r\n truth=-1\r\n pornire=1\r\n oprire=10**9\r\n \r\n while pornire+1<oprire:\r\n  \r\n  \r\n  x=(pornire+oprire)//2\r\n   \r\n # print(\"x=\",x)\r\n  \r\n  \r\n  adev=1\r\n  copie_vector = vector[:]\r\n  \r\n # print(copie_vector,x)\r\n \r\n  for i in range(n-1,1,-1):\r\n   if copie_vector[i]>=x:\r\n    d=min(copie_vector[i]-x,vector[i])//3\r\n    copie_vector[i-2]+=2*d\r\n    copie_vector[i-1]+=d\r\n    copie_vector[i]-=3*d\r\n    \r\n    #print(copie_vector,x)\r\n   else:\r\n    adev=0\r\n    oprire=x\r\n    #print(\"set oprire=\",oprire,pornire)\r\n    break\r\n  if copie_vector[0]>=x and copie_vector[1]>=x and adev==1:\r\n   pornire=x\r\n   truth=x\r\n   #print(copie_vector,x)\r\n  else:\r\n #  print(copie_vector)\r\n   oprire=x\r\n   #print(\"setarre pornire=\",pornire,\"oprire=\",oprire,x) \r\n  \r\n  # print(\"i=\",i,copie_vector)\r\n if truth>-1:   \r\n  print(truth)\r\n else:\r\n  print(pornire)\r\n  \r\n   ",
+    "prob_desc_created_at": "1640698500",
+    "tags": [
+        "binary search",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

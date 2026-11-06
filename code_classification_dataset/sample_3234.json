@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"16.000000\"]",
+    "src_uid": "bb3fc45f903588baf131016bea175a9f",
+    "prob_desc_notes": "NoteIn the test example we can choose first 4 points to be the vertices of the quadrilateral. They form a square by side 4, so the area is 4·4 = 16.",
+    "prob_desc_description": "Iahub has drawn a set of n points in the cartesian plane which he calls \"special points\". A quadrilateral is a simple polygon without self-intersections with four sides (also called edges) and four vertices (also called corners). Please note that a quadrilateral doesn't have to be convex. A special quadrilateral is one which has all four vertices in the set of special points. Given the set of special points, please calculate the maximal area of a special quadrilateral. ",
+    "prob_desc_output_spec": "Output a single real number — the maximal area of a special quadrilateral. The answer will be considered correct if its absolute or relative error does't exceed 10 - 9.",
+    "prob_desc_input_spec": "The first line contains integer n (4 ≤ n ≤ 300). Each of the next n lines contains two integers: xi, yi ( - 1000 ≤ xi, yi ≤ 1000) — the cartesian coordinates of ith special point. It is guaranteed that no three points are on the same line. It is guaranteed that no two points coincide. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_048.jsonl",
+    "code_uid": "b9da6adb7ff5f00a9127e39974a16d61",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n0 0\\n0 4\\n4 0\\n4 4\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# calculate convex of polygon v.\n# v is list of complexes stand for points.\ndef convex(v, eps=1e-8):\n\n    # fetch the seed point\n    v.sort(key=lambda x:(x.real,x.imag))\n    v = v[0:1] + sorted(v[1:], key=lambda x:(x-v[0]).imag/abs(x-v[0]))\n\n    n = 1\n    for i in range(2, len(v)):\n        while n > 1 and ((v[n]-v[n-1])*(v[i]-v[n]).conjugate()).imag>-eps:\n            n -= 1\n        else:\n            n += 1\n            v[n] = v[i]\n\n    v[n+1:] = []\n\n    return v\n\n# calculate the area of a polygon v, anti-clockwise.\n# v is list of complexes stand for points.\ndef area(v):\n    ans = 0\n    for i in range(2, len(v)):\n        ans += ((v[i]-v[i-1])*(v[i-1]-v[0]).conjugate()).imag\n    return ans * 0.5\n\nn = int(input())\nv = [complex(*tuple(map(int, input().split()))) for i in range(0, n)]\n\nw = convex(v)\nn = len(w)\n\nans = 0\n\ndef tri(i, j, k): return abs(((w[i]-w[j])*(w[i]-w[k]).conjugate()).imag) * 0.5\n\nfor i in range(0, n):\n    \n    for j in range(i+2, n):\n\n        if i == 0 and j == n-1: continue\n        \n        l = i + 1\n        r = j\n        while l < r-1:\n            k = l+r>>1\n            if tri(i, j, k) > tri(i, j, k-1):\n                l = k\n            else:\n                r = k\n                \n        s1 = tri(i, j, l)\n\n        l = j - n + 1\n        r = i\n        while l < r-1:\n            k = l+r>>1\n            if tri(i, j, k) > tri(i, j, k-1):\n                l = k\n            else:\n                r = k\n        \n        s2 = tri(i, j, l)\n\n        ans = max(ans, s1 + s2)\n\nif n == 3:\n    for p in v:\n        if not p in w:\n            w.append(p)\n            ans = max(ans, area(w))\n            w.pop()\n        \nprint(ans)\n",
+    "prob_desc_created_at": "1377876600",
+    "tags": [
+        "geometry",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

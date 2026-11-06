@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"azaz\", \"-1\"]",
+    "src_uid": "f5451b19cf835b1cb154253fbe4ea6df",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A string is called a k-string if it can be represented as k concatenated copies of some string. For example, the string \"aabaabaabaab\" is at the same time a 1-string, a 2-string and a 4-string, but it is not a 3-string, a 5-string, or a 6-string and so on. Obviously any string is a 1-string.You are given a string s, consisting of lowercase English letters and a positive integer k. Your task is to reorder the letters in the string s in such a way that the resulting string is a k-string.",
+    "prob_desc_output_spec": "Rearrange the letters in string s in such a way that the result is a k-string. Print the result on a single output line. If there are multiple solutions, print any of them. If the solution doesn't exist, print \"-1\" (without quotes).",
+    "prob_desc_input_spec": "The first input line contains integer k (1 ≤ k ≤ 1000). The second line contains s, all characters in s are lowercase English letters. The string length s satisfies the inequality 1 ≤ |s| ≤ 1000, where |s| is the length of string s.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_017.jsonl",
+    "code_uid": "316a728e381872f3127868fbe729946d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\naazz\", \"3\\nabcabcabz\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nrr = lambda: stdin.readline().strip()\nrri = lambda: int(rr())\nrrm = lambda: map(int, rr().split())\ndef rry(N = None, f = rri):\n    for i in xrange(N or rri()):\n        yield f()\n\nK = rri()\nS = rr()\nfrom collections import Counter\ncount = Counter(S)\nif any(v % K for v in count.values()):\n\tprint -1\nelse:\n\tans = ''\n\tfor k,v in count.iteritems():\n\t\tans += k * (v/K)\n\tprint ans*K",
+    "prob_desc_created_at": "1346081400",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

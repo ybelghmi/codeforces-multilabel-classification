@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3.5 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1\\n78975\\n969\\n109229059713337\"]",
+    "src_uid": "6a3043daecdb0442f4878ee08a8b70ba",
+    "prob_desc_notes": "NoteIn the first test case, there are $$$3$$$ suitable triplets:   $$$(1,2,3)$$$,  $$$(1,3,4)$$$,  $$$(2,3,4)$$$. In the second test case, there is $$$1$$$ suitable triplet:   $$$(3,4,5)$$$. ",
+    "prob_desc_description": "We are sum for we are manySome NumberThis version of the problem differs from the previous one only in the constraint on $$$t$$$. You can make hacks only if both versions of the problem are solved.You are given two positive integers $$$l$$$ and $$$r$$$.Count the number of distinct triplets of integers $$$(i, j, k)$$$ such that $$$l \\le i &lt; j &lt; k \\le r$$$ and $$$\\operatorname{lcm}(i,j,k) \\ge i + j + k$$$.Here $$$\\operatorname{lcm}(i, j, k)$$$ denotes the least common multiple (LCM) of integers $$$i$$$, $$$j$$$, and $$$k$$$.",
+    "prob_desc_output_spec": "For each test case print one integer — the number of suitable triplets.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$\\bf{1 \\le t \\le 10^5}$$$). Description of the test cases follows. The only line for each test case contains two integers $$$l$$$ and $$$r$$$ ($$$1 \\le l \\le r \\le 2 \\cdot 10^5$$$, $$$l + 2 \\le r$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_102.jsonl",
+    "code_uid": "8dd855bd44801ba57fb9761711999bb8",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n1 4\\n\\n3 5\\n\\n8 86\\n\\n68 86\\n\\n6 86868\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(2e5+5)\nft = [0]*n\ndef update(i, val):\n    while i<n:\n        ft[i]-=val\n        i+=(i&(-i))\n    return\ndef query(i):\n    ans = 0\n    while i!=0:\n        ans += ft[i]\n        i -=(i&(-i))\n    return ans\n\n\n\ncnt = [0 for i in range(n)]\npre = [0 for i in range(n)]\nfor i in range(1,n):\n    for j in range(i+i, n, i):\n        cnt[j] += 1\n    pre[i] = pre[i-1] + (cnt[i]*(cnt[i]-1))/2\nfor i in range(1, n):\n    ft[i]=pre[i]-pre[i-(i&(-i))]\n\n\nvec = []\nt = int(input())\nans = [0 for i in range(t+1)]\nfor _ in range(t):\n    arr = list(map(int, input().split()))\n    arr.append(_)\n    vec.append(arr)\nvec.sort()\nl = 1\nfor i in range(t):\n    r = vec[i][1]\n    while l< vec[i][0]:\n        for j in range(2*l, n, l):\n            cnt[j]-=1\n            update(j, cnt[j])\n        l+=1\n    m = r-l+1\n    ans[vec[i][2]]=query(r);\n    ans[vec[i][2]]+=max(r//6-(l+2)//3+1,0)\n    ans[vec[i][2]]+=max(r//15-(l+5)//6+1,0)\n    ans[vec[i][2]]=(m*(m-1)*(m-2))//6-ans[vec[i][2]]\nfor i in range(t):\n    print(int(ans[i]))\n",
+    "prob_desc_created_at": "1660401300",
+    "tags": [
+        "brute force",
+        "data structures",
+        "math",
+        "number theory",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

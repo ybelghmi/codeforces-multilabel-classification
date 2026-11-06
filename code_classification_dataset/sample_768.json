@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"No\", \"Yes\\n5\\n1 2 4 5 6\", \"Yes\\n4\\n2 4 5 8\"]",
+    "src_uid": "d5d470f2848e779310e5e54eccca8b4a",
+    "prob_desc_notes": "NoteIn the second sample, the valid pairs in the output set are (1, 2), (1, 4), (1, 5), (1, 6), (2, 4), (2, 6). Thus, .In the third example, the valid pairs in the output set are (2, 4), (4, 8), (2, 8). Thus, .",
+    "prob_desc_description": "Imp is really pleased that you helped him. But it you solve the last problem, his gladness would raise even more.   Let's define  for some set of integers  as the number of pairs a, b in , such that:  a is strictly less than b;  a divides b without a remainder. You are to find such a set , which is a subset of {1, 2, ..., n} (the set that contains all positive integers not greater than n), that . ",
+    "prob_desc_output_spec": "If there is no answer, print \"No\". Otherwise, in the first line print \"Yes\", in the second — an integer m that denotes the size of the set  you have found, in the second line print m integers — the elements of the set , in any order. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The only line contains two integers n and k .",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_004.jsonl",
+    "code_uid": "4de4fd5210aa055ad585bfb952f2da02",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\", \"6 6\", \"8 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import time,random,os\nn,k=map(int,raw_input().split(' '))\nt0=time.time()\nwhile time.time()-t0<=0.8:\n    t=range(1,n+1)\n    g=[0]*(n+1)\n    app=[0]*(n+1)\n    random.shuffle(t)\n    rm=k\n    op=[]\n    for a in t:\n        su=g[a]\n        if su>rm:\n            continue\n        cur=a+a\n        while cur<=n and su<=rm:\n            su=su+app[cur]\n            cur+=a\n        if su>rm:\n            continue\n        rm-=su\n        op.append(a)\n        app[a]=1\n        cur=a\n        while cur<=n:\n            g[cur]+=1\n            cur+=a\n        if not rm:\n            break\n    if not rm:\n        print 'Yes'\n        print len(op)\n        print ' '.join(map(str,op))\n        os._exit(0)\nprint 'No'",
+    "prob_desc_created_at": "1518023700",
+    "tags": [
+        "dp",
+        "constructive algorithms",
+        "number theory",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

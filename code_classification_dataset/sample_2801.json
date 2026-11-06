@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"-1\", \"6\"]",
+    "src_uid": "c592778fe180234ab007f113f2440393",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Billy investigates the question of applying greedy algorithm to different spheres of life. At the moment he is studying the application of greedy algorithm to the problem about change. There is an amount of n coins of different face values, and the coins of each value are not limited in number. The task is to collect the sum x with the minimum amount of coins. Greedy algorithm with each its step takes the coin of the highest face value, not exceeding x. Obviously, if among the coins' face values exists the face value 1, any sum x can be collected with the help of greedy algorithm. However, greedy algorithm does not always give the optimal representation of the sum, i.e. the representation with the minimum amount of coins. For example, if there are face values {1, 3, 4} and it is asked to collect the sum 6, greedy algorithm will represent the sum as 4 + 1 + 1, while the optimal representation is 3 + 3, containing one coin less. By the given set of face values find out if there exist such a sum x that greedy algorithm will collect in a non-optimal way. If such a sum exists, find out the smallest of these sums.",
+    "prob_desc_output_spec": "If greedy algorithm collects any sum in an optimal way, output -1. Otherwise output the smallest sum that greedy algorithm collects in a non-optimal way.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 400) — the amount of the coins' face values. The second line contains n integers ai (1 ≤ ai ≤ 109), describing the face values. It is guaranteed that a1 &gt; a2 &gt; ... &gt; an and an = 1.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_031.jsonl",
+    "code_uid": "4093c8d6db367cf9fb442880e725ba9c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n25 10 5 2 1\", \"3\\n4 3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = input()\nz = map(int, raw_input().split())\n\nans = -1\nfor i in xrange(n):\n    for j in xrange(i, n):\n        a1 = z[i] - 1\n        a2 = z[j]\n        b1 = 1\n\n        for k in xrange(j + 1):\n            b1 += a1 / z[k]\n            a2 += a1 / z[k] * z[k]\n            a1 %= z[k]\n\n        a1 = a2\n        for k in xrange(n):\n            b1 -= a1 / z[k]\n            a1 %= z[k]\n\n        if b1 < 0 and (ans < 0 or ans > a2):\n            ans = a2\n\n\nprint ans\n",
+    "prob_desc_created_at": "1271346300",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

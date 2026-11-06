@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\"]",
+    "src_uid": "eba7fc8d103ba3d643c1424cbbebf571",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are n employees working in company \"X\" (let's number them from 1 to n for convenience). Initially the employees didn't have any relationships among each other. On each of m next days one of the following events took place:  either employee y became the boss of employee x (at that, employee x didn't have a boss before);  or employee x gets a packet of documents and signs them; then he gives the packet to his boss. The boss signs the documents and gives them to his boss and so on (the last person to sign the documents sends them to the archive);  or comes a request of type \"determine whether employee x signs certain documents\". Your task is to write a program that will, given the events, answer the queries of the described type. At that, it is guaranteed that throughout the whole working time the company didn't have cyclic dependencies.",
+    "prob_desc_output_spec": "For each query of the third type print \"YES\" if the employee signed the document package and \"NO\" otherwise. Print all the words without the quotes.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 105) — the number of employees and the number of events.  Each of the next m lines contains the description of one event (the events are given in the chronological order). The first number of the line determines the type of event t (1 ≤ t ≤ 3).    If t = 1, then next follow two integers x and y (1 ≤ x, y ≤ n) — numbers of the company employees. It is guaranteed that employee x doesn't have the boss currently.  If t = 2, then next follow integer x (1 ≤ x ≤ n) — the number of the employee who got a document packet.  If t = 3, then next follow two integers x and i (1 ≤ x ≤ n; 1 ≤ i ≤ [number of packets that have already been given]) — the employee and the number of the document packet for which you need to find out information. The document packets are numbered started from 1 in the chronological order.  It is guaranteed that the input has at least one query of the third type.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_051.jsonl",
+    "code_uid": "eacbdc33f4e998b7bd6f37c7a294131b",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4 9\\n1 4 3\\n2 4\\n3 3 1\\n1 2 3\\n2 2\\n3 1 2\\n1 3 1\\n2 2\\n3 1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, input().split())\nev = [tuple(map(int, input().split())) for _ in range(m)]\n\ng = [[] for _ in range(n + 1)]\nqry = [[] for _ in range(m + 1)]\nroots = set(range(1, n + 1))\nqcnt = 0\nfor e in ev:\n\tif e[0] == 1:\n\t\tg[e[2]].append(e[1])\n\t\troots.remove(e[1])\n\telif e[0] == 3:\n\t\tqry[e[2]].append((qcnt, e[1]))\n\t\tqcnt += 1\n\ntin, tout = [0] * (n + 1), [0] * (n + 1)\nst = [(u, 0) for u in roots]\ntime = 0\nwhile st:\n\tu, w = st.pop()\n\tif w:\n\t\ttout[u] = time\n\t\tcontinue\n\ttime += 1\n\ttin[u] = time\n\tst.append((u, 1))\n\tfor v in g[u]:\n\t\tst.append((v, 0))\n\np = list(range(n + 1))\ndef find(x):\n\tif x != p[x]:\n\t\tp[x] = find(p[x])\n\treturn p[x]\n\npcnt = 0\nans = [None] * qcnt\nfor e in ev:\n\tif e[0] == 1:\n\t\tp[find(e[1])] = find(e[2])\n\telif e[0] == 2:\n\t\tpcnt += 1\n\t\tfor qid, x in qry[pcnt]:\n\t\t\tans[qid] = 'YES' if find(e[1]) == find(x) and tin[x] <= tin[e[1]] <= tout[x] else 'NO'\n\nprint(*ans, sep='\\n')",
+    "prob_desc_created_at": "1410535800",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

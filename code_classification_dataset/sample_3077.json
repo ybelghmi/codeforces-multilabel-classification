@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Kevin\", \"Nicky\"]",
+    "src_uid": "5ae6585bf96e0bff343bb76c1af3ebc2",
+    "prob_desc_notes": "NoteIn the second sample, Nicky can win in the following way: Kevin moves first and is forced to remove a cow, so the pile contains two cows after his move. Next, Nicky replaces this pile of size 2 with two piles of size 1. So the game state is now two piles of size 1. Kevin then removes one of the remaining cows and Nicky wins by removing the other.",
+    "prob_desc_description": "Kevin and Nicky Sun have invented a new game called Lieges of Legendre. In this game, two players take turns modifying the game state with Kevin moving first. Initially, the game is set up so that there are n piles of cows, with the i-th pile containing ai cows. During each player's turn, that player calls upon the power of Sunlight, and uses it to either:  Remove a single cow from a chosen non-empty pile.  Choose a pile of cows with even size 2·x (x &gt; 0), and replace it with k piles of x cows each. The player who removes the last cow wins. Given n, k, and a sequence a1, a2, ..., an, help Kevin and Nicky find the winner, given that both sides play in optimal way.",
+    "prob_desc_output_spec": "Output the name of the winning player, either \"Kevin\" or \"Nicky\" (without quotes).",
+    "prob_desc_input_spec": "The first line of the input contains two space-separated integers n and k (1 ≤ n ≤ 100 000, 1 ≤ k ≤ 109). The second line contains n integers, a1, a2, ... an (1 ≤ ai ≤ 109) describing the initial state of the game. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_040.jsonl",
+    "code_uid": "b11ab37df20d7e64cfd46a4efcd8dd91",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 1\\n3 4\", \"1 2\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def grundy(n, k):\n    if k % 2 == 0:\n        if n <= 2:\n            return n\n        else:\n            return n % 2 == 0\n    else:\n        if n <= 4:\n            return [0, 1, 0, 1, 2][n]\n        elif n % 2 == 1:\n            return 0\n        else:\n            return 2 if grundy(n // 2, k) == 1 else 1\n\n\nif __name__ == \"__main__\":\n    n, k = map(int, input().split())\n    xList = map(int, input().split())\n    res = 0\n    for x in xList:\n        res ^= grundy(x, k)\n    print(\"Kevin\" if res else \"Nicky\")\n\n",
+    "prob_desc_created_at": "1448984100",
+    "tags": [
+        "games",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

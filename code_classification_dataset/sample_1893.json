@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"1 3 6\", \"3 14 15 92 6\"]",
+    "src_uid": "584f7008e27dde53037396d2459efd84",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You've got an array a, consisting of n integers. The array elements are indexed from 1 to n. Let's determine a two step operation like that:  First we build by the array a an array s of partial sums, consisting of n elements. Element number i (1 ≤ i ≤ n) of array s equals . The operation x mod y means that we take the remainder of the division of number x by number y.  Then we write the contents of the array s to the array a. Element number i (1 ≤ i ≤ n) of the array s becomes the i-th element of the array a (ai = si). You task is to find array a after exactly k described operations are applied.",
+    "prob_desc_output_spec": "Print n integers  — elements of the array a after the operations are applied to it. Print the elements in the order of increasing of their indexes in the array a. Separate the printed numbers by spaces.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and k (1 ≤ n ≤ 2000, 0 ≤ k ≤ 109). The next line contains n space-separated integers a1, a2, ..., an — elements of the array a (0 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_014.jsonl",
+    "code_uid": "ea7c0d005e4cc2b4aae06d7f4ff80b83",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\n1 2 3\", \"5 0\\n3 14 15 92 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "leng, repeat=list(map(int,input().split()))\nLis = list(map(int,input().split()))\nmod = 10**9 + 7\ncum = [1]\nans = [0]*leng\nfor i in range(1, 2001):\n    cum.append((cum[-1] * (repeat + i - 1) * pow(i, mod-2, mod)) % mod)\n\nfor i in range(leng):\n    for j in range(i + 1):\n        ans[i] = (ans[i] + cum[i-j] * Lis[j]) % mod\nprint(*ans)\n\n",
+    "prob_desc_created_at": "1347809400",
+    "tags": [
+        "combinatorics",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

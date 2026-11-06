@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n1\\n3\\n3\\n3\\n6\", \"1\\n2\\n3\\n4\\n5\\n5\\n6\\n8\"]",
+    "src_uid": "29bc7a22baa3dc6bb508b00048e50114",
+    "prob_desc_notes": "NoteThe explanation for the first test case:In this explanation, the circles and the numbers in them denote a person with the corresponding number. The line denotes that William introduced two connected people. The person marked with red has the most acquaintances. These are not the only correct ways to introduce people.  ",
+    "prob_desc_description": "  William arrived at a conference dedicated to cryptocurrencies. Networking, meeting new people, and using friends' connections are essential to stay up to date with the latest news from the world of cryptocurrencies.The conference has $$$n$$$ participants, who are initially unfamiliar with each other. William can introduce any two people, $$$a$$$ and $$$b$$$, who were not familiar before, to each other. William has $$$d$$$ conditions, $$$i$$$'th of which requires person $$$x_i$$$ to have a connection to person $$$y_i$$$. Formally, two people $$$x$$$ and $$$y$$$ have a connection if there is such a chain $$$p_1=x, p_2, p_3, \\dots, p_k=y$$$ for which for all $$$i$$$ from $$$1$$$ to $$$k - 1$$$ it's true that two people with numbers $$$p_i$$$ and $$$p_{i + 1}$$$ know each other.For every $$$i$$$ ($$$1 \\le i \\le d$$$) William wants you to calculate the maximal number of acquaintances one person can have, assuming that William satisfied all conditions from $$$1$$$ and up to and including $$$i$$$ and performed exactly $$$i$$$ introductions. The conditions are being checked after William performed $$$i$$$ introductions. The answer for each $$$i$$$ must be calculated independently. It means that when you compute an answer for $$$i$$$, you should assume that no two people have been introduced to each other yet.",
+    "prob_desc_output_spec": "Output $$$d$$$ integers. $$$i$$$th number must equal the number of acquaintances the person with the maximal possible acquaintances will have, if William performed $$$i$$$ introductions and satisfied the first $$$i$$$ conditions.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$d$$$ ($$$2 \\le n \\le 10^3, 1 \\le d \\le n - 1$$$), the number of people, and number of conditions, respectively. Each of the next $$$d$$$ lines each contain two integers $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le x_i, y_i \\le n, x_i \\neq y_i$$$), the numbers of people which must have a connection according to condition $$$i$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_110.jsonl",
+    "code_uid": "57aab1d4fc2365bdfd01e1e55fe8eb24",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 6\\n1 2\\n3 4\\n2 4\\n7 6\\n6 5\\n1 7\", \"10 8\\n1 2\\n2 3\\n3 4\\n1 4\\n6 7\\n8 9\\n8 10\\n1 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\r\nn = (10 ** 3)+10\r\nparent = [i for i in range(n)]\r\nsize = [1 for i in range(n)]\r\n\r\n\r\ndef find(root):\r\n    a = root\r\n    while parent[a] != a:\r\n        a = parent[a]\r\n\r\n    # path comprehension\r\n    while root != a:\r\n        nextnode = parent[root]\r\n        parent[root] = a\r\n        root = nextnode\r\n    return a\r\n\r\n\r\ndef union(a, b):\r\n    a = find(a)\r\n    b = find(b)\r\n    if a != b:\r\n        if size[a] < size[b]:\r\n            a, b = b, a\r\n        parent[b] = a\r\n        size[a] += size[b]\r\n        return False\r\n    else:\r\n        return True\r\n\r\n\r\nc=0\r\nl,d=map(int,input().split())\r\nfor j in range(d):\r\n    a,b=map(int,input().split())\r\n    cans = union(a,b)\r\n    if cans:\r\n        c+=1\r\n    ans=0\r\n    allp=set()\r\n    grps=[]\r\n    for k in range(1,l+1):\r\n        pr= find(k)\r\n        if pr not in allp:\r\n            allp.add(pr)\r\n            grps.append(size[pr])\r\n    grps.sort(reverse=True)\r\n    # print(grps)\r\n    # print(parent[:l+1])\r\n    # print(c)\r\n    for k in range(min(c+1,len(grps))):\r\n        ans+=grps[k]\r\n    print(ans-1)\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "prob_desc_created_at": "1638110100",
+    "tags": [
+        "dsu",
+        "graphs",
+        "greedy",
+        "implementation",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

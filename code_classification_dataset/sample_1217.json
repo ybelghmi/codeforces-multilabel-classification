@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"? 1 1\\n\\n? 1 2\\n\\n? 1 3\\n\\n? 1 4\\n\\n! 4 3\"]",
+    "src_uid": "b0bce8524eb69b695edc1394ff86b913",
+    "prob_desc_notes": "NoteThe array $$$A$$$ in the example is $$$[1, 2, 3, 4]$$$. The length of the password is $$$2$$$. The first element of the password is the maximum of $$$A[2]$$$, $$$A[4]$$$ (since the first subset contains indices $$$1$$$ and $$$3$$$, we take maximum over remaining indices). The second element of the password is the maximum of $$$A[1]$$$, $$$A[3]$$$ (since the second subset contains indices $$$2$$$, $$$4$$$).Do not forget to read the string \"Correct\" / \"Incorrect\" after guessing the password.",
+    "prob_desc_description": "This is an interactive problem.Ayush devised a new scheme to set the password of his lock. The lock has $$$k$$$ slots where each slot can hold integers from $$$1$$$ to $$$n$$$. The password $$$P$$$ is a sequence of $$$k$$$ integers each in the range $$$[1, n]$$$, $$$i$$$-th element of which goes into the $$$i$$$-th slot of the lock.To set the password of his lock, Ayush comes up with an array $$$A$$$ of $$$n$$$ integers each in the range $$$[1, n]$$$ (not necessarily distinct). He then picks $$$k$$$ non-empty mutually disjoint subsets of indices $$$S_1, S_2, ..., S_k$$$ $$$(S_i \\underset{i \\neq j} \\cap S_j = \\emptyset)$$$ and sets his password as $$$P_i = \\max\\limits_{j \\notin S_i} A[j]$$$. In other words, the $$$i$$$-th integer in the password is equal to the maximum over all elements of $$$A$$$ whose indices do not belong to $$$S_i$$$.You are given the subsets of indices chosen by Ayush. You need to guess the password. To make a query, you can choose a non-empty subset of indices of the array and ask the maximum of all elements of the array with index in this subset. You can ask no more than 12 queries.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ $$$(1 \\leq t \\leq 10)$$$ — the number of test cases. The description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$k$$$ $$$(2 \\leq n \\leq 1000, 1 \\leq k \\leq n)$$$ — the size of the array and the number of subsets. $$$k$$$ lines follow. The $$$i$$$-th line contains an integer $$$c$$$ $$$(1 \\leq c \\lt n)$$$ — the size of subset $$$S_i$$$, followed by $$$c$$$ distinct integers in the range $$$[1, n]$$$  — indices from the subset $$$S_i$$$. It is guaranteed that the intersection of any two subsets is empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_007.jsonl",
+    "code_uid": "429138f3188e7352bda69192dd514eb8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n4 2\\n2 1 3\\n2 2 4\\n\\n1\\n\\n2\\n\\n3\\n\\n4\\n\\nCorrect\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin,stdout\nT=int(stdin.readline().strip())\ndef query(l,r):\n    print(\"?\",end=\" \")\n    c=0\n    for i in range(l,r+1):\n        for j in s[i]:\n            c+=1\n    print(c,end=\" \")\n    for i in range(l,r+1):\n        for j in s[i]:\n            print(j,end=\" \")\n    print()\n    stdout.flush()\n    \n    x=int(stdin.readline().strip())\n    return x\n    \nfor caso in range(T):\n    n,m=map(int,stdin.readline().strip().split())\n    s=[list(map(int,stdin.readline().strip().split()))[1::] for i in range(m)]\n    l=0\n    r=m\n    aux=[]\n    for i in range(1,n+1):\n        f=False\n        for j in s:\n            if i in j:\n                f=True\n        if f==False:\n            aux.append(i)\n    s.append(aux)\n    x=query(l,r)\n    ans=[x for i in range(m+1)]\n    for i in range(10):\n        l1=l\n        r1=(l+r)//2\n\n        if(l1>r1):\n            break\n        x1=query(l1,r1)\n        if x1!=x:\n            for j in range(l1,r1+1):\n                ans[j]=x\n            l=r1+1\n        else:\n            for j in range(r1+1,r+1):\n                ans[j]=x\n            r=r1\n    c=0\n    for i in range(m+1):\n        if i==l:\n            continue\n        for j in s[i]:\n            c+=1\n    print(\"?\",end=\" \")\n    print(c,end=\" \")\n    for i in range(m+1):\n        if l==i:\n            continue\n        for j in s[i]:\n            print(j,end=\" \")\n    print()\n    stdout.flush()\n    \n    x=int(stdin.readline().strip())\n    ans[l]=x\n    print(\"! \",*ans[0:m])\n    stdout.flush()\n    ans=stdin.readline().strip()\n    if ans!=\"Correct\":\n        print(\"Malll\")\n        exit(-77)\n                \n                \n            \n        \n \n",
+    "prob_desc_created_at": "1590935700",
+    "tags": [
+        "math",
+        "binary search",
+        "implementation",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

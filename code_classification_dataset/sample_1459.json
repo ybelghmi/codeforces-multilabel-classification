@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\"]",
+    "src_uid": "3674a98de27b9bd2c8eb951da72996f5",
+    "prob_desc_notes": "NoteIn the first case, $$$a = [16,8,1,2,4,1]$$$. Choosing $$$l_1 = 1$$$, $$$r_1 = 1$$$, $$$l_2 = 2$$$ and $$$r_2 = 6$$$ works because $$$16 = (8+1+2+4+1)$$$.In the second case, you can verify that there is no way to select to such subarrays.",
+    "prob_desc_description": "You're given an array $$$b$$$ of length $$$n$$$. Let's define another array $$$a$$$, also of length $$$n$$$, for which $$$a_i = 2^{b_i}$$$ ($$$1 \\leq i \\leq n$$$). Valerii says that every two non-intersecting subarrays of $$$a$$$ have different sums of elements. You want to determine if he is wrong. More formally, you need to determine if there exist four integers $$$l_1,r_1,l_2,r_2$$$ that satisfy the following conditions:   $$$1 \\leq l_1 \\leq r_1 \\lt l_2 \\leq r_2 \\leq n$$$;  $$$a_{l_1}+a_{l_1+1}+\\ldots+a_{r_1-1}+a_{r_1} = a_{l_2}+a_{l_2+1}+\\ldots+a_{r_2-1}+a_{r_2}$$$. If such four integers exist, you will prove Valerii wrong. Do they exist?An array $$$c$$$ is a subarray of an array $$$d$$$ if $$$c$$$ can be obtained from $$$d$$$ by deletion of several (possibly, zero or all) elements from the beginning and several (possibly, zero or all) elements from the end.",
+    "prob_desc_output_spec": "For every test case, if there exist two non-intersecting subarrays in $$$a$$$ that have the same sum, output YES on a separate line. Otherwise, output NO on a separate line.  Also, note that each letter can be in any case. ",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 100$$$). Description of the test cases follows. The first line of every test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 1000$$$). The second line of every test case contains $$$n$$$ integers $$$b_1,b_2,\\ldots,b_n$$$ ($$$0 \\le b_i \\le 10^9$$$). ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_009.jsonl",
+    "code_uid": "79a32f637aec7adde805252d10da69c6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n6\\n4 3 0 1 2 0\\n2\\n2 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\nfor i in range(t):\n    n = int(input())\n    b = list(map(int, input().split()))\n    a = {}\n    for x in b:\n        a[x] = a.get(x, 0) + 1\n    for x in a:\n        if a[x] > 1:\n            print('YES')\n            break\n    else:\n        print('NO')\n",
+    "prob_desc_created_at": "1605278100",
+    "tags": [
+        "data structures",
+        "constructive algorithms",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

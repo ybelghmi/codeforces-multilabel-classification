@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"36\\n6\"]",
+    "src_uid": "6b7a083225f0dd895cc48ca68af695f4",
+    "prob_desc_notes": "NoteIn the second testcase of the example there are six y-factorizations:  { - 4,  - 1};  { - 2,  - 2};  { - 1,  - 4};  {1, 4};  {2, 2};  {4, 1}. ",
+    "prob_desc_description": "You are given two positive integer numbers x and y. An array F is called an y-factorization of x iff the following conditions are met:  There are y elements in F, and all of them are integer numbers;  . You have to count the number of pairwise distinct arrays that are y-factorizations of x. Two arrays A and B are considered different iff there exists at least one index i (1 ≤ i ≤ y) such that Ai ≠ Bi. Since the answer can be very large, print it modulo 109 + 7.",
+    "prob_desc_output_spec": "Print q integers. i-th integer has to be equal to the number of yi-factorizations of xi modulo 109 + 7.",
+    "prob_desc_input_spec": "The first line contains one integer q (1 ≤ q ≤ 105) — the number of testcases to solve. Then q lines follow, each containing two integers xi and yi (1 ≤ xi, yi ≤ 106). Each of these lines represents a testcase.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_075.jsonl",
+    "code_uid": "fc4e4b92a16a26e9eca55156a8ec3150",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n6 3\\n4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from array import array\nmd = 10 ** 9 + 7\n\n\ndef fact_all(N):\n    lp = array('Q', [2]*(N+1))\n    pr = array('Q', [2])\n    pra = pr.append\n    for i in range(3, N+1, 2):\n        if lp[i] == 2:\n            lp[i] = i\n            pra(i)\n        for p in pr:\n            ip = i * p\n            if p > lp[i] or ip > N:\n                break\n            lp[ip] = p\n    return lp\n\n\ndef cnk(n, k):\n    if k > n//2:\n        k = n - k\n    ans = 1\n    for i in range(n-k+1, n+1):\n        ans *= i\n    for i in range(2, k+1):\n        ans //= i\n    ans = ans % md\n    return ans\n\n\ndef factor(n, lpa=fact_all(10**6)):\n    pws = []\n    num_ones = 0\n    dv = lpa[n]\n    while n > 1 and dv * dv <= n:\n        lp = 0\n        c, o = divmod(n, dv)\n        while o == 0:\n            lp += 1\n            n = c\n            c, o = divmod(n, dv)\n        if lp == 1:\n            num_ones += 1\n        else:\n            pws.append(lp)\n        dv = lpa[n]\n    if n > 1:\n        num_ones += 1\n        # pws.append(1)\n    return pws, num_ones\n\n\ndef main():\n    q = int(input())\n    for __ in range(q):\n        x, y = input().split()\n        x, y = int(x), int(y)\n        ans = pow(2, y - 1, md)\n        pws, num_ones = factor(x)\n        for f in pws:\n            cm = cnk(f + y - 1, f)\n            ans = (ans * cm) % md\n        if num_ones:\n            ans = (ans * pow(y, num_ones, md)) % md\n        print(ans)\n\n\nif __name__ == '__main__':\n    main()",
+    "prob_desc_created_at": "1511449500",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"0\"]",
+    "src_uid": "5e8a5caab28ea491d7ab4a88209172b2",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Consider the function p(x), where x is an array of m integers, which returns an array y consisting of m + 1 integers such that yi is equal to the sum of first i elements of array x (0 ≤ i ≤ m).You have an infinite sequence of arrays A0, A1, A2..., where A0 is given in the input, and for each i ≥ 1 Ai = p(Ai - 1). Also you have a positive integer k. You have to find minimum possible i such that Ai contains a number which is larger or equal than k.",
+    "prob_desc_output_spec": "Print the minimum i such that Ai contains a number which is larger or equal than k.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (2 ≤ n ≤ 200000, 1 ≤ k ≤ 1018). n is the size of array A0. The second line contains n integers A00, A01... A0n - 1 — the elements of A0 (0 ≤ A0i ≤ 109). At least two elements of A0 are positive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_074.jsonl",
+    "code_uid": "a05e63a9c69bb9087182bf0bca2df46b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n1 1\", \"3 6\\n1 1 1\", \"3 1\\n1 0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def p(arr):\n\tfor i in range(1,len(arr)):\n\t\tarr[i]+=arr[i-1]\n\treturn arr\n\ndef max_element(arr):\n\tx=0\n\tfor i in arr:\n\t\tx=max(x,i)\n\treturn x\n\ndef kek(a,b):\n\tif (a<=b):\n\t\treturn 1\n\telse:\n\t\treturn 0\n\n[n,k]=[int(x) for x in input().split()]\n\ndef matmul(m1,m2):\n\ts=0     #сумма\n\tt=[]    #временная матрица\n\tm3=[] # конечная матрица\n\tif len(m2)!=len(m1[0]):\n\t\tprint(\"333\")       \n\telse:\n\t\tr1=len(m1) #количество строк в первой матрице\n\t\tc1=len(m1[0]) #Количество столбцов в 1   \n\t\tr2=c1           #и строк во 2ой матрице\n\t\tc2=len(m2[0])  # количество столбцов во 2ой матрице\n\t\tfor z in range(0,r1):\n\t\t\tfor j in range(0,c2):\n\t\t\t\tfor i in range(0,c1):\n\t\t\t\t\ts=s+m1[z][i]*m2[i][j]\n\t\t\t\t\ts=min(s,k)\n\t\t\t\tt.append(s)\n\t\t\t\ts=0\n\t\t\tm3.append(t)\n\t\t\tt=[]           \n\treturn m3\t\n\ndef exp(m,p):\n\tif (p==1):\n\t\treturn m\n\tif (p%2==0):\n\t\tw=exp(m,p//2)\n\t\treturn matmul(w,w)\n\telse:\n\t\treturn matmul(m,exp(m,p-1))\n\n\n\na=[int(x) for x in input().split()]\nind=0\nwhile a[ind]==0:\n\tind+=1\na=a[ind:]\nn=len(a)\nif (max_element(a)>=k):\n\tprint(0)\nelse:\n\ta=[a]\n\tif (n>=10):\n\t\tres=0\n\t\twhile(max_element(a[0])<k):\n\t\t\tres+=1\n\t\t\ta[0]=p(a[0])\n\t\tprint(res)\n\telif n==2:\n\t\tx1=a[0][0]\n\t\tx2=a[0][1]\n\t\tprint((k-x2+x1-1)//x1)\n\telse:\n\t\tm=[]\n\t\tfor i in range(n):\n\t\t\tm+=[[kek(i,j) for j in range(n)]]\n\t\tl=0;\n\t\tr=10**18\n\t\twhile(l+1<r):\n\t\t\tmid=(l+r)//2;\n\t\t\tb=matmul(a,exp(m,mid))\n\t\t\tif max_element(b[0])<k:\n\t\t\t\tl=mid\n\t\t\telse:\n\t\t\t\tr=mid\n\t\tprint(r)\n\t\t\n\t\n",
+    "prob_desc_created_at": "1501773300",
+    "tags": [
+        "combinatorics",
+        "math",
+        "matrices",
+        "binary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n2\\n4\", \"13\\n3\\n8\\n9\"]",
+    "src_uid": "756866daf45951854d5400b209af3bb0",
+    "prob_desc_notes": "NoteThe first example is shown in the picture.In the second example the final array is [1, 12, 2, 8, 3, 11, 4, 9, 5, 13, 6, 10, 7].",
+    "prob_desc_description": "Dima is a beginner programmer. During his working process, he regularly has to repeat the following operation again and again: to remove every second element from the array. One day he has been bored with easy solutions of this problem, and he has come up with the following extravagant algorithm.Let's consider that initially array contains n numbers from 1 to n and the number i is located in the cell with the index 2i - 1 (Indices are numbered starting from one) and other cells of the array are empty. Each step Dima selects a non-empty array cell with the maximum index and moves the number written in it to the nearest empty cell to the left of the selected one. The process continues until all n numbers will appear in the first n cells of the array. For example if n = 4, the array is changing as follows:  You have to write a program that allows you to determine what number will be in the cell with index x (1 ≤ x ≤ n) after Dima's algorithm finishes.",
+    "prob_desc_output_spec": "For each of q queries output one integer number, the value that will appear in the corresponding array cell after Dima's algorithm finishes.",
+    "prob_desc_input_spec": "The first line contains two integers n and q (1 ≤ n ≤ 1018, 1 ≤ q ≤ 200 000), the number of elements in the array and the number of queries for which it is needed to find the answer. Next q lines contain integers xi (1 ≤ xi ≤ n), the indices of cells for which it is necessary to output their content after Dima's algorithm finishes.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_058.jsonl",
+    "code_uid": "87a75c29fa227028f017195276182e90",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n2\\n3\\n4\", \"13 4\\n10\\n5\\n4\\n8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nfrom decimal import Decimal\ndef na():\n\tn = int(input())\n\tb = [int(x) for x in input().split()]\n\treturn n,b\n \n \ndef nab():\n\tn = int(input())\n\tb = [int(x) for x in input().split()]\n\tc = [int(x) for x in input().split()]\n\treturn n,b,c\n \n \ndef dv():\n\tn, m = map(int, input().split())\n\treturn n,m\n \n \ndef dva():\n\tn, m = map(int, input().split())\n\ta = [int(x) for x in input().split()]\n\tb = [int(x) for x in input().split()]\n\treturn n,m,b\n \n \ndef eratosthenes(n): \n\tsieve = list(range(n + 1))\n\tfor i in sieve:\n\t\tif i > 1:\n\t\t\tfor j in range(i + i, len(sieve), i):\n\t\t\t\tsieve[j] = 0\n\treturn sorted(set(sieve))\n \n \n \ndef nm():\n\tn = int(input())\n\tb = [int(x) for x in input().split()]\n\tm = int(input())\n\tc = [int(x) for x in input().split()]\n\treturn n,b,m,c\n \n \ndef dvs():\n\tn = int(input())\n\tm = int(input())\n\treturn n, m\n \n\n\nn, q = map(int, input().split())\nans = []\nfor i in range(q):\n\tx = int(input())\n\tans.append(x)\nfor i in ans:\n\td = 2 * n - i\n\twhile d % 2 == 0:\n\t\td //= 2\n\tprint(n - d // 2)\n",
+    "prob_desc_created_at": "1520583000",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

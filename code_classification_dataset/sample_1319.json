@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"S 50 8\\nS 40 1\\nB 25 10\\nB 20 4\"]",
+    "src_uid": "267c04c77f97bbdf7697dc88c7bfa4af",
+    "prob_desc_notes": "NoteDenote (x, y) an order with price x and volume y. There are 3 aggregated buy orders (10, 3), (20, 4), (25, 10) and two sell orders (50, 8), (40, 1) in the sample.You need to print no more than two best orders for each direction, so you shouldn't print the order (10 3) having the worst price among buy orders.",
+    "prob_desc_description": "In this task you need to process a set of stock exchange orders and use them to create order book.An order is an instruction of some participant to buy or sell stocks on stock exchange. The order number i has price pi, direction di — buy or sell, and integer qi. This means that the participant is ready to buy or sell qi stocks at price pi for one stock. A value qi is also known as a volume of an order.All orders with the same price p and direction d are merged into one aggregated order with price p and direction d. The volume of such order is a sum of volumes of the initial orders.An order book is a list of aggregated orders, the first part of which contains sell orders sorted by price in descending order, the second contains buy orders also sorted by price in descending order.An order book of depth s contains s best aggregated orders for each direction. A buy order is better if it has higher price and a sell order is better if it has lower price. If there are less than s aggregated orders for some direction then all of them will be in the final order book.You are given n stock exhange orders. Your task is to print order book of depth s for these orders.",
+    "prob_desc_output_spec": "Print no more than 2s lines with aggregated orders from order book of depth s. The output format for orders should be the same as in input.",
+    "prob_desc_input_spec": "The input starts with two positive integers n and s (1 ≤ n ≤ 1000, 1 ≤ s ≤ 50), the number of orders and the book depth. Next n lines contains a letter di (either 'B' or 'S'), an integer pi (0 ≤ pi ≤ 105) and an integer qi (1 ≤ qi ≤ 104) — direction, price and volume respectively. The letter 'B' means buy, 'S' means sell. The price of any sell order is higher than the price of any buy order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_008.jsonl",
+    "code_uid": "f9e884b7b91fd0c1ce5aa36f7722dc7c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 2\\nB 10 3\\nS 50 2\\nS 40 1\\nS 50 6\\nB 20 4\\nB 25 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "__author__ = 'trunghieu11'\n\ndef main():\n    n, s = map(int, raw_input().split())\n    buy = dict()\n    sell = dict()\n    for i in range(n):\n        line = raw_input().split()\n        d = str(line[0])\n        p = int(line[1])\n        q = int(line[2])\n        if d == \"B\":\n            if (d, p) in buy.keys():\n                buy[(d, p)] += q\n            else:\n                buy.setdefault((d, p), q)\n        else:\n            if (d, p) in sell.keys():\n                sell[(d, p)] += q\n            else:\n                sell.setdefault((d, p), q)\n    keyBuy = buy.keys()\n    keyBuy = sorted(keyBuy, key = lambda tup: tup[1], reverse = True)\n    keySell = sell.keys()\n    keySell = sorted(keySell, key = lambda tup: tup[1])\n\n    if len(keySell) > 0:\n        for i in range(min(s, len(keySell)) - 1, -1, -1):\n            print keySell[i][0], keySell[i][1], sell.get(keySell[i])\n\n    if len(keyBuy) > 0:\n        for i in range(min(s, len(keyBuy))):\n            print keyBuy[i][0], keyBuy[i][1], buy.get(keyBuy[i])\n\nif __name__ == '__main__':\n    main()",
+    "prob_desc_created_at": "1440261000",
+    "tags": [
+        "data structures",
+        "implementation",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

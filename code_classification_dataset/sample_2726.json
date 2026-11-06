@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 7 1 3 6 5 4\\n7 1 5 4 6 2 3\", \"-1\"]",
+    "src_uid": "6b398790adbd26dd9af64e9086e38f7f",
+    "prob_desc_notes": "NoteIn the first sample test, there should be 7 cities and at most 11 roads. The provided sample solution generates 10 roads, as in the drawing. You can also see a simple path of length n between 2 and 4, and a path between 7 and 3.  ",
+    "prob_desc_description": "Bearland has n cities, numbered 1 through n. Cities are connected via bidirectional roads. Each road connects two distinct cities. No two roads connect the same pair of cities.Bear Limak was once in a city a and he wanted to go to a city b. There was no direct connection so he decided to take a long walk, visiting each city exactly once. Formally:   There is no road between a and b.  There exists a sequence (path) of n distinct cities v1, v2, ..., vn that v1 = a, vn = b and there is a road between vi and vi + 1 for . On the other day, the similar thing happened. Limak wanted to travel between a city c and a city d. There is no road between them but there exists a sequence of n distinct cities u1, u2, ..., un that u1 = c, un = d and there is a road between ui and ui + 1 for .Also, Limak thinks that there are at most k roads in Bearland. He wonders whether he remembers everything correctly.Given n, k and four distinct cities a, b, c, d, can you find possible paths (v1, ..., vn) and (u1, ..., un) to satisfy all the given conditions? Find any solution or print -1 if it's impossible.",
+    "prob_desc_output_spec": "Print -1 if it's impossible to satisfy all the given conditions. Otherwise, print two lines with paths descriptions. The first of these two lines should contain n distinct integers v1, v2, ..., vn where v1 = a and vn = b. The second line should contain n distinct integers u1, u2, ..., un where u1 = c and un = d. Two paths generate at most 2n - 2 roads: (v1, v2), (v2, v3), ..., (vn - 1, vn), (u1, u2), (u2, u3), ..., (un - 1, un). Your answer will be considered wrong if contains more than k distinct roads or any other condition breaks. Note that (x, y) and (y, x) are the same road.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and k (4 ≤ n ≤ 1000, n - 1 ≤ k ≤ 2n - 2) — the number of cities and the maximum allowed number of roads, respectively. The second line contains four distinct integers a, b, c and d (1 ≤ a, b, c, d ≤ n).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_029.jsonl",
+    "code_uid": "c8510bfa3202763e2eb9e78d27022af9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 11\\n2 4 7 3\", \"1000 999\\n10 20 30 40\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = input().split(' ')\nn = int(n)\nk = int(k)\n\na,b,c,d = input().split(' ')\n\na,b,c,d = int(a),int(b),int(c),int(d)\n\nif k <= n:\n\tprint(-1)\n\texit()\n\nif n == 4:\n\tprint(-1)\n\texit()\n\ncity = list(range(1,n+1))\nroad = [a,c]\nfor i in range(len(city)):\n\tif city[i] not in (a,b,c,d): road.append(city[i])\n\nroad += [d,b]\n\nt = ''\n\nprint(' '.join(\"{0}\".format(t) for t in road))\nroad = [c,a] + road[2:n-2] + [b,d]\nprint(' '.join(\"{0}\".format(t) for t in road))",
+    "prob_desc_created_at": "1462633500",
+    "tags": [
+        "constructive algorithms",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

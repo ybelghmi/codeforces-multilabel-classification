@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\"]",
+    "src_uid": "4f3bec9c36d0ac2fdb8041469133458c",
+    "prob_desc_notes": "NoteConsider the first board from the sample. We will assume the rows and columns of the matrix to be numbered 1 through 8 from top to bottom and from left to right, correspondingly. The knights can meet, for example, in square (2, 7). The semiknight from square (4, 1) goes to square (2, 3) and the semiknight goes from square (8, 1) to square (6, 3). Then both semiknights go to (4, 5) but this square is bad, so they move together to square (2, 7).On the second board the semiknights will never meet. ",
+    "prob_desc_description": "A boy Petya loves chess very much. He even came up with a chess piece of his own, a semiknight. The semiknight can move in any of these four directions: 2 squares forward and 2 squares to the right, 2 squares forward and 2 squares to the left, 2 squares backward and 2 to the right and 2 squares backward and 2 to the left. Naturally, the semiknight cannot move beyond the limits of the chessboard.Petya put two semiknights on a standard chessboard. Petya simultaneously moves with both semiknights. The squares are rather large, so after some move the semiknights can meet, that is, they can end up in the same square. After the meeting the semiknights can move on, so it is possible that they meet again. Petya wonders if there is such sequence of moves when the semiknights meet. Petya considers some squares bad. That is, they do not suit for the meeting. The semiknights can move through these squares but their meetings in these squares don't count.Petya prepared multiple chess boards. Help Petya find out whether the semiknights can meet on some good square for each board.Please see the test case analysis.",
+    "prob_desc_output_spec": "For each test, print on a single line the answer to the problem: \"YES\", if the semiknights can meet and \"NO\" otherwise.",
+    "prob_desc_input_spec": "The first line contains number t (1 ≤ t ≤ 50) — the number of boards. Each board is described by a matrix of characters, consisting of 8 rows and 8 columns. The matrix consists of characters \".\", \"#\", \"K\", representing an empty good square, a bad square and the semiknight's position, correspondingly. It is guaranteed that matrix contains exactly 2 semiknights. The semiknight's squares are considered good for the meeting. The tests are separated by empty line.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_024.jsonl",
+    "code_uid": "c43c5f8c4ba474f44e404563f71364e4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n........\\n........\\n......#.\\nK..##..#\\n.......#\\n...##..#\\n......#.\\nK.......\\n\\n........\\n........\\n..#.....\\n..#..#..\\n..####..\\n...##...\\n........\\n....K#K#\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\ndef check(coor1, coor2):\n    dx = coor1[0] - coor2[0]\n    dy = coor1[1] - coor2[1]\n    if dx % 2 != 0 or dy % 2 != 0 :\n        return False\n    if ((dx/2)-(dy/2) )% 2==0 and dx/2%2 == 0:\n        return True\n    \n    return False\n    \ndef solve(data):\n    horse = []\n    for y in xrange(8):\n        for x in xrange(8):\n            if data[y][x] == 'K':\n                horse.append([x, y])\n    if not check(horse[0], horse[1]):\n        return \"NO\"\n\n    \n    #for y in xrange(8):\n    #    for x in xrange(8):\n    #        if data[y][x] == \".\":\n    #            if check(horse[0], [x,y]):\n    #                return \"YES\"\n    return \"YES\"\n\n    return \"NO\"\n\ntry:\n    d = sys.stdin.readline()\n    t = int(d)\nexcept:\n    print (d)\nfor _ in xrange(t):\n    data = []\n    for i in xrange(8):\n        d = sys.stdin.readline()\n        if len(d.split()) == 0:\n            d = sys.stdin.readline()\n        data.append(d)\n    print solve(data)\n",
+    "prob_desc_created_at": "1384443000",
+    "tags": [
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

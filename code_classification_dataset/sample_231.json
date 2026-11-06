@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"4\"]",
+    "src_uid": "63e03361531999db408dc0d02de93579",
+    "prob_desc_notes": "NoteThe final results' table for the first sample is:   1-3 places — 4 solved problems, the penalty time equals 10  4 place — 3 solved problems, the penalty time equals 20  5-6 places — 2 solved problems, the penalty time equals 1  7 place — 1 solved problem, the penalty time equals 10 The table shows that the second place is shared by the teams that solved 4 problems with penalty time 10. There are 3 such teams.The final table for the second sample is:  1 place — 5 solved problems, the penalty time equals 3  2-5 places — 3 solved problems, the penalty time equals 1 The table shows that the fourth place is shared by the teams that solved 3 problems with penalty time 1. There are 4 such teams.",
+    "prob_desc_description": "Another programming contest is over. You got hold of the contest's final results table. The table has the following data. For each team we are shown two numbers: the number of problems and the total penalty time. However, for no team we are shown its final place.You know the rules of comparing the results of two given teams very well. Let's say that team a solved pa problems with total penalty time ta and team b solved pb problems with total penalty time tb. Team a gets a higher place than team b in the end, if it either solved more problems on the contest, or solved the same number of problems but in less total time. In other words, team a gets a higher place than team b in the final results' table if either pa &gt; pb, or pa = pb and ta &lt; tb. It is considered that the teams that solve the same number of problems with the same penalty time share all corresponding places. More formally, let's say there is a group of x teams that solved the same number of problems with the same penalty time. Let's also say that y teams performed better than the teams from this group. In this case all teams from the group share places y + 1, y + 2, ..., y + x. The teams that performed worse than the teams from this group, get their places in the results table starting from the y + x + 1-th place.Your task is to count what number of teams from the given list shared the k-th place. ",
+    "prob_desc_output_spec": "In the only line print the sought number of teams that got the k-th place in the final results' table.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ k ≤ n ≤ 50). Then n lines contain the description of the teams: the i-th line contains two integers pi and ti (1 ≤ pi, ti ≤ 50) — the number of solved problems and the total penalty time of the i-th team, correspondingly. All numbers in the lines are separated by spaces. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_001.jsonl",
+    "code_uid": "d16adabc194f4212ea33d65282b31af2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 2\\n4 10\\n4 10\\n4 10\\n3 20\\n2 1\\n2 1\\n1 10\", \"5 4\\n3 1\\n3 1\\n5 3\\n3 1\\n3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nimport sys\nimport collections\n\n# imgur.com/Pkt7iIf.png\n\ndef getdict(n):\n    d = {}\n    if type(n) is list:\n        for i in n:\n            if i in d:\n                d[i] += 1\n            else:\n                d[i] = 1\n    else:\n        for i in range(n):\n            t = ii()\n            if t in d:\n                d[t] += 1\n            else:\n                d[t] = 1\n    return d\ndef sieve(n):\n    prime = [True for i in range(n + 1)]\n    p = 2\n    while (p * p <= n):\n        if (prime[p] == True):\n            for i in range(p * 2, n + 1, p):\n                prime[i] = False\n        p += 1\n    prime[0] = prime[1] = False\n    r = [p for p in range(n + 1) if prime[p]]\n    return r\ndef cdiv(n, k): return n // k + (n % k != 0)\ndef ii(): return int(input())\ndef mi(): return map(int, input().split())\ndef li(): return list(map(int, input().split()))\ndef lcm(a, b): return abs(a * b) // math.gcd(a, b)\ndef prr(a, sep = ' '): print(sep.join(map(str, a)))\ndef dd(): return collections.defaultdict(int)\n\n\nn, k = mi()\nd = []\nfor i in range(n):\n    d.append(li())\n\nd = sorted(d, key = lambda x: (-x[0], x[1]))\np = t = place = 0\nfor i in range(n):\n    if d[i] != [p, t]:\n        place = i + 1\n    p, t = d[i][0], d[i][1]\n    d[i] = place\n\nprint(d.count(d[k-1]))\n",
+    "prob_desc_created_at": "1332516600",
+    "tags": [
+        "sortings",
+        "binary search",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\", \"8\"]",
+    "src_uid": "f640b4352e18fb75c5fb5c9348e7b0c5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a complete undirected graph with n vertices. A number ai is assigned to each vertex, and the weight of an edge between vertices i and j is equal to ai xor aj.Calculate the weight of the minimum spanning tree in this graph.",
+    "prob_desc_output_spec": "Print one number — the weight of the minimum spanning tree in the graph.",
+    "prob_desc_input_spec": "The first line contains n (1 ≤ n ≤ 200000) — the number of vertices in the graph. The second line contains n integers a1, a2, ..., an (0 ≤ ai &lt; 230) — the numbers assigned to the vertices.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_056.jsonl",
+    "code_uid": "3b4acf51370084fd3406f3a4ad2c57e9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 3 4 5\", \"4\\n1 2 3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class Node:\n    def __init__(self):\n        self.left = -1\n        self.right = -1\n\nn = int(input())\ndata = list(map(int, raw_input().split()))\ndata = list(set(data))\nroot = Node()\n\nfor x in data:\n    current = root\n    \n    for bit in reversed(xrange(30)):\n        \n        if (x>>bit) & 1:\n            if current.right == -1:\n                current.right = Node()\n            current = current.right\n            \n        else:\n            if current.left == -1:\n                current.left = Node()\n            current = current.left\n            \n\n\n\n\nstack = []\nstack.append((root, 29, data))\ntotal_cost = 0\nwhile stack:\n    current, bit, remaining = stack.pop()\n    if len(remaining) == 1 or bit == -1:\n        continue\n    right = []\n    left = []\n    for x in remaining:\n        if (1 << bit) & x:\n            right.append(x - (1 << bit))\n        else:\n            left.append(x)\n    if len(left) == 0:\n        stack.append((current.right, bit - 1, right))\n        continue\n    if len(right) == 0:\n        stack.append((current.left, bit - 1, left))\n        continue\n    \n    stack.append((current.left, bit - 1, left))\n    stack.append((current.right, bit - 1, right))\n    \n    if len(left) < len(right):\n        to_search = left\n        search_in = current.right\n    else:\n        to_search = right\n        search_in = current.left\n    total_cost += 1 << bit\n    min_cost = 1 << 30\n    for x in to_search:\n        current = search_in\n        current_cost = 0\n        for i in reversed(xrange(bit)):    \n            if (x >> i) & 1:\n                if current.right != -1:\n                    current = current.right\n                else:\n                    current = current.left\n                    current_cost += 1 << i\n            else:\n                if current.left != -1:\n                    current = current.left\n                else:\n                    current = current.right\n                    current_cost += 1 << i\n        \n        min_cost = min(min_cost, current_cost)\n    \n    total_cost += min_cost\n    \n    \nprint(total_cost)",
+    "prob_desc_created_at": "1510239900",
+    "tags": [
+        "data structures",
+        "constructive algorithms",
+        "bitmasks"
+    ],
+    "hidden_unit_tests": ""
+}

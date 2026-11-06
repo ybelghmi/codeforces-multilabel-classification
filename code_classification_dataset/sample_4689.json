@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n1\\n1\\n3\"]",
+    "src_uid": "c247c7c382c243ab6b991c4a11bfc421",
+    "prob_desc_notes": "NoteIn the first test case, $$$a$$$ is already non-decreasing, so you don't need to do any operations and the answer is $$$0$$$.In the second test case, you can perform an operation for $$$i = 1$$$ and $$$j = 5$$$, so $$$a$$$ will be equal to $$$[0, 0, 1, 2]$$$ and it becomes non-decreasing.In the third test case, you can perform an operation for $$$i = 2$$$ and $$$j = 1$$$, so $$$a$$$ will be equal to $$$[1]$$$ and it becomes non-decreasing.",
+    "prob_desc_description": "You have an array $$$a$$$ of size $$$n$$$ consisting only of zeroes and ones. You can do the following operation:  choose two indices $$$1 \\le i , j \\le n$$$, $$$i \\ne j$$$,  add $$$a_{i}$$$ to $$$a_{j}$$$,  remove $$$a_{i}$$$ from $$$a$$$. Note that elements of $$$a$$$ can become bigger than $$$1$$$ after performing some operations. Also note that $$$n$$$ becomes $$$1$$$ less after the operation.What is the minimum number of operations needed to make $$$a$$$ non-decreasing, i. e. that each element is not less than the previous element?",
+    "prob_desc_output_spec": "For each test case print a single integer, minimum number of operations needed to make $$$a$$$ non-decreasing.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10^4$$$). The description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$), the size of array $$$a$$$. Next line contains $$$n$$$ integers $$$a_{1}, a_{2}, \\ldots a_{n}$$$ ($$$a_i$$$ is $$$0$$$ or $$$1$$$), elements of array $$$a$$$. It's guaranteed that sum of $$$n$$$ over all test cases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_103.jsonl",
+    "code_uid": "e937dc455ae7e771868479dbfe12cb21",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n8\\n\\n0 0 1 1 1 1 1 1\\n\\n5\\n\\n1 0 0 1 1\\n\\n2\\n\\n1 0\\n\\n11\\n\\n1 1 0 0 1 0 0 1 1 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = lambda: sys.stdin.readline().rstrip()\r\n\r\n\r\ndef solution(a, n):\r\n    all_ones = n - sum(a)\r\n    all_zeros = sum(a)\r\n    left_sum = 0\r\n    right_sum = sum(a)\r\n    res = n\r\n    for i in range(n):\r\n        left_sum += a[i]\r\n        right_sum -= a[i]\r\n        c_1 = left_sum\r\n        c_2 = n - i - right_sum - 1\r\n        res = min(res, c_1 + max(0, c_2 - c_1))\r\n    return min(res, all_zeros, all_ones)\r\n\r\n\r\n\r\nfor _ in range(int(input())):\r\n    n = int(input())\r\n    a = [int(i) for i in input().split()]\r\n    print(solution(a, n))\r\n",
+    "prob_desc_created_at": "1665844500",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

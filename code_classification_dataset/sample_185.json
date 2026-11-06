@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"-1\"]",
+    "src_uid": "3488bb49de69c0c17ea0439e71b1e6ae",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little penguin Polo has an n × m matrix, consisting of integers. Let's index the matrix rows from 1 to n from top to bottom and let's index the columns from 1 to m from left to right. Let's represent the matrix element on the intersection of row i and column j as aij.In one move the penguin can add or subtract number d from some matrix element. Find the minimum number of moves needed to make all matrix elements equal. If the described plan is impossible to carry out, say so.",
+    "prob_desc_output_spec": "In a single line print a single integer — the minimum number of moves the penguin needs to make all matrix elements equal. If that is impossible, print \"-1\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains three integers n, m and d (1 ≤ n, m ≤ 100, 1 ≤ d ≤ 104) — the matrix sizes and the d parameter. Next n lines contain the matrix: the j-th integer in the i-th row is the matrix element aij (1 ≤ aij ≤ 104).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_000.jsonl",
+    "code_uid": "ff857a6bd6eef6687ab6599754b15af3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2 2\\n2 4\\n6 8\", \"1 2 7\\n6 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "##from sys import stdin\n##def main():\n##    n = int(stdin.readline())\n##    a = map(int, stdin.readline().split())\nfrom sys import stdin\ndef main():\n    a,b,c=map(int,stdin.readline().split())\n    xxx=[]\n    for gg in xrange(a):\n        xx=map(int,stdin.readline().split())\n        xxx.extend(xx)\n    d=a*b\n    flag=0\n    xxx.sort()\n    for hh in xrange(1,d):\n        if (((xxx[hh]-xxx[0])%c)!=0):\n            flag=1\n            break\n    if flag==1:\n        print \"-1\"\n    else:\n        dd=d/2\n        ch1=dd-1\n        ch2=dd\n        s1=0\n        s2=0\n        for dd in xrange(0,d):\n            s1=s1+abs(xxx[dd]-xxx[ch1])\n            s2=s2+abs(xxx[dd]-xxx[ch2])\n        if (s1>s2):\n            print (s2/c)\n        else:\n            print (s1/c)\nmain()\n",
+    "prob_desc_created_at": "1364916600",
+    "tags": [
+        "dp",
+        "implementation",
+        "sortings",
+        "ternary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

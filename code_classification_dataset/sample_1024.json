@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\\nYes\\nNo\\nNo\\nYes\\nYes\"]",
+    "src_uid": "a5e649f4d984a5c5365ca31436ad5883",
+    "prob_desc_notes": "NoteFor the first and second test cases, all conditions are already satisfied.For the third test case, there is only one empty cell $$$(2,2)$$$, and if it is replaced with a wall then the good person at $$$(1,2)$$$ will not be able to escape.For the fourth test case, the good person at $$$(1,1)$$$ cannot escape.For the fifth test case, Vivek can block the cells $$$(2,3)$$$ and $$$(2,2)$$$.For the last test case, Vivek can block the destination cell $$$(2, 2)$$$.",
+    "prob_desc_description": "Vivek has encountered a problem. He has a maze that can be represented as an $$$n \\times m$$$ grid. Each of the grid cells may represent the following:  Empty — '.'  Wall — '#'  Good person  — 'G'  Bad person — 'B' The only escape from the maze is at cell $$$(n, m)$$$.A person can move to a cell only if it shares a side with their current cell and does not contain a wall. Vivek wants to block some of the empty cells by replacing them with walls in such a way, that all the good people are able to escape, while none of the bad people are able to. A cell that initially contains 'G' or 'B' cannot be blocked and can be travelled through.Help him determine if there exists a way to replace some (zero or more) empty cells with walls to satisfy the above conditions.It is guaranteed that the cell $$$(n,m)$$$ is empty. Vivek can also block this cell.",
+    "prob_desc_output_spec": "For each test case, print \"Yes\" if there exists a way to replace some empty cells with walls to satisfy the given conditions. Otherwise print \"No\" You may print every letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ $$$(1 \\le t \\le 100)$$$ — the number of test cases. The description of the test cases follows. The first line of each test case contains two integers $$$n$$$, $$$m$$$ $$$(1 \\le n, m \\le 50)$$$ — the number of rows and columns in the maze. Each of the next $$$n$$$ lines contain $$$m$$$ characters. They describe the layout of the maze. If a character on a line equals '.', the corresponding cell is empty. If it equals '#', the cell has a wall. 'G' corresponds to a good person and 'B' corresponds to a bad person.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_005.jsonl",
+    "code_uid": "d038faba7d151a510df0665476b9ac9b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n1 1\\n.\\n1 2\\nG.\\n2 2\\n#B\\nG.\\n2 3\\nG.#\\nB#.\\n3 3\\n#B.\\n#..\\nGG.\\n2 2\\n#B\\nB.\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.buffer.readline\n\ndef main():\n\n    t = int(input())\n    for _ in range(t):\n        n, m = map(int, input().split())\n        M = [list(str(input())[2:m+2]) for _ in range(n)]\n        M = [['#']*m] + M + [['#']*m]\n        M = [['#']+c+['#'] for c in M]\n        #print(M)\n        B = []\n        G = []\n        flag1 = True\n        for i in range(1, n+1):\n            for j in range(1, m+1):\n                if M[i][j] == 'B':\n                    for di, dj in (-1, 0), (1, 0), (0, -1), (0, 1):\n                        ni, nj = i+di, j+dj\n                        if 1 <= ni <= n and 1 <= nj <= m:\n                            if M[ni][nj] == '.':\n                                M[ni][nj] = '#'\n                            if M[ni][nj] == 'G':\n                                flag1 = False\n                                break\n                    B.append((i, j))\n                if M[i][j] == 'G':\n                    G.append((i, j))\n        if not flag1:\n            print('No')\n            continue\n        if len(G) > 0 and M[n][m] == '#':\n            print('No')\n            continue\n\n        s = []\n        s.append((n, m))\n        visit = [[-1]*(m+2) for _ in range(n+2)]\n        visit[n][m] = 0\n        while s:\n            y, x = s.pop()\n            for dy, dx in (-1, 0), (1, 0), (0, -1), (0, 1):\n                ny, nx = y+dy, x+dx\n                if visit[ny][nx] == -1 and M[ny][nx] != '#':\n                    visit[ny][nx] = visit[y][x]+1\n                    s.append((ny, nx))\n        flag = True\n        for sy, sx in G:\n            if visit[sy][sx] == -1:\n                flag = False\n                break\n        #print(visit)\n        if flag:\n            print('Yes')\n        else:\n            print('No')\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1591540500",
+    "tags": [
+        "greedy",
+        "graphs",
+        "constructive algorithms",
+        "shortest paths",
+        "dsu",
+        "implementation",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

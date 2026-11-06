@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n1 1\", \"2\\n2 1 2\\n1 1\"]",
+    "src_uid": "31a64a84b5cc4e27737eea2c14f6dbd7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little time is left before Berland annual football championship. Therefore the coach of team \"Losewille Rangers\" decided to resume the practice, that were indefinitely interrupted for uncertain reasons. Overall there are n players in \"Losewille Rangers\". Each player on the team has a number — a unique integer from 1 to n. To prepare for the championship, the coach Mr. Floppe decided to spend some number of practices.Mr. Floppe spent some long nights of his holiday planning how to conduct the practices. He came to a very complex practice system. Each practice consists of one game, all n players of the team take part in the game. The players are sorted into two teams in some way. In this case, the teams may have different numbers of players, but each team must have at least one player.The coach wants to be sure that after the series of the practice sessions each pair of players had at least one practice, when they played in different teams. As the players' energy is limited, the coach wants to achieve the goal in the least number of practices.Help him to schedule the practices.",
+    "prob_desc_output_spec": "In the first line print m — the minimum number of practices the coach will have to schedule. Then print the descriptions of the practices in m lines. In the i-th of those lines print fi — the number of players in the first team during the i-th practice (1 ≤ fi &lt; n), and fi numbers from 1 to n — the numbers of players in the first team. The rest of the players will play in the second team during this practice. Separate numbers on a line with spaces. Print the numbers of the players in any order. If there are multiple optimal solutions, print any of them.",
+    "prob_desc_input_spec": "A single input line contains integer n (2 ≤ n ≤ 1000).",
+    "prob_desc_output_to": "output.txt",
+    "prob_desc_input_from": "input.txt",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_000.jsonl",
+    "code_uid": "fdbbcbbc181afe3cc881b82615d1a95b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\", \"3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import floor\ndef divide_group(src, a, b):\n    '''\n    src, a, b: [(int, int)]\n    '''\n    for l, r in src:\n        if l == r:\n            b.append((l,r))\n        else:\n            p = floor((l+r)/2)\n            a.append((l, p))\n            b.append((p+1, r))\n\ndef size(groups):\n    '''\n    gr: [(int, int)]\n    '''\n    return max(list(map(lambda group: group[1]-group[0] + 1, groups)) or [0])\n\ndef practice(n):\n    '''\n    http://codeforces.com/problemset/problem/234/G\n    '''\n    # a=[(l, r)] b=[(l,r)]\n    a = [(1, n)]\n    b = []\n    solution = []\n    while size(a) > 1 or size(b) > 1:\n        tmpa, tmpb = [], []\n        divide_group(a, tmpa, tmpb)\n        divide_group(b, tmpa, tmpb)\n        a, b = tmpa, tmpb\n        game = []\n        for l, r in a:\n            # [(int, int)]\n            for player in range(l, r + 1):\n                game.append(player)\n        solution.append(game)\n    return solution\n\nn=int(open(\"input.txt\").read())\ngames = practice(n)\n# print(len(games))\nout = str(len(games)) + '\\n'\nfor game in games:\n    out += '{}'.format(len(game))\n    for p in game:\n        out += ' {}'.format(p)\n    out += '\\n'\n\nopen(\"output.txt\",\"w\").write(out)\n",
+    "prob_desc_created_at": "1350370800",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "divide and conquer"
+    ],
+    "hidden_unit_tests": ""
+}

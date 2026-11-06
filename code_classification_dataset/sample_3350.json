@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"12\\n2 2 3 2\"]",
+    "src_uid": "a55d6c4af876e9c88b43d088f2b81817",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Gargari is jealous that his friend Caisa won the game from the previous problem. He wants to prove that he is a genius.He has a n × n chessboard. Each cell of the chessboard has a number written on it. Gargari wants to place two bishops on the chessboard in such a way that there is no cell that is attacked by both of them. Consider a cell with number x written on it, if this cell is attacked by one of the bishops Gargari will get x dollars for it. Tell Gargari, how to place bishops on the chessboard to get maximum amount of money.We assume a cell is attacked by a bishop, if the cell is located on the same diagonal with the bishop (the cell, where the bishop is, also considered attacked by it).",
+    "prob_desc_output_spec": "On the first line print the maximal number of dollars Gargari will get. On the next line print four integers: x1, y1, x2, y2 (1 ≤ x1, y1, x2, y2 ≤ n), where xi is the number of the row where the i-th bishop should be placed, yi is the number of the column where the i-th bishop should be placed. Consider rows are numbered from 1 to n from top to bottom, and columns are numbered from 1 to n from left to right. If there are several optimal solutions, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer n (2 ≤ n ≤ 2000). Each of the next n lines contains n integers aij (0 ≤ aij ≤ 109) — description of the chessboard.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_054.jsonl",
+    "code_uid": "34346bac66d85aeb6eb4491805bbec88",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 1 1 1\\n2 1 1 0\\n1 1 1 0\\n1 0 0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\ninput = sys.stdin.readline\n\nn = int(input())\n\nmatrix = []\ndiagonal_main = [0] * (2 * n + 1)\ndiagonal_secondary = [0] * (2 * n + 1)\nsecondary_corresponds_main = {}\n\nfor i in range(n):\n    matrix.append(map(int, input().split(' ')))\n\nfor i in range(n):\n    for j in range(n):\n        node = matrix[i][j]\n        diagonal_main[i - j] += node\n        diagonal_secondary[i + j] += node\n\nmax_odd = 0\nx_odd = 0\ny_odd = 0\nmax_even = 0\nx_even = 0\ny_even = 0\n\nfor i in range(n):\n    for j in range(n):\n        node = diagonal_secondary[i + j] + diagonal_main[i - j] - matrix[i][j]\n\n        if (i + j) % 2 == 0:\n            if node > max_odd:\n                max_odd = node\n                x_odd = i\n                y_odd = j\n        else:\n            if node > max_even:\n                max_even = node\n                x_even = i\n                y_even = j\n\nprint(max_odd + max_even)\n\nif x_odd == x_even and y_odd == y_even:\n    print x_odd + 1, y_odd + 1, x_even + 1, y_even + 2\nelse:\n    print x_odd + 1, y_odd + 1, x_even + 1, y_even + 1\n",
+    "prob_desc_created_at": "1409383800",
+    "tags": [
+        "implementation",
+        "hashing",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

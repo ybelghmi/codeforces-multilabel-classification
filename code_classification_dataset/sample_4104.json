@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\\n0\\n2\\n3\"]",
+    "src_uid": "4e9efd8faa7327e37352f2ebccf5945f",
+    "prob_desc_notes": "NoteIn the first example, any pair of elements can be removed since all of them are equal.In the second example, there is no way to delete two elements so the mathematic mean doesn't change.In the third example, it is possible to delete the elements on positions $$$1$$$ and $$$3$$$, or the elements on positions $$$4$$$ and $$$5$$$.",
+    "prob_desc_description": "Monocarp has got an array $$$a$$$ consisting of $$$n$$$ integers. Let's denote $$$k$$$ as the mathematic mean of these elements (note that it's possible that $$$k$$$ is not an integer). The mathematic mean of an array of $$$n$$$ elements is the sum of elements divided by the number of these elements (i. e. sum divided by $$$n$$$).Monocarp wants to delete exactly two elements from $$$a$$$ so that the mathematic mean of the remaining $$$(n - 2)$$$ elements is still equal to $$$k$$$.Your task is to calculate the number of pairs of positions $$$[i, j]$$$ ($$$i &lt; j$$$) such that if the elements on these positions are deleted, the mathematic mean of $$$(n - 2)$$$ remaining elements is equal to $$$k$$$ (that is, it is equal to the mathematic mean of $$$n$$$ elements of the original array $$$a$$$).",
+    "prob_desc_output_spec": "Print one integer — the number of pairs of positions $$$[i, j]$$$ ($$$i &lt; j$$$) such that if the elements on these positions are deleted, the mathematic mean of $$$(n - 2)$$$ remaining elements is equal to $$$k$$$ (that is, it is equal to the mathematic mean of $$$n$$$ elements of the original array $$$a$$$).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. The first line of each testcase contains one integer $$$n$$$ ($$$3 \\le n \\le 2 \\cdot 10^5$$$) — the number of elements in the array. The second line contains a sequence of integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 10^{9}$$$), where $$$a_i$$$ is the $$$i$$$-th element of the array. The sum of $$$n$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_090.jsonl",
+    "code_uid": "2137f8a2851499cc49546a9641b11863",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4\\n8 8 8 8\\n3\\n50 20 10\\n5\\n1 4 7 3 5\\n7\\n1 2 3 4 5 6 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def sayinin_adedi(x):\r\n    dizi9 = [0] * len(x)\r\n    o_sayi = x[0]\r\n    o_sayinin_adedi = 1\r\n    i = 1\r\n    while i < len(x):\r\n        if x[i] == o_sayi:\r\n            o_sayinin_adedi+=1\r\n        else:\r\n            j = i-1\r\n            while dizi9[j] == 0:\r\n                dizi9[j] = o_sayinin_adedi\r\n                j-=1\r\n                if j < 0:\r\n                    break\r\n            o_sayi = x[i]\r\n            o_sayinin_adedi = 1\r\n        i+=1\r\n    i = 0\r\n    while  i < o_sayinin_adedi:\r\n        dizi9[len(x)-1-i] = o_sayinin_adedi\r\n        i+=1\r\n    return dizi9\r\nkac_kere = int(input())\r\nwhile kac_kere > 0:\r\n    kac_sayi = input()\r\n    dizi = input().split()\r\n    toplam = 0\r\n    for x in range(0, len(dizi)):\r\n        dizi[x] = int(dizi[x])\r\n        toplam = toplam + dizi[x]\r\n    dizi.sort()\r\n    dizi2 = sayinin_adedi(dizi)\r\n    ortalama = float(toplam) / len(dizi)\r\n    i = 0\r\n    j = 1\r\n    ikili_sayisi = 0\r\n    while dizi[i] < ortalama:\r\n        if dizi[i] + dizi[-j] > 2 * ortalama:\r\n            j+=dizi2[-j]\r\n        elif dizi[i] + dizi[-j] == 2 * ortalama:\r\n            ikili_sayisi+= dizi2[i] * dizi2[-j]\r\n            i+=dizi2[i]\r\n            j+=dizi2[-j]\r\n        else:\r\n            i+=dizi2[i]\r\n    if dizi[i] == ortalama:\r\n        ikili_sayisi+= int(dizi2[i] * (dizi2[i] - 1) / 2)\r\n    print(ikili_sayisi)\r\n    kac_kere-=1",
+    "prob_desc_created_at": "1633856700",
+    "tags": [
+        "data structures",
+        "dp",
+        "implementation",
+        "math",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\", \"NO\"]",
+    "src_uid": "1173d89dd3af27b46e579cdeb2cfdfe5",
+    "prob_desc_notes": "NoteThe drawings below show the situation in the first sample (on the left) and in the second sample (on the right). Each edge represents two members that are friends. The answer is \"NO\" in the second sample because members (2, 3) are friends and members (3, 4) are friends, while members (2, 4) are not.  ",
+    "prob_desc_description": "Bear Limak examines a social network. Its main functionality is that two members can become friends (then they can talk with each other and share funny pictures).There are n members, numbered 1 through n. m pairs of members are friends. Of course, a member can't be a friend with themselves.Let A-B denote that members A and B are friends. Limak thinks that a network is reasonable if and only if the following condition is satisfied: For every three distinct members (X, Y, Z), if X-Y and Y-Z then also X-Z.For example: if Alan and Bob are friends, and Bob and Ciri are friends, then Alan and Ciri should be friends as well.Can you help Limak and check if the network is reasonable? Print \"YES\" or \"NO\" accordingly, without the quotes.",
+    "prob_desc_output_spec": "If the given network is reasonable, print \"YES\" in a single line (without the quotes). Otherwise, print \"NO\" in a single line (without the quotes).",
+    "prob_desc_input_spec": "The first line of the input contain two integers n and m (3 ≤ n ≤ 150 000, ) — the number of members and the number of pairs of members that are friends. The i-th of the next m lines contains two distinct integers ai and bi (1 ≤ ai, bi ≤ n, ai ≠ bi). Members ai and bi are friends with each other. No pair of members will appear more than once in the input.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_030.jsonl",
+    "code_uid": "bb95361cae782c6c4f109cb99a0d8c54",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n1 3\\n3 4\\n1 4\", \"4 4\\n3 1\\n2 3\\n3 4\\n1 2\", \"10 4\\n4 3\\n5 10\\n8 9\\n1 2\", \"3 2\\n1 2\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, raw_input().split())\n\nvisited = [False for i in xrange(n+1)]\ngraph = [[] for i in xrange(n+1)]\n\nfor i in xrange(m):\n    a, b = map(int, raw_input().split())\n    graph[a].append(b)\n    graph[b].append(a)\n    \ndef dfs(node, countV = 0, countE = 0):\n    stack = [node]\n    while stack:\n        top = stack.pop()\n        if not visited[top]:\n            visited[top] = True\n            countV += 1\n            countE += len(graph[top])\n            for i in graph[top]:\n                if not visited[i]:\n                    stack.append(i)\n    return countE, countV\n    \nflag = True\nfor i in xrange(1, n+1):\n    if not visited[i]:\n        countE, countV = dfs(i)\n        if countE != countV*(countV-1):\n            flag = False\n            break\n        \nif flag:\n    print 'YES'\nelse:\n    print 'NO'",
+    "prob_desc_created_at": "1489851300",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

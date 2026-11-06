@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12\", \"24\"]",
+    "src_uid": "1777c06783ecd795f855a4e9811da4b2",
+    "prob_desc_notes": "NoteHere is an illustration of the second example. Black triangles indicate the important tents. This example also indicates all $$$8$$$ forbidden patterns.  ",
+    "prob_desc_description": "At the foot of Liyushan Mountain, $$$n$$$ tents will be carefully arranged to provide accommodation for those who are willing to experience the joy of approaching nature, the tranquility of the night, and the bright starry sky.The $$$i$$$-th tent is located at the point of $$$(x_i, y_i)$$$ and has a weight of $$$w_i$$$. A tent is important if and only if both $$$x_i$$$ and $$$y_i$$$ are even. You need to remove some tents such that for each remaining important tent $$$(x, y)$$$, there do not exist $$$3$$$ other tents $$$(x'_1, y'_1)$$$, $$$(x'_2, y'_2)$$$ and $$$(x'_3, y'_3)$$$ such that both conditions are true:   $$$|x'_j-x|, |y'_j - y|\\leq 1$$$ for all $$$j \\in \\{1, 2, 3\\}$$$, and  these four tents form a parallelogram (or a rectangle) and one of its sides is parallel to the $$$x$$$-axis. Please maximize the sum of the weights of the tents that are not removed. Print the maximum value.",
+    "prob_desc_output_spec": "A single integer — the maximum sum of the weights of the remaining tents.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1\\leq n\\leq 1\\,000$$$), representing the number of tents. Each of the next $$$n$$$ lines contains three integers $$$x_i$$$, $$$y_i$$$ and $$$w_i$$$ ($$$-10^9\\leq x_i,y_i \\leq 10^9$$$, $$$1\\leq w_i\\leq 10^9$$$), representing the coordinate of the $$$i$$$-th tent and its weight. No two tents are located at the same point.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 3300,
+    "file_name": "train_101.jsonl",
+    "code_uid": "99643e44e0f6e06dd8a235de187126f2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n0 0 4\\n0 1 5\\n1 0 3\\n1 1 1\\n-1 1 2\", \"32\\n2 2 1\\n2 3 1\\n3 2 1\\n3 3 1\\n2 6 1\\n2 5 1\\n3 6 1\\n3 5 1\\n2 8 1\\n2 9 1\\n1 8 1\\n1 9 1\\n2 12 1\\n2 11 1\\n1 12 1\\n1 11 1\\n6 2 1\\n7 2 1\\n6 3 1\\n5 3 1\\n6 6 1\\n7 6 1\\n5 5 1\\n6 5 1\\n6 8 1\\n5 8 1\\n6 9 1\\n7 9 1\\n6 12 1\\n5 12 1\\n6 11 1\\n7 11 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys,io,os\r\ntry:Z=io.BytesIO(os.read(0,os.fstat(0).st_size)).readline\r\nexcept:Z=lambda:sys.stdin.readline().encode()\r\nY=lambda:map(int,Z().split())\r\nINF=float(\"inf\");big=10**13\r\nclass D:\r\n    def __init__(self, n):\r\n        self.lvl = [0] * n\r\n        self.ptr = [0] * n\r\n        self.q = [0] * n\r\n        self.adj = [[] for _ in range(n)]\r\n    def add(self, a, b, c, rcap=0):\r\n        self.adj[a].append([b, len(self.adj[b]), c, 0])\r\n        self.adj[b].append([a, len(self.adj[a]) - 1, rcap, 0])\r\n    def dfs(self, v, t, f):\r\n        if v == t or not f:\r\n            return f\r\n        for i in range(self.ptr[v], len(self.adj[v])):\r\n            e = self.adj[v][i]\r\n            if self.lvl[e[0]] == self.lvl[v] + 1:\r\n                p = self.dfs(e[0], t, min(f, e[2] - e[3]))\r\n                if p:\r\n                    self.adj[v][i][3] += p\r\n                    self.adj[e[0]][e[1]][3] -= p\r\n                    return p\r\n            self.ptr[v] += 1\r\n        return 0\r\n    def calc(self, s, t):\r\n        flow, self.q[0] = 0, s\r\n        for l in range(31):\r\n            while True:\r\n                self.lvl, self.ptr = [0] * len(self.q), [0] * len(self.q)\r\n                qi, qe, self.lvl[s] = 0, 1, 1\r\n                while qi < qe and not self.lvl[t]:\r\n                    v = self.q[qi]\r\n                    qi += 1\r\n                    for e in self.adj[v]:\r\n                        if not self.lvl[e[0]] and (e[2] - e[3]) >> (30 - l):\r\n                            self.q[qe] = e[0]\r\n                            qe += 1\r\n                            self.lvl[e[0]] = self.lvl[v] + 1\r\n                p = self.dfs(s, t, INF)\r\n                while p:\r\n                    flow += p\r\n                    p = self.dfs(s, t, INF)\r\n                if not self.lvl[t]:\r\n                    break\r\n        return flow\r\nr=lambda x,y:(y&1)*2+1-((x+y)&1)\r\nn=int(Z());p={};d=D(2*n+2);w=[0]*n\r\nfor i in range(n):x,y,z=Y();w[i]=z;p[(x,y)]=i\r\nfor x,y in p:\r\n    i=p[(x,y)];v=r(x,y);d.add(i,i+n,w[i])\r\n    if v<1:\r\n        d.add(2*n,i,big)\r\n        if(x+1,y)in p:d.add(i+n,p[(x+1,y)],big)\r\n        if(x-1,y)in p:d.add(i+n,p[(x-1,y)],big)\r\n    elif v<2:\r\n        if(x,y+1)in p:d.add(i+n,p[(x,y+1)],big)\r\n        if(x,y-1)in p:d.add(i+n,p[(x,y-1)],big)\r\n    elif v<3:\r\n        if(x+1,y)in p:d.add(i+n,p[(x+1,y)],big)\r\n        if(x-1,y)in p:d.add(i+n,p[(x-1,y)],big)\r\n    else:d.add(i+n,2*n+1,big)\r\nprint(sum(w)-d.calc(2*n,2*n+1))",
+    "prob_desc_created_at": "1619188500",
+    "tags": [
+        "constructive algorithms",
+        "flows",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 1 2 \\n2 3 4 1 \\n3 1 4 5 2 6\"]",
+    "src_uid": "40a348626035da8637c690a7a29d9202",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Petya is a math teacher. $$$n$$$ of his students has written a test consisting of $$$m$$$ questions. For each student, it is known which questions he has answered correctly and which he has not.If the student answers the $$$j$$$-th question correctly, he gets $$$p_j$$$ points (otherwise, he gets $$$0$$$ points). Moreover, the points for the questions are distributed in such a way that the array $$$p$$$ is a permutation of numbers from $$$1$$$ to $$$m$$$.For the $$$i$$$-th student, Petya knows that he expects to get $$$x_i$$$ points for the test. Petya wonders how unexpected the results could be. Petya believes that the surprise value of the results for students is equal to $$$\\sum\\limits_{i=1}^{n} |x_i - r_i|$$$, where $$$r_i$$$ is the number of points that the $$$i$$$-th student has got for the test.Your task is to help Petya find such a permutation $$$p$$$ for which the surprise value of the results is maximum possible. If there are multiple answers, print any of them.",
+    "prob_desc_output_spec": "For each test case, print $$$m$$$ integers — a permutation $$$p$$$ for which the surprise value of the results is maximum possible. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 10$$$; $$$1 \\le m \\le 10^4$$$) — the number of students and the number of questions, respectively. The second line contains $$$n$$$ integers $$$x_1, x_2, \\dots, x_n$$$ ($$$0 \\le x_i \\le \\frac{m(m+1)}{2}$$$), where $$$x_i$$$ is the number of points that the $$$i$$$-th student expects to get. This is followed by $$$n$$$ lines, the $$$i$$$-th line contains the string $$$s_i$$$ ($$$|s_i| = m; s_{i, j} \\in \\{0, 1\\}$$$), where $$$s_{i, j}$$$ is $$$1$$$ if the $$$i$$$-th student has answered the $$$j$$$-th question correctly, and $$$0$$$ otherwise. The sum of $$$m$$$ for all test cases does not exceed $$$10^4$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_085.jsonl",
+    "code_uid": "02ee8af48ff9cad93a869a13bd16d8e6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4 3\\n5 1 2 2\\n110\\n100\\n101\\n100\\n4 4\\n6 2 0 10\\n1001\\n0010\\n0110\\n0101\\n3 6\\n20 3 15\\n010110\\n000101\\n111111\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "FAST_IO = 1\r\nif FAST_IO:\r\n    import io, sys, atexit\r\n    rr = iter(sys.stdin.read().splitlines()).next\r\n    sys.stdout = _OUTPUT_BUFFER = io.BytesIO()\r\n \r\n    @atexit.register\r\n    def write():\r\n        sys.__stdout__.write(_OUTPUT_BUFFER.getvalue())\r\nelse:\r\n    rr = raw_input\r\nrri = lambda: int(rr())\r\nrrm = lambda: map(int, rr().split())\r\nrrmm = lambda n: [rrm() for _ in xrange(n)]\r\n \r\n####\r\n\r\ndef solve(N, M, X, A):\r\n    # N - num students\r\n    # M - num questions\r\n    # X[i] num points ith student expects\r\n    # A[i][j] = ith student has answered jth q correct\r\n\r\n    ans = -1\r\n    for mask in xrange(1 << N):\r\n        constant = 0\r\n        coeffs = [0] * M\r\n        for i, row in enumerate(A):\r\n            if mask >> i & 1:  # positive\r\n                for j, x in enumerate(row):\r\n                    if x:\r\n                        coeffs[j] += 1\r\n                constant -= X[i]\r\n            else:\r\n                for j, x in enumerate(row):\r\n                    if x:\r\n                        coeffs[j] -= 1\r\n                constant += X[i]\r\n\r\n        coeffs.sort()\r\n        for i, c in enumerate(coeffs, 1):\r\n            constant += c * i\r\n        if constant > ans:\r\n            ans = constant\r\n            ansf = mask\r\n\r\n    mask = ansf\r\n    constant = 0\r\n    coeffs = [0] * M\r\n    for i, row in enumerate(A):\r\n        if mask >> i & 1:  # positive\r\n            for j, x in enumerate(row):\r\n                if x:\r\n                    coeffs[j] += 1\r\n            constant -= X[i]\r\n        else:\r\n            for j, x in enumerate(row):\r\n                if x:\r\n                    coeffs[j] -= 1\r\n            constant += X[i]\r\n    B = sorted([x, i] for i,x  in enumerate(coeffs))\r\n    ans = [0] * M\r\n    for index, (x, i) in enumerate(B , 1):\r\n        ans[i] = index\r\n    return ans\r\n\r\nT = rri()\r\nfor _tc in xrange(T):\r\n    N, M = rrm()\r\n    X = rrm()\r\n    A = [map(int, rr()) for _ in xrange(N)]\r\n    ans = solve(N, M, X, A)\r\n    print \" \".join(map(str, ans))\r\n",
+    "prob_desc_created_at": "1640615700",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

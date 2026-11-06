@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"3\"]",
+    "src_uid": "653455bb6762effbf7358d75660a7689",
+    "prob_desc_notes": "NoteIn the first example the first two doors are from the left exit, so when Mr. Black opened both of them only, there were two more closed door in the left exit and one closed door in the right exit. So Mr. Black wasn't able to exit at that moment.When he opened the third door, all doors from the right exit became open, so Mr. Black was able to exit the house.In the second example when the first two doors were opened, there was open closed door in each of the exit.With three doors opened Mr. Black was able to use the left exit.",
+    "prob_desc_description": "Three years have passes and nothing changed. It is still raining in London, and Mr. Black has to close all the doors in his home in order to not be flooded. Once, however, Mr. Black became so nervous that he opened one door, then another, then one more and so on until he opened all the doors in his house.There are exactly two exits from Mr. Black's house, let's name them left and right exits. There are several doors in each of the exits, so each door in Mr. Black's house is located either in the left or in the right exit. You know where each door is located. Initially all the doors are closed. Mr. Black can exit the house if and only if all doors in at least one of the exits is open. You are given a sequence in which Mr. Black opened the doors, please find the smallest index $$$k$$$ such that Mr. Black can exit the house after opening the first $$$k$$$ doors.We have to note that Mr. Black opened each door at most once, and in the end all doors became open.",
+    "prob_desc_output_spec": "Print the smallest integer $$$k$$$ such that after Mr. Black opened the first $$$k$$$ doors, he was able to exit the house.",
+    "prob_desc_input_spec": "The first line contains integer $$$n$$$ ($$$2 \\le n \\le 200\\,000$$$) — the number of doors. The next line contains $$$n$$$ integers: the sequence in which Mr. Black opened the doors. The $$$i$$$-th of these integers is equal to $$$0$$$ in case the $$$i$$$-th opened door is located in the left exit, and it is equal to $$$1$$$ in case it is in the right exit. It is guaranteed that there is at least one door located in the left exit and there is at least one door located in the right exit.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_003.jsonl",
+    "code_uid": "186f363113dc7ac14a063e31bfd6e2c1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n0 0 1 0 0\", \"4\\n1 0 0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(raw_input())\na=list(map(int,raw_input().split()))\nzero=0\none=0\nfor i in a:\n    if i == 0:\n        zero += 1\n    else:\n        one += 1\ni = 0\nwhile zero > 0 and one > 0:\n    if a[i] == 0:\n        zero -= 1\n    else:\n        one -= 1\n    i += 1\nprint i",
+    "prob_desc_created_at": "1553965800",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

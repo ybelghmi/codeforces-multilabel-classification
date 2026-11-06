@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n12\", \"60\\n30\\n12\\n3\"]",
+    "src_uid": "5a686ba072078c9d0258987cb32d00fc",
+    "prob_desc_notes": "NoteIn first sample in both queries the maximum value of the function is reached on the subsegment that is equal to the whole segment.In second sample, optimal segment for first query are $$$[3,6]$$$, for second query — $$$[2,5]$$$, for third — $$$[3,4]$$$, for fourth — $$$[1,2]$$$.",
+    "prob_desc_description": "For an array $$$b$$$ of length $$$m$$$ we define the function $$$f$$$ as  $$$ f(b) = \\begin{cases} b[1] &amp; \\quad \\text{if } m = 1 \\\\ f(b[1] \\oplus b[2],b[2] \\oplus b[3],\\dots,b[m-1] \\oplus b[m]) &amp; \\quad \\text{otherwise,} \\end{cases} $$$ where $$$\\oplus$$$ is bitwise exclusive OR.For example, $$$f(1,2,4,8)=f(1\\oplus2,2\\oplus4,4\\oplus8)=f(3,6,12)=f(3\\oplus6,6\\oplus12)=f(5,10)=f(5\\oplus10)=f(15)=15$$$You are given an array $$$a$$$ and a few queries. Each query is represented as two integers $$$l$$$ and $$$r$$$. The answer is the maximum value of $$$f$$$ on all continuous subsegments of the array $$$a_l, a_{l+1}, \\ldots, a_r$$$.",
+    "prob_desc_output_spec": "Print $$$q$$$ lines — the answers for the queries.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 5000$$$) — the length of $$$a$$$. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 2^{30}-1$$$) — the elements of the array. The third line contains a single integer $$$q$$$ ($$$1 \\le q \\le 100\\,000$$$) — the number of queries. Each of the next $$$q$$$ lines contains a query represented as two integers $$$l$$$, $$$r$$$ ($$$1 \\le l \\le r \\le n$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_018.jsonl",
+    "code_uid": "b0a04a2f6648994020192a92173089f9",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n8 4 1\\n2\\n2 3\\n1 2\", \"6\\n1 2 4 8 16 32\\n4\\n1 6\\n2 5\\n3 4\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = input()\na = map(int, raw_input().split())\n\nb = [[0 for j in xrange(n - i)] for i in xrange(n)]\nfor i in xrange(n):\n    if i == 0:\n        for j in xrange(n):\n            b[i][j] = a[j]\n    else:\n        for j in xrange(n - i):\n            b[i][j] = b[i - 1][j] ^ b[i - 1][j + 1]\n\nc = [[0 for j in xrange(n - i)] for i in xrange(n)]\nfor i in xrange(n):\n    if i == 0:\n        for j in xrange(n):\n            c[i][j] = b[i][j]\n    else:\n        for j in xrange(n - i):\n            c[i][j] = max(b[i][j], c[i - 1][j], c[i - 1][j + 1])\n\nq = input()\no = [0] * q\nfor i in range(q):\n    l, r = map(lambda x: int(x) - 1, raw_input().split())\n    o[i] = c[r - l][l]\nprint '\\n'.join([str(x) for x in o])\n",
+    "prob_desc_created_at": "1526395500",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

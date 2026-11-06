@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n11\\n110\\n1110\\n01111\"]",
+    "src_uid": "62a90c34a7df8fb56419aa5a1cf2a75b",
+    "prob_desc_notes": "NoteIn the first test case, Doremy tests the only contest. Her IQ doesn't decrease.In the second test case, Doremy tests both contests. Her IQ decreases by $$$1$$$ after testing contest $$$2$$$.In the third test case, Doremy tests contest $$$1$$$ and $$$2$$$. Her IQ decreases to $$$0$$$ after testing contest $$$2$$$, so she can't test contest $$$3$$$.",
+    "prob_desc_description": "Doremy is asked to test $$$n$$$ contests. Contest $$$i$$$ can only be tested on day $$$i$$$. The difficulty of contest $$$i$$$ is $$$a_i$$$. Initially, Doremy's IQ is $$$q$$$. On day $$$i$$$ Doremy will choose whether to test contest $$$i$$$ or not. She can only test a contest if her current IQ is strictly greater than $$$0$$$.If Doremy chooses to test contest $$$i$$$ on day $$$i$$$, the following happens:   if $$$a_i&gt;q$$$, Doremy will feel she is not wise enough, so $$$q$$$ decreases by $$$1$$$;  otherwise, nothing changes.  If she chooses not to test a contest, nothing changes.Doremy wants to test as many contests as possible. Please give Doremy a solution.",
+    "prob_desc_output_spec": "For each test case, you need to output a binary string $$$s$$$, where $$$s_i=1$$$ if Doremy should choose to test contest $$$i$$$, and $$$s_i=0$$$ otherwise. The number of ones in the string should be maximum possible, and she should never test a contest when her IQ is zero or less. If there are multiple solutions, you may output any.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1\\le t\\le 10^4$$$) — the number of test cases. The description of the test cases follows. The first line contains two integers $$$n$$$ and $$$q$$$ ($$$1 \\le n \\le 10^5$$$, $$$1 \\le q \\le 10^9$$$) — the number of contests and Doremy's IQ in the beginning. The second line contains $$$n$$$ integers $$$a_1,a_2,\\cdots,a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — the difficulty of each contest. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_103.jsonl",
+    "code_uid": "07ed0215241bd3f8e53318053b990db2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n1 1\\n\\n1\\n\\n2 1\\n\\n1 2\\n\\n3 1\\n\\n1 2 1\\n\\n4 2\\n\\n1 4 3 1\\n\\n5 2\\n\\n5 1 2 4 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\r\nfor i in range(t):\r\n    n,q=input().split()\r\n    n,q=int(n),int(q)\r\n    a=list(map(int,input().split()))\r\n\r\n    if q>=max(a) or q>=n:\r\n        print('1'*n)\r\n        continue\r\n\r\n    bad=[j for j in range(len(a)) if a[j]>q]\r\n    if len(bad)==1 and bad[0]==n-1:\r\n        print('1'*n)\r\n        continue\r\n    mn=0\r\n    mx=len(bad)-1\r\n    ans=n\r\n    while mn <= mx:\r\n        mid = (mx + mn) // 2\r\n        cur_iq = q\r\n        b_ok=1\r\n        for k in range(bad[mid], n):\r\n            if cur_iq==0:\r\n                b_ok=0\r\n            if a[k]>cur_iq:\r\n                   cur_iq-=1\r\n\r\n        if b_ok:\r\n            mx = mid - 1\r\n            ans = bad[mid]\r\n\r\n        else:\r\n            mn = mid + 1\r\n\r\n    s=''\r\n    for j in range(ans):\r\n        # if j==ans:\r\n        #     if b_ok:\r\n        #         s+='1'\r\n        #     else:\r\n        #         s+='0'\r\n        #     continue\r\n        if a[j]<=q:\r\n            s+='1'\r\n        else:\r\n            s+='0'\r\n\r\n    s+='1'*(n-ans)\r\n    print(s)",
+    "prob_desc_created_at": "1657982100",
+    "tags": [
+        "binary search",
+        "constructive algorithms",
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

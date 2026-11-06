@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"2\", \"0\", \"3\"]",
+    "src_uid": "c083988d20f434d61134f7b376581eb6",
+    "prob_desc_notes": "NoteIn the first example, we may choose $$$d = -2$$$.In the second example, we may choose $$$d = -\\frac{1}{13}$$$.In the third example, we cannot obtain any zero in array $$$c$$$, no matter which $$$d$$$ we choose.In the fourth example, we may choose $$$d = 6$$$.",
+    "prob_desc_description": "You are given two arrays $$$a$$$ and $$$b$$$, each contains $$$n$$$ integers.You want to create a new array $$$c$$$ as follows: choose some real (i.e. not necessarily integer) number $$$d$$$, and then for every $$$i \\in [1, n]$$$ let $$$c_i := d \\cdot a_i + b_i$$$.Your goal is to maximize the number of zeroes in array $$$c$$$. What is the largest possible answer, if you choose $$$d$$$ optimally?",
+    "prob_desc_output_spec": "Print one integer — the maximum number of zeroes in array $$$c$$$, if you choose $$$d$$$ optimally.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of elements in both arrays. The second line contains $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_n$$$ ($$$-10^9 \\le a_i \\le 10^9$$$). The third line contains $$$n$$$ integers $$$b_1$$$, $$$b_2$$$, ..., $$$b_n$$$ ($$$-10^9 \\le b_i \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_017.jsonl",
+    "code_uid": "e33e15a6ad498891794622e070b3f654",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 3 4 5\\n2 4 7 11 3\", \"3\\n13 37 39\\n1 2 3\", \"4\\n0 0 0 0\\n1 2 3 4\", \"3\\n1 2 -1\\n-6 -12 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# @-*- coding: utf-8 -*-\n# @Time:   2018-10-21T21:21:26+08:00\n# @Email:  ykaiwan@163.com\n\n\nimport sys\nimport math\nimport bisect\nfrom collections import defaultdict\n\nMOD = int(1e9+7)\n\n\n# n = map(int, raw_input().split())\nn = int(raw_input())\na = map(int, raw_input().split())\nb = map(int, raw_input().split())\nck = defaultdict(int)\ndef gcd(x, y):\n    while (y):\n        x, y = y, x % y\n    return x\ntt = 0\nfor i, j in zip(a,b):\n    if i == 0:\n        if j == 0:\n            tt += 1\n    else:\n        k = gcd(i, j)\n        ck[(i/k, j/k)] += 1\nif not ck:\n    print 0+tt\nelse:\n    print max(ck.values())+tt\n",
+    "prob_desc_created_at": "1551971100",
+    "tags": [
+        "number theory",
+        "hashing",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

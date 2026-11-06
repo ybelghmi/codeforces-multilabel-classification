@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"999 998\\n\\n999 997\\n\\n&lt;...&gt;\\n\\n999 26\"]",
+    "src_uid": "3d38584c3bb29e6f84546643b1be8026",
+    "prob_desc_notes": "NoteThe example is trimmed. The full initial positions of the rooks in the first test are available at https://pastebin.com/qQCTXgKP. It is not guaranteed that they will behave as in the example.",
+    "prob_desc_description": "This is an interactive task.Dasha and NN like playing chess. While playing a match they decided that normal chess isn't interesting enough for them, so they invented a game described below.There are $$$666$$$ black rooks and $$$1$$$ white king on the chess board of size $$$999 \\times 999$$$. The white king wins if he gets checked by rook, or, in other words, if he moves onto the square which shares either a row or column with a black rook.The sides take turns, starting with white. NN plays as a white king and on each of his turns he moves a king to one of the squares that are adjacent to his current position either by side or diagonally, or, formally, if the king was on the square $$$(x, y)$$$, it can move to the square $$$(nx, ny)$$$ if and only $$$\\max (|nx - x|, |ny - y|) = 1$$$ , $$$1 \\leq nx, ny \\leq 999$$$. NN is also forbidden from moving onto the squares occupied with black rooks, however, he can move onto the same row or column as a black rook.Dasha, however, neglects playing by the chess rules, and instead of moving rooks normally she moves one of her rooks on any space devoid of other chess pieces. It is also possible that the rook would move onto the same square it was before and the position wouldn't change. However, she can't move the rook on the same row or column with the king.Each player makes $$$2000$$$ turns, if the white king wasn't checked by a black rook during those turns, black wins. NN doesn't like losing, but thinks the task is too difficult for him, so he asks you to write a program that will always win playing for the white king. Note that Dasha can see your king and play depending on its position.",
+    "prob_desc_output_spec": "After getting king checked, you program should terminate immediately without printing anything extra.",
+    "prob_desc_input_spec": "In the beginning your program will receive $$$667$$$ lines from input. Each line contains two integers $$$x$$$ and $$$y$$$ ($$$1 \\leq x, y \\leq 999$$$) — the piece's coordinates. The first line contains the coordinates of the king and the next $$$666$$$ contain the coordinates of the rooks. The first coordinate denotes the number of the row where the piece is located, the second denotes the column. It is guaranteed that initially the king isn't in check and that all pieces occupy different squares.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "787e57cf2e8286722946ad3c7dac7317",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"999 999\\n1 1\\n1 2\\n2 1\\n2 2\\n1 3\\n2 3\\n&lt;...&gt;\\n26 13\\n26 14\\n26 15\\n26 16\\n\\n1 700 800\\n\\n2 1 2\\n\\n&lt;...&gt;\\n\\n-1 -1 -1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nkx, ky = [int(z) for z in sys.stdin.readline().split()]\nlx = [0] * 667\nly = [0] * 667\nbp = []\nfor i in range(1001):\n    bp.append([0 for z in range(1001)])\n\nfor i in range(1, 667):\n    lx[i], ly[i] = [int(z) for z in sys.stdin.readline().split()]\n    bp[lx[i]][ly[i]] = 1\n\nlos = [0] * 4\nfor i in range(1, 667):\n    sta = 0\n    if lx[i] > kx:\n        sta += 1\n    if ly[i] > ky:\n        sta += 2\n    los[sta] += 1\n\ntkx, tky = 500, 500\nntut = False\nstnse = True\nwhile True:\n    if kx == tkx and ky == tky:\n        ntut = True\n    if ntut:\n        sos = [0, 1, 2, 3]\n        sos.sort(key=lambda z: los[z])\n        tkx = (1 - sos[0] % 2) * 998 + 1\n        tky = (1 - sos[0] // 2) * 998 + 1\n        ntut = False\n        stnse = False\n    dkx = 0\n    dky = 0\n    if tkx > kx:\n        dkx = 1\n    elif tkx < kx:\n        dkx = -1\n    if tky > ky:\n        dky = 1\n    elif tky < ky:\n        dky = -1\n    if bp[kx+dkx][ky+dky] == 1:\n        dky = 0\n    kx += dkx\n    ky += dky\n    print(kx, ky, flush=True)\n    l, nlx, nly = [int(z) for z in sys.stdin.readline().split()]\n    soa = l + nlx + nly\n    if soa == 0 or soa == -3:\n        exit(0)\n    if stnse:\n        std = 0\n        if lx[l] > kx:\n            std += 1\n        if ly[l] > ky:\n            std += 2\n        sta = 0\n        if nlx > kx:\n            sta += 1\n        if nly > ky:\n            sta += 2\n        los[std] -= 1\n        los[sta] += 1\n    bp[lx[l]][ly[l]] = 0\n    bp[nlx][nly] = 1\n    lx[l] = nlx\n    ly[l] = nly\n",
+    "prob_desc_created_at": "1547390100",
+    "tags": [
+        "constructive algorithms",
+        "games",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

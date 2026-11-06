@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\naaaaa\", \"1\\naaaa\", \"0\"]",
+    "src_uid": "f023111561605b3e44ca85cb43b4aa00",
+    "prob_desc_notes": "NoteIn the first sample the string consists of five identical letters but you are only allowed to delete 4 of them so that there was at least one letter left. Thus, the right answer is 1 and any string consisting of characters \"a\" from 1 to 5 in length.In the second sample you are allowed to delete 4 characters. You cannot delete all the characters, because the string has length equal to 7. However, you can delete all characters apart from \"a\" (as they are no more than four), which will result in the \"aaaa\" string.In the third sample you are given a line whose length is equal to 8, and k = 10, so that the whole line can be deleted. The correct answer is 0 and an empty string.",
+    "prob_desc_description": "Once when Gerald studied in the first year at school, his teacher gave the class the following homework. She offered the students a string consisting of n small Latin letters; the task was to learn the way the letters that the string contains are written. However, as Gerald is too lazy, he has no desire whatsoever to learn those letters. That's why he decided to lose some part of the string (not necessarily a connected part). The lost part can consist of any number of segments of any length, at any distance from each other. However, Gerald knows that if he loses more than k characters, it will be very suspicious. Find the least number of distinct characters that can remain in the string after no more than k characters are deleted. You also have to find any possible way to delete the characters.",
+    "prob_desc_output_spec": "Print on the first line the only number m — the least possible number of different characters that could remain in the given string after it loses no more than k characters. Print on the second line the string that Gerald can get after some characters are lost. The string should have exactly m distinct characters. The final string should be the subsequence of the initial string. If Gerald can get several different strings with exactly m distinct characters, print any of them.",
+    "prob_desc_input_spec": "The first input data line contains a string whose length is equal to n (1 ≤ n ≤ 105). The string consists of lowercase Latin letters. The second line contains the number k (0 ≤ k ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_028.jsonl",
+    "code_uid": "2f06cce70a1ff5abc10dcb6f0edc6702",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"aaaaa\\n4\", \"abacaba\\n4\", \"abcdefgh\\n10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "string = input()\nn = int(input())\nalphabet = {}\na = set(string)\nbool_string = {i: True for i in a}\nfor i in a:\n    alphabet[i] = 0\nfor i in string:\n    alphabet[i] += 1\narray = [[alphabet[i], i] for i in alphabet]\narray.sort()\nk = len(array)\ni = 0\nwhile n > 0 and i < k:\n    n -= array[i][0]\n    bool_string[array[i][1]] = False\n    i += 1\nif n < 0:\n    bool_string[array[i-1][1]] = True\n    i -= 1\nanswer = ''\nprint(k-i)\nfor i in string:\n    if bool_string[i]: answer += i\n\nprint(answer)\n",
+    "prob_desc_created_at": "1312390800",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

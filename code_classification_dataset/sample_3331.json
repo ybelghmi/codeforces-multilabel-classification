@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0 1\", \"1 0\", \"1 0 2\"]",
+    "src_uid": "ade941d5869b9a0cb18dad1e6d52218b",
+    "prob_desc_notes": "NotePermutations of numbers from 0 to 1 in the lexicographical order: (0, 1), (1, 0).In the first sample Ord(p) = 0 and Ord(q) = 0, so the answer is .In the second sample Ord(p) = 0 and Ord(q) = 1, so the answer is .Permutations of numbers from 0 to 2 in the lexicographical order: (0, 1, 2), (0, 2, 1), (1, 0, 2), (1, 2, 0), (2, 0, 1), (2, 1, 0).In the third sample Ord(p) = 3 and Ord(q) = 5, so the answer is .",
+    "prob_desc_description": "Let's define the sum of two permutations p and q of numbers 0, 1, ..., (n - 1) as permutation , where Perm(x) is the x-th lexicographically permutation of numbers 0, 1, ..., (n - 1) (counting from zero), and Ord(p) is the number of permutation p in the lexicographical order.For example, Perm(0) = (0, 1, ..., n - 2, n - 1), Perm(n! - 1) = (n - 1, n - 2, ..., 1, 0)Misha has two permutations, p and q. Your task is to find their sum.Permutation a = (a0, a1, ..., an - 1) is called to be lexicographically smaller than permutation b = (b0, b1, ..., bn - 1), if for some k following conditions hold: a0 = b0, a1 = b1, ..., ak - 1 = bk - 1, ak &lt; bk.",
+    "prob_desc_output_spec": "Print n distinct integers from 0 to n - 1, forming the sum of the given permutations. Separate the numbers by spaces.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 200 000). The second line contains n distinct integers from 0 to n - 1, separated by a space, forming permutation p. The third line contains n distinct integers from 0 to n - 1, separated by spaces, forming permutation q.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_053.jsonl",
+    "code_uid": "76f1a91015917e9b9e939a23ec2937ed",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n0 1\\n0 1\", \"2\\n0 1\\n1 0\", \"3\\n1 2 0\\n2 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n \nclass SegmTree():\n    def __init__(self, array=None):\n        size = len(array)\n        N = 1\n        while N < size:\n            N <<= 1\n        self.N = N\n        self.tree = [0] * (2*self.N)\n        for i in range(size):\n            self.tree[i+self.N] = array[i]\n        self.build()\n \n    def build(self):\n        for i in range(self.N - 1, 0, -1):\n            self.tree[i] = self.tree[i<<1] + self.tree[i<<1|1]\n \n    def add(self, i, value=1):\n        i += self.N\n        while i > 0:\n            self.tree[i] += value\n            i >>= 1\n    \n    def get_sum(self, l, r):\n        N = self.N\n        l += N\n        r += N\n        result = 0\n        while l < r:\n            if l & 1:\n                result += self.tree[l]\n                l += 1\n            if r & 1:\n                r -= 1\n                result += self.tree[r]\n            l >>= 1\n            r >>= 1\n        return result\n    \n    def find_kth_nonzero(self, k):\n        i = 1\n        if k < 1 or k > self.tree[1]:\n            return -1\n        while i < self.N:\n            i <<= 1\n            if self.tree[i] < k:\n                k -= self.tree[i]\n                i |= 1\n        return i - self.N\n \nreader = (line.rstrip() for line in sys.stdin)\ninput = reader.__next__\n \nn = int(input())\np = list(map(int, input().split()))\nq = list(map(int, input().split()))\n \nord_p = []\nord_q = []\n \nst = SegmTree([1] * n)\nfor i, val in enumerate(p):\n    ord_p.append(st.get_sum(0, val))\n    st.add(val, -1)\n \nst = SegmTree([1] * n)\nfor i, val in enumerate(q):\n    ord_q.append(st.get_sum(0, val))\n    st.add(val, -1)\n \ntransfer = 0\nfor i in range(n-1, -1, -1):\n    radix = n-i\n    ord_p[i] = ord_p[i] + ord_q[i] + transfer\n    if ord_p[i] < radix:\n        transfer = 0\n    else:\n        transfer = 1\n        ord_p[i] -= radix\n \nst = SegmTree([1] * n)\nfor i in range(n):\n    k = ord_p[i] + 1\n    ord_q[i] = st.find_kth_nonzero(k)\n    st.add(ord_q[i], -1)\n \nprint(*ord_q)\n",
+    "prob_desc_created_at": "1421053200",
+    "tags": [
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

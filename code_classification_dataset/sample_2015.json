@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n45\\n153\\n294\\n3359835\\n0\\n427262129093995\"]",
+    "src_uid": "9964bfdcfdd041b839ce120019e8220f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Polycarp is reading a book consisting of $$$n$$$ pages numbered from $$$1$$$ to $$$n$$$. Every time he finishes the page with the number divisible by $$$m$$$, he writes down the last digit of this page number. For example, if $$$n=15$$$ and $$$m=5$$$, pages divisible by $$$m$$$ are $$$5, 10, 15$$$. Their last digits are $$$5, 0, 5$$$ correspondingly, their sum is $$$10$$$.Your task is to calculate the sum of all digits Polycarp has written down.You have to answer $$$q$$$ independent queries.",
+    "prob_desc_output_spec": "For each query print the answer for it — the sum of digits written down by Polycarp.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$q$$$ ($$$1 \\le q \\le 1000$$$) — the number of queries. The following $$$q$$$ lines contain queries, one per line. Each query is given as two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 10^{16}$$$) — the number of pages in the book and required divisor, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_016.jsonl",
+    "code_uid": "ae010ce9ce0ac1b0a12ebf931af7371b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n1 1\\n10 1\\n100 3\\n1024 14\\n998244353 1337\\n123 144\\n1234312817382646 13\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\n\tn, m = map(int,input().split())\n\tl = [(m*i)%10 for i in range(1,11)]\n\tk = n//m\n\tans = (k//10)*sum(l) + sum(l[0:k%10])\n\tprint(ans)\n\t",
+    "prob_desc_created_at": "1567175700",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

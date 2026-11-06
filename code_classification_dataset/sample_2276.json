@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2 3\\n2 1\\n2 1 3\\n-1\\n1\\n3 2 1 4\"]",
+    "src_uid": "667c5af27db369257039d0832258600d",
+    "prob_desc_notes": "NoteIn the first test case for permutation $$$p = [1, 2, 3]$$$ Vasya should write $$$next = [2, 3, 4]$$$, because each number in permutation is less than next. It's easy to see, that it is the only satisfying permutation.In the third test case, any permutation can be the answer because all numbers $$$next_i$$$ are lost.In the fourth test case, there is no satisfying permutation, so the answer is $$$-1$$$.",
+    "prob_desc_description": "Vasya has written some permutation $$$p_1, p_2, \\ldots, p_n$$$ of integers from $$$1$$$ to $$$n$$$, so for all $$$1 \\leq i \\leq n$$$ it is true that $$$1 \\leq p_i \\leq n$$$ and all $$$p_1, p_2, \\ldots, p_n$$$ are different. After that he wrote $$$n$$$ numbers $$$next_1, next_2, \\ldots, next_n$$$. The number $$$next_i$$$ is equal to the minimal index $$$i &lt; j \\leq n$$$, such that $$$p_j &gt; p_i$$$. If there is no such $$$j$$$ let's let's define as $$$next_i = n + 1$$$.In the evening Vasya went home from school and due to rain, his notebook got wet. Now it is impossible to read some written numbers. Permutation and some values $$$next_i$$$ are completely lost! If for some $$$i$$$ the value $$$next_i$$$ is lost, let's say that $$$next_i = -1$$$.You are given numbers $$$next_1, next_2, \\ldots, next_n$$$ (maybe some of them are equal to $$$-1$$$). Help Vasya to find such permutation $$$p_1, p_2, \\ldots, p_n$$$ of integers from $$$1$$$ to $$$n$$$, that he can write it to the notebook and all numbers $$$next_i$$$, which are not equal to $$$-1$$$, will be correct. ",
+    "prob_desc_output_spec": "Print $$$T$$$ lines, in $$$i$$$-th of them answer to the $$$i$$$-th test case. If there is no such permutations $$$p_1, p_2, \\ldots, p_n$$$ of integers from $$$1$$$ to $$$n$$$, that Vasya could write, print the only number $$$-1$$$. In the other case print $$$n$$$ different integers $$$p_1, p_2, \\ldots, p_n$$$, separated by spaces ($$$1 \\leq p_i \\leq n$$$). All defined values of $$$next_i$$$ which are not equal to $$$-1$$$ should be computed correctly $$$p_1, p_2, \\ldots, p_n$$$ using defenition given in the statement of the problem. If there exists more than one solution you can find any of them.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ — the number of test cases ($$$1 \\leq t \\leq 100\\,000$$$). Next $$$2 \\cdot t$$$ lines contains the description of test cases,two lines for each. The first line contains one integer $$$n$$$ — the length of the permutation, written by Vasya ($$$1 \\leq n \\leq 500\\,000$$$). The second line contains $$$n$$$ integers $$$next_1, next_2, \\ldots, next_n$$$, separated by spaces ($$$next_i = -1$$$ or $$$i &lt; next_i \\leq n + 1$$$). It is guaranteed, that the sum of $$$n$$$ in all test cases doesn't exceed $$$500\\,000$$$. In hacks you can only use one test case, so $$$T = 1$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_019.jsonl",
+    "code_uid": "c613dad11d5b1e8baf36061434b5232b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n3\\n2 3 4\\n2\\n3 3\\n3\\n-1 -1 -1\\n3\\n3 4 -1\\n1\\n2\\n4\\n4 -1 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\nimport sys\nfrom atexit import register\nfrom io import BytesIO\n\nsys.stdin = BytesIO(os.read(0, os.fstat(0).st_size))\nsys.stdout = BytesIO()\nregister(lambda: os.write(1, sys.stdout.getvalue()))\n\ninput = lambda: sys.stdin.readline().rstrip('\\r\\n')\nt=int(input())\n\nfor u in xrange(t):\n    n=int(input())\n    a=list(map(int,input().split()))\n    long=[]\n    lens=0\n    fucked=False\n    for i in xrange(n):\n        if a[i]==-1:\n            if lens==0:\n                a[i]=i+2\n            else:\n                a[i]=long[-1]\n        else:\n            if lens==0 or a[i]<long[-1]:\n                long.append(a[i])\n                lens+=1\n            elif lens>0 and a[i]>long[-1]:\n                fucked=True\n        if lens>0:\n            if i>=long[-1]-2:\n                long.pop()\n                lens-=1\n    if fucked:\n        print(-1)\n    else:\n        back={}\n        for i in xrange(n+1):\n            back[i+1]=[]\n        for i in xrange(n):\n            back[a[i]].append(i+1)\n        perm=[0]*n\n        q=[n+1]\n        big=n\n        while q!=[]:\n            newq=[]\n            for guy in q:\n                for boi in back[guy]:\n                    perm[boi-1]=big\n                    big-=1\n                newq+=back[guy]\n            q=newq\n        perm=[str(guy) for guy in perm]\n        print(\" \".join(perm))",
+    "prob_desc_created_at": "1557671700",
+    "tags": [
+        "greedy",
+        "graphs",
+        "constructive algorithms",
+        "math",
+        "sortings",
+        "data structures",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

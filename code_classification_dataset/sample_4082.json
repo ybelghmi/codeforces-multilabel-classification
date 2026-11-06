@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5 4 2\\n11 10 8\\n4000\\n4000\\n0 0 0 0\\n0 0 0 0\\n12 2 3 15\\n23 13 3 15\"]",
+    "src_uid": "ffc96dc83a6fde2e83e07671a8d8ed41",
+    "prob_desc_notes": "NoteIn the first test case, in order to get $$$d_1^{min} = 5$$$, we can choose, for example, $$$d = [5, 10, 6]$$$. Then $$$b$$$ $$$=$$$ $$$[2+5,3+10,5+6]$$$ $$$=$$$ $$$[7,13,11]$$$ $$$=$$$ $$$[7,11,13]$$$.For $$$d_2^{min} = 4$$$, we can choose $$$d$$$ $$$=$$$ $$$[9, 4, 8]$$$. Then $$$b$$$ $$$=$$$ $$$[2+9,3+4,5+8]$$$ $$$=$$$ $$$[11,7,13]$$$ $$$=$$$ $$$[7,11,13]$$$.",
+    "prob_desc_description": "You are given an array $$$a_1, a_2, \\dots, a_n$$$, which is sorted in non-descending order. You decided to perform the following steps to create array $$$b_1, b_2, \\dots, b_n$$$:   Create an array $$$d$$$ consisting of $$$n$$$ arbitrary non-negative integers.  Set $$$b_i = a_i + d_i$$$ for each $$$b_i$$$.  Sort the array $$$b$$$ in non-descending order. You are given the resulting array $$$b$$$. For each index $$$i$$$, calculate what is the minimum and maximum possible value of $$$d_i$$$ you can choose in order to get the given array $$$b$$$.Note that the minimum (maximum) $$$d_i$$$-s are independent of each other, i. e. they can be obtained from different possible arrays $$$d$$$.",
+    "prob_desc_output_spec": "For each test case, print two lines. In the first line, print $$$n$$$ integers $$$d_1^{min}, d_2^{min}, \\dots, d_n^{min}$$$, where $$$d_i^{min}$$$ is the minimum possible value you can add to $$$a_i$$$. Secondly, print $$$n$$$ integers $$$d_1^{max}, d_2^{max}, \\dots, d_n^{max}$$$, where $$$d_i^{max}$$$ is the maximum possible value you can add to $$$a_i$$$. All $$$d_i^{min}$$$ and $$$d_i^{max}$$$ values are independent of each other. In other words, for each $$$i$$$, $$$d_i^{min}$$$ is just the minimum value among all possible values of $$$d_i$$$.",
+    "prob_desc_input_spec": "The first line contains the single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the length of arrays $$$a$$$, $$$b$$$ and $$$d$$$. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$; $$$a_i \\le a_{i+1}$$$) — the array $$$a$$$ in non-descending order. The third line contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$1 \\le b_i \\le 10^9$$$; $$$b_i \\le b_{i+1}$$$) — the array $$$b$$$ in non-descending order. Additional constraints on the input:    there is at least one way to obtain the array $$$b$$$ from the $$$a$$$ by choosing an array $$$d$$$ consisting of non-negative integers;  the sum of $$$n$$$ doesn't exceed $$$2 \\cdot 10^5$$$. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_090.jsonl",
+    "code_uid": "3a6ee193df23bbe9285e49b2f2015ce0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n3\\n\\n2 3 5\\n\\n7 11 13\\n\\n1\\n\\n1000\\n\\n5000\\n\\n4\\n\\n1 2 3 4\\n\\n1 2 3 4\\n\\n4\\n\\n10 20 30 40\\n\\n22 33 33 55\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import bisect\r\n \r\nfor _ in range(int(input())):\r\n\tn=int(input())\r\n\ta=list(map(int,input().split()))\r\n\tb=list(map(int,input().split()))\r\n\tmaxis=[]\r\n\tminis=[]\r\n\tfor i in a:\r\n\t\tv=bisect.bisect_left(b,i)\r\n\t\tminis.append(max(0,b[v]-i))\r\n\tmx=[i for i in b]\r\n\tfor i in range(n-2,-1,-1):\r\n\t\tv=bisect.bisect_left(b,a[i+1])\r\n\t\tif i+1!=v:\r\n\t\t\tmx[i]=mx[i+1]\r\n\t\telse:\r\n\t\t\tmx[i]=b[i]\r\n\tfor i in range(n):\r\n\t\tmaxis.append(mx[i]-a[i])\r\n\tprint(*minis)\r\n\tprint(*maxis)",
+    "prob_desc_created_at": "1661610900",
+    "tags": [
+        "binary search",
+        "greedy",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

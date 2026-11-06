@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"0\"]",
+    "src_uid": "eb7457fe1e1b571e5ee8dd9689c7d66a",
+    "prob_desc_notes": "NoteIn the first sample following pairs of bishops attack each other: (1, 3), (1, 5), (2, 3), (2, 4), (3, 4) and (3, 5). Pairs (1, 2), (1, 4), (2, 5) and (4, 5) do not attack each other because they do not share the same diagonal.",
+    "prob_desc_description": "Today, Wet Shark is given n bishops on a 1000 by 1000 grid. Both rows and columns of the grid are numbered from 1 to 1000. Rows are numbered from top to bottom, while columns are numbered from left to right.Wet Shark thinks that two bishops attack each other if they share the same diagonal. Note, that this is the only criteria, so two bishops may attack each other (according to Wet Shark) even if there is another bishop located between them. Now Wet Shark wants to count the number of pairs of bishops that attack each other.",
+    "prob_desc_output_spec": "Output one integer — the number of pairs of bishops which attack each other. ",
+    "prob_desc_input_spec": "The first line of the input contains n (1 ≤ n ≤ 200 000) — the number of bishops. Each of next n lines contains two space separated integers xi and yi (1 ≤ xi, yi ≤ 1000) — the number of row and the number of column where i-th bishop is positioned. It's guaranteed that no two bishops share the same position.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_003.jsonl",
+    "code_uid": "3a07560df0a0f1487deaabe1eefba02f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 1\\n1 5\\n3 3\\n5 1\\n5 5\", \"3\\n1 1\\n2 3\\n3 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nR = lambda : map(int, input().split())\n\nfrom collections import defaultdict\nl1 = defaultdict(int)\nl2 = defaultdict(int)\n\nfor i in range(n):\n    x,y=R()\n    l1[y-x]+=1; l2[1001-y-x]+=1;\n\ns = 0\nfor d in l1.values():\n    s+=(d*(d-1))//2\nfor d in l2.values():\n    s+=(d*(d-1))//2\nprint(s)",
+    "prob_desc_created_at": "1454249100",
+    "tags": [
+        "combinatorics",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

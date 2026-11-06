@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n2\", \"2\\n0\"]",
+    "src_uid": "d1a35297090550d9a95f014b0c09a01a",
+    "prob_desc_notes": "NoteFirst sample is elaborated in the problem statement. In the second sample, there is no way Moriarty can avoid getting two flicks.",
+    "prob_desc_description": "After the fourth season Sherlock and Moriary have realized the whole foolishness of the battle between them and decided to continue their competitions in peaceful game of Credit Cards.Rules of this game are simple: each player bring his favourite n-digit credit card. Then both players name the digits written on their cards one by one. If two digits are not equal, then the player, whose digit is smaller gets a flick (knock in the forehead usually made with a forefinger) from the other player. For example, if n = 3, Sherlock's card is 123 and Moriarty's card has number 321, first Sherlock names 1 and Moriarty names 3 so Sherlock gets a flick. Then they both digit 2 so no one gets a flick. Finally, Sherlock names 3, while Moriarty names 1 and gets a flick.Of course, Sherlock will play honestly naming digits one by one in the order they are given, while Moriary, as a true villain, plans to cheat. He is going to name his digits in some other order (however, he is not going to change the overall number of occurences of each digit). For example, in case above Moriarty could name 1, 2, 3 and get no flicks at all, or he can name 2, 3 and 1 to give Sherlock two flicks.Your goal is to find out the minimum possible number of flicks Moriarty will get (no one likes flicks) and the maximum possible number of flicks Sherlock can get from Moriarty. Note, that these two goals are different and the optimal result may be obtained by using different strategies.",
+    "prob_desc_output_spec": "First print the minimum possible number of flicks Moriarty will get. Then print the maximum possible number of flicks that Sherlock can get from Moriarty.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 1000) — the number of digits in the cards Sherlock and Moriarty are going to use. The second line contains n digits — Sherlock's credit card number. The third line contains n digits — Moriarty's credit card number.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_005.jsonl",
+    "code_uid": "d4af2413d98bd7b7ba5ae576a5128751",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n123\\n321\", \"2\\n88\\n00\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\na = [int(c) for c in raw_input()]\nb = [int(c) for c in raw_input()]\na.sort()\nb.sort()\n\nres_min = n\nj = 0\nfor i in xrange(n):\n    while j < n and b[j] < a[i]:\n        j += 1\n    if j < n:\n        res_min -= 1\n        j += 1\n    if j >= n:\n        break\n\nres_max = 0\nj = 0\nfor i in xrange(n):\n    while j < n and b[j] <= a[i]:\n        j += 1\n    if j < n:\n        res_max += 1\n        j += 1\n    if j >= n:\n        break\n\nprint res_min\nprint res_max\n",
+    "prob_desc_created_at": "1487930700",
+    "tags": [
+        "dp",
+        "sortings",
+        "greedy",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

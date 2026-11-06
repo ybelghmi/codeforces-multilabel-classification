@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"? baa\\n? aba\\n? aab\\n! xyz\"]",
+    "src_uid": "e9079292d6bb328d8fe355101028cc6a",
+    "prob_desc_notes": "NoteIn the sample, the testcase described in the statement is used. The participant asks the first query with string baa, which is transformed to aab. The second query contains string aba, which is transformed to baa. The third query contains string aab, which is transformed to aba. The participant can deduce that the initial string $$$s$$$ was xyz.Note for hacking phase:To submit a test in hacking phase, you should provide it in the following format:The first line should contain the string $$$s$$$ you guess, consisting of $$$n \\in [1, 10000]$$$ lowercase Latin letters.The second line should contain $$$k$$$ ($$$0 \\le k \\le n$$$) — the number of swap operations in the sequence.Then $$$k$$$ lines should follow, $$$i$$$-th of them should denote $$$i$$$-th operation with two integers $$$a_i$$$ and $$$b_i$$$ ($$$1 \\le a_i, b_i \\le n$$$).For example, the sample test would look like that:xyz21 22 3",
+    "prob_desc_description": "This is an interactive problem. Remember to flush your output while communicating with the testing program. You may use fflush(stdout) in C++, system.out.flush() in Java, stdout.flush() in Python or flush(output) in Pascal to flush the output. If you use some other programming language, consult its documentation. You may also refer to the guide on interactive problems: https://codeforces.com/blog/entry/45307.You are given a string $$$t$$$ consisting of $$$n$$$ lowercase Latin letters. This string was cyphered as follows: initially, the jury had a string $$$s$$$ consisting of $$$n$$$ lowercase Latin letters. Then they applied a sequence of no more than $$$n$$$ (possibly zero) operations. $$$i$$$-th operation is denoted by two integers $$$a_i$$$ and $$$b_i$$$ ($$$1 \\le a_i, b_i \\le n$$$), and means swapping two elements of the string with indices $$$a_i$$$ and $$$b_i$$$. All operations were done in the order they were placed in the sequence. For example, if $$$s$$$ is xyz and $$$2$$$ following operations are performed: $$$a_1 = 1, b_1 = 2$$$; $$$a_2 = 2, b_2 = 3$$$, then after the first operation the current string is yxz, and after the second operation the current string is yzx, so $$$t$$$ is yzx.You are asked to restore the original string $$$s$$$. Unfortunately, you have no information about the operations used in the algorithm (you don't even know if there were any operations in the sequence). But you may run the same sequence of operations on any string you want, provided that it contains only lowercase Latin letters and its length is $$$n$$$, and get the resulting string after those operations.Can you guess the original string $$$s$$$ asking the testing system to run the sequence of swaps no more than $$$3$$$ times?The string $$$s$$$ and the sequence of swaps are fixed in each test; the interactor doesn't try to adapt the test to your solution.",
+    "prob_desc_output_spec": "To give the answer, your program should print one line $$$!$$$ $$$s$$$ with a line break in the end. After that, it should flush the output and terminate gracefully.",
+    "prob_desc_input_spec": "Initially the testing system sends one string $$$t$$$, consisting of lowercase Latin letters ($$$1 \\le |t| = n \\le 10^4$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_038.jsonl",
+    "code_uid": "7917fd1c04b7b478590335b4e4eefa96",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"yzx\\naab\\nbaa\\naba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = [tmp for tmp in input().strip()]\nn = len(t)\n\naz = 'abcdefghijklmnopqrstuvwxyz'\n\ns1 = [tmp for tmp in az] * (n // 26 + 1)\ns1 = s1[:n]\n\ns2 = []\nfor ch in az:\n    s2 += [ch] * 26\ns2 *= (n // 26 + 1)\ns2 = s2[:n]\n\ns3 = []\nfor ch in az:\n    s3 += [ch] * 676\ns3 *= (n // 676 + 1)\ns3 = s3[:n]\n\nprint(\"? \", *s1, sep='', flush=True)\nt1 = input()\nprint(\"? \", *s2, sep='', flush=True)\nt2 = input()\nprint(\"? \", *s3, sep='', flush=True)\nt3 = input()\n\ntc = []\n\norda = ord('a')\nfor i in range(n):\n    m1 = ord(t1[i]) - orda\n    m26 = ord(t2[i]) - orda\n    m676 = ord(t3[i]) - orda\n    tc.append(m676 * 676 + m26 * 26 + m1)\n\ns = ['a'] * n\nfor pos2, pos1 in enumerate(tc):\n    s[pos1] = t[pos2]\n\nprint(\"! \", *s, sep='', flush=True)\n",
+    "prob_desc_created_at": "1550504400",
+    "tags": [
+        "constructive algorithms",
+        "bitmasks",
+        "math",
+        "chinese remainder theorem",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

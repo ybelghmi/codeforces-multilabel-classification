@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"NO\", \"YES\", \"NO\"]",
+    "src_uid": "33f7c85e47bd6c83ab694a834fa728a2",
+    "prob_desc_notes": "NoteIn the first sample test, despite the fact that there are substrings \"AB\" and \"BA\", their occurrences overlap, so the answer is \"NO\".In the second sample test there are the following occurrences of the substrings: BACFAB.In the third sample test there is no substring \"AB\" nor substring \"BA\".",
+    "prob_desc_description": "You are given string s. Your task is to determine if the given string s contains two non-overlapping substrings \"AB\" and \"BA\" (the substrings can go in any order).",
+    "prob_desc_output_spec": "Print \"YES\" (without the quotes), if string s contains two non-overlapping substrings \"AB\" and \"BA\", and \"NO\" otherwise.",
+    "prob_desc_input_spec": "The only line of input contains a string s of length between 1 and 105 consisting of uppercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_013.jsonl",
+    "code_uid": "753d7bf79afcc7626f5d2e54c5c59f8d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"ABA\", \"BACFAB\", \"AXBYBXA\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nti = lambda : stdin.readline().strip()\nma = lambda fxn, ti : map(fxn, ti.split())\nol = lambda arr : stdout.write(' '.join(str(i) for i in arr) + '\\n')\nos = lambda i : stdout.write(str(i) + '\\n')\nolws = lambda arr : stdout.write(''.join(str(i) for i in arr) + '\\n')\n\n\n\ns = ti()\nn = len(s)\n\nif 'AB' not in s or 'BA' not in s:\n\tos(\"NO\")\n\texit()\n\nab = 0\nfor i in range(n-1):\n\tif s[i:i+2] == \"AB\":\n\t\tab = i\n\t\tbreak\nfor i in range(ab+2, n-1):\n\tif s[i:i+2] == \"BA\":\n\t\tos(\"YES\")\n\t\texit()\nfor i in range(ab-2, -1, -1):\n\tif s[i:i+2] == \"BA\":\n\t\tos(\"YES\")\n\t\texit()\n\nba = 0\nfor i in range(n-1):\n\tif s[i:i+2] == \"BA\":\n\t\tba = i\n\t\tbreak\nfor i in range(ba+2, n-1):\n\tif s[i:i+2] == \"AB\":\n\t\tos(\"YES\")\n\t\texit()\nfor i in range(ba-2, -1, -1):\n\tif s[i:i+2] == \"AB\":\n\t\tos(\"YES\")\n\t\texit()\n\nos(\"NO\")",
+    "prob_desc_created_at": "1433435400",
+    "tags": [
+        "dp",
+        "greedy",
+        "implementation",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

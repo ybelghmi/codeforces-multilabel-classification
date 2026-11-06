@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"1999982505\"]",
+    "src_uid": "54e9c6f24c430c5124d840b5a65a1bc4",
+    "prob_desc_notes": "NoteIn the first example, we first reorder $$$\\{1, 3, 2\\}$$$ into $$$\\{1, 2, 3\\}$$$, then increment $$$a_2$$$ to $$$4$$$ with cost $$$1$$$ to get a power sequence $$$\\{1, 2, 4\\}$$$.",
+    "prob_desc_description": "Let's call a list of positive integers $$$a_0, a_1, ..., a_{n-1}$$$ a power sequence if there is a positive integer $$$c$$$, so that for every $$$0 \\le i \\le n-1$$$ then $$$a_i = c^i$$$.Given a list of $$$n$$$ positive integers $$$a_0, a_1, ..., a_{n-1}$$$, you are allowed to:  Reorder the list (i.e. pick a permutation $$$p$$$ of $$$\\{0,1,...,n - 1\\}$$$ and change $$$a_i$$$ to $$$a_{p_i}$$$), then  Do the following operation any number of times: pick an index $$$i$$$ and change $$$a_i$$$ to $$$a_i - 1$$$ or $$$a_i + 1$$$ (i.e. increment or decrement $$$a_i$$$ by $$$1$$$) with a cost of $$$1$$$. Find the minimum cost to transform $$$a_0, a_1, ..., a_{n-1}$$$ into a power sequence.",
+    "prob_desc_output_spec": "Print the minimum cost to transform $$$a_0, a_1, ..., a_{n-1}$$$ into a power sequence.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$3 \\le n \\le 10^5$$$). The second line contains $$$n$$$ integers $$$a_0, a_1, ..., a_{n-1}$$$ ($$$1 \\le a_i \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "3b75768ab9d2fa9782acad40a87ed191",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 3 2\", \"3\\n1000000000 1000000000 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import copy\nimport math\n \nn = int(input())\nnums = list(map(int,input().split()))\n\n \nnums.sort()\nf_1 = 0 \nfor i in range(n):\n    f_1 += math.fabs(1 - nums[i])\n\nterm = f_1 + nums[-1]\nmax_c = math.floor(math.pow(term,1/(n-1)))\ncost2 = float('inf')\nprev_cost = 0\nfor c in range(1,max_c+1):\n    cost = 0\n    for i in range(n):\n        cost += math.fabs((c**i - nums[i]))\n    cost2 = min(cost,cost2)\n    \nprint(int(cost2))",
+    "prob_desc_created_at": "1598798100",
+    "tags": [
+        "number theory",
+        "sortings",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

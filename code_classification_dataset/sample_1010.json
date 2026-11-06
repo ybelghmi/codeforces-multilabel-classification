@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\"]",
+    "src_uid": "cf595689b5cbda4f1d629524ad275650",
+    "prob_desc_notes": "NoteIn the first sample, one can split words into syllables in the following way: in-telco-dech al-len-geSince the word \"ch\" in the third line doesn't contain vowels, we can ignore it. As the result we get 2 syllabels in first two lines and 3 syllables in the third one.",
+    "prob_desc_description": "You are given a text consisting of n lines. Each line contains some space-separated words, consisting of lowercase English letters.We define a syllable as a string that contains exactly one vowel and any arbitrary number (possibly none) of consonants. In English alphabet following letters are considered to be vowels: 'a', 'e', 'i', 'o', 'u' and 'y'.Each word of the text that contains at least one vowel can be divided into syllables. Each character should be a part of exactly one syllable. For example, the word \"mamma\" can be divided into syllables as \"ma\" and \"mma\", \"mam\" and \"ma\", and \"mamm\" and \"a\". Words that consist of only consonants should be ignored.The verse patterns for the given text is a sequence of n integers p1, p2, ..., pn. Text matches the given verse pattern if for each i from 1 to n one can divide words of the i-th line in syllables in such a way that the total number of syllables is equal to pi.You are given the text and the verse pattern. Check, if the given text matches the given verse pattern.",
+    "prob_desc_output_spec": "If the given text matches the given verse pattern, then print \"YES\" (without quotes) in the only line of the output. Otherwise, print \"NO\" (without quotes).",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 100) — the number of lines in the text. The second line contains integers p1, ..., pn (0 ≤ pi ≤ 100) — the verse pattern. Next n lines contain the text itself. Text consists of lowercase English letters and spaces. It's guaranteed that all lines are non-empty, each line starts and ends with a letter and words are separated by exactly one space. The length of each line doesn't exceed 100 characters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_005.jsonl",
+    "code_uid": "e2cf6d7c279000f896ce0e7195209d5c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 2 3\\nintel\\ncode\\nch allenge\", \"4\\n1 2 3 1\\na\\nbcdefghi\\njklmnopqrstu\\nvwxyz\", \"4\\n13 11 15 15\\nto be or not to be that is the question\\nwhether tis nobler in the mind to suffer\\nthe slings and arrows of outrageous fortune\\nor to take arms against a sea of troubles\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\npatterns=list(map(int,input().split()))\ntexts=[]\nfor i in range(n):\n\ttexts.append(input().split())\n\ntest=True\n\nfor i in range(n):\n\tpattern=patterns[i]\n\ttext=texts[i]\n\tvoyels=0\n\tfor ch in text:\n\t\tvoyels+=ch.count(\"a\")+ch.count(\"e\")+ch.count(\"i\")+ch.count(\"o\")+ch.count(\"u\")+ch.count(\"y\")\n\tif voyels!=pattern:\n\t\ttest=False\n\t\tbreak\n\nif test:\n\tprint(\"YES\")\nelse:\n\tprint(\"NO\")",
+    "prob_desc_created_at": "1475330700",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

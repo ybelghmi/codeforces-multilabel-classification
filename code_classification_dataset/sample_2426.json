@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"yes\", \"no\"]",
+    "src_uid": "36fb3a01860ef0cc2a1065d78e4efbd5",
+    "prob_desc_notes": "NotePlease note that Dima got a good old kick in the pants for the second sample from the statement.",
+    "prob_desc_description": "Seryozha has a very changeable character. This time he refused to leave the room to Dima and his girlfriend (her hame is Inna, by the way). However, the two lovebirds can always find a way to communicate. Today they are writing text messages to each other.Dima and Inna are using a secret code in their text messages. When Dima wants to send Inna some sentence, he writes out all words, inserting a heart before each word and after the last word. A heart is a sequence of two characters: the \"less\" characters (&lt;) and the digit three (3). After applying the code, a test message looks like that: &lt;3word1&lt;3word2&lt;3 ... wordn&lt;3.Encoding doesn't end here. Then Dima inserts a random number of small English characters, digits, signs \"more\" and \"less\" into any places of the message.Inna knows Dima perfectly well, so she knows what phrase Dima is going to send her beforehand. Inna has just got a text message. Help her find out if Dima encoded the message correctly. In other words, find out if a text message could have been received by encoding in the manner that is described above.",
+    "prob_desc_output_spec": "In a single line, print \"yes\" (without the quotes), if Dima decoded the text message correctly, and \"no\" (without the quotes) otherwise.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105) — the number of words in Dima's message. Next n lines contain non-empty words, one word per line. The words only consist of small English letters. The total length of all words doesn't exceed 105.  The last line contains non-empty text message that Inna has got. The number of characters in the text message doesn't exceed 105. A text message can contain only small English letters, digits and signs more and less.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_022.jsonl",
+    "code_uid": "4906ce3358718027adc682dfec9d56de",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\ni\\nlove\\nyou\\n&lt;3i&lt;3love&lt;23you&lt;3\", \"7\\ni\\nam\\nnot\\nmain\\nin\\nthe\\nfamily\\n&lt;3i&lt;&gt;3am&lt;3the&lt;3&lt;main&lt;3in&lt;3the&lt;3&gt;&lt;3family&lt;3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s=list('<3'+'<3'.join(raw_input() for _ in range(input()))+'<3')\nt=list(raw_input())\nwhile s and t:\n    if s[-1]==t[-1]:s.pop()\n    t.pop()\nprint 'no' if s else 'yes'",
+    "prob_desc_created_at": "1382715000",
+    "tags": [
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"1\"]",
+    "src_uid": "befd3b1b4afe19ff619c0b34ed1a4966",
+    "prob_desc_notes": "NoteIn the first sample we can get sequence [1, 1, 1], thus the total income equals 3.In the second test, the optimal strategy is to get sequence [-1, 1, 1], thus the total income equals 1.",
+    "prob_desc_description": "Roma works in a company that sells TVs. Now he has to prepare a report for the last year.Roma has got a list of the company's incomes. The list is a sequence that consists of n integers. The total income of the company is the sum of all integers in sequence. Roma decided to perform exactly k changes of signs of several numbers in the sequence. He can also change the sign of a number one, two or more times.The operation of changing a number's sign is the operation of multiplying this number by -1.Help Roma perform the changes so as to make the total income of the company (the sum of numbers in the resulting sequence) maximum. Note that Roma should perform exactly k changes.",
+    "prob_desc_output_spec": "In the single line print the answer to the problem — the maximum total income that we can obtain after exactly k changes.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n, k ≤ 105), showing, how many numbers are in the sequence and how many swaps are to be made. The second line contains a non-decreasing sequence, consisting of n integers ai (|ai| ≤ 104). The numbers in the lines are separated by single spaces. Please note that the given sequence is sorted in non-decreasing order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_010.jsonl",
+    "code_uid": "b7e8bdead8d645a423d6fe102b519389",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n-1 -1 1\", \"3 1\\n-1 -1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n , k = map(int,input().split())\nl = list(map(int,input().split()))\n\n\nfor i in range(n):\n    if ( k > 0 and l[i] < 0  ) :\n        l[i] = -1 * l[i]\n        k -=1\n\n\nl = sorted(l)\n#print(l)\n\nif k % 2 == 1 :\n    l[0] = l[0] * - 1\n\nprint(sum(l))\n",
+    "prob_desc_created_at": "1358091000",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

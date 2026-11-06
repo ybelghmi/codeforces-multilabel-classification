@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nNO\\nNO\\nYES\\nNO\\nNO\\nYES\\nNO\\nNO\"]",
+    "src_uid": "6a06ad39dbdd97ca8654023009c89a42",
+    "prob_desc_notes": null,
+    "prob_desc_description": "An L-shape is a figure on gridded paper that looks like the first four pictures below. An L-shape contains exactly three shaded cells (denoted by *), which can be rotated in any way.  You are given a rectangular grid. Determine if it contains L-shapes only, where L-shapes can't touch an edge or corner. More formally:   Each shaded cell in the grid is part of exactly one L-shape, and  no two L-shapes are adjacent by edge or corner. For example, the last two grids in the picture above do not satisfy the condition because the two L-shapes touch by corner and edge, respectively.",
+    "prob_desc_output_spec": "For each test case, output \"YES\" if the grid is made up of L-shape that don't share edges or corners, and \"NO\" otherwise. You can output the answer in any case (for example, the strings \"yEs\", \"yes\", \"Yes\" and \"YES\" will be recognized as a positive answer).",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\leq n, m \\leq 50$$$) — the number of rows and columns in the grid, respectively. Then $$$n$$$ lines follow, each containing $$$m$$$ characters. Each of these characters is either '.' or '*' — an empty cell or a shaded cell, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_109.jsonl",
+    "code_uid": "8063f57fd6344703d9f7fd4405560154",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n\\n6 10\\n\\n........**\\n\\n.**......*\\n\\n..*..*....\\n\\n.....**...\\n\\n...*.....*\\n\\n..**....**\\n\\n6 10\\n\\n....*...**\\n\\n.**......*\\n\\n..*..*....\\n\\n.....**...\\n\\n...*.....*\\n\\n..**....**\\n\\n3 3\\n\\n...\\n\\n***\\n\\n...\\n\\n4 4\\n\\n.*..\\n\\n**..\\n\\n..**\\n\\n..*.\\n\\n5 4\\n\\n.*..\\n\\n**..\\n\\n....\\n\\n..**\\n\\n..*.\\n\\n3 2\\n\\n.*\\n\\n**\\n\\n*.\\n\\n2 3\\n\\n*..\\n\\n.**\\n\\n3 2\\n\\n..\\n\\n**\\n\\n*.\\n\\n3 3\\n\\n.**\\n\\n*.*\\n\\n**.\\n\\n3 3\\n\\n..*\\n\\n.**\\n\\n..*\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\nfrom collections import deque\r\n#from bisect import bisect_left, bisect_right\r\n#import itertools\r\n#import math\r\n\r\ndx = [-1,-1,-1,0,1,1,1,0]\r\ndy = [-1, 0, 1, 1, 1, 0, -1, -1]\r\n\r\nfor _ in range(int(input())):\r\n    \r\n    n, m = map(int, input().split())\r\n    arr = [input().strip() for __ in range(n)]\r\n    vst = [[False]*m for __ in range(n)]\r\n    flag = True\r\n    for x in range(n):\r\n        for y in range(m):\r\n            if arr[x][y] == '.' or vst[x][y]:\r\n                continue\r\n            dq = deque()\r\n            lis = []\r\n            dq.append([x, y])\r\n            lis.append([x, y])\r\n            vst[x][y] = True\r\n            while dq:\r\n                a, b = dq.popleft()\r\n                for i in range(8):\r\n                    nx = a+dx[i]\r\n                    ny = b+dy[i]\r\n                    if 0<=nx<n and 0<=ny<m and arr[nx][ny] == '*' and not vst[nx][ny]:\r\n                        vst[nx][ny] = True\r\n                        dq.append([nx, ny])\r\n                        lis.append([nx, ny])\r\n            if len(lis)!=3:\r\n                flag = False\r\n                break\r\n            a = min(lis[0][0], lis[1][0], lis[2][0])\r\n            b = min(lis[0][1], lis[1][1], lis[2][1])\r\n            cnt = 0\r\n            for i in range(2):\r\n                for j in range(2):\r\n                    if a+i<n and b+j<m and arr[a+i][b+j] == '*':\r\n                        cnt += 1\r\n            if cnt != 3:\r\n                flag = False\r\n                break\r\n        if not flag:\r\n            break\r\n    print(\"YES\" if flag else \"NO\")",
+    "prob_desc_created_at": "1661871000",
+    "tags": [
+        "dfs and similar",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

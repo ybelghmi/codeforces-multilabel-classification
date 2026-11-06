@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Truth\", \"Not defined\\nNot defined\\nNot defined\", \"Lie\\nNot defined\\nLie\\nNot defined\"]",
+    "src_uid": "c761bb69cf1b5a3dbe38d9f5c46e9007",
+    "prob_desc_notes": "NoteThe first sample has the single person and he confesses to the crime, and Sherlock Holmes knows that one person is telling the truth. That means that this person is telling the truth.In the second sample there are three suspects and each one denies his guilt. Sherlock Holmes knows that only two of them are telling the truth. Any one of them can be the criminal, so we don't know for any of them, whether this person is telling the truth or not.In the third sample the second and the fourth suspect defend the first and the third one. But only one is telling the truth, thus, the first or the third one is the criminal. Both of them can be criminals, so the second and the fourth one can either be lying or telling the truth. The first and the third one are lying for sure as they are blaming the second and the fourth one.",
+    "prob_desc_description": "As Sherlock Holmes was investigating a crime, he identified n suspects. He knows for sure that exactly one of them committed the crime. To find out which one did it, the detective lines up the suspects and numbered them from 1 to n. After that, he asked each one: \"Which one committed the crime?\". Suspect number i answered either \"The crime was committed by suspect number ai\", or \"Suspect number ai didn't commit the crime\". Also, the suspect could say so about himself (ai = i).Sherlock Holmes understood for sure that exactly m answers were the truth and all other answers were a lie. Now help him understand this: which suspect lied and which one told the truth?",
+    "prob_desc_output_spec": "Print n lines. Line number i should contain \"Truth\" if suspect number i has told the truth for sure. Print \"Lie\" if the suspect number i lied for sure and print \"Not defined\" if he could lie and could tell the truth, too, depending on who committed the crime.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n ≤ 105, 0 ≤ m ≤ n) — the total number of suspects and the number of suspects who told the truth. Next n lines contain the suspects' answers. The i-th line contains either \"+ai\" (without the quotes), if the suspect number i says that the crime was committed by suspect number ai, or \"-ai\" (without the quotes), if the suspect number i says that the suspect number ai didn't commit the crime (ai is an integer, 1 ≤ ai ≤ n). It is guaranteed that at least one suspect exists, such that if he committed the crime, then exactly m people told the truth.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_001.jsonl",
+    "code_uid": "d711fe06f261fdfb5e5873b79abdcf7a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\\n+1\", \"3 2\\n-1\\n-2\\n-3\", \"4 1\\n+2\\n-3\\n+4\\n-1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\n\nn, m = map(int, input().split())\na = []\nfor i in range(n):\n    a.append(int(input()))\n\nd = defaultdict(int)\npos, neg = 0, 0\nfor x in a:\n    d[x] += 1\n    if x > 0:\n        pos += 1\n    else:\n        neg += 1\n\npossible = [False] * n\nfor i in range(1, n + 1):\n    t = d[i] + neg - d[-i]\n    if t == m:\n        possible[i - 1] = True\n\ncnt = sum(possible)\nfor i in range(n):\n    if cnt == 0:\n        print('Lie')\n        continue\n\n    if a[i] > 0:\n        if possible[a[i] - 1]:\n            print('Truth' if cnt == 1 else 'Not defined')\n        else:\n            print('Lie')\n    else:\n        if not possible[-a[i] - 1]:\n            print('Truth')\n        else:\n            print('Lie' if cnt == 1 else 'Not defined')\n",
+    "prob_desc_created_at": "1330536600",
+    "tags": [
+        "data structures",
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

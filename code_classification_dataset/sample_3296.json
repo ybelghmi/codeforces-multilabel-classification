@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"4\", \"6\"]",
+    "src_uid": "2ab4d9dc6e13c41936482980c9224061",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Chris the Rabbit found the traces of an ancient Martian civilization. The brave astronomer managed to see through a small telescope an architecture masterpiece — \"A Road to the Sun\". The building stands on cubical stones of the same size. The foundation divides the entire \"road\" into cells, into which the cubical stones are fit tightly. Thus, to any cell of the foundation a coordinate can be assigned. To become the leader of the tribe, a Martian should build a Road to the Sun, that is to build from those cubical stones on a given foundation a stairway. The stairway should be described by the number of stones in the initial coordinate and the coordinates of the stairway's beginning and end. Each following cell in the coordinate's increasing order should contain one cubical stone more than the previous one. At that if the cell has already got stones, they do not count in this building process, the stairways were simply built on them. In other words, let us assume that a stairway is built with the initial coordinate of l, the final coordinate of r and the number of stones in the initial coordinate x. That means that x stones will be added in the cell l, x + 1 stones will be added in the cell l + 1, ..., x + r - l stones will be added in the cell r.Chris managed to find an ancient manuscript, containing the descriptions of all the stairways. Now he wants to compare the data to be sure that he has really found \"A Road to the Sun\". For that he chose some road cells and counted the total number of cubical stones that has been accumulated throughout the Martian history and then asked you to count using the manuscript to what the sum should ideally total.",
+    "prob_desc_output_spec": "You have to print a single number on a single line which is the sum of stones in all the cells Chris is interested in. Please, do not use %lld specificator to read or write 64-bit integers in C++. It is preffered to use cin (also you may use %I64d).",
+    "prob_desc_input_spec": "The first line contains three space-separated integers: n, m, k (1 ≤ n, m ≤ 105, 1 ≤ k ≤ min(n, 100)) which is the number of cells, the number of \"Roads to the Sun\" and the number of cells in the query correspondingly. Each of the following m roads contain three space-separated integers: ai, bi, ci (1 ≤ ai ≤ bi ≤ n, 1 ≤ ci ≤ 1000) which are the stairway's description, its beginning, end and the initial cell's height. Then follow a line, containing k different space-separated integers bi. All these numbers ranging from 1 to n are cells, the number of stones in which interests Chris.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_051.jsonl",
+    "code_uid": "796317ed805d4bef6fbd28eb7ae03cef",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2 1\\n1 5 1\\n2 4 1\\n3\", \"3 2 1\\n1 3 1\\n1 3 1\\n2\", \"3 2 1\\n1 3 1\\n1 3 1\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nI=1000000\nrl = sys.stdin.readline\nn,m,k = map(int,rl().split())\nl = []\nfor i in xrange(m):\n    a,b,c=map(int,rl().split())\n    l.append((a,c))\n    l.append((b+1,-(c+b-a+1)))\nfor k in map(int,rl().split()):\n    l.append((k,I))\nl.sort()\ni = 0\nh = 0\nlx = 0\ns = 0\nr = 0\nfor x,c in l:\n    s+=(x-lx)*i\n    if c==I:\n        r+=s\n    else:\n        if c>0: i+=1\n        if c<0: i-=1\n        s+=c\n    lx=x\n    \nprint r",
+    "prob_desc_created_at": "1295971200",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

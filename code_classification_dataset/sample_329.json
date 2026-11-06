@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"0\", \"0\", \"0\"]",
+    "src_uid": "13aa9c49ffd62d2aa59f3cd8b16a277f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a bracket sequence $$$s$$$ consisting of $$$n$$$ opening '(' and closing ')' brackets.A regular bracket sequence is a bracket sequence that can be transformed into a correct arithmetic expression by inserting characters '1' and '+' between the original characters of the sequence. For example, bracket sequences \"()()\", \"(())\" are regular (the resulting expressions are: \"(1)+(1)\", \"((1+1)+1)\"), and \")(\" and \"(\" are not.You can change the type of some bracket $$$s_i$$$. It means that if $$$s_i = $$$ ')' then you can change it to '(' and vice versa.Your task is to calculate the number of positions $$$i$$$ such that if you change the type of the $$$i$$$-th bracket, then the resulting bracket sequence becomes regular.",
+    "prob_desc_output_spec": "Print one integer — the number of positions $$$i$$$ such that if you change the type of the $$$i$$$-th bracket, then the resulting bracket sequence becomes regular.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$1 \\le n \\le 10^6$$$) — the length of the bracket sequence. The second line of the input contains the string $$$s$$$ consisting of $$$n$$$ opening '(' and closing ')' brackets.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_001.jsonl",
+    "code_uid": "3017b689e410b599e6eaf733adf1eab1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n(((())\", \"6\\n()()()\", \"1\\n)\", \"8\\n)))(((((\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    count=int(input())\n    string=input()\n    front=[0]\n    back=[0]\n    for x in range(count):\n        if string[x]==\"(\":\n            front.append(front[-1]+1)\n        else:\n            front.append(front[-1]-1)\n    for x in range(count-1,-1,-1):\n        if string[x]==\")\":\n            back.append(back[-1]+1)\n        else:\n            back.append(back[-1]-1)\n    assert (back[-1])==-(front[-1])\n    #print(front)\n   # print(back)\n    valid_front=[False for x in range(count+1)]\n    valid_back=[False for x in range(count+1)]\n    for x in range(count+1):\n        if front[x]>=0:\n            valid_front[x]=True\n        else:\n            break\n    for x in range(count+1):\n        if back[x]>=0:\n            valid_back[x]=True\n        else:\n            break\n    #print(valid_front,valid_back)\n    tot=0\n    for x in range(count):\n        if valid_front[x] and valid_back[count-x-1]:\n            if string[x]==\")\":\n                if front[x]+1-back[count-x-1]==0:\n                    tot+=1\n                    #print(x)\n            else:\n                if front[x]-1-back[count-x-1]==0:\n                    tot+=1\n                    #print(x)\n    print(tot)\nmain()\n",
+    "prob_desc_created_at": "1545921300",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

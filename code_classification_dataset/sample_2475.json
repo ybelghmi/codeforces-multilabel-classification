@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"10\"]",
+    "src_uid": "782b819eb0bfc86d6f96f15ac09d5085",
+    "prob_desc_notes": "NoteThe first test sample corresponds to the second triangle on the figure in the statement. The second test sample corresponds to the third one.",
+    "prob_desc_description": "Dwarfs have planted a very interesting plant, which is a triangle directed \"upwards\". This plant has an amusing feature. After one year a triangle plant directed \"upwards\" divides into four triangle plants: three of them will point \"upwards\" and one will point \"downwards\". After another year, each triangle plant divides into four triangle plants: three of them will be directed in the same direction as the parent plant, and one of them will be directed in the opposite direction. Then each year the process repeats. The figure below illustrates this process.  Help the dwarfs find out how many triangle plants that point \"upwards\" will be in n years.",
+    "prob_desc_output_spec": "Print a single integer — the remainder of dividing the number of plants that will point \"upwards\" in n years by 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The first line contains a single integer n (0 ≤ n ≤ 1018) — the number of full years when the plant grew. Please do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use cin, cout streams or the %I64d specifier.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_023.jsonl",
+    "code_uid": "acd19a5f6a8b1c40c2c03f39b1e4fa52",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\", \"2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\n\nmod = 10**9 +7\n\ndef power_2_k(k):\n    if k == 0:\n        return 1\n    if k % 2 == 0:\n        lower = power_2_k(k // 2)\n        return (lower * lower) % mod\n    else:\n        k -= 1\n        lower = power_2_k(k // 2)\n        return (((lower * lower) % mod) * 2) % mod\n\np = power_2_k(n)\nprint((p * (p + 1) // 2) % mod)\n",
+    "prob_desc_created_at": "1336145400",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

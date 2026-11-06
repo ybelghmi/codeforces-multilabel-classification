@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n4\\n1\"]",
+    "src_uid": "cf3cfcae029a6997ee62701eda959a60",
+    "prob_desc_notes": "NoteFirst test case:   $$$a=[3,4,2,4,1,2]$$$ take $$$a_3, a_5$$$ and perform an operation plus one on them, as a result we get $$$a=[3,4,3,4,2,2]$$$.  $$$a=[3,4,3,4,2,2]$$$ we take $$$a_1, a_5, a_6$$$ and perform an operation on them plus one, as a result we get $$$a=[4,4,3,4,3,3]$$$.  $$$a=[4,4,3,4,3,3]$$$ we take $$$a_3, a_5, a_6$$$ and perform an operation on them plus one, as a result we get $$$a=[4,4,4,4,4,4]$$$. There are other sequences of $$$3$$$ operations, after the application of which all elements become equal.Second test case:   $$$a=[1000,1002,998]$$$ 2 times we take $$$a_1, a_3$$$ and perform an operation plus one on them, as a result we get $$$a=[1002,1002,1000]$$$.  $$$a=[1002,1002,1000]$$$ also take $$$a_3$$$ 2 times and perform an operation plus one on it, as a result we get $$$a=[1002,1002,1002]$$$. Third test case:   $$$a=[12,11]$$$ take $$$a_2$$$ and perform an operation plus one on it, as a result we get $$$a=[12,12]$$$. ",
+    "prob_desc_description": "Polycarp got an array of integers $$$a[1 \\dots n]$$$ as a gift. Now he wants to perform a certain number of operations (possibly zero) so that all elements of the array become the same (that is, to become $$$a_1=a_2=\\dots=a_n$$$). In one operation, he can take some indices in the array and increase the elements of the array at those indices by $$$1$$$.For example, let $$$a=[4,2,1,6,2]$$$. He can perform the following operation: select indices 1, 2, and 4 and increase elements of the array in those indices by $$$1$$$. As a result, in one operation, he can get a new state of the array $$$a=[5,3,1,7,2]$$$.What is the minimum number of operations it can take so that all elements of the array become equal to each other (that is, to become $$$a_1=a_2=\\dots=a_n$$$)?",
+    "prob_desc_output_spec": "For each test case, print one integer  — the minimum number of operations to make all elements of the array $$$a$$$ equal.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$)  — the number of test cases in the test. The following are descriptions of the input test cases. The first line of the description of each test case contains one integer $$$n$$$ ($$$1 \\le n \\le 50$$$)  — the array $$$a$$$. The second line of the description of each test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$)  — elements of the array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_102.jsonl",
+    "code_uid": "85fd523ebb4027b18a35e104fb656f64",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n6\\n3 4 2 4 1 2\\n3\\n1000 1002 998\\n2\\n12 11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nfrom os import path\r\n\r\nFILE = False # if needed change it while submitting\r\n\r\nif FILE:\r\n    sys.stdin = open('input.txt', 'r')\r\n    sys.stdout = open('output.txt', 'w')\r\n\r\ndef get_int():\r\n    return int(sys.stdin.readline())\r\n\r\ndef get_string():\r\n    return sys.stdin.readline().split(\" \")\r\n\r\nn = get_int()\r\n\r\nfinal_result = []\r\nfor i in range(n):\r\n    n = get_int()\r\n    word = get_string()\r\n    inputs = [int(x) for x in word]\r\n    final_result.append(str(max(inputs)-min(inputs)))\r\n\r\nfor item in final_result:\r\n    sys.stdout.write(item)\r\n    sys.stdout.write('\\n')",
+    "prob_desc_created_at": "1641825300",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

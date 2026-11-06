@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n1.1\\n1.2\\n1.3\\n1\\n1.1\\n1.1.1\\n1.1.2\\n1.2\\n1.2.1\\n2\\n2.1\\n2.2\"]",
+    "src_uid": "c1bf6c8a9a20f377cf2a5dbea2267c88",
+    "prob_desc_notes": "NoteIn the second example test case one example of a fitting list is:11.1 1.1.11.1.21.21.2.122.12.2This list can be produced by using the sequence of operations shown below:    Original list with a single item $$$1$$$.  Insert item $$$2$$$ by using the insertion operation of the second type after item $$$1$$$.  Insert item $$$1.1$$$ by using the insertion operation of the first type after item $$$1$$$.  Insert item $$$1.2$$$ by using the insertion operation of the second type after item $$$1.1$$$.  Insert item $$$1.1.1$$$ by using the insertion operation of the first type after item $$$1.1$$$.  Insert item $$$1.1.2$$$ by using the insertion operation of the second type after item $$$1.1.1$$$.  Insert item $$$1.2.1$$$ by using the insertion operation of the first type after item $$$1.2$$$.  Insert item $$$2.1$$$ by using the insertion operation of the first type after item $$$2$$$.  Insert item $$$2.2$$$ by using the insertion operation of the second type after item $$$2.1$$$. ",
+    "prob_desc_description": "  William is a huge fan of planning ahead. That is why he starts his morning routine by creating a nested list of upcoming errands.A valid nested list is any list which can be created from a list with one item \"1\" by applying some operations. Each operation inserts a new item into the list, on a new line, just after one of existing items $$$a_1 \\,.\\, a_2 \\,.\\, a_3 \\,.\\, \\,\\cdots\\, \\,.\\,a_k$$$ and can be one of two types:   Add an item $$$a_1 \\,.\\, a_2 \\,.\\, a_3 \\,.\\, \\cdots \\,.\\, a_k \\,.\\, 1$$$ (starting a list of a deeper level), or  Add an item $$$a_1 \\,.\\, a_2 \\,.\\, a_3 \\,.\\, \\cdots \\,.\\, (a_k + 1)$$$ (continuing the current level).  Operation can only be applied if the list does not contain two identical items afterwards. And also, if we consider every item as a sequence of numbers, then the sequence of items should always remain increasing in lexicographical order. Examples of valid and invalid lists that are shown in the picture can found in the \"Notes\" section.When William decided to save a Word document with the list of his errands he accidentally hit a completely different keyboard shortcut from the \"Ctrl-S\" he wanted to hit. It's not known exactly what shortcut he pressed but after triggering it all items in the list were replaced by a single number: the last number originally written in the item number.William wants you to help him restore a fitting original nested list.",
+    "prob_desc_output_spec": "For each test case output $$$n$$$ lines which represent a valid nested list, which could become the data provided to you by William. If there are multiple answers, print any.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10$$$). Description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^3$$$), which is the number of lines in the list. Each of the next $$$n$$$ lines contains a single integer $$$a_i$$$ ($$$1 \\le a_i \\le n$$$), which is what remains of William's nested list. It is guaranteed that in each test case at least one fitting list exists. It is guaranteed that the sum of values $$$n$$$ across all test cases does not exceed $$$10^3$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_082.jsonl",
+    "code_uid": "37fe5b8f35db843504398fccc877948f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4\\n1\\n1\\n2\\n3\\n9\\n1\\n1\\n1\\n2\\n2\\n1\\n2\\n1\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for h in range(int(input())):\r\n    n=int(input())\r\n    s=[]\r\n    for i in range(n):\r\n        j = int(input())\r\n        if j==1:\r\n            s.append(j)\r\n        else:\r\n            while j-s[-1]!=1:\r\n                s.pop()\r\n            s[-1]=j\r\n        print('.'.join(map(str, s)))",
+    "prob_desc_created_at": "1622385300",
+    "tags": [
+        "brute force",
+        "data structures",
+        "greedy",
+        "implementation",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

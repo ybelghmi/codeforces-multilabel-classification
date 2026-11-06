@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"446\\n4\\n3\\n260\"]",
+    "src_uid": "e48858b8f1260b6d371e406239752b37",
+    "prob_desc_notes": "NoteIn the first test case, you should, for example, take with you $$$445$$$ coins of value $$$3$$$ and $$$1$$$ coin of value $$$2$$$. So, $$$1337 = 445 \\cdot 3 + 1 \\cdot 2$$$.In the second test case, you should, for example, take $$$2$$$ coins of value $$$3$$$ and $$$2$$$ coins of value $$$2$$$. So you can pay either exactly $$$8 = 2 \\cdot 3 + 1 \\cdot 2$$$ or $$$10 = 2 \\cdot 3 + 2 \\cdot 2$$$.In the third test case, it's enough to take $$$1$$$ coin of value $$$3$$$ and $$$2$$$ coins of value $$$1$$$.",
+    "prob_desc_description": "One day, early in the morning, you decided to buy yourself a bag of chips in the nearby store. The store has chips of $$$n$$$ different flavors. A bag of the $$$i$$$-th flavor costs $$$a_i$$$ burles.The store may run out of some flavors, so you'll decide which one to buy after arriving there. But there are two major flaws in this plan:   you have only coins of $$$1$$$, $$$2$$$ and $$$3$$$ burles;  since it's morning, the store will ask you to pay in exact change, i. e. if you choose the $$$i$$$-th flavor, you'll have to pay exactly $$$a_i$$$ burles. Coins are heavy, so you'd like to take the least possible number of coins in total. That's why you are wondering: what is the minimum total number of coins you should take with you, so you can buy a bag of chips of any flavor in exact change?",
+    "prob_desc_output_spec": "For each test case, print one integer — the minimum number of coins you need to buy one bag of any flavor you'll choose in exact change.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The first line of each test case contains the single integer $$$n$$$ ($$$1 \\le n \\le 100$$$) — the number of flavors in the store. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — the cost of one bag of each flavor.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_095.jsonl",
+    "code_uid": "62220340aa1c0abc9b535b9f50ff78cd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1\\n1337\\n3\\n10 8 10\\n5\\n1 2 3 4 5\\n3\\n7 77 777\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\n \r\n\r\ndef f(a, base):\r\n    ok = True\r\n \r\n    for i in a:\r\n        flag = False\r\n        for j1 in range(0, base[0]+1):\r\n            for j2 in range(0, base[1]+1):\r\n                r = i - j1 - 2*j2\r\n                if r%3==0 and r//3<=base[2] and r>=0:\r\n                    flag=True\r\n        if flag==False:\r\n            return False\r\n \r\n    return ok\r\n \r\n \r\nt = int(sys.stdin.readline())\r\n \r\nfor _ in range(t):\r\n    n = int(sys.stdin.readline())\r\n    a = list(map(int, sys.stdin.readline().split()))\r\n \r\n    base = []\r\n    ff = (max(a) + 2) // 3\r\n \r\n    for i in range(0, 4):\r\n        for j in range(0, 5):\r\n            for k in range(0, 6):\r\n                base.append([i, j, ff - k])\r\n \r\n    res = 10 ** 20\r\n    test = []\r\n    for i in base:\r\n        if i[2] >= 0:\r\n            if f(a, i):\r\n                res = min(res, sum(i))\r\n    \r\n    if res == 314259807:\r\n        res-=1\r\n    sys.stdout.write(str(res) + \"\\n\")",
+    "prob_desc_created_at": "1639841700",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3.849644710502\\n1.106060157705\"]",
+    "src_uid": "3882f2c02e83bd2d55de8004ea3bbd88",
+    "prob_desc_notes": null,
+    "prob_desc_description": "For months Maxim has been coming to work on his favorite bicycle. And quite recently he decided that he is ready to take part in a cyclists' competitions.He knows that this year n competitions will take place. During the i-th competition the participant must as quickly as possible complete a ride along a straight line from point si to point fi (si &lt; fi).Measuring time is a complex process related to usage of a special sensor and a time counter. Think of the front wheel of a bicycle as a circle of radius r. Let's neglect the thickness of a tire, the size of the sensor, and all physical effects. The sensor is placed on the rim of the wheel, that is, on some fixed point on a circle of radius r. After that the counter moves just like the chosen point of the circle, i.e. moves forward and rotates around the center of the circle.At the beginning each participant can choose any point bi, such that his bike is fully behind the starting line, that is, bi &lt; si - r. After that, he starts the movement, instantly accelerates to his maximum speed and at time tsi, when the coordinate of the sensor is equal to the coordinate of the start, the time counter starts. The cyclist makes a complete ride, moving with his maximum speed and at the moment the sensor's coordinate is equal to the coordinate of the finish (moment of time tfi), the time counter deactivates and records the final time. Thus, the counter records that the participant made a complete ride in time tfi - tsi.  Maxim is good at math and he suspects that the total result doesn't only depend on his maximum speed v, but also on his choice of the initial point bi. Now Maxim is asking you to calculate for each of n competitions the minimum possible time that can be measured by the time counter. The radius of the wheel of his bike is equal to r.",
+    "prob_desc_output_spec": "Print n real numbers, the i-th number should be equal to the minimum possible time measured by the time counter. Your answer will be considered correct if its absolute or relative error will not exceed 10 - 6.  Namely: let's assume that your answer equals a, and the answer of the jury is b. The checker program will consider your answer correct if .",
+    "prob_desc_input_spec": "The first line contains three integers n, r and v (1 ≤ n ≤ 100 000, 1 ≤ r, v ≤ 109) — the number of competitions, the radius of the front wheel of Max's bike and his maximum speed, respectively.  Next n lines contain the descriptions of the contests. The i-th line contains two integers si and fi (1 ≤ si &lt; fi ≤ 109) — the coordinate of the start and the coordinate of the finish on the i-th competition.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_022.jsonl",
+    "code_uid": "94ecadbbdec855bac087171a8a62699e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 1 2\\n1 10\\n5 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import cos,pi\n\ndef g(t):\n\treturn t+cos(t)\n\ndef solve(y):\n\tassert(y>=1 and y<2*pi+1)\n\tlow = 0.\n\thigh = 2*pi+1\n\tfor k in range(64):\n\t\tmid = (low+high)/2\n\t\tif g(mid) > y:\n\t\t\thigh = mid\n\t\telse:\n\t\t\tlow = mid\n\treturn low\n\ndef bestTime(s,f,r,v):\n\tm = int((2.+float(f-s)/r)/pi-0.1)\n\tif (m%2 == 0): m += 1\n\tres = None\n\tfor i in range(3):\n\t\ttry:\n\t\t\tt = solve((m*pi-float(f-s)/r)/2)\n\t\t\tcand = (m*pi-2*t)*r/v\n\t\t\tif res==None or cand < res:\n\t\t\t\t\tres = cand\n\t\texcept:\n\t\t\tpass\n\t\tm += 2\n\treturn res\n\nn,r,v = map(int,raw_input().split())\nfor i in range(n):\n\ts,f = map(int,raw_input().split())\n\tprint bestTime(s,f,r,v)\n",
+    "prob_desc_created_at": "1447000200",
+    "tags": [
+        "binary search",
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

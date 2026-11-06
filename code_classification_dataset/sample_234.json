@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\"]",
+    "src_uid": "e65b2a81689bb13b90a02a9ccf1d4125",
+    "prob_desc_notes": "NoteIn the first test case, Adilbek decides not to optimize the program at all, since $$$d \\le n$$$.In the second test case, Adilbek can spend $$$1$$$ day optimizing the program and it will run $$$\\left\\lceil \\frac{5}{2} \\right\\rceil = 3$$$ days. In total, he will spend $$$4$$$ days and will fit in the limit.In the third test case, it's impossible to fit in the limit. For example, if Adilbek will optimize the program $$$2$$$ days, it'll still work $$$\\left\\lceil \\frac{11}{2+1} \\right\\rceil = 4$$$ days.",
+    "prob_desc_description": "Adilbek was assigned to a special project. For Adilbek it means that he has $$$n$$$ days to run a special program and provide its results. But there is a problem: the program needs to run for $$$d$$$ days to calculate the results.Fortunately, Adilbek can optimize the program. If he spends $$$x$$$ ($$$x$$$ is a non-negative integer) days optimizing the program, he will make the program run in $$$\\left\\lceil \\frac{d}{x + 1} \\right\\rceil$$$ days ($$$\\left\\lceil a \\right\\rceil$$$ is the ceiling function: $$$\\left\\lceil 2.4 \\right\\rceil = 3$$$, $$$\\left\\lceil 2 \\right\\rceil = 2$$$). The program cannot be run and optimized simultaneously, so the total number of days he will spend is equal to $$$x + \\left\\lceil \\frac{d}{x + 1} \\right\\rceil$$$.Will Adilbek be able to provide the generated results in no more than $$$n$$$ days?",
+    "prob_desc_output_spec": "Print $$$T$$$ answers — one per test case. For each test case print YES (case insensitive) if Adilbek can fit in $$$n$$$ days or NO (case insensitive) otherwise.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$T$$$ ($$$1 \\le T \\le 50$$$) — the number of test cases. The next $$$T$$$ lines contain test cases – one per line. Each line contains two integers $$$n$$$ and $$$d$$$ ($$$1 \\le n \\le 10^9$$$, $$$1 \\le d \\le 10^9$$$) — the number of days before the deadline and the number of days the program runs.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_001.jsonl",
+    "code_uid": "87b598a38701c5ded117c1949442731a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1\\n4 5\\n5 11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import *\nfor _ in range(int(input())):\n    n,d=map(int,input().split())\n    if d<=n:\n        print(\"YES\")\n    else:\n        for i in range(1,int(sqrt(d))+1):\n            if ceil(d/(i+1))+i<=n:\n                print(\"YES\")\n                break\n        else:\n\n            print(\"NO\")",
+    "prob_desc_created_at": "1579012500",
+    "tags": [
+        "binary search",
+        "ternary search",
+        "math",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

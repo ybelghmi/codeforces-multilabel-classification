@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 1\\n3\\n4\\n\\n? 1 2\\n1\\n2 3\\n\\n? 1 1\\n1\\n4\\n\\n? 1 1\\n1\\n3\\n\\n! 2 3 4\"]",
+    "src_uid": "3e2c5147fda43caf4d603eba21c159b4",
+    "prob_desc_notes": "NoteThe empty lines in the sample are just for you to better understand the interaction process. You're not required to print them.In the sample, the types of the magnets are NN--.At first, you put the third magnet on the left and the fourth one on the right. Both of them have type -, thus no force is produced.Then you put the first magnet on the left and the second and third one on the right. The third magnet has type -, while the other two magnets are of type N, so the force produced is $$$1$$$.In the following two queries, the force is $$$0$$$ since there is only a magnet with property - on the right.Then we can determine that the magnets of type - are the third and the fourth one, so we should print ! 2 3 4 and exit.",
+    "prob_desc_description": "This is an interactive problem.Kochiya Sanae is playing with magnets. Realizing that some of those magnets are demagnetized, she is curious to find them out.There are $$$n$$$ magnets, which can be of the following $$$3$$$ types: N  S  - — these magnets are demagnetized. Note that you don't know the types of these magnets beforehand.You have a machine which can measure the force between the magnets, and you can use it at most $$$n+\\lfloor \\log_2n\\rfloor$$$ times.You can put some magnets to the left part of the machine and some to the right part of the machine, and launch the machine. Obviously, you can put one magnet to at most one side (you don't have to put all magnets). You can put the same magnet in different queries.Then the machine will tell the force these magnets produce. Formally, let $$$n_1,s_1$$$ be the number of N and S magnets correspondently on the left and $$$n_2,s_2$$$ — on the right. Then the force between them would be $$$n_1n_2+s_1s_2-n_1s_2-n_2s_1$$$. Please note that the force is a signed value.However, when the absolute value of the force is strictly larger than $$$n$$$, the machine will crash into pieces.You need to find all magnets of type - (all demagnetized ones), without breaking the machine.Note that the interactor is not adaptive. The types of the magnets are fixed before the start of the interaction and do not change with queries.It is guaranteed that there are at least $$$2$$$ magnets whose type is not -, and at least $$$1$$$ magnet of type -.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_095.jsonl",
+    "code_uid": "7963f00f2dd862bfd0e27259c76c134b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n4\\n\\n\\n\\n0\\n\\n\\n\\n1\\n\\n\\n\\n0\\n\\n\\n\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\n\r\ndef ask(l, r, ls, rs):\r\n    print(f'? {l} {r}')\r\n    print(\" \".join(map(str, range(ls, ls + l))))\r\n    print(\" \".join(map(str, range(rs, rs + r))))\r\n    sys.stdout.flush()\r\n    x = int(input())\r\n    return x\r\n\r\ndef test():\r\n    n = int(input())\r\n    idx = 0\r\n    ans = []\r\n    for i in range(2, n + 1):\r\n        if ask(i - 1, 1, 1, i) != 0:\r\n            idx = i\r\n            break\r\n\r\n    for i in range(i + 1, n + 1):\r\n        if ask(1, 1, idx, i) == 0:\r\n            ans.append(i)\r\n    \r\n    left = 1\r\n    right = idx - 1\r\n    while(left < right):\r\n        mid = (left + right) >> 1\r\n        if ask(mid, 1, 1, idx) == 0:\r\n            left = mid + 1\r\n        else:\r\n            right = mid\r\n\r\n    for i in range(1, idx):\r\n        if i != left:\r\n            ans.append(i)\r\n\r\n    print(f'! {len(ans)} '+\" \".join(map(str, ans)))\r\n\r\n\r\ntc = int(input())\r\nfor t in range(tc):\r\n    test()",
+    "prob_desc_created_at": "1614519300",
+    "tags": [
+        "binary search",
+        "constructive algorithms",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

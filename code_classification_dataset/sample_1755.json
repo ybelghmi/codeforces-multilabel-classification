@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"aabcca\\naabdda\", \"IMPOSSIBLE\", \"aabb\\naabb\\nbbaa\\nbbaa\"]",
+    "src_uid": "78f4d5e627a26effde89b3642bd9c5a8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Once Bob decided to lay a parquet floor in his living room. The living room is of size n × m metres. Bob had planks of three types: a planks 1 × 2 meters, b planks 2 × 1 meters, and c planks 2 × 2 meters. Help Bob find out, if it is possible to parquet the living room with such a set of planks, and if it is possible, find one of the possible ways to do so. Bob doesn't have to use all the planks.",
+    "prob_desc_output_spec": "If it is not possible to parquet the room with such a set of planks, output IMPOSSIBLE. Otherwise output one of the possible ways to parquet the room — output n lines with m lower-case Latin letters each. Two squares with common sides should contain the same letters, if they belong to one and the same plank, and different letters otherwise. Different planks can be marked with one and the same letter (see examples). If the answer is not unique, output any.",
+    "prob_desc_input_spec": "The first input line contains 5 space-separated integer numbers n, m, a, b, c (1 ≤ n, m ≤ 100, 0 ≤ a, b, c ≤ 104), n and m — the living room dimensions, a, b and c — amount of planks 1 × 2, 2 × 1 и 2 × 2 respectively. It's not allowed to turn the planks.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_012.jsonl",
+    "code_uid": "55646f161180c430d6c211780191b273",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 6 2 2 1\", \"1 1 100 100 100\", \"4 4 10 10 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom array import array  # noqa: F401\n\n\ndef input():\n    return sys.stdin.buffer.readline().decode('utf-8')\n\n\nn, m, b, a, c = map(int, input().split())\n\n\ndef ng():\n    print('IMPOSSIBLE')\n    exit()\n\n\nif (n * m) & 1:\n    ng()\n\nans = [['*'] * m for _ in range(n)]\n\nif n % 2:\n    s = ['y', 'z']\n    for i, j in enumerate(range(0, m, 2)):\n        ans[-1][j] = ans[-1][j + 1] = s[i & 1]\n        b -= 1\n\nif m % 2:\n    s = ['y', 'z']\n    for i, j in enumerate(range(0, n, 2)):\n        ans[j][-1] = ans[j + 1][-1] = s[i & 1]\n        a -= 1\n\ns1 = [['a', 'b'], ['c', 'd']]\ns2 = [['e', 'f'], ['g', 'h']]\nfor i in range(0, n - (n & 1), 2):\n    for j in range(0, m - (m & 1), 2):\n        if c:\n            ans[i][j] = ans[i + 1][j] = ans[i][j + 1] = ans[i + 1][j + 1] = s1[0][0]\n            c -= 1\n        elif a >= 2:\n            ans[i][j] = ans[i + 1][j] = s1[0][0]\n            ans[i][j + 1] = ans[i + 1][j + 1] = s1[0][1]\n            a -= 2\n        else:\n            ans[i][j] = ans[i][j + 1] = s1[0][0]\n            ans[i + 1][j] = ans[i + 1][j + 1] = s1[0][1]\n            b -= 2\n        s1[0], s1[1] = s1[1], s1[0]\n    s1, s2 = s2, s1\n\nif a < 0 or b < 0:\n    ng()\nelse:\n    for row in ans:\n        print(*row, sep='')\n",
+    "prob_desc_created_at": "1281970800",
+    "tags": [
+        "combinatorics",
+        "implementation",
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

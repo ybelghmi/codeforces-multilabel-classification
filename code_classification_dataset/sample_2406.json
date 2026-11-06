@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"2\"]",
+    "src_uid": "3def8503f4e7841d33be5b4890065526",
+    "prob_desc_notes": "NoteIn the first example it is possible that only the first worker made a mistake. Then:   the immediate superior of the first worker is the second worker,  the immediate superior of the third worker is the first worker,  the second worker is the chief. ",
+    "prob_desc_description": "There are n workers in a company, each of them has a unique id from 1 to n. Exaclty one of them is a chief, his id is s. Each worker except the chief has exactly one immediate superior.There was a request to each of the workers to tell how how many superiors (not only immediate). Worker's superiors are his immediate superior, the immediate superior of the his immediate superior, and so on. For example, if there are three workers in the company, from which the first is the chief, the second worker's immediate superior is the first, the third worker's immediate superior is the second, then the third worker has two superiors, one of them is immediate and one not immediate. The chief is a superior to all the workers except himself.Some of the workers were in a hurry and made a mistake. You are to find the minimum number of workers that could make a mistake.",
+    "prob_desc_output_spec": "Print the minimum number of workers that could make a mistake.",
+    "prob_desc_input_spec": "The first line contains two positive integers n and s (1 ≤ n ≤ 2·105, 1 ≤ s ≤ n) — the number of workers and the id of the chief. The second line contains n integers a1, a2, ..., an (0 ≤ ai ≤ n - 1), where ai is the number of superiors (not only immediate) the worker with id i reported about.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_022.jsonl",
+    "code_uid": "739f033b377b434d25dd47a805d3a7f5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n2 0 2\", \"5 3\\n1 0 0 4 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,s=[int(i) for i in input().split()]\n\ns-=1\n\nn-=1\n\nd=0\n\nl=[int(i) for i in input().split()]\n\nif l[s]!=0:d+=1\n\nl=l[:s]+l[s+1:]\n\nfor i in range(0,len(l)):\n\n\tif(l[i]==0):l[i]=n+5\n\nl.sort()\n\nj=0\n\ni=0\n\nc=0\n\nwhile 1:\n\n\twhile i<len(l) and j==l[i]:\n\n\t\ti+=1\n\n\tif i>=len(l):\n\n\t\tbreak\n\n\telif l[i]-j==1:\n\n\t\tj+=1\n\n\t\ti+=1\n\n\t\tcontinue\n\n\telse:\n\n\t\tl.pop()\n\n\t\td+=1\n\n\t\tj+=1\n\nprint(d)\n\n\n\n# Made By Mostafa_Khaled",
+    "prob_desc_created_at": "1479632700",
+    "tags": [
+        "greedy",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

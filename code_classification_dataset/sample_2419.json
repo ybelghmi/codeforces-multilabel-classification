@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n1 8 6\"]",
+    "src_uid": "1e0148d417f80b995cac18c2f4cea32e",
+    "prob_desc_notes": "NoteThe picture corresponding to the first example (and another one correct answer):If you choose vertices $$$1, 5, 6$$$ then the path between $$$1$$$ and $$$5$$$ consists of edges $$$(1, 2), (2, 3), (3, 4), (4, 5)$$$, the path between $$$1$$$ and $$$6$$$ consists of edges $$$(1, 2), (2, 3), (3, 4), (4, 6)$$$ and the path between $$$5$$$ and $$$6$$$ consists of edges $$$(4, 5), (4, 6)$$$. The union of these paths is $$$(1, 2), (2, 3), (3, 4), (4, 5), (4, 6)$$$ so the answer is $$$5$$$. It can be shown that there is no better answer.",
+    "prob_desc_description": "You are given an unweighted tree with $$$n$$$ vertices. Recall that a tree is a connected undirected graph without cycles.Your task is to choose three distinct vertices $$$a, b, c$$$ on this tree such that the number of edges which belong to at least one of the simple paths between $$$a$$$ and $$$b$$$, $$$b$$$ and $$$c$$$, or $$$a$$$ and $$$c$$$ is the maximum possible. See the notes section for a better understanding.The simple path is the path that visits each vertex at most once.",
+    "prob_desc_output_spec": "In the first line print one integer $$$res$$$ — the maximum number of edges which belong to at least one of the simple paths between $$$a$$$ and $$$b$$$, $$$b$$$ and $$$c$$$, or $$$a$$$ and $$$c$$$. In the second line print three integers $$$a, b, c$$$ such that $$$1 \\le a, b, c \\le n$$$ and $$$a \\ne, b \\ne c, a \\ne c$$$. If there are several answers, you can print any.",
+    "prob_desc_input_spec": "The first line contains one integer number $$$n$$$ ($$$3 \\le n \\le 2 \\cdot 10^5$$$) — the number of vertices in the tree.  Next $$$n - 1$$$ lines describe the edges of the tree in form $$$a_i, b_i$$$ ($$$1 \\le a_i$$$, $$$b_i \\le n$$$, $$$a_i \\ne b_i$$$). It is guaranteed that given graph is a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_022.jsonl",
+    "code_uid": "7fe5ed1ab433407e763996b788053068",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n1 2\\n2 3\\n3 4\\n4 5\\n4 6\\n3 7\\n3 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\nfrom collections import *\n\ndef bfs(sta):\n    dist = [-1]*n\n    dist[sta] = 0\n    par = [-1]*n\n    q = deque([sta])\n    \n    while q:\n        v = q.popleft()\n        \n        for nv in G[v]:\n            if dist[nv]==-1:\n                dist[nv] = dist[v]+1\n                par[nv] = v\n                q.append(nv)\n    \n    return dist, par\n    \ndef mbfs():\n    dist = [-1]*n\n    l = [b]\n    \n    while par[l[-1]]!=-1:\n        l.append(par[l[-1]])\n        \n    q = deque([])\n    \n    for li in l:\n        dist[li] = 0\n        q.append(li)\n    \n    while q:\n        v = q.popleft()\n        \n        for nv in G[v]:\n            if dist[nv]==-1:\n                dist[nv] = dist[v]+1\n                q.append(nv)\n    \n    return dist\n    \nn = int(input())\nG = [[] for _ in range(n)]\n\nfor _ in range(n-1):\n    u, v = map(int, input().split())\n    G[u-1].append(v-1)\n    G[v-1].append(u-1)\n\nd1, _ = bfs(0)\nM = 0\n\nfor i in range(n):\n    if d1[i]>M:\n        M = d1[i]\n        a = i\n\nd2, par = bfs(a)\nM1 = 0\n\nfor i in range(n):\n    if d2[i]>M1:\n        M1 = d2[i]\n        b = i\n\nd3 = mbfs()\n\nif d3==[0]*n:\n    for i in range(n):\n        if i!=a and i!=b:\n            print(M1)\n            print(a+1, b+1, i+1)\n            exit()\n            \nM2 = 0\n\nfor i in range(n):\n    if d3[i]>M2:\n        M2 = d3[i]\n        c = i\n\nprint(M1+M2)\nprint(a+1, b+1, c+1)",
+    "prob_desc_created_at": "1579703700",
+    "tags": [
+        "dp",
+        "dfs and similar",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

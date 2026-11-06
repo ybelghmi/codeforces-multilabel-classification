@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n2\\n3\\n6\"]",
+    "src_uid": "7f15864d46f09ea6f117929565ccb867",
+    "prob_desc_notes": "Note  The first query asks for a centroid of the whole tree — this is node 3. If we delete node 3 the tree will split in four components, two of size 1 and two of size 2.The subtree of the second node consists of this node only, so the answer is 2.Node 3 is centroid of its own subtree.The centroids of the subtree of the node 5 are nodes 5 and 6 — both answers are considered correct.",
+    "prob_desc_description": "After the piece of a devilish mirror hit the Kay's eye, he is no longer interested in the beauty of the roses. Now he likes to watch snowflakes.Once upon a time, he found a huge snowflake that has a form of the tree (connected acyclic graph) consisting of n nodes. The root of tree has index 1. Kay is very interested in the structure of this tree.After doing some research he formed q queries he is interested in. The i-th query asks to find a centroid of the subtree of the node vi. Your goal is to answer all queries.Subtree of a node is a part of tree consisting of this node and all it's descendants (direct or not). In other words, subtree of node v is formed by nodes u, such that node v is present on the path from u to root.Centroid of a tree (or a subtree) is a node, such that if we erase it from the tree, the maximum size of the connected component will be at least two times smaller than the size of the initial tree (or a subtree).",
+    "prob_desc_output_spec": "For each query print the index of a centroid of the corresponding subtree. If there are many suitable nodes, print any of them. It's guaranteed, that each subtree has at least one centroid.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and q (2 ≤ n ≤ 300 000, 1 ≤ q ≤ 300 000) — the size of the initial tree and the number of queries respectively. The second line contains n - 1 integer p2, p3, ..., pn (1 ≤ pi ≤ n) — the indices of the parents of the nodes from 2 to n. Node 1 is a root of the tree. It's guaranteed that pi define a correct tree. Each of the following q lines contain a single integer vi (1 ≤ vi ≤ n) — the index of the node, that define the subtree, for which we want to find a centroid.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_003.jsonl",
+    "code_uid": "34642c4757df9c0c5a8c372994efdcd7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 4\\n1 1 3 3 5 3\\n1\\n2\\n3\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, q = map(int, raw_input().split(' '))\np_arr = map(lambda x:int(x) - 1, raw_input().split(' '))\np_arr = [-1] + p_arr\nfor i in p_arr[1:]:\n  i += 1\npe_arr = [0 for i in xrange(n)]\ns_arr = [1 for i in xrange(n)]\nmx_arr = [-1 for i in xrange(n)]\nz_arr = [i for i in xrange(n)]\nfor i in p_arr:\n  if i > 0:\n    pe_arr[i] += 1\n\narr = [i for i in xrange(n) if pe_arr[i] == 0]\nwhile arr:\n  i = arr.pop()\n  while z_arr[i] != i and (s_arr[i] - s_arr[z_arr[i]]) * 2 > s_arr[i]:\n    z_arr[i] = p_arr[z_arr[i]]\n  if i == 0:\n    continue\n  fa = p_arr[i]\n  s_arr[fa] += s_arr[i]\n  if mx_arr[fa] < s_arr[i]:\n    mx_arr[fa] = s_arr[i]\n    z_arr[fa] = z_arr[i]\n  pe_arr[fa] -= 1\n  if pe_arr[fa] == 0:\n    arr.append(fa)\nq_arr = [int(raw_input()) - 1 for i in xrange(q)]\nfor i in q_arr:\n  print z_arr[i] + 1\n",
+    "prob_desc_created_at": "1466699700",
+    "tags": [
+        "dp",
+        "dfs and similar",
+        "data structures",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

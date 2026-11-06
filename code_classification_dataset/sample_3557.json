@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2.5 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"1\"]",
+    "src_uid": "31d95251cd79d889ff9f0a624ef31394",
+    "prob_desc_notes": "NoteThe first example corresponds to the matrix:  $$$11100111$$$   $$$11100111$$$   $$$11100111$$$   $$$00000000$$$   $$$00000000$$$   $$$11100111$$$   $$$11100111$$$   $$$11100111$$$ It is easy to see that the answer on this example is $$$1$$$.",
+    "prob_desc_description": "You are given a binary matrix $$$A$$$ of size $$$n \\times n$$$. Let's denote an $$$x$$$-compression of the given matrix as a matrix $$$B$$$ of size $$$\\frac{n}{x} \\times \\frac{n}{x}$$$ such that for every $$$i \\in [1, n], j \\in [1, n]$$$ the condition $$$A[i][j] = B[\\lceil \\frac{i}{x} \\rceil][\\lceil \\frac{j}{x} \\rceil]$$$ is met.Obviously, $$$x$$$-compression is possible only if $$$x$$$ divides $$$n$$$, but this condition is not enough. For example, the following matrix of size $$$2 \\times 2$$$ does not have any $$$2$$$-compression: $$$01$$$   $$$10$$$ For the given matrix $$$A$$$, find maximum $$$x$$$ such that an $$$x$$$-compression of this matrix is possible.Note that the input is given in compressed form. But even though it is compressed, you'd better use fast input.",
+    "prob_desc_output_spec": "Print one number: maximum $$$x$$$ such that an $$$x$$$-compression of the given matrix is possible.",
+    "prob_desc_input_spec": "The first line contains one number $$$n$$$ ($$$4 \\le n \\le 5200$$$) — the number of rows and columns in the matrix $$$A$$$. It is guaranteed that $$$n$$$ is divisible by $$$4$$$. Then the representation of matrix follows. Each of $$$n$$$ next lines contains $$$\\frac{n}{4}$$$ one-digit hexadecimal numbers (that is, these numbers can be represented either as digits from $$$0$$$ to $$$9$$$ or as uppercase Latin letters from $$$A$$$ to $$$F$$$). Binary representation of each of these numbers denotes next $$$4$$$ elements of the matrix in the corresponding row. For example, if the number $$$B$$$ is given, then the corresponding elements are 1011, and if the number is $$$5$$$, then the corresponding elements are 0101. Elements are not separated by whitespaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_068.jsonl",
+    "code_uid": "4f0295c75b98ab5e89f426ed61e45873",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\nE7\\nE7\\nE7\\n00\\n00\\nE7\\nE7\\nE7\", \"4\\n7\\nF\\nF\\nF\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import atexit, io, sys \n  \n# A stream implementation using an in-memory bytes  \n# buffer. It inherits BufferedIOBase. \nbuffer = io.BytesIO() \nsys.stdout = buffer\n  \n# print via here \n@atexit.register \ndef write(): \n    sys.__stdout__.write(buffer.getvalue())\n\ndef gcd(a,b):\n\tif(a>b):\n\t\ttemp=b\n\t\tb=a\n\t\ta=temp\n\tif(a==0):\n\t\treturn b\n\telse:\n\t\treturn gcd(b%a,a)\n\nn=int(raw_input())\narr=[]\nmindiff=10**9\nans=-1\nflag=0\nfor i in range(n):\n\ts=raw_input()\n\ts1=''\n\tj=0\n\twhile(j<len(s)):\n\t\tif(65<=ord(s[j])<=70):\n\t\t\tnum=10+(ord(s[j])-65)\n\t\t\ts1+=bin(num)[2:]\n\t\telse:\n\t\t\tnum=bin(int(s[j]))[2:]\n\t\t\tnum=(4-len(num))*'0'+num\n\t\t\ts1+=num\n\t\tj+=1\n\tinitial=s1[0]\n\tj=1\n\tcount=1\n\twhile(j<len(s1)):\n\t\tif(s1[j]==initial):\n\t\t\tcount+=1\t\n\t\telse:\n\t\t\tif(ans==-1):\n\t\t\t\tans=count\n\t\t\telse:\n\t\t\t\tans=gcd(ans,count)\n\t\t\tcount=1\n\t\t\tinitial=s1[j]\n\t\tj+=1\n\tif(ans==-1):\n\t\tans=count\n\telse:\n\t\tans=gcd(ans,count)\n\tarr.append(s1)\n#print(*arr)\nif(ans==1):\n\tprint(1)\n\texit(0)\nfor i in range(n):\n\tinitial=arr[0][i]\n\tcount=1\n\tfor j in range(1,n):\n\t\tif(arr[j][i]==initial):\n\t\t\tcount+=1\t\n\t\telse:\n\t\t\tans=gcd(ans,count)\n\t\t\tcount=1\n\t\t\tinitial=arr[j][i]\n\t\t\tif(ans==1):\n\t\t\t\tprint(1)\n\t\t\t\texit(0)\n\tans=gcd(ans,count)\n\tif(ans==1):\n\t\tprint(1)\n\t\texit(0)\nprint(ans)",
+    "prob_desc_created_at": "1548516900",
+    "tags": [
+        "dp",
+        "implementation",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

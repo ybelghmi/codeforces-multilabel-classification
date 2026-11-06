@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"1\", \"0\"]",
+    "src_uid": "2be73aa00a13be5274cf840ecd3befcb",
+    "prob_desc_notes": "NoteIn the first example if you don't give the order to change the leg, the number of soldiers, who start to march from the left leg, would equal 5 + 8 + 10 = 23, and from the right leg — 6 + 9 + 3 = 18. In this case the beauty of the parade will equal |23 - 18| = 5.If you give the order to change the leg to the third column, so the number of soldiers, who march from the left leg, will equal 5 + 8 + 3 = 16, and who march from the right leg — 6 + 9 + 10 = 25. In this case the beauty equals |16 - 25| = 9.It is impossible to reach greater beauty by giving another orders. Thus, the maximum beauty that can be achieved is 9.",
+    "prob_desc_description": "Very soon there will be a parade of victory over alien invaders in Berland. Unfortunately, all soldiers died in the war and now the army consists of entirely new recruits, many of whom do not even know from which leg they should begin to march. The civilian population also poorly understands from which leg recruits begin to march, so it is only important how many soldiers march in step.There will be n columns participating in the parade, the i-th column consists of li soldiers, who start to march from left leg, and ri soldiers, who start to march from right leg.The beauty of the parade is calculated by the following formula: if L is the total number of soldiers on the parade who start to march from the left leg, and R is the total number of soldiers on the parade who start to march from the right leg, so the beauty will equal |L - R|.No more than once you can choose one column and tell all the soldiers in this column to switch starting leg, i.e. everyone in this columns who starts the march from left leg will now start it from right leg, and vice versa. Formally, you can pick no more than one index i and swap values li and ri. Find the index of the column, such that switching the starting leg for soldiers in it will maximize the the beauty of the parade, or determine, that no such operation can increase the current beauty.",
+    "prob_desc_output_spec": "Print single integer k — the number of the column in which soldiers need to change the leg from which they start to march, or 0 if the maximum beauty is already reached. Consider that columns are numbered from 1 to n in the order they are given in the input data. If there are several answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains single integer n (1 ≤ n ≤ 105) — the number of columns.  The next n lines contain the pairs of integers li and ri (1 ≤ li, ri ≤ 500) — the number of soldiers in the i-th column which start to march from the left or the right leg respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_001.jsonl",
+    "code_uid": "8b52ffbf0852fbb099c83c2c6a81cf5a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n5 6\\n8 9\\n10 3\", \"2\\n6 5\\n5 6\", \"6\\n5 9\\n1 3\\n4 8\\n4 5\\n23 54\\n12 32\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from copy import deepcopy\n\ndef f(n, m):\n    return abs(n - m)\n\nn = int(input())\nmas = []\nL = 0\nR = 0\nfor i in range(n):\n    l, r = map(int, input().split())\n    mas.append((l, r))\n    L += l\n    R += r\nsum = f(L, R)\nold = deepcopy(sum)\nnew = deepcopy(old)\n#print(L, R)\nfor i in range(n):\n    L -= mas[i][0]\n    R -= mas[i][1]\n    L += mas[i][1]\n    R += mas[i][0]\n    #print(L, R)\n    if f(L, R) > new:\n        ans = i\n        new = f(L, R)\n    L -= mas[i][1]\n    R -= mas[i][0]\n    L += mas[i][0]\n    R += mas[i][1]\nif new - old == 0:\n    print(0)\nelse:\n    print(ans + 1)",
+    "prob_desc_created_at": "1477922700",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

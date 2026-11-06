@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 0 3\", \"0 0 0\", \"4 14 4 16 10\"]",
+    "src_uid": "d0cb479bbe2fca382a439148af77e082",
+    "prob_desc_notes": "NoteIn the first example, there will be only one team consisting of persons $$$1$$$ and $$$3$$$. The optimal strategy for them is to assign the first task to the $$$3$$$-rd person and the second task to the $$$1$$$-st person, this will lead to score equal to $$$1 + 2 = 3$$$.In the second example, nobody likes anyone, so there won't be any trainings. It seems that Zibi won't be titled coach in that case...",
+    "prob_desc_description": "Zibi is a competitive programming coach. There are $$$n$$$ competitors who want to be prepared well. The training contests are quite unusual – there are two people in a team, two problems, and each competitor will code exactly one of them. Of course, people in one team will code different problems.Rules of scoring also aren't typical. The first problem is always an implementation problem: you have to implement some well-known algorithm very fast and the time of your typing is rated. The second one is an awful geometry task and you just have to get it accepted in reasonable time. Here the length and difficulty of your code are important. After that, Zibi will give some penalty points (possibly negative) for each solution and the final score of the team is the sum of them (the less the score is, the better).We know that the $$$i$$$-th competitor will always have score $$$x_i$$$ when he codes the first task and $$$y_i$$$ when he codes the second task. We can assume, that all competitors know each other's skills and during the contest distribute the problems in the way that minimizes their final score. Remember that each person codes exactly one problem in a contest.Zibi wants all competitors to write a contest with each other. However, there are $$$m$$$ pairs of people who really don't like to cooperate and they definitely won't write a contest together. Still, the coach is going to conduct trainings for all possible pairs of people, such that the people in pair don't hate each other. The coach is interested for each participant, what will be his or her sum of scores of all teams he trained in?",
+    "prob_desc_output_spec": "Output $$$n$$$ integers — the sum of scores for all participants in the same order as they appear in the input.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n \\le 300\\,000$$$, $$$0 \\le m \\le 300\\,000$$$) — the number of participants and the number of pairs of people who will not write a contest together. Each of the next $$$n$$$ lines contains two integers $$$x_i$$$ and $$$y_i$$$ ($$$-10^9 \\le x_i, y_i \\le 10^9$$$) — the scores which will the $$$i$$$-th competitor get on the first problem and on the second problem. It is guaranteed that there are no two people having both $$$x_i$$$ and $$$y_i$$$ same. Each of the next $$$m$$$ lines contain two integers $$$u_i$$$ and $$$v_i$$$ ($$$1 \\le u_i, v_i \\le n$$$, $$$u_i \\ne v_i$$$) — indices of people who don't want to write a contest in one team. Each unordered pair of indices will appear at most once.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_013.jsonl",
+    "code_uid": "0539420ef6df4b7505adfd2d1a4e6c60",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 2\\n2 3\\n1 3\\n1 2\\n2 3\", \"3 3\\n1 2\\n2 3\\n1 3\\n1 2\\n2 3\\n1 3\", \"5 3\\n-1 3\\n2 4\\n1 1\\n3 5\\n2 2\\n1 4\\n2 3\\n3 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom operator import add\nfrom itertools import repeat\n\ndef main():\n    n, m = map(int, stdin.readline().split())\n    inp = list(map(int, stdin.read().split(), repeat(10, 2*n+2*m)))\n    xys = inp[:2*n]\n    exc = list(map(add, inp[2*n:], repeat(-1)))\n\n    a = list(range(n))\n    a.sort(key=lambda i: xys[2*i] - xys[2*i+1])\n    \n    xs, ys = 0, sum(xys[1::2])\n    res = [0]*n\n    for i, idx in enumerate(a):\n        x, y = xys[2*idx], xys[2*idx+1]\n        ys -= y\n        res[idx] = i*y + (n-1-i)*x + xs + ys\n        xs += x\n\n    for i in range(m):\n        u, v = exc[2*i], exc[2*i+1]\n        dif = min(xys[2*u] + xys[2*v+1], xys[2*v] + xys[2*u+1])\n        res[u] -= dif\n        res[v] -= dif\n        \n    print(' '.join(map(str,res)))\n\nmain()",
+    "prob_desc_created_at": "1540740900",
+    "tags": [
+        "constructive algorithms",
+        "sortings",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

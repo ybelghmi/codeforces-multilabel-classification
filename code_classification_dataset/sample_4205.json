@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n0\\n2\\n3\\n5\\n141\\n53384\\n160909\\n36\"]",
+    "src_uid": "efdb966e414050c5e51e8beb7bb06b20",
+    "prob_desc_notes": "NoteIn the first test case, the only special pair is $$$(3, 2)$$$.In the second test case, there are no special pairs.In the third test case, there are two special pairs: $$$(3, 2)$$$ and $$$(4, 3)$$$.",
+    "prob_desc_description": "A pair of positive integers $$$(a,b)$$$ is called special if $$$\\lfloor \\frac{a}{b} \\rfloor = a \\bmod b$$$. Here, $$$\\lfloor \\frac{a}{b} \\rfloor$$$ is the result of the integer division between $$$a$$$ and $$$b$$$, while $$$a \\bmod b$$$ is its remainder.You are given two integers $$$x$$$ and $$$y$$$. Find the number of special pairs $$$(a,b)$$$ such that $$$1\\leq a \\leq x$$$ and $$$1 \\leq b \\leq y$$$.",
+    "prob_desc_output_spec": "For each test case print the answer on a single line.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. The only line of the description of each test case contains two integers $$$x$$$, $$$y$$$ ($$$1 \\le x,y \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_092.jsonl",
+    "code_uid": "a4e271d3387f754cea40c0432268f71d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9\\n3 4\\n2 100\\n4 3\\n50 3\\n12 4\\n69 420\\n12345 6789\\n123456 789\\n12345678 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for test_case in range(int(input())):\r\n    x,y = map(int,input().split())\r\n    res = 0\r\n    k = 1\r\n    while k*(k+1) < x and k < y:\r\n        res += min(y,x//k-1)-k\r\n        k += 1\r\n    print(res)\r\n    ",
+    "prob_desc_created_at": "1613141400",
+    "tags": [
+        "binary search",
+        "brute force",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

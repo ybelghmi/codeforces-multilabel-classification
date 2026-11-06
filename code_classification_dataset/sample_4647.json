@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 4 1\\n5 6 2\\n3 4 3\\n-1\\n2\\n1 2 1\\n2 3 1\\n-1\\n3\\n1 3 2\\n5 6 3\\n3 4 1\"]",
+    "src_uid": "a4f4ad94387b16e8760e7c7fd45b93b3",
+    "prob_desc_notes": "NoteThe example from the statement.In the second case, it is impossible to represent by segments of known numbers of length 2 or more.In the third case, you can get the segments '12' and '21' from the first phone number.",
+    "prob_desc_description": "Masha meets a new friend and learns his phone number — $$$s$$$. She wants to remember it as soon as possible. The phone number — is a string of length $$$m$$$ that consists of digits from $$$0$$$ to $$$9$$$. The phone number may start with 0.Masha already knows $$$n$$$ phone numbers (all numbers have the same length $$$m$$$). It will be easier for her to remember a new number if the $$$s$$$ is represented as segments of numbers she already knows. Each such segment must be of length at least $$$2$$$, otherwise there will be too many segments and Masha will get confused.For example, Masha needs to remember the number: $$$s = $$$ '12345678' and she already knows $$$n = 4$$$ numbers: '12340219', '20215601', '56782022', '12300678'. You can represent $$$s$$$ as a $$$3$$$ segment: '1234' of number one, '56' of number two, and '78' of number three. There are other ways to represent $$$s$$$.Masha asks you for help, she asks you to break the string $$$s$$$ into segments of length $$$2$$$ or more of the numbers she already knows. If there are several possible answers, print any of them.",
+    "prob_desc_output_spec": "You need to print the answers to $$$t$$$ test cases. The first line of the answer should contain one number $$$k$$$, corresponding to the number of segments into which you split the phone number $$$s$$$. Print -1 if you cannot get such a split. If the answer is yes, then follow $$$k$$$ lines containing triples of numbers $$$l, r, i$$$. Such triplets mean that the next $$$r-l+1$$$ digits of number $$$s$$$ are equal to a segment (substring) with boundaries $$$[l, r]$$$ of the phone under number $$$i$$$. Both the phones and the digits in them are numbered from $$$1$$$. Note that $$$r-l+1 \\ge 2$$$ for all $$$k$$$ lines.",
+    "prob_desc_input_spec": "The first line of input data contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) —the number of test cases. Before each test case there is a blank line. Then there is a line containing integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 10^3$$$) —the number of phone numbers that Masha knows and the number of digits in each phone number. Then follow $$$n$$$ line, $$$i$$$-th of which describes the $$$i$$$-th number that Masha knows. The next line contains the phone number of her new friend $$$s$$$. Among the given $$$n+1$$$ phones, there may be duplicates (identical phones). It is guaranteed that the sum of $$$n \\cdot m$$$ ($$$n$$$ multiplied by $$$m$$$) values over all input test cases does not exceed $$$10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_102.jsonl",
+    "code_uid": "bf0b6e31df55c0f6196000eec2f4fcf7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n4 8\\n12340219\\n20215601\\n56782022\\n12300678\\n12345678\\n\\n2 3\\n134\\n126\\n123\\n\\n1 4\\n1210\\n1221\\n\\n4 3\\n251\\n064\\n859\\n957\\n054\\n\\n4 7\\n7968636\\n9486033\\n4614224\\n5454197\\n9482268\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math,sys;input=sys.stdin.readline;S=lambda:input().rstrip();I=lambda:int(S());M=lambda:map(int,S().split());L=lambda:list(M());mod1=1000000007;mod2=998244353\r\n\r\nfor _ in range(I()):\r\n\tS();n,m=M();have={};pos={};dp=[0]*(m+1);pr=[0]*(m+1);dp[0]=1\r\n\tfor i in range(n):\r\n\t\tcur=S()\r\n\t\tfor j in range(m):\r\n\t\t\tt=cur[j]\r\n\t\t\tfor k in range(1,3):\r\n\t\t\t\tif k+j>=m:break\r\n\t\t\t\tt+=cur[j+k]\r\n\t\t\t\tif not have.get(t,0):\r\n\t\t\t\t\thave[t]=1\r\n\t\t\t\t\tpos[t]=(j,j+k,i)\t\r\n\ts=S()\r\n\tfor i in range(m):\r\n\t\tt=s[i]\r\n\t\tfor k in range(1,3):\r\n\t\t\tif i-k<0:break\r\n\t\t\tt=s[i-k]+t\r\n\t\t\tif have.get(t,0) and dp[i-k]:\r\n\t\t\t\tdp[i+1]=1\r\n\t\t\t\tpr[i+1]=i-k\r\n\t\t\tif dp[i+1]:break\r\n\tif not dp[m]:print(-1);continue\r\n\tk=m;ans=[]\r\n\twhile k>0:\r\n\t\tp=pr[k]\t\r\n\t\tt=s[p:k]\r\n\t\tans.append(pos[t])\r\n\t\tk=p\r\n\tprint(len(ans));ans.reverse()\r\n\tfor i in ans:print(i[0]+1,i[1]+1,i[2]+1)",
+    "prob_desc_created_at": "1641825300",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "dp",
+        "hashing",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

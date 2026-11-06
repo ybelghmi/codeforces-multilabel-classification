@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nRRLLLLRL\\nYES\\nRL\\nYES\\nRL\\nNO\"]",
+    "src_uid": "c4a14c2228b4f49d08e253bd60f9e4d5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are $$$n$$$ lanterns in a row. The lantern $$$i$$$ is placed in position $$$i$$$ and has power equal to $$$p_i$$$.Each lantern can be directed to illuminate either some lanterns to the left or some lanterns to the right. If the $$$i$$$-th lantern is turned to the left, it illuminates all such lanterns $$$j$$$ that $$$j \\in [i - p_i, i - 1]$$$. Similarly, if it is turned to the right, it illuminates all such lanterns $$$j$$$ that $$$j \\in [i + 1, i + p_i]$$$.Your goal is to choose a direction for each lantern so each lantern is illuminated by at least one other lantern, or report that it is impossible.",
+    "prob_desc_output_spec": "For each test case, print the answer as follows: If it is possible to direct all lanterns so that each lantern is illuminated, print YES in the first line and a string of $$$n$$$ characters L and/or R (the $$$i$$$-th character is L if the $$$i$$$-th lantern is turned to the left, otherwise this character is R) in the second line. If there are multiple answers, you may print any of them. If there is no answer, simply print NO for that test case.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10000$$$) — the number of test cases. Each test case consists of two lines. The first line contains one integer $$$n$$$ ($$$2 \\le n \\le 3 \\cdot 10^5$$$) — the number of lanterns. The second line contains $$$n$$$ integers $$$p_1, p_2, \\dots, p_n$$$ ($$$0 \\le p_i \\le n$$$) — the power of the $$$i$$$-th lantern. The sum of $$$n$$$ over all test cases does not exceed $$$3 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 3000,
+    "file_name": "train_102.jsonl",
+    "code_uid": "b9bee7864b998656d5ff8627c5b657b0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n8\\n0 0 3 1 1 1 1 2\\n2\\n1 1\\n2\\n2 2\\n2\\n0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import bisect_left;from math import inf\r\nclass ST:\r\n    def __init__(self,arr):\r\n        n=len(arr);mx=n.bit_length();self.st=[[0]*mx for i in range(n)]\r\n        for i in range(n):self.st[i][0]=arr[i]\r\n        for j in range(1,mx):\r\n            for i in range(n-(1<<j)+1):self.st[i][j]=max(self.st[i][j-1],self.st[i+(1<<j-1)][j-1])\r\n    def query(self,l,r):\r\n        if l>r:return -inf\r\n        s=(r+1-l).bit_length()-1;return max(self.st[l][s],self.st[r-(1<<s)+1][s])\r\nfor i in range(int(input())):\r\n    n=int(input());p=[0]+list(map(int,input().split()));a=[i+p[i] for i in range(n+1)];st=ST(a);dp=[0]*(n+1);last=[0]*(n+1)\r\n    for i in range(2,n+1):\r\n        if not p[i]:dp[i]=dp[i-1];last[i]=i;continue\r\n        j=bisect_left(dp,i-p[i]-1,0,i);last[i]=j\r\n        if j==i:dp[i]=dp[i-1]\r\n        else:\r\n            dp[i]=max(dp[j],st.query(j+1,i-1),i-1)\r\n            if dp[i-1]>=i:\r\n                if dp[i]<max(dp[i-1],i+p[i]):dp[i]=max(dp[i-1],i+p[i]);last[i]=i              \r\n    if dp[-1]<n:print(\"NO\")\r\n    else:\r\n        print(\"YES\");cur=n;ans=[\"R\"]*n\r\n        while cur:\r\n            if last[cur]!=cur:ans[cur-1]=\"L\";cur=last[cur]\r\n            else:cur-=1\r\n        print(''.join(ans))  ",
+    "prob_desc_created_at": "1611930900",
+    "tags": [
+        "binary search",
+        "data structures",
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

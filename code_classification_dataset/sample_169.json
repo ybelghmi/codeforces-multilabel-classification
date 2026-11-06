@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"40\", \"1\", \"172\"]",
+    "src_uid": "e6e760164882b9e194a17663625be27d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Rikhail Mubinchik believes that the current definition of prime numbers is obsolete as they are too complex and unpredictable. A palindromic number is another matter. It is aesthetically pleasing, and it has a number of remarkable properties. Help Rikhail to convince the scientific community in this!Let us remind you that a number is called prime if it is integer larger than one, and is not divisible by any positive integer other than itself and one.Rikhail calls a number a palindromic if it is integer, positive, and its decimal representation without leading zeros is a palindrome, i.e. reads the same from left to right and right to left.One problem with prime numbers is that there are too many of them. Let's introduce the following notation: π(n) — the number of primes no larger than n, rub(n) — the number of palindromic numbers no larger than n. Rikhail wants to prove that there are a lot more primes than palindromic ones.He asked you to solve the following problem: for a given value of the coefficient A find the maximum n, such that π(n) ≤ A·rub(n).",
+    "prob_desc_output_spec": "If such maximum number exists, then print it. Otherwise, print \"Palindromic tree is better than splay tree\" (without the quotes).",
+    "prob_desc_input_spec": "The input consists of two positive integers p, q, the numerator and denominator of the fraction that is the value of A (, ).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_000.jsonl",
+    "code_uid": "08043780201f473922d92660b64e19d0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\", \"1 42\", \"6 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python\nimport math\n\ndef is_pal(n):\n\tif str(n) == str(n)[::-1]:\n\t\treturn True\n\telse:\n\t\treturn False\n\ndef sieve(n, a):\n\tprimos = [True]*(n+1)\n\tprimos[0] = False\n\tprimos[1] = False\n\t# m = int(math.sqrt(n))\n\n\tc = 0\n\tpl= 1\n\tr = 1\n\tfor i in range(2, n):\n\t\tif primos[i]:\n\t\t\tc += 1\n\t\t\tfor k in range(i*i,n+1,i):\n\t\t\t\tprimos[k] = False\n\t\tif is_pal(i):\n\t\t\tpl += 1\n\t\tif c<=a*pl:\n\t\t\tr = i\n\treturn r\t\t\n\ndef pald(n):\n\tc = 0\n\tfor i in xrange(0,n + 1):\n\t\tif str(i) == str(i)[::-1]:\n\t\t\tc += 1\n\treturn c\n\n\n\np,q = [int(x) for x in raw_input().split(\" \")]\n\n\nA = p/float(q)\n\nprint sieve(2000000,A)\n\n# i = 1\n# c = 0\n# pl = 0\n# z = -1\n# for i in xrange(1,len(primos)):\n# \tif primos[i]:\n# \t\tc += 1\n# \tif is_pal(i):\n# \t\tpl += 1\n# \tif c <= A*pl:\n# \t\tz = i\n\t\t# break\n\t# else:\n\t\t# print c, A, pl,i\n\t\t# break\n# print z\n# \tprint i\n\n# print i\n\n# p = 0\n# pl = 0\n# for i in xrange(2,3000000):\n# \tif primos[i]:\n# \t\tp += 1\n# \tif is_pal(primos[i]):\n# \t\tpl += 1\n# \tif p > A*pl:\n# \t\tprint i\n# \t\tbreak\n# i = 1\n\n# while True:\n# \tp = sieve(i)\n# \tc = 0\n\t\n# \tfor i in xrange(len(p)):\n# \t\tif p[i]:\n# \t\t\tc += 1\n\n# \tpl = pald(i)\n\n# \tif c <= A*pl:\n# \t\ti += 1\n# \telse:\n# \t\t# i -= 1\n# \t\tbreak\n\n# # \tprint i\n\n# print i",
+    "prob_desc_created_at": "1439224200",
+    "tags": [
+        "implementation",
+        "number theory",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

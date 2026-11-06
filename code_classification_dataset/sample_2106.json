@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1337\\n0\"]",
+    "src_uid": "edf394051c6b35f593abd4c34b091eae",
+    "prob_desc_notes": "NoteIn the first test case you can perform the following sequence of operations: first, second, first. This way you spend $$$391 + 555 + 391 = 1337$$$ dollars.In the second test case both integers are equal to zero initially, so you dont' have to spend money.",
+    "prob_desc_description": "You are given two integers $$$x$$$ and $$$y$$$. You can perform two types of operations:   Pay $$$a$$$ dollars and increase or decrease any of these integers by $$$1$$$. For example, if $$$x = 0$$$ and $$$y = 7$$$ there are four possible outcomes after this operation:   $$$x = 0$$$, $$$y = 6$$$;  $$$x = 0$$$, $$$y = 8$$$;  $$$x = -1$$$, $$$y = 7$$$;  $$$x = 1$$$, $$$y = 7$$$.   Pay $$$b$$$ dollars and increase or decrease both integers by $$$1$$$. For example, if $$$x = 0$$$ and $$$y = 7$$$ there are two possible outcomes after this operation:   $$$x = -1$$$, $$$y = 6$$$;  $$$x = 1$$$, $$$y = 8$$$.  Your goal is to make both given integers equal zero simultaneously, i.e. $$$x = y = 0$$$. There are no other requirements. In particular, it is possible to move from $$$x=1$$$, $$$y=0$$$ to $$$x=y=0$$$.Calculate the minimum amount of dollars you have to spend on it.",
+    "prob_desc_output_spec": "For each test case print one integer — the minimum amount of dollars you have to spend.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of testcases. The first line of each test case contains two integers $$$x$$$ and $$$y$$$ ($$$0 \\le x, y \\le 10^9$$$). The second line of each test case contains two integers $$$a$$$ and $$$b$$$ ($$$1 \\le a, b \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_017.jsonl",
+    "code_uid": "fce6803770ef2dfbdcde7627ba335e5f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 3\\n391 555\\n0 0\\n9 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nwhile(t>0):\n    t=t-1\n    l=[]\n    x,y=map(int,input().split())\n    a,b=map(int,input().split())\n    if(x==0 and y==0):\n        print(x)\n    elif(x>y):\n\n        a1=x-y\n        a1=a1*a\n        b1=y\n        b1=b1*b\n        l.append(abs(a1)+b1)\n        a1=x*a\n        b1=y*a\n        l.append(abs(a1)+b1)\n        print(min(l))\n    elif(x<y):\n        a1 = x - y\n        a1 = a1 * a\n        b1 = x\n        b1 = b1 * b\n        l.append(abs(a1) + b1)\n        a1 = x * a\n        b1 = y * a\n        l.append(abs(a1) + b1)\n        print(min(l))\n    elif(x==y):\n        a1=x*2*a\n        l.append(a1)\n        b1=x*b\n        l.append(b1)\n        print(min(l))",
+    "prob_desc_created_at": "1587911700",
+    "tags": [
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

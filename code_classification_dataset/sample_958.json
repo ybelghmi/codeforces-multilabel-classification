@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\", \"No\"]",
+    "src_uid": "2bb893703cbffe9aeaa0bed02f42a05c",
+    "prob_desc_notes": "NoteIn the first sample test first and third players should double their bids twice, second player should double his bid once and fourth player should both double and triple his bid.It can be shown that in the second sample test there is no way to make all bids equal.",
+    "prob_desc_description": "Limak is an old brown bear. He often plays poker with his friends. Today they went to a casino. There are n players (including Limak himself) and right now all of them have bids on the table. i-th of them has bid with size ai dollars.Each player can double his bid any number of times and triple his bid any number of times. The casino has a great jackpot for making all bids equal. Is it possible that Limak and his friends will win a jackpot?",
+    "prob_desc_output_spec": "Print \"Yes\" (without the quotes) if players can make their bids become equal, or \"No\" otherwise.",
+    "prob_desc_input_spec": "First line of input contains an integer n (2 ≤ n ≤ 105), the number of players. The second line contains n integer numbers a1, a2, ..., an (1 ≤ ai ≤ 109) — the bids of players.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_005.jsonl",
+    "code_uid": "44270e19700f8728024adac822956a7e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n75 150 75 50\", \"3\\n100 150 250\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from fractions import gcd\nimport math\n\ndef lcm(x, y):\n\treturn (x * y) // gcd(x, y)\n\ndef is_valid(num):\n\twhile num % 3 == 0:\n\t\tnum /= 3\n\twhile num % 2 == 0:\n\t\tnum /= 2\n\treturn num == 1\n\nn = int(raw_input())\nnums = map(int, raw_input().strip().split(\" \"))\npossible = True\n\nfor i in range(1, len(nums)):\n\tres = lcm(nums[i], nums[i-1])\n\tm1 = res // nums[i]\n\tm2 = res // nums[i-1]\n\n\tif not is_valid(m1) or not is_valid(m2):\n\t\tpossible = False\n\t\tbreak\n\nif possible:\n\tprint(\"Yes\")\nelse:\n\tprint(\"No\")\n",
+    "prob_desc_created_at": "1440865800",
+    "tags": [
+        "implementation",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

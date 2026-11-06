@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\na\\nba\\naba\\naba\\nabacaba\", \"NO\", \"YES\\nqwerty\\nqwerty\\nqwerty\"]",
+    "src_uid": "5c33d1f970bcc2ffaea61d5407b877b2",
+    "prob_desc_notes": "NoteIn the second example you cannot reorder the strings because the string \"abab\" is not a substring of the string \"abacaba\".",
+    "prob_desc_description": "You are given $$$n$$$ strings. Each string consists of lowercase English letters. Rearrange (reorder) the given strings in such a way that for every string, all strings that are placed before it are its substrings.String $$$a$$$ is a substring of string $$$b$$$ if it is possible to choose several consecutive letters in $$$b$$$ in such a way that they form $$$a$$$. For example, string \"for\" is contained as a substring in strings \"codeforces\", \"for\" and \"therefore\", but is not contained as a substring in strings \"four\", \"fofo\" and \"rof\".",
+    "prob_desc_output_spec": "If it is impossible to reorder $$$n$$$ given strings in required order, print \"NO\" (without quotes). Otherwise print \"YES\" (without quotes) and $$$n$$$ given strings in required order.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$1 \\le n \\le 100$$$) — the number of strings. The next $$$n$$$ lines contain the given strings. The number of letters in each string is from $$$1$$$ to $$$100$$$, inclusive. Each string consists of lowercase English letters. Some strings might be equal.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_002.jsonl",
+    "code_uid": "91eff6545e8e939cd34817c18228732a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\na\\naba\\nabacaba\\nba\\naba\", \"5\\na\\nabacaba\\nba\\naba\\nabab\", \"3\\nqwerty\\nqwerty\\nqwerty\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = input()\nll = []\n\nfor i in xrange(n):\n    ll.append(raw_input())\n\nll.sort(key=lambda x: len(x))\ncheck = False\n\nfor i in xrange(n):\n    for j in xrange(i+1, n):\n        if ll[i] not in ll[j]:\n            check = True\n            break\n\nif not check:\n    print \"YES\"\n    print \"\\n\".join(ll)\nelse:\n    print \"NO\"",
+    "prob_desc_created_at": "1614692100",
+    "tags": [
+        "sortings",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 5\\n\\n? 4 5\\n\\n! 1\"]",
+    "src_uid": "b3e8fe76706ba17cb285c75459508334",
+    "prob_desc_notes": "NoteIn the sample suppose $$$a$$$ is $$$[5, 1, 4, 2, 3]$$$. So after asking the $$$[1..5]$$$ subsegment $$$4$$$ is second to max value, and it's position is $$$3$$$. After asking the $$$[4..5]$$$ subsegment $$$2$$$ is second to max value and it's position in the whole array is $$$4$$$.Note that there are other arrays $$$a$$$ that would produce the same interaction, and the answer for them might be different. Example output is given in purpose of understanding the interaction.",
+    "prob_desc_description": "The only difference between the easy and the hard version is the limit to the number of queries.This is an interactive problem.There is an array $$$a$$$ of $$$n$$$ different numbers. In one query you can ask the position of the second maximum element in a subsegment $$$a[l..r]$$$. Find the position of the maximum element in the array in no more than 40 queries.A subsegment $$$a[l..r]$$$ is all the elements $$$a_l, a_{l + 1}, ..., a_r$$$. After asking this subsegment you will be given the position of the second maximum from this subsegment in the whole array.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ $$$(2 \\leq n \\leq 10^5)$$$ — the number of elements in the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_109.jsonl",
+    "code_uid": "0ec4ac4ff714bc8ec414a5b07910d5ec",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n3\\n\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\r\nl,r,x=1,n,0\r\nwhile r-l>1:\r\n    print('?',l,r)\r\n    x=int(input())\r\n    cen=(r+l)//2\r\n    if l<=x<=cen:\r\n        print('?',l,cen)\r\n        y=int(input())\r\n        if x==y:\r\n            r=cen\r\n        else:\r\n            l=cen\r\n    else:\r\n        print('?',cen,r)\r\n        y=int(input())\r\n        if x==y:\r\n            l=cen\r\n        else:\r\n            r=cen\r\nprint('?',l,r)\r\nans=int(input())\r\n\r\n\r\nprint('!',l+r-ans)\r\nexit()",
+    "prob_desc_created_at": "1613658900",
+    "tags": [
+        "binary search",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"+ 1\\n\\n! 3\", \"+ 1\\n\\n+ 1\\n\\n+ 1\\n\\n! 5\", \"+ 2\\n\\n+ 2\\n\\n+ 3\\n\\n+ 8\\n\\n! 20\"]",
+    "src_uid": "ad36ef40ef4888b69ee9635e924c65ab",
+    "prob_desc_notes": "NoteIn the first sample initially $$$x = 2$$$. After the first query $$$x = 3$$$, $$$\\lfloor\\frac{x}{n}\\rfloor = 1$$$.In the second sample also initially $$$x = 2$$$. After the first query $$$x = 3$$$, $$$\\lfloor\\frac{x}{n}\\rfloor = 0$$$. After the second query $$$x = 4$$$, $$$\\lfloor\\frac{x}{n}\\rfloor = 0$$$. After the third query $$$x=5$$$, $$$\\lfloor\\frac{x}{n}\\rfloor = 1$$$.",
+    "prob_desc_description": "This problem is interactive.We decided to play a game with you and guess the number $$$x$$$ ($$$1 \\le x &lt; n$$$), where you know the number $$$n$$$.You can make queries like this: + c: this command assigns $$$x = x + c$$$ ($$$1 \\le c &lt; n$$$) and then returns you the value $$$\\lfloor\\frac{x}{n}\\rfloor$$$ ($$$x$$$ divide by $$$n$$$ and round down).You win if you guess the current number with no more than $$$10$$$ queries.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_102.jsonl",
+    "code_uid": "fac13cbaeb99b1c2f330c4bb67ffda80",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n1\", \"5\\n\\n0\\n\\n0\\n\\n1\", \"10\\n\\n0\\n\\n0\\n\\n1\\n\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\r\nl,r=1,n\r\n\r\nwhile l+1<r:\r\n    mid=((l+r)//2)\r\n    q=n-(mid)%n\r\n    l+=q\r\n    r+=q\r\n    mid+=q\r\n    print(\"+\", q)\r\n    inp=int(input());\r\n    temp=(l//n)\r\n    if(inp==temp):\r\n        r=mid\r\n    else:\r\n        l=mid\r\nprint(\"!\",l)\r\n   \r\n   \r\n",
+    "prob_desc_created_at": "1641825300",
+    "tags": [
+        "binary search",
+        "constructive algorithms",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

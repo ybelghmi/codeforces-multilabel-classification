@@ -1,0 +1,32 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"15\", \"0\", \"6\"]",
+    "src_uid": "a764aa5727b53a6be78b1e172f670c86",
+    "prob_desc_notes": "NoteThe following image showcases the first test case. The black weights are pre-assigned from the statement, the red weights are assigned by us, and the minimum spanning tree is denoted by the blue edges.  ",
+    "prob_desc_description": "As a teacher, Riko Hakozaki often needs to help her students with problems from various subjects. Today, she is asked a programming task which goes as follows.You are given an undirected complete graph with $$$n$$$ nodes, where some edges are pre-assigned with a positive weight while the rest aren't. You need to assign all unassigned edges with non-negative weights so that in the resulting fully-assigned complete graph the XOR sum of all weights would be equal to $$$0$$$.Define the ugliness of a fully-assigned complete graph the weight of its minimum spanning tree, where the weight of a spanning tree equals the sum of weights of its edges. You need to assign the weights so that the ugliness of the resulting graph is as small as possible.As a reminder, an undirected complete graph with $$$n$$$ nodes contains all edges $$$(u, v)$$$ with $$$1 \\le u &lt; v \\le n$$$; such a graph has $$$\\frac{n(n-1)}{2}$$$ edges.She is not sure how to solve this problem, so she asks you to solve it for her.",
+    "prob_desc_output_spec": "Print on one line one integer  — the minimum ugliness among all weight assignments with XOR sum equal to $$$0$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$, $$$0 \\le m \\le \\min(2 \\cdot 10^5, \\frac{n(n-1)}{2} - 1)$$$)  — the number of nodes and the number of pre-assigned edges. The inputs are given so that there is at least one unassigned edge. The $$$i$$$-th of the following $$$m$$$ lines contains three integers $$$u_i$$$, $$$v_i$$$, and $$$w_i$$$ ($$$1 \\le u_i, v_i \\le n$$$, $$$u \\ne v$$$, $$$1 \\le w_i &lt; 2^{30}$$$), representing the edge from $$$u_i$$$ to $$$v_i$$$ has been pre-assigned with the weight $$$w_i$$$. No edge appears in the input more than once.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_087.jsonl",
+    "code_uid": "0995594102b4cf3054878e98d778f319",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4\\n2 1 14\\n1 4 14\\n3 2 15\\n4 3 8\", \"6 6\\n3 6 4\\n2 4 1\\n4 5 7\\n3 4 10\\n3 5 1\\n5 2 15\", \"5 6\\n2 3 11\\n5 3 7\\n1 4 10\\n2 4 14\\n4 3 8\\n2 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, os\r\n\r\nif os.environ['USERNAME']=='kissz':\r\n    inp=open('in3.txt','r').readline\r\n    def debug(*args):\r\n        print(*args,file=sys.stderr)\r\nelse:\r\n    inp=sys.stdin.readline    \r\n    def debug(*args):\r\n        pass\r\n\r\n# SCRIPT STARTS HERE\r\n\r\ndef getp(i):\r\n    L=[]\r\n    while parent[i]>=0:\r\n        L+=[i]\r\n        i=parent[i]\r\n    for j in L:\r\n        parent[j]=i\r\n    return i\r\n    \r\n\r\nn,m=map(int,inp().split())\r\nneighbors=[set() for _ in range(n)]\r\nG=[[] for _ in range(n)]\r\nE=[]\r\nxors=0\r\nfor _ in range(m):\r\n    u,v,w=map(int,inp().split())\r\n    neighbors[u-1].add(v-1)\r\n    neighbors[v-1].add(u-1)\r\n    E+=[(w,v-1,u-1)]\r\n    xors^=w\r\n\r\ns=0\r\nparent=[-1]*n\r\nk=(n*(n-1))//2-m\r\nnodes=set(range(n))\r\nconn=0\r\nfor p in range(n):\r\n    if p not in nodes: continue\r\n    nodes.remove(p)\r\n    Q=[p]\r\n    while Q:\r\n        i=Q.pop()\r\n        new_nodes=set()\r\n        for j in nodes:\r\n            if j not in neighbors[i]:\r\n                parent[j]=p\r\n                G[i].append((j,True))\r\n                G[j].append((i,True))\r\n                new_nodes.add(j)\r\n                conn+=1\r\n                debug(i,j,0)\r\n                k-=1   \r\n                Q.append(j)\r\n        nodes-=new_nodes\r\ndebug(parent)       \r\nif conn<n-1 or k==0:\r\n    E.sort()\r\n    for w,u,v in E:\r\n        pu=getp(u)\r\n        pv=getp(v)\r\n        if pu!=pv:\r\n            s+=w\r\n            parent[pu]=pv\r\n            G[u].append((v,False))\r\n            G[v].append((u,False))\r\n            conn+=1\r\n            debug(u,v,w)\r\n        elif k==0 and w<xors:\r\n            Q=[(u,False)]\r\n            seen=[False]*n\r\n            seen[u]=True\r\n            while Q:\r\n                i,new=Q.pop()\r\n                for j,new_edge in G[i]:\r\n                    if not seen[j]:\r\n                        seen[j]=True\r\n                        new_edge |= new\r\n                        if j==v:\r\n                            Q=[]\r\n                            break\r\n                        else:\r\n                            Q.append((j,new_edge))\r\n            if new_edge:\r\n                s+=w\r\n                debug('corr ',u,v,w)\r\n                k+=1;  \r\n        if conn>=n-1 and (k>0 or w>xors):\r\n            break     \r\n                \r\nif k==0:\r\n    s+=xors\r\n    debug('no corr ', xors)\r\n        \r\n            \r\nprint(s)\r\n\r\n",
+    "prob_desc_created_at": "1618583700",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "data structures",
+        "dfs and similar",
+        "dsu",
+        "graphs",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

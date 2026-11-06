@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\nLRRR\", \"7\\nLRLRLLL\", \"3\\nLLL\", \"4\\nLLRL\"]",
+    "src_uid": "50c4b8fe3ab738e6e97058499791ac7b",
+    "prob_desc_notes": "NoteThe first example is described in the problem statement.",
+    "prob_desc_description": "The only difference between problems C1 and C2 is that all values in input of problem C1 are distinct (this condition may be false for problem C2).You are given a sequence $$$a$$$ consisting of $$$n$$$ integers. All these integers are distinct, each value from $$$1$$$ to $$$n$$$ appears in the sequence exactly once.You are making a sequence of moves. During each move you must take either the leftmost element of the sequence or the rightmost element of the sequence, write it down and remove it from the sequence. Your task is to write down a strictly increasing sequence, and among all such sequences you should take the longest (the length of the sequence is the number of elements in it).For example, for the sequence $$$[2, 1, 5, 4, 3]$$$ the answer is $$$4$$$ (you take $$$2$$$ and the sequence becomes $$$[1, 5, 4, 3]$$$, then you take the rightmost element $$$3$$$ and the sequence becomes $$$[1, 5, 4]$$$, then you take $$$4$$$ and the sequence becomes $$$[1, 5]$$$ and then you take $$$5$$$ and the sequence becomes $$$[1]$$$, the obtained increasing sequence is $$$[2, 3, 4, 5]$$$).",
+    "prob_desc_output_spec": "In the first line of the output print $$$k$$$ — the maximum number of elements in a strictly increasing sequence you can obtain. In the second line print a string $$$s$$$ of length $$$k$$$, where the $$$j$$$-th character of this string $$$s_j$$$ should be 'L' if you take the leftmost element during the $$$j$$$-th move and 'R' otherwise. If there are multiple answers, you can print any.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of elements in $$$a$$$. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le n$$$), where $$$a_i$$$ is the $$$i$$$-th element of $$$a$$$. All these integers are pairwise distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_024.jsonl",
+    "code_uid": "3aff9eb0cc0315a7d8580a202b09074a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 1 5 4 3\", \"7\\n1 3 5 6 7 4 2\", \"3\\n1 2 3\", \"4\\n1 2 4 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\nns = map(int, raw_input().split())\nl, r = 0, n - 1\n\nres = []\npre = -1\nwhile l <= r:\n    if min(ns[l], ns[r]) > pre:\n        if ns[l] < ns[r]:\n            pre = ns[l]\n            res.append('L')\n            l += 1\n        else:\n            pre = ns[r]\n            res.append('R')\n            r -= 1\n    elif ns[l] > pre:\n        pre = ns[l]\n        res.append('L')\n        l += 1\n    elif ns[r] > pre:\n        pre = ns[r]\n        res.append('R')\n        r -= 1\n    else:\n        break\n\nprint len(res)\nprint ''.join(res)\n\n",
+    "prob_desc_created_at": "1556289300",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

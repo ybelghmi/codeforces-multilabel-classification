@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n1\\n2\\n1\\n2\\n3\\n1\\n5\"]",
+    "src_uid": "5278cb48aca6fc84e2df393cd8723ecb",
+    "prob_desc_notes": "NoteIn the first test case, the string is already non-decreasing.In the second test case, you can select $$$i = 1$$$ and then $$$s = \\mathtt{01}$$$.In the third test case, you can select $$$i = 1$$$ and get $$$s = \\mathtt{010}$$$, and then select $$$i = 2$$$. As a result, we get $$$s = \\mathtt{001}$$$, that is, a non-decreasing string.In the sixth test case, you can select $$$i = 5$$$ at the first iteration and get $$$s = \\mathtt{100001}$$$. Then choose $$$i = 2$$$, then $$$s = \\mathtt{111110}$$$. Then we select $$$i = 1$$$, getting the non-decreasing string $$$s = \\mathtt{000001}$$$.",
+    "prob_desc_description": "A binary string is a string consisting only of the characters 0 and 1. You are given a binary string $$$s_1 s_2 \\ldots s_n$$$. It is necessary to make this string non-decreasing in the least number of operations. In other words, each character should be not less than the previous. In one operation, you can do the following: Select an arbitrary index $$$1 \\leq i \\leq n$$$ in the string; For all $$$j \\geq i$$$, change the value in the $$$j$$$-th position to the opposite, that is, if $$$s_j = 1$$$, then make $$$s_j = 0$$$, and vice versa.What is the minimum number of operations needed to make the string non-decreasing?",
+    "prob_desc_output_spec": "For each test case, output a single integer — the minimum number of operations that are needed to make the string non-decreasing.",
+    "prob_desc_input_spec": "Each test consists of multiple test cases. The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. The description of test cases follows. The first line of each test cases a single integer $$$n$$$ ($$$1 \\leq n \\leq 10^5$$$) — the length of the string. The second line of each test case contains a binary string $$$s$$$ of length $$$n$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_097.jsonl",
+    "code_uid": "9dc7a59e7d9af0603f596944a7c60b7b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n\\n1\\n\\n1\\n\\n2\\n\\n10\\n\\n3\\n\\n101\\n\\n4\\n\\n1100\\n\\n5\\n\\n11001\\n\\n6\\n\\n100010\\n\\n10\\n\\n0000110000\\n\\n7\\n\\n0101010\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\r\n \r\nt = int(stdin.readline())\r\n \r\nfor p in range(t):\r\n    n = int(stdin.readline())\r\n    listA = [int(x) for x in str(stdin.readline().strip())]\r\n    \r\n    count = 0\r\n    i = 0\r\n    while i < n-1:\r\n        #print(i, count)\r\n        if listA[i] == 1 and listA[i+1] == 0:\r\n            if i+2 < n:\r\n                for j in range(i+2,n):\r\n                    if listA[j] == 1:\r\n                        i = j\r\n                        count += 2\r\n                        break\r\n                    if j == n-1:\r\n                        i = j +1\r\n                        count += 1\r\n            else:\r\n                i = i+2\r\n                count += 1\r\n        else:\r\n            i += 1\r\n    print(count)",
+    "prob_desc_created_at": "1666519500",
+    "tags": [
+        "brute force",
+        "dp",
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

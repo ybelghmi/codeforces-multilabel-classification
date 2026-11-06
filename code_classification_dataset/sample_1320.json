@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2 2 3 3 3\", \"2 3 3 4 5 6 6 6 8 2\", \"2 2\"]",
+    "src_uid": "0b4e6268cf1238169591e17cb644d451",
+    "prob_desc_notes": "NoteConsider i = 6 in sample case one. You will read message 6, then 2, then 1 and then there will be no link to go.In the second sample case i = 6 gives you messages 5, 6, 7 since k = 1, then 4, 5, 6, then 2, 3, 4 and then the link sequence breaks. The number of distinct messages here is equal to 6.",
+    "prob_desc_description": "There are times you recall a good old friend and everything you've come through together. Luckily there are social networks — they store all your message history making it easy to know what you argued over 10 years ago.More formal, your message history is a sequence of messages ordered by time sent numbered from 1 to n where n is the total number of messages in the chat.Each message might contain a link to an earlier message which it is a reply to. When opening a message x or getting a link to it, the dialogue is shown in such a way that k previous messages, message x and k next messages are visible (with respect to message x). In case there are less than k messages somewhere, they are yet all shown.Digging deep into your message history, you always read all visible messages and then go by the link in the current message x (if there is one) and continue reading in the same manner.Determine the number of messages you'll read if your start from message number t for all t from 1 to n. Calculate these numbers independently. If you start with message x, the initial configuration is x itself, k previous and k next messages. Messages read multiple times are considered as one.",
+    "prob_desc_output_spec": "Print n integers with i-th denoting the number of distinct messages you can read starting from message i and traversing the links while possible.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n ≤ 105, 0 ≤ k ≤ n) — the total amount of messages and the number of previous and next messages visible. The second line features a sequence of integers a1, a2, ..., an (0 ≤ ai &lt; i), where ai denotes the i-th message link destination or zero, if there's no link from i. All messages are listed in chronological order. It's guaranteed that the link from message x goes to message with number strictly less than x.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_008.jsonl",
+    "code_uid": "2daf09f41bbc5c04008b615405f402b5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 0\\n0 1 1 2 3 2\", \"10 1\\n0 1 0 3 4 5 2 3 7 0\", \"2 2\\n0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = [int(i) for i in input().split()]\na = [int(i) for i in input().split()]\n\ns = [0 for i in range(n)]\ns[0] = 1 + min(n-1, k)\n#import time\n#start_time = time.time()\n\nfor i in range(n):\n    if a[i] == 0:\n        s[i] = 1 + min(i, k) + min(n - 1 - i, k)\n    else:\n        j = a[i] - 1\n        s[i] = s[j] + min(i+k, n-1) - min(j+k, n-1)\n        if i - k > j + k:\n            s[i] -= i - k - (j+k) - 1\nprint(' '.join([str(i) for i in s]))\n#print('\\n------%s seconds-------' % (time.time() - start_time))",
+    "prob_desc_created_at": "1519486500",
+    "tags": [
+        "dp",
+        "*special"
+    ],
+    "hidden_unit_tests": ""
+}

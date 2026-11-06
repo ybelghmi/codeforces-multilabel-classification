@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"4\", \"1\"]",
+    "src_uid": "583168dfbaa91b79c623b44b7efee653",
+    "prob_desc_notes": "NoteIn the third sample there are four appropriate different substrings. They are: ab, abab, ababab, abababab.In the fourth sample identificators intersect.",
+    "prob_desc_description": "Long ago, when Petya was a schoolboy, he was very much interested in the Petr# language grammar. During one lesson Petya got interested in the following question: how many different continuous substrings starting with the sbegin and ending with the send (it is possible sbegin = send), the given string t has. Substrings are different if and only if their contents aren't equal, their positions of occurence don't matter. Petya wasn't quite good at math, that's why he couldn't count this number. Help him!",
+    "prob_desc_output_spec": "Output the only number — the amount of different substrings of t that start with sbegin and end with send.",
+    "prob_desc_input_spec": "The input file consists of three lines. The first line contains string t. The second and the third lines contain the sbegin and send identificators, correspondingly. All three lines are non-empty strings consisting of lowercase Latin letters. The length of each string doesn't exceed 2000 characters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_014.jsonl",
+    "code_uid": "631060720a3500ab8de5900b33dcfdb0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"round\\nro\\nou\", \"codeforces\\ncode\\nforca\", \"abababab\\na\\nb\", \"aba\\nab\\nba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from functools import cmp_to_key\n\n\n\n\n\ndef calc_lcp(s, sa):\n\n    rank = [0 for _ in range(len(s))]\n\n    for i in range(len(s)):\n\n        rank[sa[i]] = i\n\n    lcp = [0 for _ in range(len(s) - 1)]\n\n    h = 0\n\n    for i in range(len(s)):\n\n        if rank[i] < len(s) - 1:\n\n            while max(i, sa[rank[i] + 1]) + h < len(s) and s[i + h] == s[sa[rank[i] + 1] + h]:\n\n                h += 1\n\n            lcp[rank[i]] = h\n\n            if h > 0:\n\n                h -= 1\n\n    return lcp, rank\n\n\n\ndef suffix_array(s):\n\n    sa = [i for i in range(len(s))]\n\n    rank = [ord(s[i]) for i in range(len(s))]\n\n    k = 1\n\n    while k < len(s):\n\n        key = [0 for _ in range(len(s))]\n\n        base = max(rank) + 2\n\n        for i in range(len(s)):\n\n            key[i] = rank[i] * base + (rank[i + k] + 1 if i + k < len(s) else 0)\n\n        sa.sort(key=(lambda i: key[i]))\n\n\n\n        rank[sa[0]] = 0\n\n        for i in range(1, len(s)):\n\n            rank[sa[i]] = rank[sa[i - 1]] if key[sa[i - 1]] == key[sa[i]] else i\n\n        k *= 2\n\n    # for i in sa:\n\n    #     print(s[i:])\n\n    return sa\n\n\n\ndef kmp(s, p):\n\n    pi = [0 for _ in range(len(p))]\n\n    k = 0\n\n    for i in range(1, len(p)):\n\n        while k > 0 and p[k] != p[i]:\n\n            k = pi[k - 1]\n\n        if p[k] == p[i]:\n\n            k += 1\n\n        pi[i] = k\n\n\n\n    k = 0\n\n    resp = []\n\n    for i in range(len(s)):\n\n        while k > 0 and p[k] != s[i]:\n\n            k = pi[k - 1]\n\n        if p[k] == s[i]:\n\n            k += 1\n\n        if k == len(p):\n\n            resp.append(i - len(p) + 1)\n\n            k = pi[k - 1]\n\n    return resp\n\n\n\ndef lower_bound(list, value):\n\n    left = 0\n\n    right = len(list)\n\n    while left < right:\n\n        mid = int((left + right) / 2)\n\n        if list[mid] < value:\n\n            left = mid + 1\n\n        else:\n\n            right = mid\n\n    return left\n\n\n\n\n\ns = input()\n\nstart = input()\n\nend = input()\n\n\n\nindStart = kmp(s, start)\n\nindEnd = kmp(s, end)\n\n\n\nif len(indStart) == 0 or len(indEnd) == 0:\n\n    print(0)\n\n\n\nelse:\n\n    sa = suffix_array(s)\n\n    lcp, rank = calc_lcp(s, sa)\n\n\n\n    ind = rank[indStart[0]]\n\n    for st in indStart:\n\n        ind = min(ind, rank[st])\n\n\n\n    resp = len(indEnd) - lower_bound(indEnd, sa[ind] + max(0, len(start) - len(end)))\n\n    while ind < len(lcp) and lcp[ind] >= len(start):\n\n        ind += 1\n\n        resp += len(indEnd) - lower_bound(indEnd, sa[ind] + max(0, max(lcp[ind - 1] + 1, len(start)) - len(end)))\n\n\n\n    print(resp)\n\n\n\n\n\n\n\n# Made By Mostafa_Khaled",
+    "prob_desc_created_at": "1315494000",
+    "tags": [
+        "data structures",
+        "string suffix structures",
+        "hashing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

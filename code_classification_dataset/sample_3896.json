@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10100\\n011\\n10100101\"]",
+    "src_uid": "9683d5960247359b6b9066e96897d6f9",
+    "prob_desc_notes": "NoteIn the first test case, we have the following:   $$$s_1 = s_2 + s_2$$$, since $$$\\texttt{abab} = \\texttt{ab} + \\texttt{ab}$$$. Remember that $$$j$$$ can be equal to $$$k$$$.  $$$s_2$$$ is not the concatenation of any two strings in the list.  $$$s_3 = s_2 + s_5$$$, since $$$\\texttt{abc} = \\texttt{ab} + \\texttt{c}$$$.  $$$s_4$$$ is not the concatenation of any two strings in the list.  $$$s_5$$$ is not the concatenation of any two strings in the list.  Since only $$$s_1$$$ and $$$s_3$$$ satisfy the conditions, only the first and third bits in the answer should be $$$\\texttt{1}$$$, so the answer is $$$\\texttt{10100}$$$.",
+    "prob_desc_description": "You are given $$$n$$$ strings $$$s_1, s_2, \\dots, s_n$$$ of length at most $$$\\mathbf{8}$$$. For each string $$$s_i$$$, determine if there exist two strings $$$s_j$$$ and $$$s_k$$$ such that $$$s_i = s_j + s_k$$$. That is, $$$s_i$$$ is the concatenation of $$$s_j$$$ and $$$s_k$$$. Note that $$$j$$$ can be equal to $$$k$$$.Recall that the concatenation of strings $$$s$$$ and $$$t$$$ is $$$s + t = s_1 s_2 \\dots s_p t_1 t_2 \\dots t_q$$$, where $$$p$$$ and $$$q$$$ are the lengths of strings $$$s$$$ and $$$t$$$ respectively. For example, concatenation of \"code\" and \"forces\" is \"codeforces\".",
+    "prob_desc_output_spec": "For each test case, output a binary string of length $$$n$$$. The $$$i$$$-th bit should be $$$\\texttt{1}$$$ if there exist two strings $$$s_j$$$ and $$$s_k$$$ where $$$s_i = s_j + s_k$$$, and $$$\\texttt{0}$$$ otherwise. Note that $$$j$$$ can be equal to $$$k$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 10^5$$$) — the number of strings. Then $$$n$$$ lines follow, the $$$i$$$-th of which contains non-empty string $$$s_i$$$ of length at most $$$\\mathbf{8}$$$, consisting of lowercase English letters. Among the given $$$n$$$ strings, there may be equal (duplicates). The sum of $$$n$$$ over all test cases doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_086.jsonl",
+    "code_uid": "31e0c17a56cfd42027cfd11450e4b881",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n5\\n\\nabab\\n\\nab\\n\\nabc\\n\\nabacb\\n\\nc\\n\\n3\\n\\nx\\n\\nxx\\n\\nxxx\\n\\n8\\n\\ncodeforc\\n\\nes\\n\\ncodes\\n\\ncod\\n\\nforc\\n\\nforces\\n\\ne\\n\\ncode\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#import io, os\r\n#input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\r\n\r\nt=int(input())\r\nfor _ in range(t):\r\n  n=int(input())\r\n  words=[]\r\n  prefs={}\r\n  suffs={}\r\n  for i in range(n):\r\n    word=input()\r\n    words.append(word)\r\n    if not word in prefs:\r\n      prefs.update({word:1})\r\n    else:\r\n      prefs.update({word:prefs[word]+1})\r\n    if not word in suffs:     \r\n      suffs.update({word:1})\r\n    else:\r\n      suffs.update({word:suffs[word]+1})\r\n  bina=\"\"\r\n  for i in words:#\r\n    flag=False\r\n    for j in range(len(i)-1):\r\n      a=i[:(j+1)]\r\n      b=i[j+1:]\r\n      if a in prefs and b in suffs:\r\n        flag=True\r\n    if flag:\r\n      bina+=\"1\"\r\n    else:\r\n      bina+=\"0\"\r\n  print(bina)",
+    "prob_desc_created_at": "1657636500",
+    "tags": [
+        "brute force",
+        "data structures",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

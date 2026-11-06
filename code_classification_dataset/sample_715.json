@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"0\"]",
+    "src_uid": "852e1d776c560a8720d4e9f1762b255f",
+    "prob_desc_notes": "NoteThe graph from the first sample is shown below. Dashed edges have weight $$$0$$$, other edges have weight $$$1$$$. One of the minimum spanning trees is highlighted in orange and has total weight $$$2$$$.  In the second sample, all edges have weight $$$0$$$ so any spanning tree has total weight $$$0$$$.",
+    "prob_desc_description": "Ujan has a lot of useless stuff in his drawers, a considerable part of which are his math notebooks: it is time to sort them out. This time he found an old dusty graph theory notebook with a description of a graph.It is an undirected weighted graph on $$$n$$$ vertices. It is a complete graph: each pair of vertices is connected by an edge. The weight of each edge is either $$$0$$$ or $$$1$$$; exactly $$$m$$$ edges have weight $$$1$$$, and all others have weight $$$0$$$.Since Ujan doesn't really want to organize his notes, he decided to find the weight of the minimum spanning tree of the graph. (The weight of a spanning tree is the sum of all its edges.) Can you find the answer for Ujan so he stops procrastinating?",
+    "prob_desc_output_spec": "Output a single integer, the weight of the minimum spanning tree of the graph.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\leq n \\leq 10^5$$$, $$$0 \\leq m \\leq \\min(\\frac{n(n-1)}{2},10^5)$$$), the number of vertices and the number of edges of weight $$$1$$$ in the graph.  The $$$i$$$-th of the next $$$m$$$ lines contains two integers $$$a_i$$$ and $$$b_i$$$ ($$$1 \\leq a_i, b_i \\leq n$$$, $$$a_i \\neq b_i$$$), the endpoints of the $$$i$$$-th edge of weight $$$1$$$. It is guaranteed that no edge appears twice in the input.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_003.jsonl",
+    "code_uid": "116269a51d8f0ae9a31b6d6ec505742d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 11\\n1 3\\n1 4\\n1 5\\n1 6\\n2 3\\n2 4\\n2 5\\n2 6\\n3 4\\n3 5\\n3 6\", \"3 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class UnionFind(object):\n    __slots__ = ['nodes']\n\n    def __init__(self, n: int):\n        self.nodes = [-1]*n\n\n    def size(self, x: int) -> int:\n        return -self.nodes[self.find(x)]\n\n    def find(self, x: int) -> int:\n        if self.nodes[x] < 0:\n            return x\n        else:\n            self.nodes[x] = self.find(self.nodes[x])\n            return self.nodes[x]\n\n    def unite(self, x: int, y: int) -> bool:\n        root_x, root_y, nodes = self.find(x), self.find(y), self.nodes\n\n        if root_x != root_y:\n            if nodes[root_x] > nodes[root_y]:\n                root_x, root_y = root_y, root_x\n            nodes[root_x] += nodes[root_y]\n            nodes[root_y] = root_x\n\n        return root_x != root_y\n\n\nif __name__ == '__main__':\n    import sys\n    from collections import Counter\n    n, m = map(int, input().split())\n    rev_edges = [[] for _ in range(n)]\n\n    for s, t in (map(int, l.split()) for l in sys.stdin):\n        if s < t:\n            rev_edges[t-1].append(s-1)\n        else:\n            rev_edges[s-1].append(t-1)\n\n    uf = UnionFind(n)\n    find, unite, size = uf.find, uf.unite, uf.size\n    zero_union = set()\n\n    for v in range(n):\n        cnt = Counter()\n        for src in rev_edges[v]:\n            cnt[find(src)] += 1\n\n        for zero_v in zero_union:\n            root = find(zero_v)\n            if size(root) > cnt[root]:\n                unite(root, v)\n\n        zero_union = set(find(v_) for v_ in zero_union) | {find(v)}\n\n    print(len(zero_union)-1)\n",
+    "prob_desc_created_at": "1573052700",
+    "tags": [
+        "two pointers",
+        "dsu",
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

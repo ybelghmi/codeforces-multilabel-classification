@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"1\", \"27\"]",
+    "src_uid": "e571191fadf6b0b26bd2f16295f32077",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Appleman has a tree with n vertices. Some of the vertices (at least one) are colored black and other vertices are colored white.Consider a set consisting of k (0 ≤ k &lt; n) edges of Appleman's tree. If Appleman deletes these edges from the tree, then it will split into (k + 1) parts. Note, that each part will be a tree with colored vertices.Now Appleman wonders, what is the number of sets splitting the tree in such a way that each resulting part will have exactly one black vertex? Find this number modulo 1000000007 (109 + 7).",
+    "prob_desc_output_spec": "Output a single integer — the number of ways to split the tree modulo 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The first line contains an integer n (2  ≤ n ≤ 105) — the number of tree vertices.  The second line contains the description of the tree: n - 1 integers p0, p1, ..., pn - 2 (0 ≤ pi ≤ i). Where pi means that there is an edge connecting vertex (i + 1) of the tree and vertex pi. Consider tree vertices are numbered from 0 to n - 1. The third line contains the description of the colors of the vertices: n integers x0, x1, ..., xn - 1 (xi is either 0 or 1). If xi is equal to 1, vertex i is colored black. Otherwise, vertex i is colored white.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_034.jsonl",
+    "code_uid": "b55315b22a2848cbb412de500cb9e079",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0 0\\n0 1 1\", \"6\\n0 1 1 0 4\\n1 1 0 0 1 0\", \"10\\n0 1 2 1 4 4 4 0 8\\n0 0 0 1 0 1 1 0 0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "MOD = 1000000007\n\nn = int(input())\np = [int(x) for x in input().split()]\nx = [int(x) for x in input().split()]\n\nchildren = [[] for x in range(n)]\n\nfor i in range(1,n):\n    children[p[i-1]].append(i)\n\n#print(children)\n\ncount = [(0,0) for i in range(n)]\nfor i in reversed(range(n)):\n    prod = 1\n    for ch in children[i]:\n        prod *= count[ch][0]+count[ch][1]\n    if x[i]:\n        count[i] = (0,prod % MOD)\n    else:\n        tot = 0\n        for ch in children[i]:\n            cur = count[ch][1]*prod // (count[ch][0]+count[ch][1])\n            tot += cur\n        count[i] = (prod % MOD, tot % MOD)\n\nprint(count[0][1])\n",
+    "prob_desc_created_at": "1409061600",
+    "tags": [
+        "dp",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

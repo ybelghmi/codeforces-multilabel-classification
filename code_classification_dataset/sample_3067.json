@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n5\\n4\\n0\\n0\"]",
+    "src_uid": "8b28309055f13837eb1f51422fb91029",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a garland consisting of $$$n$$$ lamps. States of the lamps are represented by the string $$$s$$$ of length $$$n$$$. The $$$i$$$-th character of the string $$$s_i$$$ equals '0' if the $$$i$$$-th lamp is turned off or '1' if the $$$i$$$-th lamp is turned on. You are also given a positive integer $$$k$$$.In one move, you can choose one lamp and change its state (i.e. turn it on if it is turned off and vice versa).The garland is called $$$k$$$-periodic if the distance between each pair of adjacent turned on lamps is exactly $$$k$$$. Consider the case $$$k=3$$$. Then garlands \"00010010\", \"1001001\", \"00010\" and \"0\" are good but garlands \"00101001\", \"1000001\" and \"01001100\" are not. Note that the garland is not cyclic, i.e. the first turned on lamp is not going after the last turned on lamp and vice versa.Your task is to find the minimum number of moves you need to make to obtain $$$k$$$-periodic garland from the given one.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer — the minimum number of moves you need to make to obtain $$$k$$$-periodic garland from the given one.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 25~ 000$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of the test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 10^6; 1 \\le k \\le n$$$) — the length of $$$s$$$ and the required period. The second line of the test case contains the string $$$s$$$ consisting of $$$n$$$ characters '0' and '1'. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^6$$$ ($$$\\sum n \\le 10^6$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_040.jsonl",
+    "code_uid": "62822deecc3f29bd3207bc5a30d87b4b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n9 2\\n010001010\\n9 3\\n111100000\\n7 4\\n1111111\\n10 3\\n1001110101\\n1 1\\n1\\n1 1\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nt = int(input())\nfor _ in range(t):\n    n, k = map(int, input().split())\n    s = input()\n    tot = sum(ord(x)-ord('0') for x in s)\n    ans = tot\n    for i in range(k):\n        S = s[i:n:k]\n        one = sum(ord(x)-ord('0') for x in S)\n        cur = tot - one\n        if one == 0:\n            continue\n        best = 0\n        prefz, prefo = 0, 0\n        for x in S:\n            if x == '1':\n                prefo += 1\n            else:\n                prefz += 1\n            val = cur + one - prefo + prefz + best\n            ans = min(ans, val)\n            best = min(best, prefo - prefz)\n    print(ans)",
+    "prob_desc_created_at": "1589466900",
+    "tags": [
+        "dp",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

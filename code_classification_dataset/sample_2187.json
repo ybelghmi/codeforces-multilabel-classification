@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n3 4\\n1 2\", \"2\\n2 3\\n1 4\", \"1\\n1 2\"]",
+    "src_uid": "0b0dbf82407c80c71e308e558fe41eb5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are n people taking dancing lessons. Every person is characterized by his/her dancing skill ai. At the beginning of the lesson they line up from left to right. While there is at least one couple of a boy and a girl in the line, the following process is repeated: the boy and girl who stand next to each other, having the minimal difference in dancing skills start to dance. If there are several such couples, the one first from the left starts to dance. After a couple leaves to dance, the line closes again, i.e. as a result the line is always continuous. The difference in dancing skills is understood as the absolute value of difference of ai variable. Your task is to find out what pairs and in what order will start dancing.",
+    "prob_desc_output_spec": "Print the resulting number of couples k. Then print k lines containing two numerals each — the numbers of people forming the couple. The people are numbered with integers from 1 to n from left to right. When a couple leaves to dance you shouldn't renumber the people. The numbers in one couple should be sorted in the increasing order. Print the couples in the order in which they leave to dance.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 2·105) — the number of people. The next line contains n symbols B or G without spaces. B stands for a boy, G stands for a girl. The third line contains n space-separated integers ai (1 ≤ ai ≤ 107) — the dancing skill. People are specified from left to right in the order in which they lined up.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_018.jsonl",
+    "code_uid": "7c18f63ea25fad46f42f950783531853",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\nBGBG\\n4 2 4 3\", \"4\\nBBGG\\n4 6 1 5\", \"4\\nBGBB\\n1 1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# It seems the running time depends much on the condition of the server.\nfrom heapq import heappush,heappop,heapify\nn=int(input())\nsymbols=input()\nskl=list(map(int,input().split()))\nLMap=[i-1 for i in range(n+1)]\nRMap=[i+1 for i in range(n+1)]\nLMap[1],RMap[n]=1,n\nh=[]\nres=[]\ncnt=0\n#B=symbols.count(\"B\")\n#N=min(n-B,B)\nind=[True]*(n+1)\nh=[]\nfor i in range(n-1) :\n    if symbols[i]!=symbols[i+1] :\n        h.append((abs(skl[i]-skl[i+1]),i+1,i+2))\nheapify(h)\n\n\ni=0\nwhile h :\n    d,L,R=heappop(h)\n    if ind[L] and ind[R] :\n        cnt+=1\n        ind[L],ind[R]=False,False\n        res.append(str(L)+\" \"+str(R))\n        if L==1 or R==n :\n            continue\n        L,R=LMap[L],RMap[R]\n        RMap[L],LMap[R]=R,L\n        if symbols[L-1]!=symbols[R-1] :\n            heappush(h,(abs(skl[L-1]-skl[R-1]),L,R))\n        \n#assert cnt==N\nprint(cnt)\nfor i in res :\n    print(i)",
+    "prob_desc_created_at": "1289646000",
+    "tags": [
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

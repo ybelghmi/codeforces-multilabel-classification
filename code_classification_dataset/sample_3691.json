@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n9 5\\n1 9\", \"NO\", \"YES\"]",
+    "src_uid": "8a3803f1202c276bbae90552372af041",
+    "prob_desc_notes": "NoteConsider the first sample. Before the reform the Foolland consists of four regions. The first region includes cities 1, 2, 3, the second region has cities 4 and 6, the third region has cities 5, 7, 8, the fourth region has city 9. The total length of the roads in these cities is 11, 20, 5 and 0, correspondingly. According to the plan, we first build the road of length 6 between cities 5 and 9, then the road of length 23 between cities 1 and 9. Thus, the total length of the built roads equals 29.",
+    "prob_desc_description": "You must have heard all about the Foolland on your Geography lessons. Specifically, you must know that federal structure of this country has been the same for many centuries. The country consists of n cities, some pairs of cities are connected by bidirectional roads, each road is described by its length li.The fools lived in their land joyfully, but a recent revolution changed the king. Now the king is Vasily the Bear. Vasily divided the country cities into regions, so that any two cities of the same region have a path along the roads between them and any two cities of different regions don't have such path. Then Vasily decided to upgrade the road network and construct exactly p new roads in the country. Constructing a road goes like this:  We choose a pair of distinct cities u, v that will be connected by a new road (at that, it is possible that there already is a road between these cities).  We define the length of the new road: if cities u, v belong to distinct regions, then the length is calculated as min(109, S + 1) (S — the total length of all roads that exist in the linked regions), otherwise we assume that the length equals 1000.  We build a road of the specified length between the chosen cities. If the new road connects two distinct regions, after construction of the road these regions are combined into one new region. Vasily wants the road constructing process to result in the country that consists exactly of q regions. Your task is to come up with such road constructing plan for Vasily that it meets the requirement and minimizes the total length of the built roads.",
+    "prob_desc_output_spec": "If constructing the roads in the required way is impossible, print a single string \"NO\" (without the quotes). Otherwise, in the first line print word \"YES\" (without the quotes), and in the next p lines print the road construction plan. Each line of the plan must consist of two distinct integers, giving the numbers of the cities connected by a road. The road must occur in the plan in the order they need to be constructed. If there are multiple optimal solutions, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains four integers n (1 ≤ n ≤ 105), m (0 ≤ m ≤ 105), p (0 ≤ p ≤ 105), q (1 ≤ q ≤ n) — the number of cities in the Foolland, the number of existing roads, the number of roads that are planned to construct and the required number of regions. Next m lines describe the roads that exist by the moment upgrading of the roads begun. Each of these lines contains three integers xi, yi, li: xi, yi — the numbers of the cities connected by this road (1 ≤ xi, yi ≤ n, xi ≠ yi), li — length of the road (1 ≤ li ≤ 109). Note that one pair of cities can be connected with multiple roads.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_079.jsonl",
+    "code_uid": "1dbd8c48d096f99099745b28b0683296",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9 6 2 2\\n1 2 2\\n3 2 1\\n4 6 20\\n1 3 8\\n7 8 3\\n5 7 2\", \"2 0 1 2\", \"2 0 0 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout, setrecursionlimit\nfrom heapq import heapify, heappop, heappush\nsetrecursionlimit(100000)\ndef main():\n    read_ints = lambda: map(int, stdin.readline().split())\n    n, m, p, q = read_ints()\n    par = range(n)\n    s = [0] * n\n    def find(x):\n        if x == par[x]:\n            return x\n        else:\n            par[x] = find(par[x])\n            return par[x]\n    def unite(x, y, l):\n        x, y = find(x), find(y)\n        s[x] += l\n        if x == y: return\n        par[y] = x\n        s[x] += s[y]\n        s[x] = min(s[x], 1000000000)\n    lastpair = ()\n    for _ in xrange(m):\n        x, y, l = read_ints()\n        lastpair = (x, y)\n        unite(x-1, y-1, l)\n    if q == n and p:\n        stdout.write(\"NO\\n\")\n        return\n    h = [(s[i], i) for i in xrange(n) if find(i) == i]\n    c = len(h) - q\n    if c < 0 or c > p:\n        stdout.write(\"NO\\n\")\n        return\n    stdout.write(\"YES\\n\")\n    heapify(h)\n    ans = []\n    for _ in xrange(c):\n        x, y = heappop(h), heappop(h)\n        ans.append((x[1] + 1, y[1] + 1))\n        heappush(h, (min(x[0] + y[0] + x[0] + y[0] + 1, 1000000000), x[1]))\n    if ans:\n        lastpair = ans[-1]\n    ans.extend([lastpair] * (p - c))\n    stdout.write('\\n'.join(' '.join(map(str, x)) for x in ans))\nmain()\n",
+    "prob_desc_created_at": "1384443000",
+    "tags": [
+        "greedy",
+        "graphs",
+        "dsu",
+        "data structures",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

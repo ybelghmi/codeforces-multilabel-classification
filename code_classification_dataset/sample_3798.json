@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Bob\\nAlice\\nAlice\\nBob\"]",
+    "src_uid": "255ee92f5b860eacd9d6321195072734",
+    "prob_desc_notes": "NoteIn the first test case, the game ends immediately because Alice cannot make a move.In the second test case, Alice can subtract $$$2$$$ making $$$n = 2$$$, then Bob cannot make a move so Alice wins.In the third test case, Alice can subtract $$$3$$$ so that $$$n = 9$$$. Bob's only move is to subtract $$$3$$$ and make $$$n = 6$$$. Now, Alice can subtract $$$3$$$ again and $$$n = 3$$$. Then Bob cannot make a move, so Alice wins.",
+    "prob_desc_description": "Alice and Bob are playing a game. They start with a positive integer $$$n$$$ and take alternating turns doing operations on it. Each turn a player can subtract from $$$n$$$ one of its divisors that isn't $$$1$$$ or $$$n$$$. The player who cannot make a move on his/her turn loses. Alice always moves first.Note that they subtract a divisor of the current number in each turn.You are asked to find out who will win the game if both players play optimally.",
+    "prob_desc_output_spec": "For each test case output \"Alice\" if Alice will win the game or \"Bob\" if Bob will win, if both players play optimally.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 10^9$$$) — the initial number.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_084.jsonl",
+    "code_uid": "bef7825be0f6c28f21cd1fceaf41bb98",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1\\n4\\n12\\n69\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\ninput = sys.stdin.readline\ninf = float('inf')\n\n\ndef getInt():\n    return int(input())\n\n\ndef getStr():\n    return input().strip()\n\n\ndef getList(split=True):\n    s = getStr()\n    if split:\n        s = s.split()\n    return map(int, s)\n\n\nt = getInt()\n# t = 1\n\nM = 10 ** 9 + 7\n\nA = {2**i for i in range(1, 32, 2)}\n\n\ndef solve():\n    # if x is a power of 2 then Alice loose\n    # if x is odd of x is  2 to the power off odd number then Alice loose else she will win\n    x = getInt()\n\n    if x & 1 or x in A:\n        print(\"Bob\")\n    else:\n        print(\"Alice\")\n\n\nfor _ in range(t):\n    solve()\n",
+    "prob_desc_created_at": "1624026900",
+    "tags": [
+        "games",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

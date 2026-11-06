@@ -1,0 +1,32 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n2 1 4 7 5 \\n4\\n1 5\\n2 5\\n5 4\\n3 4\"]",
+    "src_uid": "ff8219b0e4fd699b1898500664087e90",
+    "prob_desc_notes": "NoteOne of the possible structures in the first example: ",
+    "prob_desc_description": "The Dogeforces company has $$$k$$$ employees. Each employee, except for lower-level employees, has at least $$$2$$$ subordinates. Lower-level employees have no subordinates. Each employee, except for the head of the company, has exactly one direct supervisor. The head of the company is a direct or indirect supervisor of all employees. It is known that in Dogeforces, each supervisor receives a salary strictly more than all his subordinates.The full structure of the company is a secret, but you know the number of lower-level employees and for each pair of lower-level employees, the salary of their common supervisor is known (if there are several such supervisors, then the supervisor with the minimum salary). You have to restore the structure of the company.",
+    "prob_desc_output_spec": "In the first line, print a single integer $$$k$$$ — the number of employees in the company. In the second line, print $$$k$$$ integers $$$c_1, c_2, \\dots, c_k$$$, where $$$c_i$$$ is the salary of the employee with the number $$$i$$$. In the third line, print a single integer $$$r$$$ — the number of the employee who is the head of the company. In the following $$$k-1$$$ lines, print two integers $$$v$$$ and $$$u$$$ ($$$1 \\le v, u \\le k$$$) — the number of the employee and his direct supervisor. Note that the lower-level employees have numbers from $$$1$$$ to $$$n$$$, and for the rest of the employees, you have to assign numbers from $$$n+1$$$ to $$$k$$$. If there are several correct company structures, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 500$$$) — the number of lower-level employees. This is followed by $$$n$$$ lines, where $$$i$$$-th line contains $$$n$$$ integers $$$a_{i,1}, a_{i,2}, \\dots, a_{i,n}$$$ ($$$1 \\le a_{i,j} \\le 5000$$$) — salary of the common supervisor of employees with numbers $$$i$$$ and $$$j$$$. It is guaranteed that $$$a_{i,j} = a_{j,i}$$$. Note that $$$a_{i,i}$$$ is equal to the salary of the $$$i$$$-th employee.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_094.jsonl",
+    "code_uid": "c4d7e01d107b6923cdd8b469dc1b7d35",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 5 7\\n5 1 7\\n7 7 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.buffer.readline\r\n \r\ndef findroot(parent, x):\r\n    y = x\r\n    while y != parent[y]:\r\n        y = parent[y]\r\n    return y\r\n \r\ndef process(A):\r\n    n = len(A[0])\r\n    parent = [i for i in range(n)]\r\n    weight = [None for i in range(n)]\r\n    L = []\r\n    for i in range(n):\r\n        w = A[i][i]\r\n        weight[i] = w \r\n        for j in range(i):\r\n            L.append([A[i][j], i, j])\r\n    m = len(L)\r\n    L.sort() \r\n    x = n\r\n    graph = []\r\n    for i in range(m):\r\n        w, I, J = L[i]\r\n        I1 = findroot(parent, I)\r\n        J1 = findroot(parent, J)\r\n        if I1 != J1:\r\n            if weight[I1]==w:\r\n                graph.append([J1, I1])\r\n                parent[J1] = I1 \r\n            elif weight[J1]==w:\r\n                graph.append([I1, J1])\r\n                parent[I1] = J1\r\n            else:\r\n                parent.append(x)\r\n                weight.append(w)\r\n                parent[I1] = x \r\n                parent[J1] = x\r\n                graph.append([I1, x])\r\n                graph.append([J1, x])\r\n                x+=1\r\n    n = len(weight)\r\n    sys.stdout.write(f'{n}\\n')\r\n    weight = ' '.join(map(str, weight))\r\n    sys.stdout.write(f'{weight}\\n')\r\n    sys.stdout.write(f'{n}\\n')\r\n    for a, b in graph:\r\n        sys.stdout.write(f'{a+1} {b+1}\\n')\r\n \r\n            \r\n      \r\nk = int(input())\r\nA = []\r\nfor i in range(k):\r\n    row = [int(x) for x in input().split()]\r\n    A.append(row)\r\nprocess(A)",
+    "prob_desc_created_at": "1614696300",
+    "tags": [
+        "constructive algorithms",
+        "data structures",
+        "dfs and similar",
+        "divide and conquer",
+        "dsu",
+        "greedy",
+        "sortings",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

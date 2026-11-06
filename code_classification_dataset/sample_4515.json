@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1 4 4 9 9 \\n0 2 \\n3000000000\"]",
+    "src_uid": "d5f7228d8d674b8233937702ca044cb0",
+    "prob_desc_notes": "NoteConsider the first test case, pictured in the statement.   If Timur's legs have length $$$1$$$, then he can only climb stair $$$1$$$, so the highest he can reach is $$$1$$$ meter.  If Timur's legs have length $$$2$$$ or $$$4$$$, then he can only climb stairs $$$1$$$, $$$2$$$, and $$$3$$$, so the highest he can reach is $$$1+2+1=4$$$ meters.  If Timur's legs have length $$$9$$$ or $$$10$$$, then he can climb the whole staircase, so the highest he can reach is $$$1+2+1+5=9$$$ meters.  In the first question of the second test case, Timur has no legs, so he cannot go up even a single step. :(",
+    "prob_desc_description": "Timur has a stairway with $$$n$$$ steps. The $$$i$$$-th step is $$$a_i$$$ meters higher than its predecessor. The first step is $$$a_1$$$ meters higher than the ground, and the ground starts at $$$0$$$ meters.   The stairs for the first test case. Timur has $$$q$$$ questions, each denoted by an integer $$$k_1, \\dots, k_q$$$. For each question $$$k_i$$$, you have to print the maximum possible height Timur can achieve by climbing the steps if his legs are of length $$$k_i$$$. Timur can only climb the $$$j$$$-th step if his legs are of length at least $$$a_j$$$. In other words, $$$k_i \\geq a_j$$$ for each step $$$j$$$ climbed.Note that you should answer each question independently.",
+    "prob_desc_output_spec": "For each test case, output a single line containing $$$q$$$ integers, the answer for each question. Please note, that the answer for some questions won't fit into 32-bit integer type, so you should use at least 64-bit integer type in your programming language (like long long for C++).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. The first line of each test case contains two integers $$$n, q$$$ ($$$1 \\leq n, q \\leq 2\\cdot10^5$$$) — the number of steps and the number of questions, respectively. The second line of each test case contains $$$n$$$ integers ($$$1 \\leq a_i \\leq 10^9$$$) — the height of the steps. The third line of each test case contains $$$q$$$ integers ($$$0 \\leq k_i \\leq 10^9$$$) — the numbers for each question. It is guaranteed that the sum of $$$n$$$ does not exceed $$$2\\cdot10^5$$$, and the sum of $$$q$$$ does not exceed $$$2\\cdot10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_099.jsonl",
+    "code_uid": "b1b4c8e46f32882f773c16444050a641",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n4 5\\n\\n1 2 1 5\\n\\n1 2 4 9 10\\n\\n2 2\\n\\n1 1\\n\\n0 1\\n\\n3 1\\n\\n1000000000 1000000000 1000000000\\n\\n1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\n\r\nfor _ in range(t):\r\n    nq = [int(x) for x in input().split()]\r\n    nnum, qnum = nq[0], nq[1]\r\n    \r\n    n = [int(x) for x in input().split()]\r\n    q = [int(x) for x in input().split()]\r\n    \r\n    qv = []\r\n    for i in range(qnum):\r\n        qv.append([q[i], i])\r\n        \r\n    qv.sort()\r\n    \r\n    retsum = 0\r\n    j = 0\r\n    ans = [0]*qnum\r\n    for i in range(qnum):\r\n        k, index = qv[i][0], qv[i][1]\r\n        while (j < nnum and n[j] <= k):\r\n            retsum += n[j]\r\n            j += 1\r\n        ans[index] = retsum\r\n        \r\n    print(*ans)",
+    "prob_desc_created_at": "1665671700",
+    "tags": [
+        "binary search",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

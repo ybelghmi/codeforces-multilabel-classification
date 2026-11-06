@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"0\", \"4\"]",
+    "src_uid": "c3f080681e3da5e1290ef935ff91f364",
+    "prob_desc_notes": "NoteThe first example is described in the problem statement.In the second example Maxim cannot buy any game because the value of the first bill in his wallet is smaller than the cost of any game in the shop.In the third example the values of the bills in Maxim's wallet are large enough to buy any game he encounter until he runs out of bills in his wallet.",
+    "prob_desc_description": "Maxim wants to buy some games at the local game shop. There are $$$n$$$ games in the shop, the $$$i$$$-th game costs $$$c_i$$$.Maxim has a wallet which can be represented as an array of integers. His wallet contains $$$m$$$ bills, the $$$j$$$-th bill has value $$$a_j$$$.Games in the shop are ordered from left to right, Maxim tries to buy every game in that order.When Maxim stands at the position $$$i$$$ in the shop, he takes the first bill from his wallet (if his wallet is empty then he proceeds to the next position immediately) and tries to buy the $$$i$$$-th game using this bill. After Maxim tried to buy the $$$n$$$-th game, he leaves the shop.Maxim buys the $$$i$$$-th game if and only if the value of the first bill (which he takes) from his wallet is greater or equal to the cost of the $$$i$$$-th game. If he successfully buys the $$$i$$$-th game, the first bill from his wallet disappears and the next bill becomes first. Otherwise Maxim leaves the first bill in his wallet (this bill still remains the first one) and proceeds to the next game.For example, for array $$$c = [2, 4, 5, 2, 4]$$$ and array $$$a = [5, 3, 4, 6]$$$ the following process takes place: Maxim buys the first game using the first bill (its value is $$$5$$$), the bill disappears, after that the second bill (with value $$$3$$$) becomes the first one in Maxim's wallet, then Maxim doesn't buy the second game because $$$c_2 &gt; a_2$$$, the same with the third game, then he buys the fourth game using the bill of value $$$a_2$$$ (the third bill becomes the first one in Maxim's wallet) and buys the fifth game using the bill of value $$$a_3$$$.Your task is to get the number of games Maxim will buy.",
+    "prob_desc_output_spec": "Print a single integer — the number of games Maxim will buy.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 1000$$$) — the number of games and the number of bills in Maxim's wallet. The second line of the input contains $$$n$$$ integers $$$c_1, c_2, \\dots, c_n$$$ ($$$1 \\le c_i \\le 1000$$$), where $$$c_i$$$ is the cost of the $$$i$$$-th game. The third line of the input contains $$$m$$$ integers $$$a_1, a_2, \\dots, a_m$$$ ($$$1 \\le a_j \\le 1000$$$), where $$$a_j$$$ is the value of the $$$j$$$-th bill from the Maxim's wallet.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_002.jsonl",
+    "code_uid": "8291a135018c6abd3993f579ad7ddc44",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n2 4 5 2 4\\n5 3 4 6\", \"5 2\\n20 40 50 20 40\\n19 20\", \"6 4\\n4 8 15 16 23 42\\n1000 1000 1000 1000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m = map(int,raw_input().split())\nnums = list(map(int,raw_input().split()))\narr = list(map(int,raw_input().split()))\nans = 0\nfor i in range(n):\n  if arr and arr[0] >= nums[i]:\n    arr.pop(0)\n    ans += 1\nprint ans",
+    "prob_desc_created_at": "1531578900",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

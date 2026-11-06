@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"()\", \"(()(()))\", \"()()\"]",
+    "src_uid": "cf1c39e85eded68515aae9eceac73313",
+    "prob_desc_notes": "NoteIn the first sample the cursor is initially at position 5. Consider actions of the editor:  command \"R\" — the cursor moves to the position 6 on the right;  command \"D\" — the deletion of brackets from the position 5 to the position 6. After that CBS takes the form (())(), the cursor is at the position 5;  command \"L\" — the cursor moves to the position 4 on the left;  command \"D\" — the deletion of brackets from the position 1 to the position 4. After that CBS takes the form (), the cursor is at the position 1. Thus, the answer is equal to ().",
+    "prob_desc_description": "Recently Polycarp started to develop a text editor that works only with correct bracket sequences (abbreviated as CBS). Note that a bracket sequence is correct if it is possible to get a correct mathematical expression by adding \"+\"-s and \"1\"-s to it. For example, sequences \"(())()\", \"()\" and \"(()(()))\" are correct, while \")(\", \"(()\" and \"(()))(\" are not. Each bracket in CBS has a pair. For example, in \"(()(()))\":  1st bracket is paired with 8th,  2d bracket is paired with 3d,  3d bracket is paired with 2d,  4th bracket is paired with 7th,  5th bracket is paired with 6th,  6th bracket is paired with 5th,  7th bracket is paired with 4th,  8th bracket is paired with 1st. Polycarp's editor currently supports only three operations during the use of CBS. The cursor in the editor takes the whole position of one of the brackets (not the position between the brackets!). There are three operations being supported:  «L» — move the cursor one position to the left,  «R» — move the cursor one position to the right,  «D» — delete the bracket in which the cursor is located, delete the bracket it's paired to and all brackets between them (that is, delete a substring between the bracket in which the cursor is located and the one it's paired to). After the operation \"D\" the cursor moves to the nearest bracket to the right (of course, among the non-deleted). If there is no such bracket (that is, the suffix of the CBS was deleted), then the cursor moves to the nearest bracket to the left (of course, among the non-deleted). There are pictures illustrated several usages of operation \"D\" below.  All incorrect operations (shift cursor over the end of CBS, delete the whole CBS, etc.) are not supported by Polycarp's editor.Polycarp is very proud of his development, can you implement the functionality of his editor?",
+    "prob_desc_output_spec": "Print the correct bracket sequence, obtained as a result of applying all operations to the initial sequence.",
+    "prob_desc_input_spec": "The first line contains three positive integers n, m and p (2 ≤ n ≤ 500 000, 1 ≤ m ≤ 500 000, 1 ≤ p ≤ n) — the number of brackets in the correct bracket sequence, the number of operations and the initial position of cursor. Positions in the sequence are numbered from left to right, starting from one. It is guaranteed that n is even. It is followed by the string of n characters \"(\" and \")\" forming the correct bracket sequence. Then follow a string of m characters \"L\", \"R\" and \"D\" — a sequence of the operations. Operations are carried out one by one from the first to the last. It is guaranteed that the given operations never move the cursor outside the bracket sequence, as well as the fact that after all operations a bracket sequence will be non-empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_059.jsonl",
+    "code_uid": "370a247f79c018a6b474d2a1688db039",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8 4 5\\n(())()()\\nRDLD\", \"12 5 3\\n((()())(()))\\nRRDLD\", \"8 8 8\\n(())()()\\nLLLLLLDD\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class Node:\n    def __init__(self, index):\n        self.left = index - 1\n        self.right = index + 1\n        self.pair = -1\n\nif __name__ == \"__main__\":\n    n, m, p = map(int, input().split())\n    brackets = input()\n    operations = input()\n\n    nodes = [Node(i) for i in range(n + 1)]\n    stack = []\n\n    for i in range(n):\n        if brackets[i] == \"(\":\n            stack.append(i + 1)\n        else:\n            pair_id = stack.pop()\n            nodes[pair_id].pair = i + 1\n            nodes[i + 1].pair = pair_id\n\n    for i in range(m):\n        if operations[i] == \"L\":\n            p = nodes[p].left\n        elif operations[i] == \"R\":\n            p = nodes[p].right\n        else:\n            pair_id = nodes[p].pair\n            \n            left = min(p, pair_id)\n            right = max(p, pair_id)\n\n            left_node = nodes[left].left\n            right_node = nodes[right].right\n\n            nodes[left_node].right = right_node\n            if right_node != n + 1:\n                nodes[right_node].left = left_node\n                p = right_node\n            else:\n                p = left_node\n\n    p = nodes[0].right\n    result = []\n    while p != n + 1:\n        result.append(brackets[p - 1])\n        p = nodes[p].right\n\n    print(\"\".join(result))",
+    "prob_desc_created_at": "1462464300",
+    "tags": [
+        "data structures",
+        "dsu",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

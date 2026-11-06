@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"78\", \"10000\"]",
+    "src_uid": "6b85a1fefb03566fbc557b98d1dfd7ef",
+    "prob_desc_notes": "NoteIn the first test case we can choose songs $$${1, 3, 4}$$$, so the total pleasure is $$$(4 + 3 + 6) \\cdot 6 = 78$$$.In the second test case we can choose song $$$3$$$. The total pleasure will be equal to $$$100 \\cdot 100 = 10000$$$.",
+    "prob_desc_description": "You have a playlist consisting of $$$n$$$ songs. The $$$i$$$-th song is characterized by two numbers $$$t_i$$$ and $$$b_i$$$ — its length and beauty respectively. The pleasure of listening to set of songs is equal to the total length of the songs in the set multiplied by the minimum beauty among them. For example, the pleasure of listening to a set of $$$3$$$ songs having lengths $$$[5, 7, 4]$$$ and beauty values $$$[11, 14, 6]$$$ is equal to $$$(5 + 7 + 4) \\cdot 6 = 96$$$.You need to choose at most $$$k$$$ songs from your playlist, so the pleasure of listening to the set of these songs them is maximum possible.",
+    "prob_desc_output_spec": "Print one integer — the maximum pleasure you can get.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 3 \\cdot 10^5$$$) – the number of songs in the playlist and the maximum number of songs you can choose, respectively. Each of the next $$$n$$$ lines contains two integers $$$t_i$$$ and $$$b_i$$$ ($$$1 \\le t_i, b_i \\le 10^6$$$) — the length and beauty of $$$i$$$-th song.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_009.jsonl",
+    "code_uid": "fb70011aa275ce6c5a03308f10a38535",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n4 7\\n15 1\\n3 6\\n6 8\", \"5 3\\n12 31\\n112 4\\n100 100\\n13 55\\n55 50\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq\nfrom sys import stdin\ninput = stdin.readline\nn, k = map(int,input().split())\nb_t = []\nfor _ in range(n):\n    t,b = tuple(map(int,input().split()))\n    b_t.append( (b,t) )\nb_t.sort( reverse=True )\n\nans = 0\ntime = 0\nl = []\nfor b,t in b_t: #sorted by beauty\n    time += t\n    heapq.heappush( l, t )\n    if len(l) > k:  #taking largest k time (b will be always greater)\n        c = heapq.heappop(l)\n        time -= c #subtract time\n    ans = max( ans, time*b )\nprint(ans)",
+    "prob_desc_created_at": "1553267100",
+    "tags": [
+        "data structures",
+        "sortings",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

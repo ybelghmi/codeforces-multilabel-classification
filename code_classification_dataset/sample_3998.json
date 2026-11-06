@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n0\\n1\"]",
+    "src_uid": "b4183febe5ae61770368d2e16f273675",
+    "prob_desc_notes": "NoteConsider the queries of the example test.  in the first query, the substring is baa, which can be changed to bac in one operation;  in the second query, the substring is baacb, which can be changed to cbacb in two operations;  in the third query, the substring is cb, which can be left unchanged;  in the fourth query, the substring is aa, which can be changed to ba in one operation. ",
+    "prob_desc_description": "Let's call the string beautiful if it does not contain a substring of length at least $$$2$$$, which is a palindrome. Recall that a palindrome is a string that reads the same way from the first character to the last and from the last character to the first. For example, the strings a, bab, acca, bcabcbacb are palindromes, but the strings ab, abbbaa, cccb are not.Let's define cost of a string as the minimum number of operations so that the string becomes beautiful, if in one operation it is allowed to change any character of the string to one of the first $$$3$$$ letters of the Latin alphabet (in lowercase).You are given a string $$$s$$$ of length $$$n$$$, each character of the string is one of the first $$$3$$$ letters of the Latin alphabet (in lowercase).You have to answer $$$m$$$ queries — calculate the cost of the substring of the string $$$s$$$ from $$$l_i$$$-th to $$$r_i$$$-th position, inclusive.",
+    "prob_desc_output_spec": "For each query, print a single integer — the cost of the substring of the string $$$s$$$ from $$$l_i$$$-th to $$$r_i$$$-th position, inclusive.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 2 \\cdot 10^5$$$) — the length of the string $$$s$$$ and the number of queries. The second line contains the string $$$s$$$, it consists of $$$n$$$ characters, each character one of the first $$$3$$$ Latin letters. The following $$$m$$$ lines contain two integers $$$l_i$$$ and $$$r_i$$$ ($$$1 \\le l_i \\le r_i \\le n$$$) — parameters of the $$$i$$$-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_088.jsonl",
+    "code_uid": "18fb96a11cab9dcacc259de1cfe2bb45",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\nbaacb\\n1 3\\n1 5\\n4 5\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a = [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n\nstt = [3, 5, 1, 4, 0, 2]\nstt2 = [[3, 4, 0], [5, 2, 1], [1, 5, 2], [4, 0, 3], [0, 3, 4], [2, 1, 5]]\n\n# def query(l, r):\n#     minimum = 9999999\n#     for ii in range(6):\n#         if r >= n-1:\n#             minimum = min(minimum, dp[l][ii])\n#         else:\n#             pos = ii\n#             time = (r-l+1)%3\n#             for k in range(time):\n#                 pos = stt[pos]\n#             print(ii, pos)\n#             minimum = min(minimum, dp[l][ii] - dp[r+1][pos])\n#     return minimum\n\nn, m = [int(x) for x in input().split(' ')]\ns = input()\n# s = 'c'*200000\nss =[ ord(x)-96 for x in s]\ndp = [[0 for i in range(6)] for j in range(n)]\n# DP here\nfor ii in range(6):\n    if a[ii][0] != ss[n-1]:\n        dp[n-1][ii] = 1\n\nfor ii in range(n-2, -1, -1):\n    for jj in range(6):\n        dp[ii][jj] = dp[ii+1][stt[jj]]\n        if a[jj][0] != ss[ii]:\n            dp[ii][jj] += 1\n\nres = []\nfor t in range(m):\n    l, r = [int(x)-1 for x in input().split(' ')]\n    # print(query(l, r))\n    minimum = 9999999\n    if r >= n-1:\n        for ii in range(6):\n            minimum = min(dp[l])\n        res.append(minimum)\n    else:\n        pos = (r-l) % 3\n        minimum = min([dp[l][ii] - dp[r+1][stt2[ii][pos]] for ii in range(6)])\n        res.append(minimum)\n    # print(minimum)\nprint(*res, sep = \"\\n\")\n",
+    "prob_desc_created_at": "1627655700",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "dp",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

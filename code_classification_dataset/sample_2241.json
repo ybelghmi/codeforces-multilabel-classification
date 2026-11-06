@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"7\", \"2\", \"3\"]",
+    "src_uid": "ff7bdfe399b4b4c37ea557c15e7a7f1c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have a long fence which consists of $$$n$$$ sections. Unfortunately, it is not painted, so you decided to hire $$$q$$$ painters to paint it. $$$i$$$-th painter will paint all sections $$$x$$$ such that $$$l_i \\le x \\le r_i$$$.Unfortunately, you are on a tight budget, so you may hire only $$$q - 2$$$ painters. Obviously, only painters you hire will do their work.You want to maximize the number of painted sections if you choose $$$q - 2$$$ painters optimally. A section is considered painted if at least one painter paints it.",
+    "prob_desc_output_spec": "Print one integer — maximum number of painted sections if you hire $$$q - 2$$$ painters.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$q$$$ ($$$3 \\le n, q \\le 5000$$$) — the number of sections and the number of painters availible for hire, respectively. Then $$$q$$$ lines follow, each describing one of the painters: $$$i$$$-th line contains two integers $$$l_i$$$ and $$$r_i$$$ ($$$1 \\le l_i \\le r_i \\le n$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_019.jsonl",
+    "code_uid": "3f3367ea03990bdd9c1ca4e4993bf761",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 5\\n1 4\\n4 5\\n5 6\\n6 7\\n3 5\", \"4 3\\n1 1\\n2 2\\n3 4\", \"4 4\\n1 1\\n2 2\\n2 3\\n3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, q = map(int, raw_input().split())\na = []\nfor i in xrange(q):\n    l, r = map(int, raw_input().split())\n    a.append((l - 1, r))\n\nb = [0] * (n + 1)\nfor i in xrange(q):\n    b[a[i][0]] += 1\n    b[a[i][1]] -= 1\n\np = 0\nc = [0] * n\nfor i in xrange(n):\n    if i == 0: c[i] = b[i]\n    else: c[i] = c[i - 1] + b[i]\n    if c[i] > 0: p += 1\n\no = [0] * (n + 1)\nt = [0] * (n + 1)\nfor i in xrange(n):\n    o[i + 1] = o[i]\n    t[i + 1] = t[i]\n    if c[i] == 1: o[i + 1] += 1\n    if c[i] == 2: t[i + 1] += 1\n\nz = 0\nfor i in xrange(q):\n    for j in xrange(i + 1, q):\n\n        x = a[i]\n        y = a[j]\n        if a[j][0] < a[i][0]:\n            x = a[j]\n            y = a[i]\n\n        zi = 0\n        if x[1] > y[0]:\n            if x[1] < y[1]:\n                zi = p - (o[y[0]] - o[x[0]]) - (o[y[1]] - o[x[1]]) - (t[x[1]] - t[y[0]])\n            else:\n                zi = p - (o[y[0]] - o[x[0]]) - (o[x[1]] - o[y[1]]) - (t[y[1]] - t[y[0]])\n        else:\n            zi = p - (o[x[1]] - o[x[0]]) - (o[y[1]] - o[y[0]])\n        if zi > z: z = zi\nprint z\n",
+    "prob_desc_created_at": "1551798300",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"3\", \"2\"]",
+    "src_uid": "fead36831dbcb1c0bdf6b6965b751ad8",
+    "prob_desc_notes": "NoteIn the first example the resulting string s is \"winlosewinwinlwinwin\"In the second example the resulting string s is \"glorytoreorand\". The last letter of the string can be arbitrary.In the third example occurrences of string t are overlapping. String s with maximal number of occurrences of t is \"abcabcab\".",
+    "prob_desc_description": "Berland has a long and glorious history. To increase awareness about it among younger citizens, King of Berland decided to compose an anthem.Though there are lots and lots of victories in history of Berland, there is the one that stand out the most. King wants to mention it in the anthem as many times as possible.He has already composed major part of the anthem and now just needs to fill in some letters. King asked you to help him with this work.The anthem is the string s of no more than 105 small Latin letters and question marks. The most glorious victory is the string t of no more than 105 small Latin letters. You should replace all the question marks with small Latin letters in such a way that the number of occurrences of string t in string s is maximal.Note that the occurrences of string t in s can overlap. Check the third example for clarification.",
+    "prob_desc_output_spec": "Output the maximum number of occurrences of string t you can achieve by replacing all the question marks in string s with small Latin letters.",
+    "prob_desc_input_spec": "The first line contains string of small Latin letters and question marks s (1 ≤ |s| ≤ 105). The second line contains string of small Latin letters t (1 ≤ |t| ≤ 105). Product of lengths of strings |s|·|t| won't exceed 107.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_080.jsonl",
+    "code_uid": "f6a5f910765c65c33514431661ca02e4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"winlose???winl???w??\\nwin\", \"glo?yto?e??an?\\nor\", \"??c?????\\nabcab\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def prefix(st):\n    t = 0\n    p = [0] * (len(st) + 1)\n    o = [0] * (len(st) + 1)\n    for i in range(2, len(st)):\n        while t > 0 and st[i] != st[t + 1]:\n            t = p[t]\n        if st[i] == st[t + 1]:\n            t += 1\n        p[i] = t\n    while t > 0:\n        o[t] = 1\n        t = p[t]\n    return o\n\n\ns = ' ' + input()\nt = ' ' + input()\no = prefix(t)\nm = len(t) - 1\nans = [[0, 0] for _ in range(len(s) + 5)]\nans[0][1] = float('-inf')\n\nfor i in range(1, len(s)):\n    j = m\n    ans[i][1] = float('-inf')\n    for j in range(m, 0, -1):\n        if s[i - m + j] != '?' and s[i - m + j] != t[j]:\n            break\n        if o[j - 1]:\n            ans[i][1] = max(ans[i][1], ans[i - m + j - 1][1] + 1)\n        if j == 1:\n            ans[i][1] = max(ans[i][1], ans[i - m][0] + 1)\n    ans[i][0] = max(ans[i][1], ans[i - 1][0])\n\nif ans[len(s) - 1][0] == 7:\n    print(o.count(1))\nelse:\n    print(ans[len(s) - 1][0])\n",
+    "prob_desc_created_at": "1494860700",
+    "tags": [
+        "dp",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

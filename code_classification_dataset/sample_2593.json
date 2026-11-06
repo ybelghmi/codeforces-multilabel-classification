@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5.0000000000\", \"4.7142857143\"]",
+    "src_uid": "620a9baa531f0c614cc103e70cfca6fd",
+    "prob_desc_notes": "NoteIn the first sample we should immediately put all five pupils to the bus. The speed of the bus equals 2 and the distance is equal to 10, so the pupils will reach the place of excursion in time 10 / 2 = 5.",
+    "prob_desc_description": "On vacations n pupils decided to go on excursion and gather all together. They need to overcome the path with the length l meters. Each of the pupils will go with the speed equal to v1. To get to the excursion quickly, it was decided to rent a bus, which has seats for k people (it means that it can't fit more than k people at the same time) and the speed equal to v2. In order to avoid seasick, each of the pupils want to get into the bus no more than once.Determine the minimum time required for all n pupils to reach the place of excursion. Consider that the embarkation and disembarkation of passengers, as well as the reversal of the bus, take place immediately and this time can be neglected. ",
+    "prob_desc_output_spec": "Print the real number — the minimum time in which all pupils can reach the place of excursion. Your answer will be considered correct if its absolute or relative error won't exceed 10 - 6.",
+    "prob_desc_input_spec": "The first line of the input contains five positive integers n, l, v1, v2 and k (1 ≤ n ≤ 10 000, 1 ≤ l ≤ 109, 1 ≤ v1 &lt; v2 ≤ 109, 1 ≤ k ≤ n) — the number of pupils, the distance from meeting to the place of excursion, the speed of each pupil, the speed of bus and the number of seats in the bus. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_025.jsonl",
+    "code_uid": "e7e932d739db0522d3114f2c1d99ae6b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 10 1 2 5\", \"3 6 1 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/python3\n\nimport sys\nsys.setrecursionlimit(10 ** 9)\n\ndef bscheck(n, l, v1, v2, k, t):\n    while True:\n        if k > n:\n            k = n\n        if n == 0:\n            return True\n        if l / v2 > t:\n            return False\n    #    v2 * tx + v1 * (t - tx) = l\n    #    (v2 - v1) * tx = l - v1 * t\n        tx = (l - v1 * t) / (v2 - v1)\n        ty = (tx * v2 - tx * v1) / (v1 + v2)\n\n        _n = n - k\n        _l = l - tx * v1 - ty * v1\n        _t = t - tx - ty\n\n        n = _n\n        l = _l\n        t = _t\n\n\nn, l, v1, v2, k = map(int, input().split())\n\nlt, rt = 0, 1791791791\nfor i in range(100):\n    mid = (lt + rt) / 2\n    if bscheck(n, l, v1, v2, k, mid):\n        rt = mid\n    else:\n        lt = mid\n\nprint(rt)\n",
+    "prob_desc_created_at": "1469205300",
+    "tags": [
+        "binary search",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

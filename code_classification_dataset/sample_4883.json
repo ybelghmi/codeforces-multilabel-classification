@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 1\\n1 2\\n2 1\\n3 2\"]",
+    "src_uid": "585bb4a040144da39ed240366193e705",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The robot is located on a checkered rectangular board of size $$$n \\times m$$$ ($$$n$$$ rows, $$$m$$$ columns). The rows in the board are numbered from $$$1$$$ to $$$n$$$ from top to bottom, and the columns — from $$$1$$$ to $$$m$$$ from left to right.The robot is able to move from the current cell to one of the four cells adjacent by side.The sequence of commands $$$s$$$ executed by the robot is given. Each command is denoted by one of the symbols 'L', 'R', 'D' or 'U', and triggers the movement to left, right, down or up, respectively.The robot can start its movement in any cell. The robot executes the commands starting from the first one, strictly in the order in which they are listed in $$$s$$$. If the robot moves beyond the edge of the board, it falls and breaks. A command that causes the robot to break is not considered successfully executed.The robot's task is to execute as many commands as possible without falling off the board. For example, on board $$$3 \\times 3$$$, if the robot starts a sequence of actions $$$s=$$$\"RRDLUU\" (\"right\", \"right\", \"down\", \"left\", \"up\", \"up\") from the central cell, the robot will perform one command, then the next command will force him to cross the edge. If the robot starts moving from the cell $$$(2, 1)$$$ (second row, first column) then all commands will be executed successfully and the robot will stop at the cell $$$(1, 2)$$$ (first row, second column).    The robot starts from cell $$$(2, 1)$$$ (second row, first column). It moves right, right, down, left, up, and up. In this case it ends in the cell $$$(1, 2)$$$ (first row, second column). Determine the cell from which the robot should start its movement in order to execute as many commands as possible.",
+    "prob_desc_output_spec": "Print $$$t$$$ lines, each of which contains the answer to the corresponding test case. The answer to the test case are two integers $$$r$$$ ($$$1 \\leq r \\leq n$$$) and $$$c$$$ ($$$1 \\leq c \\leq m$$$), separated by a space — the coordinates of the cell (row number and column number) from which the robot should start moving to perform as many commands as possible. If there are several such cells, you may output any of them.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. The next $$$2t$$$ lines contain descriptions of the test cases. In the description of each test case, the first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\leq n, m \\leq 10^6$$$) — the height and width of the field that the robot is located on. The second line of the description is a string $$$s$$$ consisting solely of characters 'L', 'R', 'D' and 'U' — the sequence of commands the robot executes. The string has a length from $$$1$$$ to $$$10^6$$$ commands. It is guaranteed that the total length of $$$s$$$ over all test cases does not exceed $$$10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_108.jsonl",
+    "code_uid": "e124ff89ceb3b5d5da83737c7cf58a70",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 1\\nL\\n1 2\\nL\\n3 3\\nRRDLUU\\n4 3\\nLUURRDDLLLUU\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nfor case in range(t):\r\n    n, m = map(int, input().split())\r\n    s = input()\r\n    x, y = 1, 1\r\n    x_max_r, x_max_l, y_max_u, y_max_d = 0, 0, 0, 0\r\n    x_last, y_last = 1, 1\r\n    x_mov, y_mov = 0, 0\r\n\r\n    # First find longest path\r\n    for i in s:\r\n        if i == \"R\":\r\n            x_mov += 1\r\n        elif i == \"L\":\r\n            x_mov -= 1\r\n        elif i == \"D\":\r\n            y_mov += 1\r\n        elif i == \"U\":\r\n            y_mov -= 1\r\n\r\n        if x_max_r < x_mov:\r\n            x_max_r = x_mov\r\n        elif x_max_l > x_mov:\r\n            x_max_l = x_mov\r\n        if y_max_d < y_mov:\r\n            y_max_d = y_mov\r\n        elif y_max_u > y_mov:\r\n            y_max_u = y_mov\r\n\r\n\r\n        if x + x_mov < 1 and x+1 <= m:\r\n            x += 1\r\n        elif x + x_mov > m and x-1 > 0:\r\n            x -= 1\r\n        if y + y_mov < 1 and y+1 <= n:\r\n            y += 1\r\n        elif y + y_mov > n and y-1 > 0:\r\n            y -= 1\r\n\r\n        if x + x_max_r > m or x + x_max_l < 1:\r\n            x = x_last\r\n            break\r\n        elif y + y_max_d > n or y + y_max_u < 1:\r\n            y = y_last\r\n            break\r\n        else:\r\n            x_last, y_last = x, y\r\n    print(y, x)\r\n\r\n\"\"\"\r\n1\r\n4 3\r\nRDDDUDDUDLRLDDLLLDD\r\n\r\n1 1\r\n\r\n-3 1\r\n\r\n1\r\n3 2\r\nULURRLLRD\r\n\r\n3 1\r\n3 2\r\n\r\n\"\"\"",
+    "prob_desc_created_at": "1635863700",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

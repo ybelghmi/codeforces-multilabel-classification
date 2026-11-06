@@ -1,0 +1,23 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\", \"NO\", \"NO\"]",
+    "src_uid": "75a00d8a614fd0bcb8504b0268a121e0",
+    "prob_desc_notes": "NoteThe first two examples are described in the statements.In the third example all pixels are white, so the photo can be a photo of zebra.In the fourth example the width of the first stripe is equal to three (white color), the width of the second stripe is equal to three (black), and the width of the third stripe is equal to two (white). Thus, not all stripes have equal length, so this photo is not a photo of zebra.",
+    "prob_desc_description": "A camera you have accidentally left in a desert has taken an interesting photo. The photo has a resolution of n pixels width, and each column of this photo is all white or all black. Thus, we can represent the photo as a sequence of n zeros and ones, where 0 means that the corresponding column is all white, and 1 means that the corresponding column is black.You think that this photo can contain a zebra. In this case the whole photo should consist of several (possibly, only one) alternating black and white stripes of equal width. For example, the photo [0, 0, 0, 1, 1, 1, 0, 0, 0] can be a photo of zebra, while the photo [0, 0, 0, 1, 1, 1, 1] can not, because the width of the black stripe is 3, while the width of the white stripe is 4. Can the given photo be a photo of zebra or not?",
+    "prob_desc_output_spec": "If the photo can be a photo of zebra, print \"YES\" (without quotes). Otherwise, print \"NO\". You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 100 000) — the width of the photo. The second line contains a sequence of integers a1, a2, ..., an (0 ≤ ai ≤ 1) — the description of the photo. If ai is zero, the i-th column is all black. If ai is one, then the i-th column is all white.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_001.jsonl",
+    "code_uid": "64401aba32dfbf4032fa2a46b316fdb2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9\\n0 0 0 1 1 1 0 0 0\", \"7\\n0 0 0 1 1 1 1\", \"5\\n1 1 1 1 1\", \"8\\n1 1 1 0 0 0 1 1\", \"9\\n1 1 0 1 1 0 1 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = input()\na = map(int,raw_input().split())\nlast = a[0]; count = 0\nfor i in xrange(n):\n\tif a[i] == last:\n\t\tcount = count + 1\n\telse:\n\t\tbreak\nlocalCount = 0; f = 0\nfor i in xrange(n):\n\tif a[i] == last:\n\t\tlocalCount = localCount + 1\n\telse:\n\t\t#element has changed\n\t\tif localCount != count:\n\t\t\tf = 1; break\n\t\telse:\n\t\t\tlocalCount = 1\n\t\t\tlast = a[i]\nif localCount != count:\n\tf = 1\n\nif f == 1:\n\tprint 'NO'\nelse:\n\tprint 'YES'\n",
+    "prob_desc_created_at": "1521300900",
+    "tags": [],
+    "hidden_unit_tests": ""
+}

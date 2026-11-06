@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n1 9\\n1 5\\n1 10\\n1 6\\n1 2\", \"NO\", \"YES\\n3 5 1 3\\n1 7\\n1 2\"]",
+    "src_uid": "5185f842c7c24d4118ae3661f4418a1d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Devu being a small kid, likes to play a lot, but he only likes to play with arrays. While playing he came up with an interesting question which he could not solve, can you please solve it for him?Given an array consisting of distinct integers. Is it possible to partition the whole array into k disjoint non-empty parts such that p of the parts have even sum (each of them must have even sum) and remaining k - p have odd sum? (note that parts need not to be continuous).If it is possible to partition the array, also give any possible way of valid partitioning.",
+    "prob_desc_output_spec": "In the first line print \"YES\" (without the quotes) if it is possible to partition the array in the required way. Otherwise print \"NO\" (without the quotes). If the required partition exists, print k lines after the first line. The ith of them should contain the content of the ith part. Print the content of the part in the line in the following way: firstly print the number of elements of the part, then print all the elements of the part in arbitrary order. There must be exactly p parts with even sum, each of the remaining k - p parts must have odd sum. As there can be multiple partitions, you are allowed to print any valid partition.",
+    "prob_desc_input_spec": "The first line will contain three space separated integers n, k, p (1 ≤ k ≤ n ≤ 105; 0 ≤ p ≤ k). The next line will contain n space-separated distinct integers representing the content of array a: a1, a2, ..., an (1 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_002.jsonl",
+    "code_uid": "c790b269a6f03e54a3cb4a99631ca2a4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5 3\\n2 6 10 5 9\", \"5 5 3\\n7 14 2 9 5\", \"5 3 1\\n1 2 3 7 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k,p=raw_input().strip().split(' ')\nn,k,p=int(n),int(k),int(p)\narr=list(map(int,raw_input().strip().split(' ')))\nodd=[j for j in arr if j&1]\neven=[j for j in arr if not j&1]\nif (k-p)>len(odd) or p>len(even)+(len(odd)-k+p)/2 or  len(odd)%2!=(k-p)%2:\n\t\tprint 'NO'\nelse:\n\tprint 'YES'\n\tcount,j=0,0\n\twhile j<len(even) and count<p-1:\n\t\tprint 1,even[j]\n\t\tj+=1\n\t\tcount+=1\n\ti=1\n\twhile i<len(odd) and count<p-1:\n\t\tprint 2,odd[i],odd[i-1]\n\t\ti+=2\n\t\tcount+=1\n\tif count!=p and k-p==0:\n\t\tprint len(odd[i-1:])+len(even[j:]),\n\t\tfor i in odd[i-1:]:\n\t\t\tprint i,\n\t\tfor i in even[j:]:\n\t\t\tprint i\n\telif count!=p:\n\t\tif j<len(even):\n\t\t\tprint 1,even[j]\n\t\t\tj+=1\n\t\telse:\n\t\t\tprint 2,odd[i],odd[i-1]\n\t\t\ti+=2\n\tcount=0\n\ti-=1\n\twhile j<len(even) and i<len(odd) and count<k-p-1:\n\t\tprint 2,odd[i],even[j]\n\t\ti,j,count=i+1,j+1,count+1\n\twhile i<len(odd) and count<k-p-1:\n\t\tprint 1,odd[i]\n\t\tcount+=1\n\t\ti+=1\n\tif k-p!=0:\n\t\tprint len(odd[i:])+len(even[j:]),\n\t\tfor k in xrange(i,len(odd)):\n\t\t\tprint odd[k],\n\t\tfor t in xrange(j,len(even)):\n\t\t\tprint even[t],\n\t\t\n\n\t\n\n",
+    "prob_desc_created_at": "1401895800",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "number theory",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"0\", \"2\"]",
+    "src_uid": "f44041707694eece7de0cc7c087f57d9",
+    "prob_desc_notes": "NoteIn the first example, you can set $$$a_{1, 1} := 7, a_{1, 2} := 8$$$ and $$$a_{1, 3} := 9$$$ then shift the first, the second and the third columns cyclically, so the answer is $$$6$$$. It can be shown that you cannot achieve a better answer.In the second example, the matrix is already good so the answer is $$$0$$$.In the third example, it is enough to shift the second column cyclically twice to obtain a good matrix, so the answer is $$$2$$$.",
+    "prob_desc_description": "You are given a rectangular matrix of size $$$n \\times m$$$ consisting of integers from $$$1$$$ to $$$2 \\cdot 10^5$$$.In one move, you can:  choose any element of the matrix and change its value to any integer between $$$1$$$ and $$$n \\cdot m$$$, inclusive;  take any column and shift it one cell up cyclically (see the example of such cyclic shift below). A cyclic shift is an operation such that you choose some $$$j$$$ ($$$1 \\le j \\le m$$$) and set $$$a_{1, j} := a_{2, j}, a_{2, j} := a_{3, j}, \\dots, a_{n, j} := a_{1, j}$$$ simultaneously.  Example of cyclic shift of the first column You want to perform the minimum number of moves to make this matrix look like this:  In other words, the goal is to obtain the matrix, where $$$a_{1, 1} = 1, a_{1, 2} = 2, \\dots, a_{1, m} = m, a_{2, 1} = m + 1, a_{2, 2} = m + 2, \\dots, a_{n, m} = n \\cdot m$$$ (i.e. $$$a_{i, j} = (i - 1) \\cdot m + j$$$) with the minimum number of moves performed.",
+    "prob_desc_output_spec": "Print one integer — the minimum number of moves required to obtain the matrix, where $$$a_{1, 1} = 1, a_{1, 2} = 2, \\dots, a_{1, m} = m, a_{2, 1} = m + 1, a_{2, 2} = m + 2, \\dots, a_{n, m} = n \\cdot m$$$ ($$$a_{i, j} = (i - 1)m + j$$$).",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 2 \\cdot 10^5, n \\cdot m \\le 2 \\cdot 10^5$$$) — the size of the matrix. The next $$$n$$$ lines contain $$$m$$$ integers each. The number at the line $$$i$$$ and position $$$j$$$ is $$$a_{i, j}$$$ ($$$1 \\le a_{i, j} \\le 2 \\cdot 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_004.jsonl",
+    "code_uid": "fd525d26e93ea7482fa829b9eb3250df",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n3 2 1\\n1 2 3\\n4 5 6\", \"4 3\\n1 2 3\\n4 5 6\\n7 8 9\\n10 11 12\", \"3 4\\n1 6 3 4\\n5 10 7 8\\n9 2 11 12\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\nfrom collections import *\n\nn, m = map(int, input().split())\na = [list(map(int, input().split())) for _ in range(n)]\nans = 0\n\nfor i in range(m):\n    l = [i+1]\n    \n    for _ in range(n-1):\n        l.append(l[-1]+m)\n    \n    s = set(l)\n    idx = defaultdict(int)\n    \n    for j in range(n):\n        idx[l[j]] = j\n        \n    cnt = [n]*n\n    \n    for j in range(n):\n        if a[j][i] in s:\n            move = (j-idx[a[j][i]])%n\n            cnt[move] -= 1\n    \n    mi = 10**18\n    \n    for j in range(n):\n        mi = min(mi, j+cnt[j])\n    \n    ans += mi\n\nprint(ans)",
+    "prob_desc_created_at": "1579703700",
+    "tags": [
+        "implementation",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

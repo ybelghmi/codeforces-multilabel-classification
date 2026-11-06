@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"2\"]",
+    "src_uid": "3cafbcf1a397def07d6a2d1dd5526281",
+    "prob_desc_notes": "NoteIn the first sample you can delete any two squares that do not share a side. After that the set of painted squares is not connected anymore.The note to the second sample is shown on the figure below. To the left there is a picture of the initial set of squares. To the right there is a set with deleted squares. The deleted squares are marked with crosses.   ",
+    "prob_desc_description": "You've gotten an n × m sheet of squared paper. Some of its squares are painted. Let's mark the set of all painted squares as A. Set A is connected. Your task is to find the minimum number of squares that we can delete from set A to make it not connected.A set of painted squares is called connected, if for every two squares a and b from this set there is a sequence of squares from the set, beginning in a and ending in b, such that in this sequence any square, except for the last one, shares a common side with the square that follows next in the sequence. An empty set and a set consisting of exactly one square are connected by definition.",
+    "prob_desc_output_spec": "On the first line print the minimum number of squares that need to be deleted to make set A not connected. If it is impossible, print -1. ",
+    "prob_desc_input_spec": "The first input line contains two space-separated integers n and m (1 ≤ n, m ≤ 50) — the sizes of the sheet of paper.  Each of the next n lines contains m characters — the description of the sheet of paper: the j-th character of the i-th line equals either \"#\", if the corresponding square is painted (belongs to set A), or equals \".\" if the corresponding square is not painted (does not belong to set A). It is guaranteed that the set of all painted squares A is connected and isn't empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_036.jsonl",
+    "code_uid": "e9dce08673ebe48f1007ef3c91a107f7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n####\\n#..#\\n#..#\\n#..#\\n####\", \"5 5\\n#####\\n#...#\\n#####\\n#...#\\n#####\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import setrecursionlimit\nsetrecursionlimit(3000)\n\ndef main():\n    n,m = map(int, raw_input().split())\n    \n    S, total = [], 0\n    for i in xrange(n):\n        t = map(lambda s: 1 if s == \"#\" else 0, raw_input())\n        S.append(t)\n        total += sum(t)\n\n    if total in (1,2):\n        print -1\n        return\n\n    if total == 3:\n        print 1\n        return\n    \n    def f():\n        for i in xrange(n):\n            for j in xrange(m):\n                if S[i][j]: return (i,j)\n\n    def neibors(l,r):\n        for dl, dr in [(1,0), (0,1), (0,-1), (-1,0)]:\n            lk, rk = l+dl, r+dr\n            if (lk >= 0) and (rk >= 0) and (lk < n) and (rk < m) and S[lk][rk]:\n                yield (lk, rk)\n\n    first, used, tin, up = f(), set(), {}, {}\n    def dfs((l,r), timer, p):\n        used.add((l,r))\n        tin[(l,r)] = up[(l,r)] = timer\n        timer += 1\n        \n        childs = 0\n        for lk, rk in neibors(l,r):\n            if (lk,rk) == p: continue\n            if (lk,rk) in used:\n                up[(l,r)] = min(up[(l,r)], tin[(lk,rk)])\n            else:\n                timer = dfs((lk,rk), timer, (l,r))\n                up[(l,r)] = min(up[(l,r)], up[(lk,rk)])\n                if (up.get((lk, rk)) >= tin.get((l,r)) and p != -1):\n                    print 1\n                    exit(0)\n\n                childs += 1\n\n        if p == -1 and childs > 1:\n            print 1\n            exit(0)\n            \n        return timer\n    \n    dfs(first, 0, -1)\n    print 2\n    \nmain()",
+    "prob_desc_created_at": "1338737400",
+    "tags": [
+        "constructive algorithms",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

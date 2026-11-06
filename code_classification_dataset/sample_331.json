@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n1 2 4 5 7\", \"YES\\n1 2 5\"]",
+    "src_uid": "a559171e858d9a63c49fc9e0fecb44c7",
+    "prob_desc_notes": "NoteYou can read more about the bitwise-xor operation here: https://en.wikipedia.org/wiki/Bitwise_operation#XORFor the first sample .For the second sample .",
+    "prob_desc_description": "Mahmoud and Ehab are on the third stage of their adventures now. As you know, Dr. Evil likes sets. This time he won't show them any set from his large collection, but will ask them to create a new set to replenish his beautiful collection of sets.Dr. Evil has his favorite evil integer x. He asks Mahmoud and Ehab to find a set of n distinct non-negative integers such the bitwise-xor sum of the integers in it is exactly x. Dr. Evil doesn't like big numbers, so any number in the set shouldn't be greater than 106.",
+    "prob_desc_output_spec": "If there is no such set, print \"NO\" (without quotes). Otherwise, on the first line print \"YES\" (without quotes) and on the second line print n distinct integers, denoting the elements in the set is any order. If there are multiple solutions you can print any of them.",
+    "prob_desc_input_spec": "The only line contains two integers n and x (1 ≤ n ≤ 105, 0 ≤ x ≤ 105) — the number of elements in the set and the desired bitwise-xor, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_001.jsonl",
+    "code_uid": "836be621596a6ba1e35592809b64d039",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5\", \"3 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, x = input().split()\nn, x = int(n), int(x)\n\nm1 = 2 ** 17\nm2 = 2 ** 18\n\nif n == 2 and x == 0:\n    print(\"NO\")\nelif n == 1:\n    a = [x]\nelif n == 2 and x > 0:\n    a = [0, x]\nelse:\n    a = []\n    ans = 0\n    for i in range(1, n-2):\n        ans ^= i\n        a.append(i)\n    if ans == x:\n        a.append(m1)\n        a.append(m2)\n        a.append(m1+m2)\n    else:\n        a.append(m1)\n        a.append(m1 ^ x ^ ans)\n        a.append(0)\nif not (n == 2 and x == 0):\n    print(\"YES\")\n    print(\" \".join([str(e) for e in a]))\n",
+    "prob_desc_created_at": "1505833500",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

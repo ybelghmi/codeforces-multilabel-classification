@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"29\", \"34\"]",
+    "src_uid": "95689b68064e7c86af938094ee3acdc3",
+    "prob_desc_notes": "NoteIn the first example:   for $$$a=(9,1,10)$$$, $$$ans=19$$$ and $$$b=(9,10)$$$,  for $$$a=(9,10)$$$, $$$ans=10$$$ and $$$b=(10)$$$,  for $$$a=(10)$$$, $$$ans=0$$$. So the returned value is $$$19+10+0=29$$$.In the second example:   for $$$a=(5,8,7,1,9)$$$, $$$ans=25$$$ and $$$b=(8,8,9)$$$,  for $$$a=(8,8,9)$$$, $$$ans=9$$$ and $$$b=(9)$$$,  for $$$a=(9)$$$, $$$ans=0$$$. So the returned value is $$$25+9+0=34$$$.",
+    "prob_desc_description": "Given an array $$$a$$$ of $$$n$$$ integers and an integer $$$k$$$ ($$$2 \\le k \\le n$$$), where each element of the array is denoted by $$$a_i$$$ ($$$0 \\le i &lt; n$$$). Perform the operation $$$z$$$ given below on $$$a$$$ and print the value of $$$z(a,k)$$$ modulo $$$10^{9}+7$$$.function z(array a, integer k):    if length(a) &lt; k:        return 0    else:        b = empty array        ans = 0        for i = 0 .. (length(a) - k):            temp = a[i]            for j = i .. (i + k - 1):                temp = max(temp, a[j])            append temp to the end of b            ans = ans + temp        return ans + z(b, k)",
+    "prob_desc_output_spec": "Output the only integer, the value of $$$z(a,k)$$$ modulo $$$10^9+7$$$.",
+    "prob_desc_input_spec": "The first line of input contains two integers $$$n$$$ and $$$k$$$ ($$$2 \\le k \\le n \\le 10^6$$$) — the length of the initial array $$$a$$$ and the parameter $$$k$$$. The second line of input contains $$$n$$$ integers $$$a_0, a_1, \\ldots, a_{n - 1}$$$ ($$$1 \\le a_{i} \\le 10^9$$$) — the elements of the array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_002.jsonl",
+    "code_uid": "fb53a031a9d0d8a52cca5a09ed979eba",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n9 1 10\", \"5 3\\n5 8 7 1 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "mod=1000000007\nn, k=map(int, raw_input().split())\nd=k-1\na=[1000000000+1]+map(int, raw_input().split())+[1000000000+1]\nstack=[0]\nl=[None]*(n+2)\nfor i in xrange(1, n+1):\n\twhile a[stack[-1]]<a[i]:\n\t\tstack.pop()\n\tl[i]=stack[-1]+1\n\tstack+=[i]\nstack=[n+1]\nr=[None]*(n+2)\nfor i in xrange(n, 0, -1):\n\twhile a[stack[-1]]<=a[i]:\n\t\tstack.pop()\n\tr[i]=stack[-1]-1\n\tstack+=[i]\nresult=0\nfor i in xrange(1, n+1):\n\tx=i-l[i]\n\ty=r[i]-i\n\tc_x=x/d+1\n\tc_y=y/d+1\n\tc_xy=(x+y+1)/d+1\n\t#max(y+1+min(x, j*d)-max(y, j*d), 0)\n\tcoeff=(y+1)*c_xy+d*c_x*(c_x-1)/2+(c_xy-c_x)*x-c_y*y-(c_xy*(c_xy-1)/2-c_y*(c_y-1)/2)*d\n\tresult=(result+coeff%mod*a[i])%mod\nprint (result-sum(a[1: n+1]))%mod\n",
+    "prob_desc_created_at": "1535898900",
+    "tags": [
+        "data structures",
+        "combinatorics",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

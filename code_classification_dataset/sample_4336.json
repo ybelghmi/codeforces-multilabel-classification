@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n1 3\\n3 2\\n3 1\", \"0\"]",
+    "src_uid": "e4dc319588cc8eca6a5c3d824e504c22",
+    "prob_desc_notes": "NoteLet coin $$$i$$$ facing upwards be denoted as $$$i$$$ and coin $$$i$$$ facing downwards be denoted as $$$-i$$$.The series of moves performed in the first sample changes the coins as such:  $$$[~~~2,~~~1,~~~3]$$$  $$$[-3,~~~1,-2]$$$  $$$[-3,~~~2,-1]$$$  $$$[~~~1,~~~2,~~~3]$$$ In the second sample, the coins are already in their correct positions so there is no need to swap.",
+    "prob_desc_description": "There are $$$n$$$ coins labeled from $$$1$$$ to $$$n$$$. Initially, coin $$$c_i$$$ is on position $$$i$$$ and is facing upwards (($$$c_1, c_2, \\dots, c_n)$$$ is a permutation of numbers from $$$1$$$ to $$$n$$$). You can do some operations on these coins. In one operation, you can do the following:Choose $$$2$$$ distinct indices $$$i$$$ and $$$j$$$.Then, swap the coins on positions $$$i$$$ and $$$j$$$.Then, flip both coins on positions $$$i$$$ and $$$j$$$. (If they are initially faced up, they will be faced down after the operation and vice versa)Construct a sequence of at most $$$n+1$$$ operations such that after performing all these operations the coin $$$i$$$ will be on position $$$i$$$ at the end, facing up.Note that you do not need to minimize the number of operations.",
+    "prob_desc_output_spec": "In the first line, output an integer $$$q$$$ $$$(0 \\leq q \\leq n+1)$$$ — the number of operations you used. In the following $$$q$$$ lines, output two integers $$$i$$$ and $$$j$$$ $$$(1 \\leq i, j \\leq n, i \\ne j)$$$ — the positions you chose for the current operation.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$3 \\leq n \\leq 2 \\cdot 10^5$$$) — the number of coins. The second line contains $$$n$$$ integers $$$c_1,c_2,\\dots,c_n$$$ ($$$1 \\le c_i \\le n$$$, $$$c_i \\neq c_j$$$ for $$$i\\neq j$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_095.jsonl",
+    "code_uid": "0bc3f723083d60933a9affb01c4deb52",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 1 3\", \"5\\n1 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def swap(i, j):\r\n    graph[i], graph[j] = -graph[j], -graph[i]\r\n    ans.append((i, j))\r\n\r\ndef solve_pair(x, y):\r\n    swap(x, y)\r\n    i = x\r\n    while (graph[-graph[i]] > 0):\r\n        swap(i, -graph[i])\r\n    i = -graph[i]\r\n    while (graph[-graph[i]] > 0):\r\n        swap(i, -graph[i])\r\n    swap(i, -graph[i])\r\n\r\nn = int(input())\r\nj = 1\r\ngraph = [0]\r\nsolved = set()\r\nfor i in input().split():\r\n    graph.append(int(i))\r\n    if (int(i) == j):\r\n        solved.add(j)\r\n    j+=1\r\n\r\nans = []\r\ncycles = set()\r\n\r\nfor x in range(1, n+1):\r\n    if not (x in solved):\r\n        i = x\r\n        solved.add(i)\r\n        i = graph[i]\r\n        while (i != x):\r\n            solved.add(i)\r\n            i = graph[i]\r\n        cycles.add(i)\r\n\r\nwhile (len(cycles) > 1):\r\n    solve_pair(cycles.pop(), cycles.pop())\r\n\r\nif (len(cycles) == 1):\r\n    j = 1\r\n    while (not (j == n+1 or j == graph[j])):\r\n        j+=1\r\n    \r\n    if (j != n+1):\r\n        solve_pair(j, cycles.pop())\r\n    else:\r\n        i, j = graph[1], graph[graph[1]]\r\n        swap(1, graph[1])\r\n        solve_pair(i, j)\r\n\r\nprint(len(ans))\r\nfor i in ans:\r\n    print(i[0], i[1])",
+    "prob_desc_created_at": "1614519300",
+    "tags": [
+        "constructive algorithms",
+        "graphs",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

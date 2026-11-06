@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"0 1 2\", \"0 1 2 3 4\", \"0 1 2 1 2 3 3\"]",
+    "src_uid": "d465aec304757dff34a770f7877dd940",
+    "prob_desc_notes": "NoteIn the first sample case desired sequences are:1: 1; m1 = 0;2: 1, 2; m2 = 1;3: 1, 3; m3 = |3 - 1| = 2.In the second sample case the sequence for any intersection 1 &lt; i is always 1, i and mi = |1 - i|.In the third sample case — consider the following intersection sequences:1: 1; m1 = 0;2: 1, 2; m2 = |2 - 1| = 1;3: 1, 4, 3; m3 = 1 + |4 - 3| = 2;4: 1, 4; m4 = 1;5: 1, 4, 5; m5 = 1 + |4 - 5| = 2;6: 1, 4, 6; m6 = 1 + |4 - 6| = 3;7: 1, 4, 5, 7; m7 = 1 + |4 - 5| + 1 = 3.",
+    "prob_desc_description": "Recently, Mike was very busy with studying for exams and contests. Now he is going to chill a bit by doing some sight seeing in the city.City consists of n intersections numbered from 1 to n. Mike starts walking from his house located at the intersection number 1 and goes along some sequence of intersections. Walking from intersection number i to intersection j requires |i - j| units of energy. The total energy spent by Mike to visit a sequence of intersections p1 = 1, p2, ..., pk is equal to  units of energy.Of course, walking would be boring if there were no shortcuts. A shortcut is a special path that allows Mike walking from one intersection to another requiring only 1 unit of energy. There are exactly n shortcuts in Mike's city, the ith of them allows walking from intersection i to intersection ai (i ≤ ai ≤ ai + 1) (but not in the opposite direction), thus there is exactly one shortcut starting at each intersection. Formally, if Mike chooses a sequence p1 = 1, p2, ..., pk then for each 1 ≤ i &lt; k satisfying pi + 1 = api and api ≠ pi Mike will spend only 1 unit of energy instead of |pi - pi + 1| walking from the intersection pi to intersection pi + 1. For example, if Mike chooses a sequence p1 = 1, p2 = ap1, p3 = ap2, ..., pk = apk - 1, he spends exactly k - 1 units of total energy walking around them.Before going on his adventure, Mike asks you to find the minimum amount of energy required to reach each of the intersections from his home. Formally, for each 1 ≤ i ≤ n Mike is interested in finding minimum possible total energy of some sequence p1 = 1, p2, ..., pk = i.",
+    "prob_desc_output_spec": "In the only line print n integers m1, m2, ..., mn, where mi denotes the least amount of total energy required to walk from intersection 1 to intersection i.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 200 000) — the number of Mike's city intersection. The second line contains n integers a1, a2, ..., an (i ≤ ai ≤ n , , describing shortcuts of Mike's city, allowing to walk from intersection i to intersection ai using only 1 unit of energy. Please note that the shortcuts don't allow walking in opposite directions (from ai to i).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_000.jsonl",
+    "code_uid": "87576c2756b9354a9b092324994d4cd5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 2 3\", \"5\\n1 2 3 4 5\", \"7\\n4 4 4 4 7 7 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from Queue import Queue\n\nn = int(raw_input())\nlist = map(int, raw_input().split())\n\nadj = []\ndist = []\n\nfor i in xrange(n): \n\tadj.append([])\n\tdist.append(10**9)\n\t\nfor i in xrange(n-1):\n\tadj[i].append(i+1)\n\tadj[i+1].append(i)\n\t\nfor i in xrange(n):\n\telement = list[i]\n\tif (element-1 != i and element != 0 and element-2 != i) :\n\t\tadj[i].append(list[i]-1)\n\ndef bfs(ind) :\n\tq = Queue()\n\tq.put(ind)\n\tdist[ind] = 0\n\twhile not q.empty():\n\t\tv = q.get()\t\n\t\tfor vizinho in adj[v] :\n\t\t\tif (dist[vizinho] > dist[v] +1) :\n\t\t\t\tdist[vizinho] = dist[v] +1\n\t\t\t\t#print v\n\t\t\t\t#print str(vizinho) + \" \" + str(dist[v] +1)\n\t\t\t\tq.put(vizinho)\nbfs(0)\nresult = \"\"\nfor x in xrange(n):\n\tif (x == n-1) :\n\t\tresult += str(dist[x])\n\telse :\n\t\tresult += str(dist[x]) + \" \"\nprint result\n",
+    "prob_desc_created_at": "1467822900",
+    "tags": [
+        "graphs",
+        "dfs and similar",
+        "greedy",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

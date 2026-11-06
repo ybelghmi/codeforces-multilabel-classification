@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 2 12\", \"3\\n1 1 2\", \"2\\n1 2\"]",
+    "src_uid": "ecda878d924325789dc05035e4f4bbe0",
+    "prob_desc_notes": "NoteIn the first case, the optimal subset is , which has mean 5, median 2, and simple skewness of 5 - 2 = 3.In the second case, the optimal subset is . Note that repetition is allowed.In the last case, any subset has the same median and mean, so all have simple skewness of 0.",
+    "prob_desc_description": "Define the simple skewness of a collection of numbers to be the collection's mean minus its median. You are given a list of n (not necessarily distinct) integers. Find the non-empty subset (with repetition) with the maximum simple skewness.The mean of a collection is the average of its elements. The median of a collection is its middle element when all of its elements are sorted, or the average of its two middle elements if it has even size.",
+    "prob_desc_output_spec": "In the first line, print a single integer k — the size of the subset. In the second line, print k integers — the elements of the subset in any order. If there are multiple optimal subsets, print any.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 200 000) — the number of elements in the list. The second line contains n integers xi (0 ≤ xi ≤ 1 000 000) — the ith element of the list.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_044.jsonl",
+    "code_uid": "45dbb00f4cd7843160bda258d8a28b8b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2 3 12\", \"4\\n1 1 2 2\", \"2\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from itertools import accumulate\nfrom fractions import Fraction\n\nn = int(input())\nA = [int(x) for x in input().split()]\nA.sort()\nB = list(accumulate([0] + A))\ndef condition(i, z):\n    return (2*z - 1)*(A[i-z] + A[-z]) > 2*(B[i+1] - B[i-z+1] + B[-1] - B[-z])\ndef average(i, z):\n    return Fraction((B[i+1] - B[i-z] + B[-1] - B[-z-1]) , 2*z + 1)\nmaxans = 0\nargmax = (0, 0)\nfor i in range(1, n-1):\n    x, y = 0, min(i, n-1-i)\n    while y - x > 1:\n        z = (x + y)//2\n        if condition(i, z):\n            x = z\n        else:\n            y = z\n    if condition(i, y): x = y\n    if maxans < average(i, x) - A[i]:\n        maxans = average(i, x) - A[i]\n        argmax = (i, x)\nprint(argmax[1]*2 + 1)\nfor i in range(argmax[0] - argmax[1], argmax[0] + 1):\n    print(A[i], end = ' ')\nfor i in range(-argmax[1], 0):\n    print(A[i], end = ' ')\n\n    \n",
+    "prob_desc_created_at": "1455384900",
+    "tags": [
+        "binary search",
+        "ternary search",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

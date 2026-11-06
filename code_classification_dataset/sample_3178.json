@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"138.23007676\", \"289.02652413\"]",
+    "src_uid": "56a13208f0a9b2fad23756f39acd64af",
+    "prob_desc_notes": "NoteThe first sample corresponds to the illustrations in the legend.",
+    "prob_desc_description": "The crowdedness of the discotheque would never stop our friends from having fun, but a bit more spaciousness won't hurt, will it?The discotheque can be seen as an infinite xy-plane, in which there are a total of n dancers. Once someone starts moving around, they will move only inside their own movement range, which is a circular area Ci described by a center (xi, yi) and a radius ri. No two ranges' borders have more than one common point, that is for every pair (i, j) (1 ≤ i &lt; j ≤ n) either ranges Ci and Cj are disjoint, or one of them is a subset of the other. Note that it's possible that two ranges' borders share a single common point, but no two dancers have exactly the same ranges.Tsukihi, being one of them, defines the spaciousness to be the area covered by an odd number of movement ranges of dancers who are moving. An example is shown below, with shaded regions representing the spaciousness if everyone moves at the same time.  But no one keeps moving for the whole night after all, so the whole night's time is divided into two halves — before midnight and after midnight. Every dancer moves around in one half, while sitting down with friends in the other. The spaciousness of two halves are calculated separately and their sum should, of course, be as large as possible. The following figure shows an optimal solution to the example above.  By different plans of who dances in the first half and who does in the other, different sums of spaciousness over two halves are achieved. You are to find the largest achievable value of this sum.",
+    "prob_desc_output_spec": "Output one decimal number — the largest achievable sum of spaciousness over two halves of the night. The output is considered correct if it has a relative or absolute error of at most 10 - 9. Formally, let your answer be a, and the jury's answer be b. Your answer is considered correct if .",
+    "prob_desc_input_spec": "The first line of input contains a positive integer n (1 ≤ n ≤ 1 000) — the number of dancers. The following n lines each describes a dancer: the i-th line among them contains three space-separated integers xi, yi and ri ( - 106 ≤ xi, yi ≤ 106, 1 ≤ ri ≤ 106), describing a circular movement range centered at (xi, yi) with radius ri.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_045.jsonl",
+    "code_uid": "7d44e8f59c58fe1cfbef6f9ddda3c967",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 1 6\\n0 4 1\\n2 -1 3\\n1 -2 1\\n4 -1 1\", \"8\\n0 0 1\\n0 0 2\\n0 0 3\\n0 0 4\\n0 0 5\\n0 0 6\\n0 0 7\\n0 0 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nimport math\n\nclass circ:\n\tdef __init__(self, x, y, r):\n\t\tself.x = x*1.0\n\t\tself.y = y*1.0\n\t\tself.r = r*1.0\n\nn = 0\nn = int(input())\nvec = []\nfor i in range(n):\n\tst = input().split(' ')\n\ta = int(st[0])\n\tb = int(st[1])\n\tc = int(st[2])\n\tvec.append(circ(a,b,c))\n\ngr = [[] for i in range(n)]\npad = [-1 for i in range(n)]\nvis = [False for i in range(n)]\n\nfor i in range(n):\n\tfor k in range(n):\n\t\tif i == k:\n\t\t\tcontinue\n\t\tdist = math.hypot(vec[i].x - vec[k].x, vec[i].y - vec[k].y)\n\t\tif (dist < vec[k].r\n\t\t\tand vec[k].r > vec[i].r\n\t\t\tand (pad[i] < 0 or vec[k].r < vec[pad[i]].r)):\n\t\t\tpad[i] = k\n\nfor i in range(n):\n\tif pad[i] < 0:\n\t\tcontinue\n\tgr[pad[i]].append(i)\n\nst = []\nans = 0.0\nfor i in range(n):\n\tif pad[i] >= 0 or vis[i]:\n\t\tcontinue\n\tst.append((i, 0))\n\twhile len(st) > 0:\n\t\tnode, level = st.pop()\n\t\tvis[node] = True\n\t\tmult = -1.0\n\t\tif level == 0 or level%2 == 1:\n\t\t\tmult = 1.0\n\t\tans += (mult * (vec[node].r * vec[node].r * math.pi))\n\t\tfor next in gr[node]:\n\t\t\tst.append((next, level+1))\n\nprint(ans)\n\n\n\n\n\n",
+    "prob_desc_created_at": "1496837700",
+    "tags": [
+        "dp",
+        "geometry",
+        "greedy",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,33 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"dbcadabcdbcadabc\", \"aaaaa\"]",
+    "src_uid": "87f64b4d5baca4b80162ae6075110b00",
+    "prob_desc_notes": "NoteIn the first test, it is optimal to make one duplication: \"dbcadabc\" $$$\\to$$$ \"dbcadabcdbcadabc\".In the second test it is optimal to delete the last $$$3$$$ characters, then duplicate the string $$$3$$$ times, then delete the last $$$3$$$ characters to make the string have length $$$k$$$.\"abcd\" $$$\\to$$$ \"abc\" $$$\\to$$$ \"ab\" $$$\\to$$$ \"a\" $$$\\to$$$ \"aa\" $$$\\to$$$ \"aaaa\" $$$\\to$$$ \"aaaaaaaa\" $$$\\to$$$ \"aaaaaaa\" $$$\\to$$$ \"aaaaaa\" $$$\\to$$$ \"aaaaa\".",
+    "prob_desc_description": "This is the easy version of the problem. The only difference is the constraints on $$$n$$$ and $$$k$$$. You can make hacks only if all versions of the problem are solved.You have a string $$$s$$$, and you can do two types of operations on it:   Delete the last character of the string.  Duplicate the string: $$$s:=s+s$$$, where $$$+$$$ denotes concatenation. You can use each operation any number of times (possibly none).Your task is to find the lexicographically smallest string of length exactly $$$k$$$ that can be obtained by doing these operations on string $$$s$$$.A string $$$a$$$ is lexicographically smaller than a string $$$b$$$ if and only if one of the following holds:  $$$a$$$ is a prefix of $$$b$$$, but $$$a\\ne b$$$;  In the first position where $$$a$$$ and $$$b$$$ differ, the string $$$a$$$ has a letter that appears earlier in the alphabet than the corresponding letter in $$$b$$$. ",
+    "prob_desc_output_spec": "Print the lexicographically smallest string of length $$$k$$$ that can be obtained by doing the operations on string $$$s$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$, $$$k$$$ ($$$1 \\leq n, k \\leq 5000$$$) — the length of the original string $$$s$$$ and the length of the desired string. The second line contains the string $$$s$$$, consisting of $$$n$$$ lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_084.jsonl",
+    "code_uid": "c6a3c2f86764a668eff2348ce7c8057f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8 16\\ndbcadabc\", \"4 5\\nabcd\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ndata1 = sys.stdin.read()\r\nimport copy\r\nimport math\r\ndata = data1.split(\"\\n\")\r\nf1 = data[0].split(' ')\r\nn = int(f1[0])\r\nk = f1[1]\r\nstring1 = list(data[1])\r\nstring1.append(\" \")\r\nfinal = list()\r\ndef check():\r\n    for t in range(0, n - 1):\r\n        if t == n-1:\r\n            return t\r\n        if ord(string1[t]) >= ord(string1[t + 1]) :\r\n            final.extend(string1[t])\r\n        else:\r\n            return t\r\n    return n-1\r\n##already get initial array\r\ndef check1(x):\r\n    flag = True\r\n    if x == 0:\r\n        final.append(string1[0])\r\n        return final\r\n    for t in range(x, n):\r\n        if flag == False:\r\n            if p1 >= int(n):\r\n                return final\r\n            p1 += 1\r\n            t = copy.copy(p1)\r\n        if ord(string1[0]) > ord(string1[t]):\r\n            final.extend(string1[t])\r\n        elif ord(string1[0]) == ord(string1[t]):\r\n            p2 = 0\r\n            while ord(string1[p2]) == ord(string1[t]):\r\n                p2+=1\r\n                t+=1\r\n            p1 = copy.copy(t)\r\n            if(string1[p2] > string1[t]):\r\n                final.extend(string1[t - p2:t+1])\r\n                flag = False\r\n            else:\r\n                return final\r\n            #compare the second number\r\n        elif ord(string1[0]) < ord(string1[t]):\r\n            return final\r\n    return final\r\np3 = check1(check())\r\nif ' ' in p3:\r\n    p3.remove(' ')\r\nif len(p3) > 1:\r\n    if p3[0]==p3[len(p3)-1]:\r\n        p5 = 0\r\n        p6 = copy.copy(p3[0])\r\n        while p3[p5] == p6 and p3[len(p3)-1-p5]== p6 and p5<math.ceil(len(p3)/2):\r\n            p5 +=1\r\n        p3 = p3[0:len(p3)-p5]\r\n\r\n\r\np3 = p3*math.ceil(int(k)/len(p3))\r\np4 = ''.join(p3[0:int(k)])\r\nprint(p4)\r\n\r\n\r\n\r\n",
+    "prob_desc_created_at": "1624026900",
+    "tags": [
+        "binary search",
+        "brute force",
+        "dp",
+        "greedy",
+        "hashing",
+        "implementation",
+        "string suffix structures",
+        "strings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

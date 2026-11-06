@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"33\"]",
+    "src_uid": "752c583a1773847504bf0d50b72a9dda",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a string $$$t$$$ and $$$n$$$ strings $$$s_1, s_2, \\dots, s_n$$$. All strings consist of lowercase Latin letters.Let $$$f(t, s)$$$ be the number of occurences of string $$$s$$$ in string $$$t$$$. For example, $$$f('\\text{aaabacaa}', '\\text{aa}') = 3$$$, and $$$f('\\text{ababa}', '\\text{aba}') = 2$$$.Calculate the value of $$$\\sum\\limits_{i=1}^{n} \\sum\\limits_{j=1}^{n} f(t, s_i + s_j)$$$, where $$$s + t$$$ is the concatenation of strings $$$s$$$ and $$$t$$$. Note that if there are two pairs $$$i_1$$$, $$$j_1$$$ and $$$i_2$$$, $$$j_2$$$ such that $$$s_{i_1} + s_{j_1} = s_{i_2} + s_{j_2}$$$, you should include both $$$f(t, s_{i_1} + s_{j_1})$$$ and $$$f(t, s_{i_2} + s_{j_2})$$$ in answer.",
+    "prob_desc_output_spec": "Print one integer — the value of $$$\\sum\\limits_{i=1}^{n} \\sum\\limits_{j=1}^{n} f(t, s_i + s_j)$$$.",
+    "prob_desc_input_spec": "The first line contains string $$$t$$$ ($$$1 \\le |t| \\le 2 \\cdot 10^5$$$). The second line contains integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$). Each of next $$$n$$$ lines contains string $$$s_i$$$ ($$$1 \\le |s_i| \\le 2 \\cdot 10^5$$$). It is guaranteed that $$$\\sum\\limits_{i=1}^{n} |s_i| \\le 2 \\cdot 10^5$$$. All strings consist of lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_020.jsonl",
+    "code_uid": "b2043da40b924804c23ad7008741cb1c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"aaabacaa\\n2\\na\\naa\", \"aaabacaa\\n4\\na\\na\\na\\nb\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import division, print_function\n\nfrom collections import deque\nclass Node:\n    def __init__(self, c, nxt, fail, o):\n        self.c = c\n        self.nxt = nxt\n        self.fail = fail\n        self.o = o\n\nroot = Node('', {}, Node, 0)\nroot.fail = root\n\ndef new_node(par, c):\n    node = Node(c, {}, root, 0)\n    par.nxt[c] = node\n    return node\n\ndef go(n, c):\n    while True:\n        try:\n            return n.nxt[c]\n        except KeyError:\n            if n != root:\n                n = n.fail\n            else:\n                return root\n\ndef build(ps):\n    for i, p in enumerate(ps):\n        n = root\n        for c in p:\n            try:\n                n = n.nxt[c]\n            except KeyError:\n                n = new_node(n, c)\n        n.o += 1\n\n    q = deque([root])\n    while q:\n        n = q.popleft()\n        for c, cn in n.nxt.iteritems():\n            q.append(cn)\n            if n == root:\n                cn.fail = root\n            else:\n                cn.fail = go(n.fail, c)\n            cn.o += cn.fail.o\n\ndef query(s, ar):\n    n = root\n    for i, c in enumerate(s):\n        n = go(n, c)\n        ar[i] += n.o\n\ndef main():\n    s = input()\n    ps = [input() for _ in range(int(input()))]\n\n    build(ps)\n    far = array_of(int, len(s))\n    query(s, far)\n\n    root.nxt = {}\n    root.o = 0\n\n    rps = [list(reversed(ss)) for ss in ps]\n    rs = list(reversed(s))\n\n    build(rps)\n    bar = array_of(int, len(rs))\n    query(rs, bar)\n\n    ans = 0\n    for i in range(len(s)-1):\n        ans += bar[i] * far[len(s)-2-i]\n    print(ans)\n \nINF = float('inf')\nMOD = 10**9 + 7\n \nimport os, sys\nfrom atexit import register\nfrom io import BytesIO\nimport itertools\n \nif sys.version_info[0] < 3:\n    input = raw_input\n    range = xrange\n \n    filter = itertools.ifilter\n    map = itertools.imap\n    zip = itertools.izip\n \nif 0:\n    debug_print = print\nelse:\n    sys.stdin = BytesIO(os.read(0, os.fstat(0).st_size))\n    sys.stdout = BytesIO()\n    register(lambda: os.write(1, sys.stdout.getvalue()))\n \n    input = lambda: sys.stdin.readline().rstrip('\\r\\n')\n    debug_print = lambda *x, **y: None\n \n \ndef input_as_list():\n    return list(map(int, input().split()))\n \ndef array_of(f, *dim):\n    return [array_of(f, *dim[1:]) for _ in range(dim[0])] if dim else f()\n \nmain()",
+    "prob_desc_created_at": "1565188500",
+    "tags": [
+        "string suffix structures",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"6\"]",
+    "src_uid": "0df33cd53575471b1cc20702bf777059",
+    "prob_desc_notes": "NoteIn the first sample, $$$6$$$ can be increased twice. The array will transform to $$$8, 5, 8$$$, which becomes $$$5, 8, 8$$$ after sorting, hence the median is equal to $$$8$$$.In the second sample, $$$19$$$ can be increased once and $$$15$$$ can be increased five times. The array will become equal to $$$21, 20, 12, 11, 20, 20, 12$$$. If we sort this array we get $$$11, 12, 12, 20, 20, 20, 21$$$, this way the median is $$$20$$$.",
+    "prob_desc_description": "You are given an array $$$a$$$ of $$$n$$$ integers and an integer $$$s$$$. It is guaranteed that $$$n$$$ is odd.In one operation you can either increase or decrease any single element by one. Calculate the minimum number of operations required to make the median of the array being equal to $$$s$$$.The median of the array with odd length is the value of the element which is located on the middle position after the array is sorted. For example, the median of the array $$$6, 5, 8$$$ is equal to $$$6$$$, since if we sort this array we will get $$$5, 6, 8$$$, and $$$6$$$ is located on the middle position.",
+    "prob_desc_output_spec": "In a single line output the minimum number of operations to make the median being equal to $$$s$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$s$$$ ($$$1\\le n\\le 2\\cdot 10^5-1$$$, $$$1\\le s\\le 10^9$$$) — the length of the array and the required value of median. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1\\le a_i \\le 10^9$$$) — the elements of the array $$$a$$$. It is guaranteed that $$$n$$$ is odd.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_000.jsonl",
+    "code_uid": "e79bd071a9e47616737e0314b7ac4de7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 8\\n6 5 8\", \"7 20\\n21 15 12 11 20 19 12\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, s = [int(x) for x in input().split()]\na = [int(x) for x in input().split()]\na.sort()\nm = n // 2\nme = a[m]\nct = m\nif me == s:\n    print(0)\n    exit(0)\nelif me < s:\n    while ct < n and a[ct] < s:\n        ct += 1\n    ds = sum([(x-s) for x in a[m:ct:1]])\nelif me > s:\n    while ct >= 0 and a[ct] > s:\n        ct -= 1\n    ds = sum([(x-s) for x in a[ct+1:m+1:1]])\nprint(abs(ds))\n",
+    "prob_desc_created_at": "1535898900",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

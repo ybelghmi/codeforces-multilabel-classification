@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n1 2 1\", \"YES\\n2 3 2 1 2\"]",
+    "src_uid": "f097cc7057bb9a6b9fc1d2a11ee99835",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Evlampiy was gifted a rooted tree. The vertices of the tree are numbered from $$$1$$$ to $$$n$$$. Each of its vertices also has an integer $$$a_i$$$ written on it. For each vertex $$$i$$$, Evlampiy calculated $$$c_i$$$ — the number of vertices $$$j$$$ in the subtree of vertex $$$i$$$, such that $$$a_j &lt; a_i$$$. Illustration for the second example, the first integer is $$$a_i$$$ and the integer in parentheses is $$$c_i$$$After the new year, Evlampiy could not remember what his gift was! He remembers the tree and the values of $$$c_i$$$, but he completely forgot which integers $$$a_i$$$ were written on the vertices.Help him to restore initial integers!",
+    "prob_desc_output_spec": "If a solution exists, in the first line print \"YES\", and in the second line output $$$n$$$ integers $$$a_i$$$ $$$(1 \\leq a_i \\leq {10}^{9})$$$. If there are several solutions, output any of them. One can prove that if there is a solution, then there is also a solution in which all $$$a_i$$$ are between $$$1$$$ and $$$10^9$$$. If there are no solutions, print \"NO\".",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ $$$(1 \\leq n \\leq 2000)$$$ — the number of vertices in the tree. The next $$$n$$$ lines contain descriptions of vertices: the $$$i$$$-th line contains two integers $$$p_i$$$ and $$$c_i$$$ ($$$0 \\leq p_i \\leq n$$$; $$$0 \\leq c_i \\leq n-1$$$), where $$$p_i$$$ is the parent of vertex $$$i$$$ or $$$0$$$ if vertex $$$i$$$ is root, and $$$c_i$$$ is the number of vertices $$$j$$$ in the subtree of vertex $$$i$$$, such that $$$a_j &lt; a_i$$$. It is guaranteed that the values of $$$p_i$$$ describe a rooted tree with $$$n$$$ vertices.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_005.jsonl",
+    "code_uid": "e90e7a54127337b2cce02c51de519a8e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 0\\n0 2\\n2 0\", \"5\\n0 1\\n1 3\\n2 1\\n3 0\\n2 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# https://codeforces.com/contest/1287/problem/D\n\ndef push(g, u, v):\n    if u not in g:\n        g[u] = []\n    g[u].append(v)    \n    \ndef build():\n    S     = [root]\n    i     = 0\n    order = {}\n    \n    while i < len(S):\n        u = S[i]\n        if u in g:\n            for v in g[u]:\n                S.append(v)\n        i+=1            \n        \n    for u in S[::-1]:\n        order[u] = []\n        flg=False\n        \n        if u not in g:\n            if cnt[u]==0:\n                order[u].append(u)\n                flg=True\n            else:\n                return False, root, order\n        else:\n            cur = 0\n            for v in g[u]:\n                for x in order[v]:\n                    if cur==cnt[u]:\n                        flg=True\n                        order[u].append(u)\n                        cur+=1    \n                    order[u].append(x)    \n                    cur+=1\n                    \n        if flg == False:\n            if cnt[u] > len(order[u]):\n                return False, root, order\n            else:\n                order[u].append(u)\n            \n    return True, root, order\n\nn    = int(input()) \ng    = {} \ncnt  = {}\n\nfor i in range(1, n+1):\n    p, c     = map(int, input().split())\n    cnt[i]   = c   \n    \n    if p==0:\n        root = i\n    else:\n        push(g, p, i)\n\nflg, root, order = build()\nif flg==False:\n    print('NO')\nelse:\n    ans = [-1] * n\n    for val, u in zip(list(range(n)), order[root]):\n        ans[u-1] = val + 1\n    print('YES')\n    print(' '.join([str(x) for x in ans]))\n    \n#5\n#0 1\n#1 3\n#2 1\n#3 0\n#2 0\n\n#3\n#2 0\n#0 2\n#2 0",
+    "prob_desc_created_at": "1578233100",
+    "tags": [
+        "graphs",
+        "constructive algorithms",
+        "data structures",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"1\", \"33\", \"4\"]",
+    "src_uid": "3b2d0d396649a200a73faf1b930ef611",
+    "prob_desc_notes": "NoteIn the first example, an example set of optimal cuts on the number is 3|1|21.In the second example, you do not need to make any cuts. The specified number 6 forms one number that is divisible by $$$3$$$.In the third example, cuts must be made between each pair of digits. As a result, Polycarp gets one digit 1 and $$$33$$$ digits 0. Each of the $$$33$$$ digits 0 forms a number that is divisible by $$$3$$$.In the fourth example, an example set of optimal cuts is 2|0|1|9|201|81. The numbers $$$0$$$, $$$9$$$, $$$201$$$ and $$$81$$$ are divisible by $$$3$$$.",
+    "prob_desc_description": "Polycarp likes numbers that are divisible by 3.He has a huge number $$$s$$$. Polycarp wants to cut from it the maximum number of numbers that are divisible by $$$3$$$. To do this, he makes an arbitrary number of vertical cuts between pairs of adjacent digits. As a result, after $$$m$$$ such cuts, there will be $$$m+1$$$ parts in total. Polycarp analyzes each of the obtained numbers and finds the number of those that are divisible by $$$3$$$.For example, if the original number is $$$s=3121$$$, then Polycarp can cut it into three parts with two cuts: $$$3|1|21$$$. As a result, he will get two numbers that are divisible by $$$3$$$.Polycarp can make an arbitrary number of vertical cuts, where each cut is made between a pair of adjacent digits. The resulting numbers cannot contain extra leading zeroes (that is, the number can begin with 0 if and only if this number is exactly one character '0'). For example, 007, 01 and 00099 are not valid numbers, but 90, 0 and 10001 are valid.What is the maximum number of numbers divisible by $$$3$$$ that Polycarp can obtain?",
+    "prob_desc_output_spec": "Print the maximum number of numbers divisible by $$$3$$$ that Polycarp can get by making vertical cuts in the given number $$$s$$$.",
+    "prob_desc_input_spec": "The first line of the input contains a positive integer $$$s$$$. The number of digits of the number $$$s$$$ is between $$$1$$$ and $$$2\\cdot10^5$$$, inclusive. The first (leftmost) digit is not equal to 0.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_003.jsonl",
+    "code_uid": "e29069371d94680350803d2319e718ff",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3121\", \"6\", \"1000000000000000000000000000000000\", \"201920181\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nsys.setrecursionlimit(10000)\n# default is 1000 in python\n\n# increase stack size as well (for hackerrank)\n# import resource\n# resource.setrlimit(resource.RLIMIT_STACK, (resource.RLIM_INFINITY, resource.RLIM_INFINITY))\n\n\n# t = int(input())\nt = 1\n\nfor _ in range(t):\n\ts = input()\n\n\tno = ''\n\tcount = 0\n\tfor i in s:\n\t\tif int(i) % 3 == 0:\n\t\t\tcount += 1\n\t\t\tno = ''\n\t\telse:\t\n\t\t\tno += i \n\t\t\tif int(no) % 3 == 0:\n\t\t\t\tcount += 1\n\t\t\t\tno = ''\n\t\t\telif int(no[-2:]) % 3 == 0:\n\t\t\t\tcount += 1\n\t\t\t\tno = ''\n\n\tprint(count)\n\n# try:\n\t# raise Exception\n# except:\n\t# print(\"-1\")\n\n\n# from itertools import combinations \n# all_combs = list(combinations(range(N), r))\n\n\n\n# from collections import OrderedDict \n# mydict = OrderedDict() \n\n\n# thenos.sort(key=lambda x: x[2], reverse=True)\n\n\n# int(math.log(max(numbers)+1,2))\n\n\n# 2**3 (power)\n\n\n# a,t = (list(x) for x in zip(*sorted(zip(a, t))))\n\n\n# to copy lists use:\n# import copy\n# copy.deepcopy(listname)\n\n# pow(p, si, 1000000007) for modular exponentiation\n\n\n# my_dict.pop('key', None)\n# This will return my_dict[key] if key exists in the dictionary, and None otherwise.\n\n\n# bin(int('010101', 2))\n\n# Binary Search\n# from bisect import bisect_right\n# i = bisect_right(a, ins)\n",
+    "prob_desc_created_at": "1531150500",
+    "tags": [
+        "dp",
+        "number theory",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

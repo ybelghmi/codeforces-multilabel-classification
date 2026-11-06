@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"15\", \"7\"]",
+    "src_uid": "2090c7382ef9bc8dfd9ca1fc1743d3a7",
+    "prob_desc_notes": "NoteIn the second sample the only optimal answer is to use two circles: a circle with $$$5$$$ chairs accomodating guests $$$1$$$ and $$$2$$$, and another one with $$$10$$$ chairs accomodationg guests $$$3$$$ and $$$4$$$.In the third sample, you have only one circle with one person. The guest should have at least five free chairs to his left, and at least six free chairs to his right to the next person, which is in this case the guest herself. So, overall number of chairs should be at least 6+1=7.",
+    "prob_desc_description": "You invited $$$n$$$ guests to dinner! You plan to arrange one or more circles of chairs. Each chair is going to be either occupied by one guest, or be empty. You can make any number of circles. Your guests happen to be a little bit shy, so the $$$i$$$-th guest wants to have a least $$$l_i$$$ free chairs to the left of his chair, and at least $$$r_i$$$ free chairs to the right. The \"left\" and \"right\" directions are chosen assuming all guests are going to be seated towards the center of the circle. Note that when a guest is the only one in his circle, the $$$l_i$$$ chairs to his left and $$$r_i$$$ chairs to his right may overlap.What is smallest total number of chairs you have to use?",
+    "prob_desc_output_spec": "Output a single integer — the smallest number of chairs you have to use.",
+    "prob_desc_input_spec": "First line contains one integer $$$n$$$  — number of guests, ($$$1 \\leqslant n \\leqslant 10^5$$$).  Next $$$n$$$ lines contain $$$n$$$ pairs of space-separated integers $$$l_i$$$ and $$$r_i$$$ ($$$0 \\leqslant l_i, r_i \\leqslant 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_017.jsonl",
+    "code_uid": "b0fedd4835cfb0069279a40c181793ec",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1\\n1 1\\n1 1\", \"4\\n1 2\\n2 1\\n3 5\\n5 3\", \"1\\n5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\n\nl = []\nr = []\n\nfor i in range(n):\n    numbers_in_line = [int(num) for num in input().split()]\n    l_new, r_new = numbers_in_line\n    l.append(l_new)\n    r.append(r_new)\n\nl.sort()\nr.sort()\n\nmaxes = [max(lv, rv) for lv, rv in zip(l, r)]\n\nprint(n + sum(maxes))\n",
+    "prob_desc_created_at": "1538636700",
+    "tags": [
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

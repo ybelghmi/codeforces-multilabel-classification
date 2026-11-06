@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"16\\n2\\nRL\", \"17\\n3\\nLR\", \"-1\"]",
+    "src_uid": "ea84cfce0a7f46f33e9e84be6c4dc648",
+    "prob_desc_notes": null,
+    "prob_desc_description": "On some square in the lowest row of a chessboard a stands a pawn. It has only two variants of moving: upwards and leftwards or upwards and rightwards. The pawn can choose from which square of the lowest row it can start its journey. On each square lay from 0 to 9 peas. The pawn wants to reach the uppermost row having collected as many peas as possible. As there it will have to divide the peas between itself and its k brothers, the number of peas must be divisible by k + 1. Find the maximal number of peas it will be able to collect and which moves it should make to do it.The pawn cannot throw peas away or leave the board. When a pawn appears in some square of the board (including the first and last square of the way), it necessarily takes all the peas.",
+    "prob_desc_output_spec": "If it is impossible to reach the highest row having collected the number of peas divisible by k + 1, print -1.  Otherwise, the first line must contain a single number — the maximal number of peas the pawn can collect given that the number must be divisible by k + 1. The second line must contain a single number — the number of the square's column in the lowest row, from which the pawn must start its journey. The columns are numbered from the left to the right with integral numbers starting from 1. The third line must contain a line consisting of n - 1 symbols — the description of the pawn's moves. If the pawn must move upwards and leftwards, print L, if it must move upwards and rightwards, print R. If there are several solutions to that problem, print any of them.",
+    "prob_desc_input_spec": "The first line contains three integers n, m, k (2 ≤ n, m ≤ 100, 0 ≤ k ≤ 10) — the number of rows and columns on the chessboard, the number of the pawn's brothers. Then follow n lines containing each m numbers from 0 to 9 without spaces — the chessboard's description. Each square is described by one number — the number of peas in it. The first line corresponds to the uppermost row and the last line — to the lowest row.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_062.jsonl",
+    "code_uid": "88a69841d9e68173ad3913a81860780d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3 1\\n123\\n456\\n789\", \"3 3 0\\n123\\n456\\n789\", \"2 2 10\\n98\\n75\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "if __name__ == '__main__':\n    n, m, k = map(int, input().split())\n    chessboard = tuple(tuple(map(int, input())) for _ in range(n))\n\n    costs = [m * [0] for _ in range(n)]\n\n    for i in range(m):\n        costs[0][i] = {i: (-1, \"\") for i in range(k + 1)}\n        costs[0][i][chessboard[0][i] % (k + 1)] = (chessboard[0][i], \"\")\n\n    for i in range(1, n):\n        for j in range(m):\n            costs[i][j] = {i: (-1, \"\") for i in range(k + 1)}\n\n            for mod in range(k + 1):\n                next_mod = (chessboard[i][j] + mod) % (k + 1)\n                next = (-1, \"\")\n\n                if j + 1 < m \\\n                        and costs[i - 1][j + 1][mod][0] >= 0 \\\n                        and (j == 0 or costs[i - 1][j + 1][mod] > costs[i - 1][j - 1][mod]):\n                    next = costs[i - 1][j + 1][mod]\n                    next = (next[0] + chessboard[i][j], \"R\" + next[1])\n\n                elif j - 1 >= 0 and costs[i - 1][j - 1][mod][0] >= 0:\n                    next = costs[i - 1][j - 1][mod]\n                    next = (next[0] + chessboard[i][j], \"L\" + next[1])\n                costs[i][j][next_mod] = max(costs[i][j][next_mod], next)\n\n    # print(max(costs[m - 1][i][0][0] for i in range(n)))\n\n    i_max = max(range(m), key=lambda i: costs[n - 1][i][0][0])\n    print(costs[n - 1][i_max][0][0])\n    if costs[n - 1][i_max][0][0] >= 0:\n        print(i_max + 1)\n        print(costs[n - 1][i_max][0][1])\n",
+    "prob_desc_created_at": "1289232000",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

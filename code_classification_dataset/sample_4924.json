@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 3 1 \\n2 2 6 \\n9 11 5\"]",
+    "src_uid": "f8a89510fefbbc8e5698efe8a0c30927",
+    "prob_desc_notes": "NoteIn the first test case:   The word $$$\\texttt{abc}$$$ was written by the first and third guys — they each get $$$1$$$ point.  The word $$$\\texttt{def}$$$ was written by the second guy only — he gets $$$3$$$ points. ",
+    "prob_desc_description": "Three guys play a game: first, each person writes down $$$n$$$ distinct words of length $$$3$$$. Then, they total up the number of points as follows:   if a word was written by one person — that person gets 3 points,  if a word was written by two people — each of the two gets 1 point,  if a word was written by all — nobody gets any points.  In the end, how many points does each player have?",
+    "prob_desc_output_spec": "For each test case, output three space-separated integers — the number of points each of the three guys earned. You should output the answers in the same order as the input; the $$$i$$$-th integer should be the number of points earned by the $$$i$$$-th guy.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$1 \\leq n \\leq 1000$$$) — the number of words written by each person. The following three lines each contain $$$n$$$ distinct strings — the words written by each person. Each string consists of $$$3$$$ lowercase English characters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_109.jsonl",
+    "code_uid": "0b016bf7bd5461d528d3bcd10cc8e0b9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n1\\n\\nabc\\n\\ndef\\n\\nabc\\n\\n3\\n\\norz for qaq\\n\\nqaq orz for\\n\\ncod for ces\\n\\n5\\n\\niat roc hem ica lly\\n\\nbac ter iol ogi sts\\n\\nbac roc lly iol iat\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\r\nfor i in range(t):\r\n    n=int(input())\r\n    s = [set(input().split()) for j in range(3)]\r\n    a=[0]*3\r\n    for k in range(3):\r\n        for j in s[k]:\r\n            if j not in s[k-1]:\r\n                p=1\r\n            else:\r\n                p=0\r\n            if j not in s[k-2]:\r\n                if p==1:\r\n                    a[k]+=3\r\n                else:\r\n                    a[k]+=1\r\n            elif p==1:\r\n                a[k]+=1\r\n    print(*a)\r\n        ",
+    "prob_desc_created_at": "1661871000",
+    "tags": [
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

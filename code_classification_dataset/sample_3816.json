@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"..........\\n...*....*.\\n.*.o....o.\\n.*........\\n.*......**\\n.o.*....o*\\n\\n....**ooo\\n.*o**o.*o\\n\\n.....\\n*...*\\n*****\\n*****\\n*****\"]",
+    "src_uid": "964ce5983d0e9b1a3f460ad6e6078d47",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There is a grid with $$$n$$$ rows and $$$m$$$ columns, and three types of cells:   An empty cell, denoted with '.'.  A stone, denoted with '*'.  An obstacle, denoted with the lowercase Latin letter 'o'. All stones fall down until they meet the floor (the bottom row), an obstacle, or other stone which is already immovable. (In other words, all the stones just fall down as long as they can fall.)Simulate the process. What does the resulting grid look like?",
+    "prob_desc_output_spec": "For each test case, output a grid with $$$n$$$ rows and $$$m$$$ columns, showing the result of the process. You don't need to output a new line after each test, it is in the samples just for clarity.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\leq n, m \\leq 50$$$) — the number of rows and the number of columns in the grid, respectively. Then $$$n$$$ lines follow, each containing $$$m$$$ characters. Each of these characters is either '.', '*', or 'o' — an empty cell, a stone, or an obstacle, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_084.jsonl",
+    "code_uid": "817028b8ca52e07cfa3a21f7d1540039",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n6 10\\n.*.*....*.\\n.*.......*\\n...o....o.\\n.*.*....*.\\n..........\\n.o......o*\\n2 9\\n...***ooo\\n.*o.*o.*o\\n5 5\\n*****\\n*....\\n*****\\n....*\\n*****\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\n\r\nfor i in range(t):\r\n    rc = input().split(\" \")\r\n    rows = int(rc[0])\r\n    columns = int(rc[1])\r\n    arr = []\r\n    for j in range(rows):\r\n        data = input()\r\n        for k in range(columns):\r\n            arr.append(data[k])\r\n\r\n    skipped = [0]*columns\r\n\r\n    for j in range(columns):\r\n        k = rows*columns - 1 - j\r\n        l = k - columns\r\n        while(l >= 0):\r\n            if(arr[k] == \"*\" or arr[k] == \"o\"):\r\n                k = k - columns\r\n            elif(arr[l] == \"*\" and arr[k] == \".\"):\r\n                arr[k] = \"*\"\r\n                arr[l] = \".\"\r\n                k = k - columns\r\n            elif(arr[l] == \"o\"):\r\n                k = l - columns\r\n                l = l - columns\r\n            l = l - columns\r\n            \r\n    print()\r\n\r\n    for j in range(len(arr)):\r\n        if(j%columns == (columns-1)):\r\n            print(arr[j])\r\n        else:\r\n            print(arr[j], end=\"\")",
+    "prob_desc_created_at": "1650551700",
+    "tags": [
+        "dfs and similar",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

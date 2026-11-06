@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"3\", \"0\"]",
+    "src_uid": "d549f70d028a884f0313743c09c685f1",
+    "prob_desc_notes": "NoteIn the first sample you need to increase number 1 in cell (1, 1). Thus, the first row will consist of prime numbers: 2, 2, 3.In the second sample you need to increase number 8 in cell (1, 2) three times. Thus, the second column will consist of prime numbers: 11, 2.In the third sample you don't have to do anything as the second column already consists of prime numbers: 3, 2. ",
+    "prob_desc_description": "You've got an n × m matrix. The matrix consists of integers. In one move, you can apply a single transformation to the matrix: choose an arbitrary element of the matrix and increase it by 1. Each element can be increased an arbitrary number of times.You are really curious about prime numbers. Let us remind you that a prime number is a positive integer that has exactly two distinct positive integer divisors: itself and number one. For example, numbers 2, 3, 5 are prime and numbers 1, 4, 6 are not. A matrix is prime if at least one of the two following conditions fulfills:  the matrix has a row with prime numbers only;  the matrix has a column with prime numbers only; Your task is to count the minimum number of moves needed to get a prime matrix from the one you've got.",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of moves needed to get a prime matrix from the one you've got. If you've got a prime matrix, print 0.",
+    "prob_desc_input_spec": "The first line contains two integers n, m (1 ≤ n, m ≤ 500) — the number of rows and columns in the matrix, correspondingly. Each of the following n lines contains m integers — the initial matrix. All matrix elements are positive integers. All numbers in the initial matrix do not exceed 105. The numbers in the lines are separated by single spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_015.jsonl",
+    "code_uid": "10407d83aa537c4dc72ef9684f52626e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n1 2 3\\n5 6 1\\n4 4 1\", \"2 3\\n4 8 8\\n9 2 9\", \"2 2\\n1 3\\n4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = [int(s) for s in raw_input().split()]\n\nA = [None] * n\nfor i in range(n):\n  row = [int(s) for s in raw_input().split()]\n  A[i] = row\n\nAmax = max([i for a in A for i in a])\n\ndef generate_primes(Amax):\n  Amax = max(Amax, 10)\n\n  numbers = [i for i in range(100004)]\n  mapping = {n: True for n in numbers}\n  mapping[0] = False\n  mapping[1] = False\n  primes = []\n\n  for i in range(len(numbers)):\n    n = numbers[i]\n    if mapping[n]:\n      primes.append(n)\n      r = 2\n      while n * r <= len(numbers) - 1:\n        mapping[n*r] = False\n        r += 1\n  return primes\n        \n'''\n  primes = [2]\n  i = 3\n  cont = True\n  while cont:\n    if all([i % p != 0 for p in primes]):\n      primes.append(i)\n      if i > Amax:\n        cont = False\n      i += 1\n    else:\n      i += 1\n  return primes\n'''   \n\n \ndef get_next_largest_prime(x, primes):\n  if x == primes[-1] or x == 2:\n    return x\n  if x == 1:\n    return 2\n  mini = 0\n  maxi = len(primes) - 1\n  mid = mini + ((maxi - mini)//2)\n  while maxi - mini > 1 :\n    if x < primes[mid]:\n      maxi = mid\n      mid = mini + ((maxi - mini)//2)\n    elif x > primes[mid]:\n      mini = mid\n      mid = mini + ((maxi - mini)//2)\n    else:\n      return primes[mid]\n\n  if x == primes[mini]:\n    return primes[mini]\n  elif x > primes[mini]:\n    return primes[maxi]\n  else:\n    raise ValueError()\n\n\nprimes = generate_primes(Amax)\n\nrow_sums = [0 for _ in range(m)]\ncol_sums = [0 for _ in range(n)]\nfor i in range(n):\n  for j in range(m):\n    A[i][j] = get_next_largest_prime(A[i][j], primes) - A[i][j]\n    row_sums[j] += A[i][j]\n    col_sums[i] += A[i][j]\n\n\n\nmoves = min(min(col_sums), min(row_sums))\n\nprint(moves)\n\n\n\n'''\n\n2 3 5 7 11\n0 1 2 3 4 \n\nx = 6\nmini = 2\nmaxi = 5\n\nmid = 7//2 = 3\n\nmini + ((maxi - mini)//2)\n\n\n\n\n\n'''\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "prob_desc_created_at": "1360596600",
+    "tags": [
+        "binary search",
+        "number theory",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

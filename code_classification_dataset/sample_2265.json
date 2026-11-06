@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"22\", \"23\", \"0\"]",
+    "src_uid": "cb688cc52bd2bf0af77084dc4a25c28b",
+    "prob_desc_notes": "NoteIn the first example it's optimal to choose candidates $$$1$$$, $$$2$$$, $$$3$$$, $$$4$$$, so two of them specialize in the $$$2$$$-nd subject and other two in the $$$3$$$-rd. The total sum is $$$6 + 6 + 5 + 5 = 22$$$.In the second example it's optimal to choose candidates $$$1$$$, $$$2$$$ and $$$5$$$. One person in each subject and the total sum is $$$6 + 6 + 11 = 23$$$.In the third example it's impossible to obtain a non-negative sum.",
+    "prob_desc_description": "A multi-subject competition is coming! The competition has $$$m$$$ different subjects participants can choose from. That's why Alex (the coach) should form a competition delegation among his students. He has $$$n$$$ candidates. For the $$$i$$$-th person he knows subject $$$s_i$$$ the candidate specializes in and $$$r_i$$$ — a skill level in his specialization (this level can be negative!). The rules of the competition require each delegation to choose some subset of subjects they will participate in. The only restriction is that the number of students from the team participating in each of the chosen subjects should be the same.Alex decided that each candidate would participate only in the subject he specializes in. Now Alex wonders whom he has to choose to maximize the total sum of skill levels of all delegates, or just skip the competition this year if every valid non-empty delegation has negative sum.(Of course, Alex doesn't have any spare money so each delegate he chooses must participate in the competition).",
+    "prob_desc_output_spec": "Print the single integer — the maximum total sum of skills of delegates who form a valid delegation (according to rules above) or $$$0$$$ if every valid non-empty delegation has negative sum.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 10^5$$$, $$$1 \\le m \\le 10^5$$$) — the number of candidates and the number of subjects. The next $$$n$$$ lines contains two integers per line: $$$s_i$$$ and $$$r_i$$$ ($$$1 \\le s_i \\le m$$$, $$$-10^4 \\le r_i \\le 10^4$$$) — the subject of specialization and the skill level of the $$$i$$$-th candidate.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_019.jsonl",
+    "code_uid": "045618f57e17d7bc76b8cc499d5f1379",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3\\n2 6\\n3 6\\n2 5\\n3 5\\n1 9\\n3 1\", \"5 3\\n2 6\\n3 6\\n2 5\\n3 5\\n1 11\", \"5 2\\n1 -1\\n1 -5\\n2 -1\\n2 -1\\n1 -10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = [int(v) for v in input().split()]\nd = [None]\nA = [0] * (n+1)\nfor i in range(m):\n    d.append([])\nfor i in range(n):\n    s, r = [int(v) for v in input().split()]\n    d[s].append(r)\nfor td in d[1:]:\n    if len(td) == 0:\n        continue\n    td.sort(reverse=True)\n    if td[0] <= 0:\n        continue\n    prev = 0\n    for j, v in enumerate(td):\n        prev += v\n        if prev <= 0:\n            break\n        A[j] += prev\n\nprint(max(A))\n",
+    "prob_desc_created_at": "1543415700",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

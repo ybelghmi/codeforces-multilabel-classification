@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"pobeda\", \"implemeentatioon\", \"aeiouyaeeioouy\", \"aoiuyeggghhh\"]",
+    "src_uid": "8ff1b4cf9875f1301e603b47626d06b4",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Stepan likes to repeat vowel letters when he writes words. For example, instead of the word \"pobeda\" he can write \"pobeeeedaaaaa\".Sergey does not like such behavior, so he wants to write a program to format the words written by Stepan. This program must combine all consecutive equal vowels to a single vowel. The vowel letters are \"a\", \"e\", \"i\", \"o\", \"u\" and \"y\".There are exceptions: if letters \"e\" or \"o\" repeat in a row exactly 2 times, like in words \"feet\" and \"foot\", the program must skip them and do not transform in one vowel. For example, the word \"iiiimpleeemeentatiioon\" must be converted to the word \"implemeentatioon\".Sergey is very busy and asks you to help him and write the required program.",
+    "prob_desc_output_spec": "Print the single string — the word written by Stepan converted according to the rules described in the statement.",
+    "prob_desc_input_spec": "The first line contains the integer n (1 ≤ n ≤ 100 000) — the number of letters in the word written by Stepan. The second line contains the string s which has length that equals to n and contains only lowercase English letters — the word written by Stepan.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_009.jsonl",
+    "code_uid": "80ebd2309e4aa79ff4499519eb724385",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"13\\npobeeeedaaaaa\", \"22\\niiiimpleeemeentatiioon\", \"18\\naeiouyaaeeiioouuyy\", \"24\\naaaoooiiiuuuyyyeeeggghhh\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nst = input()\nlast = '-'\nans = \"\"\nk = 0\nst += '+';\nfor it in st:\n    if it != last: \n        if last == 'a' or last == 'i' or last == 'u' or last == 'y':\n            ans += last;\n        elif last == 'e' or last == 'o':\n            if k == 2:\n                ans += last + last\n            else:\n                ans += last\n        elif last != '-':\n            for j in range(k):\n                ans += last\n        last = it\n        k = 1\n    else:\n        k += 1\nprint(ans)\n    ",
+    "prob_desc_created_at": "1491406500",
+    "tags": [
+        "implementation",
+        "*special",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

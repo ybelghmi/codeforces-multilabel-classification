@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"B 4\\n\\nA 2\\n\\nA 8\\n\\nC 4\"]",
+    "src_uid": "513480a6c7a715e237c3a63805208039",
+    "prob_desc_notes": "NoteNote that to make the sample more clear, we added extra empty lines. You shouldn't print any extra empty lines during the interaction process.In the first test $$$n=10$$$ and $$$x=4$$$.Initially the set is: $$$\\{1,2,3,4,5,6,7,8,9,10\\}$$$.In the first operation, you ask how many numbers are multiples of $$$4$$$ and delete them. The answer is $$$2$$$ because there are two numbers divisible by $$$4$$$: $$$\\{4,8\\}$$$. $$$8$$$ will be deleted but $$$4$$$ won't, because the number $$$x$$$ will never be deleted. Now the set is $$$\\{1,2,3,4,5,6,7,9,10\\}$$$.In the second operation, you ask how many numbers are multiples of $$$2$$$. The answer is $$$4$$$ because there are four numbers divisible by $$$2$$$: $$$\\{2,4,6,10\\}$$$.In the third operation, you ask how many numbers are multiples of $$$8$$$. The answer is $$$0$$$ because there isn't any number divisible by $$$8$$$ in the current set.In the fourth operation, you know that $$$x=4$$$, which is the right answer.",
+    "prob_desc_description": "This is an interactive problem.There is an unknown integer $$$x$$$ ($$$1\\le x\\le n$$$). You want to find $$$x$$$.At first, you have a set of integers $$$\\{1, 2, \\ldots, n\\}$$$. You can perform the following operations no more than $$$10000$$$ times:  A $$$a$$$: find how many numbers are multiples of $$$a$$$ in the current set.  B $$$a$$$: find how many numbers are multiples of $$$a$$$ in this set, and then delete all multiples of $$$a$$$, but $$$x$$$ will never be deleted (even if it is a multiple of $$$a$$$). In this operation, $$$a$$$ must be greater than $$$1$$$.  C $$$a$$$: it means that you know that $$$x=a$$$. This operation can be only performed once. Remember that in the operation of type B $$$a&gt;1$$$ must hold.Write a program, that will find the value of $$$x$$$.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1\\le n\\le 10^5$$$). The remaining parts of the input will be given throughout the interaction process.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_002.jsonl",
+    "code_uid": "7050d3c4034763a599f5c3db5bc453cd",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n\\n2\\n\\n4\\n\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nis_prime = [1] * (n + 1)\nprimes = [2]\n\ni = 3\nwhile i * i <= n:\n    if is_prime[i] == 1:\n        primes.append(i)\n        for j in range(i * i, n + 1, i * 2):\n            is_prime[j] = 0\n    i += 2\n\nfor j in range(i, n + 1, 2):\n    if is_prime[j]:\n        primes.append(j)\n\ns = set(range(1, n + 1))\n\nans = 1\nl = 0\nwhile l < len(primes):\n\n    if ans * primes[l] > n:\n        break\n\n    r = min(l + min(400, max(50, (len(primes) - l) // 2)), len(primes))\n\n    for p in primes[l:r]:\n        if ans * p > n:\n            break\n        print(f'B {p}')\n        input()\n        for q in range(p, n + 1, p):\n            s.discard(q)\n\n    print(f'A 1')\n    res = int(input())\n\n    if res > len(s):\n        for p in primes[l:r]:\n            if ans * p > n:\n                break\n            print(f'A {p}')\n            res = int(input())\n            q = p\n            while res > 0:\n                ans *= p\n                q *= p\n                if ans * p > n:\n                    break\n                print(f'A {q}')\n                res = int(input())\n        l = r\n        break\n    l = r\n\nfor p in primes[l:]:\n    if ans * p > n:\n        break\n    q = p\n    while ans * q <= n:\n        expected = 0\n        for i in range(q, n + 1, q):\n            if i in s:\n                expected += 1\n        print(f'A {q}')\n        res = int(input())\n        if res == expected:\n            break\n        ans *= p\n        q *= p\n\nprint(f'C {ans}')\n",
+    "prob_desc_created_at": "1599918300",
+    "tags": [
+        "interactive",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

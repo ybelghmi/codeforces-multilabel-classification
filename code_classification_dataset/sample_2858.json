@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"3\"]",
+    "src_uid": "4866b4b48be5833b1f5a7206a241f83d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Your friend is developing a computer game. He has already decided how the game world should look like — it should consist of $$$n$$$ locations connected by $$$m$$$ two-way passages. The passages are designed in such a way that it should be possible to get from any location to any other location.Of course, some passages should be guarded by the monsters (if you just can go everywhere without any difficulties, then it's not fun, right?). Some crucial passages will be guarded by really fearsome monsters, requiring the hero to prepare for battle and designing his own tactics of defeating them (commonly these kinds of monsters are called bosses). And your friend wants you to help him place these bosses.The game will start in location $$$s$$$ and end in location $$$t$$$, but these locations are not chosen yet. After choosing these locations, your friend will place a boss in each passage such that it is impossible to get from $$$s$$$ to $$$t$$$ without using this passage. Your friend wants to place as much bosses as possible (because more challenges means more fun, right?), so he asks you to help him determine the maximum possible number of bosses, considering that any location can be chosen as $$$s$$$ or as $$$t$$$.",
+    "prob_desc_output_spec": "Print one integer — the maximum number of bosses your friend can place, considering all possible choices for $$$s$$$ and $$$t$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n \\le 3 \\cdot 10^5$$$, $$$n - 1 \\le m \\le 3 \\cdot 10^5$$$) — the number of locations and passages, respectively. Then $$$m$$$ lines follow, each containing two integers $$$x$$$ and $$$y$$$ ($$$1 \\le x, y \\le n$$$, $$$x \\ne y$$$) describing the endpoints of one of the passages. It is guaranteed that there is no pair of locations directly connected by two or more passages, and that any location is reachable from any other location.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_033.jsonl",
+    "code_uid": "7b43d912307529fc1e36082abe5efadc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5\\n1 2\\n2 3\\n3 1\\n4 1\\n5 2\", \"4 3\\n1 2\\n4 3\\n3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom itertools import repeat\ndef main():\n    n, m = map(int, stdin.readline().split())\n    dat = map(int, stdin.read().split(), repeat(10, 2 * m))\n    xt = [None] * (2 * m)\n    la = [None] * (n + 1)\n    j = 0\n    for i in xrange(m):\n        x, y = dat[j], dat[j+1]\n        xt[j] = la[y]\n        la[y] = j\n        j += 1\n        xt[j] = la[x]\n        la[x] = j\n        j += 1\n    st = [(1, 0, la[1])]\n    po = st.pop\n    pu = st.append\n    itr = la[:]\n    c = 1\n    low = [0] * (n + 1)\n    d = [0] * (n + 1)\n    gn = 0\n    g = [0] * (n + 1)\n    ss = []\n    pos = ss.pop\n    pus = ss.append\n    ins = [0] * (n + 1)\n    b = []\n    while st:\n        x, p, it = po()\n        if not d[x]:\n            low[x] = d[x] = c\n            c += 1\n            pus(x)\n            ins[x] = 1\n        else:\n            if low[x] > low[dat[it]]:\n                low[x] = low[dat[it]]\n            it = xt[it]\n        while it is not None and d[dat[it]]:\n            y = dat[it]\n            if y != p and low[x] > d[y]:\n                low[x] = d[y]\n            it = xt[it]\n        if it is None:\n            if low[x] == d[x]:\n                while 1:\n                    v = pos()\n                    ins[v] = 0\n                    g[v] = gn\n                    if v == x:\n                        break\n                if p:\n                    b.extend((x, p))\n                gn += 1\n        else:\n            pu((x, p, it))\n            pu((dat[it], x, la[dat[it]]))\n    dat = [g[x] for x in b]\n    m = len(dat) / 2\n    xt = [None] * (2 * m)\n    la = [None] * gn\n    j = 0\n    for i in xrange(m):\n        x, y = dat[j], dat[j+1]\n        xt[j] = la[y]\n        la[y] = j\n        j += 1\n        xt[j] = la[x]\n        la[x] = j\n        j += 1\n    d = [None] * gn\n    pu(0)\n    d[0] = 0\n    while st:\n        x = po()\n        y = la[x]\n        while y is not None:\n            z = dat[y]\n            if d[z] is None:\n                d[z] = d[x] + 1\n                pu(z)\n            y = xt[y]\n    z = v = -1\n    for i, x in enumerate(d):\n        if z < x:\n            z = x\n            v = i\n    d = [None] * gn\n    pu(v)\n    d[v] = 0\n    while st:\n        x = po()\n        y = la[x]\n        while y is not None:\n            z = dat[y]\n            if d[z] is None:\n                d[z] = d[x] + 1\n                pu(z)\n            y = xt[y]\n    print max(d)\nmain()\n",
+    "prob_desc_created_at": "1530110100",
+    "tags": [
+        "dfs and similar",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

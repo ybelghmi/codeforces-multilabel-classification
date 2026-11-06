@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"10 15 16\", \"7 8\"]",
+    "src_uid": "b731368efab76347a821de9ad6e0f443",
+    "prob_desc_notes": "NoteIllustration for the first example is in the statement.",
+    "prob_desc_description": "You are given $$$n$$$ arrays that can have different sizes. You also have a table with $$$w$$$ columns and $$$n$$$ rows. The $$$i$$$-th array is placed horizontally in the $$$i$$$-th row. You can slide each array within its row as long as it occupies several consecutive cells and lies completely inside the table.You need to find the maximum sum of the integers in the $$$j$$$-th column for each $$$j$$$ from $$$1$$$ to $$$w$$$ independently.  Optimal placements for columns $$$1$$$, $$$2$$$ and $$$3$$$ are shown on the pictures from left to right. Note that you can exclude any array out of a column provided it remains in the window. In this case its value is considered to be zero.",
+    "prob_desc_output_spec": "Print $$$w$$$ integers, the $$$i$$$-th of them should be the maximum sum for column $$$i$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ ($$$1 \\le n \\le 10^{6}$$$) and $$$w$$$ ($$$1 \\le w \\le 10^{6}$$$) — the number of arrays and the width of the table. Each of the next $$$n$$$ lines consists of an integer $$$l_{i}$$$ ($$$1 \\le l_{i} \\le w$$$), the length of the $$$i$$$-th array, followed by $$$l_{i}$$$ integers $$$a_{i1}, a_{i2}, \\ldots, a_{il_i}$$$ ($$$-10^{9} \\le a_{ij} \\le 10^{9}$$$) — the elements of the array. The total length of the arrays does no exceed $$$10^{6}$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_067.jsonl",
+    "code_uid": "060c91b4cc22eba00101c2a60fe386f7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n3 2 4 8\\n2 2 5\\n2 6 3\", \"2 2\\n2 7 8\\n1 -8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\nfrom collections import deque\ndef slidemax(X, k):\n    q = deque([])\n    ret = []\n    for i in range(len(X)):\n        while q and q[-1][1] <= X[i]:\n            q.pop()\n        deque.append(q, (i+k, X[i]))\n        if q[0][0] == i:\n            deque.popleft(q)\n        if i >= k-1:\n            ret.append(q[0][1])\n    return ret\n \nN, W = map(int, input().split())\nA = [0] * W\ns = 0\nfor _ in range(N):\n    l, *B = map(int, input().split())\n    if l*2 < W:\n        C = slidemax([0]*(l-1)+B+[0]*(l-1), l)\n        m = max(B + [0])\n        s += m\n        for i in range(l-1):\n            A[i] += C[i] - m\n            A[-i-1] += C[-i-1] - m\n    else:\n        C = slidemax([0]*(W-l)+B+[0]*(W-l), W - l + 1)\n        A = [a+c for a, c in zip(A, C)]\n\nprint(*[a+s for a in A])\n",
+    "prob_desc_created_at": "1566743700",
+    "tags": [
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

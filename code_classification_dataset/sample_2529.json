@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 2 3\\n2\\n4 5\\n2\\nANSWER\\n1 2\\n2 3\\n3 4\\n2 5\"]",
+    "src_uid": "685f266dbbc24434913fa092c0ac1f3f",
+    "prob_desc_notes": "NoteIn the sample, the tree is as follows.  $$$n = 5$$$ is given to the program. The program then asks Mikaela a question where $$$S = \\{1, 2, 3\\}$$$, $$$T = \\{4, 5\\}$$$, and $$$v = 2$$$, to which she replies with $$$5$$$ (the pairs $$$(s, t)$$$ are $$$(1, 4)$$$, $$$(1, 5)$$$, $$$(2, 4)$$$, $$$(2, 5)$$$, and $$$(3, 5)$$$).",
+    "prob_desc_description": "This is an interactive problem.A legendary tree rests deep in the forest. Legend has it that individuals who realize this tree would eternally become a Legendary Grandmaster.To help you determine the tree, Mikaela the Goddess has revealed to you that the tree contains $$$n$$$ vertices, enumerated from $$$1$$$ through $$$n$$$. She also allows you to ask her some questions as follows. For each question, you should tell Mikaela some two disjoint non-empty sets of vertices $$$S$$$ and $$$T$$$, along with any vertex $$$v$$$ that you like. Then, Mikaela will count and give you the number of pairs of vertices $$$(s, t)$$$ where $$$s \\in S$$$ and $$$t \\in T$$$ such that the simple path from $$$s$$$ to $$$t$$$ contains $$$v$$$.Mikaela the Goddess is busy and will be available to answer at most $$$11\\,111$$$ questions.This is your only chance. Your task is to determine the tree and report its edges.",
+    "prob_desc_output_spec": "When program has realized the tree and is ready to report the edges, print \"ANSWER\" in a separate line. Make sure that all letters are capitalized. Then, print $$$n-1$$$ lines, each containing two space-separated integers, denoting the vertices that are the endpoints of a certain edge. Each edge should be reported exactly once. Your program should then immediately terminate.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$2 \\leq n \\leq 500$$$) — the number of vertices in the tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 3100,
+    "file_name": "train_024.jsonl",
+    "code_uid": "8211dbca8b128af3d4a18e859e29dca8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n__author__ = 'cnyali_lk'\nimport sys\ndef query(s,t,v):\n    if len(s)==0 or len(t)==0:\n        return 0\n    print(len(s))\n    for i in s:\n        print(i,end=' ')\n    print()\n    print(len(t))\n    for i in t:\n        print(i,end=' ')\n    print()\n    print(v)\n    sys.stdout.flush()\n    return int(input())\n\nn=int(input())\nd=[0]*(n+1)\nfor i in range(2,n+1):\n    d[i]=query(list(range(2,i))+list(range(i+1,n+1)),[1],i)\n\nv=list(range(2,n+1))\nv.sort(key=lambda x:d[x])\nnofa=[]\nans=[]\nfor i in v:\n    if len(nofa):\n        for t in range(query([1],nofa,i)):\n            l,r=1,len(nofa)\n            while l<=r:\n                mid=(l+r)//2\n                if query([1],nofa[:mid],i)>0:\n                    r=mid-1\n                else:\n                    l=mid+1\n            w=nofa[r]\n            nofa.remove(w)\n            ans.append((w,i))\n    nofa.append(i)\nfor i in nofa:\n    ans.append((i,1))\nprint(\"ANSWER\")\nfor i in ans:\n    print(i[0],i[1])\n",
+    "prob_desc_created_at": "1551022500",
+    "tags": [
+        "binary search",
+        "trees",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

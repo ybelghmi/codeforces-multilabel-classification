@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n| 3\\n^ 2\", \"1\\n&amp; 1\", \"0\"]",
+    "src_uid": "19c32b8c1d3db5ab10aca271135aa9b8",
+    "prob_desc_notes": "NoteYou can read about bitwise operations in https://en.wikipedia.org/wiki/Bitwise_operation.Second sample:Let x be an input of the Petya's program. It's output is ((x&amp;1)&amp;3)&amp;5 = x&amp;(1&amp;3&amp;5) = x&amp;1. So these two programs always give the same outputs.",
+    "prob_desc_description": "Petya learned a new programming language CALPAS. A program in this language always takes one non-negative integer and returns one non-negative integer as well.In the language, there are only three commands: apply a bitwise operation AND, OR or XOR with a given constant to the current integer. A program can contain an arbitrary sequence of these operations with arbitrary constants from 0 to 1023. When the program is run, all operations are applied (in the given order) to the argument and in the end the result integer is returned.Petya wrote a program in this language, but it turned out to be too long. Write a program in CALPAS that does the same thing as the Petya's program, and consists of no more than 5 lines. Your program should return the same integer as Petya's program for all arguments from 0 to 1023.",
+    "prob_desc_output_spec": "Output an integer k (0 ≤ k ≤ 5) — the length of your program. Next k lines must contain commands in the same format as in the input.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 5·105) — the number of lines. Next n lines contain commands. A command consists of a character that represents the operation (\"&amp;\", \"|\" or \"^\" for AND, OR or XOR respectively), and the constant xi 0 ≤ xi ≤ 1023.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_013.jsonl",
+    "code_uid": "540a0e6ccc56451bcf4ca4e127e4d92a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n| 3\\n^ 2\\n| 1\", \"3\\n&amp; 1\\n&amp; 3\\n&amp; 5\", \"3\\n^ 1\\n^ 2\\n^ 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, math\n\n\ndef main():\n    ops = getops(sys.stdin)\n\n    n1 = 0\n    n2 = 1023\n    for op in ops:\n        n1 = calc(op, n1)\n        n2 = calc(op, n2)\n\n    if n2 == 1023 and n1 == 0:\n        print(0)\n    else:\n        and_ = 1023\n        or_ = 0\n        xor_ = 0\n        for i in range(10):\n            b1 = n1 % 2\n            b2 = n2 % 2\n            n1 = n1 // 2\n            n2 = n2 // 2\n            if b1 == 1 and b2 == 1:\n                or_ = or_ | 2**i\n            elif b1 == 1 and b2 == 0:\n                xor_ = xor_ | 2**i\n            elif b1 == 0 and b2 == 0:\n                and_ = and_ - 2**i\n\n        print(3)\n        print('&', and_)\n        print('|', or_)\n        print('^', xor_)\n\n\ndef getops(fh):\n    n = int(fh.readline())\n    ops = []\n    for i in range(n):\n        opi, numi = fh.readline().split()\n        numi = int(numi)\n        ops.append((opi, numi))\n\n    return ops\n\n\ndef calc(op, res):\n    opi, numi = op\n    if opi == '|':\n        res = res | numi\n    elif opi == '&':\n        res = res & numi\n    else:\n        res = res ^ numi\n    return res\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "prob_desc_created_at": "1509029100",
+    "tags": [
+        "graph matchings",
+        "constructive algorithms",
+        "bitmasks"
+    ],
+    "hidden_unit_tests": ""
+}

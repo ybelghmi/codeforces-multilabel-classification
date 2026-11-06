@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"180\", \"21\", \"50\"]",
+    "src_uid": "00b27a7d30bf2e200bdecd3ae74433c7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Many years have passed, and n friends met at a party again. Technologies have leaped forward since the last meeting, cameras with timer appeared and now it is not obligatory for one of the friends to stand with a camera, and, thus, being absent on the photo.Simply speaking, the process of photographing can be described as follows. Each friend occupies a rectangle of pixels on the photo: the i-th of them in a standing state occupies a wi pixels wide and a hi pixels high rectangle. But also, each person can lie down for the photo, and then he will occupy a hi pixels wide and a wi pixels high rectangle.The total photo will have size W × H, where W is the total width of all the people rectangles, and H is the maximum of the heights. The friends want to determine what minimum area the group photo can they obtain if no more than n / 2 of them can lie on the ground (it would be strange if more than n / 2 gentlemen lie on the ground together, isn't it?..)Help them to achieve this goal.",
+    "prob_desc_output_spec": "Print a single integer equal to the minimum possible area of the photo containing all friends if no more than n / 2 of them can lie on the ground.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 1000) — the number of friends. The next n lines have two integers wi, hi (1 ≤ wi, hi ≤ 1000) each, representing the size of the rectangle, corresponding to the i-th friend.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_066.jsonl",
+    "code_uid": "88fe04d7f483e8ef697489e0abdf6c45",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n10 1\\n20 2\\n30 3\", \"3\\n3 1\\n2 2\\n4 3\", \"1\\n5 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from operator import neg\nn = int(input())\na = [tuple(map(int, input().split())) for i in range(n)]\n\ndef check(max_h):\n    k = n // 2\n    b = []\n    for w, h in a:\n        if h > max_h:\n            if k <= 0 or w > max_h:\n                return 1 << 60\n            b.append((h, w))\n            k -= 1\n        else:\n            b.append((w, h))\n    b.sort(key=lambda t: t[1] - t[0])\n    r = 0\n    for w, h in b:\n        if k > 0 and w <= max_h and h < w:\n            r += h\n            k -= 1\n        else:\n            r += w\n    return r * max_h\n\nprint(min(check(h) for h in range(1, 1001)))\n    \n        \n",
+    "prob_desc_created_at": "1426956300",
+    "tags": [
+        "sortings",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

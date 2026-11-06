@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"9\\n7\\n0\", \"0\\n7\"]",
+    "src_uid": "fe42c7f0222497ce3fff51b3676f42d1",
+    "prob_desc_notes": "NoteConsider the first sample. Overall, the first sample has 3 queries.  The first query l = 2, r = 11 comes. You need to count f(2) + f(3) + f(5) + f(7) + f(11) = 2 + 1 + 4 + 2 + 0 = 9.  The second query comes l = 3, r = 12. You need to count f(3) + f(5) + f(7) + f(11) = 1 + 4 + 2 + 0 = 7.  The third query comes l = 4, r = 4. As this interval has no prime numbers, then the sum equals 0. ",
+    "prob_desc_description": "Recently, the bear started studying data structures and faced the following problem.You are given a sequence of integers x1, x2, ..., xn of length n and m queries, each of them is characterized by two integers li, ri. Let's introduce f(p) to represent the number of such indexes k, that xk is divisible by p. The answer to the query li, ri is the sum: , where S(li, ri) is a set of prime numbers from segment [li, ri] (both borders are included in the segment).Help the bear cope with the problem.",
+    "prob_desc_output_spec": "Print m integers — the answers to the queries on the order the queries appear in the input.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 106). The second line contains n integers x1, x2, ..., xn (2 ≤ xi ≤ 107). The numbers are not necessarily distinct. The third line contains integer m (1 ≤ m ≤ 50000). Each of the following m lines contains a pair of space-separated integers, li and ri (2 ≤ li ≤ ri ≤ 2·109) — the numbers that characterize the current query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_003.jsonl",
+    "code_uid": "475b326ad736ab4be71233af8461e00e",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n5 5 7 10 14 15\\n3\\n2 11\\n3 12\\n4 4\", \"7\\n2 3 5 7 11 4 8\\n2\\n8 10\\n2 123\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom collections import *\n\nMAX = 10000000\n\n\ndef fast2():\n    import os, sys, atexit\n    range = xrange\n    from cStringIO import StringIO as BytesIO\n    sys.stdout = BytesIO()\n    atexit.register(lambda: os.write(1, sys.stdout.getvalue()))\n    return BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\n\ndef count_prime(n):\n    prim[0] = prim[1] = 0\n\n    for i in range(1, n + 1):\n        cum[i] += cum[i - 1]\n        if prim[i]:\n            cum[i] += mem[i]\n            for j in range(i * 2, n + 1, i):\n                prim[j] = 0\n                cum[i] += mem[j]\n\n\ninput = fast2()\nrints, out = lambda: [int(x) for x in input().split()], []\nn, a, m = int(input()), rints(), int(input())\nquaries = [rints() for _ in range(m)]\nprim, cum, mem = [1] * (MAX + 1), [0] * (MAX + 1), [0] * (MAX + 1)\n\nfor i in a:\n    mem[i] += 1\n\ncount_prime(MAX)\n\nfor l, r in quaries:\n    if l >= MAX:\n        out.append(0)\n        continue\n\n    r = min(r, MAX)\n    out.append(cum[r] - cum[l - 1])\n\nprint('\\n'.join(map(str, out)))\n",
+    "prob_desc_created_at": "1390577700",
+    "tags": [
+        "dp",
+        "number theory",
+        "math",
+        "implementation",
+        "data structures",
+        "binary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

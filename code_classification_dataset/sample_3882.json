@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"NO\\nYES\\n1 8 4 9 \\nNO\\nYES\\n1 11 1 111 1 1111\"]",
+    "src_uid": "a30c5562d3df99291132fac20e05e708",
+    "prob_desc_notes": "NoteIt can be shown that there are no valid arrangements for the first and the third test cases.In the second test case, the arrangement $$$[1, 8, 4, 9]$$$ works. In this arrangement, $$$1$$$ and $$$4$$$ are both smaller than their neighbors, and $$$8, 9$$$ are larger.In the fourth test case, the arrangement $$$[1, 11, 1, 111, 1, 1111]$$$ works. In this arrangement, the three elements equal to $$$1$$$ are smaller than their neighbors, while all other elements are larger than their neighbors.",
+    "prob_desc_description": "You are given $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$. Is it possible to arrange them on a circle so that each number is strictly greater than both its neighbors or strictly smaller than both its neighbors?In other words, check if there exists a rearrangement $$$b_1, b_2, \\ldots, b_n$$$ of the integers $$$a_1, a_2, \\ldots, a_n$$$ such that for each $$$i$$$ from $$$1$$$ to $$$n$$$ at least one of the following conditions holds: $$$b_{i-1} &lt; b_i &gt; b_{i+1}$$$ $$$b_{i-1} &gt; b_i &lt; b_{i+1}$$$To make sense of the previous formulas for $$$i=1$$$ and $$$i=n$$$, one shall define $$$b_0=b_n$$$ and $$$b_{n+1}=b_1$$$.",
+    "prob_desc_output_spec": "For each test case, if it is not possible to arrange the numbers on the circle satisfying the conditions from the statement, output $$$\\texttt{NO}$$$. You can output each letter in any case. Otherwise, output $$$\\texttt{YES}$$$. In the second line, output $$$n$$$ integers $$$b_1, b_2, \\ldots, b_n$$$, which are a rearrangement of $$$a_1, a_2, \\ldots, a_n$$$ and satisfy the conditions from the statement. If there are multiple valid ways to arrange the numbers, you can output any of them.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 3\\cdot 10^4$$$)  — the number of test cases. The description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$3 \\le n \\le 10^5$$$)  — the number of integers. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\le a_i \\le 10^9$$$). The sum of $$$n$$$ over all test cases doesn't exceed $$$2\\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_085.jsonl",
+    "code_uid": "79ad014dc4cbb27c437ca72f0332e5b4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n3\\n\\n1 1 2\\n\\n4\\n\\n1 9 8 4\\n\\n4\\n\\n2 0 2 2\\n\\n6\\n\\n1 1 1 11 111 1111\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#import io, os\r\n#input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\r\n\r\nt = int(input())\r\n\r\nfor _ in range(t):\r\n\r\n  n = int(input())\r\n\r\n  arr = list(map(int,input().split()))\r\n\r\n  arr.sort()\r\n\r\n  lp = 0\r\n  rp = n - 1\r\n\r\n  new = []\r\n  new1 = []\r\n  new2= []\r\n  \r\n  parity = 0\r\n  while lp <= rp:\r\n\r\n    if parity % 2 == 0:\r\n\r\n      parity = 1\r\n      new1.append(arr[rp])\r\n      rp -= 1\r\n\r\n    else:\r\n\r\n      parity = 0\r\n      new2.append(arr[lp])\r\n      lp +=1\r\n\r\n  new1.reverse()\r\n  for i in range(n):\r\n    if i % 2 == 0:\r\n      new.append(new1[-1])\r\n      new1.pop()\r\n    else:\r\n      new.append(new2[-1])\r\n      new2.pop()\r\n\r\n\r\n  flag = False\r\n\r\n  tempnew = new.copy()\r\n  new.insert(0,new[-1])\r\n  new.append(new[1])\r\n  for i in range(1,len(new)-1):\r\n\r\n    if new[i] > new[i-1] and new[i] > new[i+1]:\r\n      pass\r\n    elif new[i] < new[i-1] and new[i] < new[i+1]:\r\n      pass\r\n    else:\r\n      flag=True\r\n  \r\n  if not flag:\r\n    print(\"YES\")\r\n    print(*tempnew)\r\n\r\n  else:\r\n    print(\"NO\")",
+    "prob_desc_created_at": "1653500100",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n1 0\\n1 3\", \"0\"]",
+    "src_uid": "4a50c4147becea13946272230f3dde6d",
+    "prob_desc_notes": "NoteIn the first example, you can solve the problem in two operations:  Swap the prefix of the first string with length 1 and the prefix of the second string with length 0. After this swap, you'll have strings ab and bbb.  Swap the prefix of the first string with length 1 and the prefix of the second string with length 3. After this swap, you'll have strings bbbb and a. In the second example, the strings are already appropriate, so no operations are needed.",
+    "prob_desc_description": "There are two strings s and t, consisting only of letters a and b. You can make the following operation several times: choose a prefix of s, a prefix of t and swap them. Prefixes can be empty, also a prefix can coincide with a whole string. Your task is to find a sequence of operations after which one of the strings consists only of a letters and the other consists only of b letters. The number of operations should be minimized.",
+    "prob_desc_output_spec": "The first line should contain a single integer n (0 ≤ n ≤ 5·105) — the number of operations. Each of the next n lines should contain two space-separated integers ai, bi — the lengths of prefixes of s and t to swap, respectively. If there are multiple possible solutions, you can print any of them. It's guaranteed that a solution with given constraints exists.",
+    "prob_desc_input_spec": "The first line contains a string s (1 ≤ |s| ≤ 2·105). The second line contains a string t (1 ≤ |t| ≤ 2·105). Here |s| and |t| denote the lengths of s and t, respectively. It is guaranteed that at least one of the strings contains at least one a letter and at least one of the strings contains at least one b letter.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_017.jsonl",
+    "code_uid": "f77d6d60de956907fe5e3250711dadbc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"bab\\nbb\", \"bbbb\\naaa\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import exit\n\ndef blokovi(x):\n    ret = [0]\n    for i in range(len(x) - 1):\n        if x[i] != x[i + 1]:\n            ret.append(i + 1)\n    return ret + [len(x)]\n\ns = input()\nt = input()\n\nss = blokovi(s)\ntt = blokovi(t)\n\nif s[-1] == 'a':\n    s += 'b'\nelse:\n    s += 'a'\n\nif t[-1] == 'a':\n    t += 'b'\nelse:\n    t += 'a'\n\ndef greedy(x, y, rev=False):\n    i, j = len(x) - 1, len(y) - 1\n    swaps = []\n    while True:\n        while i >= 0 and x[i] == 'a':\n            i -= 1\n        while j >= 0 and y[j] == 'b':\n            j -= 1\n        if i < 0 and j < 0:\n            break\n        x, y = y, x\n        if rev:\n            swaps.append((j + 1, i + 1))\n        else:\n            swaps.append((i + 1, j + 1))\n        i, j = j, i\n    return swaps\n\ndef solve(x, y):\n    p = greedy(x, y)\n    q = greedy(y, x, True)\n    if len(p) < len(q):\n        return p\n    return q\n\nprobao = set()\n\ntotal = len(ss) + len(tt)\nsol = solve(s[:-1], t[:-1])\nfor b, i in enumerate(ss):\n    for c in range((2 * b + len(tt) - len(ss)) // 2 - 2, (2 * b + len(tt) - len(ss) + 1) // 2 + 3):\n        if 0 <= c < len(tt):\n            j = tt[c]\n            bs = b + len(tt) - c - 1\n            bt = c + len(ss) - b - 1\n            if abs(bs - bt) > 2:\n                continue\n            proba = (bs, bt, s[i], t[j])\n            if proba in probao:\n                continue\n            probao.add(proba)\n            s2 = t[:j] + s[i:-1]\n            t2 = s[:i] + t[j:-1]\n            if i + j > 0: \n                if i + j == len(s) + len(t) - 2:\n                    cand = solve(t2, s2)\n                else:\n                    cand = [(i, j)] + solve(s2, t2)\n            else:\n                cand = solve(s2, t2)\n            if len(cand) < len(sol):\n                sol = cand\n\nprint(len(sol))\nfor i, j in sol:\n    print(i, j)\n",
+    "prob_desc_created_at": "1532938500",
+    "tags": [
+        "constructive algorithms",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

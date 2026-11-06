@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0.5\", \"-1\", \"0.625\"]",
+    "src_uid": "d01f153d0049c22a21e321d5c4fbece9",
+    "prob_desc_notes": "NoteIn the first sample it is optimal to build the reserve with the radius equal to $$$0.5$$$ and the center in $$$(0,\\ 0.5)$$$.In the second sample it is impossible to build a reserve.In the third sample it is optimal to build the reserve with the radius equal to $$$\\frac{5}{8}$$$ and the center in $$$(\\frac{1}{2},\\ \\frac{5}{8})$$$.",
+    "prob_desc_description": "There is a forest that we model as a plane and live $$$n$$$ rare animals. Animal number $$$i$$$ has its lair in the point $$$(x_{i}, y_{i})$$$. In order to protect them, a decision to build a nature reserve has been made.The reserve must have a form of a circle containing all lairs. There is also a straight river flowing through the forest. All animals drink from this river, therefore it must have at least one common point with the reserve. On the other hand, ships constantly sail along the river, so the reserve must not have more than one common point with the river.For convenience, scientists have made a transformation of coordinates so that the river is defined by $$$y = 0$$$. Check whether it is possible to build a reserve, and if possible, find the minimum possible radius of such a reserve.",
+    "prob_desc_output_spec": "If the reserve cannot be built, print $$$-1$$$. Otherwise print the minimum radius. Your answer will be accepted if absolute or relative error does not exceed $$$10^{-6}$$$. Formally, let your answer be $$$a$$$, and the jury's answer be $$$b$$$. Your answer is considered correct if $$$\\frac{|a - b|}{\\max{(1, |b|)}} \\le 10^{-6}$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the number of animals.  Each of the next $$$n$$$ lines contains two integers $$$x_{i}$$$, $$$y_{i}$$$ ($$$-10^7 \\le x_{i}, y_{i} \\le 10^7$$$) — the coordinates of the $$$i$$$-th animal's lair. It is guaranteed that $$$y_{i} \\neq 0$$$. No two lairs coincide.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_075.jsonl",
+    "code_uid": "35db850cdb879297958ecc38b003f782",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n0 1\", \"3\\n0 1\\n0 2\\n0 -3\", \"2\\n0 1\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nl , r =-100000000, 1000000000\ndef check(mid):\n    mx = 0\n    for i in range(n):\n\n        x,y = x1[i],y1[i]\n        mx = max (mx ,(x1[i] - mid) ** 2 / (2 * y1[i]) + (y1[i] / 2))\n\n    return mx\n\n\n\nn = int(input())\ncount1 = 0\ncount2 = 0\nx1 = []\ny1 = []\nfor i in range(n):\n    a,b = map(int,input().split())\n    if b>=0:\n        count1+=1\n    else:\n        count2+=1\n\n    x1.append(a)\n    y1.append(abs(b))\n\nif count1 and count2:\n\n    print(-1)\n    exit()\n\n\nfor i in range(100):\n    mid1 = l+(r-l)/3\n    mid2 = r-(r-l)/3\n    if check(mid1)>check(mid2):\n        l = mid1\n    else:\n        r = mid2\n    # print(l,r)\nprint(check(l))\n",
+    "prob_desc_created_at": "1538750100",
+    "tags": [
+        "binary search",
+        "geometry",
+        "ternary search"
+    ],
+    "hidden_unit_tests": ""
+}

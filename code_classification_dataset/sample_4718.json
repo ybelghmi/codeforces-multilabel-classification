@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"8\\n-1\\n6\\n0\"]",
+    "src_uid": "f3c097872643f6fce645c05824b574e5",
+    "prob_desc_notes": "NoteIn the first test case, selecting indices $$$2$$$ and $$$3$$$ costs $$$8$$$, which is the minimum possible cost.In the second test case, we cannot make $$$a$$$ equal to $$$b$$$ using any number of operations.In the third test case, we can perform the following operations:  Select indices $$$3$$$ and $$$6$$$. It costs $$$3$$$, and $$$a$$$ is 0101011 now.  Select indices $$$4$$$ and $$$6$$$. It costs $$$3$$$, and $$$a$$$ is 0100001 now. The total cost is $$$6$$$.In the fourth test case, we don't have to perform any operations.",
+    "prob_desc_description": "This is the easy version of the problem. In this version, $$$n \\le 3000$$$, $$$x \\ge y$$$ holds. You can make hacks only if both versions of the problem are solved.You are given two binary strings $$$a$$$ and $$$b$$$, both of length $$$n$$$. You can do the following operation any number of times (possibly zero).   Select two indices $$$l$$$ and $$$r$$$ ($$$l &lt; r$$$).  Change $$$a_l$$$ to $$$(1 - a_l)$$$, and $$$a_r$$$ to $$$(1 - a_r)$$$.  If $$$l + 1 = r$$$, the cost of the operation is $$$x$$$. Otherwise, the cost is $$$y$$$. You have to find the minimum cost needed to make $$$a$$$ equal to $$$b$$$ or say there is no way to do so.",
+    "prob_desc_output_spec": "For each test case, if there is no way to make $$$a$$$ equal to $$$b$$$, print $$$-1$$$. Otherwise, print the minimum cost needed to make $$$a$$$ equal to $$$b$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 600$$$) — the number of test cases. Each test case consists of three lines. The first line of each test case contains three integers $$$n$$$, $$$x$$$, and $$$y$$$ ($$$5 \\le n \\le 3000$$$, $$$1 \\le y \\le x \\le 10^9$$$) — the length of the strings, and the costs per operation. The second line of each test case contains the string $$$a$$$ of length $$$n$$$. The string only consists of digits $$$0$$$ and $$$1$$$. The third line of each test case contains the string $$$b$$$ of length $$$n$$$. The string only consists of digits $$$0$$$ and $$$1$$$. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$3000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_104.jsonl",
+    "code_uid": "76fef8a51c5622b801e5f33b9e824dc3",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n5 8 7\\n\\n01001\\n\\n00101\\n\\n5 7 2\\n\\n01000\\n\\n11011\\n\\n7 8 3\\n\\n0111001\\n\\n0100001\\n\\n5 10 1\\n\\n01100\\n\\n01100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\r\nwhile t>0:\r\n    n,x,y=input().split(' ')\r\n    a=input()\r\n    b=input()\r\n    n=int(n)\r\n    x=int(x)\r\n    y=int(y)\r\n    indexes=[]\r\n    for i in range(n):\r\n       if a[i]!=b[i]:\r\n          indexes.append(i)\r\n    if len(indexes)==0:\r\n        print(0)\r\n    elif len(indexes)%2==1:\r\n        print(-1)\r\n    elif len(indexes)==2:\r\n        if n==2 or n==3 and indexes[0]+1==indexes[1]:\r\n            print(x)\r\n        elif n==3:\r\n            print(y)\r\n        elif indexes[0]+1==indexes[1]:\r\n            print(min(2*y,x))\r\n        else:\r\n            print(min(y,x))\r\n    else:\r\n       print(int(len(indexes)/2*y))\r\n    t-=1",
+    "prob_desc_created_at": "1663598100",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

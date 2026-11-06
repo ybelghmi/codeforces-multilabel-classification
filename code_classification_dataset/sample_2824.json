@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n0 1 10 100\", \"2\\n2 70\"]",
+    "src_uid": "6b7d6f5c07b313c57d52db6a48d3eeef",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Unfortunately, Vasya can only sum pairs of integers (a, b), such that for any decimal place at least one number has digit 0 in this place. For example, Vasya can sum numbers 505 and 50, but he cannot sum 1 and 4.Vasya has a set of k distinct non-negative integers d1, d2, ..., dk.Vasya wants to choose some integers from this set so that he could sum any two chosen numbers. What maximal number of integers can he choose in the required manner?",
+    "prob_desc_output_spec": "In the first line print a single integer n the maximum number of the chosen integers. In the second line print n distinct non-negative integers — the required integers. If there are multiple solutions, print any of them. You can print the numbers in any order.",
+    "prob_desc_input_spec": "The first input line contains integer k (1 ≤ k ≤ 100) — the number of integers. The second line contains k distinct space-separated integers d1, d2, ..., dk (0 ≤ di ≤ 100).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_032.jsonl",
+    "code_uid": "0c535a3d90d0b5cc7e1b6de0574d7390",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n100 10 1 0\", \"3\\n2 70 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "input()\nA = map(int, raw_input().split())\nans = []\nfor i in A:\n  if i in range(1, 10):\n    ans += [i]\n    break\nfor i in A:\n  if i in range(10, 100, 10):\n    ans += [i]\n    break\nif len(ans) == 0:\n  for i in A:\n    if i not in (0, 100):\n      ans += [i]\n      break\nif 100 in A:\n  ans += [100]\nif 0 in A:\n  ans += [0]\nprint(len(ans))\nprint(\" \".join(map(str,ans)))",
+    "prob_desc_created_at": "1368968400",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

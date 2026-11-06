@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\"]",
+    "src_uid": "e1ebaf64b129edb8089f9e2f89a0e1e1",
+    "prob_desc_notes": "NoteLet's have a look at the example.   Two groups of people can be invited: {1, 2, 3} and {4, 5}, thus the answer will be the size of the largest of these groups. Group {6, 7, 8, 9} doesn't fit, since it includes people 7 and 9 who dislike each other. Group {1, 2, 3, 4, 5} also doesn't fit, because not all of its members are connected by a chain of common friends (for example, people 2 and 5 aren't connected).",
+    "prob_desc_description": "To celebrate the second ABBYY Cup tournament, the Smart Beaver decided to throw a party. The Beaver has a lot of acquaintances, some of them are friends with each other, and some of them dislike each other. To make party successful, the Smart Beaver wants to invite only those of his friends who are connected by friendship relations, and not to invite those who dislike each other. Both friendship and dislike are mutual feelings.More formally, for each invited person the following conditions should be fulfilled:   all his friends should also be invited to the party;  the party shouldn't have any people he dislikes;  all people who are invited to the party should be connected with him by friendship either directly or through a chain of common friends of arbitrary length. We'll say that people a1 and ap are connected through a chain of common friends if there exists a sequence of people a2, a3, ..., ap - 1 such that all pairs of people ai and ai + 1 (1 ≤ i &lt; p) are friends. Help the Beaver find the maximum number of acquaintances he can invite.",
+    "prob_desc_output_spec": "Output a single number — the maximum number of people that can be invited to the party. If a group of people that meets all the requirements is impossible to select, output 0.",
+    "prob_desc_input_spec": "The first line of input contains an integer n — the number of the Beaver's acquaintances.  The second line contains an integer k  — the number of pairs of friends. Next k lines contain space-separated pairs of integers ui, vi  — indices of people who form the i-th pair of friends. The next line contains an integer m  — the number of pairs of people who dislike each other. Next m lines describe pairs of people who dislike each other in the same format as the pairs of friends were described. Each pair of people is mentioned in the input at most once . In particular, two persons cannot be friends and dislike each other at the same time. The input limitations for getting 30 points are:    2 ≤ n ≤ 14  The input limitations for getting 100 points are:    2 ≤ n ≤ 2000 ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_030.jsonl",
+    "code_uid": "c2811e69a9d6318588311d70488e632b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9\\n8\\n1 2\\n1 3\\n2 3\\n4 5\\n6 7\\n7 8\\n8 9\\n9 6\\n2\\n1 6\\n7 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# maa chudaaye duniya\nn = int(input())\nparents = [i for i in range(n+1)]\nranks = [1 for i in range(n+1)]\n\ndef find(x):\n\tif parents[x] != x:\n\t\tparents[x] = find(parents[x])\n\treturn parents[x]\n\ndef union(x, y):\n\txs = find(x)\n\tys = find(y)\n\tif xs == ys:\n\t\treturn\n\tif ranks[xs] > ranks[ys]:\n\t\tparents[ys] = xs\n\telif ranks[ys] > ranks[xs]:\n\t\tparents[xs] = ys\n\telse:\n\t\tparents[ys] = xs\n\t\tranks[xs] += 1\n\nfor _ in range(int(input())):\n\tu, v = map(int, input().split())\n\tunion(u, v)\n\n# print(parents)\nrejects = set([])\nfor _ in range(int(input())):\n\tp, q = map(int, input().split())\n\tps = find(p)\n\tqs = find(q)\n\tif ps == qs:\n\t\trejects.add(ps)\nps = {}\nfor i in range(1, n+1):\n\tp = find(i)\n\tif p not in rejects:\n\t\tif p in ps:\n\t\t\tps[p] += 1\n\t\telse:\n\t\t\tps[p] = 1\n# print(ps)\nans = 0\nfor i in ps:\n\tans = max(ans, ps[i])\nprint(ans)",
+    "prob_desc_created_at": "1335016800",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "brute force",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

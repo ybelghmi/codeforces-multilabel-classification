@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\\n2\"]",
+    "src_uid": "89bf97a548fe12921102e77dda63283a",
+    "prob_desc_notes": "Notein the first sample there is only one room at the same distance from rooms number 2 and 3 — room number 1.",
+    "prob_desc_description": "A and B are preparing themselves for programming contests.The University where A and B study is a set of rooms connected by corridors. Overall, the University has n rooms connected by n - 1 corridors so that you can get from any room to any other one by moving along the corridors. The rooms are numbered from 1 to n.Every day А and B write contests in some rooms of their university, and after each contest they gather together in the same room and discuss problems. A and B want the distance from the rooms where problems are discussed to the rooms where contests are written to be equal. The distance between two rooms is the number of edges on the shortest path between them.As they write contests in new rooms every day, they asked you to help them find the number of possible rooms to discuss problems for each of the following m days.",
+    "prob_desc_output_spec": "In the i-th (1 ≤ i ≤ m) line print the number of rooms that are equidistant from the rooms where A and B write contest on the i-th day.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105) — the number of rooms in the University. The next n - 1 lines describe the corridors. The i-th of these lines (1 ≤ i ≤ n - 1) contains two integers ai and bi (1 ≤ ai, bi ≤ n), showing that the i-th corridor connects rooms ai and bi. The next line contains integer m (1 ≤ m ≤ 105) — the number of queries. Next m lines describe the queries. The j-th of these lines (1 ≤ j ≤ m) contains two integers xj and yj (1 ≤ xj, yj ≤ n) that means that on the j-th day A will write the contest in the room xj, B will write in the room yj.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_072.jsonl",
+    "code_uid": "dbad5a17a56b08efebd1a31c3a3a1e78",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2\\n1 3\\n2 4\\n1\\n2 3\", \"4\\n1 2\\n2 3\\n2 4\\n2\\n1 2\\n1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\ndef main():\n    n = int(stdin.readline())\n    to = [0]\n    xt = [0]\n    last = [0] * (n + 1)\n    toa = to.append\n    xta = xt.append\n    c = 1\n    for _ in xrange(n - 1):\n        a, b = map(int, stdin.readline().split())\n        xta(last[a])\n        last[a] = c\n        toa(b)\n        c += 1\n        xta(last[b])\n        last[b] = c\n        toa(a)\n        c += 1\n    st = [1]\n    done = [0] * (n + 1)\n    par = [0] * (n + 1)\n    cn = [1] * (n + 1)\n    dep = [0] * (n + 1)\n    pp = st.pop\n    pu = st.append\n    while st:\n        x = pp()\n        if done[x] == 1:\n            done[x] = 2\n            y = last[x]\n            while y:\n                if done[to[y]] == 2:\n                    cn[x] += cn[to[y]]\n                y = xt[y]\n        elif not done[x]:\n            done[x] = 1\n            y = last[x]\n            pu(x)\n            while y:\n                if not done[to[y]]:\n                    pu(to[y])\n                    par[to[y]] = x\n                    dep[to[y]] = dep[x] + 1\n                y = xt[y]\n    par[1] = 1\n    pa = [par]\n    ppa = par\n    pu = pa.append\n    N = n.bit_length()\n    for j in xrange(N):\n        npa = [ppa[ppa[i]] for i in xrange(n + 1)]\n        pu(npa)\n        ppa = npa\n    m = int(stdin.readline())\n    ans = []\n    pu = ans.append\n    for _ in xrange(m):\n        a, b = map(int, stdin.readline().split())\n        if a == b:\n            pu(n)\n            continue\n        if dep[a] > dep[b]:\n            a, b = b, a\n        x, y = a, b\n        z = dep[y] - dep[x]\n        for j in xrange(N):\n            if z >> j & 1:\n                y = pa[j][y]\n        if x != y:\n            for j in xrange(N - 1, -1, -1):\n                if pa[j][x] != pa[j][y]:\n                    x, y = pa[j][x], pa[j][y]\n            t = pa[0][x]\n        else:\n            t = x\n        z = dep[a] - 2 * dep[t] + dep[b]\n        if z % 2:\n            pu(0)\n            continue\n        z /= 2\n        z -= 1\n        y = b\n        for j in xrange(N):\n            if z >> j & 1:\n                y = pa[j][y]\n        x = cn[par[y]] - cn[y]\n        if dep[a] == dep[b]:\n            y = a\n            for j in xrange(N):\n                if z >> j & 1:\n                    y = pa[j][y]\n            x -= cn[y]\n            x += n - cn[par[y]]\n        pu(x)\n    stdout.write('\\n'.join(map(str, ans)))\nmain()\n",
+    "prob_desc_created_at": "1425128400",
+    "tags": [
+        "dp",
+        "data structures",
+        "binary search",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

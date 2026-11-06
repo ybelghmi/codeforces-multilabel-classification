@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"baba\\naaaaaa\\n-1\"]",
+    "src_uid": "710c7211d23cf8c01fae0b476a889276",
+    "prob_desc_notes": "NoteIn the first test case, \"baba\" = \"baba\" $$$\\cdot~1~=$$$ \"ba\" $$$\\cdot~2$$$.In the second test case, \"aaaaaa\" = \"aa\" $$$\\cdot~3~=$$$ \"aaa\" $$$\\cdot~2$$$.",
+    "prob_desc_description": "Let's define a multiplication operation between a string $$$a$$$ and a positive integer $$$x$$$: $$$a \\cdot x$$$ is the string that is a result of writing $$$x$$$ copies of $$$a$$$ one after another. For example, \"abc\" $$$\\cdot~2~=$$$ \"abcabc\", \"a\" $$$\\cdot~5~=$$$ \"aaaaa\".A string $$$a$$$ is divisible by another string $$$b$$$ if there exists an integer $$$x$$$ such that $$$b \\cdot x = a$$$. For example, \"abababab\" is divisible by \"ab\", but is not divisible by \"ababab\" or \"aa\".LCM of two strings $$$s$$$ and $$$t$$$ (defined as $$$LCM(s, t)$$$) is the shortest non-empty string that is divisible by both $$$s$$$ and $$$t$$$.You are given two strings $$$s$$$ and $$$t$$$. Find $$$LCM(s, t)$$$ or report that it does not exist. It can be shown that if $$$LCM(s, t)$$$ exists, it is unique.",
+    "prob_desc_output_spec": "For each test case, print $$$LCM(s, t)$$$ if it exists; otherwise, print -1. It can be shown that if $$$LCM(s, t)$$$ exists, it is unique.",
+    "prob_desc_input_spec": "The first line contains one integer $$$q$$$ ($$$1 \\le q \\le 2000$$$) — the number of test cases. Each test case consists of two lines, containing strings $$$s$$$ and $$$t$$$ ($$$1 \\le |s|, |t| \\le 20$$$). Each character in each of these strings is either 'a' or 'b'.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_106.jsonl",
+    "code_uid": "0a429e6459b1b35894a02ad19c0e97b5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\nbaba\\nba\\naa\\naaa\\naba\\nab\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def lcm(a,b):\r\n    if a<b:\r\n        sm=a\r\n    else:\r\n        sm=b\r\n    for i in range(1,sm+1):\r\n        if a%i==0 and b%i==0:\r\n            hcf=i\r\n    return int(a*b/hcf)\r\nT=int(input())\r\nfor i in range(T):\r\n    t=str(input())\r\n    s=str(input())\r\n    p=s\r\n    q=t\r\n    l1=int(lcm(int(len(s)),int(len(t)))/int(len(s)))\r\n    l2=int(lcm(int(len(s)),int(len(t)))/int(len(t)))\r\n    for j in range(l1-1):\r\n        s+=p\r\n    for k in range(l2-1):\r\n        t+=q\r\n    if (s==t):\r\n        print(s,\"\\n\")\r\n    else:\r\n        print(\"-1\\n\")\r\n    ",
+    "prob_desc_created_at": "1610634900",
+    "tags": [
+        "brute force",
+        "math",
+        "number theory",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

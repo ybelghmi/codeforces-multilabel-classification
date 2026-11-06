@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\\naxe 262\\nheal 0\\nimpaler 225\\nmagicboost 165\\nmegafire 0\\nshield 0\"]",
+    "src_uid": "7da1a5c4c76540e1c7dc06e4c908c8b4",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In Disgaea as in most role-playing games, characters have skills that determine the character's ability to use certain weapons or spells. If the character does not have the necessary skill, he cannot use it. The skill level is represented as an integer that increases when you use this skill. Different character classes are characterized by different skills. Unfortunately, the skills that are uncommon for the given character's class are quite difficult to obtain. To avoid this limitation, there is the so-called transmigration. Transmigration is reincarnation of the character in a new creature. His soul shifts to a new body and retains part of his experience from the previous life. As a result of transmigration the new character gets all the skills of the old character and the skill levels are reduced according to the k coefficient (if the skill level was equal to x, then after transmigration it becomes equal to [kx], where [y] is the integral part of y). If some skill's levels are strictly less than 100, these skills are forgotten (the character does not have them any more). After that the new character also gains the skills that are specific for his class, but are new to him. The levels of those additional skills are set to 0. Thus, one can create a character with skills specific for completely different character classes via transmigrations. For example, creating a mage archer or a thief warrior is possible. You are suggested to solve the following problem: what skills will the character have after transmigration and what will the levels of those skills be?",
+    "prob_desc_output_spec": "Print on the first line number z — the number of skills the character will have after the transmigration. Then print z lines, on each of which print a skill's name and level, separated by a single space. The skills should be given in the lexicographical order.",
+    "prob_desc_input_spec": "The first line contains three numbers n, m and k — the number of skills the current character has, the number of skills specific for the class into which the character is going to transmigrate and the reducing coefficient respectively; n and m are integers, and k is a real number with exactly two digits after decimal point (1 ≤ n, m ≤ 20, 0.01 ≤ k ≤ 0.99). Then follow n lines, each of which describes a character's skill in the form \"name exp\" — the skill's name and the character's skill level: name is a string and exp is an integer in range from 0 to 9999, inclusive.  Then follow m lines each of which contains names of skills specific for the class, into which the character transmigrates.  All names consist of lowercase Latin letters and their lengths can range from 1 to 20 characters, inclusive. All character's skills have distinct names. Besides the skills specific for the class into which the player transmigrates also have distinct names.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_003.jsonl",
+    "code_uid": "5073c613f2b8aee4875435ee69eb0b54",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4 0.75\\naxe 350\\nimpaler 300\\nionize 80\\nmegafire 120\\nmagicboost 220\\nheal\\nmegafire\\nshield\\nmagicboost\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m,k = map(float, raw_input().split())\nd = {}\ne = {}\nfor i in range(int(n)):\n\tx,y = raw_input().split()\n\td[x] = int(y)\nfor i in range(int(m)):\n\te[raw_input()] = 0\nfor x in d:\n\tif d[x]*k >= 100:\n\t\te[x] = d[x]*k\nd = []\nfor x in e:\n\td.append((x, int(e[x]+10**-6)))\nd.sort()\nprint len(d)\nfor x in d:\n\tprint x[0], x[1]\n",
+    "prob_desc_created_at": "1313247600",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

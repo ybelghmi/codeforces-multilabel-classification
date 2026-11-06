@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"24\", \"56\"]",
+    "src_uid": "9b17b560c6b3700a6a387c693d71c5f9",
+    "prob_desc_notes": "NoteIn the first example, the optimal answer is $$$2$$$ and $$$4$$$ in the first row, $$$5$$$ and $$$2$$$ in the second row and $$$7$$$ and $$$4$$$ in the third row. The total sum is $$$2 + 4 + 5 + 2 + 7 + 4 = 24$$$.",
+    "prob_desc_description": "You are given a matrix $$$a$$$ of size $$$n \\times m$$$ consisting of integers.You can choose no more than $$$\\left\\lfloor\\frac{m}{2}\\right\\rfloor$$$ elements in each row. Your task is to choose these elements in such a way that their sum is divisible by $$$k$$$ and this sum is the maximum.In other words, you can choose no more than a half (rounded down) of elements in each row, you have to find the maximum sum of these elements divisible by $$$k$$$.Note that you can choose zero elements (and the sum of such set is $$$0$$$).",
+    "prob_desc_output_spec": "Print one integer — the maximum sum divisible by $$$k$$$ you can obtain.",
+    "prob_desc_input_spec": "The first line of the input contains three integers $$$n$$$, $$$m$$$ and $$$k$$$ ($$$1 \\le n, m, k \\le 70$$$) — the number of rows in the matrix, the number of columns in the matrix and the value of $$$k$$$. The next $$$n$$$ lines contain $$$m$$$ elements each, where the $$$j$$$-th element of the $$$i$$$-th row is $$$a_{i, j}$$$ ($$$1 \\le a_{i, j} \\le 70$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_073.jsonl",
+    "code_uid": "575c641eb9d484bc7de5d41554ecebf9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4 3\\n1 2 3 4\\n5 2 2 2\\n7 1 1 4\", \"5 5 4\\n1 2 4 2 1\\n3 5 1 2 4\\n1 5 7 1 2\\n3 8 7 1 2\\n8 4 7 1 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\nimport sys\nfrom io import BytesIO, IOBase\n# region fastio\nBUFSIZE = 8192\nclass FastIO(IOBase):\n    newlines = 0\n \n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\n        self.write = self.buffer.write if self.writable else None\n \n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n \n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b\"\\n\") + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n \n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n \n \nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\n \n \nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\n \n# ------------------------------\n \ndef RL(): return map(int, sys.stdin.readline().split())\ndef RLL(): return list(map(int, sys.stdin.readline().split()))\ndef N(): return int(input())\ndef print_list(l):\n    print(' '.join(map(str,l)))\n# import heapq as hq\n# import bisect as bs\n# from collections import deque as dq\n# from collections import defaultdict as dc \n# from math import ceil,floor,sqrt\n# from collections import Counter\n\n\ndata = sys.stdin.readlines()\nn,m,k = map(int, data[0].split())\ng = [list(map(int, line.split())) for line in data[1:]]\n\n# n,m,k = RL()\n# g = [RLL() for _ in range(n)]\nmm = m>>1\ndic = [[0]*(mm+2) for _ in range(k)]\nfor i in range(n):\n    for j in range(m):\n        key = g[i][j]\n        for t in range(min(j,mm-1),-1,-1):\n            for r in range(k):\n                if dic[r][t]:\n                    rr = (r+key)%k\n                    dic[rr][t+1] = max(dic[rr][t+1],dic[r][t]+key)\n        dic[key%k][1] = max(dic[key%k][1],key+dic[0][0])\n    tmp = [max(dic[r]) for r in range(k)]\n    dic = [[0]*(mm+2) for _ in range(k)]\n    for r in range(k):\n        dic[r][0] = tmp[r]\nprint(tmp[0] if m>1 else 0)\n",
+    "prob_desc_created_at": "1603204500",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

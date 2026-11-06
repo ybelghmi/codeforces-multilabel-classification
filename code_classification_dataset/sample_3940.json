@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"010\\n011001010\"]",
+    "src_uid": "fd3fad7de3068889e676e68551c00a0f",
+    "prob_desc_notes": "NoteIn the first test case, the bitstrings 00 and 01 are subsequences of the output string: 010 and 010. Note that 11 is not a subsequence of the output string, but this is not required.In the second test case all three input strings are subsequences of the output string: 011001010, 011001010 and 011001010.",
+    "prob_desc_description": "A bitstring is a string that contains only the characters 0 and 1.Koyomi Kanou is working hard towards her dream of becoming a writer. To practice, she decided to participate in the Binary Novel Writing Contest. The writing prompt for the contest consists of three bitstrings of length $$$2n$$$. A valid novel for the contest is a bitstring of length at most $$$3n$$$ that contains at least two of the three given strings as subsequences.Koyomi has just received the three prompt strings from the contest organizers. Help her write a valid novel for the contest.A string $$$a$$$ is a subsequence of a string $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero) characters.",
+    "prob_desc_output_spec": "For each test case, print a single line containing a bitstring of length at most $$$3n$$$ that has at least two of the given bitstrings as subsequences. It can be proven that under the constraints of the problem, such a bitstring always exists. If there are multiple possible answers, you may output any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$). Each of the following three lines contains a bitstring of length $$$2n$$$. It is guaranteed that these three strings are pairwise distinct. It is guaranteed that the sum of $$$n$$$ across all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_087.jsonl",
+    "code_uid": "f7d0d8172376c8ddf483da75a11248a7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1\\n00\\n11\\n01\\n3\\n011001\\n111010\\n010001\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = lambda : sys.stdin.readline().rstrip()\r\n\r\nwrite = lambda x: sys.stdout.write(x+\"\\n\"); writef = lambda x: print(\"{:.12f}\".format(x))\r\ndebug = lambda x: sys.stderr.write(x+\"\\n\")\r\nYES=\"Yes\"; NO=\"No\"; pans = lambda v: print(YES if v else NO)\r\nLI = lambda : list(map(int, input().split()))\r\n# sys.setrecursionlimit(3*10**5+10)\r\n\r\nt = int(input())\r\nfor _ in range(t):\r\n    n = int(input())\r\n    s = [list(map(int, input())) for _ in range(3)]\r\n    index = [0,0,0]\r\n    l = []\r\n    for i in range(3*n):\r\n        if max(index)==2*n:\r\n            inds = list(range(3))\r\n            inds.sort(key=lambda i: index[i])\r\n            j = inds[1]\r\n            for k in range(index[j], 2*n):\r\n                l.append(s[j][k])\r\n            break\r\n        if s[0][index[0]] + s[1][index[1]] + s[2][index[2]] >= 2:\r\n            v = 1\r\n        else:\r\n            v = 0\r\n        l.append(v)\r\n        for j in range(3):\r\n            if s[j][index[j]]==v:\r\n                index[j] += 1\r\n    assert len(l)<=3*n\r\n    write(\"\".join(map(str, l)))\r\n#     break",
+    "prob_desc_created_at": "1618583700",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "implementation",
+        "strings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

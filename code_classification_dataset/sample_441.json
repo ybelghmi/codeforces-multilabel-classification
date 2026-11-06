@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\", \"55\", \"157557417\"]",
+    "src_uid": "82293f824c5afbf9dbbb47eac421af33",
+    "prob_desc_notes": "NoteIn the first test there are $$$5$$$ suitable arrays:   $$$a = [1, 1], b = [2, 2]$$$;  $$$a = [1, 2], b = [2, 2]$$$;  $$$a = [2, 2], b = [2, 2]$$$;  $$$a = [1, 1], b = [2, 1]$$$;  $$$a = [1, 1], b = [1, 1]$$$. ",
+    "prob_desc_description": "You are given two integers $$$n$$$ and $$$m$$$. Calculate the number of pairs of arrays $$$(a, b)$$$ such that:  the length of both arrays is equal to $$$m$$$;  each element of each array is an integer between $$$1$$$ and $$$n$$$ (inclusive);  $$$a_i \\le b_i$$$ for any index $$$i$$$ from $$$1$$$ to $$$m$$$;  array $$$a$$$ is sorted in non-descending order;  array $$$b$$$ is sorted in non-ascending order. As the result can be very large, you should print it modulo $$$10^9+7$$$.",
+    "prob_desc_output_spec": "Print one integer – the number of arrays $$$a$$$ and $$$b$$$ satisfying the conditions described above modulo $$$10^9+7$$$.",
+    "prob_desc_input_spec": "The only line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 1000$$$, $$$1 \\le m \\le 10$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_002.jsonl",
+    "code_uid": "605ffdb023913342d04a0877f046bc9a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\", \"10 1\", \"723 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import factorial as fact\nmod = 10**9 + 7\n\ndef Ct(n, k):\n\treturn fact(n) // (fact(k) * fact(n - k))\nn, m = map(int, input().split())\nprint(Ct(n + 2*m - 1, 2*m) % mod)",
+    "prob_desc_created_at": "1579012500",
+    "tags": [
+        "dp",
+        "combinatorics"
+    ],
+    "hidden_unit_tests": ""
+}

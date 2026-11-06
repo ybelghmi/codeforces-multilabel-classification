@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"70\\n77\\n177177\\n999999999000000000\\n999999999\\n55\\n10\"]",
+    "src_uid": "04753f73af685b4e7339d30d6d47c161",
+    "prob_desc_notes": "NoteIn the first test case of the example, you need to decrease $$$b$$$ three times and obtain $$$10 \\cdot 7 = 70$$$.In the second test case of the example, you need to decrease $$$a$$$ one time, $$$b$$$ one time and obtain $$$11 \\cdot 7 = 77$$$.In the sixth test case of the example, you need to decrease $$$a$$$ five times and obtain $$$5 \\cdot 11 = 55$$$.In the seventh test case of the example, you need to decrease $$$b$$$ ten times and obtain $$$10 \\cdot 1 = 10$$$.",
+    "prob_desc_description": "You are given four integers $$$a$$$, $$$b$$$, $$$x$$$ and $$$y$$$. Initially, $$$a \\ge x$$$ and $$$b \\ge y$$$. You can do the following operation no more than $$$n$$$ times:  Choose either $$$a$$$ or $$$b$$$ and decrease it by one. However, as a result of this operation, value of $$$a$$$ cannot become less than $$$x$$$, and value of $$$b$$$ cannot become less than $$$y$$$. Your task is to find the minimum possible product of $$$a$$$ and $$$b$$$ ($$$a \\cdot b$$$) you can achieve by applying the given operation no more than $$$n$$$ times.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print one integer: the minimum possible product of $$$a$$$ and $$$b$$$ ($$$a \\cdot b$$$) you can achieve by applying the given operation no more than $$$n$$$ times.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 2 \\cdot 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The only line of the test case contains five integers $$$a$$$, $$$b$$$, $$$x$$$, $$$y$$$ and $$$n$$$ ($$$1 \\le a, b, x, y, n \\le 10^9$$$). Additional constraint on the input: $$$a \\ge x$$$ and $$$b \\ge y$$$ always holds.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_007.jsonl",
+    "code_uid": "171426c95599f93afd31ead5388cb93b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n10 10 8 5 3\\n12 8 8 7 2\\n12343 43 4543 39 123212\\n1000000000 1000000000 1 1 1\\n1000000000 1000000000 1 1 1000000000\\n10 11 2 1 5\\n10 11 9 1 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# cook your dish here\nt=int(input())\nfor tt in range (t):\n    a,b,x,y,n=map(int,input().split())\n    c=a-x\n    d=b-y\n    if n>=(c+d):\n        print(x*y)\n        continue\n    if (x==1 and n>=c):\n        print(b-(n-c))\n        continue\n    if (y==1 and n>=d):\n        print(a-(n-d))\n        continue\n    c=a-x\n    d=b-y\n    if n>=c:\n        i=x*(b-(n-c))\n    else:\n        i=(a-n)*b\n    if n>=d:\n        j=y*(a-(n-d))\n    else:\n        j=(b-n)*a\n    print(min(i,j))\n        ",
+    "prob_desc_created_at": "1599230100",
+    "tags": [
+        "greedy",
+        "math",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

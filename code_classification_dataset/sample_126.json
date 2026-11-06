@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"11.084259940083\", \"33.121375178000\"]",
+    "src_uid": "ae8687ed3cb5df080fb6ee79b040cef1",
+    "prob_desc_notes": "NoteConsider the first sample.Adil will use the following path: .Bera will use the following path: .Adil's path will be  units long, while Bera's path will be  units long.",
+    "prob_desc_description": "It was recycling day in Kekoland. To celebrate it Adil and Bera went to Central Perk where they can take bottles from the ground and put them into a recycling bin.We can think Central Perk as coordinate plane. There are n bottles on the ground, the i-th bottle is located at position (xi, yi). Both Adil and Bera can carry only one bottle at once each. For both Adil and Bera the process looks as follows:   Choose to stop or to continue to collect bottles.  If the choice was to continue then choose some bottle and walk towards it.  Pick this bottle and walk to the recycling bin.  Go to step 1. Adil and Bera may move independently. They are allowed to pick bottles simultaneously, all bottles may be picked by any of the two, it's allowed that one of them stays still while the other one continues to pick bottles.They want to organize the process such that the total distance they walk (the sum of distance walked by Adil and distance walked by Bera) is minimum possible. Of course, at the end all bottles should lie in the recycling bin.",
+    "prob_desc_output_spec": "Print one real number — the minimum possible total distance Adil and Bera need to walk in order to put all bottles into recycling bin. Your answer will be considered correct if its absolute or relative error does not exceed 10 - 6. Namely: let's assume that your answer is a, and the answer of the jury is b. The checker program will consider your answer correct if .",
+    "prob_desc_input_spec": "First line of the input contains six integers ax, ay, bx, by, tx and ty (0 ≤ ax, ay, bx, by, tx, ty ≤ 109) — initial positions of Adil, Bera and recycling bin respectively. The second line contains a single integer n (1 ≤ n ≤ 100 000) — the number of bottles on the ground. Then follow n lines, each of them contains two integers xi and yi (0 ≤ xi, yi ≤ 109) — position of the i-th bottle. It's guaranteed that positions of Adil, Bera, recycling bin and all bottles are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_000.jsonl",
+    "code_uid": "8694d69785e15093f3cc9909d405f96b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1 1 2 0 0\\n3\\n1 1\\n2 1\\n2 3\", \"5 0 4 2 2 0\\n5\\n5 2\\n3 0\\n5 5\\n3 5\\n3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "ax,ay,bx,by,tx,ty=map(int,input().split())\nn=int(input())\nl=[tuple(map(int,input().split())) for _ in range(n)]\na,b=[],[]\nfor i in range(n):\n  x,y=l[i]\n  lt=((tx-x)*(tx-x)+(ty-y)*(ty-y))**0.5\n  la=((ax-x)*(ax-x)+(ay-y)*(ay-y))**0.5\n  lb=((bx-x)*(bx-x)+(by-y)*(by-y))**0.5\n  a+=[(la-lt,i)]\n  b+=[(lb-lt,i)]\na.sort();b.sort()\nif a[0][1]==b[0][1] and n>1: ans=min(a[0][0],b[0][0],a[0][0]+b[1][0],a[1][0]+b[0][0])\nelse: \n  if a[0][1]==b[0][1]: ans=min(a[0][0],b[0][0])\n  else: ans=min(a[0][0],b[0][0],a[0][0]+b[0][0])\nfor i in range(n):\n  x,y=l[i]\n  lt=((tx-x)*(tx-x)+(ty-y)*(ty-y))**0.5\n  ans+=lt+lt\nprint(ans)",
+    "prob_desc_created_at": "1462984500",
+    "tags": [
+        "implementation",
+        "geometry",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

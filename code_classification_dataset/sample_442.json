@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\\n0\"]",
+    "src_uid": "08c797a7972fae99f8b64b47c53d8aeb",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have $$$n$$$ barrels lined up in a row, numbered from left to right from one. Initially, the $$$i$$$-th barrel contains $$$a_i$$$ liters of water.You can pour water from one barrel to another. In one act of pouring, you can choose two different barrels $$$x$$$ and $$$y$$$ (the $$$x$$$-th barrel shouldn't be empty) and pour any possible amount of water from barrel $$$x$$$ to barrel $$$y$$$ (possibly, all water). You may assume that barrels have infinite capacity, so you can pour any amount of water in each of them. Calculate the maximum possible difference between the maximum and the minimum amount of water in the barrels, if you can pour water at most $$$k$$$ times.Some examples:   if you have four barrels, each containing $$$5$$$ liters of water, and $$$k = 1$$$, you may pour $$$5$$$ liters from the second barrel into the fourth, so the amounts of water in the barrels are $$$[5, 0, 5, 10]$$$, and the difference between the maximum and the minimum is $$$10$$$;  if all barrels are empty, you can't make any operation, so the difference between the maximum and the minimum amount is still $$$0$$$. ",
+    "prob_desc_output_spec": "For each test case, print the maximum possible difference between the maximum and the minimum amount of water in the barrels, if you can pour water at most $$$k$$$ times.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k &lt; n \\le 2 \\cdot 10^5$$$) — the number of barrels and the number of pourings you can make. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 10^{9}$$$), where $$$a_i$$$ is the initial amount of water the $$$i$$$-th barrel has. It's guaranteed that the total sum of $$$n$$$ over test cases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_002.jsonl",
+    "code_uid": "87d600a399b203601fc0e6cee0c92930",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4 1\\n5 5 5 5\\n3 2\\n0 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin,stdout\nfrom collections import Counter\nfrom itertools import permutations\nimport bisect\nimport math\nI=lambda: map(int,stdin.readline().split())\nI1=lambda: stdin.readline()\n#(a/b)%m =((a%m)*pow(b,m-2)%m)%m\n\nfor _ in range(int(I1())):\n    n,k=I()\n    a=list(I())\n    if set(a)=={0}:\n        print(0)\n    else:\n        a.sort()\n        i=n-2\n        while k and i>=0:\n            if a[i]!=0:\n                a[n-1]+=a[i]\n                a[i]=0\n                i-=1 \n                k-=1 \n            else:\n                i-=1 \n        print(max(a)-min(a))\n    ",
+    "prob_desc_created_at": "1602407100",
+    "tags": [
+        "implementation",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

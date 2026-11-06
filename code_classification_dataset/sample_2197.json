@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"YES\", \"NO\", \"NO\"]",
+    "src_uid": "d629d09782a7af0acc359173ac4b4f0a",
+    "prob_desc_notes": "NoteIn the first example a wildcard character '*' can be replaced with a string \"force\". So the string $$$s$$$ after this replacement is \"codeforces\" and the answer is \"YES\".In the second example a wildcard character '*' can be replaced with an empty string. So the string $$$s$$$ after this replacement is \"vkcup\" and the answer is \"YES\".There is no wildcard character '*' in the third example and the strings \"v\" and \"k\" are different so the answer is \"NO\".In the fourth example there is no such replacement of a wildcard character '*' that you can obtain the string $$$t$$$ so the answer is \"NO\".",
+    "prob_desc_description": "You are given two strings $$$s$$$ and $$$t$$$. The string $$$s$$$ consists of lowercase Latin letters and at most one wildcard character '*', the string $$$t$$$ consists only of lowercase Latin letters. The length of the string $$$s$$$ equals $$$n$$$, the length of the string $$$t$$$ equals $$$m$$$.The wildcard character '*' in the string $$$s$$$ (if any) can be replaced with an arbitrary sequence (possibly empty) of lowercase Latin letters. No other character of $$$s$$$ can be replaced with anything. If it is possible to replace a wildcard character '*' in $$$s$$$ to obtain a string $$$t$$$, then the string $$$t$$$ matches the pattern $$$s$$$.For example, if $$$s=$$$\"aba*aba\" then the following strings match it \"abaaba\", \"abacaba\" and \"abazzzaba\", but the following strings do not match: \"ababa\", \"abcaaba\", \"codeforces\", \"aba1aba\", \"aba?aba\".If the given string $$$t$$$ matches the given string $$$s$$$, print \"YES\", otherwise print \"NO\".",
+    "prob_desc_output_spec": "Print \"YES\" (without quotes), if you can obtain the string $$$t$$$ from the string $$$s$$$. Otherwise print \"NO\" (without quotes).",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 2 \\cdot 10^5$$$) — the length of the string $$$s$$$ and the length of the string $$$t$$$, respectively. The second line contains string $$$s$$$ of length $$$n$$$, which consists of lowercase Latin letters and at most one wildcard character '*'. The third line contains string $$$t$$$ of length $$$m$$$, which consists only of lowercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_018.jsonl",
+    "code_uid": "e9f7a76fa6922a64caabc97b99848854",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 10\\ncode*s\\ncodeforces\", \"6 5\\nvk*cup\\nvkcup\", \"1 1\\nv\\nk\", \"9 6\\ngfgf*gfgf\\ngfgfgf\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=map(int,input().split())\ns=input()\nt=input()\nif(m<n-1):\n    print('NO')\nelse:\n    if('*' in s):\n        i=0\n        f=1\n        while(i<n and s[i]!='*'):\n            if(s[i]!=t[i]):\n                f=0\n                break\n            else:\n                i=i+1\n        if(f==1):\n            i=n-1\n            j=m-1\n            while(s[i]!='*'):\n                if(s[i]!=t[j]):\n                    f=0\n                    break\n                else:\n                    i=i-1\n                    j=j-1\n            if(f==1):\n                print(\"YES\")\n            else:\n                print(\"NO\")\n        else:\n            print(\"NO\")\n    else:\n        if(s==t):\n            print(\"YES\")\n        else:\n            print(\"NO\")\n",
+    "prob_desc_created_at": "1534516500",
+    "tags": [
+        "implementation",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

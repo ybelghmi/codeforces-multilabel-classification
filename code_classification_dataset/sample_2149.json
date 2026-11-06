@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"25\"]",
+    "src_uid": "b5355e1f4439b198d2cc7dea01bc4bc3",
+    "prob_desc_notes": "NoteIn the first example Igor should buy item 3 paying 6. But items 1 and 2 he should buy after a week. He will pay 3 and 1 for them. So in total he will pay 6 + 3 + 1 = 10.In the second example Igor should buy right now items 1, 2, 4 and 5, paying for them 3, 4, 10 and 3, respectively. Item 3 he should buy after a week of discounts, he will pay 5 for it. In total he will spend 3 + 4 + 10 + 3 + 5 = 25.",
+    "prob_desc_description": "Igor found out discounts in a shop and decided to buy n items. Discounts at the store will last for a week and Igor knows about each item that its price now is ai, and after a week of discounts its price will be bi.Not all of sellers are honest, so now some products could be more expensive than after a week of discounts.Igor decided that buy at least k of items now, but wait with the rest of the week in order to save money as much as possible. Your task is to determine the minimum money that Igor can spend to buy all n items.",
+    "prob_desc_output_spec": "Print the minimal amount of money Igor will spend to buy all n items. Remember, he should buy at least k items right now.",
+    "prob_desc_input_spec": "In the first line there are two positive integer numbers n and k (1 ≤ n ≤ 2·105, 0 ≤ k ≤ n) — total number of items to buy and minimal number of items Igor wants to by right now. The second line contains sequence of integers a1, a2, ..., an (1 ≤ ai ≤ 104) — prices of items during discounts (i.e. right now). The third line contains sequence of integers b1, b2, ..., bn (1 ≤ bi ≤ 104) — prices of items after discounts (i.e. after a week).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_017.jsonl",
+    "code_uid": "8c530ac030d3ff4c264cc767417fe56a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\n5 4 6\\n3 1 5\", \"5 3\\n3 4 7 10 3\\n4 5 5 12 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, input().split())\na = [int(x) for x in input().split()]\nb = [int(x) for x in input().split()]\nd = []\nfor i in range(n):\n    d.append((a[i]-b[i], i, a[i], b[i]))\nd.sort()\ntotal = 0\nfor i in range(n):\n    if k>0 or d[i][0]<=0:\n        total += d[i][2]\n        k -= 1\n    else:\n        total += d[i][3]\nprint(total)",
+    "prob_desc_created_at": "1488096300",
+    "tags": [
+        "constructive algorithms",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

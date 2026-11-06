@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n-1\\n3\\n3 1\\n3 2\\n4 3\"]",
+    "src_uid": "c1f13141a70c7b9228015c0382c7ca71",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two arrays $$$a$$$ and $$$b$$$, both consisting of $$$n$$$ integers.In one move, you can choose two indices $$$i$$$ and $$$j$$$ ($$$1 \\le i, j \\le n$$$; $$$i \\neq j$$$) and swap $$$a_i$$$ with $$$a_j$$$ and $$$b_i$$$ with $$$b_j$$$. You have to perform the swap in both arrays.You are allowed to perform at most $$$10^4$$$ moves (possibly, zero). Can you make both arrays sorted in a non-decreasing order at the end? If you can, print any sequence of moves that makes both arrays sorted.",
+    "prob_desc_output_spec": "For each testcase, print the answer. If it's impossible to make both arrays sorted in a non-decreasing order in at most $$$10^4$$$ moves, print -1. Otherwise, first, print the number of moves $$$k$$$ $$$(0 \\le k \\le 10^4)$$$. Then print $$$i$$$ and $$$j$$$ for each move $$$(1 \\le i, j \\le n$$$; $$$i \\neq j)$$$. If there are multiple answers, then print any of them. You don't have to minimize the number of moves.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of testcases. The first line of each testcase contains a single integer $$$n$$$ ($$$2 \\le n \\le 100$$$) — the number of elements in both arrays. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le n$$$) — the first array. The third line contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$1 \\le b_i \\le n$$$) — the second array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_087.jsonl",
+    "code_uid": "b9beeab70ad19141a524dbe4c85ad94d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n2\\n\\n1 2\\n\\n1 2\\n\\n2\\n\\n2 1\\n\\n1 2\\n\\n4\\n\\n2 3 1 2\\n\\n2 3 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = lambda: sys.stdin.readline().rstrip()\r\n\r\n#  -----------------------  #\r\n\r\ndef main():\r\n  n = int(input())\r\n  A = list(map(int, input().split()))\r\n  B = list(map(int, input().split()))\r\n  \r\n  C = [[A[i], B[i]] for i in range(n)]\r\n\r\n  D = sorted(C)\r\n\r\n  BB = [x[1] for x in D]\r\n  if BB != sorted(BB):\r\n    print(-1)\r\n    return\r\n  if A == B and A == sorted(A):\r\n    print(0)\r\n    return\r\n\r\n  ans = []\r\n  for i in range(n):\r\n    for j in range(n-1, i, -1):\r\n      if C[j][0] < C[j-1][0]:\r\n        C[j], C[j-1] = C[j-1], C[j]\r\n        ans.append((j+1, j))\r\n  block = []\r\n  for i in range(n):\r\n    block.clear()\r\n    indx = i\r\n    block.append(C[i][1])\r\n    while i+1 < n and C[i][0] == C[i+1][0]:\r\n      block.append(C[i+1][1])\r\n      i += 1\r\n    for k in range(len(block)):\r\n      for j in range(len(block)-1, k, -1):\r\n        if block[j] < block[j-1]:\r\n          block[j], block[j-1] = block[j-1], block[j]\r\n          C[j+indx], C[j-1+indx] = C[j-1+indx], C[j+indx]\r\n          ans.append((j+1+indx, j+indx))\r\n  print(len(ans))\r\n  for a in ans:\r\n    print(*a)\r\n\r\nfor _ in range(int(input())):\r\n  main()\r\n",
+    "prob_desc_created_at": "1653316500",
+    "tags": [
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

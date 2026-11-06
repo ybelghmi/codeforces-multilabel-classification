@@ -1,0 +1,23 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\", \"296\", \"8\"]",
+    "src_uid": "b8d8f0e86ecb600f7559a6aec629946e",
+    "prob_desc_notes": "NoteIn first sample, an optimal solution is:   The elevator takes up person #1 and person #2.  It goes to the 2nd floor.  Both people go out of the elevator.  The elevator goes back to the 1st floor.  Then the elevator takes up person #3.  And it goes to the 2nd floor.  It picks up person #2.  Then it goes to the 3rd floor.  Person #2 goes out.  Then it goes to the 4th floor, where person #3 goes out.  The elevator goes back to the 1st floor. ",
+    "prob_desc_description": "One way to create a task is to learn from life. You can choose some experience in real life, formalize it and then you will get a new task.Let's think about a scene in real life: there are lots of people waiting in front of the elevator, each person wants to go to a certain floor. We can formalize it in the following way. We have n people standing on the first floor, the i-th person wants to go to the fi-th floor. Unfortunately, there is only one elevator and its capacity equal to k (that is at most k people can use it simultaneously). Initially the elevator is located on the first floor. The elevator needs |a - b| seconds to move from the a-th floor to the b-th floor (we don't count the time the people need to get on and off the elevator).What is the minimal number of seconds that is needed to transport all the people to the corresponding floors and then return the elevator to the first floor?",
+    "prob_desc_output_spec": "Output a single integer — the minimal time needed to achieve the goal.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n, k ≤ 2000) — the number of people and the maximal capacity of the elevator. The next line contains n integers: f1, f2, ..., fn (2 ≤ fi ≤ 2000), where fi denotes the target floor of the i-th person.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_024.jsonl",
+    "code_uid": "c45e13ee28d5e4a33f61bc1fb047a726",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n2 3 4\", \"4 2\\n50 100 50 100\", \"10 3\\n2 2 2 2 2 2 2 2 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# coding: utf-8\ndef sol():\n    n, cap = [int(x) for x in input().split(' ')]\n    vec =sorted([int(x)for x in input().split(' ')])\n    freq={}\n    for i in vec:\n        freq[i] = 0\n    for i in vec:\n        freq[i] +=1\n    ans = 0\n    while n>0:\n        temp_c = cap\n        n -= temp_c\n        visited_floors = []\n        while temp_c > 0:\n            floor = 0\n            for key,val in freq.items():\n        \n                if val > 0 and floor <= key:\n                    floor = key\n            if floor == 0:\n                break            \n            dropoff = min(temp_c,freq[floor])\n            temp_c -= dropoff\n            freq[floor]-= dropoff\n            visited_floors.append(floor)\n            \n        max_floor_visited = max(visited_floors)\n       \n        for i in vec:\n            if freq[i] == 0:\n                freq[i] = -1   \n        ans+=2*(max_floor_visited-1)\n    print(ans)\n    return ans\nsol()\n\n\n\n             \n             \n",
+    "prob_desc_created_at": "1411918500",
+    "tags": [],
+    "hidden_unit_tests": ""
+}

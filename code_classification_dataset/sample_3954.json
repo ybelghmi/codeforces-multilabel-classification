@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n1\"]",
+    "src_uid": "1f80d1b61d76ba7725b6e4208a4f735e",
+    "prob_desc_notes": "NoteIn the first test case it is possible to change the array this way: $$$[\\underline{3}, 6, 2, 4, \\underline{5}]$$$ (changed elements are underlined). After that the array does not need to be divided, so the answer is $$$1$$$.In the second test case it is possible to change the array this way: $$$[6, 2, \\underline{3}, 8, 9, \\underline{5}, 3, 6, \\underline{10}, \\underline{11}, 7]$$$. After that such division is optimal:   $$$[6, 2, 3]$$$  $$$[8, 9, 5, 3, 6, 10, 11, 7]$$$ ",
+    "prob_desc_description": "This is the hard version of the problem. The only difference is that in this version $$$0 \\leq k \\leq 20$$$.There is an array $$$a_1, a_2, \\ldots, a_n$$$ of $$$n$$$ positive integers. You should divide it into a minimal number of continuous segments, such that in each segment there are no two numbers (on different positions), whose product is a perfect square.Moreover, it is allowed to do at most $$$k$$$ such operations before the division: choose a number in the array and change its value to any positive integer.What is the minimum number of continuous segments you should use if you will make changes optimally?",
+    "prob_desc_output_spec": "For each test case print a single integer  — the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ $$$(1 \\le t \\le 1000)$$$  — the number of test cases. The first line of each test case contains two integers $$$n$$$, $$$k$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$, $$$0 \\leq k \\leq 20$$$). The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 10^7$$$). It's guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_087.jsonl",
+    "code_uid": "36e89991f9cd8a8aa62454e19673e22a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n5 2\\n\\n18 6 2 4 1\\n\\n11 4\\n\\n6 2 2 8 9 1 3 6 3 9 7\\n\\n1 0\\n\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\r\nimport io\r\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline \r\n \r\nfrom math import sqrt,ceil\r\n \r\nmax_n=10**7+1\r\nspf = [i for i in range(max_n)]\r\n \r\nfor i in range(4,max_n,2): \r\n    spf[i]=2\r\n    \r\nfor i in range(3,ceil(sqrt(max_n))): \r\n    if (spf[i]==i):  \r\n        for j in range(i*i,max_n,i):  \r\n            if(spf[j]==j):\r\n                spf[j]=i\r\n                \r\nfrom collections import Counter,defaultdict\r\nfrom bisect import insort\r\n \r\ndef f(x):\r\n    c=Counter()\r\n    ans=1\r\n    while(x!=1):\r\n        c[spf[x]]+=1\r\n        x//=spf[x] \r\n    for i in c:\r\n        if(c[i]%2==1):\r\n            ans*=i\r\n    return(ans)\r\n \r\n#https://www.geeksforgeeks.org/prime-factorization-using-sieve-olog-n-multiple-queries/\r\n \r\nt=int(input())\r\nfor _ in range(t):\r\n    n,k=map(int,input().split())\r\n    a=list(map(int,input().split()))\r\n    for i in range(n):\r\n        a[i]=f(a[i])\r\n    dp_depth=[[n for j in range(k+1)] for i in range(n)] #Maximum length that can be tranversed in list, starting from index i with atmost j repeated elements(default is entire length of list(max possible)\r\n    recent=[n for i in range(k+1)] #Stores position of most recent repeated element in the suffix(default is one more that maximum index(when no sufficient repeats))\r\n    closest=defaultdict(lambda: -1) #Stores index of first repetition for a particular ai \r\n    for i in range(n-1,-1,-1):\r\n        if(closest[a[i]]>=0):\r\n            insort(recent,closest[a[i]])\r\n            recent.pop()\r\n        dp_depth[i]=recent.copy()\r\n        closest[a[i]]=i \r\n    dp=[[i for j in range(k+1)] for i in range(n+1)]\r\n    #dp=[[float('inf') for j in range(k+1)] for i in range(n+1)] #Minimum number of sets in the prefix segment upto(and **excluding**) index i after atmost k changes(which is also = number of partitions/splits(number of element changes) upto and **excluding** index i).\r\n    #Note we could have changed the float('inf') to \"i\" but that's tougher to debug.\r\n    dp[0]=[0 for j in range(k+1)] #base case(don't need to divide at all before element at index 0(first element))\r\n    for i in range(n):\r\n        for x in range(k+1): \r\n            end=dp_depth[i][x] #The end point of our segment(upto and exluding this index position)\r\n            #We are dividing each segment into subsegments: prefix consisting of [0,i), suffix consisting from [i,end)\r\n            #x is the number of partitions/splits(number of elements we change) in the suffix subsegment(Number of repeated elements starting from index i)\r\n            for y in range(k-x+1): #y is the number of partitions/splits(number of elements we change) in the prefix subsegment\r\n                dp[end][x+y]=min(dp[end][x+y],dp[i][y]+1) #after using the previously calculated value dp[i][y](<=y changes), with <= x more \"changes\"(equality holds iff end=n) in the suffix segment, this gives an extra set starting from [i,end). So overall, we get number of sets of dp[i][y]+1.\r\n    print(dp[n][k])\r\n                \r\n                \r\n            \r\n\r\n",
+    "prob_desc_created_at": "1615991700",
+    "tags": [
+        "data structures",
+        "dp",
+        "greedy",
+        "math",
+        "number theory",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

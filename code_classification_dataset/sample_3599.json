@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n4\\n0\"]",
+    "src_uid": "76ff4070a93132de264d0e1609ae8f59",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array $$$a$$$ consisting of $$$500000$$$ integers (numbered from $$$1$$$ to $$$500000$$$). Initially all elements of $$$a$$$ are zero.You have to process two types of queries to this array:  $$$1$$$ $$$x$$$ $$$y$$$ — increase $$$a_x$$$ by $$$y$$$;  $$$2$$$ $$$x$$$ $$$y$$$ — compute $$$\\sum\\limits_{i \\in R(x, y)} a_i$$$, where $$$R(x, y)$$$ is the set of all integers from $$$1$$$ to $$$500000$$$ which have remainder $$$y$$$ modulo $$$x$$$. Can you process all the queries?",
+    "prob_desc_output_spec": "For each query of type $$$2$$$ print one integer — the answer to it.",
+    "prob_desc_input_spec": "The first line contains one integer $$$q$$$ ($$$1 \\le q \\le 500000$$$) — the number of queries. Then $$$q$$$ lines follow, each describing a query. The $$$i$$$-th line contains three integers $$$t_i$$$, $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le t_i \\le 2$$$). If $$$t_i = 1$$$, then it is a query of the first type, $$$1 \\le x_i \\le 500000$$$, and $$$-1000 \\le y_i \\le 1000$$$. If $$$t_i = 2$$$, then it it a query of the second type, $$$1 \\le x_i \\le 500000$$$, and $$$0 \\le y_i &lt; x_i$$$. It is guaranteed that there will be at least one query of type $$$2$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_072.jsonl",
+    "code_uid": "bcdad6c7078585c7555db1d1aef93fd6",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 3 4\\n2 3 0\\n2 4 3\\n1 4 -4\\n2 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\nbig = 500001\nA = [0]*big\nsmall = 500\nbuckets = [[0]*i for i in range(1, small + 1)]\n\ndef add(x,y):\n    for i,b in enumerate(buckets):\n        b[x%(i+1)] += y\n\ndef summa(x,i):\n    s = 0\n    while i < big:\n        s += A[i]\n        i += x\n    return s\n\ninp = [int(x) for x in sys.stdin.read().split()]\nii = 0\n\nq = inp[ii]\nii += 1\nout = []\nfor _ in range(q):\n    c = inp[ii]\n    ii += 1\n    x = inp[ii]\n    ii += 1\n    y = inp[ii]\n    ii += 1\n    if c == 1:\n        A[x] += y\n        add(x,y)\n    else:\n        s = buckets[x - 1][y] if x<=small else summa(x,y)\n        out.append(s)\nprint '\\n'.join(str(x) for x in out)\n",
+    "prob_desc_created_at": "1566484500",
+    "tags": [
+        "data structures",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

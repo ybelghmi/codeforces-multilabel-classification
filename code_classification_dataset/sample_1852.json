@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\\nNO\", \"NO\\nNO\\nYES\\nNO\\nNO\"]",
+    "src_uid": "6709c8078cd29e69cf1be285071b2527",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Methodius received an email from his friend Polycarp. However, Polycarp's keyboard is broken, so pressing a key on it once may cause the corresponding symbol to appear more than once (if you press a key on a regular keyboard, it prints exactly one symbol).For example, as a result of typing the word \"hello\", the following words could be printed: \"hello\", \"hhhhello\", \"hheeeellllooo\", but the following could not be printed: \"hell\", \"helo\", \"hhllllooo\".Note, that when you press a key, the corresponding symbol must appear (possibly, more than once). The keyboard is broken in a random manner, it means that pressing the same key you can get the different number of letters in the result.For each word in the letter, Methodius has guessed what word Polycarp actually wanted to write, but he is not sure about it, so he asks you to help him.You are given a list of pairs of words. For each pair, determine if the second word could be printed by typing the first one on Polycarp's keyboard.",
+    "prob_desc_output_spec": "Output $$$n$$$ lines. In the $$$i$$$-th line for the $$$i$$$-th pair of words $$$s$$$ and $$$t$$$ print YES if the word $$$t$$$ could be printed by typing the word $$$s$$$. Otherwise, print NO.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the number of pairs to check. Further input contains $$$n$$$ descriptions of pairs. The first line of each description contains a single non-empty word $$$s$$$ consisting of lowercase Latin letters. The second line of the description contains a single non-empty word $$$t$$$ consisting of lowercase Latin letters. The lengths of both strings are not greater than $$$10^6$$$. It is guaranteed that the total length of all words $$$s$$$ in the input is not greater than $$$10^6$$$. Also, it is guaranteed that the total length of all words $$$t$$$ in the input is not greater than $$$10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_013.jsonl",
+    "code_uid": "3423f3eafa77e4ca2d087dbeafbf72b5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\nhello\\nhello\\nhello\\nhelloo\\nhello\\nhlllloo\\nhello\\nhelo\", \"5\\naa\\nbb\\ncodeforces\\ncodeforce\\npolycarp\\npoolycarpp\\naaaa\\naaaab\\nabcdefghijklmnopqrstuvwxyz\\nzabcdefghijklmnopqrstuvwxyz\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\n    a = input()\n    b = input()\n    l1,l2 = len(a),len(b)\n    f = 1\n    i,j = 0,0\n    while i < l1:\n        last = a[i]\n        c = 0\n        while i < l1 and a[i] == last:\n            c += 1\n            i += 1\n        p = 0\n        while j < l2 and b[j] == last:\n            p += 1\n            j += 1\n        if p < c:\n            f = 0\n            break\n    #print(i,j)\n    if f and j == l2: print(\"YES\")\n    else: print(\"NO\")",
+    "prob_desc_created_at": "1560955500",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

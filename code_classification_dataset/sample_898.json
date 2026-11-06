@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7\", \"10\", \"0\"]",
+    "src_uid": "7807c484035e0327870b6cac23c8d60a",
+    "prob_desc_notes": "NoteIn the first sample Vasya has to visit at least two checkpoints. The optimal way to achieve this is the walk to the third checkpoints (distance is 12 - 10 = 2) and then proceed to the second one (distance is 12 - 7 = 5). The total distance is equal to 2 + 5 = 7.In the second sample it's enough to visit only one checkpoint so Vasya should just walk to the point  - 10.",
+    "prob_desc_description": "Vasya takes part in the orienteering competition. There are n checkpoints located along the line at coordinates x1, x2, ..., xn. Vasya starts at the point with coordinate a. His goal is to visit at least n - 1 checkpoint in order to finish the competition. Participant are allowed to visit checkpoints in arbitrary order.Vasya wants to pick such checkpoints and the order of visiting them that the total distance travelled is minimized. He asks you to calculate this minimum possible value.",
+    "prob_desc_output_spec": "Print one integer — the minimum distance Vasya has to travel in order to visit at least n - 1 checkpoint.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and a (1 ≤ n ≤ 100 000,  - 1 000 000 ≤ a ≤ 1 000 000) — the number of checkpoints and Vasya's starting position respectively. The second line contains n integers x1, x2, ..., xn ( - 1 000 000 ≤ xi ≤ 1 000 000) — coordinates of the checkpoints.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_005.jsonl",
+    "code_uid": "7632bb58d2b620779ffe85e1b781ee27",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 10\\n1 7 12\", \"2 0\\n11 -10\", \"5 0\\n0 0 1000 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "R=lambda:map(int,raw_input().split())\nn,a=R()\nx=sorted(R())\ndef f(i,j):\n  return abs(a-x[i])+abs(x[i]-x[j])\nif n>1:\n  print min(f(0,-2),f(1,-1),f(-2,0),f(-1,1))\nelse:\n  print 0\n",
+    "prob_desc_created_at": "1472056500",
+    "tags": [
+        "implementation",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

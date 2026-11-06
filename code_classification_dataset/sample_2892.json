@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "0.5 seconds",
+    "prob_desc_sample_outputs": "[\"1.41421356237309514547\\n1.00000000000000000000\\n0.00000000000000000000\"]",
+    "src_uid": "4bb6d1680ca0cbfe76dbcce5ea4c77b3",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Given simple (without self-intersections) n-gon. It is not necessary convex. Also you are given m lines. For each line find the length of common part of the line and the n-gon.The boundary of n-gon belongs to polygon. It is possible that n-gon contains 180-degree angles.",
+    "prob_desc_output_spec": "Print m lines, the i-th line should contain the length of common part of the given n-gon and the i-th line. The answer will be considered correct if the absolute or relative error doesn't exceed 10 - 6.",
+    "prob_desc_input_spec": "The first line contains integers n and m (3 ≤ n ≤ 1000;1 ≤ m ≤ 100). The following n lines contain coordinates of polygon vertices (in clockwise or counterclockwise direction). All vertices are distinct. The following m lines contain line descriptions. Each of them contains two distict points of a line by their coordinates. All given in the input coordinates are real numbers, given with at most two digits after decimal point. They do not exceed 105 by absolute values.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2900,
+    "file_name": "train_034.jsonl",
+    "code_uid": "596746ce0f0939673e1c7c8b5494c3c2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n0 0\\n1 0\\n1 1\\n0 1\\n0 0 1 1\\n0 0 0 1\\n0 0 1 -1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n\neps = 1e-9\n\ndef sign(n):\n    if n > eps: return 1\n    if n < -eps: return -1\n    return 0\n\ndef cross(a, b):\n    return a.x * b.y - a.y * b.x\n\nclass Vector:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __add__(self, v):\n        return Vector(self.x + v.x, self.y + v.y)\n    \n    def __sub__(self, v):\n        return Vector(self.x - v.x, self.y - v.y)\n    \n    def length(self):\n        return math.hypot(self.x, self.y)\n\ndef solve(polygon, p, q):\n    intersections = []\n    for (a, b) in zip(polygon, polygon[1:] + polygon[:1]):\n        ss = sign(cross(a - p, q - p))\n        es = sign(cross(b - p, q - p))\n\n        if ss == es: continue\n\n        t = cross(a - p, a - b) / cross(q - p, a - b)\n        intersections.append((t, es - ss))\n    intersections = sorted(intersections)\n    total_t, previous_t, count = [0] * 3\n    \n    for t, order in intersections:\n        if (count > 0): total_t += t - previous_t\n        previous_t = t\n        count += order\n    # print(total_t) \n\n    print(total_t * (q - p).length())\n    \nn, m = map(int, input().split())\n\npolygon = []\nfor i in range(n):\n    x, y = map(float, input().split())\n    polygon.append(Vector(x, y))\narea = sum(map(lambda x: cross(x[0], x[1]), zip(polygon, polygon[1:] + polygon[:1])))\nif (area < 0): polygon.reverse()\n\nfor i in range(m):\n    x1, y1, x2, y2 = map(float, input().split())\n    solve(polygon, Vector(x1, y1), Vector(x2, y2))\n",
+    "prob_desc_created_at": "1447426800",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

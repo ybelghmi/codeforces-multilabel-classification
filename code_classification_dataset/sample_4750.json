@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1111111\", \"1101\"]",
+    "src_uid": "1925187d2c4b9caa1e74c29d9f33f3a6",
+    "prob_desc_notes": "NoteIn sample test case $$$l=19$$$, $$$r=122$$$. $$$f(x,y)$$$ is maximal and is equal to $$$127$$$, with $$$x=27$$$, $$$y=100$$$, for example.",
+    "prob_desc_description": "You are given two integers $$$l$$$ and $$$r$$$ in binary representation. Let $$$g(x, y)$$$ be equal to the bitwise XOR of all integers from $$$x$$$ to $$$y$$$ inclusive (that is $$$x \\oplus (x+1) \\oplus \\dots \\oplus (y-1) \\oplus y$$$). Let's define $$$f(l, r)$$$ as the maximum of all values of $$$g(x, y)$$$ satisfying $$$l \\le x \\le y \\le r$$$.Output $$$f(l, r)$$$.",
+    "prob_desc_output_spec": "In a single line output the value of $$$f(l, r)$$$ for the given pair of $$$l$$$ and $$$r$$$ in binary representation without extra leading zeros.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^6$$$) — the length of the binary representation of $$$r$$$. The second line contains the binary representation of $$$l$$$ — a string of length $$$n$$$ consisting of digits $$$0$$$ and $$$1$$$ ($$$0 \\le l &lt; 2^n$$$). The third line contains the binary representation of $$$r$$$ — a string of length $$$n$$$ consisting of digits $$$0$$$ and $$$1$$$ ($$$0 \\le r &lt; 2^n$$$). It is guaranteed that $$$l \\le r$$$. The binary representation of $$$r$$$ does not contain any extra leading zeros (if $$$r=0$$$, the binary representation of it consists of a single zero). The binary representation of $$$l$$$ is preceded with leading zeros so that its length is equal to $$$n$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_105.jsonl",
+    "code_uid": "c4196ff2a3bc8c4b0f74f61159997f98",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n0010011\\n1111010\", \"4\\n1010\\n1101\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\r\nle = int(input(), 2)\r\nrg = int(input(), 2)\r\n\r\nans = rg\r\nif (2 ** (n - 1)) & le:\r\n  if rg % 2 == 0 and le <= rg - 2:\r\n    ans += 1\r\nelse:\r\n  ans = 2 ** n - 1 if rg else 0\r\n\r\nprint('{0:b}'.format(ans))",
+    "prob_desc_created_at": "1615039500",
+    "tags": [
+        "bitmasks",
+        "constructive algorithms",
+        "greedy",
+        "math",
+        "strings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

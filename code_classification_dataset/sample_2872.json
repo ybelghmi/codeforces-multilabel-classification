@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"17\", \"6\", \"13\"]",
+    "src_uid": "d33d7dc7082a449b35f99ef1c72c866e",
+    "prob_desc_notes": "NoteIn the first sample the spiral with maximum sum will cover all 1's of the table.In the second sample the spiral may cover only six 1's.",
+    "prob_desc_description": "Let's consider a k × k square, divided into unit squares. Please note that k ≥ 3 and is odd. We'll paint squares starting from the upper left square in the following order: first we move to the right, then down, then to the left, then up, then to the right again and so on. We finish moving in some direction in one of two cases: either we've reached the square's border or the square following after the next square is already painted. We finish painting at the moment when we cannot move in any direction and paint a square. The figure that consists of the painted squares is a spiral.   The figure shows examples of spirals for k = 3, 5, 7, 9.  You have an n × m table, each of its cells contains a number. Let's consider all possible spirals, formed by the table cells. It means that we consider all spirals of any size that don't go beyond the borders of the table. Let's find the sum of the numbers of the cells that form the spiral. You have to find the maximum of those values among all spirals.",
+    "prob_desc_output_spec": "Print a single number — the maximum sum of numbers among all spirals.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (3 ≤ n, m ≤ 500) — the sizes of the table. Each of the next n lines contains m space-separated integers: the j-th number in the i-th line aij ( - 1000 ≤ aij ≤ 1000) is the number recorded in the j-th cell of the i-th row of the table.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_034.jsonl",
+    "code_uid": "5e047a0556b9a98e1426946aec8e31f4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 5\\n0 0 0 0 0\\n1 1 1 1 1\\n0 0 0 0 1\\n1 1 1 0 1\\n1 0 0 0 1\\n1 1 1 1 1\", \"3 3\\n1 1 1\\n1 0 0\\n1 1 1\", \"6 6\\n-3 2 0 1 5 -1\\n4 -1 2 -3 0 1\\n-5 1 2 4 1 -2\\n0 -2 1 3 -1 2\\n3 1 4 -3 -2 0\\n-1 2 -1 3 1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nn,m = [int(x) for x in input().split()]\nA = []\nfor _ in range(n):\n    A.append([int(x) for x in input().split()])\n\nB = [[0] * (m + 1) for _ in range(n + 1)]\n\nfor i in range(n):\n    for j in range(m):\n        B[i + 1][j + 1] = B[i + 1][j] + B[i][j + 1] - B[i][j] + A[i][j]\n\ndef getsum(i1,j1,i2,j2):\n    return B[i2][j2] - B[i2][j1] - B[i1][j2] + B[i1][j1]\n\nconst = min(n, m) // 2 + 3\n\nDP = [[0]*m for _ in range(n)]\nfor i in range(n):\n    for j in range(m):\n        DP[i][j] = A[i][j]\n\nmaxi = -10**9\nfor layer in range(1, const):\n    for i in range(n):\n        for j in range(m):\n            endy = i + 2 * layer + 1\n            endx = j + 2 * layer + 1\n            if endy > n or endx > m:\n                break\n            x = DP[i][j] = getsum(i,j,endy, endx) - A[i + 1][j] - DP[i + 1][j + 1]\n            maxi = max(x, maxi)\nprint maxi\n",
+    "prob_desc_created_at": "1333724400",
+    "tags": [
+        "dp",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

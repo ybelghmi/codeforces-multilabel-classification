@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"021\", \"001122\", \"211200\", \"120120\"]",
+    "src_uid": "cb852bf0b62d72b3088969ede314f176",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a string $$$s$$$ consisting of exactly $$$n$$$ characters, and each character is either '0', '1' or '2'. Such strings are called ternary strings.Your task is to replace minimum number of characters in this string with other characters to obtain a balanced ternary string (balanced ternary string is a ternary string such that the number of characters '0' in this string is equal to the number of characters '1', and the number of characters '1' (and '0' obviously) is equal to the number of characters '2').Among all possible balanced ternary strings you have to obtain the lexicographically (alphabetically) smallest.Note that you can neither remove characters from the string nor add characters to the string. Also note that you can replace the given characters only with characters '0', '1' and '2'.It is guaranteed that the answer exists.",
+    "prob_desc_output_spec": "Print one string — the lexicographically (alphabetically) smallest balanced ternary string which can be obtained from the given one with minimum number of replacements. Because $$$n$$$ is divisible by $$$3$$$ it is obvious that the answer exists. And it is obvious that there is only one possible answer.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$3 \\le n \\le 3 \\cdot 10^5$$$, $$$n$$$ is divisible by $$$3$$$) — the number of characters in $$$s$$$. The second line contains the string $$$s$$$ consisting of exactly $$$n$$$ characters '0', '1' and '2'.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_018.jsonl",
+    "code_uid": "22230f3a8327ac73dffa4cbdf718b9d8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n121\", \"6\\n000000\", \"6\\n211200\", \"6\\n120110\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\ns = list(input())\nd = {i:0 for i in '012'}\nfor i in s:\n    d[i] += 1\neq = n // 3\ni = 0\nwhile d['0'] < eq:\n    if s[i] != '0':\n        if d[s[i]] > eq:\n            d[s[i]] -= 1\n            d['0'] += 1\n            s[i] = '0'\n    i += 1\ni = n - 1\nwhile d['2'] < eq:\n    if s[i] != '2':\n        if d[s[i]] > eq:\n            d[s[i]] -= 1\n            d['2'] += 1\n            s[i] = '2'\n    i -= 1\ni = n - 1\nwhile d['1'] < eq and i >= 0:\n    if s[i] == '0':\n        if d[s[i]] > eq:\n            d[s[i]] -= 1\n            d['1'] += 1\n            s[i] = '1'\n    i -= 1\ni = 0\nwhile d['1'] < eq and i < n:\n    if s[i] == '2':\n        if d[s[i]] > eq:\n            d[s[i]] -= 1\n            d['1'] += 1\n            s[i] = '1'\n    i += 1\nprint(*s, sep = '')\n\n",
+    "prob_desc_created_at": "1547044500",
+    "tags": [
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

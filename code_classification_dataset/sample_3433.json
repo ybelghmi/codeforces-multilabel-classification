@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"*.**.\\n*.*.*\\n*..**\", \"*.*\\n.*.\\n*.*\", \"***\\n...\\n***\"]",
+    "src_uid": "3cb06616474480562d22909d93787077",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In this task you have to write a program dealing with nonograms on fields no larger than 5 × 20.Simplified nonogram is a task where you have to build such field (each cell is either white or black) that satisfies the given information about rows and columns. For each row and each column the number of contiguous black segments is specified. For example if size of the field is n = 3, m = 5, аnd numbers of contiguous black segments in rows are: [2, 3, 2] and in columns are: [1, 0, 1, 2, 1] then the solution may look like:  It is guaranteed that on each test in the testset there exists at least one solution.",
+    "prob_desc_output_spec": "Output any possible solution. Output should consist of n lines each containing m characters. Denote white cell as \".\" and black cell as \"*\".",
+    "prob_desc_input_spec": "In the first line there follow two integers n, m (1 ≤ n ≤ 5, 1 ≤ m ≤ 20) — number of rows and number of columns respectively. Second line contains n integers a1, a2, ..., an where ai is the number of contiguous black segments in i-th row of the field.  Similarly, third line contains m integers b1, b2, ..., bm where bi is the number of contiguous black segments in the i-th column of the field. It is guaranteed that there exists at least one solution.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_059.jsonl",
+    "code_uid": "1e48ff92069327daf082c47737eec291",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 5\\n2 3 2\\n1 0 1 2 1\", \"3 3\\n2 1 2\\n2 1 2\", \"3 3\\n1 0 1\\n2 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "bs = [[], [], [], [], [], []]\nnz = []\ndef go(n, b, tup=tuple):\n    m = len(b)\n    N = 2 ** n\n    dp = [set() for _ in xrange(N)]\n    dp[0].add(0)\n    prev = {}\n    for k, x in enumerate(b):\n        ndp = [set() for _ in xrange(N)]\n        for i in xrange(N):\n            if not dp[i]:\n                continue\n            for j in bs[x]:\n                z = nz[i][j]\n                for l in dp[i]:\n                    nl = l + z\n                    ndp[j].add(nl)\n                    prev[k+1,j,nl] = (i, l)\n        dp, ndp = ndp, dp\n    return dp, prev\ndef main():\n    n, m = map(int, raw_input().split())\n    a = map(int, raw_input().split())\n    b = map(int, raw_input().split())\n    if m == 1:\n        for x in a:\n            print \"*\" if x else \".\"\n        return\n    N = 2 ** n\n    ss = []\n    for j in xrange(N):\n        t = c = 0\n        for i in xrange(n):\n            if j >> i & 1:\n                if not c:\n                    c = 1\n                    t += 1\n            else:\n                c = 0\n        ss.append(bin(j)[2:].zfill(n)[::-1])\n        bs[t].append(j)\n    for i in xrange(N):\n        tz = []\n        for j in xrange(N):\n            tt = 0\n            for k in xrange(n):\n                if ss[i][k] == '1' and ss[j][k] == '0': \n                    tt += 11 ** k\n            tz.append(tt)\n        nz.append(tz)\n    ta = 0\n    for i in xrange(n):\n        ta += a[i] * (11 ** i)\n    dpl, prel = go(n, b[:m/2])\n    dpr, prer = go(n, b[m-1:m/2-1:-1])\n    tup = tuple\n    lal = m / 2\n    lar = m - m / 2\n    for i in xrange(N):\n        for j in xrange(N):\n            tz = 0\n            for k in xrange(n):\n                if ss[i][k] == '1' or ss[j][k] == '1':\n                    tz += 11 ** k\n            for l in dpl[i]:\n                r = ta - tz - l\n                if r in dpr[j]:\n                    ansl = []\n                    for k in xrange(lal, 0, -1):\n                        ansl.append(i)\n                        i, l = prel[k,i,l]\n                    ansr = []\n                    for k in xrange(lar, 0, -1):\n                        ansr.append(j)\n                        j, r = prer[k,j,r]\n                    ansl = ansl[::-1] + ansr\n                    ans = [['.'] * m for k in xrange(n)]\n                    for i in xrange(m):\n                        for j in xrange(n):\n                            if ansl[i] >> j & 1:\n                                ans[j][i] = '*'\n                    for x in ans:\n                        print ''.join(x)\n                    return\nmain()\n",
+    "prob_desc_created_at": "1428854400",
+    "tags": [
+        "dp",
+        "meet-in-the-middle",
+        "bitmasks",
+        "hashing"
+    ],
+    "hidden_unit_tests": ""
+}

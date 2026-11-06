@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"2\"]",
+    "src_uid": "89c27a5c76f4ddbd14af2d30ac8b6330",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You've got an undirected graph, consisting of n vertices and m edges. We will consider the graph's vertices numbered with integers from 1 to n. Each vertex of the graph has a color. The color of the i-th vertex is an integer ci.Let's consider all vertices of the graph, that are painted some color k. Let's denote a set of such as V(k). Let's denote the value of the neighbouring color diversity for color k as the cardinality of the set Q(k) = {cu :  cu ≠ k and there is vertex v belonging to set V(k) such that nodes v and u are connected by an edge of the graph}.Your task is to find such color k, which makes the cardinality of set Q(k) maximum. In other words, you want to find the color that has the most diverse neighbours. Please note, that you want to find such color k, that the graph has at least one vertex with such color.",
+    "prob_desc_output_spec": "Print the number of the color which has the set of neighbours with the maximum cardinality. It there are multiple optimal colors, print the color with the minimum number. Please note, that you want to find such color, that the graph has at least one vertex with such color.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n, m (1 ≤ n, m ≤ 105) — the number of vertices end edges of the graph, correspondingly. The second line contains a sequence of integers c1, c2, ..., cn (1 ≤ ci ≤ 105) — the colors of the graph vertices. The numbers on the line are separated by spaces. Next m lines contain the description of the edges: the i-th line contains two space-separated integers ai, bi (1 ≤ ai, bi ≤ n; ai ≠ bi) — the numbers of the vertices, connected by the i-th edge.  It is guaranteed that the given graph has no self-loops or multiple edges.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_005.jsonl",
+    "code_uid": "4894047dbffb65f6bd1c8b2f40e557cd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 6\\n1 1 2 3 5 8\\n1 2\\n3 2\\n1 4\\n4 3\\n4 5\\n4 6\", \"5 6\\n4 2 5 2 4\\n1 2\\n2 3\\n3 1\\n5 3\\n5 4\\n3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=map(int,raw_input().split())\nc=map(int,raw_input().split())\nadj=[[] for i in xrange(n+1)]\nfor i in xrange(m):\n    u,v=map(int,raw_input().split())\n    adj[u].append(v)\n    adj[v].append(u)\nans=111111111111111111111111111111111111111111111111111111111111111110\ncolor=[set() for i in xrange(100010)]\ncount=-1\nvis=set()\nfor i in xrange(1,n+1):\n    vis.add(c[i-1])\n    for j in adj[i]:\n        if c[j-1] == c[i-1]:\n            continue\n        else:\n            color[c[i-1]].add(c[j-1])\n    #print i,c[i-1],len(cc)\n    #print cc\nvis=list(vis)\nvis=sorted(vis)\nfor i in vis:\n    if len(color[i]) > count:\n        count=len(color[i])\n        ans=i\nprint ans",
+    "prob_desc_created_at": "1353511800",
+    "tags": [
+        "dfs and similar",
+        "brute force",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

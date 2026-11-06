@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 4\", \"2\", \"-1\", \"3\", \"-1\"]",
+    "src_uid": "aa1ed95ea1a0b7b7de62673625f38132",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Dima is a good person. In fact, he's great. But all good things come to an end...Seryozha is going to kick Dima just few times.. For this reason he divides the room into unit squares. Now the room is a rectangle n × m consisting of unit squares.For the beginning, Seryozha put Dima in a center of some square. Then he started to kick Dima (it is known, that he kicks Dima at least once). Each time when Dima is kicked he flyes up and moves into one of four directions (up, left, right, down). On each move Dima passes k (k &gt; 1) unit of the length in the corresponding direction. Seryozha is really kind, so he kicks Dima in such way that Dima never meets the walls (in other words, Dima never leave the room's space). Seryozha is also dynamic character so Dima never flies above the same segment, connecting a pair of adjacent squares, twice.Seryozha kicks Dima for a long time, but Dima is not vindictive — Dima writes. Dima marked all squares in which he was staying or above which he was flying. Thanks to kicks, Dima does not remember the k value, so he asks you to find all possible values which matches to the Dima's records.",
+    "prob_desc_output_spec": "In a single line in accending order print all k (k &gt; 1), which matches the Dima's notes. If there are no such k and Dima invented this story with kicks, print -1.",
+    "prob_desc_input_spec": "The first line contains n and m (1 ≤ n, m ≤ 103) — size of the room. Next n lines goes, each contains m numbers aij — Dima's notes: aij = 1, if Dima was staying in the square (i, j) or was flying above it. Otherwise aij = 0. At least one aij equals 1.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_069.jsonl",
+    "code_uid": "9ade274969c0afaac2c9dd8806bc8d38",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5\\n1 1 1 1 1\\n1 0 0 0 1\\n1 0 0 0 1\\n1 0 0 0 1\\n1 1 1 1 1\", \"7 7\\n0 0 1 1 1 0 0\\n0 0 1 0 1 0 0\\n1 1 1 1 1 1 1\\n1 0 1 0 1 0 1\\n1 1 1 1 1 1 1\\n0 0 1 0 1 0 0\\n0 0 1 1 1 0 0\", \"3 3\\n1 1 1\\n1 1 1\\n1 1 1\", \"4 4\\n1 1 1 1\\n0 0 0 0\\n0 0 0 0\\n0 0 0 0\", \"5 5\\n0 0 1 0 0\\n0 0 1 0 0\\n1 1 1 1 1\\n0 0 1 0 0\\n0 0 1 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nsys.setrecursionlimit(10**6)\ndef main():\n    n, m = map(int, raw_input().split())\n    a = [raw_input().split() for _ in xrange(n)]\n    dd = [(1,0), (0,1)]\n    od = 0\n    D = [[[] for _ in xrange(m)] for _ in xrange(n)]\n    done = [[False] * m for _ in xrange(n)]\n    par = range(n * m)\n    rank = [0] * (n * m)\n    def find(x):\n        if x == par[x]:\n            return x\n        else:\n            par[x] = find(par[x])\n            return par[x]\n    def union(x, y):\n        x, y = find(x), find(y)\n        if x == y: return\n        if rank[x] < rank[y]:\n            par[y] = x\n        else:\n            par[x] = y\n            if rank[x] == rank[y]:\n                rank[x] += 1\n    for i in xrange(n):\n        for j in xrange(m):\n            if a[i][j] == '0': continue\n            deg = 0\n            for d in dd:\n                ni, nj = i + d[0], j + d[1]\n                if 0 <= ni < n and 0 <= nj < m and a[ni][nj] == '1':\n                    deg += 1\n                    D[i][j].append(d)\n                    union(i * m + j, ni * m + nj)\n                ni, nj = i - d[0], j - d[1]\n                if 0 <= ni < n and 0 <= nj < m and a[ni][nj] == '1':\n                    deg += 1\n            if deg % 2:\n                od += 1 \n    if od > 2:\n        print -1\n        return\n    deg = 0\n    S = set()\n    for i in xrange(n):\n        for j in xrange(m):\n            if a[i][j] == '0': continue\n            deg += 1\n            S.add(find(i * m + j))\n    if deg == 1 or len(S) != 1:\n        print -1\n        return\n    def gcd(x, y):\n        if y == 0:\n            return x\n        else:\n            return gcd(y, x%y)\n    p = 0\n    for i in xrange(n):\n        for j in xrange(m):\n            if a[i][j] == '0' or done[i][j]: continue\n            for d in D[i][j]:\n                t = 1\n                while 1:\n                    ni, nj = i + t * d[0], j + t * d[1]\n                    if 0 <= ni < n and 0 <= nj < m and a[ni][nj] == '1' and [d] == D[ni][nj]:\n                        pass\n                    else:\n                        break\n                    done[ni][nj] = 1\n                    t += 1\n                p = gcd(t, p)\n    if p == 1:\n        print -1\n        return\n    for i in xrange(2, p+1):\n        if p % i == 0:\n            print i,\nmain()\n",
+    "prob_desc_created_at": "1382715000",
+    "tags": [
+        "dsu",
+        "implementation",
+        "brute force",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

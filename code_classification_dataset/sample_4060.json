@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Mike\\nJoe\"]",
+    "src_uid": "0a187d80fdc3df579909840e9111ac7e",
+    "prob_desc_notes": "NoteIn the first test case, Mike just takes all $$$37$$$ stones on his first turn.In the second test case, Joe can just copy Mike's moves every time. Since Mike went first, he will hit $$$0$$$ on the first pile one move before Joe does so on the second pile.",
+    "prob_desc_description": "Mike and Joe are playing a game with some stones. Specifically, they have $$$n$$$ piles of stones of sizes $$$a_1, a_2, \\ldots, a_n$$$. These piles are arranged in a circle.The game goes as follows. Players take turns removing some positive number of stones from a pile in clockwise order starting from pile $$$1$$$. Formally, if a player removed stones from pile $$$i$$$ on a turn, the other player removes stones from pile $$$((i\\bmod n) + 1)$$$ on the next turn.If a player cannot remove any stones on their turn (because the pile is empty), they lose. Mike goes first.If Mike and Joe play optimally, who will win?",
+    "prob_desc_output_spec": "For each test case print the winner of the game, either \"Mike\" or \"Joe\" on its own line (without quotes).",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 1000$$$). Description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 50$$$)  — the number of piles. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$)  — the size of the piles.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_089.jsonl",
+    "code_uid": "a67d50e5bc9c80d7addf97de7762ab8a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n1\\n\\n37\\n\\n2\\n\\n100 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nar = [[] for i in range(t)]\r\np1, p2 = 'Mike', 'Joe'\r\nfor i in range(t):\r\n    n = int(input())\r\n    ar[i] += [int(o) for o in input().split()]\r\n\r\n\r\nfor i in range(t):\r\n    if (len(ar[i]) % 2 == 1):\r\n        print(\"Mike\")\r\n    else:\r\n        smallest = 0\r\n        for j in range(len(ar[i])):\r\n            if (ar[i][j] < ar[i][smallest]):\r\n                smallest = j\r\n        # print(smallest)\r\n        if (smallest % 2 == 0):\r\n            print(\"Joe\")\r\n        else:\r\n            print(\"Mike\")\r\n        # if (sum([s for s in ar[i][::2]]) > sum([s for s in ar[i][1::2]])):\r\n        #     print(\"Mike\\n\")\r\n        # else:\r\n        #     print(\"Joe\\n\")\r\n",
+    "prob_desc_created_at": "1655562900",
+    "tags": [
+        "games",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n8\\n16\\n13\\n4\", \"16\\n9\\n7\\n20\"]",
+    "src_uid": "3c48123f326fb79ce2e4e17e1e0765f8",
+    "prob_desc_notes": "NoteAnswers to the queries from examples are on the board in the picture from the problem statement.",
+    "prob_desc_description": "You are given a chessboard of size $$$n \\times n$$$. It is filled with numbers from $$$1$$$ to $$$n^2$$$ in the following way: the first $$$\\lceil \\frac{n^2}{2} \\rceil$$$ numbers from $$$1$$$ to $$$\\lceil \\frac{n^2}{2} \\rceil$$$ are written in the cells with even sum of coordinates from left to right from top to bottom. The rest $$$n^2 - \\lceil \\frac{n^2}{2} \\rceil$$$ numbers from $$$\\lceil \\frac{n^2}{2} \\rceil + 1$$$ to $$$n^2$$$ are written in the cells with odd sum of coordinates from left to right from top to bottom. The operation $$$\\lceil\\frac{x}{y}\\rceil$$$ means division $$$x$$$ by $$$y$$$ rounded up.For example, the left board on the following picture is the chessboard which is given for $$$n=4$$$ and the right board is the chessboard which is given for $$$n=5$$$.  You are given $$$q$$$ queries. The $$$i$$$-th query is described as a pair $$$x_i, y_i$$$. The answer to the $$$i$$$-th query is the number written in the cell $$$x_i, y_i$$$ ($$$x_i$$$ is the row, $$$y_i$$$ is the column). Rows and columns are numbered from $$$1$$$ to $$$n$$$.",
+    "prob_desc_output_spec": "For each query from $$$1$$$ to $$$q$$$ print the answer to this query. The answer to the $$$i$$$-th query is the number written in the cell $$$x_i, y_i$$$ ($$$x_i$$$ is the row, $$$y_i$$$ is the column). Rows and columns are numbered from $$$1$$$ to $$$n$$$. Queries are numbered from $$$1$$$ to $$$q$$$ in order of the input.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$q$$$ ($$$1 \\le n \\le 10^9$$$, $$$1 \\le q \\le 10^5$$$) — the size of the board and the number of queries. The next $$$q$$$ lines contain two integers each. The $$$i$$$-th line contains two integers $$$x_i, y_i$$$ ($$$1 \\le x_i, y_i \\le n$$$) — description of the $$$i$$$-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_024.jsonl",
+    "code_uid": "61aa0ee40bcf3289b9686fde1af2d128",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 5\\n1 1\\n4 4\\n4 3\\n3 2\\n2 4\", \"5 4\\n2 1\\n4 2\\n3 3\\n3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import ceil\n\nn, q = map(int, input().split())\na = []\n\ndef getNumber(x, y):\n    global n\n\n    if n % 2 == 0:\n        if (x + y) % 2 == 0:\n            start = 0\n        else:\n            start = n ** 2 // 2\n\n        pos = (x - 1) * n // 2 + (y + 1) // 2\n    else:\n        t = (x - 1) * n + y + 1\n        if t % 2 == 0:\n            start = 0\n        else:\n            start = (n ** 2 + 1) // 2\n        pos = t // 2\n    return start + pos\n\n\nfor i in range(q):\n    xi, yi = map(int, input().split())\n\n    a.append(str(getNumber(xi, yi)))\n\nprint('\\n'.join(a))",
+    "prob_desc_created_at": "1534602900",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

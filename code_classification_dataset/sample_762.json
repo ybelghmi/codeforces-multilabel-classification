@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2\", \"21\\n4\"]",
+    "src_uid": "2df506710dfbc401e5c71ff7ae63746d",
+    "prob_desc_notes": "NoteIn sample test case 1, for first query, when we convert numbers 4 to 9 into base 2, we get:   4 = 1002,  5 = 1012,  6 = 1102,  7 = 1112,  8 = 10002,  9 = 10012. Out of these, only base 2 representation of 9 has even number of 1 and 0. Thus, the answer is 1.",
+    "prob_desc_description": "Harry came to know from Dumbledore that Salazar Slytherin's locket is a horcrux. This locket was present earlier at 12 Grimmauld Place, the home of Sirius Black's mother. It was stolen from there and is now present in the Ministry of Magic in the office of Dolorous Umbridge, Harry's former Defense Against the Dark Arts teacher. Harry, Ron and Hermione are infiltrating the Ministry. Upon reaching Umbridge's office, they observed a code lock with a puzzle asking them to calculate count of magic numbers between two integers l and r (both inclusive). Harry remembered from his detention time with Umbridge that she defined a magic number as a number which when converted to a given base b, all the digits from 0 to b - 1 appear even number of times in its representation without any leading zeros.You have to answer q queries to unlock the office. Each query has three integers bi, li and ri, the base and the range for which you have to find the count of magic numbers.",
+    "prob_desc_output_spec": "You have to output q lines, each containing a single integer, the answer to the corresponding query.",
+    "prob_desc_input_spec": "First line of input contains q (1 ≤ q ≤ 105) — number of queries. Each of the next q lines contain three space separated integers bi, li, ri (2 ≤ bi ≤ 10, 1 ≤ li ≤ ri ≤ 1018).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_004.jsonl",
+    "code_uid": "12ee1f5b752ea9a7fb05e9e4d1b62443",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2 4 9\\n3 1 10\", \"2\\n2 1 100\\n5 1 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\ndef int2base(n, base):\n    if n == 0:\n        return [0]\n    A = []\n    while n:\n        n,r = divmod(n, base)\n        A.append(r)\n    return A\n\nbig = 10**18\nDP =   [[[0]*(1 << b) for _ in range(b>1 and len(int2base(big, b)) + 1)] for b in range(11)]\nDP0 =  [[[0]*(1 << b) for _ in range(b>1 and len(int2base(big, b)) + 1)] for b in range(11)]\n\nfor b in range(2,11):\n    DPb = DP[b]\n    DP0b = DP0[b]\n\n    DP0b[0][0] = 1\n    \n    for l in range(1, len(DPb)):\n        for mask in range(1 << b):\n            for digit in range(b):\n                DP0b[l][mask ^ (1 << digit)] += DP0b[l - 1][mask]\n            \n            for digit in range(1, b):\n                DPb[l][mask ^ (1 << digit)] += DP0b[l - 1][mask]\n                \ninp = sys.stdin.read().split()\nii = 0\n\n# < upper\ndef counter(upper, base):\n    if upper <= base:\n        return 0\n    number = int2base(upper, base)\n    DPb = DP[base]\n    DP0b = DP0[base]\n\n    mask = 0\n    n = number.pop()\n    ans = 0\n    for l in range(len(number) + 1):\n        ans += DPb[l][0]\n    \n    for digit in range(1, n):\n        ans += DP0b[len(number)][mask ^ (1 << digit)]\n    mask ^= 1 << n\n    \n    while number:\n        n = number.pop()\n        for digit in range(n):\n            ans += DP0b[len(number)][mask ^ (1 << digit)]\n        mask ^= 1 << n\n    return ans\n            \nq = int(inp[ii]); ii += 1\n\nout = []\nfor _ in range(q):\n    b = int(inp[ii]); ii += 1\n    l = int(inp[ii]); ii += 1\n    r = int(inp[ii]); ii += 1\n\n    out.append(str(counter(r + 1, b) - counter(l, b)))\n\nprint '\\n'.join(out)",
+    "prob_desc_created_at": "1506263700",
+    "tags": [
+        "dp",
+        "bitmasks"
+    ],
+    "hidden_unit_tests": ""
+}

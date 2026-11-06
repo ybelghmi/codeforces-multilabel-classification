@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"? 1 3 2\\n\\n? 1 2 3\\n\\n! 2\"]",
+    "src_uid": "e66101a49797b1e244dd9709dc21e657",
+    "prob_desc_notes": "NoteThe tree in the example is as follows:The input and output for example illustrate possible interaction on that test (empty lines are inserted only for clarity).The hack corresponding to the example would look like:3 22 3 1",
+    "prob_desc_description": "The graph is called tree if it is connected and has no cycles. Suppose the tree is rooted at some vertex. Then tree is called to be perfect $$$k$$$-ary tree if each vertex is either a leaf (has no children) or has exactly $$$k$$$ children. Also, in perfect $$$k$$$-ary tree all leafs must have same depth.For example, the picture below illustrates perfect binary tree with $$$15$$$ vertices:There is a perfect $$$k$$$-ary tree with $$$n$$$ nodes. The nodes are labeled with distinct integers from $$$1$$$ to $$$n$$$, however you don't know how nodes are labelled. Still, you want to find the label of the root of the tree.You are allowed to make at most $$$60 \\cdot n$$$ queries of the following type:  \"? $$$a$$$ $$$b$$$ $$$c$$$\", the query returns \"Yes\" if node with label $$$b$$$ lies on the path from $$$a$$$ to $$$c$$$ and \"No\" otherwise. Both $$$a$$$ and $$$c$$$ are considered to be lying on the path from $$$a$$$ to $$$c$$$.When you are ready to report the root of the tree, print   \"! $$$s$$$\", where $$$s$$$ is the label of the root of the tree. It is possible to report the root only once and this query is not counted towards limit of $$$60 \\cdot n$$$ queries.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_023.jsonl",
+    "code_uid": "8c0e7d24018a1ac63e2aa2cc3feaad96",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n\\nNo\\n\\nYes\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import log\nfrom random import randint\nimport sys\nn, k = map(int, input().split())\nlg = int(log(n, k)) * 2 + 1\nhave = set()\n\ndef find_diam():\n\ta = randint(1, n)\n\tb = randint(a, n)\n\t#print('New')\n\tif (a == b) or (a, b) in have:\n\t\treturn []\n\thave.add((a, b))\n\tcnt = 2\n\twas = [a, b]\n\tfor i in range(1, n + 1):\n\t\tif i == a or i == b:\n\t\t\tcontinue\n\t\tif cnt + n - i + 1 < lg:\n\t\t\tbreak\n\t\tprint('?', a, i, b, flush=True)\n\t\tsys.stdout.flush()\n\t\tans = 1 if input()[0] == 'Y' else 0\n\t\tcnt += ans\n\t\tif ans == 1:\n\t\t\twas.append(i)\n\t\tif cnt == lg:\n\t\t\tbreak\n\tif cnt == lg:\n\t\treturn was\n\treturn []\n\nres = []\nwhile res == []:\n\tres = find_diam()\n\na, b = res[0], res[1]\nbetw = res[2:]\nbad = set()\nfor v in betw:\n\tcnt = 1\n\tif v in bad:\n\t\tcontinue\n\tg1 = []\n\tg2 = []\n\tfor i in betw:\n\t\tif i == v:\n\t\t\tcontinue\n\t\tprint('?', a, i, v, flush=True)\n\t\tsys.stdout.flush()\n\t\tans = 1 if input()[0] == 'Y' else 0\n\t\tcnt += ans\n\t\tif ans == 1:\n\t\t\tg1.append(i)\n\t\telse:\n\t\t\tg2.append(i)\n\tif cnt == lg // 2:\n\t\tprint('!', v)\n\t\tsys.stdout.flush()\n\t\texit(0)\n\t\n\tif cnt < lg // 2:\n\t\tfor el in g1:\n\t\t\tbad.add(el)\n\telse:\n\t\tfor el in g2:\n\t\t\tbad.add(el)\nexit(12)",
+    "prob_desc_created_at": "1542901500",
+    "tags": [
+        "probabilities",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

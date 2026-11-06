@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"NO\\nYES\\n2 4 1 5\\nNO\\nYES\\n2 4 6 8 1 3 5 11\\nNO\"]",
+    "src_uid": "0c7e019e1e955cadacca55b4e823a3e5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a positive integer $$$n$$$, it is guaranteed that $$$n$$$ is even (i.e. divisible by $$$2$$$).You want to construct the array $$$a$$$ of length $$$n$$$ such that:   The first $$$\\frac{n}{2}$$$ elements of $$$a$$$ are even (divisible by $$$2$$$);  the second $$$\\frac{n}{2}$$$ elements of $$$a$$$ are odd (not divisible by $$$2$$$);  all elements of $$$a$$$ are distinct and positive;  the sum of the first half equals to the sum of the second half ($$$\\sum\\limits_{i=1}^{\\frac{n}{2}} a_i = \\sum\\limits_{i=\\frac{n}{2} + 1}^{n} a_i$$$). If there are multiple answers, you can print any. It is not guaranteed that the answer exists.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer — \"NO\" (without quotes), if there is no suitable answer for the given test case or \"YES\" in the first line and any suitable array $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) satisfying conditions from the problem statement on the second line.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The only line of the test case contains one integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the length of the array. It is guaranteed that that $$$n$$$ is even (i.e. divisible by $$$2$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$ ($$$\\sum n \\le 2 \\cdot 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_000.jsonl",
+    "code_uid": "b71988837c6670b9dd3e06ee32a90e7d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2\\n4\\n6\\n8\\n10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "lst=[]\nt = int(input())\nfor i in range(t):\n    n=int(input())\n    lst.append(n)\nfor j in lst:\n    if j%4==0:\n        lst2=[]\n        lst1 = [k for k in range(2,j+1,2)] \n        for m in range(len(lst1)-1):\n            lst2.append(lst1[m]-1)   \n        lst2.append(lst1[-1]+len(lst1)-1)\n        print('YES')\n        for f in lst1+lst2:\n            print(f,end=\" \")\n        print()\n    else:\n        print('NO')\n\n",
+    "prob_desc_created_at": "1587479700",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

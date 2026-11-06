@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n1 2\\n1\\n2 6\"]",
+    "src_uid": "aeea2ca73f1b5c5b86fb508afcbec68a",
+    "prob_desc_notes": "NoteIn the first testcase, $$$s(1) = $$$ \"BAN\", we can swap $$$s(1)_1$$$ and $$$s(1)_2$$$, converting $$$s(1)$$$ to \"ABN\", which does not contain \"BAN\" as a subsequence.In the second testcase, $$$s(2) = $$$ \"BANBAN\", we can swap $$$s(2)_2$$$ and $$$s(2)_6$$$, converting $$$s(2)$$$ to \"BNNBAA\", which does not contain \"BAN\" as a subsequence.",
+    "prob_desc_description": "You are given an integer $$$n$$$.Let's define $$$s(n)$$$ as the string \"BAN\" concatenated $$$n$$$ times. For example, $$$s(1)$$$ = \"BAN\", $$$s(3)$$$ = \"BANBANBAN\". Note that the length of the string $$$s(n)$$$ is equal to $$$3n$$$.Consider $$$s(n)$$$. You can perform the following operation on $$$s(n)$$$ any number of times (possibly zero): Select any two distinct indices $$$i$$$ and $$$j$$$ $$$(1 \\leq i, j \\leq 3n, i \\ne j)$$$. Then, swap $$$s(n)_i$$$ and $$$s(n)_j$$$. You want the string \"BAN\" to not appear in $$$s(n)$$$ as a subsequence. What's the smallest number of operations you have to do to achieve this? Also, find one such shortest sequence of operations.A string $$$a$$$ is a subsequence of a string $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) characters.",
+    "prob_desc_output_spec": "For each test case, in the first line output $$$m$$$ ($$$0 \\le m \\le 10^5$$$) — the minimum number of operations required. It's guaranteed that the objective is always achievable in at most $$$10^5$$$ operations under the constraints of the problem.  Then, output $$$m$$$ lines. The $$$k$$$-th of these lines should contain two integers $$$i_k$$$, $$$j_k$$$ $$$(1\\leq i_k, j_k \\leq 3n, i_k \\ne j_k)$$$ denoting that you want to swap characters at indices $$$i_k$$$ and $$$j_k$$$ at the $$$k$$$-th operation.  After all $$$m$$$ operations, \"BAN\" must not appear in $$$s(n)$$$ as a subsequence.  If there are multiple possible answers, output any.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ $$$(1 \\leq t \\leq 100)$$$  — the number of test cases. The description of the test cases follows. The only line of each test case contains a single integer $$$n$$$ $$$(1 \\leq n \\leq 100)$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_087.jsonl",
+    "code_uid": "00feaa6c86481a10a4ac3cfa3241872d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#Khushal Sindhav\r\n#Indian Institute Of Technology, Jodhpur\r\n# 4 Nov 2022\r\n\r\ndef exe():\r\n    global n\r\n    if n==1:\r\n        print(1)\r\n        print(1,2)\r\n        return\r\n    if n==2:\r\n        print(1)\r\n        print(2,6)\r\n        return\r\n    l=[]\r\n    i,j=1,3*n\r\n    s=[\"B\",\"A\",\"N\"]*n\r\n    while i<j:\r\n        l.append([i,j])\r\n        s[i-1],s[j-1]=s[j-1],s[i-1]\r\n        i+=3\r\n        j-=3\r\n    print(len(l))\r\n    for i in l:\r\n        print(*i)\r\n    # print(s)\r\nfor i in range(int(input())):\r\n    n=int(input())\r\n    exe()",
+    "prob_desc_created_at": "1667572500",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

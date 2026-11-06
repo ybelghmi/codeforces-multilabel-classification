@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\"]",
+    "src_uid": "8d911f79dde31f2c6f62e73b925e6996",
+    "prob_desc_notes": "NoteFor the first example, three groups are sufficient, for example:   Employee 1  Employees 2 and 4  Employees 3 and 5 ",
+    "prob_desc_description": "A company has n employees numbered from 1 to n. Each employee either has no immediate manager or exactly one immediate manager, who is another employee with a different number. An employee A is said to be the superior of another employee B if at least one of the following is true:  Employee A is the immediate manager of employee B  Employee B has an immediate manager employee C such that employee A is the superior of employee C. The company will not have a managerial cycle. That is, there will not exist an employee who is the superior of his/her own immediate manager.Today the company is going to arrange a party. This involves dividing all n employees into several groups: every employee must belong to exactly one group. Furthermore, within any single group, there must not be two employees A and B such that A is the superior of B.What is the minimum number of groups that must be formed?",
+    "prob_desc_output_spec": "Print a single integer denoting the minimum number of groups that will be formed in the party.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 2000) — the number of employees. The next n lines contain the integers pi (1 ≤ pi ≤ n or pi = -1). Every pi denotes the immediate manager for the i-th employee. If pi is -1, that means that the i-th employee does not have an immediate manager.  It is guaranteed, that no employee will be the immediate manager of him/herself (pi ≠ i). Also, there will be no managerial cycles.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_007.jsonl",
+    "code_uid": "c21c612c3a68848a8a82fb7f7c6cde97",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n-1\\n1\\n2\\n1\\n-1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\"\"\"\nSolution to Challenge 115A.\nA company has n employees numbered from 1 to n. Each employee either has no\nimmediate manager or exactly one immediate manager, who is another employee with\na different number. An employee A is said to be the superior of another employee B\nif at least one of the following is true:\n\nEmployee A is the immediate manager of employee B\nEmployee B has an immediate manager employee C such that employee A is the superior\nof employee C.\nThe company will not have a managerial cycle. That is, there will not exist an employee\nwho is the superior of his/her own immediate manager.\n\nToday the company is going to arrange a party. This involves dividing all n employees\ninto several groups: every employee must belong to exactly one group.\nFurthermore, within any single group, there must not be two employees A and B such that A\nis the superior of B.\n\nWhat is the minimum number of groups that must be formed?\n\"\"\"\nimport sys\n\ndef solver():\n    \"\"\"\n    Print the minimum number of groups that must be formed. (output).\n\n    INPUT:\n    The first line contains integer n (1 ≤ n ≤ 2000) — the number of employees.\n    The next n lines contain the integers p i (1 ≤ p i ≤ n or p i = -1).\n    Every p i denotes the immediate manager for the i-th employee.\n    If p i is -1, that means that the i-th employee does not have an immediate\n    manager.\n    It is guaranteed, that no employee will be the immediate manager of\n    him/herself ( p i ≠ i). Also, there will be no managerial cycles.\n\n    OUTPUT:\n    Print a single integer denoting the minimum number of groups that will be formed in the party.\n    \"\"\"\n    # read input multiline\n    inp = sys.stdin.read()\n    # split multiline input and save in a list\n    mylist = inp.splitlines()\n    n = int(mylist[0]) # number of employees\n    emp = [int(elem) for elem in mylist[1:]] # employees list (int)\n    ans = 0 # answer counter\n\n    for i in range(n):\n        # restart counter for each employee\n        count = 0\n        j = i\n\n        # While when j is greater or equal 0.\n        # This condition ensures that the loop will run at least once.\n        while j >= 0:\n            # We will run the loop until find the highest superior for the ith employee.\n            j = emp[j] - 1 # update j with new manager value\n            count += 1\n\n        # Update after each ith iteration\n        ans = max(count, ans)\n\n    print(ans)\n\n\ndef main():\n    \"\"\"Run solver function.\"\"\"\n    solver()\n\nif __name__ == \"__main__\":\n    main()\n",
+    "prob_desc_created_at": "1316098800",
+    "tags": [
+        "dfs and similar",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"26\", \"10\"]",
+    "src_uid": "4266948a2e793b4b461156af226e98fd",
+    "prob_desc_notes": "NoteConsider the following situation in the first example. Initially Toastman gets group [3, 1, 5] and adds 9 to the score, then he give the group to Appleman. Appleman splits group [3, 1, 5] into two groups: [3, 5] and [1]. Both of them should be given to Toastman. When Toastman receives group [1], he adds 1 to score and gives the group to Appleman (he will throw it out). When Toastman receives group [3, 5], he adds 8 to the score and gives the group to Appleman. Appleman splits [3, 5] in the only possible way: [5] and [3]. Then he gives both groups to Toastman. When Toastman receives [5], he adds 5 to the score and gives the group to Appleman (he will throws it out). When Toastman receives [3], he adds 3 to the score and gives the group to Appleman (he will throws it out). Finally Toastman have added 9 + 1 + 8 + 5 + 3 = 26 to the score. This is the optimal sequence of actions.",
+    "prob_desc_description": "Appleman and Toastman play a game. Initially Appleman gives one group of n numbers to the Toastman, then they start to complete the following tasks:  Each time Toastman gets a group of numbers, he sums up all the numbers and adds this sum to the score. Then he gives the group to the Appleman.  Each time Appleman gets a group consisting of a single number, he throws this group out. Each time Appleman gets a group consisting of more than one number, he splits the group into two non-empty groups (he can do it in any way) and gives each of them to Toastman. After guys complete all the tasks they look at the score value. What is the maximum possible value of score they can get?",
+    "prob_desc_output_spec": "Print a single integer — the largest possible score.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 3·105). The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 106) — the initial group that is given to Toastman.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_004.jsonl",
+    "code_uid": "2a0877e0968c6c77174976f0c786b045",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3 1 5\", \"1\\n10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nss = input()\nlist1 = []\nlist1.extend([int(i) for i in ss.split()])\nsum1 = 0\nlist2 = []\nlist2.extend([int(i) for i in sorted(list1)])\nfor i in range(n-1):\n        sum1 += list2[i]*(i+2)\nsum1 += list2[n-1]*n\nprint(sum1)\n",
+    "prob_desc_created_at": "1409061600",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

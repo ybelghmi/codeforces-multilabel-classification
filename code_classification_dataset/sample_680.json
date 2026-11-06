@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"abab\\n1\\nertyqw\\n3\\naaaaa\\n1\\naksala\\n6\\navjsmbpfl\\n5\\np\\n1\"]",
+    "src_uid": "f501e17271a220f3bcd69377c01721a1",
+    "prob_desc_notes": "NoteIn the first testcase of the first sample, the string modification results for the sample abab are as follows :   for $$$k = 1$$$ : abab  for $$$k = 2$$$ : baba  for $$$k = 3$$$ : abab  for $$$k = 4$$$ : babaThe lexicographically smallest string achievable through modification is abab for $$$k = 1$$$ and $$$3$$$. Smallest value of $$$k$$$ needed to achieve is hence $$$1$$$. ",
+    "prob_desc_description": "Vasya has a string $$$s$$$ of length $$$n$$$. He decides to make the following modification to the string:   Pick an integer $$$k$$$, ($$$1 \\leq k \\leq n$$$).  For $$$i$$$ from $$$1$$$ to $$$n-k+1$$$, reverse the substring $$$s[i:i+k-1]$$$ of $$$s$$$. For example, if string $$$s$$$ is qwer and $$$k = 2$$$, below is the series of transformations the string goes through:   qwer (original string)  wqer (after reversing the first substring of length $$$2$$$)  weqr (after reversing the second substring of length $$$2$$$)  werq (after reversing the last substring of length $$$2$$$)  Hence, the resulting string after modifying $$$s$$$ with $$$k = 2$$$ is werq. Vasya wants to choose a $$$k$$$ such that the string obtained after the above-mentioned modification is lexicographically smallest possible among all choices of $$$k$$$. Among all such $$$k$$$, he wants to choose the smallest one. Since he is busy attending Felicity 2020, he asks for your help.A string $$$a$$$ is lexicographically smaller than a string $$$b$$$ if and only if one of the following holds:   $$$a$$$ is a prefix of $$$b$$$, but $$$a \\ne b$$$;  in the first position where $$$a$$$ and $$$b$$$ differ, the string $$$a$$$ has a letter that appears earlier in the alphabet than the corresponding letter in $$$b$$$. ",
+    "prob_desc_output_spec": "For each testcase output two lines: In the first line output the lexicographically smallest string $$$s'$$$ achievable after the above-mentioned modification.  In the second line output the appropriate value of $$$k$$$ ($$$1 \\leq k \\leq n$$$) that you chose for performing the modification. If there are multiple values of $$$k$$$ that give the lexicographically smallest string, output the smallest value of $$$k$$$ among them.",
+    "prob_desc_input_spec": "Each test contains multiple test cases.  The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 5000$$$). The description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 5000$$$) — the length of the string $$$s$$$. The second line of each test case contains the string $$$s$$$ of $$$n$$$ lowercase latin letters. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$5000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_003.jsonl",
+    "code_uid": "e32df1e3fc5766bbd06a42a886f0c73c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n4\\nabab\\n6\\nqwerty\\n5\\naaaaa\\n6\\nalaska\\n9\\nlfpbavjsm\\n1\\np\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# cook your dish here\nfor _ in range(int(input())):\n    n=int(input())\n    s=input()\n    \n    ch=s[0]\n    for i in range(1,n):\n        if ch>s[i]:\n            ch=s[i]\n            \n    ks=[]\n    for i in range(n):\n        if(s[i]==ch):\n            ks.append(i+1)\n    \n    low=-1        \n    for k in ks:\n        rev=False\n        if (n-k+1)%2==1:\n            rev=True\n        temp=s[k-1:n]\n        str1=s[0:k-1]\n        if rev:\n            str1=str1[::-1]\n        temp=temp+str1\n        if (low==-1) or ans>temp:\n            low=k\n            ans=temp\n            \n    print(ans)\n    print(low)",
+    "prob_desc_created_at": "1583332500",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "sortings",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

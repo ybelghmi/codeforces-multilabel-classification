@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7 19\", \"11 30\"]",
+    "src_uid": "31c43b62784a514cfdb9ebb835e94cad",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The spring is coming and it means that a lot of fruits appear on the counters. One sunny day little boy Valera decided to go shopping. He made a list of m fruits he wanted to buy. If Valera want to buy more than one fruit of some kind, he includes it into the list several times. When he came to the fruit stall of Ashot, he saw that the seller hadn't distributed price tags to the goods, but put all price tags on the counter. Later Ashot will attach every price tag to some kind of fruits, and Valera will be able to count the total price of all fruits from his list. But Valera wants to know now what can be the smallest total price (in case of the most «lucky» for him distribution of price tags) and the largest total price (in case of the most «unlucky» for him distribution of price tags).",
+    "prob_desc_output_spec": "Print two numbers a and b (a ≤ b) — the minimum and the maximum possible sum which Valera may need to buy all fruits from his list.",
+    "prob_desc_input_spec": "The first line of the input contains two integer number n and m (1 ≤ n, m ≤ 100) — the number of price tags (which is equal to the number of different kinds of fruits that Ashot sells) and the number of items in Valera's list. The second line contains n space-separated positive integer numbers. Each of them doesn't exceed 100 and stands for the price of one fruit of some kind. The following m lines contain names of the fruits from the list. Each name is a non-empty string of small Latin letters which length doesn't exceed 32. It is guaranteed that the number of distinct fruits from the list is less of equal to n. Also it is known that the seller has in stock all fruits that Valera wants to buy.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_006.jsonl",
+    "code_uid": "93c9ea61270558c15ff2483733594cdb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n4 2 1 10 5\\napple\\norange\\nmango\", \"6 5\\n3 5 1 6 8 1\\npeach\\ngrapefruit\\nbanana\\norange\\norange\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t, f = [int(x) for x in raw_input().split()]\nprices1 = sorted([int(x) for x in raw_input().split()])\nprices2 = prices1[::-1]\nfruit = {}\nfor n in xrange(f):\n    s = raw_input()\n    if s in fruit:\n        fruit[s] += 1\n    else:\n        fruit[s] = 1\nl = []\nfor k in fruit:\n    l.append(fruit[k])\nl = sorted(l)[::-1]\nlow = 0\nhigh = 0\nfor i, li in enumerate(l):\n    low += li * prices1[i]\n    high += li * prices2[i]\nprint low, high",
+    "prob_desc_created_at": "1272538800",
+    "tags": [
+        "implementation",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

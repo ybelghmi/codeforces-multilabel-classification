@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"WBBBWW\", \"WWWWWWW\", \"BWBWBW\"]",
+    "src_uid": "86d17fa4bac5edd0cc4b6bff1c9899b7",
+    "prob_desc_notes": "NoteThe first example is described in the statement.The second example: \"WBWBWBW\" $$$\\rightarrow$$$ \"WWBWBWW\" $$$\\rightarrow$$$ \"WWWBWWW\" $$$\\rightarrow$$$ \"WWWWWWW\". So all chips become white.The third example: \"BWBWBW\" $$$\\rightarrow$$$ \"WBWBWB\" $$$\\rightarrow$$$ \"BWBWBW\" $$$\\rightarrow$$$ \"WBWBWB\" $$$\\rightarrow$$$ \"BWBWBW\".",
+    "prob_desc_description": "There are $$$n$$$ chips arranged in a circle, numbered from $$$1$$$ to $$$n$$$. Initially each chip has black or white color. Then $$$k$$$ iterations occur. During each iteration the chips change their colors according to the following rules. For each chip $$$i$$$, three chips are considered: chip $$$i$$$ itself and two its neighbours. If the number of white chips among these three is greater than the number of black chips among these three chips, then the chip $$$i$$$ becomes white. Otherwise, the chip $$$i$$$ becomes black. Note that for each $$$i$$$ from $$$2$$$ to $$$(n - 1)$$$ two neighbouring chips have numbers $$$(i - 1)$$$ and $$$(i + 1)$$$. The neighbours for the chip $$$i = 1$$$ are $$$n$$$ and $$$2$$$. The neighbours of $$$i = n$$$ are $$$(n - 1)$$$ and $$$1$$$.The following picture describes one iteration with $$$n = 6$$$. The chips $$$1$$$, $$$3$$$ and $$$4$$$ are initially black, and the chips $$$2$$$, $$$5$$$ and $$$6$$$ are white. After the iteration $$$2$$$, $$$3$$$ and $$$4$$$ become black, and $$$1$$$, $$$5$$$ and $$$6$$$ become white.  Your task is to determine the color of each chip after $$$k$$$ iterations.",
+    "prob_desc_output_spec": "Print a string consisting of $$$n$$$ characters \"W\" and \"B\". If after $$$k$$$ iterations the $$$i$$$-th chip is white, then the $$$i$$$-th character should be \"W\". Otherwise the $$$i$$$-th character should be \"B\".",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ $$$(3 \\le n \\le 200\\,000, 1 \\le k \\le 10^{9})$$$ — the number of chips and the number of iterations, respectively. The second line contains a string consisting of $$$n$$$ characters \"W\" and \"B\". If the $$$i$$$-th character is \"W\", then the $$$i$$$-th chip is white initially. If the $$$i$$$-th character is \"B\", then the $$$i$$$-th chip is black initially.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_059.jsonl",
+    "code_uid": "397ab703585d2528bca604ec3139bf91",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 1\\nBWBBWW\", \"7 3\\nWBWBWBW\", \"6 4\\nBWBWBW\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = [int(i) for i in input().split()]\ncol = [0 if d == \"W\" else 1 for d in input()]\n\n\noffs = 0\nif col[0] != col[-1]:\n    offs = -1\n    for i in range(n-1):\n        if col[i] == col[i+1]:\n            offs = i+1\n            break\n    if offs == -1:\n        if k % 2 == 0:\n            print(''.join([[\"W\", \"B\"][col[i]] for i in range(n)]))\n        else:\n            print(''.join([[\"B\", \"W\"][col[i]] for i in range(n)]))\n        exit()\n    col = col[offs:] + col[:offs] \n\n# print(col)\nisalt = [0]*n\nfor i in range(1, n-1):\n    if col[i-1] != col[i] and col[i] != col[i+1]:\n        isalt[i] = 1\n\n\n\nsides = [[-1,-1] for i in range(n)]\n\nll = 0\nfor i in range(n):\n    if isalt[i]:\n        sides[i][0] = ll\n    else:\n        ll = i + 1\nrr = 0\nfor i in range(n-1, -1, -1):\n    if isalt[i]:\n        sides[i][1] = rr\n    else:\n        rr = i - 1\n\n\neven = k%2 == 0\nans = [0] * n\nfor i in range(n):\n    if isalt[i] == 0:\n        ans[i] = col[i]\n    else:\n        bb = sides[i]\n        if i - bb[0] < bb[1] - i:\n            dist = i - bb[0]\n            nei = col[bb[0] - 1]\n        else:\n            dist = bb[1] - i\n            nei = col[bb[1]+1]\n        if dist + 1 <= k:\n            ans[i] = nei\n        else:\n            if even:\n                ans[i] = col[i]\n            else:\n                ans[i] = 1 - col[i]\n\n\n\n# print(ans)\nif offs != 0:\n    offs = n - offs\n    ans = ans[offs:] + ans[:offs]\n\n# print(offs, ans)\n\nprint(''.join([[\"W\", \"B\"][ans[i]] for i in range(n)]))\n",
+    "prob_desc_created_at": "1570957500",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

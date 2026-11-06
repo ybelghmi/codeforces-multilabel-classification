@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"20\\n1\\n5\\n3\"]",
+    "src_uid": "1b0c53ec666cdfea31a74f73d6ff70f2",
+    "prob_desc_notes": "NoteFor the first test case here the best sum is achieved by the bishop being in this position:   ",
+    "prob_desc_description": "Timur's grandfather gifted him a chessboard to practice his chess skills. This chessboard is a grid $$$a$$$ with $$$n$$$ rows and $$$m$$$ columns with each cell having a non-negative integer written on it. Timur's challenge is to place a bishop on the board such that the sum of all cells attacked by the bishop is maximal. The bishop attacks in all directions diagonally, and there is no limit to the distance which the bishop can attack. Note that the cell on which the bishop is placed is also considered attacked. Help him find the maximal sum he can get.",
+    "prob_desc_output_spec": "For each test case output a single integer, the maximum sum over all possible placements of the bishop.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The description of test cases follows. The first line of each test case contains the integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 200$$$, $$$1 \\leq m \\leq 200$$$). The following $$$n$$$ lines contain $$$m$$$ integers each, the $$$j$$$-th element of the $$$i$$$-th line $$$a_{ij}$$$ is the number written in the $$$j$$$-th cell of the $$$i$$$-th row $$$(0\\leq a_{ij} \\leq 10^6)$$$ It is guaranteed that the sum of $$$n\\cdot m$$$ over all test cases does not exceed $$$4\\cdot10^4$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_106.jsonl",
+    "code_uid": "f60d07739c70aeb26ea4da27a901e312",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4 4\\n1 2 2 1\\n2 4 2 4\\n2 2 3 1\\n2 4 2 4\\n2 1\\n1\\n0\\n3 3\\n1 1 1\\n1 1 1\\n1 1 1\\n3 3\\n0 1 1\\n1 0 1\\n1 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\n \nfor _ in range(int(input())):\n    n,m=list(map(int,input().split()))\n    arr=[]\n    for _ in range(n):\n        arr.append(list(map(int,input().split())))\n    d1=[0]*(n+m-1)\n    d2=[0]*(n+m-1)\n    for i in range(n):\n        for j in range(m):\n            d1[i+j]+=arr[i][j]\n            d2[i-j+m-1]+=arr[i][j]\n    maxx=0\n    for i in range(n):\n        for j in range(m):\n            maxx=max(maxx, d1[i+j]+d2[i-j+m-1]-arr[i][j])\n    print(maxx)",
+    "prob_desc_created_at": "1652193900",
+    "tags": [
+        "brute force",
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

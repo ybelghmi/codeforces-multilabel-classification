@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n3\\n2\\n0\\n2\\n7\"]",
+    "src_uid": "6b92f09df1e35edc80cf1cbf8494b41e",
+    "prob_desc_notes": "NoteIn the first test case you can remove the characters with indices $$$6$$$, $$$7$$$, and $$$9$$$ to get an even string \"aabbddcc\".In the second test case, each character occurs exactly once, so in order to get an even string, you must remove all characters from the string.In the third test case, you can get an even string \"aaaabb\" by removing, for example, $$$4$$$-th and $$$6$$$-th characters, or a string \"aabbbb\" by removing the $$$5$$$-th character and any of the first three.",
+    "prob_desc_description": "A string $$$a=a_1a_2\\dots a_n$$$ is called even if it consists of a concatenation (joining) of strings of length $$$2$$$ consisting of the same characters. In other words, a string $$$a$$$ is even if two conditions are satisfied at the same time:  its length $$$n$$$ is even;  for all odd $$$i$$$ ($$$1 \\le i \\le n - 1$$$), $$$a_i = a_{i+1}$$$ is satisfied. For example, the following strings are even: \"\" (empty string), \"tt\", \"aabb\", \"oooo\", and \"ttrrrroouuuuuuuukk\". The following strings are not even: \"aaa\", \"abab\" and \"abba\".Given a string $$$s$$$ consisting of lowercase Latin letters. Find the minimum number of characters to remove from the string $$$s$$$ to make it even. The deleted characters do not have to be consecutive.",
+    "prob_desc_output_spec": "For each test case, print a single number — the minimum number of characters that must be removed to make $$$s$$$ even.",
+    "prob_desc_input_spec": "The first line of input data contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) —the number of test cases in the test. The descriptions of the test cases follow. Each test case consists of one string $$$s$$$ ($$$1 \\le |s| \\le 2 \\cdot 10^5$$$), where $$$|s|$$$ — the length of the string $$$s$$$. The string consists of lowercase Latin letters. It is guaranteed that the sum of $$$|s|$$$ on all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_105.jsonl",
+    "code_uid": "34b8409507d7dcce8d490c4f0d4651b0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\naabbdabdccc\\n\\nzyx\\n\\naaababbb\\n\\naabbcc\\n\\noaoaaaoo\\n\\nbmefbmuyw\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\n\r\n\r\n\r\ndef f(val, ind):\r\n    # print(val, ind)\r\n    if ind == -1:\r\n        return val - 1\r\n    if ind >= len(s) - 1:\r\n        return val\r\n    if s[ind] == s[ind + 1]:\r\n        # print(1)\r\n        return f(val + 1, ind + 2)\r\n    else:\r\n        # print(2)\r\n        if a[ind + 1][s[ind]] == -1:\r\n            val1 = f(val, ind + 1)\r\n        else:\r\n            val1 = f(val + 1, a[ind + 1][s[ind]] + 1)\r\n        val2 = f(val, ind + 1)\r\n        return max(val1, val2)\r\n\r\n\r\nt = int(input())\r\nfor _ in range(t):\r\n    s = input()\r\n    c = {}\r\n    ans = [0] * (len(s) + 2)\r\n    for i in range(len(s)):\r\n        if s[i] not in c:\r\n            c[s[i]] = -1\r\n    a = [c.copy()]\r\n    for i in range(len(s) - 1, -1, -1):\r\n        c[s[i]] = i\r\n        a.append(c.copy())\r\n    a = a[::-1]\r\n    for i in range(len(s) - 1):\r\n        if s[i] == s[i + 1]:\r\n            ans[i + 2] = max(ans[i] + 1, ans[i + 2])\r\n        else:\r\n            if a[i + 1][s[i]] == -1:\r\n                ans[i + 1] = max(ans[i], ans[i + 1])\r\n            else:\r\n                ans[a[i + 1][s[i]] + 1] = max(ans[i] + 1, ans[a[i + 1][s[i]] + 1])\r\n            ans[i + 1] = max(ans[i], ans[i + 1])\r\n\r\n    # print(a)\r\n    # print(ans)\r\n    print(len(s) - max(ans) * 2)\r\n    # print(len(s) - f(0, 0) * 2)\r\n",
+    "prob_desc_created_at": "1648737300",
+    "tags": [
+        "dp",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

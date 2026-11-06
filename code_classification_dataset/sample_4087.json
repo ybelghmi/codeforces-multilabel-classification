@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n4\\n1\\n470\"]",
+    "src_uid": "3d0685162fbb432c37bb6aeb5fe51f94",
+    "prob_desc_notes": "NoteIn the first example, for $$$k=3$$$, damage is dealt in seconds $$$[1, 2, 3, 5, 6, 7]$$$.In the second example, for $$$k=4$$$, damage is dealt in seconds $$$[2, 3, 4, 5, 6, 7, 10, 11, 12, 13]$$$.In the third example, for $$$k=1$$$, damage is dealt in seconds $$$[1, 2, 4, 5, 7]$$$.",
+    "prob_desc_description": "Monocarp is playing yet another computer game. In this game, his character has to kill a dragon. The battle with the dragon lasts $$$100^{500}$$$ seconds, during which Monocarp attacks the dragon with a poisoned dagger. The $$$i$$$-th attack is performed at the beginning of the $$$a_i$$$-th second from the battle start. The dagger itself does not deal damage, but it applies a poison effect on the dragon, which deals $$$1$$$ damage during each of the next $$$k$$$ seconds (starting with the same second when the dragon was stabbed by the dagger). However, if the dragon has already been poisoned, then the dagger updates the poison effect (i.e. cancels the current poison effect and applies a new one).For example, suppose $$$k = 4$$$, and Monocarp stabs the dragon during the seconds $$$2$$$, $$$4$$$ and $$$10$$$. Then the poison effect is applied at the start of the $$$2$$$-nd second and deals $$$1$$$ damage during the $$$2$$$-nd and $$$3$$$-rd seconds; then, at the beginning of the $$$4$$$-th second, the poison effect is reapplied, so it deals exactly $$$1$$$ damage during the seconds $$$4$$$, $$$5$$$, $$$6$$$ and $$$7$$$; then, during the $$$10$$$-th second, the poison effect is applied again, and it deals $$$1$$$ damage during the seconds $$$10$$$, $$$11$$$, $$$12$$$ and $$$13$$$. In total, the dragon receives $$$10$$$ damage.Monocarp knows that the dragon has $$$h$$$ hit points, and if he deals at least $$$h$$$ damage to the dragon during the battle — he slays the dragon. Monocarp has not decided on the strength of the poison he will use during the battle, so he wants to find the minimum possible value of $$$k$$$ (the number of seconds the poison effect lasts) that is enough to deal at least $$$h$$$ damage to the dragon.",
+    "prob_desc_output_spec": "For each test case, print a single integer — the minimum value of the parameter $$$k$$$, such that Monocarp will cause at least $$$h$$$ damage to the dragon.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The first line of the test case contains two integers $$$n$$$ and $$$h$$$ ($$$1 \\le n \\le 100; 1 \\le h \\le 10^{18}$$$) — the number of Monocarp's attacks and the amount of damage that needs to be dealt. The second line contains $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_n$$$ ($$$1 \\le a_i \\le 10^9; a_i &lt; a_{i + 1}$$$), where $$$a_i$$$ is the second when the $$$i$$$-th attack is performed.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_090.jsonl",
+    "code_uid": "abf4228eb8401db7033bd90ddf7368e8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 5\\n1 5\\n3 10\\n2 4 10\\n5 3\\n1 2 4 5 7\\n4 1000\\n3 25 64 1337\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\n\r\nfor _ in range(int(input())):\r\n    n, h = map(int, input().split())\r\n    w = list(map(int, input().split())) + [10**20]\r\n    d = [j-i for i, j in zip(w,w[1:])]\r\n    lo, hi = 0, h\r\n    while lo < hi:\r\n        mid = (lo + hi)//2\r\n        s = 0\r\n        for i in range(n):\r\n            s += min(d[i], mid)\r\n        if s < h:\r\n            lo = mid + 1\r\n        else:\r\n            hi = mid\r\n    print(lo)\r\n",
+    "prob_desc_created_at": "1638369300",
+    "tags": [
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

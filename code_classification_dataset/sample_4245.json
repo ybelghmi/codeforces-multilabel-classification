@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n9\\n5\"]",
+    "src_uid": "33e9714f22b603f002d02ef42835ff57",
+    "prob_desc_notes": "NoteFor the first test case, one possibility for Victor's original grid is:$$$1$$$$$$3$$$$$$2$$$$$$4$$$For the second test case, one possibility for Victor's original grid is:$$$3$$$$$$8$$$$$$8$$$$$$5$$$$$$9$$$$$$5$$$$$$5$$$$$$1$$$$$$5$$$$$$5$$$$$$9$$$$$$9$$$$$$8$$$$$$4$$$$$$2$$$$$$9$$$For the third test case, one possibility for Victor's original grid is:$$$4$$$$$$3$$$$$$2$$$$$$1$$$$$$1$$$$$$2$$$$$$3$$$$$$4$$$$$$5$$$$$$6$$$$$$7$$$$$$8$$$$$$8$$$$$$9$$$$$$9$$$$$$1$$$",
+    "prob_desc_description": "Note: The XOR-sum of set $$$\\{s_1,s_2,\\ldots,s_m\\}$$$ is defined as $$$s_1 \\oplus s_2 \\oplus \\ldots \\oplus s_m$$$, where $$$\\oplus$$$ denotes the bitwise XOR operation.After almost winning IOI, Victor bought himself an $$$n\\times n$$$ grid containing integers in each cell. $$$n$$$ is an even integer. The integer in the cell in the $$$i$$$-th row and $$$j$$$-th column is $$$a_{i,j}$$$.Sadly, Mihai stole the grid from Victor and told him he would return it with only one condition: Victor has to tell Mihai the XOR-sum of all the integers in the whole grid.Victor doesn't remember all the elements of the grid, but he remembers some information about it: For each cell, Victor remembers the XOR-sum of all its neighboring cells.Two cells are considered neighbors if they share an edge — in other words, for some integers $$$1 \\le i, j, k, l \\le n$$$, the cell in the $$$i$$$-th row and $$$j$$$-th column is a neighbor of the cell in the $$$k$$$-th row and $$$l$$$-th column if $$$|i - k| = 1$$$ and $$$j = l$$$, or if $$$i = k$$$ and $$$|j - l| = 1$$$.To get his grid back, Victor is asking you for your help. Can you use the information Victor remembers to find the XOR-sum of the whole grid?It can be proven that the answer is unique.",
+    "prob_desc_output_spec": "For each test case, output a single integer — the XOR-sum of the whole grid.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. The description of test cases follows. The first line of each test case contains a single even integer $$$n$$$ ($$$2 \\leq n \\leq 1000$$$) — the size of the grid. Then follows $$$n$$$ lines, each containing $$$n$$$ integers. The $$$j$$$-th integer in the $$$i$$$-th of these lines represents the XOR-sum of the integers in all the neighbors of the cell in the $$$i$$$-th row and $$$j$$$-th column. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$1000$$$ and in the original grid $$$0 \\leq a_{i, j} \\leq 2^{30} - 1$$$. Hack Format To hack a solution, use the following format: The first line should contain a single integer t ($$$1 \\le t \\le 100$$$) — the number of test cases. The first line of each test case should contain a single even integer $$$n$$$ ($$$2 \\leq n \\leq 1000$$$) — the size of the grid. Then $$$n$$$ lines should follow, each containing $$$n$$$ integers. The $$$j$$$-th integer in the $$$i$$$-th of these lines is $$$a_{i,j}$$$ in Victor's original grid. The values in the grid should be integers in the range $$$[0, 2^{30}-1]$$$ The sum of $$$n$$$ over all test cases must not exceed $$$1000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_093.jsonl",
+    "code_uid": "d174af94b5f7029e310c1ba4e3fa85cf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2\\n1 5\\n5 1\\n4\\n1 14 8 9\\n3 1 5 9\\n4 13 11 1\\n1 15 4 11\\n4\\n2 4 1 6\\n3 7 3 10\\n15 9 4 2\\n12 7 15 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "''' E. Grid Xor\nhttps://codeforces.com/contest/1629/problem/E\n'''\n\nimport io, os, sys\ninput = sys.stdin.readline \noutput = sys.stdout.write\n\nDEBUG = os.environ.get('debug') not in [None, '0']\n\nif DEBUG:\n    from inspect import currentframe, getframeinfo\n    from re import search\n\ndef debug(*args):\n    if not DEBUG: return\n    frame = currentframe().f_back\n    s = getframeinfo(frame).code_context[0]\n    r = search(r\"\\((.*)\\)\", s).group(1)\n    vnames = r.split(', ')\n    var_and_vals = [f'{var}={val}' for var, val in zip(vnames, args)]\n    prefix = f'{currentframe().f_back.f_lineno:02d}: '\n    print(f'{prefix}{\", \".join(var_and_vals)}')\n\n\nINF = float('inf')\n\n# -----------------------------------------\n\n# https://codeforces.com/blog/entry/99276?#comment-880317\n# each cell should have odd number of chosen neighbors\n# fix row 1 to all 0\n# then choose (r, c) if (r-1, c) has even number of 1 neighbors\n\n# but why is last row valid?\n\ndef solve(N, grid):\n    res = 0\n    chosen = [[0]*N for _ in range(N)]\n    for r in range(1, N):\n        for c in range(N):\n            cnt = 0\n            if r > 1: cnt += chosen[r-2][c]\n            if c > 0: cnt += chosen[r-1][c-1]\n            if c < N-1: cnt += chosen[r-1][c+1]\n            if cnt % 2 == 0:\n                chosen[r][c] = 1\n                res ^= grid[r][c]\n    \n    return res\n\n\ndef main():\n    T = int(input())\n    for _ in range(T):\n        N = int(input())\n        grid = [list(map(int, input().split())) for _ in range(N)]\n        out = solve(N, grid)\n        print(out)\n\n\nif __name__ == '__main__':\n    main()\n\n",
+    "prob_desc_created_at": "1642862100",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "interactive",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

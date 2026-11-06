@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 2\\n\\n? 3 4\\n\\n? 4 4\\n\\n! aabc\"]",
+    "src_uid": "42062b041674530a0d9dcd98d904eb3a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This problem is different with hard version only by constraints on total answers lengthIt is an interactive problemVenya joined a tour to the madhouse, in which orderlies play with patients the following game. Orderlies pick a string $$$s$$$ of length $$$n$$$, consisting only of lowercase English letters. The player can ask two types of queries:   ? l r – ask to list all substrings of $$$s[l..r]$$$. Substrings will be returned in random order, and in every substring, all characters will be randomly shuffled.  ! s – guess the string picked by the orderlies. This query can be asked exactly once, after that the game will finish. If the string is guessed correctly, the player wins, otherwise he loses. The player can ask no more than $$$3$$$ queries of the first type.To make it easier for the orderlies, there is an additional limitation: the total number of returned substrings in all queries of the first type must not exceed $$$(n+1)^2$$$.Venya asked you to write a program, which will guess the string by interacting with the orderlies' program and acting by the game's rules.Your program should immediately terminate after guessing the string using a query of the second type. In case your program guessed the string incorrectly, or it violated the game rules, it will receive verdict Wrong answer.Note that in every test case the string is fixed beforehand and will not change during the game, which means that the interactor is not adaptive.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "First line contains number $$$n$$$ ($$$1 \\le n \\le 100$$$) — the length of the picked string.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_020.jsonl",
+    "code_uid": "a381ad7064575b9dd02638ac98289200",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\na\\naa\\na\\n\\ncb\\nb\\nc\\n\\nc\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport copy\nimport string\nfrom collections import defaultdict, Counter\n\ndef sortString(s):\n    return ''.join(sorted(s))\n\ndef solve(p1, p2):\n    p1 = Counter([sortString(s) for s in p1])\n    p2 = Counter([sortString(s) for s in p2])\n\n    for key in p2.keys():\n        p1[key] -= p2[key]\n\n    pp = []\n    for key, value in p1.items():\n        pp += [key] * value\n    pp.sort(key=len)\n\n    res = ''\n    d = defaultdict(int)\n    for bag in pp:\n        counter = Counter(bag)\n        cur = '#'\n        for c in string.ascii_lowercase:\n            if d[c] < counter[c]:\n                assert cur == '#'\n                cur = c\n        res += cur\n        d = counter\n    return res\n\nn = int(raw_input())\n\nprint '? 1 %d' % n\nprint ''\nsys.stdout.flush()\n\np1 = []\nm = (1 + n) * n / 2\nfor i in xrange(m):\n    p1.append(raw_input().strip())\n\nif n == 1:\n    res = p1[0]\n    print '! %s' % res\n    print ''\n    sys.stdout.flush()\nelse:\n    print '? 2 %d' % n\n    print ''\n    sys.stdout.flush()\n\n    p2 = []\n    m = (1 + n - 1) * (n - 1) / 2\n    for i in xrange(m):\n        p2.append(raw_input().strip())\n\n    res = solve(p1, p2)\n    print '! %s' % res\n    print ''\n    sys.stdout.flush()\n",
+    "prob_desc_created_at": "1578233100",
+    "tags": [
+        "constructive algorithms",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

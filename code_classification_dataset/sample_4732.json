@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"202\\n13\\n19\"]",
+    "src_uid": "fe9279aa95148f0887cc7eeb89afbac6",
+    "prob_desc_notes": "NoteIn the first test case, to reach $$$(2, 2)$$$ you need to make at least one turn, so your path will consist of exactly $$$2$$$ segments: one horizontal of length $$$2$$$ and one vertical of length $$$2$$$. The cost of the path will be equal to $$$2 \\cdot c_1 + 2 \\cdot c_2 = 26 + 176 = 202$$$.In the second test case, one of the optimal paths consists of $$$3$$$ segments: the first segment of length $$$1$$$, the second segment of length $$$3$$$ and the third segment of length $$$2$$$.The cost of the path is $$$1 \\cdot 2 + 3 \\cdot 3 + 2 \\cdot 1 = 13$$$.In the third test case, one of the optimal paths consists of $$$4$$$ segments: the first segment of length $$$1$$$, the second one — $$$1$$$, the third one — $$$4$$$, the fourth one — $$$4$$$. The cost of the path is $$$1 \\cdot 4 + 1 \\cdot 3 + 4 \\cdot 2 + 4 \\cdot 1 = 19$$$.",
+    "prob_desc_description": "Let's say you are standing on the $$$XY$$$-plane at point $$$(0, 0)$$$ and you want to reach point $$$(n, n)$$$.You can move only in two directions:   to the right, i. e. horizontally and in the direction that increase your $$$x$$$ coordinate,  or up, i. e. vertically and in the direction that increase your $$$y$$$ coordinate. In other words, your path will have the following structure:   initially, you choose to go to the right or up;  then you go some positive integer distance in the chosen direction (distances can be chosen independently);  after that you change your direction (from right to up, or from up to right) and repeat the process. You don't like to change your direction too much, so you will make no more than $$$n - 1$$$ direction changes.As a result, your path will be a polygonal chain from $$$(0, 0)$$$ to $$$(n, n)$$$, consisting of at most $$$n$$$ line segments where each segment has positive integer length and vertical and horizontal segments alternate.Not all paths are equal. You have $$$n$$$ integers $$$c_1, c_2, \\dots, c_n$$$ where $$$c_i$$$ is the cost of the $$$i$$$-th segment.Using these costs we can define the cost of the path as the sum of lengths of the segments of this path multiplied by their cost, i. e. if the path consists of $$$k$$$ segments ($$$k \\le n$$$), then the cost of the path is equal to $$$\\sum\\limits_{i=1}^{k}{c_i \\cdot length_i}$$$ (segments are numbered from $$$1$$$ to $$$k$$$ in the order they are in the path).Find the path of the minimum cost and print its cost.",
+    "prob_desc_output_spec": "For each test case, print the minimum possible cost of the path from $$$(0, 0)$$$ to $$$(n, n)$$$ consisting of at most $$$n$$$ alternating segments.",
+    "prob_desc_input_spec": "The first line contains the single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The first line of each test case contains the single integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$). The second line of each test case contains $$$n$$$ integers $$$c_1, c_2, \\dots, c_n$$$ ($$$1 \\le c_i \\le 10^9$$$) — the costs of each segment. It's guaranteed that the total sum of $$$n$$$ doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_104.jsonl",
+    "code_uid": "0c0aaa7349c8d7260c199b8c4ecbbeb0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2\\n13 88\\n3\\n2 3 1\\n5\\n4 3 2 1 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import random\r\nfrom datetime import datetime\r\nimport math\r\n\r\nnow = datetime.now() \r\n \r\ncazuri=int(input())\r\nfor tt in range(cazuri):\r\n #n,c=map(int,input().split())\r\n n=int(input())\r\n \r\n #stringul=input()\r\n \r\n bloc=list(map(int,input().split()))\r\n \r\n\r\n  \r\n  \r\n pare=[]\r\n impare=[]\r\n \r\n suma_pare=0\r\n suma_impare=0\r\n cate_pare=1\r\n cate_impare=1\r\n \r\n \r\n suma_totala=0\r\n \r\n suma_pare=bloc[0]\r\n suma_impare=bloc[1]\r\n \r\n min_pare=bloc[0]\r\n min_impare=bloc[1]\r\n \r\n val_pare=bloc[0]*n\r\n val_impare=bloc[1]*n\r\n \r\n val_total=val_pare+val_impare\r\n \r\n# print(\"val total=\",val_total)\r\n \r\n if n==2:\r\n  print(val_total)\r\n else:\r\n  \r\n  for i in range(2,n):\r\n   if i%2==0:\r\n    cate_pare+=1\r\n    suma_pare+=bloc[i]\r\n    if bloc[i]<min_pare:\r\n     min_pare=bloc[i]\r\n     \r\n    val_pare=min_pare*(n+1-cate_pare)+suma_pare-min_pare\r\n    val_total=min(val_total,val_pare+val_impare)\r\n    \r\n   \r\n   else:\r\n    cate_impare+=1\r\n    suma_impare+=bloc[i]\r\n    if bloc[i]<min_impare:\r\n     min_impare=bloc[i]\r\n     \r\n    val_impare=min_impare*(n+1-cate_impare)+suma_impare-min_impare\r\n    \r\n   # print(\"val impare=\",val_impare,val_pare)\r\n    val_total=min(val_total,val_impare+val_pare)\r\n    \r\n \r\n  print(val_total)\r\n ",
+    "prob_desc_created_at": "1616079000",
+    "tags": [
+        "brute force",
+        "data structures",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

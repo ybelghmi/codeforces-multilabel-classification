@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\", \"NO\"]",
+    "src_uid": "cc1feee94617c0cba1c528a0cb3952a8",
+    "prob_desc_notes": "NoteThe following sketches show the example boards and their tilings if such tilings exist:   ",
+    "prob_desc_description": "One day Alice was cleaning up her basement when she noticed something very curious: an infinite set of wooden pieces! Each piece was made of five square tiles, with four tiles adjacent to the fifth center tile:    By the pieces lay a large square wooden board. The board is divided into $$$n^2$$$ cells arranged into $$$n$$$ rows and $$$n$$$ columns. Some of the cells are already occupied by single tiles stuck to it. The remaining cells are free.Alice started wondering whether she could fill the board completely using the pieces she had found. Of course, each piece has to cover exactly five distinct cells of the board, no two pieces can overlap and every piece should fit in the board entirely, without some parts laying outside the board borders. The board however was too large for Alice to do the tiling by hand. Can you help determine if it's possible to fully tile the board?",
+    "prob_desc_output_spec": "Output YES if the board can be tiled by Alice's pieces, or NO otherwise. You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$n$$$ ($$$3 \\leq n \\leq 50$$$) — the size of the board. The following $$$n$$$ lines describe the board. The $$$i$$$-th line ($$$1 \\leq i \\leq n$$$) contains a single string of length $$$n$$$. Its $$$j$$$-th character ($$$1 \\leq j \\leq n$$$) is equal to \".\" if the cell in the $$$i$$$-th row and the $$$j$$$-th column is free; it is equal to \"#\" if it's occupied. You can assume that the board contains at least one free cell.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_027.jsonl",
+    "code_uid": "91497c04ad1731a8d59017134749f0e4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n#.#\\n...\\n#.#\", \"4\\n##.#\\n#...\\n####\\n##.#\", \"5\\n#.###\\n....#\\n#....\\n###.#\\n#####\", \"5\\n#.###\\n....#\\n#....\\n....#\\n#..##\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\n\nlines = [list(input()) for _ in range(n)]\n\n\ndef umeru(umeru_info, line):\n    out_umeru_info = []\n    ok = True\n    for line_i, cell_i, count in umeru_info:\n        if count == 1:\n            if line[cell_i-1] == \".\" and line[cell_i] == \".\" and line[cell_i+1] == \".\":\n                line[cell_i-1] = \"#\"\n                line[cell_i] = \"#\"\n                line[cell_i+1] = \"#\"\n                out_umeru_info.append([line_i, cell_i, 2])\n            else:\n                ok = False\n                return ok, None, None\n        else: #count == 2:\n            if line[cell_i] == \".\":\n                line[cell_i] = \"#\"\n            else:\n                ok = False\n                return ok, None, None\n\n    return ok, out_umeru_info, line\n\ndef find_first(line_i, line, umeru_info, n):\n    ok = True\n    for cell_i, cell in enumerate(line):\n        if cell == \".\":\n            if (cell_i in [0, n-1]) or line_i in [n-2, n-1]:\n                ok = False\n                return ok, None\n            else:\n                umeru_info.append([line_i, cell_i, 1])\n\n    return ok, umeru_info\n\numeru_info = []\nfail = False\nfor line_i, line in enumerate(lines):\n    ok, umeru_info, line = umeru(umeru_info, line)\n    if not ok:\n        fail = True\n        break\n\n    ok, umeru_info = find_first(line_i, line, umeru_info, n)\n    if not ok:\n        fail = True\n        break\n\nout = \"NO\" if fail else \"YES\"\nprint(out)",
+    "prob_desc_created_at": "1556548500",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

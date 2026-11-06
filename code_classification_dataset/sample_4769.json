@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"0 2 12 22\", \"0 3 5\"]",
+    "src_uid": "857d84cfbf8c9ce5c95d36b4d2854a88",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have an array $$$a$$$ consisting of $$$n$$$ distinct positive integers, numbered from $$$1$$$ to $$$n$$$. Define $$$p_k$$$ as $$$$$$p_k = \\sum_{1 \\le i, j \\le k} a_i \\bmod a_j,$$$$$$ where $$$x \\bmod y$$$ denotes the remainder when $$$x$$$ is divided by $$$y$$$. You have to find and print $$$p_1, p_2, \\ldots, p_n$$$. ",
+    "prob_desc_output_spec": "Print $$$n$$$ integers $$$p_1, p_2, \\ldots, p_n$$$. ",
+    "prob_desc_input_spec": "The first line contains $$$n$$$ — the length of the array ($$$2 \\le n \\le 2 \\cdot 10^5$$$). The second line contains $$$n$$$ space-separated distinct integers $$$a_1, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 3 \\cdot 10^5$$$, $$$a_i \\neq a_j$$$ if $$$i \\neq j$$$). ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_105.jsonl",
+    "code_uid": "510e4dee977c24b486afaabdc140aec0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n6 2 7 3\", \"3\\n3 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, os, io\r\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\r\n\r\ndef fenwick_tree(n):\r\n    tree = [0] * (n + 1)\r\n    return tree\r\n\r\ndef get_sum(i):\r\n    s = 0\r\n    while i > 0:\r\n        s += tree[i]\r\n        i -= i & -i\r\n    return s\r\n\r\ndef add(i, x):\r\n    while i < len(tree):\r\n        tree[i] += x\r\n        i += i & -i\r\n\r\nn = int(input())\r\na = list(map(int, input().split()))\r\nl = max(a) + 5\r\ntree = fenwick_tree(l + 1)\r\nans = []\r\nla = 0\r\ns = 0\r\nfor i in range(n):\r\n    ai = a[i]\r\n    u = s + i * ai\r\n    v = 0\r\n    x = get_sum(ai - 1)\r\n    for j in range(1, l + 1):\r\n        z = min((j + 1) * ai - 1, l)\r\n        y = get_sum(z)\r\n        v += j * (y - x)\r\n        x = y\r\n        if z == l:\r\n            break\r\n    add(ai, 1)\r\n    u -= ai * v\r\n    ans.append(u)\r\n    la = u\r\n    s += ai\r\n\r\ndef fenwick_tree(n):\r\n    tree1 = [0] * (n + 1)\r\n    tree2 = [0] * (n + 1)\r\n    return tree1, tree2\r\n\r\ndef add0(i, x, tree):\r\n    while i < len(tree):\r\n        tree[i] += x\r\n        i += i & -i\r\n\r\ndef add(l, r, x):\r\n    add0(l, -x * (l - 1), tree1)\r\n    add0(r + 1, x * r, tree1)\r\n    add0(l, x, tree2)\r\n    add0(r + 1, -x, tree2)\r\n\r\ndef get_sum0(i, tree):\r\n    s = 0\r\n    while i > 0:\r\n        s += tree[i]\r\n        i -= i & -i\r\n    return s\r\n\r\ndef get_sum(s, t):\r\n    s -= 1\r\n    x = get_sum0(s, tree1) + get_sum0(s, tree2) * s\r\n    y = get_sum0(t, tree1) + get_sum0(t, tree2) * t\r\n    return y - x\r\n\r\ntree1, tree2 = fenwick_tree(l + 1)\r\nfor i in range(n):\r\n    ai = a[i]\r\n    ans[i] -= get_sum(ai, ai)\r\n    u, v = ai, min(2 * ai - 1, l)\r\n    while u < l:\r\n        add(u, v, u)\r\n        u += ai\r\n        v = min(u + ai - 1, l)\r\nfor i in range(1, n):\r\n    ans[i] += ans[i - 1]\r\nsys.stdout.write(\" \".join(map(str, ans)))",
+    "prob_desc_created_at": "1626964500",
+    "tags": [
+        "data structures",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

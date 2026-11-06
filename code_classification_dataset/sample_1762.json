@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"16\"]",
+    "src_uid": "cb47d710361979de0f975cc34fc22c7a",
+    "prob_desc_notes": "NoteThe first test has the only variant to get to school: first on bus number one to the bus stop number one; then on bus number two to the bus stop number two.In the second test no bus goes to the third bus stop, where the school is positioned. Thus, the correct answer is 0.In the third test Gerald can either get or not on any of the first four buses to get closer to the school. Thus, the correct answer is 24 = 16.",
+    "prob_desc_description": "Little boy Gerald studies at school which is quite far from his house. That's why he has to go there by bus every day. The way from home to school is represented by a segment of a straight line; the segment contains exactly n + 1 bus stops. All of them are numbered with integers from 0 to n in the order in which they follow from Gerald's home. The bus stop by Gerald's home has number 0 and the bus stop by the school has number n.There are m buses running between the house and the school: the i-th bus goes from stop si to ti (si &lt; ti), visiting all the intermediate stops in the order in which they follow on the segment. Besides, Gerald's no idiot and he wouldn't get off the bus until it is still possible to ride on it closer to the school (obviously, getting off would be completely pointless). In other words, Gerald can get on the i-th bus on any stop numbered from si to ti - 1 inclusive, but he can get off the i-th bus only on the bus stop ti.Gerald can't walk between the bus stops and he also can't move in the direction from the school to the house.Gerald wants to know how many ways he has to get from home to school. Tell him this number. Two ways are considered different if Gerald crosses some segment between the stops on different buses. As the number of ways can be too much, find the remainder of a division of this number by 1000000007 (109 + 7).",
+    "prob_desc_output_spec": "Print the only number — the number of ways to get to the school modulo 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The first line contains two space-separated integers: n and m (1 ≤ n ≤ 109, 0 ≤ m ≤ 105). Then follow m lines each containing two integers si, ti. They are the numbers of starting stops and end stops of the buses (0 ≤ si &lt; ti ≤ n).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_012.jsonl",
+    "code_uid": "8d55925105effeb74d098a6f920e6de3",
+    "prob_desc_memory_limit": "265 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n0 1\\n1 2\", \"3 2\\n0 1\\n1 2\", \"5 5\\n0 1\\n0 2\\n0 3\\n0 4\\n0 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom collections import *\n\n\ndef fast2():\n    import os, sys, atexit\n    range = xrange\n    from cStringIO import StringIO as BytesIO\n    sys.stdout = BytesIO()\n    atexit.register(lambda: os.write(1, sys.stdout.getvalue()))\n    return BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\n\nclass segmenttree:\n    def __init__(self, arr, n):\n        self.tree, self.n = [0] * (2 * n), n\n        self.order = defaultdict(int, {arr[i]: i for i in range(self.n)})\n\n    # get interval[l,r)\n    def query(self, l, r):\n        res = 0\n        l = self.order[l] + self.n\n        r = self.order[r] + self.n\n\n        while l < r:\n            if l & 1:\n                res = add(self.tree[l], res)\n                l += 1\n\n            if r & 1:\n                r -= 1\n                res = add(self.tree[r], res)\n\n            l >>= 1\n            r >>= 1\n\n        return res\n\n    def update(self, ix, val):\n        ix = self.n + self.order[ix]\n\n        # set new value\n        self.tree[ix] = add(val, self.tree[ix])\n\n        # move up\n        while ix > 1:\n            self.tree[ix >> 1] = add(self.tree[ix], self.tree[ix ^ 1])\n            ix >>= 1\n\n\ninput = fast2()\nmod = 1000000007\nadd = lambda a, b: (a % mod + b % mod) % mod\nrints = lambda: [int(x) for x in input().split()]\n\nn, m = rints()\nbus, dis = sorted([rints() for _ in range(m)], key=lambda x: x[1]), {0, n}\n\nfor i, j in bus:\n    dis.add(i)\n    dis.add(j)\n\ntree = segmenttree(sorted(dis), len(dis))\ntree.update(0, 1)\n\nfor i, j in bus:\n    val = tree.query(i, j)\n    tree.update(j, val)\n\nprint(tree.tree[-1])\n",
+    "prob_desc_created_at": "1312390800",
+    "tags": [
+        "dp",
+        "binary search",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"334 333\\n10 10\\n1 0\\n10 11\\n333333334 333333333\\n1 2\"]",
+    "src_uid": "71335a9489f0985f4e16435b14d6a34a",
+    "prob_desc_notes": "NoteThe answer for the first test case is \"334 333\". The sum of the nominal values of all coins is $$$334 \\cdot 1 + 333 \\cdot 2 = 1000$$$, whereas $$$|334 - 333| = 1$$$. One can't get the better value because if $$$|c_1 - c_2| = 0$$$, then $$$c_1 = c_2$$$ and $$$c_1 \\cdot 1 + c_1 \\cdot 2 = 1000$$$, but then the value of $$$c_1$$$ isn't an integer.The answer for the second test case is \"10 10\". The sum of the nominal values is $$$10 \\cdot 1 + 10 \\cdot 2 = 30$$$ and $$$|10 - 10| = 0$$$, whereas there's no number having an absolute value less than $$$0$$$.",
+    "prob_desc_description": "Polycarp must pay exactly $$$n$$$ burles at the checkout. He has coins of two nominal values: $$$1$$$ burle and $$$2$$$ burles. Polycarp likes both kinds of coins equally. So he doesn't want to pay with more coins of one type than with the other.Thus, Polycarp wants to minimize the difference between the count of coins of $$$1$$$ burle and $$$2$$$ burles being used. Help him by determining two non-negative integer values $$$c_1$$$ and $$$c_2$$$ which are the number of coins of $$$1$$$ burle and $$$2$$$ burles, respectively, so that the total value of that number of coins is exactly $$$n$$$ (i. e. $$$c_1 + 2 \\cdot c_2 = n$$$), and the absolute value of the difference between $$$c_1$$$ and $$$c_2$$$ is as little as possible (i. e. you must minimize $$$|c_1-c_2|$$$).",
+    "prob_desc_output_spec": "For each test case, output a separate line containing two integers $$$c_1$$$ and $$$c_2$$$ ($$$c_1, c_2 \\ge 0$$$) separated by a space where $$$c_1$$$ is the number of coins of $$$1$$$ burle and $$$c_2$$$ is the number of coins of $$$2$$$ burles. If there are multiple optimal solutions, print any one.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case consists of one line. This line contains one integer $$$n$$$ ($$$1 \\le n \\le 10^9$$$) — the number of burles to be paid by Polycarp.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_099.jsonl",
+    "code_uid": "9d3b88caa2aba65eab8dd09e2b134b54",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n1000\\n30\\n1\\n32\\n1000000000\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\n\r\nfor i in range(t):\r\n    n = int(input())\r\n    \"\"\"\r\n    c1 + 2c2 = n\r\n    |c1-c2| = n\r\n    let c1 = c2 = c \r\n    ∴ c = x //3\r\n\r\n    min ==> returns only  one burle\r\n    max ==> returns two\r\n    \"\"\"\r\n    c1 = n //3\r\n    c2 =c1\r\n\r\n    if n % 3 == 1:\r\n        c1 += 1\r\n    elif n % 3 == 2:\r\n        c2 += 1\r\n\r\n    print(c1,c2)",
+    "prob_desc_created_at": "1627050900",
+    "tags": [
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

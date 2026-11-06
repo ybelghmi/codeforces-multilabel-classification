@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"55\", \"15\"]",
+    "src_uid": "9329cb499f003aa71c6f51556bcc7b05",
+    "prob_desc_notes": "NoteIn the first example the best decision is to bribe the first character (he will spread the rumor to fourth character, and the fourth one will spread it to fifth). Also Vova has to bribe the second and the third characters, so they know the rumor.In the second example Vova has to bribe everyone.In the third example the optimal decision is to bribe the first, the third, the fifth, the seventh and the ninth characters.",
+    "prob_desc_description": "Vova promised himself that he would never play computer games... But recently Firestorm — a well-known game developing company — published their newest game, World of Farcraft, and it became really popular. Of course, Vova started playing it.Now he tries to solve a quest. The task is to come to a settlement named Overcity and spread a rumor in it.Vova knows that there are n characters in Overcity. Some characters are friends to each other, and they share information they got. Also Vova knows that he can bribe each character so he or she starts spreading the rumor; i-th character wants ci gold in exchange for spreading the rumor. When a character hears the rumor, he tells it to all his friends, and they start spreading the rumor to their friends (for free), and so on.The quest is finished when all n characters know the rumor. What is the minimum amount of gold Vova needs to spend in order to finish the quest?Take a look at the notes if you think you haven't understood the problem completely.",
+    "prob_desc_output_spec": "Print one number — the minimum amount of gold Vova has to spend in order to finish the quest.",
+    "prob_desc_input_spec": "The first line contains two integer numbers n and m (1 ≤ n ≤ 105, 0 ≤ m ≤ 105) — the number of characters in Overcity and the number of pairs of friends. The second line contains n integer numbers ci (0 ≤ ci ≤ 109) — the amount of gold i-th character asks to start spreading the rumor. Then m lines follow, each containing a pair of numbers (xi, yi) which represent that characters xi and yi are friends (1 ≤ xi, yi ≤ n, xi ≠ yi). It is guaranteed that each pair is listed at most once.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_042.jsonl",
+    "code_uid": "a5b56a59dc39992d8c81d46317e40810",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2\\n2 5 3 4 8\\n1 4\\n4 5\", \"10 0\\n1 2 3 4 5 6 7 8 9 10\", \"10 5\\n1 6 2 7 3 8 4 9 5 10\\n1 2\\n3 4\\n5 6\\n7 8\\n9 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, input().split())\nvs = list(map(int, input().split()))\nif m == 0:\n    print(sum(vs))\n    exit()\n# n = 100000\n# m = n - 1\n# vs = [0] * n\nes = {i: [] for i in range(n)}\nvisited = {i: False for i in range(n)}\ncomps = []\n\n\n# def dfs(vv, compp):\n#     # global visited, es\n#     if visited[vv]:\n#         return\n#     visited[vv] = True\n#     compp.append(vv)\n#     neighs = es[vv]\n#     for neigh in neighs:\n#         if visited[neigh] or neigh == vv:\n#             continue\n#         dfs(neigh, compp)\n\n\nfor i in range(m):\n    f, t = map(int, input().split())\n    # f, t = i + 1, i + 2\n    es[f-1].append(t-1)\n    es[t-1].append(f-1)\n\nfor v in range(n):\n    if visited[v]:\n        continue\n    comp = []\n    deque = [v]\n    while deque:\n        v_temp = deque.pop(0)\n        if visited[v_temp]:\n            continue\n        visited[v_temp] = True\n        comp.append(v_temp)\n        for neigh in es[v_temp]:\n            if visited[neigh] or neigh == v_temp:\n                continue\n            deque.append(neigh)\n    comps.append(comp)\n# print(es)\nres = 0\nfor comp in comps:\n    if not comp:\n        continue\n    res += min(vs[i] for i in comp)\n\nprint(res)\n",
+    "prob_desc_created_at": "1511449500",
+    "tags": [
+        "dfs and similar",
+        "greedy",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

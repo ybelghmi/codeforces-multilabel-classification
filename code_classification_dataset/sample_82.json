@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n3\\n2\\n92\\n87654322\\n9150\"]",
+    "src_uid": "d67a97a3b69d599b03d3fce988980646",
+    "prob_desc_notes": "NoteIn the first test case of the example, you don't need to do anything.In the second test case of the example, the following sequence of moves can be applied: $$$13 \\rightarrow 23 \\rightarrow 32 \\rightarrow 42$$$ (add $$$10$$$, add $$$9$$$, add $$$10$$$).In the third test case of the example, the following sequence of moves can be applied: $$$18 \\rightarrow 10 \\rightarrow 4$$$ (subtract $$$8$$$, subtract $$$6$$$).",
+    "prob_desc_description": "You are given two integers $$$a$$$ and $$$b$$$.In one move, you can choose some integer $$$k$$$ from $$$1$$$ to $$$10$$$ and add it to $$$a$$$ or subtract it from $$$a$$$. In other words, you choose an integer $$$k \\in [1; 10]$$$ and perform $$$a := a + k$$$ or $$$a := a - k$$$. You may use different values of $$$k$$$ in different moves.Your task is to find the minimum number of moves required to obtain $$$b$$$ from $$$a$$$.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer: the minimum number of moves required to obtain $$$b$$$ from $$$a$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 2 \\cdot 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The only line of the test case contains two integers $$$a$$$ and $$$b$$$ ($$$1 \\le a, b \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_000.jsonl",
+    "code_uid": "6b6b23dc5767f0e13b03c02b44160c2f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n5 5\\n13 42\\n18 4\\n1337 420\\n123456789 1000000000\\n100500 9000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\ntests = [input() for _ in range(n)]\n\nfor test in tests:\n    a, b = [int(x) for x in test.split(' ')]\n\n    count = 0\n    while True:\n        if a == b:\n            print(count)\n            break\n        else:\n            diff = a - b\n            tens = abs(diff / 10)\n            if tens.is_integer():\n                count += tens\n            else:\n                count += (int(tens)+1)\n            print(int(count))\n            break\n",
+    "prob_desc_created_at": "1599230100",
+    "tags": [
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

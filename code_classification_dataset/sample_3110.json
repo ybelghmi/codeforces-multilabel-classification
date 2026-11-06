@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0 1\", \"-1 -1\"]",
+    "src_uid": "8abdf3aa47fb3ec715693f6388d62a55",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You've got two rectangular tables with sizes na × ma and nb × mb cells. The tables consist of zeroes and ones. We will consider the rows and columns of both tables indexed starting from 1. Then we will define the element of the first table, located at the intersection of the i-th row and the j-th column, as ai, j; we will define the element of the second table, located at the intersection of the i-th row and the j-th column, as bi, j. We will call the pair of integers (x, y) a shift of the second table relative to the first one. We'll call the overlap factor of the shift (x, y) value:where the variables i, j take only such values, in which the expression ai, j·bi + x, j + y makes sense. More formally, inequalities 1 ≤ i ≤ na, 1 ≤ j ≤ ma, 1 ≤ i + x ≤ nb, 1 ≤ j + y ≤ mb must hold. If there are no values of variables i, j, that satisfy the given inequalities, the value of the sum is considered equal to 0. Your task is to find the shift with the maximum overlap factor among all possible shifts.",
+    "prob_desc_output_spec": "Print two space-separated integers x, y (|x|, |y| ≤ 109) — a shift with maximum overlap factor. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers na, ma (1 ≤ na, ma ≤ 50) — the number of rows and columns in the first table. Then na lines contain ma characters each — the elements of the first table. Each character is either a \"0\", or a \"1\". The next line contains two space-separated integers nb, mb (1 ≤ nb, mb ≤ 50) — the number of rows and columns in the second table. Then follow the elements of the second table in the format, similar to the first table. It is guaranteed that the first table has at least one number \"1\". It is guaranteed that the second table has at least one number \"1\".",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_042.jsonl",
+    "code_uid": "fa815694b97aeb18fa3b97131cd30088",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n01\\n10\\n00\\n2 3\\n001\\n111\", \"3 3\\n000\\n010\\n000\\n1 1\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "na , ma = map(int, raw_input().split())\na = [int(raw_input()[::-1],2) for _ in range(na)]\nnb,mb = map(int,raw_input().split())\nb = [int(raw_input()[::-1],2) for _ in range(nb)]\nr = max((sum(bin(a[i] & (b[i+x] << -y if y<0 else b[i+x]>> y)).count('1') for i in range(max(0,-x),min(na,nb-x))),x,y) for x in range(-51,51) for y in range(-51,51))\nprint r[1], r[2]",
+    "prob_desc_created_at": "1348759800",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

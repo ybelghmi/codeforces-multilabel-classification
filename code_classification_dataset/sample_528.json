@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"27\", \"61\"]",
+    "src_uid": "824c7f11e6c2997c98741d314cdd1970",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Alex decided to go on a touristic trip over the country.For simplicity let's assume that the country has $$$n$$$ cities and $$$m$$$ bidirectional roads connecting them. Alex lives in city $$$s$$$ and initially located in it. To compare different cities Alex assigned each city a score $$$w_i$$$ which is as high as interesting city seems to Alex.Alex believes that his trip will be interesting only if he will not use any road twice in a row. That is if Alex came to city $$$v$$$ from city $$$u$$$, he may choose as the next city in the trip any city connected with $$$v$$$ by the road, except for the city $$$u$$$.Your task is to help Alex plan his city in a way that maximizes total score over all cities he visited. Note that for each city its score is counted at most once, even if Alex been there several times during his trip.",
+    "prob_desc_output_spec": "Output single integer which is the maximum possible sum of scores of visited cities.",
+    "prob_desc_input_spec": "First line of input contains two integers $$$n$$$ and $$$m$$$, ($$$1 \\le n \\le 2 \\cdot 10^5$$$, $$$0 \\le m \\le 2 \\cdot 10^5$$$) which are numbers of cities and roads in the country. Second line contains $$$n$$$ integers $$$w_1, w_2, \\ldots, w_n$$$ ($$$0 \\le w_i \\le 10^9$$$) which are scores of all cities. The following $$$m$$$ lines contain description of the roads. Each of these $$$m$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u, v \\le n$$$) which are cities connected by this road. It is guaranteed that there is at most one direct road between any two cities, no city is connected to itself by the road and, finally, it is possible to go from any city to any other one using only roads. The last line contains single integer $$$s$$$ ($$$1 \\le s \\le n$$$), which is the number of the initial city.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_002.jsonl",
+    "code_uid": "bd84b20e9b9c79154ae2b0e665b2271f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 7\\n2 2 8 6 9\\n1 2\\n1 3\\n2 4\\n3 2\\n4 5\\n2 5\\n1 5\\n2\", \"10 12\\n1 7 1 9 3 3 6 30 1 10\\n1 2\\n1 3\\n3 5\\n5 7\\n2 3\\n5 4\\n6 9\\n4 6\\n3 7\\n6 8\\n9 4\\n9 10\\n6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\n\nn,m=map(int,input().split())\nW=[0]+list(map(int,input().split()))\nE=[tuple(map(int,input().split())) for i in range(m)]\nS=int(input())\n\nELIST=[[] for i in range(n+1)]\nEW=[0]*(n+1)\n\nfor x,y in E:\n    ELIST[x].append(y)\n    ELIST[y].append(x)\n\n    EW[x]+=1\n    EW[y]+=1\n\n\nfrom collections import deque\nQ=deque()\nUSED=[0]*(n+1)\n\nfor i in range(1,n+1):\n    if EW[i]==1 and i!=S:\n        USED[i]=1\n        Q.append(i)\n\nEW[S]+=1<<50\nUSED[S]=1\n\nwhile Q:\n    x=Q.pop()\n    EW[x]-=1\n\n    for to in ELIST[x]:\n        if USED[to]==1:\n            continue\n        EW[to]-=1\n\n        if EW[to]==1 and USED[to]==0:\n            Q.append(to)\n            USED[to]=1\n\n#print(EW)\nLOOP=[]\n\nANS=0\nfor i in range(1,n+1):\n    if EW[i]!=0:\n        ANS+=W[i]\n        LOOP.append(i)\n\nSCORE=[0]*(n+1)\nUSED=[0]*(n+1)\n\nfor l in LOOP:\n    SCORE[l]=ANS\n    USED[l]=1\n\nQ=deque(LOOP)\n\nwhile Q:\n    x=Q.pop()\n\n    for to in ELIST[x]:\n        if USED[to]==1:\n            continue\n\n        SCORE[to]=W[to]+SCORE[x]\n        Q.append(to)\n        USED[to]=1\n\nprint(max(SCORE))\n",
+    "prob_desc_created_at": "1568822700",
+    "tags": [
+        "dp",
+        "greedy",
+        "graphs",
+        "dsu",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

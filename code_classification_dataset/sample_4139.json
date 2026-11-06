@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\\n8\\n2\\n12\"]",
+    "src_uid": "6c4445ee23fedcb913ed3de1beacc099",
+    "prob_desc_notes": "NoteIn the first test case you can cut the bi-table as follows:  $$$\\begin{bmatrix} 0\\\\ 1 \\end{bmatrix}$$$, its $$$\\operatorname{MEX}$$$ is $$$2$$$. $$$\\begin{bmatrix} 10\\\\ 10 \\end{bmatrix}$$$, its $$$\\operatorname{MEX}$$$ is $$$2$$$. $$$\\begin{bmatrix} 1\\\\ 1 \\end{bmatrix}$$$, its $$$\\operatorname{MEX}$$$ is $$$0$$$. $$$\\begin{bmatrix} 0\\\\ 1 \\end{bmatrix}$$$, its $$$\\operatorname{MEX}$$$ is $$$2$$$. $$$\\begin{bmatrix} 0\\\\ 0 \\end{bmatrix}$$$, its $$$\\operatorname{MEX}$$$ is $$$1$$$. $$$\\begin{bmatrix} 0\\\\ 0 \\end{bmatrix}$$$, its $$$\\operatorname{MEX}$$$ is $$$1$$$.The sum of $$$\\operatorname{MEX}$$$ is $$$8$$$.",
+    "prob_desc_description": "A binary string is a string that consists of characters $$$0$$$ and $$$1$$$. A bi-table is a table that has exactly two rows of equal length, each being a binary string.Let $$$\\operatorname{MEX}$$$ of a bi-table be the smallest digit among $$$0$$$, $$$1$$$, or $$$2$$$ that does not occur in the bi-table. For example, $$$\\operatorname{MEX}$$$ for $$$\\begin{bmatrix} 0011\\\\ 1010 \\end{bmatrix}$$$ is $$$2$$$, because $$$0$$$ and $$$1$$$ occur in the bi-table at least once. $$$\\operatorname{MEX}$$$ for $$$\\begin{bmatrix} 111\\\\ 111 \\end{bmatrix}$$$ is $$$0$$$, because $$$0$$$ and $$$2$$$ do not occur in the bi-table, and $$$0 &lt; 2$$$.You are given a bi-table with $$$n$$$ columns. You should cut it into any number of bi-tables (each consisting of consecutive columns) so that each column is in exactly one bi-table. It is possible to cut the bi-table into a single bi-table — the whole bi-table.What is the maximal sum of $$$\\operatorname{MEX}$$$ of all resulting bi-tables can be?",
+    "prob_desc_output_spec": "For each test case print a single integer — the maximal sum of $$$\\operatorname{MEX}$$$ of all bi-tables that it is possible to get by cutting the given bi-table optimally.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Description of the test cases follows. The first line of the description of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the number of columns in the bi-table. Each of the next two lines contains a binary string of length $$$n$$$ — the rows of the bi-table. It's guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_091.jsonl",
+    "code_uid": "dfbad451c504b9d06519f984be1210a6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n7\\n0101000\\n1101100\\n5\\n01100\\n10101\\n2\\n01\\n01\\n6\\n000000\\n111111\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def func():\n    t = int(input())\n\n    cases = []\n    for i in range(t):\n        bits = int(input())\n        first = input()\n        second = input()\n        cases.append([bits, first, second])\n\n    for case in cases:\n        mex = 0\n        first_bits = case[1]\n        second_bits = case[2]\n        checked = [False] * len(first_bits)\n\n        for i in range(case[0]):\n            if first_bits[i] != second_bits[i]:\n                mex += 2\n                checked[i] = True\n\n        for i in range(case[0]-1):\n            if not checked[i] and not checked[i+1]:\n                if int(first_bits[i]) + int(first_bits[i+1]) == 1:\n                    mex += 2\n                    checked[i] = True\n                    checked[i+1] = True\n                if int(first_bits[i]) + int(first_bits[i+1]) == 0:\n                    mex += 1\n                    checked[i] = True\n            elif checked[i]:\n                continue\n            elif checked[i+1]:\n                if first_bits[i] == '0':\n                    mex += 1\n                    checked[i] = True\n\n        if not checked[-1] and first_bits[-1] == '0':\n            mex += 1\n        print(mex)\n        # DYNAMIC PROGRAMMING WITH MATRIX\n        # matrix = [[0 for x in range(case[0])] for y in range(case[0])]\n        #\n        # # fill the diagonal\n        # for i in range(case[0]):\n        #     if first_bits[i] != second_bits[i]:\n        #         matrix[i][i] = 2\n        #     elif first_bits[i] == '1':\n        #         matrix[i][i] = 0\n        #     else:\n        #         matrix[i][i] = 1\n        #\n        # for i in range(case[0]-1):\n        #     if matrix[i][i] == 2:\n        #         continue\n        #     elif matrix[i][i] + matrix[i+1][i+1] == 1:\n        #         matrix[i][i+1] = 2\n        #         matrix[i][i] = 0\n        #         matrix[i+1][i+1] = 0\n        #\n        # for line in matrix:\n        #     mex += sum(line)\n        #\n        # print(mex)\n\nif __name__ == \"__main__\":\n    func()",
+    "prob_desc_created_at": "1631457300",
+    "tags": [
+        "bitmasks",
+        "constructive algorithms",
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

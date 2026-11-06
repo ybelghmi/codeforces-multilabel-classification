@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n10\\n-1\\n0\\n-1\\n21\\n0\\n273000\"]",
+    "src_uid": "3035265a44fcc3bb6317bf1b9662fc76",
+    "prob_desc_notes": "NoteFor the first testcase, $$$B=\\{-3,-2,-1,0,1,2,3\\}$$$ and $$$C=\\{-1,1,3,5\\}$$$. There is no such arithmetic progression which can be equal to $$$A$$$ because $$$5$$$ is not present in $$$B$$$ and for any $$$A$$$, $$$5$$$ should not be present in $$$C$$$ also. For the second testcase, $$$B=\\{-9,-6,-3,0,3,6,9,12,15,18,21\\}$$$ and $$$C=\\{0,6,12\\}$$$. There are $$$10$$$ possible arithmetic progressions which can be $$$A$$$:   $$$\\{0,6,12\\}$$$  $$$\\{0,2,4,6,8,10,12\\}$$$  $$$\\{0,2,4,6,8,10,12,14\\}$$$  $$$\\{0,2,4,6,8,10,12,14,16\\}$$$  $$$\\{-2,0,2,4,6,8,10,12\\}$$$  $$$\\{-2,0,2,4,6,8,10,12,14\\}$$$  $$$\\{-2,0,2,4,6,8,10,12,14,16\\}$$$  $$$\\{-4,-2,0,2,4,6,8,10,12\\}$$$  $$$\\{-4,-2,0,2,4,6,8,10,12,14\\}$$$  $$$\\{-4,-2,0,2,4,6,8,10,12,14,16\\}$$$ For the third testcase, $$$B=\\{2,7,12,17,22\\}$$$ and $$$C=\\{7,12,17,22\\}$$$. There are infinitely many arithmetic progressions which can be $$$A$$$ like:   $$$\\{7,12,17,22\\}$$$  $$$\\{7,12,17,22,27\\}$$$  $$$\\{7,12,17,22,27,32\\}$$$  $$$\\{7,12,17,22,27,32,37\\}$$$  $$$\\{7,12,17,22,27,32,37,42\\}$$$  $$$\\ldots$$$ ",
+    "prob_desc_description": "Long ago, you thought of two finite arithmetic progressions $$$A$$$ and $$$B$$$. Then you found out another sequence $$$C$$$ containing all elements common to both $$$A$$$ and $$$B$$$. It is not hard to see that $$$C$$$ is also a finite arithmetic progression. After many years, you forgot what $$$A$$$ was but remember $$$B$$$ and $$$C$$$. You are, for some reason, determined to find this lost arithmetic progression. Before you begin this eternal search, you want to know how many different finite arithmetic progressions exist which can be your lost progression $$$A$$$. Two arithmetic progressions are considered different if they differ in their first term, common difference or number of terms.It may be possible that there are infinitely many such progressions, in which case you won't even try to look for them! Print $$$-1$$$ in all such cases. Even if there are finite number of them, the answer might be very large. So, you are only interested to find the answer modulo $$$10^9+7$$$.",
+    "prob_desc_output_spec": "For each testcase, print a single line containing a single integer. If there are infinitely many finite arithmetic progressions which could be your lost progression $$$A$$$, print $$$-1$$$. Otherwise, print the number of finite arithmetic progressions which could be your lost progression $$$A$$$ modulo $$$10^9+7$$$. In particular, if there are no such finite arithmetic progressions, print $$$0$$$.",
+    "prob_desc_input_spec": "The first line of input contains a single integer $$$t$$$ ($$$1\\leq t\\leq 100$$$) denoting the number of testcases. The first line of each testcase contains three integers $$$b$$$, $$$q$$$ and $$$y$$$ ($$$-10^9\\leq b\\leq 10^9$$$, $$$1\\leq q\\leq 10^9$$$, $$$2\\leq y\\leq 10^9$$$) denoting the first term, common difference and number of terms of $$$B$$$ respectively. The second line of each testcase contains three integers $$$c$$$, $$$r$$$ and $$$z$$$ ($$$-10^9\\leq c\\leq 10^9$$$, $$$1\\leq r\\leq 10^9$$$, $$$2\\leq z\\leq 10^9$$$) denoting the first term, common difference and number of terms of $$$C$$$ respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_096.jsonl",
+    "code_uid": "ef8202a9f9096c5fd19ef569e12d4c17",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n\\n-3 1 7\\n\\n-1 2 4\\n\\n-9 3 11\\n\\n0 6 3\\n\\n2 5 5\\n\\n7 5 4\\n\\n2 2 11\\n\\n10 5 3\\n\\n0 2 9\\n\\n2 4 3\\n\\n-11 4 12\\n\\n1 12 2\\n\\n-27 4 7\\n\\n-17 8 2\\n\\n-8400 420 1000000000\\n\\n0 4620 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nipt=sys.stdin.readline\r\n\r\ndef sq(x):\r\n    st=0\r\n    en=10**10\r\n    while st<en:\r\n        y=(st+en)//2+1\r\n        if y**2>x:\r\n            en=y-1\r\n        else:\r\n            st=y\r\n    return st\r\n\r\ndef gcd(xx, yy):\r\n    return xx if yy==0 else gcd(yy, xx%yy)\r\nmod=10**9+7\r\nT=int(ipt())\r\nfor _ in range(T):\r\n    b, q, y=map(int, ipt().split())\r\n    c, r, z=map(int, ipt().split())\r\n    if r%q or b>c or (b+q*(y-1))<(c+r*(z-1)) or (c-b)%q:\r\n        print(0)\r\n        continue\r\n    if c-r<b or c+z*r>b+(y-1)*q:\r\n        print(-1)\r\n        continue\r\n    ans=0\r\n    for i in range(1, sq(r)+1):\r\n        if r%i==0:\r\n            if i**2==r:\r\n                if r==q*i//gcd(q, i):\r\n                    ans=(ans+i**2)%mod\r\n            else:\r\n                if r==q*i//gcd(q, i):\r\n                    ans=(ans+(r//i)**2)%mod\r\n                if r==q*(r//i)//gcd(q, r//i):\r\n                    ans=(ans+i**2)%mod\r\n    print(ans)",
+    "prob_desc_created_at": "1651329300",
+    "tags": [
+        "combinatorics",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

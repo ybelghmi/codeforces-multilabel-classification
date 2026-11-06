@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"1\", \"3\"]",
+    "src_uid": "bbc2683d207f147a2a0abedc67ff157a",
+    "prob_desc_notes": "NoteIn the first sample the following substrings have the sought digital root: s[1... 2] = \"3 2\", s[1... 3] = \"3 2 0\", s[3... 4] = \"0 5\", s[4... 4] = \"5\" and s[2... 6] = \"2 0 5 6 1\".",
+    "prob_desc_description": "You know that the Martians use a number system with base k. Digit b (0 ≤ b &lt; k) is considered lucky, as the first contact between the Martians and the Earthlings occurred in year b (by Martian chronology).A digital root d(x) of number x is a number that consists of a single digit, resulting after cascading summing of all digits of number x. Word \"cascading\" means that if the first summing gives us a number that consists of several digits, then we sum up all digits again, and again, until we get a one digit number.For example, d(35047) = d((3 + 5 + 0 + 4)7) = d(157) = d((1 + 5)7) = d(67) = 67. In this sample the calculations are performed in the 7-base notation.If a number's digital root equals b, the Martians also call this number lucky.You have string s, which consists of n digits in the k-base notation system. Your task is to find, how many distinct substrings of the given string are lucky numbers. Leading zeroes are permitted in the numbers.Note that substring s[i... j] of the string s = a1a2... an (1 ≤ i ≤ j ≤ n) is the string aiai + 1... aj. Two substrings s[i1... j1] and s[i2... j2] of the string s are different if either i1 ≠ i2 or j1 ≠ j2.",
+    "prob_desc_output_spec": "Print a single integer — the number of substrings that are lucky numbers. Please, do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains three integers k, b and n (2 ≤ k ≤ 109, 0 ≤ b &lt; k, 1 ≤ n ≤ 105). The second line contains string s as a sequence of n integers, representing digits in the k-base notation: the i-th integer equals ai (0 ≤ ai &lt; k) — the i-th digit of string s. The numbers in the lines are space-separated.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_070.jsonl",
+    "code_uid": "31ce615f8a97d028795e56076994ba2d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 5 6\\n3 2 0 5 6 1\", \"7 6 4\\n3 5 0 4\", \"257 0 3\\n0 0 256\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "k, b, n = map(int, input().split())\n\ndigits = list(map(int, input().split()))\n\ndef ans0():\n    j = -1\n    answer = 0 \n    for i in range(n):\n        if digits[i] != 0 or i < j:\n            continue\n        j = i\n        while j < n and digits[j] == 0:\n            j += 1\n\n        r = j - i\n        answer += r * (r + 1) // 2\n\n    return answer\n\nif b == 0:\n    print(ans0())\nelse:\n    count = dict()\n    count[0] = 1\n    pref_sum = 0\n    answer = 0\n\n    if b == k - 1:\n        b = 0\n        answer -= ans0()\n\n    for d in digits:\n        pref_sum = (pref_sum + d) % (k - 1)\n\n        need = (pref_sum - b) % (k - 1)\n\n        answer += count.get(need, 0)\n\n        count[pref_sum] = count.get(pref_sum, 0) + 1\n\n    print(answer)\n",
+    "prob_desc_created_at": "1344958200",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"0\", \"1\"]",
+    "src_uid": "560d70425c765c325f412152c8124d2d",
+    "prob_desc_notes": "NoteIn the first example only one province exists, so it is not necessary to build any tunnels or roads.In the second example two provinces exist. It is possible to merge the provinces by building a tunnel between cities 1 and 3.In the third example at least one additional road is necessary. For example it is possible to build additional road between cities 1 and 2 and build two tunnels between cities 1 and 3, 2 and 4 after that.",
+    "prob_desc_description": "Vasya plays FreeDiv. In this game he manages a huge state, which has n cities and m two-way roads between them. Unfortunately, not from every city you can reach any other one moving along these roads. Therefore Vasya decided to divide the state into provinces so that in every province, one could reach from every city all the cities of the province, but there are no roads between provinces. Unlike other turn-based strategies, in FreeDiv a player has the opportunity to build tunnels between cities. The tunnels are two-way roads along which one can move armies undetected by the enemy. However, no more than one tunnel can be connected to each city. As for Vasya, he wants to build a network of tunnels so that any pair of cities in his state were reachable by some path consisting of roads and a tunnels. But at that no more than k tunnels are connected to each province (otherwise, the province will be difficult to keep in case other provinces are captured by enemy armies).Vasya discovered that maybe he will not be able to build such a network for the current condition of the state. Maybe he'll have first to build several roads between cities in different provinces to merge the provinces. Your task is to determine the minimum number of roads Vasya needs to build so that it was possible to build the required network of tunnels in the resulting state.",
+    "prob_desc_output_spec": "Print a single number, the minimum number of additional roads.",
+    "prob_desc_input_spec": "The first line contains three integers n, m and k (1 ≤ n, k ≤ 106, 0 ≤ m ≤ 106). Each of the next m lines contains two integers. They are the numbers of cities connected by a corresponding road. No road connects city to itself and there is at most one road between each pair of cities.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_059.jsonl",
+    "code_uid": "c930ed4d60cfc161a7bab429152e9249",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3 2\\n1 2\\n2 3\\n3 1\", \"4 2 2\\n1 2\\n3 4\", \"4 0 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrl=sys.stdin.readline\nn,m,k=map(int,rl().split())\nc = [-1]*n\ndef root(x):\n    p = x\n    while c[p]>=0: p=c[p]\n    while c[x]>=0: \n        t = c[x]\n        c[x] = p\n        x = t\n    return p\n#def root(x):\n#    if c[x]<0: return x\n#    c[x]=root(c[x])\n#    return c[x]\nfor i in xrange(m):\n    x,y=rl().split()\n    f = root(int(x)-1)\n    t = root(int(y)-1)\n    if f==t: continue\n    if (c[f]&1): f,t=t,f\n    c[t]+=c[f]\n    c[f]=t\nl,s,q=0,2,0\nfor i in xrange(n):\n    if c[i]>=0: continue\n    j=k if c[i]<-k else -c[i]\n    if j==1: l+=1\n    else: s+=j-2\n    q+=1\n    \nif l==1: print 0\nelif k==1: print q-2;\nelif l<=s: print 0;\nelse: print (l-s+1)/2;",
+    "prob_desc_created_at": "1302422400",
+    "tags": [
+        "dfs and similar",
+        "greedy",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

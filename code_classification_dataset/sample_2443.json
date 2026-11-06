@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nBABA\", \"NO\"]",
+    "src_uid": "d126ef6b94e9ab55624cf7f2a96c7ed1",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Vasya has a multiset $$$s$$$ consisting of $$$n$$$ integer numbers. Vasya calls some number $$$x$$$ nice if it appears in the multiset exactly once. For example, multiset $$$\\{1, 1, 2, 3, 3, 3, 4\\}$$$ contains nice numbers $$$2$$$ and $$$4$$$.Vasya wants to split multiset $$$s$$$ into two multisets $$$a$$$ and $$$b$$$ (one of which may be empty) in such a way that the quantity of nice numbers in multiset $$$a$$$ would be the same as the quantity of nice numbers in multiset $$$b$$$ (the quantity of numbers to appear exactly once in multiset $$$a$$$ and the quantity of numbers to appear exactly once in multiset $$$b$$$).",
+    "prob_desc_output_spec": "If there exists no split of $$$s$$$ to satisfy the given requirements, then print \"NO\" in the first line. Otherwise print \"YES\" in the first line. The second line should contain a string, consisting of $$$n$$$ characters. $$$i$$$-th character should be equal to 'A' if the $$$i$$$-th element of multiset $$$s$$$ goes to multiset $$$a$$$ and 'B' if if the $$$i$$$-th element of multiset $$$s$$$ goes to multiset $$$b$$$. Elements are numbered from $$$1$$$ to $$$n$$$ in the order they are given in the input. If there exist multiple solutions, then print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n~(2 \\le n \\le 100)$$$. The second line contains $$$n$$$ integers $$$s_1, s_2, \\dots s_n~(1 \\le s_i \\le 100)$$$ — the multiset $$$s$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_022.jsonl",
+    "code_uid": "ad3a20cc87e13794b47c3fc3058f4a1d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3 5 7 1\", \"3\\n3 5 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "raw_input()\ns = map(int, raw_input().split())\nMAX_SIZE = 101\ncount = [0] * MAX_SIZE\nfor num in s:\n    count[num] += 1\nnUnique = 0\na, b = [0] * MAX_SIZE, [0] * MAX_SIZE\nturn = 0\nfor num in xrange(1, MAX_SIZE):\n    if count[num] == 1:\n        nUnique += 1\n        if turn == 0:\n            a[num] = 1\n        else:\n            b[num] = 1\n        turn ^= 1\nfor num in xrange(1, MAX_SIZE):\n    if nUnique & 1 == 1 and count[num] > 2:\n        nUnique += 1\n        b[num] = 1\n        a[num] = count[num] - 1\n    elif count[num] > 1:\n        a[num] = count[num]\nif nUnique & 1 == 1:\n    print 'NO'\nelse:\n    print 'YES'\n    ret = ''\n    for num in s:\n        if a[num] > 0:\n            ret += 'A'\n            a[num] -= 1\n        else:\n            ret += 'B'\n            b[num] -= 1\n    print ret",
+    "prob_desc_created_at": "1537454700",
+    "tags": [
+        "dp",
+        "greedy",
+        "math",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"4\"]",
+    "src_uid": "1a83878ec600c87e74b48d6fdda89d4e",
+    "prob_desc_notes": "NoteIn the first sample, it's enough for AmShZ to send the second type of message.In the second sample, on the first day, AmShZ blocks the first road. So the only reachable city from city $$$1$$$ will be city $$$4$$$. Hence on the second day, AmShZ can tell Keshi to move and Keshi will arrive at AmShZ's house.It's also possible for AmShZ to tell Keshi to move for two days.",
+    "prob_desc_description": "AmShZ has traveled to Italy from Iran for the Thom Yorke concert. There are $$$n$$$ cities in Italy indexed from $$$1$$$ to $$$n$$$ and $$$m$$$ directed roads indexed from $$$1$$$ to $$$m$$$. Initially, Keshi is located in the city $$$1$$$ and wants to go to AmShZ's house in the city $$$n$$$. Since Keshi doesn't know the map of Italy, AmShZ helps him to see each other as soon as possible.In the beginning of each day, AmShZ can send one of the following two messages to Keshi: AmShZ sends the index of one road to Keshi as a blocked road. Then Keshi will understand that he should never use that road and he will remain in his current city for the day. AmShZ tells Keshi to move. Then, Keshi will randomly choose one of the cities reachable from his current city and move there. (city $$$B$$$ is reachable from city $$$A$$$ if there's an out-going road from city $$$A$$$ to city $$$B$$$ which hasn't become blocked yet). If there are no such cities, Keshi will remain in his current city.Note that AmShZ always knows Keshi's current location. AmShZ and Keshi want to find the smallest possible integer $$$d$$$ for which they can make sure that they will see each other after at most $$$d$$$ days. Help them find $$$d$$$.",
+    "prob_desc_output_spec": "Output the smallest possible integer $$$d$$$ to make sure that AmShZ and Keshi will see each other after at most $$$d$$$ days.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ $$$(2 \\le n \\le 2 \\cdot 10^5, 1 \\le m \\le 2 \\cdot 10^5)$$$  — the number of cities and roads correspondingly. The $$$i$$$-th line of the following $$$m$$$ lines contains two integers $$$v_i$$$ and $$$u_i$$$ $$$(1 \\le v_i , u_i \\le n,v_i \\neq u_i)$$$, denoting a directed road going from city $$$v_i$$$ to city $$$u_i$$$. It is guaranteed that there is at least one route from city $$$1$$$ to city $$$n$$$. Note that there may be more than one road between a pair of cities in each direction.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_083.jsonl",
+    "code_uid": "479eebfe6f7f168ac83164aa95c8994b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 1\\n1 2\", \"4 4\\n1 2\\n1 4\\n2 4\\n1 4\", \"5 7\\n1 2\\n2 3\\n3 5\\n1 4\\n4 3\\n4 5\\n3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq as hq\r\n#from collections import defaultdict as dd\r\n#import collections as coll #deque  e.g. coll.deque\r\nimport sys\r\ninput = sys.stdin.readline\r\n\r\n############ ---- Input Functions ---- ############\r\n#def inp():\r\n#    return(int(input()))\r\ndef inlt():\r\n    return(list(map(int,input().split())))\r\n#def insr():\r\n#    s = input()\r\n#    return(list(s[:len(s) - 1]))\r\n#def invr():\r\n#    return(map(int,input().split()))\r\n#1) inp — For taking integer inputs.\r\n#\r\n#2) inlt — For taking List inputs.\r\n#\r\n#3) insr — For taking string inputs. Actually it returns a List of Characters, instead of a string, which is easier to use in Python, because in Python, Strings are Immutable.\r\n#\r\n#4) invr — For taking space seperated integer variable inputs.\r\n\r\n\r\n#t = int(input())\r\n#for tc in range(t):\r\nn,m = map(int, input().split())\r\n#roads=[]\r\ncoming=dict();going=[0]*(n+1)\r\nfor i in range(n+1):coming[i]=[]\r\nfor i in range(m):\r\n    tmp=inlt()\r\n#    roads.append(tmp)\r\n    coming[tmp[-1]].append(tmp[0])\r\n    going[tmp[0]]+=1\r\n\r\ndg=[999999]*(n+1);dg[n]=0;\r\ntodo=[(0,n)];chkd=[0]*(n+1)\r\n\r\n\r\nwhile todo:\r\n    #### find x with min dg in todo\r\n    _,x=hq.heappop(todo)\r\n    if chkd[x]:continue\r\n    for i in coming[x]:going[i]-=1\r\n    for i in coming[x]:\r\n        tmp=1+dg[x]+going[i]\r\n        if tmp<dg[i]:\r\n            dg[i]=tmp\r\n            hq.heappush(todo,(dg[i],i))\r\n    #Dijkstra algorithm\r\n    chkd[x]=1\r\n\r\nprint(dg[1])\r\n\r\n\r\n\r\n",
+    "prob_desc_created_at": "1655390100",
+    "tags": [
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

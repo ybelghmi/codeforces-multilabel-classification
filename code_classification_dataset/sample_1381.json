@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "b389750613e9577b3abc9e5e5902b2db",
+    "prob_desc_notes": "NotePicture for the first sample:    White king is in check, because the black bishop can reach the cell with the white king in one move. The answer is \"YES\".Picture for the second sample:    Here bishop can't reach the cell with the white king, because his path is blocked by the rook, and the bishop cant \"leap\" over it. Rook can't reach the white king, because it can't move diagonally. Hence, the king is not in check and the answer is \"NO\".",
+    "prob_desc_description": "Anton likes to play chess. Also, he likes to do programming. That is why he decided to write the program that plays chess. However, he finds the game on 8 to 8 board to too simple, he uses an infinite one instead.The first task he faced is to check whether the king is in check. Anton doesn't know how to implement this so he asks you to help.Consider that an infinite chess board contains one white king and the number of black pieces. There are only rooks, bishops and queens, as the other pieces are not supported yet. The white king is said to be in check if at least one black piece can reach the cell with the king in one move. Help Anton and write the program that for the given position determines whether the white king is in check.Remainder, on how do chess pieces move:   Bishop moves any number of cells diagonally, but it can't \"leap\" over the occupied cells.  Rook moves any number of cells horizontally or vertically, but it also can't \"leap\" over the occupied cells.  Queen is able to move any number of cells horizontally, vertically or diagonally, but it also can't \"leap\". ",
+    "prob_desc_output_spec": "The only line of the output should contains \"YES\" (without quotes) if the white king is in check and \"NO\" (without quotes) otherwise.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 500 000) — the number of black pieces. The second line contains two integers x0 and y0 ( - 109 ≤ x0, y0 ≤ 109) — coordinates of the white king. Then follow n lines, each of them contains a character and two integers xi and yi ( - 109 ≤ xi, yi ≤ 109) — type of the i-th piece and its position. Character 'B' stands for the bishop, 'R' for the rook and 'Q' for the queen. It's guaranteed that no two pieces occupy the same position.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_008.jsonl",
+    "code_uid": "d713398ae2d7bb515dc8efcf9f989607",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4 2\\nR 1 1\\nB 1 5\", \"2\\n4 2\\nR 3 3\\nB 1 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=input()\nx,y=map(int,raw_input().split())\nv=[(10**11,'?')]*8\nfor _ in range(n):\n  c,i,j=raw_input().split()\n  i,j=int(i),int(j)\n  if i==x:\n    d=j-y\n    if d>0 and d<v[0][0]:\n      v[0]=(d,c)\n    elif d<0 and -d<v[1][0]:\n      v[1]=(-d,c)\n  if j==y:\n    d=i-x\n    if d>0 and d<v[2][0]:\n      v[2]=(d,c)\n    elif d<0 and -d<v[3][0]:\n      v[3]=(-d,c)\n  if i-x==j-y:\n    d=i-x\n    if d>0 and d<v[4][0]:\n      v[4]=(d,c)\n    elif d<0 and -d<v[5][0]:\n      v[5]=(-d,c)\n  if i-x==y-j:\n    d=i-x\n    if d>0 and d<v[6][0]:\n      v[6]=(d,c)\n    elif d<0 and -d<v[7][0]:\n      v[7]=(-d,c)\nprint 'YES' if v[0][1] in 'RQ' or v[1][1] in 'RQ' or v[2][1] in 'RQ' or v[3][1] in 'RQ' or v[4][1] in 'BQ' or v[5][1] in 'BQ' or v[6][1] in 'BQ' or v[7][1] in 'BQ' else 'NO'",
+    "prob_desc_created_at": "1479227700",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

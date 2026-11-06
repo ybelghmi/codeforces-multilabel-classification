@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3 1 2 1\\n6 5 2 5 3 1 2\\n0\\n9 4 1 2 10 4 1 2 1 5\\n1 1\"]",
+    "src_uid": "10c9b2d70030f7ed680297455d1f1bb0",
+    "prob_desc_notes": "NoteIn the first test case, we have $$$01\\to 11\\to 00\\to 10$$$.In the second test case, we have $$$01011\\to 00101\\to 11101\\to 01000\\to 10100\\to 00100\\to 11100$$$.In the third test case, the strings are already the same. Another solution is to flip the prefix of length $$$2$$$, which will leave $$$a$$$ unchanged.",
+    "prob_desc_description": "This is the easy version of the problem. The difference between the versions is the constraint on $$$n$$$ and the required number of operations. You can make hacks only if all versions of the problem are solved.There are two binary strings $$$a$$$ and $$$b$$$ of length $$$n$$$ (a binary string is a string consisting of symbols $$$0$$$ and $$$1$$$). In an operation, you select a prefix of $$$a$$$, and simultaneously invert the bits in the prefix ($$$0$$$ changes to $$$1$$$ and $$$1$$$ changes to $$$0$$$) and reverse the order of the bits in the prefix.For example, if $$$a=001011$$$ and you select the prefix of length $$$3$$$, it becomes $$$011011$$$. Then if you select the entire string, it becomes $$$001001$$$.Your task is to transform the string $$$a$$$ into $$$b$$$ in at most $$$3n$$$ operations. It can be proved that it is always possible.",
+    "prob_desc_output_spec": "For each test case, output an integer $$$k$$$ ($$$0\\le k\\le 3n$$$), followed by $$$k$$$ integers $$$p_1,\\ldots,p_k$$$ ($$$1\\le p_i\\le n$$$). Here $$$k$$$ is the number of operations you use and $$$p_i$$$ is the length of the prefix you flip in the $$$i$$$-th operation.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1\\le t\\le 1000$$$)  — the number of test cases. Next $$$3t$$$ lines contain descriptions of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$1\\le n\\le 1000$$$)  — the length of the binary strings. The next two lines contain two binary strings $$$a$$$ and $$$b$$$ of length $$$n$$$. It is guaranteed that the sum of $$$n$$$ across all test cases does not exceed $$$1000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_002.jsonl",
+    "code_uid": "d4d3962c1c7559e61bf49f8d1b5ac2ba",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2\\n01\\n10\\n5\\n01011\\n11100\\n2\\n01\\n01\\n10\\n0110011011\\n1000110100\\n1\\n0\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\n    n=int(input())\n    s=input()\n    s1=input()\n    s=list(str(x) for x in s)\n    s1=list(str(x) for x in s1)\n    c=[]\n    for i in range(n-1,-1,-1):\n        if s[len(s)-1]==s1[i]:\n            s=s[:len(s)-1]\n            ##print(s,i)\n            continue\n        if int(s1[i])+int(s[0])==1:\n\n            c.append(i+1)\n            s=s[:i+1]\n            for i in range(len(s)):\n                if s[i]=='0':\n                    s[i]='1'\n                else:\n                    s[i]='0'\n            s=s[::-1]\n            s=s[:len(s)-1]\n            continue\n        if s1[i]==s[0]:\n            if s1[i]=='1':\n                s[0]='0'\n                c.append(1)\n            else:\n                c.append(1)\n                s[0]='1'\n            c.append(i + 1)\n            s = s[:i + 1]\n            ##print(s)\n            for i in range(len(s)):\n                if s[i] == '0':\n                    s[i] = '1'\n                else:\n                    s[i] = '0'\n\n            s = s[::-1]\n            s=s[:len(s)-1]\n            ##print(s)\n            continue\n    if len(c)==0:\n        print(0)\n        continue\n    print(len(c),*c)\n\n\n\n",
+    "prob_desc_created_at": "1595342100",
+    "tags": [
+        "data structures",
+        "constructive algorithms",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

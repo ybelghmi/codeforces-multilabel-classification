@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"11\"]",
+    "src_uid": "82c3c6b0190e0e098396bd9e6fb885d1",
+    "prob_desc_notes": "NoteFor the second example, all independent sets are listed below.  ",
+    "prob_desc_description": "Eric is the teacher of graph theory class. Today, Eric teaches independent set and edge-induced subgraph.Given a graph $$$G=(V,E)$$$, an independent set is a subset of vertices $$$V' \\subset V$$$ such that for every pair $$$u,v \\in V'$$$, $$$(u,v) \\not \\in E$$$ (i.e. no edge in $$$E$$$ connects two vertices from $$$V'$$$).An edge-induced subgraph consists of a subset of edges $$$E' \\subset E$$$ and all the vertices in the original graph that are incident on at least one edge in the subgraph.Given $$$E' \\subset E$$$, denote $$$G[E']$$$ the edge-induced subgraph such that $$$E'$$$ is the edge set of the subgraph. Here is an illustration of those definitions:  In order to help his students get familiar with those definitions, he leaves the following problem as an exercise:Given a tree $$$G=(V,E)$$$, calculate the sum of $$$w(H)$$$ over all except null edge-induced subgraph $$$H$$$ of $$$G$$$, where $$$w(H)$$$ is the number of independent sets in $$$H$$$. Formally, calculate $$$\\sum \\limits_{\\emptyset \\not= E' \\subset E} w(G[E'])$$$.Show Eric that you are smarter than his students by providing the correct answer as quickly as possible. Note that the answer might be large, you should output the answer modulo $$$998,244,353$$$.",
+    "prob_desc_output_spec": "Output one integer, representing the desired value modulo $$$998,244,353$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 3 \\cdot 10^5$$$), representing the number of vertices of the graph $$$G$$$. Each of the following $$$n-1$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u,v \\le n$$$, $$$u \\not= v$$$), describing edges of the given tree. It is guaranteed that the given edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_034.jsonl",
+    "code_uid": "d30803e2f66531e85ea9272818763186",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2 1\", \"3\\n1 2\\n3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nMOD = 998244353\n\ninp = [int(x) for x in sys.stdin.read().split()]; ii = 0\n\nn = inp[ii]; ii += 1\ncoupl = [[] for _ in range(n)]\nfor _ in range(n - 1):\n    u = inp[ii] - 1; ii += 1\n    v = inp[ii] - 1; ii += 1\n    coupl[u].append(v)\n    coupl[v].append(u)\n\nleaf = 0\nwhile len(coupl[leaf]) > 1:\n    leaf += 1\n\nroot = leaf\nbfs = [root]\nfor node in bfs:\n    for nei in coupl[node]:\n        del coupl[nei][coupl[nei].index(node)]\n    bfs += coupl[node]\n\nDP0 = [0]*n\nDP2 = [0]*n\nDP4 = [0]*n\nDP6 = [0]*n\n\nfor node in reversed(bfs):\n    a = 1\n    for child in coupl[node]:\n        fac = (DP2[child] + DP4[child] + DP6[child]) % MOD\n        a = a * fac % MOD \n    DP0[node] = int(a)\n\n    c = 1\n    for child in coupl[node]:\n        fac = (DP4[child] + DP6[child]) % MOD\n        c = c * fac % MOD\n    DP4[node] = int((a - c) % MOD)\n\n    e = 1\n    for child in coupl[node]:\n        fac = (DP0[child] + DP2[child] + DP4[child] + DP6[child]) % MOD\n        e = e * fac % MOD\n\n    DP6[node] = DP2[node] = int(e)\n\nprint (DP4[root] + DP6[root] - 1) % MOD\n",
+    "prob_desc_created_at": "1585661700",
+    "tags": [
+        "dp",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

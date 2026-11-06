@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\\n1 2 3\", \"99\\n2 1\", \"-9\\n3 5 6 1 9 4 10 7 8 2\"]",
+    "src_uid": "5ebae703049e9ab4547df87861034176",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Captain Fint is involved in another treasure hunt, but have found only one strange problem. The problem may be connected to the treasure's location or may not. That's why captain Flint decided to leave the solving the problem to his crew and offered an absurdly high reward: one day off. The problem itself sounds like this...There are two arrays $$$a$$$ and $$$b$$$ of length $$$n$$$. Initially, an $$$ans$$$ is equal to $$$0$$$ and the following operation is defined:   Choose position $$$i$$$ ($$$1 \\le i \\le n$$$);  Add $$$a_i$$$ to $$$ans$$$;  If $$$b_i \\neq -1$$$ then add $$$a_i$$$ to $$$a_{b_i}$$$. What is the maximum $$$ans$$$ you can get by performing the operation on each $$$i$$$ ($$$1 \\le i \\le n$$$) exactly once?Uncle Bogdan is eager to get the reward, so he is asking your help to find the optimal order of positions to perform the operation on them.",
+    "prob_desc_output_spec": "In the first line, print the maximum $$$ans$$$ you can get. In the second line, print the order of operations: $$$n$$$ different integers $$$p_1, p_2, \\ldots, p_n$$$ ($$$1 \\le p_i \\le n$$$). The $$$p_i$$$ is the position which should be chosen at the $$$i$$$-th step. If there are multiple orders, print any of them.",
+    "prob_desc_input_spec": "The first line contains the integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the length of arrays $$$a$$$ and $$$b$$$. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$−10^6 \\le a_i \\le 10^6$$$). The third line contains $$$n$$$ integers $$$b_1, b_2, \\ldots, b_n$$$ ($$$1 \\le b_i \\le n$$$ or $$$b_i = -1$$$). Additional constraint: it's guaranteed that for any $$$i$$$ ($$$1 \\le i \\le n$$$) the sequence $$$b_i, b_{b_i}, b_{b_{b_i}}, \\ldots$$$ is not cyclic, in other words it will always end with $$$-1$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_039.jsonl",
+    "code_uid": "d4a99228d2d306cb7e9777c1de2019dd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\\n2 3 -1\", \"2\\n-1 100\\n2 -1\", \"10\\n-10 -1 2 2 5 -2 -3 -4 2 -6\\n-1 -1 2 2 -1 5 5 7 7 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys;input=sys.stdin.readline\nN, = map(int, input().split())\nX = [0]+list(map(int, input().split()))\nY = [0]+list(map(int, input().split()))\nst = []\nG = [set() for _ in range(N+1)]\nfor i in range(1, N+1):\n    if Y[i] < 0:\n        st.append(i)\n    else:\n        G[Y[i]].add(i)\n\nato = []\nR = []\nW = [0]*(N+1)\nfor s in st:\n    stack = [s]\n    vs_dfs = list()\n    while stack:\n        v = stack.pop()\n        vs_dfs.append(v)\n        for u in G[v]:\n#            vs.add(u)\n            stack.append(u)\n    for v in vs_dfs[::-1]:\n        for u in G[v]:\n            X[v] += max(0, X[u])\n        if X[v] < 0:\n            ato.append(v)\n        else:\n            R.append(v)\nato = ato[::-1]\nprint(sum(X))\nprint(*(R+ato))\n",
+    "prob_desc_created_at": "1596119700",
+    "tags": [
+        "greedy",
+        "graphs",
+        "implementation",
+        "data structures",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

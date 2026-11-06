@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"0\", \"4\"]",
+    "src_uid": "450b8c73f1618cceae45f80be414ecc0",
+    "prob_desc_notes": "NoteIn first test case there are six permutations of size $$$3$$$:   if $$$p = [1, 2, 3]$$$, then $$$s = [(1, 1), (2, 2), (3, 1)]$$$ — bad sequence (sorted by first elements);  if $$$p = [1, 3, 2]$$$, then $$$s = [(1, 1), (3, 1), (2, 2)]$$$ — bad sequence (sorted by second elements);  if $$$p = [2, 1, 3]$$$, then $$$s = [(2, 2), (1, 1), (3, 1)]$$$ — good sequence;  if $$$p = [2, 3, 1]$$$, then $$$s = [(2, 2), (3, 1), (1, 1)]$$$ — good sequence;  if $$$p = [3, 1, 2]$$$, then $$$s = [(3, 1), (1, 1), (2, 2)]$$$ — bad sequence (sorted by second elements);  if $$$p = [3, 2, 1]$$$, then $$$s = [(3, 1), (2, 2), (1, 1)]$$$ — good sequence. ",
+    "prob_desc_description": "You are given a sequence of $$$n$$$ pairs of integers: $$$(a_1, b_1), (a_2, b_2), \\dots , (a_n, b_n)$$$. This sequence is called bad if it is sorted in non-descending order by first elements or if it is sorted in non-descending order by second elements. Otherwise the sequence is good. There are examples of good and bad sequences:  $$$s = [(1, 2), (3, 2), (3, 1)]$$$ is bad because the sequence of first elements is sorted: $$$[1, 3, 3]$$$;  $$$s = [(1, 2), (3, 2), (1, 2)]$$$ is bad because the sequence of second elements is sorted: $$$[2, 2, 2]$$$;  $$$s = [(1, 1), (2, 2), (3, 3)]$$$ is bad because both sequences (the sequence of first elements and the sequence of second elements) are sorted;  $$$s = [(1, 3), (3, 3), (2, 2)]$$$ is good because neither the sequence of first elements $$$([1, 3, 2])$$$ nor the sequence of second elements $$$([3, 3, 2])$$$ is sorted. Calculate the number of permutations of size $$$n$$$ such that after applying this permutation to the sequence $$$s$$$ it turns into a good sequence. A permutation $$$p$$$ of size $$$n$$$ is a sequence $$$p_1, p_2, \\dots , p_n$$$ consisting of $$$n$$$ distinct integers from $$$1$$$ to $$$n$$$ ($$$1 \\le p_i \\le n$$$). If you apply permutation $$$p_1, p_2, \\dots , p_n$$$ to the sequence $$$s_1, s_2, \\dots , s_n$$$ you get the sequence $$$s_{p_1}, s_{p_2}, \\dots , s_{p_n}$$$. For example, if $$$s = [(1, 2), (1, 3), (2, 3)]$$$ and $$$p = [2, 3, 1]$$$ then $$$s$$$ turns into $$$[(1, 3), (2, 3), (1, 2)]$$$.",
+    "prob_desc_output_spec": "Print the number of permutations of size $$$n$$$ such that after applying this permutation to the sequence $$$s$$$ it turns into a good sequence. Print the answer modulo $$$998244353$$$ (a prime number).",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 3 \\cdot 10^5$$$). The next $$$n$$$ lines contains description of sequence $$$s$$$. The $$$i$$$-th line contains two integers $$$a_i$$$ and $$$b_i$$$ ($$$1 \\le a_i, b_i \\le n$$$) — the first and second elements of $$$i$$$-th pair in the sequence. The sequence $$$s$$$ may contain equal elements.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_013.jsonl",
+    "code_uid": "3535da79f195f4c4ed3d2cd89bf8ab9c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1\\n2 2\\n3 1\", \"4\\n2 3\\n2 2\\n2 1\\n2 4\", \"3\\n1 1\\n1 1\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom collections import Counter\n\nreadline = sys.stdin.readline\nreadlines = sys.stdin.readlines\nns = lambda: readline().rstrip()\nni = lambda: int(readline().rstrip())\nnm = lambda: map(int, readline().split())\nnl = lambda: list(map(int, readline().split()))\nprn = lambda x: print(*x, sep='\\n')\n\nn_ = 4 * 10**5\nmod = 998244353\nfun = [1] * (n_ + 1)\nfor i in range(1, n_ + 1):\n    fun[i] = fun[i - 1] * i % mod\nrev = [1] * (n_ + 1)\nrev[n_] = pow(fun[n_], mod - 2, mod)\nfor i in range(n_ - 1, 0, -1):\n    rev[i] = rev[i + 1] * (i + 1) % mod\n\n\ndef nCr(n, r):\n    if r > n:\n        return 0\n    return fun[n] * rev[r] % mod * rev[n - r] % mod\n\n\ndef solve():\n    n = ni()\n    l = [tuple(nm()) for _ in range(n)]\n    l.sort()\n    ans = fun[n]\n    sortab = sorta = sortb = 1\n    for i in range(n-1):\n        if l[i+1][1] < l[i][1]:\n            sortab = 0\n            break\n    if sortab:\n        for x in Counter(l).values():\n            sortab = sortab * fun[x] % mod\n    for x in Counter([x[0] for x in l]).values():\n        sorta = sorta * fun[x] % mod\n    for x in Counter([x[1] for x in l]).values():\n        sortb = sortb * fun[x] % mod\n    # print(ans, sorta, sortb, sortab)\n    print((ans - sorta - sortb + sortab) % mod)\n\n\nsolve()\n\n# T = ni()\n# for _ in range(T):\n#     solve()\n",
+    "prob_desc_created_at": "1566484500",
+    "tags": [
+        "combinatorics"
+    ],
+    "hidden_unit_tests": ""
+}

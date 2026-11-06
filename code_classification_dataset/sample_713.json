@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"17\\n33\\n401\"]",
+    "src_uid": "168dbc4994529f5407a440b0c71086da",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There is a square painted on a piece of paper, the square's side equals n meters. John Doe draws crosses on the square's perimeter. John paints the first cross in the lower left corner of the square. Then John moves along the square's perimeter in the clockwise direction (first upwards, then to the right, then downwards, then to the left and so on). Every time he walks (n + 1) meters, he draws a cross (see picture for clarifications).John Doe stops only when the lower left corner of the square has two crosses. How many crosses will John draw?   The figure shows the order in which John draws crosses for a square with side 4. The lower left square has two crosses. Overall John paints 17 crosses.  ",
+    "prob_desc_output_spec": "For each test sample print on a single line the answer to it, that is, the number of crosses John will draw as he will move along the square of the corresponding size. Print the answers to the samples in the order in which the samples are given in the input. Please do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier. ",
+    "prob_desc_input_spec": "The first line contains integer t (1 ≤ t ≤ 104) — the number of test cases.  The second line contains t space-separated integers ni (1 ≤ ni ≤ 109) — the sides of the square for each test sample.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_003.jsonl",
+    "code_uid": "8bc650809d3c38e40907508e9d622e6d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4 8 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\n\nn = int(raw_input())\n\nparts = [int(x) for x in raw_input().split()]\n\nfor p in parts:\n  if p % 2 == 0:\n    print p * 4 + 1\n  else:\n    if (p + 3) % 4 == 0:\n      res = 1 + (((p + 3) / 4) - 1) * 4\n      print res * 2 + 1\t  \n    elif (p + 1) % 4 == 0 :\n      res = 3 + (((p + 1) / 4) - 1) * 4\n      print res + 1\t\n\n\t  \n\n\t  ",
+    "prob_desc_created_at": "1338737400",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

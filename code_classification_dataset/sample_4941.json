@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nYES\\nNO\\nNO\\nYES\"]",
+    "src_uid": "7a8c4ba98a77097faff625b94889b365",
+    "prob_desc_notes": "NoteIn the first test case there is no need to make any moves, the sequence of heights is already increasing.In the second test case we need to move one block from the first stack to the second. Then the heights become $$$0$$$ $$$1$$$.In the third test case we could move one block from the first stack to the second and then from the second to the third, which would make the heights $$$3$$$ $$$4$$$ $$$5$$$.In the fourth test case we can't make a move, but the sequence is not increasing, so the answer is NO.In the fifth test case we can only make one move (from the second to the third stack), which would make the heights $$$0$$$ $$$0$$$ $$$1$$$. Both $$$0$$$ $$$1$$$ $$$0$$$ and $$$0$$$ $$$0$$$ $$$1$$$ are not increasing sequences, so the answer is NO.",
+    "prob_desc_description": "You have $$$n$$$ stacks of blocks. The $$$i$$$-th stack contains $$$h_i$$$ blocks and it's height is the number of blocks in it. In one move you can take a block from the $$$i$$$-th stack (if there is at least one block) and put it to the $$$i + 1$$$-th stack. Can you make the sequence of heights strictly increasing?Note that the number of stacks always remains $$$n$$$: stacks don't disappear when they have $$$0$$$ blocks.",
+    "prob_desc_output_spec": "For each test case output YES if you can make the sequence of heights strictly increasing and NO otherwise. You may print each letter in any case (for example, YES, Yes, yes, yEs will all be recognized as positive answer).",
+    "prob_desc_input_spec": "First line contains a single integer $$$t$$$ $$$(1 \\leq t \\leq 10^4)$$$ — the number of test cases. The first line of each test case contains a single integer $$$n$$$ $$$(1 \\leq n \\leq 100)$$$. The second line of each test case contains $$$n$$$ integers $$$h_i$$$ $$$(0 \\leq h_i \\leq 10^9)$$$ — starting heights of the stacks. It's guaranteed that the sum of all $$$n$$$ does not exceed $$$10^4$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_109.jsonl",
+    "code_uid": "b6a188ae2fbb3eff999b6f8d216eeeda",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n2\\n1 2\\n2\\n1 0\\n3\\n4 4 4\\n2\\n0 0\\n3\\n0 1 0\\n4\\n1000000000 1000000000 1000000000 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def check(stack):\r\n    \r\n    return (all(i < j for i, j in zip(stack, stack[1:])))\r\n\r\n    \r\ndef greedy(stack,i,j):\r\n    if stack[i] == 0 or stack[i] < i:\r\n        return stack\r\n    temp  = stack[i] - i\r\n    stack[i] -= temp\r\n    stack[j] += temp\r\n    return stack\r\nT = int(input())\r\nfor t in range(0, T):\r\n    numb = int(input())\r\n    stacks = [int(s)for s in input().split()]\r\n    if len(stacks) <= 1:\r\n        print(\"YES\")\r\n        continue\r\n    canShift = False\r\n    for i in range(len(stacks)-1):\r\n        if(check(stacks)):\r\n            canShift = True\r\n            break\r\n        else:\r\n            stacks = greedy(stacks,i,i+1)\r\n        if(check(stacks)):\r\n            canShift = True\r\n            break\r\n    if canShift:\r\n        print(\"YES\")\r\n    else:\r\n        print('NO')",
+    "prob_desc_created_at": "1613658900",
+    "tags": [
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "6 seconds",
+    "prob_desc_sample_outputs": "[\"+ 12 16\\n\\n- 6 10\\n\\n* 8 15\\n\\n/ 5 4\\n\\nsqrt 16\\n\\nsqrt 5\\n\\n^ 6 12\\n\\n! 2 3 7\"]",
+    "src_uid": "166fbe42dd60317e85e699d9bed76957",
+    "prob_desc_notes": "NoteWe start by reading the first line containing the integer $$$n = 21$$$. Then, we ask for:   $$$(12 + 16) \\bmod 21 = 28 \\bmod 21 = 7$$$.  $$$(6 - 10) \\bmod 21 = -4 \\bmod 21 = 17$$$.  $$$(8 \\cdot 15) \\bmod 21 = 120 \\bmod 21 = 15$$$.  $$$(5 \\cdot 4^{-1}) \\bmod 21 = (5 \\cdot 16) \\bmod 21 = 80 \\bmod 21 = 17$$$.  Square root of $$$16$$$. The answer is $$$11$$$, as $$$(11 \\cdot 11) \\bmod 21 = 121 \\bmod 21 = 16$$$. Note that the answer may as well be $$$10$$$.  Square root of $$$5$$$. There is no $$$x$$$ such that $$$x^2 \\bmod 21 = 5$$$, so the output is $$$-1$$$.  $$$(6^{12}) \\bmod 21 = 2176782336 \\bmod 21 = 15$$$. We conclude that our calculator is working, stop fooling around and realise that $$$21 = 3 \\cdot 7$$$.",
+    "prob_desc_description": "Integer factorisation is hard. The RSA Factoring Challenge offered $$$$100\\,000$$$ for factoring RSA-$$$1024$$$, a $$$1024$$$-bit long product of two prime numbers. To this date, nobody was able to claim the prize. We want you to factorise a $$$1024$$$-bit number.Since your programming language of choice might not offer facilities for handling large integers, we will provide you with a very simple calculator. To use this calculator, you can print queries on the standard output and retrieve the results from the standard input. The operations are as follows:   + x y where $$$x$$$ and $$$y$$$ are integers between $$$0$$$ and $$$n-1$$$. Returns $$$(x+y) \\bmod n$$$.  - x y where $$$x$$$ and $$$y$$$ are integers between $$$0$$$ and $$$n-1$$$. Returns $$$(x-y) \\bmod n$$$.  * x y where $$$x$$$ and $$$y$$$ are integers between $$$0$$$ and $$$n-1$$$. Returns $$$(x \\cdot y) \\bmod n$$$.  / x y where $$$x$$$ and $$$y$$$ are integers between $$$0$$$ and $$$n-1$$$ and $$$y$$$ is coprime with $$$n$$$. Returns $$$(x \\cdot y^{-1}) \\bmod n$$$ where $$$y^{-1}$$$ is multiplicative inverse of $$$y$$$ modulo $$$n$$$. If $$$y$$$ is not coprime with $$$n$$$, then $$$-1$$$ is returned instead.  sqrt x where $$$x$$$ is integer between $$$0$$$ and $$$n-1$$$ coprime with $$$n$$$. Returns $$$y$$$ such that $$$y^2 \\bmod n = x$$$. If there are multiple such integers, only one of them is returned. If there are none, $$$-1$$$ is returned instead.  ^ x y where $$$x$$$ and $$$y$$$ are integers between $$$0$$$ and $$$n-1$$$. Returns $$${x^y \\bmod n}$$$. Find the factorisation of $$$n$$$ that is a product of between $$$2$$$ and $$$10$$$ distinct prime numbers, all of form $$$4x + 3$$$ for some integer $$$x$$$.Because of technical issues, we restrict number of requests to $$$100$$$.",
+    "prob_desc_output_spec": "You can print as many queries as you wish, adhering to the time limit (see the Interaction section for more details).  When you think you know the answer, output a single line of form ! k p_1 p_2 ... p_k, where $$$k$$$ is the number of prime factors of $$$n$$$, and $$$p_i$$$ are the distinct prime factors. You may print the factors in any order. Hacks input For hacks, use the following format:.  The first should contain $$$k$$$ ($$$2 \\leq k \\leq 10$$$) — the number of prime factors of $$$n$$$.  The second should contain $$$k$$$ space separated integers $$$p_1, p_2, \\dots, p_k$$$ ($$$21 \\leq n \\leq 2^{1024}$$$) — the prime factors of $$$n$$$. All prime factors have to be of form $$$4x + 3$$$ for some integer $$$x$$$. They all have to be distinct. ",
+    "prob_desc_input_spec": "The only line contains a single integer $$$n$$$ ($$$21 \\leq n \\leq 2^{1024}$$$). It is guaranteed that $$$n$$$ is a product of between $$$2$$$ and $$$10$$$ distinct prime numbers, all of form $$$4x + 3$$$ for some integer $$$x$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 3200,
+    "file_name": "train_003.jsonl",
+    "code_uid": "71cd896d09a297825b4fff80b3d25557",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"21\\n\\n7\\n\\n17\\n\\n15\\n\\n17\\n\\n11\\n\\n-1\\n\\n15\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import random\nimport math\n\nn = int(input())\nz = [n]\n\nfor i in range(15):\n    w = random.randint(1, n - 1)\n    print('sqrt', w * w % n)\n    v = int(input())\n\n    y = []\n    for x in z:\n        y.append(math.gcd(w+v, x))\n        y.append(x // y[-1])\n    z = y\n\nz = list(set(z) - {1})\nprint('!', len(z), *z)",
+    "prob_desc_created_at": "1546180500",
+    "tags": [
+        "interactive",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

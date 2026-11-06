@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"3\", \"5\"]",
+    "src_uid": "60776cefd6c1a2f3c16b3378ebc31a9a",
+    "prob_desc_notes": "NoteIn the first test Sergei B. can begin, for example, from the flat number 1 and end in the flat number 2.In the second test Sergei B. can begin, for example, from the flat number 4 and end in the flat number 6. In the third test Sergei B. must begin from the flat number 2 and end in the flat number 6.",
+    "prob_desc_description": "Sergei B., the young coach of Pokemons, has found the big house which consists of n flats ordered in a row from left to right. It is possible to enter each flat from the street. It is possible to go out from each flat. Also, each flat is connected with the flat to the left and the flat to the right. Flat number 1 is only connected with the flat number 2 and the flat number n is only connected with the flat number n - 1.There is exactly one Pokemon of some type in each of these flats. Sergei B. asked residents of the house to let him enter their flats in order to catch Pokemons. After consulting the residents of the house decided to let Sergei B. enter one flat from the street, visit several flats and then go out from some flat. But they won't let him visit the same flat more than once. Sergei B. was very pleased, and now he wants to visit as few flats as possible in order to collect Pokemons of all types that appear in this house. Your task is to help him and determine this minimum number of flats he has to visit. ",
+    "prob_desc_output_spec": "Print the minimum number of flats which Sergei B. should visit in order to catch Pokemons of all types which there are in the house. ",
+    "prob_desc_input_spec": "The first line contains the integer n (1 ≤ n ≤ 100 000) — the number of flats in the house. The second line contains the row s with the length n, it consists of uppercase and lowercase letters of English alphabet, the i-th letter equals the type of Pokemon, which is in the flat number i. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "7dfb199bc37b4d5b53b4e6ca9a2f664f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\nAaA\", \"7\\nbcAAcbc\", \"6\\naaBCCe\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\ns = input()\nD = dict()\nA = set()\nfor i in range(n):\n    if s[i] not in A:\n        A.add(s[i])\nl = 100001\nfor i in A:\n    D[i] = 0\ng = 0\nc = '0'\nfor i in range(n):\n    D[s[i]] += 1\n    q = 0\n    if c == '0':\n        for k in A:\n            if D[k] == 0:\n                break\n        else:\n            q = 1\n    if q == 1 or s[i] == c:\n        for k in range(g,i+1):\n            D[s[k]] -= 1\n            if D[s[k]] == 0:\n                D[s[k]] += 1\n                l = min(l,i-k+1)\n                g = max(k,0)\n                c = s[k]\n                break\nprint(l)\n    \n",
+    "prob_desc_created_at": "1469205300",
+    "tags": [
+        "two pointers",
+        "binary search",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

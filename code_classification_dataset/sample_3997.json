@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 секунды",
+    "prob_desc_sample_outputs": "[\"16\\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16\", \"16\\n16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1\", \"16\\n13 6 1 7 12 5 4 15 14 16 10 11 3 8 9 2\"]",
+    "src_uid": "b2ee84d23d73947fa84faaaebfde85c8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Рассмотрим следующий код сортировки слиянием на языке Python: def sort(a):  n = len(a)  b = [0 for i in range(n)]  log = []  def mergeSort(l, r):    if r - l &lt;= 1:      return    m = (l + r) &gt;&gt; 1    mergeSort(l, m)    mergeSort(m, r)    i, j, k = l, m, l    while i &lt; m and j &lt; r:      if a[i] &lt; a[j]:        log.append('0')        b[k] = a[i]        i += 1      else:        log.append('1')        b[k] = a[j]        j += 1      k += 1    while i &lt; m:      b[k] = a[i]      i += 1      k += 1    while j &lt; r:      b[k] = a[j]      j += 1      k += 1    for p in range(l, r):      a[p] = b[p]  mergeSort(0, n)  return \"\".join(log)Как можно заметить, этот код использует логирование — важнейший инструмент разработки.Старший разработчик ВКонтакте Вася сгенерировал перестановку $$$a$$$ (массив из $$$n$$$ различных целых чисел от $$$1$$$ до $$$n$$$), дал её на вход функции sort и получил на выходе строку $$$s$$$. На следующий день строку $$$s$$$ Вася нашёл, а перестановка $$$a$$$ потерялась. Вася хочет восстановить любую перестановку $$$a$$$ такую, что вызов функции sort от неё даст ту же строку $$$s$$$. Помогите ему!",
+    "prob_desc_output_spec": "В первой строке выведите целое число $$$n$$$ — длину перестановки. Во второй строке выведите $$$n$$$ различных целых чисел $$$a_0, a_1, \\ldots, a_{n-1}$$$ ($$$1 \\le a_i \\le n$$$) — элементы перестановки. Если существует несколько вариантов ответа, выведите любой из них.",
+    "prob_desc_input_spec": "Ввод содержит непустую строку $$$s$$$, состоящую из символов 0 и 1.  В этой версии задачи для любого теста существует перестановка длины $$$16$$$, удовлетворяющая условию. Тем не менее, ваш ответ может иметь любую длину, в том числе отличную от $$$16$$$.",
+    "prob_desc_output_to": "стандартный вывод",
+    "prob_desc_input_from": "стандартный ввод",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": -1,
+    "file_name": "train_088.jsonl",
+    "code_uid": "f6ba483d51e0677c48fbbceab998419b",
+    "prob_desc_memory_limit": "512 мегабайт",
+    "prob_desc_sample_inputs": "[\"00000000000000000000000000000000\", \"11111111111111111111111111111111\", \"101011010001100100011011001111011000011110010\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\r\nfrom math import log\r\n\r\nptr = None\r\ndef restore(a, trace):\r\n  global ptr\r\n  n = len(a)\r\n  b = [0 for i in range(n)]\r\n\r\n  def mergeSort(l, r):\r\n    if r - l <= 1:\r\n      return\r\n\r\n    global ptr\r\n    m = (l + r) >> 1\r\n    mergeSort(l, m)\r\n    mergeSort(m, r)\r\n    i, j, k = l, m, l\r\n    while i < m and j < r:\r\n      if trace[ptr] == '0':\r\n        b[k] = a[i]\r\n        i += 1\r\n      else:\r\n        b[k] = a[j]\r\n        j += 1\r\n      k += 1\r\n      ptr += 1\r\n    while i < m:\r\n      b[k] = a[i]\r\n      i += 1\r\n      k += 1\r\n    while j < r:\r\n      b[k] = a[j]\r\n      j += 1\r\n      k += 1\r\n    for p in range(l, r):\r\n      a[p] = b[p]\r\n\r\n  ptr = 0\r\n  mergeSort(0, n)\r\n\r\n  return len(trace) == ptr, a\r\n    \r\n\r\ntrace = input()\r\n\r\nflag = False\r\nl, u = max(int(log(len(trace), 2)), 2), 10**5\r\nwhile u - l >= 3 and not flag:\r\n    m = (l + u)//2\r\n    try:\r\n        flag, p = restore([i for i in range(m)], trace)\r\n        l = m\r\n    except:\r\n        flag = False\r\n        u = m\r\n\r\nif not flag:\r\n    n = l\r\n    while not flag and n <= u:\r\n        try:\r\n            flag, p = restore([i for i in range(n)], trace)\r\n        except:\r\n            flag = False\r\n        n += 1\r\n\r\nA = [None] * len(p)\r\nfor i in range(len(p)):\r\n    A[p[i]] = i + 1\r\n\r\nprint(len(A))\r\nprint(\" \".join(str(a) for a in A))\r\n",
+    "prob_desc_created_at": "1621846800",
+    "tags": [
+        "*special",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

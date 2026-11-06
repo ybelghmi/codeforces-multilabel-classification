@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4.500000000\\n-12.500000000\\n4.000000000\\n18.666666667\"]",
+    "src_uid": "159b9c743d6d8792548645b9f7be2753",
+    "prob_desc_notes": "NoteIn the first test case, the array is $$$[3, 1, 2]$$$. These are all the possible ways to split this array:   $$$a = [3]$$$, $$$b = [1,2]$$$, so the value of $$$f(a) + f(b) = 3 + 1.5 = 4.5$$$.  $$$a = [3,1]$$$, $$$b = [2]$$$, so the value of $$$f(a) + f(b) = 2 + 2 = 4$$$.  $$$a = [3,2]$$$, $$$b = [1]$$$, so the value of $$$f(a) + f(b) = 2.5 + 1 = 3.5$$$.  Therefore, the maximum possible value $$$4.5$$$.In the second test case, the array is $$$[-7, -6, -6]$$$. These are all the possible ways to split this array:   $$$a = [-7]$$$, $$$b = [-6,-6]$$$, so the value of $$$f(a) + f(b) = (-7) + (-6) = -13$$$.  $$$a = [-7,-6]$$$, $$$b = [-6]$$$, so the value of $$$f(a) + f(b) = (-6.5) + (-6) = -12.5$$$.  Therefore, the maximum possible value $$$-12.5$$$.",
+    "prob_desc_description": "Ezzat has an array of $$$n$$$ integers (maybe negative). He wants to split it into two non-empty subsequences $$$a$$$ and $$$b$$$, such that every element from the array belongs to exactly one subsequence, and the value of $$$f(a) + f(b)$$$ is the maximum possible value, where $$$f(x)$$$ is the average of the subsequence $$$x$$$. A sequence $$$x$$$ is a subsequence of a sequence $$$y$$$ if $$$x$$$ can be obtained from $$$y$$$ by deletion of several (possibly, zero or all) elements.The average of a subsequence is the sum of the numbers of this subsequence divided by the size of the subsequence.For example, the average of $$$[1,5,6]$$$ is $$$(1+5+6)/3 = 12/3 = 4$$$, so $$$f([1,5,6]) = 4$$$.",
+    "prob_desc_output_spec": "For each test case, print a single value — the maximum value that Ezzat can achieve. Your answer is considered correct if its absolute or relative error does not exceed $$$10^{-6}$$$. Formally, let your answer be $$$a$$$, and the jury's answer be $$$b$$$. Your answer is accepted if and only if $$$\\frac{|a - b|}{\\max{(1, |b|)}} \\le 10^{-6}$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^3$$$)— the number of test cases. Each test case consists of two lines. The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$). The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$-10^9 \\le a_i \\le 10^9$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$3\\cdot10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_095.jsonl",
+    "code_uid": "b3c025660f3879b5dfa615df43e3e4a3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3\\n3 1 2\\n3\\n-7 -6 -6\\n3\\n2 2 2\\n4\\n17 3 5 -3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\nimport io\nimport os\nimport sys\n\ninput = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline\n\ndef printd(*args, **kwargs):\n    #print(*args, **kwargs, file=sys.stderr)\n    print(*args, **kwargs)\n    pass\n\ndef get_str():\n    return input().decode().strip()\n\ndef rint():\n    return map(int, input().split())\n\ndef oint():\n    return int(input())\n\ndef solve_(iter, cnt):\n    if cnt == 0:\n        return\n    iter()\n    solve(iter, cnt - 1)\n\ndef solve(iter, cnt):\n    for _ in range(cnt):\n        iter()\n\ndef solve_iter():\n    n = oint()\n    a = sorted(rint())\n    print(a[n-1] + sum(a[:n-1])/(n-1))\n\nsolve(solve_iter, oint())",
+    "prob_desc_created_at": "1628519700",
+    "tags": [
+        "brute force",
+        "math",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

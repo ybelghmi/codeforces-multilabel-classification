@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n12\\n13\\n28\\n55\\n85\\n500099995000\"]",
+    "src_uid": "7d774a003d2e3e8ae6fe1912b3998c96",
+    "prob_desc_notes": "NoteIn the first test case the only possible path consists of a single cell $$$(1, 1)$$$.The path with the minimal cost in the second test case is shown in the statement.In the fourth and the fifth test cases there is only one path from $$$(1, 1)$$$ to $$$(n, m)$$$. Both paths visit every cell in the table. ",
+    "prob_desc_description": "You are given a table $$$a$$$ of size $$$n \\times m$$$. We will consider the table rows numbered from top to bottom from $$$1$$$ to $$$n$$$, and the columns numbered from left to right from $$$1$$$ to $$$m$$$. We will denote a cell that is in the $$$i$$$-th row and in the $$$j$$$-th column as $$$(i, j)$$$. In the cell $$$(i, j)$$$ there is written a number $$$(i - 1) \\cdot m + j$$$, that is $$$a_{ij} = (i - 1) \\cdot m + j$$$.A turtle initially stands in the cell $$$(1, 1)$$$ and it wants to come to the cell $$$(n, m)$$$. From the cell $$$(i, j)$$$ it can in one step go to one of the cells $$$(i + 1, j)$$$ or $$$(i, j + 1)$$$, if it exists. A path is a sequence of cells in which for every two adjacent in the sequence cells the following satisfies: the turtle can reach from the first cell to the second cell in one step. A cost of a path is the sum of numbers that are written in the cells of the path.  For example, with $$$n = 2$$$ and $$$m = 3$$$ the table will look as shown above. The turtle can take the following path: $$$(1, 1) \\rightarrow (1, 2) \\rightarrow (1, 3) \\rightarrow (2, 3)$$$. The cost of such way is equal to $$$a_{11} + a_{12} + a_{13} + a_{23} = 12$$$. On the other hand, the paths $$$(1, 1) \\rightarrow (1, 2) \\rightarrow (2, 2) \\rightarrow (2, 1)$$$ and $$$(1, 1) \\rightarrow (1, 3)$$$ are incorrect, because in the first path the turtle can't make a step $$$(2, 2) \\rightarrow (2, 1)$$$, and in the second path it can't make a step $$$(1, 1) \\rightarrow (1, 3)$$$.You are asked to tell the turtle a minimal possible cost of a path from the cell $$$(1, 1)$$$ to the cell $$$(n, m)$$$. Please note that the cells $$$(1, 1)$$$ and $$$(n, m)$$$ are a part of the way.",
+    "prob_desc_output_spec": "For each test case output a single integer — a minimal possible cost of a path from the cell $$$(1, 1)$$$ to the cell $$$(n, m)$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 1000$$$) — the number of test cases. The description of test cases follows. A single line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\leq n, m \\leq 10^4$$$) — the number of rows and columns of the table $$$a$$$ respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_094.jsonl",
+    "code_uid": "6ae99e03dfee779a013589b2966d2b43",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n\\n1 1\\n\\n2 3\\n\\n3 2\\n\\n7 1\\n\\n1 10\\n\\n5 5\\n\\n10000 10000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nlist = []\r\nfor i in range(1,t+1):\r\n    pair = input().split()\r\n    list.append(pair)\r\n\r\nfor i in range(1,t+1):\r\n    n = int(list[i-1][0])\r\n    m = int(list[i-1][1])\r\n    sum = 0\r\n    for x in range(1,m):\r\n        sum = sum + x\r\n    for y in range(1,n+1):\r\n        sum = sum + (y*m)\r\n    print(sum)\r\n",
+    "prob_desc_created_at": "1655629500",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"1\\nhttp://abacaba.de http://abacaba.ru\", \"2\\nhttp://cba.com http://ccc.bbbb \\nhttp://a.a.a http://a.c http://abc\"]",
+    "src_uid": "9b35f7df9e21162858a8fac8ee2837a4",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are some websites that are accessible through several different addresses. For example, for a long time Codeforces was accessible with two hostnames codeforces.com and codeforces.ru.You are given a list of page addresses being queried. For simplicity we consider all addresses to have the form http://&lt;hostname&gt;[/&lt;path&gt;], where:  &lt;hostname&gt; — server name (consists of words and maybe some dots separating them),  /&lt;path&gt; — optional part, where &lt;path&gt; consists of words separated by slashes. We consider two &lt;hostname&gt; to correspond to one website if for each query to the first &lt;hostname&gt; there will be exactly the same query to the second one and vice versa — for each query to the second &lt;hostname&gt; there will be the same query to the first one. Take a look at the samples for further clarifications.Your goal is to determine the groups of server names that correspond to one website. Ignore groups consisting of the only server name.Please note, that according to the above definition queries http://&lt;hostname&gt; and http://&lt;hostname&gt;/ are different.",
+    "prob_desc_output_spec": "First print k — the number of groups of server names that correspond to one website. You should count only groups of size greater than one. Next k lines should contain the description of groups, one group per line. For each group print all server names separated by a single space. You are allowed to print both groups and names inside any group in arbitrary order.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 100 000) — the number of page queries. Then follow n lines each containing exactly one address. Each address is of the form http://&lt;hostname&gt;[/&lt;path&gt;], where:   &lt;hostname&gt; consists of lowercase English letters and dots, there are no two consecutive dots, &lt;hostname&gt; doesn't start or finish with a dot. The length of &lt;hostname&gt; is positive and doesn't exceed 20.  &lt;path&gt; consists of lowercase English letters, dots and slashes. There are no two consecutive slashes, &lt;path&gt; doesn't start with a slash and its length doesn't exceed 20.  Addresses are not guaranteed to be distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_038.jsonl",
+    "code_uid": "97c425d1ab5fe067a15aace6cd8234ec",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\nhttp://abacaba.ru/test\\nhttp://abacaba.ru/\\nhttp://abacaba.com\\nhttp://abacaba.com/test\\nhttp://abacaba.de/\\nhttp://abacaba.ru/test\\nhttp://abacaba.de/test\\nhttp://abacaba.com/\\nhttp://abacaba.com/t\\nhttp://abacaba.com/test\", \"14\\nhttp://c\\nhttp://ccc.bbbb/aba..b\\nhttp://cba.com\\nhttp://a.c/aba..b/a\\nhttp://abc/\\nhttp://a.c/\\nhttp://ccc.bbbb\\nhttp://ab.ac.bc.aa/\\nhttp://a.a.a/\\nhttp://ccc.bbbb/\\nhttp://cba.com/\\nhttp://cba.com/aba..b\\nhttp://a.a.a/aba..b/a\\nhttp://abc/aba..b/a\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\ndomain_queries = {}\nfor i in range(n):\n    address = raw_input().strip()[7:]\n    if '/' not in address:\n        domain = address\n        query = ''\n    else:\n        pos = address.index('/')\n        domain = address[:pos]\n        query = address[pos:]\n    domain_queries.setdefault(domain, set()).add(query)\ndomain_signatures = {}\nfor domain, queries in domain_queries.items():\n    domain_signatures[domain] = ','.join(sorted(queries))\nsignature_domains = {}\nfor domain, signature in domain_signatures.items():\n    signature_domains.setdefault(signature, []).append('http://' + domain)\nlines = []\nfor signature, domains in signature_domains.items():\n    if len(domains) == 1:\n        continue\n    lines.append(' '.join(domains))\nprint(len(lines))\nif len(lines) > 0:\n    print('\\n'.join(lines))\n",
+    "prob_desc_created_at": "1458118800",
+    "tags": [
+        "implementation",
+        "*special",
+        "sortings",
+        "data structures",
+        "binary search",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

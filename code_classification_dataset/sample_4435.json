@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n4\\n2\", \"10\\n29\\n9\"]",
+    "src_uid": "6f6bb98cee5c9e646c72f3be8969c6df",
+    "prob_desc_notes": "NoteConsider the first test case.  $$$b_1 = 1$$$: We need to convert $$$[3, 7] \\rightarrow [1, 5]$$$. We can perform the following operations:$$$[3, 7]$$$ $$$\\xrightarrow[\\text{decrease}]{\\text{i = 1}}$$$ $$$[2, 6]$$$ $$$\\xrightarrow[\\text{decrease}]{\\text{i = 1}}$$$ $$$[1, 5]$$$Hence the answer is $$$2$$$. $$$b_1 = 4$$$: We need to convert $$$[3, 7] \\rightarrow [4, 5]$$$. We can perform the following operations: $$$[3, 7]$$$ $$$\\xrightarrow[\\text{decrease}]{\\text{i = 2}}$$$ $$$[3, 6]$$$ $$$\\xrightarrow[\\text{decrease}]{\\text{i = 2}}$$$ $$$[3, 5]$$$ $$$\\xrightarrow[\\text{increase}]{\\text{i = 1}}$$$ $$$[4, 6]$$$ $$$\\xrightarrow[\\text{decrease}]{\\text{i = 2}}$$$ $$$[4, 5]$$$Hence the answer is $$$4$$$. $$$b_1 = 3$$$: We need to convert $$$[3, 7] \\rightarrow [3, 5]$$$. We can perform the following operations:$$$[3, 7]$$$ $$$\\xrightarrow[\\text{decrease}]{\\text{i = 2}}$$$ $$$[3, 6]$$$ $$$\\xrightarrow[\\text{decrease}]{\\text{i = 2}}$$$ $$$[3, 5]$$$Hence the answer is $$$2$$$. ",
+    "prob_desc_description": "Jeevan has two arrays $$$a$$$ and $$$b$$$ of size $$$n$$$. He is fond of performing weird operations on arrays. This time, he comes up with two types of operations:  Choose any $$$i$$$ ($$$1 \\le i \\le n$$$) and increment $$$a_j$$$ by $$$1$$$ for every $$$j$$$ which is a multiple of $$$i$$$ and $$$1 \\le j \\le n$$$.  Choose any $$$i$$$ ($$$1 \\le i \\le n$$$) and decrement $$$a_j$$$ by $$$1$$$ for every $$$j$$$ which is a multiple of $$$i$$$ and $$$1 \\le j \\le n$$$. He wants to convert array $$$a$$$ into an array $$$b$$$ using the minimum total number of operations. However, Jeevan seems to have forgotten the value of $$$b_1$$$. So he makes some guesses. He will ask you $$$q$$$ questions corresponding to his $$$q$$$ guesses, the $$$i$$$-th of which is of the form:   If $$$b_1 = x_i$$$, what is the minimum number of operations required to convert $$$a$$$ to $$$b$$$? Help him by answering each question.",
+    "prob_desc_output_spec": "Output $$$q$$$ integers  — the answers to each of his $$$q$$$ questions.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ $$$(1 \\le n \\le 2 \\cdot 10^{5})$$$  — the size of arrays $$$a$$$ and $$$b$$$. The second line contains $$$n$$$ integers $$$a_1, a_2, ..., a_n$$$ $$$(1 \\le a_i \\le 10^6)$$$. The third line contains $$$n$$$ integers $$$b_1, b_2, ..., b_n$$$ $$$(1 \\le b_i \\le 10^6$$$ for $$$i \\neq 1$$$; $$$b_1 = -1$$$, representing that the value of $$$b_1$$$ is unknown$$$)$$$. The fourth line contains a single integer $$$q$$$ $$$(1 \\le q \\le 2 \\cdot 10^{5})$$$  — the number of questions. Each of the following $$$q$$$ lines contains a single integer $$$x_i$$$ $$$(1 \\le x_i \\le 10^6)$$$  — representing the $$$i$$$-th question.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_097.jsonl",
+    "code_uid": "6958fd2d6b2dabe0049a9ec06d165f0d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3 7\\n-1 5\\n3\\n1\\n4\\n3\", \"6\\n2 5 4 1 3 6\\n-1 4 6 2 3 5\\n3\\n1\\n8\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# n = int(input())\r\n# a = list(map(int, input().split()))\r\n# b = list(map(int, input().split()))\r\n# \r\n# q = int(input())\r\n# \r\n# for i in range(q):\r\n#     b[0] = int(input())\r\n#     c = [a.copy()[i] - b[i] for i in range(n)]\r\n#     answer = 0\r\n#     k = 1\r\n#     while k <= n//2+1:\r\n#         j = 1\r\n#         e = c.copy()\r\n#         while k * j <= n:\r\n#             c[k * j - 1] -= e[k - 1]\r\n#             j += 1\r\n#         answer += abs(e[k - 1])\r\n#         k += 1\r\n# \r\n#     for i in range(n//2+1,n):\r\n#         answer += abs(e[i])\r\n#     print(answer)\r\nimport sys\r\nimport bisect\r\n\r\ninput = sys.stdin.readline\r\nn = int(input().rstrip())\r\n\r\na = [-1] + [int(w) for w in input().split()]\r\nb = [-1] + [int(w) for w in input().split()]\r\n\r\n\r\ndef to_target(a, target):\r\n    vector = [0, 0]\r\n    for k in range(2, n + 1):\r\n        d = a[k] - target[k]\r\n        for t in range(k, n + 1, k):\r\n            a[t] -= d\r\n        vector.append(-d)\r\n    return vector\r\n\r\n\r\nx = to_target(a, b)\r\ny = to_target(a, [aa + 1 for aa in a])\r\nt = int(input().rstrip())\r\n\r\nxy0 = [(abs(x[k]), abs(y[k])) for k in range(2, n + 1) if x[k] * y[k] == 0]\r\ns1 = sum(x for x, y in xy0)\r\ns2 = sum(y for x, y in xy0)\r\n\r\nxy1 = [(abs(x[k]), abs(y[k])) for k in range(2, n + 1) if x[k] * y[k] > 0]\r\nxy1 = [(-x / y, x, y) for x, y in xy1]\r\nxy1.sort()\r\nratio1 = [r for r, _, __ in xy1]\r\n\r\nxy2 = [(abs(x[k]), abs(y[k])) for k in range(2, n + 1) if y[k] * x[k] < 0]\r\nxy2 = [(x / y, -x, y) for x, y in xy2]\r\nxy2.sort()\r\nratio2 = [r for r, _, __ in xy2]\r\n\r\n\r\ndef get_psum(xy):\r\n    psums = [(0, 0)]\r\n    for _, xk, yk in xy:\r\n        px, py = psums[-1]\r\n        psums.append((px + xk, py + yk))\r\n    return psums\r\n\r\n\r\npsums1 = get_psum(xy1)\r\npsums2 = get_psum(xy2)\r\n\r\n\r\ndef d2s0(d):\r\n    return s1 + s2 * abs(d)\r\n\r\n\r\ndef d2s(d, ratio, psums):\r\n    ind = bisect.bisect_left(ratio, d)\r\n    return 2 * (psums[ind][0] + psums[ind][1] * d) - (psums[-1][0] + psums[-1][1] * d)\r\n\r\n\r\nfor _ in range(t):\r\n    q = int(input().rstrip())\r\n\r\n    d = a[1] - q\r\n    print(abs(d) + d2s0(d) + d2s(d, ratio1, psums1) + d2s(d, ratio2, psums2))",
+    "prob_desc_created_at": "1636727700",
+    "tags": [
+        "binary search",
+        "greedy",
+        "implementation",
+        "math",
+        "number theory",
+        "sortings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

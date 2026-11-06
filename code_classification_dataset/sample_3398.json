@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2\", \"0\"]",
+    "src_uid": "679f7243fe1e072af826a779c44b5056",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Boy Dima gave Julian a birthday present — set $$$B$$$ consisting of positive integers. However, he didn't know, that Julian hates sets, but enjoys bipartite graphs more than anything else!Julian was almost upset, but her friend Alex said, that he can build an undirected graph using this set in such a way: let all integer numbers be vertices, then connect any two $$$i$$$ and $$$j$$$ with an edge if $$$|i - j|$$$ belongs to $$$B$$$.Unfortunately, Julian doesn't like the graph, that was built using $$$B$$$. Alex decided to rectify the situation, so he wants to erase some numbers from $$$B$$$, so that graph built using the new set is bipartite. The difficulty of this task is that the graph, Alex has to work with, has an infinite number of vertices and edges! It is impossible to solve this task alone, so Alex asks you for help. Write a program that erases a subset of minimum size from $$$B$$$ so that graph constructed on the new set is bipartite.Recall, that graph is bipartite if all its vertices can be divided into two disjoint sets such that every edge connects a vertex from different sets.",
+    "prob_desc_output_spec": "In the first line print single integer $$$k$$$ – the number of erased elements. In the second line print $$$k$$$ integers — values of erased elements. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "First line contains an integer $$$n ~ (1 \\leqslant n \\leqslant 200\\,000)$$$ — size of $$$B$$$ Second line contains $$$n$$$ integers $$$b_1, b_2, \\ldots, b_n ~ (1 \\leqslant b_i \\leqslant 10^{18})$$$ — numbers of $$$B$$$, all $$$b_i$$$ are unique",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_057.jsonl",
+    "code_uid": "c1f47a2ab7a63a58bd754e91cab68b4e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\", \"2\\n2 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nB = list(map(int, input().split()))\nA = []\nfor i in range(100):\n    A.append([])\nfor i in B:\n    x = i\n    c = 0\n    while x % 2 == 0:\n        x //= 2\n        c += 1\n    A[c].append(i)\nmlen = 0\nf = 1\nfor lst in A:\n    mlen = max(mlen, len(lst))\nans = []\nfor lst in A:\n    if len(lst) == mlen and f:\n        f = 0\n    else:\n        for x in lst:\n            ans.append(x)\nprint(len(ans))\nprint(' '.join(list(map(str, ans))))\n",
+    "prob_desc_created_at": "1568822700",
+    "tags": [
+        "number theory",
+        "bitmasks",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

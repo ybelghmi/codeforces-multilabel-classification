@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2.5 seconds",
+    "prob_desc_sample_outputs": "[\"4 6\"]",
+    "src_uid": "6d0bc28aa0b47c12438a84e57cd8e081",
+    "prob_desc_notes": "NoteThe 5-by-5 grid for the first test case looks like this: maytheforcebewithyouhctwo",
+    "prob_desc_description": "The stardate is 1983, and Princess Heidi is getting better at detecting the Death Stars. This time, two Rebel spies have yet again given Heidi two maps with the possible locations of the Death Star. Since she got rid of all double agents last time, she knows that both maps are correct, and indeed show the map of the solar system that contains the Death Star. However, this time the Empire has hidden the Death Star very well, and Heidi needs to find a place that appears on both maps in order to detect the Death Star.The first map is an N × M grid, each cell of which shows some type of cosmic object that is present in the corresponding quadrant of space. The second map is an M × N grid. Heidi needs to align those two maps in such a way that they overlap over some M × M section in which all cosmic objects are identical. Help Heidi by identifying where such an M × M section lies within both maps.",
+    "prob_desc_output_spec": "The only line of the output should contain two space-separated integers i and j, denoting that the section of size M × M in the first map that starts at the i-th row is equal to the section of the second map that starts at the j-th column. Rows and columns are numbered starting from 1. If there are several possible ways to align the maps, Heidi will be satisfied with any of those. It is guaranteed that a solution exists.",
+    "prob_desc_input_spec": "The first line of the input contains two space-separated integers N and M (1 ≤ N ≤ 2000, 1 ≤ M ≤ 200, M ≤ N). The next N lines each contain M lower-case Latin characters (a-z), denoting the first map. Different characters correspond to different cosmic object types. The next M lines each contain N characters, describing the second map in the same format. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_015.jsonl",
+    "code_uid": "8f818b36ff89af69420d5bbcef59514a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 5\\nsomer\\nandom\\nnoise\\nmayth\\neforc\\nebewi\\nthyou\\nhctwo\\nagain\\nnoise\\nsomermayth\\nandomeforc\\nnoiseebewi\\nagainthyou\\nnoisehctwo\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = list(map(int, input().strip().split(' ')))\nmat1, mat2 = [], []\nfor i in range(0, n): mat1.append(tuple(input().strip()))\nfor i in range(0, m): mat2.append(tuple(input().strip()))\nix, jx, flg = -1, -1, 0\nmatr, matc = [], []\nfor i in range(0, n-m+1):\n\tsi, se = i, i+m\n\tmatr.append(hash(tuple(mat1[si:se])))\n\tmatcur2 = []\n\tfor c2i in range(0, m): matcur2.append(tuple(mat2[c2i][si:se]))\n\tmatc.append(hash(tuple(matcur2)))\nnx = len(matr)\nix, jx = -1, -1\nfor ix in range(0, nx):\n\tflg=0\n\tfor jx in range(0, nx):\n\t\tif matr[ix]==matc[jx]:\n\t\t\tflg=1\n\t\t\tbreak\n\tif flg==1: break\nprint(str(ix+1)+\" \"+str(jx+1))",
+    "prob_desc_created_at": "1523689500",
+    "tags": [
+        "hashing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

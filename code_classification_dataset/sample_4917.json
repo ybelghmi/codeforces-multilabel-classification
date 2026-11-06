@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n5\\n3\\n1\"]",
+    "src_uid": "f260d0885319a146904b43f89e253f0c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a rooted tree, consisting of $$$n$$$ vertices. The vertices are numbered from $$$1$$$ to $$$n$$$, the root is the vertex $$$1$$$.You can perform the following operation at most $$$k$$$ times:   choose an edge $$$(v, u)$$$ of the tree such that $$$v$$$ is a parent of $$$u$$$;  remove the edge $$$(v, u)$$$;  add an edge $$$(1, u)$$$ (i. e. make $$$u$$$ with its subtree a child of the root). The height of a tree is the maximum depth of its vertices, and the depth of a vertex is the number of edges on the path from the root to it. For example, the depth of vertex $$$1$$$ is $$$0$$$, since it's the root, and the depth of all its children is $$$1$$$.What's the smallest height of the tree that can be achieved?",
+    "prob_desc_output_spec": "For each testcase, print a single integer — the smallest height of the tree that can achieved by performing at most $$$k$$$ operations.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. The first line of each testcase contains two integers $$$n$$$ and $$$k$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$; $$$0 \\le k \\le n - 1$$$) — the number of vertices in the tree and the maximum number of operations you can perform. The second line contains $$$n-1$$$ integers $$$p_2, p_3, \\dots, p_n$$$ ($$$1 \\le p_i &lt; i$$$) — the parent of the $$$i$$$-th vertex. Vertex $$$1$$$ is the root. The sum of $$$n$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_109.jsonl",
+    "code_uid": "5c9aa84b9f75bae04351012635ff0310",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n5 1\\n\\n1 1 2 2\\n\\n5 2\\n\\n1 1 2 2\\n\\n6 0\\n\\n1 2 3 4 5\\n\\n6 1\\n\\n1 2 3 4 5\\n\\n4 3\\n\\n1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n    n,k=map(int,input().split())\r\n    arr=[-1,0]+[int(i) for i in input().split()]\r\n    l,r=1,n-1\r\n    while l<r:\r\n        mid=(l+r)//2\r\n        tot=0\r\n        h=[0]*(n+1)\r\n        for i in range(n,1,-1):\r\n            if h[i]==mid-1 and arr[i]!=1:\r\n                tot+=1\r\n            else:\r\n                h[arr[i]]=max(h[arr[i]],h[i]+1)\r\n \r\n        if tot<=k:\r\n            r=mid\r\n        else:\r\n            l=mid+1\r\n    print(l)",
+    "prob_desc_created_at": "1664462100",
+    "tags": [
+        "binary search",
+        "data structures",
+        "dfs and similar",
+        "graphs",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

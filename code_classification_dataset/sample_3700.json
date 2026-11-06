@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 3\\n2 1\\n1 1 1\", \"1 1\\n20\\n3\"]",
+    "src_uid": "01ac609133428a0074e8506786096e02",
+    "prob_desc_notes": "NoteIn the first test sample the numerator equals 1000, the denominator equals 500. If we reduce fraction 1000/500 by the greatest common divisor of the numerator and the denominator (by 500), we obtain fraction 2/1.In the second test sample the numerator equals 2000, the denominator equals 300. If we reduce fraction 2000/300 by the greatest common divisor of the numerator and the denominator (by 100), we obtain fraction 20/3.",
+    "prob_desc_description": "To confuse the opponents, the Galactic Empire represents fractions in an unusual format. The fractions are represented as two sets of integers. The product of numbers from the first set gives the fraction numerator, the product of numbers from the second set gives the fraction denominator. However, it turned out that the programs that work with fractions in this representations aren't complete, they lack supporting the operation of reducing fractions. Implement this operation and the Empire won't forget you.",
+    "prob_desc_output_spec": "Print the answer to the problem in the form, similar to the form of the input data. The number of values in the sets you print nout, mout must satisfy the inequality 1 ≤ nout, mout ≤ 105, and the actual values in the sets aout, i and bout, i must satisfy the inequality 1 ≤ aout, i, bout, i ≤ 107.  Separate the values in the lines by spaces. The printed fraction must be reduced, that is, there mustn't be such integer x (x &gt; 1), that the numerator and the denominator of the printed fraction are divisible by x. If there are several matching answers, print any of them.",
+    "prob_desc_input_spec": "The first input line contains two space-separated integers n, m (1 ≤ n, m ≤ 105) that show how many numbers the first set (the numerator) and the second set (the denominator) contain, correspondingly. The second line contains n space-separated integers: a1, a2, ..., an (1 ≤ ai ≤ 107) — the numbers that are multiplied to produce the numerator. The third line contains m space-separated integers: b1, b2, ..., bm (1 ≤ bi ≤ 107) — the numbers that are multiplied to produce the denominator.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_079.jsonl",
+    "code_uid": "e58e72f702be5a3686204ab3c424c4ef",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n100 5 2\\n50 10\", \"4 3\\n2 5 10 20\\n100 1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math as mt \nfrom sys import stdin,stdout\n  \nMAXN = 10000001\nspf = [0]*(MAXN) \n\ndef sieve(): \n\tspf[1] = 1\n\tfor i in range(2, MAXN):\n\t\tspf[i] = i\n\tfor i in range(4, MAXN, 2): \n\t\tspf[i] = 2\n\tfor i in range(3, mt.ceil(mt.sqrt(MAXN))): \n\t\tif (spf[i] == i):\n\t\t\tfor j in range(i * i, MAXN, i):\n\t\t\t\tif (spf[j] == j): \n\t\t\t\t\tspf[j] = i \n  \ndef getFactorization(x): \n\tret = list() \n\twhile (x != 1): \n\t\tret.append(spf[x]) \n\t\tx = x // spf[x] \n\treturn ret \nsieve() \n\n\ndef help():\n\ta,b = map(int,stdin.readline().split(\" \"))\n\n\tnum = list(map(int,stdin.readline().split(\" \")))\n\tden = list(map(int,stdin.readline().split(\" \")))\n\tspfn = [0]*(MAXN) \n\t\n\tfor i in range(b):\n\t\ttemp = getFactorization(den[i])\n\t\tfor j in temp:\n\t\t\tspfn[j]-=1\n\n\tspfn_den = [0]*(MAXN)\n\n\tfor i in range(a):\n\t\ttemp = getFactorization(num[i])\n\t\tfor j in temp:\n\t\t\tif(spfn[j]<0):\n\t\t\t\tspfn[j]+=1\n\t\t\t\tspfn_den[j] -= 1\n\t\t\t\tnum[i] = num[i]//j\n\n\tfor i in range(b):\n\t\ttemp = getFactorization(den[i])\n\t\tfor j in temp:\n\t\t\tif(spfn_den[j]<0):\n\t\t\t\tspfn_den[j] += 1\n\t\t\t\tden[i] = den[i]//j\n\n\tstdout.write(str(a)+\" \"+str(b)+\"\\n\")\n\tfor i in range(a):\n\t\tstdout.write(str(num[i])+\" \")\n\tstdout.write(\"\\n\")\n\tfor i in range(b):\n\t\tstdout.write(str(den[i])+\" \")\n\tstdout.write(\"\\n\")\n\n\t\nhelp()",
+    "prob_desc_created_at": "1347291900",
+    "tags": [
+        "implementation",
+        "number theory",
+        "sortings",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

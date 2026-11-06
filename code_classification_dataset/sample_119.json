@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"24\\n9\\n28\", \"10\\n15\\n5\\n15\\n5\\n5\\n2\\n12\\n3\\n5\"]",
+    "src_uid": "c764b9f87cb5e5872eb157c3d2b7f3c5",
+    "prob_desc_notes": "NotePlease note that the answers to the questions may overflow 32-bit integer type.",
+    "prob_desc_description": "Kuriyama Mirai has killed many monsters and got many (namely n) stones. She numbers the stones from 1 to n. The cost of the i-th stone is vi. Kuriyama Mirai wants to know something about these stones so she will ask you two kinds of questions:  She will tell you two numbers, l and r (1 ≤ l ≤ r ≤ n), and you should tell her .  Let ui be the cost of the i-th cheapest stone (the cost that will be on the i-th place if we arrange all the stone costs in non-decreasing order). This time she will tell you two numbers, l and r (1 ≤ l ≤ r ≤ n), and you should tell her . For every question you should give the correct answer, or Kuriyama Mirai will say \"fuyukai desu\" and then become unhappy.",
+    "prob_desc_output_spec": "Print m lines. Each line must contain an integer — the answer to Kuriyama Mirai's question. Print the answers to the questions in the order of input.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 105). The second line contains n integers: v1, v2, ..., vn (1 ≤ vi ≤ 109) — costs of the stones.  The third line contains an integer m (1 ≤ m ≤ 105) — the number of Kuriyama Mirai's questions. Then follow m lines, each line contains three integers type, l and r (1 ≤ l ≤ r ≤ n; 1 ≤ type ≤ 2), describing a question. If type equal to 1, then you should output the answer for the first question, else you should output the answer for the second one.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_000.jsonl",
+    "code_uid": "520bab6e3116714a7e232d3e0e44db9a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n6 4 2 7 2 7\\n3\\n2 3 6\\n1 3 4\\n1 1 6\", \"4\\n5 5 2 3\\n10\\n1 2 4\\n2 1 4\\n1 1 1\\n2 1 4\\n2 1 2\\n1 1 1\\n1 3 3\\n1 1 3\\n1 4 4\\n1 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# cf 433 B 1200\nn = int(input())\nA = [*map(int, input().split())]\nB = list(sorted(A))\nm = int(input())\n\npreA = [0] * (len(A) + 1)\npreB = [0] * (len(B) + 1)\n\nsa, sb = 0, 0\nfor i in range(1, len(A) + 1):\n    sa += A[i - 1]\n    preA[i] = sa\n    sb += B[i - 1]\n    preB[i] = sb\n\nfor _ in range(m):\n    type_, l, r = map(int, input().split())\n    l -= 1\n    r -= 1\n    if type_ == 1:\n        print(preA[r + 1] - preA[l]) # sum(A[l - 1:r]))\n    else:\n        print(preB[r + 1] - preB[l]) # sum(B[l - 1:r]))\n",
+    "prob_desc_created_at": "1400914800",
+    "tags": [
+        "dp",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n8\\n2\\n2\"]",
+    "src_uid": "79ecf771f4a54c2c9f988e069f7bfceb",
+    "prob_desc_notes": "NoteIn the first example, one valid way to select the elements is $$$[\\underline{1}, 2, \\underline{3}, \\underline{4}, \\underline{5}]$$$. All subsegments satisfy at least one of the criteria. For example, for the subsegment $$$l = 1$$$, $$$r = 2$$$ we have that the element $$$2$$$ is not selected, satisfying the first criterion. For the subsegment $$$l = 3$$$, $$$r = 5$$$ we have $$$3 + 4 + 5 = 12 \\ge 2 \\cdot 3$$$, satisfying the second criterion.We can't select all elements, because in this case for $$$l = 1$$$, $$$r = 2$$$ all elements are selected and we have $$$a_1 + a_2 = 3 &lt; 2 \\cdot 2$$$. Thus, the maximum number of selected elements is $$$4$$$.In the second example, one valid solution is $$$[\\underline{2}, \\underline{4}, 2, \\underline{4}, \\underline{2}, \\underline{4}, 2, \\underline{4}, \\underline{2}, \\underline{4}]$$$.In the third example, one valid solution is $$$[\\underline{-10}, -5, \\underline{-10}]$$$.In the fourth example, one valid solution is $$$[\\underline{9}, \\underline{9}, -3]$$$.",
+    "prob_desc_description": "You are given an array of integers $$$a_1, a_2, \\ldots, a_n$$$ and an integer $$$x$$$.You need to select the maximum number of elements in the array, such that for every subsegment $$$a_l, a_{l + 1}, \\ldots, a_r$$$ containing strictly more than one element $$$(l &lt; r)$$$, either:   At least one element on this subsegment is not selected, or  $$$a_l + a_{l+1} + \\ldots + a_r \\geq x \\cdot (r - l + 1)$$$. ",
+    "prob_desc_output_spec": "For each test case, print one integer: the maximum number of elements that you can select.",
+    "prob_desc_input_spec": "The first line of input contains one integer $$$t$$$ ($$$1 \\leq t \\leq 10$$$): the number of test cases. The descriptions of $$$t$$$ test cases follow, three lines per test case. In the first line you are given one integer $$$n$$$ ($$$1 \\leq n \\leq 50\\,000$$$): the number of integers in the array. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$-100\\,000 \\leq a_i \\leq 100\\,000$$$). The third line contains one integer $$$x$$$ ($$$-100\\,000 \\leq x \\leq 100\\,000$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_101.jsonl",
+    "code_uid": "417e5354077a49943fc76ea8463e6911",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n5\\n1 2 3 4 5\\n2\\n10\\n2 4 2 4 2 4 2 4 2 4\\n3\\n3\\n-10 -5 -10\\n-8\\n3\\n9 9 -3\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "inf=float(\"inf\")\r\nfor _ in range(int(input())):\r\n    n=int(input())\r\n    xx=[int(x) for x in input().split()]\r\n    x=int(input())\r\n    m=inf\r\n    a=0\r\n    for i in range(n):\r\n\r\n        a+=1\r\n        if xx[i]+m<x*a:\r\n            xx[i]=inf\r\n            m=inf\r\n            a=0\r\n        else:\r\n            if m+xx[i] - x*a < xx[i] - x :\r\n                m=m+xx[i]\r\n            else:\r\n                m=xx[i]\r\n                a=1\r\n    print(n-xx.count(inf))\r\n\r\n",
+    "prob_desc_created_at": "1640792100",
+    "tags": [
+        "dp",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

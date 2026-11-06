@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"20\\n9\\n4\", \"5\"]",
+    "src_uid": "89186dda71810a4555990408fe606f9a",
+    "prob_desc_notes": "NoteIn the first example, to achieve the maximal value:  In the first query, you should select 1st, 3rd, and 4th ball.  In the second query, you should select 3rd, 4th, 5th and 6th ball.  In the third query, you should select 2nd and 4th ball. Note that there may be other ways to achieve the maximal value.",
+    "prob_desc_description": "There are n balls. They are arranged in a row. Each ball has a color (for convenience an integer) and an integer value. The color of the i-th ball is ci and the value of the i-th ball is vi.Squirrel Liss chooses some balls and makes a new sequence without changing the relative order of the balls. She wants to maximize the value of this sequence.The value of the sequence is defined as the sum of following values for each ball (where a and b are given constants):  If the ball is not in the beginning of the sequence and the color of the ball is same as previous ball's color, add (the value of the ball)  ×  a.  Otherwise, add (the value of the ball)  ×  b. You are given q queries. Each query contains two integers ai and bi. For each query find the maximal value of the sequence she can make when a = ai and b = bi.Note that the new sequence can be empty, and the value of an empty sequence is defined as zero.",
+    "prob_desc_output_spec": "For each query, output a line containing an integer — the answer to the query. The i-th line contains the answer to the i-th query in the input order. Please, do not write the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains two integers n and q (1 ≤ n ≤ 105; 1 ≤ q ≤ 500). The second line contains n integers: v1, v2, ..., vn (|vi| ≤ 105). The third line contains n integers: c1, c2, ..., cn (1 ≤ ci ≤ n). The following q lines contain the values of the constants a and b for queries. The i-th of these lines contains two integers ai and bi (|ai|, |bi| ≤ 105). In each line integers are separated by single spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_066.jsonl",
+    "code_uid": "2cbf77165bf9e241ff957079851bb34f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3\\n1 -2 3 4 0 -1\\n1 2 1 2 1 1\\n5 1\\n-2 1\\n1 0\", \"4 1\\n-3 6 -1 2\\n1 2 3 1\\n1 -1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\ninp = [int(x) for x in sys.stdin.read().split()]; ii = 0\n\nn = inp[ii]; ii += 1\nq = inp[ii]; ii += 1\n\nV = [float(x) for x in inp[ii:ii + n]]; ii += n\nC = [c - 1 for c in inp[ii:ii + n]]; ii += n\n\nA = inp[ii::2]\nB = inp[ii+1::2]\n\ninf = 1e30\n\nout = []\n\nfor _ in range(q):\n    a = float(A[_])\n    b = float(B[_])\n\n    bestcolor = [-inf]*n\n    \n    best1 = 0.0\n    color1 = -1\n    best2 = 0.0\n\n    for i in range(n):\n        c = C[i]\n        v = V[i]\n\n        x = max(bestcolor[c] + v * a, (best1 if color1 != c else best2) + v * b)\n        \n        bestcolor[c] = max(bestcolor[c], x)\n        if x > best1:\n            if color1 != c:\n                best2 = best1\n            best1 = x\n            color1 = c\n        elif x > best2 and color1 != c:\n            best2 = x\n    out.append(best1)\nprint '\\n'.join(str(int(x)) for x in out)",
+    "prob_desc_created_at": "1358686800",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

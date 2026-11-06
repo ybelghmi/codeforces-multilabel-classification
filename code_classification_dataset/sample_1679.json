@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"3\", \"10\"]",
+    "src_uid": "26c2cda0be3d5d094bbebef04fa3136b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "After several latest reforms many tourists are planning to visit Berland, and Berland people understood that it's an opportunity to earn money and changed their jobs to attract tourists. Petya, for example, left the IT corporation he had been working for and started to sell souvenirs at the market.This morning, as usual, Petya will come to the market. Petya has n different souvenirs to sell; ith souvenir is characterised by its weight wi and cost ci. Petya knows that he might not be able to carry all the souvenirs to the market. So Petya wants to choose a subset of souvenirs such that its total weight is not greater than m, and total cost is maximum possible.Help Petya to determine maximum possible total cost.",
+    "prob_desc_output_spec": "Print one number — maximum possible total cost of souvenirs that Petya can carry to the market.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n ≤ 100000, 1 ≤ m ≤ 300000) — the number of Petya's souvenirs and total weight that he can carry to the market. Then n lines follow. ith line contains two integers wi and ci (1 ≤ wi ≤ 3, 1 ≤ ci ≤ 109) — the weight and the cost of ith souvenir.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_011.jsonl",
+    "code_uid": "c0e0282c301c796dffd2ae65e1a86c7e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\\n2 1\", \"2 2\\n1 3\\n2 2\", \"4 3\\n3 10\\n2 7\\n2 8\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m = map(int,input().split())\na = [[],[],[]]\nfor _ in range(n):\n    x,y = map(int,input().split())\n    a[x-1].append(y)\n\nfor i in range(3):\n    a[i].sort(reverse=True)\n\na_one_odd = []\na_one_even = []\na_length = [len(a[i]) for i in range(3)]\nfor i in range(0,a_length[0]-1,2):\n    a_one_even.append(a[0][i]+a[0][i+1])\nfor i in range(1,a_length[0]-1,2):\n    a_one_odd.append(a[0][i]+a[0][i+1])\ndata_even = sorted(a_one_even+a[1],reverse=True)\ndata_odd = sorted(a_one_odd+a[1],reverse=True)\n\ndata_sum_even = [0]\nfor x in data_even:\n    data_sum_even.append(data_sum_even[-1]+x)\ndata_sum_odd = [0]\nfor x in data_odd:\n    data_sum_odd.append(data_sum_odd[-1]+x)\n\ndata_sum_three = [0]\nfor x in a[2]:\n    data_sum_three.append(data_sum_three[-1]+x)\n\nans = 0\n#print(data_sum_odd,data_sum_even,data_sum_three)\nfor k in range(a_length[2]+1):\n    if m-3*k < 0:break\n    now1,now2 = data_sum_three[k],data_sum_three[k]\n    if (m-3*k)%2== 0:\n        now1 += data_sum_even[min((m-3*k)//2,len(data_sum_even)-1)]\n        if a_length[0] > 0 and m-3*k > 0:\n            now2 += a[0][0]\n        if (m-3*k)//2 >= 1:\n            now2 += data_sum_odd[min((m-3*k)//2-1,len(data_sum_odd)-1)]\n    else:\n        now1 += data_sum_even[min((m-3*k)//2,len(data_sum_even)-1)]\n        if a_length[0] > 0 and m-3*k > 0:\n            now2 += a[0][0]\n        now2 += data_sum_odd[min((m-3*k-1)//2,len(data_sum_odd)-1)]\n    ans = max(ans,now1,now2)\n\n\nprint(ans)",
+    "prob_desc_created_at": "1494860700",
+    "tags": [
+        "dp",
+        "binary search",
+        "greedy",
+        "ternary search"
+    ],
+    "hidden_unit_tests": ""
+}

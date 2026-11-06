@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"2\"]",
+    "src_uid": "1771741663a5236a0aa0551548f4aadd",
+    "prob_desc_notes": "NoteIn the second example the upper left square is (1,1) and the lower right is (3,2).",
+    "prob_desc_description": "Vasya has a beautiful garden where wonderful fruit trees grow and yield fantastic harvest every year. But lately thieves started to sneak into the garden at nights and steal the fruit too often. Vasya can’t spend the nights in the garden and guard the fruit because there’s no house in the garden! Vasya had been saving in for some time and finally he decided to build the house. The rest is simple: he should choose in which part of the garden to build the house. In the evening he sat at his table and drew the garden’s plan. On the plan the garden is represented as a rectangular checkered field n × m in size divided into squares whose side length is 1. In some squares Vasya marked the trees growing there (one shouldn’t plant the trees too close to each other that’s why one square contains no more than one tree). Vasya wants to find a rectangular land lot a × b squares in size to build a house on, at that the land lot border should go along the lines of the grid that separates the squares. All the trees that grow on the building lot will have to be chopped off. Vasya loves his garden very much, so help him choose the building land lot location so that the number of chopped trees would be as little as possible.",
+    "prob_desc_output_spec": "Print the minimum number of trees that needs to be chopped off to select a land lot a × b in size to build a house on. It is guaranteed that at least one lot location can always be found, i. e. either a ≤ n and b ≤ m, or a ≤ m и b ≤ n.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 50) which represent the garden location. The next n lines contain m numbers 0 or 1, which describe the garden on the scheme. The zero means that a tree doesn’t grow on this square and the 1 means that there is a growing tree. The last line contains two integers a and b (1 ≤ a, b ≤ 50). Note that Vasya can choose for building an a × b rectangle as well a b × a one, i.e. the side of the lot with the length of a can be located as parallel to the garden side with the length of n, as well as parallel to the garden side with the length of m.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_067.jsonl",
+    "code_uid": "67cbd45becabe3668969e0475aa69090",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n1 0\\n1 1\\n1 1\", \"4 5\\n0 0 1 0 1\\n0 1 1 1 0\\n1 0 1 0 1\\n1 1 1 1 1\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=map(int,input().split())\narr=[list(map(int,input().split())) for r in range(n)]\na,b=map(int,input().split())\nmx=3000;\nfor i in range(n-a+1):\n    for j in range(m-b+1):\n        count=0;\n        for k in range(i,i+a):\n            for l in range(j,j+b):\n                count+=arr[k][l]\n \n        mx=min(mx,count)\n \n \nfor i in range(n-b+1):\n    for j in range(m-a+1):\n        count=0;\n        for k in range(i,i+b):\n            for l in range(j,j+a):\n                count+=arr[k][l]\n \n        mx=min(mx,count)\n \nprint(mx)",
+    "prob_desc_created_at": "1292140800",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

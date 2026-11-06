@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"2\"]",
+    "src_uid": "0fce263a9606fbfc3ec912894ab1a8f8",
+    "prob_desc_notes": "NoteIn the first example we shouldn't move anybody because the animals of each species already stand apart from the other species. In the second example you may swap, for example, the tiger in position 2 with the hamster in position 5 and then — the tiger in position 9 with the hamster in position 7.",
+    "prob_desc_description": "Today there is going to be an unusual performance at the circus — hamsters and tigers will perform together! All of them stand in circle along the arena edge and now the trainer faces a difficult task: he wants to swap the animals' positions so that all the hamsters stood together and all the tigers also stood together. The trainer swaps the animals in pairs not to create a mess. He orders two animals to step out of the circle and swap places. As hamsters feel highly uncomfortable when tigers are nearby as well as tigers get nervous when there's so much potential prey around (consisting not only of hamsters but also of yummier spectators), the trainer wants to spend as little time as possible moving the animals, i.e. he wants to achieve it with the minimal number of swaps. Your task is to help him.",
+    "prob_desc_output_spec": "Print the single number which is the minimal number of swaps that let the trainer to achieve his goal.",
+    "prob_desc_input_spec": "The first line contains number n (2 ≤ n ≤ 1000) which indicates the total number of animals in the arena. The second line contains the description of the animals' positions. The line consists of n symbols \"H\" and \"T\". The \"H\"s correspond to hamsters and the \"T\"s correspond to tigers. It is guaranteed that at least one hamster and one tiger are present on the arena. The animals are given in the order in which they are located circle-wise, in addition, the last animal stands near the first one.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_009.jsonl",
+    "code_uid": "9e2447be38f09d54ab1175cbaf691fde",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\nHTH\", \"9\\nHTHTHTHHT\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding: utf8 -*-\nimport sys\n\nif __name__ == '__main__':\n    n = int(sys.stdin.readline())\n    s = sys.stdin.readline()\n    t = 0\n    for c in s:\n        if c == 'T': t += 1\n    m = sys.maxint\n    for i in xrange(n):\n        k = 0\n        for j in xrange(t):\n            if s[(i + j) % n] == 'H':\n                k += 1\n        if k < m:\n            m = k\n    print m\n",
+    "prob_desc_created_at": "1291536000",
+    "tags": [
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

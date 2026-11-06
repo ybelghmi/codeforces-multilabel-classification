@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"11\", \"13\"]",
+    "src_uid": "48f2c0307a29056a5e0fcc26af98f6dc",
+    "prob_desc_notes": "NoteIn the first test case, we can travel in order $$$1\\to 3\\to 2\\to 1$$$.   The flight $$$1\\to 3$$$ costs $$$\\max(c_1,a_3-a_1)=\\max(9,4-1)=9$$$.  The flight $$$3\\to 2$$$ costs $$$\\max(c_3, a_2-a_3)=\\max(1,2-4)=1$$$.  The flight $$$2\\to 1$$$ costs $$$\\max(c_2,a_1-a_2)=\\max(1,1-2)=1$$$. The total cost is $$$11$$$, and we cannot do better.",
+    "prob_desc_description": "There are $$$n$$$ cities numbered from $$$1$$$ to $$$n$$$, and city $$$i$$$ has beauty $$$a_i$$$.A salesman wants to start at city $$$1$$$, visit every city exactly once, and return to city $$$1$$$.For all $$$i\\ne j$$$, a flight from city $$$i$$$ to city $$$j$$$ costs $$$\\max(c_i,a_j-a_i)$$$ dollars, where $$$c_i$$$ is the price floor enforced by city $$$i$$$. Note that there is no absolute value. Find the minimum total cost for the salesman to complete his trip.",
+    "prob_desc_output_spec": "Output a single integer — the minimum total cost.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2\\le n\\le 10^5$$$) — the number of cities. The $$$i$$$-th of the next $$$n$$$ lines contains two integers $$$a_i$$$, $$$c_i$$$ ($$$0\\le a_i,c_i\\le 10^9$$$) — the beauty and price floor of the $$$i$$$-th city.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_100.jsonl",
+    "code_uid": "1d71f192585523677bdbb9cf2930c754",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 9\\n2 1\\n4 1\", \"6\\n4 2\\n8 4\\n3 0\\n2 3\\n7 1\\n0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys,os,io\r\ninput = sys.stdin.readline # for strings\r\n# input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline # for non-strings\r\n\r\nPI = 3.141592653589793238460\r\nINF =  float('inf')\r\nMOD  = 1000000007\r\n# MOD = 998244353\r\n\r\n\r\ndef bin32(num):\r\n    return '{0:032b}'.format(num)\r\n\r\ndef add(x,y):\r\n    return (x+y)%MOD\r\n\r\ndef sub(x,y):\r\n    return (x-y+MOD)%MOD\r\n\r\ndef mul(x,y):\r\n    return (x*y)%MOD\r\n\r\ndef gcd(x,y):\r\n    if y == 0:\r\n        return x\r\n    return gcd(y,x%y)\r\n\r\ndef lcm(x,y):\r\n    return (x*y)//gcd(x,y)\r\n\r\ndef power(x,y):\r\n    res = 1\r\n    x%=MOD\r\n    while y!=0:\r\n        if y&1 :\r\n            res = mul(res,x)\r\n        y>>=1\r\n        x = mul(x,x)\r\n        \r\n    return res\r\n        \r\ndef mod_inv(n):\r\n    return power(n,MOD-2)\r\n\r\ndef prob(p,q):\r\n    return mul(p,power(q,MOD-2))    \r\n  \r\ndef ii():\r\n    return int(input())\r\n\r\ndef li():\r\n    return [int(i) for i in input().split()]\r\n\r\ndef ls():\r\n    return [i for i in input().split()]\r\nimport bisect\r\n\r\n# ========= SEGMENT TREE ==========\r\n\r\nclass SegmentTree:\r\n    def __init__(self, data, default=INF, func=min):\r\n        \"\"\"initialize the segment tree with data\"\"\"\r\n        self._default = default\r\n        self._func = func\r\n        self._len = len(data)\r\n        self._size = _size = 1 << (self._len - 1).bit_length()\r\n\r\n        self.data = [default] * (2 * _size)\r\n        self.data[_size:_size + self._len] = data\r\n        for i in reversed(range(_size)):\r\n            self.data[i] = func(self.data[i + i], self.data[i + i + 1])\r\n\r\n    def __delitem__(self, idx):\r\n        self[idx] = self._default\r\n\r\n    def __getitem__(self, idx):\r\n        return self.data[idx + self._size]\r\n\r\n    def __setitem__(self, idx, value):\r\n        idx += self._size\r\n        self.data[idx] = value\r\n        idx >>= 1\r\n        while idx:\r\n            self.data[idx] = self._func(self.data[2 * idx], self.data[2 * idx + 1])\r\n            idx >>= 1\r\n\r\n    def __len__(self):\r\n        return self._len\r\n\r\n    def query(self, start, stop):\r\n        \"\"\"func of data[start, stop)\"\"\"\r\n        start += self._size\r\n        stop += self._size + 1\r\n        \r\n        res_left = res_right = self._default\r\n        while start < stop:\r\n            if start & 1:\r\n                res_left = self._func(res_left, self.data[start])\r\n                start += 1\r\n            if stop & 1:\r\n                stop -= 1\r\n                res_right = self._func(self.data[stop], res_right)\r\n            start >>= 1\r\n            stop >>= 1\r\n\r\n        return self._func(res_left, res_right)\r\n\r\n    def __repr__(self):\r\n        return \"SegmentTree({0})\".format(self.data)\r\n\r\nn = ii()\r\nstore = [0 for i in range(n)]\r\nlol = []\r\nfor i in range(n):\r\n\r\n    store[i] = li()\r\n    store[i].append(i)\r\n\r\nstore.sort()\r\n# print(store)\r\nlol = [store[i][0] for i in range(n)]\r\n\r\ndp = [INF for i in range(n)]\r\ntotal = 0\r\nfor i in store:\r\n    total+= i[1]\r\n\r\ndp[-1] = total\r\nstoredp = [INF for i in range(n)]\r\nstoredp[-1] = dp[-1] + store[-1][0]\r\nst = SegmentTree(dp)\r\n\r\nfor i in range(n-2,-1,-1):\r\n    a = store[i][0]\r\n    c = store[i][1]\r\n    node = store[i][2]\r\n    # print(lol , a + c)\r\n    j = bisect.bisect_right(lol , a + c,i + 1, n)\r\n    x = INF\r\n    y = INF\r\n    if j -1 > i and j-1 < n:\r\n        x = st.query(i + 1 , j-1)\r\n    if j < n:\r\n        y = storedp[j]\r\n    # print(j ,x , y)\r\n    dp[i] = min(x , y - (a + c))\r\n    storedp[i] = dp[i] + store[i][0]\r\n\r\n    st.__setitem__(i , dp[i])\r\n    \r\nprint(dp[0])\r\n",
+    "prob_desc_created_at": "1617460500",
+    "tags": [
+        "binary search",
+        "data structures",
+        "dp",
+        "graphs",
+        "greedy",
+        "shortest paths",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

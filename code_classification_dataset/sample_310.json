@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n1 2\\n2 4\\n2 3\", \"6\\n1 3\\n3 4\\n1 2\\n4 5\\n5 6\\n4 6\", \"-1\"]",
+    "src_uid": "3ebb3a4f01345145f8f9817f7c77185e",
+    "prob_desc_notes": "NoteIn the first test Polycarp (the student number 1) can send the message to the student number 2, who after that can send the message to students number 3 and 4. Thus, all students knew about the credit. ",
+    "prob_desc_description": "Polycarp studies at the university in the group which consists of n students (including himself). All they are registrated in the social net \"TheContacnt!\".Not all students are equally sociable. About each student you know the value ai — the maximum number of messages which the i-th student is agree to send per day. The student can't send messages to himself. In early morning Polycarp knew important news that the programming credit will be tomorrow. For this reason it is necessary to urgently inform all groupmates about this news using private messages. Your task is to make a plan of using private messages, so that:  the student i sends no more than ai messages (for all i from 1 to n);  all students knew the news about the credit (initially only Polycarp knew it);  the student can inform the other student only if he knows it himself. Let's consider that all students are numerated by distinct numbers from 1 to n, and Polycarp always has the number 1.In that task you shouldn't minimize the number of messages, the moment of time, when all knew about credit or some other parameters. Find any way how to use private messages which satisfies requirements above. ",
+    "prob_desc_output_spec": "Print -1 to the first line if it is impossible to inform all students about credit.  Otherwise, in the first line print the integer k — the number of messages which will be sent. In each of the next k lines print two distinct integers f and t, meaning that the student number f sent the message with news to the student number t. All messages should be printed in chronological order. It means that the student, who is sending the message, must already know this news. It is assumed that students can receive repeated messages with news of the credit.  If there are several answers, it is acceptable to print any of them. ",
+    "prob_desc_input_spec": "The first line contains the positive integer n (2 ≤ n ≤ 100) — the number of students.  The second line contains the sequence a1, a2, ..., an (0 ≤ ai ≤ 100), where ai equals to the maximum number of messages which can the i-th student agree to send. Consider that Polycarp always has the number 1.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "8f2ad97017f36c93580e2970dc687e8d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2 1 0\", \"6\\n2 0 1 3 2 0\", \"3\\n0 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nA = list(map(int, input().split(' ')))\nA = {i: A[i] for i in range(n)}\nvis = [False for _ in range(n)]\nvis[0] = True\nop = [0]\nprev = [-1 for _ in range(n)]\nmessages = list()\nwhile len(op) > 0:\n    nxt = op[-1]\n    del op[-1]\n    cnt = A[nxt]\n    targets = [(A[i], i) for i in A if i != nxt and not vis[i]]\n    targets.sort(reverse=True)\n    targets = targets[:cnt]\n    for _, to in targets:\n        messages.append((nxt+1, to+1))\n        prev[to] = nxt\n        vis[to] = True\n        op.append(to)\nfor el in vis:\n    if not el:\n        print(-1)\n        break\nelse:\n    print(n-1)\n    for f, t in messages:\n        print('{} {}'.format(f, t))",
+    "prob_desc_created_at": "1488628800",
+    "tags": [
+        "two pointers",
+        "*special",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"1\"]",
+    "src_uid": "6d940cb4b54f63a7aaa82f21e4c5b994",
+    "prob_desc_notes": "NoteIn the first sample testcase, possible forest is: 1-2 3-4-5. There are 2 trees overall.In the second sample testcase, the only possible graph is one vertex and no edges. Therefore, there is only one tree.",
+    "prob_desc_description": "PolandBall lives in a forest with his family. There are some trees in the forest. Trees are undirected acyclic graphs with k vertices and k - 1 edges, where k is some integer. Note that one vertex is a valid tree.There is exactly one relative living in each vertex of each tree, they have unique ids from 1 to n. For each Ball i we know the id of its most distant relative living on the same tree. If there are several such vertices, we only know the value of the one with smallest id among those.How many trees are there in the forest?",
+    "prob_desc_output_spec": "You should output the number of trees in the forest where PolandBall lives.",
+    "prob_desc_input_spec": "The first line contains single integer n (1 ≤ n ≤ 104) — the number of Balls living in the forest. The second line contains a sequence p1, p2, ..., pn of length n, where (1 ≤ pi ≤ n) holds and pi denotes the most distant from Ball i relative living on the same tree. If there are several most distant relatives living on the same tree, pi is the id of one with the smallest id. It's guaranteed that the sequence p corresponds to some valid forest. Hacking: To hack someone, you should provide a correct forest as a test. The sequence p will be calculated according to the forest and given to the solution you try to hack as input. Use the following format: In the first line, output the integer n (1 ≤ n ≤ 104) — the number of Balls and the integer m (0 ≤ m &lt; n) — the total number of edges in the forest. Then m lines should follow. The i-th of them should contain two integers ai and bi and represent an edge between vertices in which relatives ai and bi live. For example, the first sample is written as follows: 5 31 23 44 5",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_001.jsonl",
+    "code_uid": "1377c4c1bef490fcb75430c63cce3ad8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 1 5 3 3\", \"1\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nsys.setrecursionlimit(10000000)\n\nnBalls = int(raw_input())\nedge = [None] + map(int, raw_input().split())\ngroup = [0] * (nBalls + 1)\n\ndef dfs(ball):\n    if not group[ball]:\n        group[ball] = groupNum\n        dfs(edge[ball])\n\ngroupNum = 0\nfor ball in xrange(1, nBalls + 1):\n    if not group[ball]:\n        if group[edge[ball]]:\n            group[ball] = group[edge[ball]]\n        else:\n            groupNum += 1\n            dfs(ball)\nprint groupNum",
+    "prob_desc_created_at": "1484499900",
+    "tags": [
+        "graphs",
+        "dsu",
+        "interactive",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

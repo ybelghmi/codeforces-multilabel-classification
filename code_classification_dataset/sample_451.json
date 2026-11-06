@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\n3 5 4 5\", \"-1\"]",
+    "src_uid": "48e323edc41086cae52cc0e6bdd84e35",
+    "prob_desc_notes": "NoteIn the first example the string $$$s$$$ changes as follows: \"abcdef\" $$$\\rightarrow$$$ \"abdcef\" $$$\\rightarrow$$$ \"abdcfe\" $$$\\rightarrow$$$ \"abdfce\" $$$\\rightarrow$$$ \"abdfec\".In the second example there is no way to transform the string $$$s$$$ into the string $$$t$$$ through any allowed moves.",
+    "prob_desc_description": "You are given two strings $$$s$$$ and $$$t$$$. Both strings have length $$$n$$$ and consist of lowercase Latin letters. The characters in the strings are numbered from $$$1$$$ to $$$n$$$.You can successively perform the following move any number of times (possibly, zero):  swap any two adjacent (neighboring) characters of $$$s$$$ (i.e. for any $$$i = \\{1, 2, \\dots, n - 1\\}$$$ you can swap $$$s_i$$$ and $$$s_{i + 1})$$$. You can't apply a move to the string $$$t$$$. The moves are applied to the string $$$s$$$ one after another.Your task is to obtain the string $$$t$$$ from the string $$$s$$$. Find any way to do it with at most $$$10^4$$$ such moves.You do not have to minimize the number of moves, just find any sequence of moves of length $$$10^4$$$ or less to transform $$$s$$$ into $$$t$$$.",
+    "prob_desc_output_spec": "If it is impossible to obtain the string $$$t$$$ using moves, print \"-1\". Otherwise in the first line print one integer $$$k$$$ — the number of moves to transform $$$s$$$ to $$$t$$$. Note that $$$k$$$ must be an integer number between $$$0$$$ and $$$10^4$$$ inclusive. In the second line print $$$k$$$ integers $$$c_j$$$ ($$$1 \\le c_j &lt; n$$$), where $$$c_j$$$ means that on the $$$j$$$-th move you swap characters $$$s_{c_j}$$$ and $$$s_{c_j + 1}$$$. If you do not need to apply any moves, print a single integer $$$0$$$ in the first line and either leave the second line empty or do not print it at all.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$1 \\le n \\le 50$$$) — the length of strings $$$s$$$ and $$$t$$$. The second line of the input contains the string $$$s$$$ consisting of $$$n$$$ lowercase Latin letters. The third line of the input contains the string $$$t$$$ consisting of $$$n$$$ lowercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_002.jsonl",
+    "code_uid": "c9646723d4ba4653530b5b38e3bc86c4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\nabcdef\\nabdfec\", \"4\\nabcd\\naccd\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#Lorenzo\n\ndef checkCharacter(ls1,ls2):\n    for i in range(len(ls1)):\n        if(ls1.count(ls1[i])!=ls2.count(ls1[i])):\n            return False\n    return True\n\nn=int(input())\ns=list(input())\nt=list(input())\nINDEX=0\nc=0\nsecLine=[]\n\nif(s==t):\n    print(0)\nelif(set(s)==set(t) and checkCharacter(s,t)):\n    while(s!=t):\n        if(s[INDEX]!=t[INDEX]):\n            TMP_INDEX=s[INDEX:].index(t[INDEX])+INDEX\n            while(s[INDEX]!=t[INDEX]):\n                s[TMP_INDEX], s[TMP_INDEX-1]=s[TMP_INDEX-1], s[TMP_INDEX]\n                secLine.append(TMP_INDEX)\n                TMP_INDEX-=1\n                c+=1\n        else:\n            INDEX+=1\n    print(c)\n    print(*(secLine),sep=\" \")\nelse:\n    print(-1)",
+    "prob_desc_created_at": "1533047700",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

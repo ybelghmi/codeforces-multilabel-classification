@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"4\"]",
+    "src_uid": "fd6b73a2c15f5b009fa350eea9bf0c0a",
+    "prob_desc_notes": "NoteIn the first example Arkady should block at least one hole. After that, $$$\\frac{10 \\cdot 2}{6} \\approx 3.333$$$ liters of water will flow out of the first hole, and that suits Arkady.In the second example even without blocking any hole, $$$\\frac{80 \\cdot 3}{10} = 24$$$ liters will flow out of the first hole, that is not less than $$$20$$$.In the third example Arkady has to block all holes except the first to make all water flow out of the first hole.",
+    "prob_desc_description": "Arkady wants to water his only flower. Unfortunately, he has a very poor watering system that was designed for $$$n$$$ flowers and so it looks like a pipe with $$$n$$$ holes. Arkady can only use the water that flows from the first hole.Arkady can block some of the holes, and then pour $$$A$$$ liters of water into the pipe. After that, the water will flow out from the non-blocked holes proportionally to their sizes $$$s_1, s_2, \\ldots, s_n$$$. In other words, if the sum of sizes of non-blocked holes is $$$S$$$, and the $$$i$$$-th hole is not blocked, $$$\\frac{s_i \\cdot A}{S}$$$ liters of water will flow out of it.What is the minimum number of holes Arkady should block to make at least $$$B$$$ liters of water flow out of the first hole?",
+    "prob_desc_output_spec": "Print a single integer — the number of holes Arkady should block.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$A$$$, $$$B$$$ ($$$1 \\le n \\le 100\\,000$$$, $$$1 \\le B \\le A \\le 10^4$$$) — the number of holes, the volume of water Arkady will pour into the system, and the volume he wants to get out of the first hole. The second line contains $$$n$$$ integers $$$s_1, s_2, \\ldots, s_n$$$ ($$$1 \\le s_i \\le 10^4$$$) — the sizes of the holes.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_024.jsonl",
+    "code_uid": "25e036cc498fe7bbc17317a3c7d98d72",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 10 3\\n2 2 2 2\", \"4 80 20\\n3 2 1 4\", \"5 10 10\\n1000 1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "I = lambda: map(int, input().split())\n\nn, A, B = I()\ns1, *S = I()\n\nif S:\n    S = sorted(S)\n    total = s1\n    i = 0\n    while i < n-1 and s1*A >= B*(total+S[i]):\n        total += S[i]\n        i += 1\n    print(n-i-1)\nelse:\n    print(0)",
+    "prob_desc_created_at": "1525007700",
+    "tags": [
+        "sortings",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

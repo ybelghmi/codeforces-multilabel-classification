@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"0\"]",
+    "src_uid": "d9d5db63b1e48214d02abe9977709384",
+    "prob_desc_notes": "NoteIn the first example, \"ACBCAB\" (\"ACAABCCAB\") is one of the subsequences that has the same frequency of 'A', 'B' and 'C'. Subsequence \"CAB\" also has the same frequency of these letters, but doesn't have the maximum possible length.In the second example, none of the subsequences can have 'D', hence the answer is $$$0$$$.",
+    "prob_desc_description": "You are given a string $$$s$$$ of length $$$n$$$, which consists only of the first $$$k$$$ letters of the Latin alphabet. All letters in string $$$s$$$ are uppercase.A subsequence of string $$$s$$$ is a string that can be derived from $$$s$$$ by deleting some of its symbols without changing the order of the remaining symbols. For example, \"ADE\" and \"BD\" are subsequences of \"ABCDE\", but \"DEA\" is not.A subsequence of $$$s$$$ called good if the number of occurences of each of the first $$$k$$$ letters of the alphabet is the same.Find the length of the longest good subsequence of $$$s$$$. ",
+    "prob_desc_output_spec": "Print the only integer — the length of the longest good subsequence of string $$$s$$$.",
+    "prob_desc_input_spec": "The first line of the input contains integers $$$n$$$ ($$$1\\le n \\le 10^5$$$) and $$$k$$$ ($$$1 \\le k \\le 26$$$). The second line of the input contains the string $$$s$$$ of length $$$n$$$. String $$$s$$$ only contains uppercase letters from 'A' to the $$$k$$$-th letter of Latin alphabet.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_003.jsonl",
+    "code_uid": "59e2b34ecb6af100c1eb4ab13274dba0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9 3\\nACAABCCAB\", \"9 4\\nABCABCABC\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, raw_input().split(\" \"))\ns = raw_input()\n\nll = []\nfor i in xrange(26):\n    ll.append(0)\n\nfor ch in s:\n    ll[ord(ch) - ord('A')] += 1\n\nprint min(ll[:k]) * k\n\n",
+    "prob_desc_created_at": "1536248100",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

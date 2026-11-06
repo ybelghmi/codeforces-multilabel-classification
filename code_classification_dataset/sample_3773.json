@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"10\\n011\\n0011000\\n101010101\\n0001111111\"]",
+    "src_uid": "7767e47571c7ea82ba4fb6a0bd0fbdc5",
+    "prob_desc_notes": "NoteIn the first test case, the score of $$$S[1 \\ldots 1]$$$ is $$$1$$$, and the score of $$$S[1 \\ldots 2]$$$ is $$$0$$$.In the second test case, the minimum possible creepiness is $$$1$$$ and one of the other answers is 101.In the third test case, the minimum possible creepiness is $$$3$$$ and one of the other answers is 0001100.",
+    "prob_desc_description": "Define the score of some binary string $$$T$$$ as the absolute difference between the number of zeroes and ones in it. (for example, $$$T=$$$ 010001 contains $$$4$$$ zeroes and $$$2$$$ ones, so the score of $$$T$$$ is $$$|4-2| = 2$$$).Define the creepiness of some binary string $$$S$$$ as the maximum score among all of its prefixes (for example, the creepiness of $$$S=$$$ 01001 is equal to $$$2$$$ because the score of the prefix $$$S[1 \\ldots 4]$$$ is $$$2$$$ and the rest of the prefixes have a score of $$$2$$$ or less).Given two integers $$$a$$$ and $$$b$$$, construct a binary string consisting of $$$a$$$ zeroes and $$$b$$$ ones with the minimum possible creepiness.",
+    "prob_desc_output_spec": "For each test case, print a binary string consisting of $$$a$$$ zeroes and $$$b$$$ ones with the minimum possible creepiness. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ $$$(1\\le t\\le 1000)$$$  — the number of test cases. The description of the test cases follows. The only line of each test case contains two integers $$$a$$$ and $$$b$$$ ($$$ 1 \\le a, b \\le 100$$$)  — the numbers of zeroes and ones correspondingly.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_083.jsonl",
+    "code_uid": "5c6692d950a39612c512467a9d11ab67",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 1\\n1 2\\n5 2\\n4 5\\n3 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n    # n = int(input())\r\n    n, k = map(int, input().split())\r\n    # arr= list(map(int, input().split()))\r\n    # output_arr =[]\r\n    # print(n*\"0\"+k*\"1\")\r\n    if n>k and abs(n-k)>min(n,k):\r\n        print(k*\"1\"+n*\"0\")\r\n        continue\r\n    elif k>n and abs(n-k)>min(n,k):\r\n        print(n*\"0\"+k*\"1\")\r\n        continue\r\n    else:\r\n        s=\"\"\r\n        while n>0 or k>0:\r\n            if k>0:\r\n                s+='1'\r\n                k-=1\r\n            if n>0:\r\n                s+=\"0\"\r\n                n-=1\r\n            \r\n        print(s)",
+    "prob_desc_created_at": "1655390100",
+    "tags": [
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

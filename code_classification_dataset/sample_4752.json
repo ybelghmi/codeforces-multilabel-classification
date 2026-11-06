@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 1 5 \\n0 1\"]",
+    "src_uid": "6854ad3597f9f41d475aacb774b823ed",
+    "prob_desc_notes": "NoteIn the second test case, we start by subtracting $$$1$$$ from the first element and adding $$$1$$$ to the second. Then, we can't get any lexicographically smaller arrays, because we can't make any of the elements negative.",
+    "prob_desc_description": "Given an array $$$a$$$ of length $$$n$$$, you can do at most $$$k$$$ operations of the following type on it:  choose $$$2$$$ different elements in the array, add $$$1$$$ to the first, and subtract $$$1$$$ from the second. However, all the elements of $$$a$$$ have to remain non-negative after this operation. What is lexicographically the smallest array you can obtain?An array $$$x$$$ is lexicographically smaller than an array $$$y$$$ if there exists an index $$$i$$$ such that $$$x_i&lt;y_i$$$, and $$$x_j=y_j$$$ for all $$$1 \\le j &lt; i$$$. Less formally, at the first index $$$i$$$ in which they differ, $$$x_i&lt;y_i$$$.",
+    "prob_desc_output_spec": "For each test case, print the lexicographically smallest array you can obtain after at most $$$k$$$ operations.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 20$$$) – the number of test cases you need to solve. The first line of each test case contains $$$2$$$ integers $$$n$$$ and $$$k$$$ ($$$2 \\le n \\le 100$$$, $$$1 \\le k \\le 10000$$$) — the number of elements in the array and the maximum number of operations you can make. The second line contains $$$n$$$ space-separated integers $$$a_1$$$, $$$a_2$$$, $$$\\ldots$$$, $$$a_{n}$$$ ($$$0 \\le a_i \\le 100$$$) — the elements of the array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_105.jsonl",
+    "code_uid": "9934440a8ef5e3d4fb1c57c234bdd995",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3 1\\n3 1 4\\n2 10\\n1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# import sys\r\n# sys.stdout = open('DSA/Stacks/output.txt', 'w')\r\n# sys.stdin = open('DSA/Stacks/input.txt', 'r')\r\n\r\nfor _ in range(int(input())):\r\n    n, k = map(int, input().split())\r\n    ll = list(map(int, input().split()))\r\n    cur = 0\r\n    while k>0 and cur<n-1:\r\n        if ll[cur]==0 :\r\n            cur+=1\r\n        else:\r\n            ll[cur]-=1\r\n            ll[-1]+=1\r\n            k-=1\r\n    print(*ll)\r\n        ",
+    "prob_desc_created_at": "1619012100",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

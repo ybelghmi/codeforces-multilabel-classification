@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Poor Dima!\", \"Poor Inna!\", \"4\"]",
+    "src_uid": "80fdfeba87b7075c70671b3fd3a1199c",
+    "prob_desc_notes": "NoteNotes to the samples:In the first test sample, Inna cannot go through name DIMA a single time.In the second test sample, Inna can go through the infinite number of words DIMA. For that, she should move in the clockwise direction starting from the lower right corner.In the third test sample the best strategy is to start from the cell in the upper left corner of the table. Starting from this cell, Inna can go through name DIMA four times. ",
+    "prob_desc_description": "Inna and Dima bought a table of size n × m in the shop. Each cell of the table contains a single letter: \"D\", \"I\", \"M\", \"A\".Inna loves Dima, so she wants to go through his name as many times as possible as she moves through the table. For that, Inna acts as follows:  initially, Inna chooses some cell of the table where letter \"D\" is written;  then Inna can move to some side-adjacent table cell that contains letter \"I\"; then from this cell she can go to one of the side-adjacent table cells that contains the written letter \"M\"; then she can go to a side-adjacent cell that contains letter \"A\". Then Inna assumes that she has gone through her sweetheart's name;  Inna's next move can be going to one of the side-adjacent table cells that contains letter \"D\" and then walk on through name DIMA in the similar manner. Inna never skips a letter. So, from the letter \"D\" she always goes to the letter \"I\", from the letter \"I\" she always goes the to letter \"M\", from the letter \"M\" she always goes to the letter \"A\", and from the letter \"A\" she always goes to the letter \"D\". Depending on the choice of the initial table cell, Inna can go through name DIMA either an infinite number of times or some positive finite number of times or she can't go through his name once. Help Inna find out what maximum number of times she can go through name DIMA.",
+    "prob_desc_output_spec": "If Inna cannot go through name DIMA once, print on a single line \"Poor Dima!\" without the quotes. If there is the infinite number of names DIMA Inna can go through, print \"Poor Inna!\" without the quotes. Otherwise print a single integer — the maximum number of times Inna can go through name DIMA.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and m (1 ≤ n, m ≤ 103).  Then follow n lines that describe Inna and Dima's table. Each line contains m characters. Each character is one of the following four characters: \"D\", \"I\", \"M\", \"A\".  Note that it is not guaranteed that the table contains at least one letter \"D\".",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_015.jsonl",
+    "code_uid": "d31f9145e86db5f0b2879a9c6717f390",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 2\\nDI\", \"2 2\\nMA\\nID\", \"5 5\\nDIMAD\\nDIMAI\\nDIMAM\\nDDMAA\\nAAMID\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nn, m = map(int, input().split())\nm += 1\nd = {'I': 0, 'M': 1, 'A': 2, 'D': 3, '\\n': -7}\nt = list(map(d.get, sys.stdin.read())) + [-7] * m\np = [[] for q in t]\nc = [0] * len(t)\nfor a in range(n * m):\n    for b in (a - m, a + m, a - 1, a + 1):\n        if abs(t[b] - t[a] + 1) == 2:\n            p[a].append(b)\n            c[b] += 1\ns = [i for i, q in enumerate(c) if not q]\nwhile s:\n    a = s.pop()\n    for b in p[a]:\n        t[b] = max(t[b], t[a] + 1)\n        c[b] -= 1\n        if c[b] == 0: s.append(b)\nk = max(t) - 2 >> 2\nprint('Poor Inna!' if any(c) else k if k > 0 else 'Poor Dima!')\n",
+    "prob_desc_created_at": "1387380600",
+    "tags": [
+        "dp",
+        "implementation",
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

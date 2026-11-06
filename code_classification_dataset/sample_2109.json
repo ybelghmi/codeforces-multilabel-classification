@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n3\\n2\\n3\\n4\"]",
+    "src_uid": "38afe98586a3b8d6061fe7e3e8fc4d02",
+    "prob_desc_notes": "NoteIn the first test case $$$x = 1$$$, so you need only one jump: the $$$1$$$-st jump from $$$0$$$ to $$$0 + 1 = 1$$$.In the second test case $$$x = 2$$$. You need at least three jumps:   the $$$1$$$-st jump from $$$0$$$ to $$$0 + 1 = 1$$$;  the $$$2$$$-nd jump from $$$1$$$ to $$$1 + 2 = 3$$$;  the $$$3$$$-rd jump from $$$3$$$ to $$$3 - 1 = 2$$$; Two jumps are not enough because these are the only possible variants:   the $$$1$$$-st jump as $$$-1$$$ and the $$$2$$$-nd one as $$$-1$$$ — you'll reach $$$0 -1 -1 =-2$$$;  the $$$1$$$-st jump as $$$-1$$$ and the $$$2$$$-nd one as $$$+2$$$ — you'll reach $$$0 -1 +2 = 1$$$;  the $$$1$$$-st jump as $$$+1$$$ and the $$$2$$$-nd one as $$$-1$$$ — you'll reach $$$0 +1 -1 = 0$$$;  the $$$1$$$-st jump as $$$+1$$$ and the $$$2$$$-nd one as $$$+2$$$ — you'll reach $$$0 +1 +2 = 3$$$; In the third test case, you need two jumps: the $$$1$$$-st one as $$$+1$$$ and the $$$2$$$-nd one as $$$+2$$$, so $$$0 + 1 + 2 = 3$$$.In the fourth test case, you need three jumps: the $$$1$$$-st one as $$$-1$$$, the $$$2$$$-nd one as $$$+2$$$ and the $$$3$$$-rd one as $$$+3$$$, so $$$0 - 1 + 2 + 3 = 4$$$.",
+    "prob_desc_description": "You are standing on the $$$\\mathit{OX}$$$-axis at point $$$0$$$ and you want to move to an integer point $$$x &gt; 0$$$.You can make several jumps. Suppose you're currently at point $$$y$$$ ($$$y$$$ may be negative) and jump for the $$$k$$$-th time. You can:   either jump to the point $$$y + k$$$  or jump to the point $$$y - 1$$$. What is the minimum number of jumps you need to reach the point $$$x$$$?",
+    "prob_desc_output_spec": "For each test case, print the single integer — the minimum number of jumps to reach $$$x$$$. It can be proved that we can reach any integer point $$$x$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The first and only line of each test case contains the single integer $$$x$$$ ($$$1 \\le x \\le 10^6$$$) — the destination point.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": null,
+    "file_name": "train_017.jsonl",
+    "code_uid": "deed7bf9d36bb86d56a139a6f422d7f7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1\\n2\\n3\\n4\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nfor i in range(t):\n    n=int(input())\n    u=1\n    while((u*(u+1)/2)<n):\n        u += 1\n    a=u*(u+1)/2\n    c=a-n\n    for j in range(1,u+1):\n        if(c==j+1):\n            c = c-j-1\n    print(int(u+c))",
+    "prob_desc_created_at": "1606746900",
+    "tags": [
+        "constructive algorithms",
+        "binary search",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

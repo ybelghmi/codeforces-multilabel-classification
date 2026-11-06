@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"1000\", \"-1\", \"-1\"]",
+    "src_uid": "6f26747e5ed41d6eb1bfcef48a2dc46d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Adilbek's house is located on a street which can be represented as the OX axis. This street is really dark, so Adilbek wants to install some post lamps to illuminate it. Street has $$$n$$$ positions to install lamps, they correspond to the integer numbers from $$$0$$$ to $$$n - 1$$$ on the OX axis. However, some positions are blocked and no post lamp can be placed there.There are post lamps of different types which differ only by their power. When placed in position $$$x$$$, post lamp of power $$$l$$$ illuminates the segment $$$[x; x + l]$$$. The power of each post lamp is always a positive integer number.The post lamp shop provides an infinite amount of lamps of each type from power $$$1$$$ to power $$$k$$$. Though each customer is only allowed to order post lamps of exactly one type. Post lamps of power $$$l$$$ cost $$$a_l$$$ each.What is the minimal total cost of the post lamps of exactly one type Adilbek can buy to illuminate the entire segment $$$[0; n]$$$ of the street? If some lamps illuminate any other segment of the street, Adilbek does not care, so, for example, he may place a lamp of power $$$3$$$ in position $$$n - 1$$$ (even though its illumination zone doesn't completely belong to segment $$$[0; n]$$$).",
+    "prob_desc_output_spec": "Print the minimal total cost of the post lamps of exactly one type Adilbek can buy to illuminate the entire segment $$$[0; n]$$$ of the street. If illumintaing the entire segment $$$[0; n]$$$ is impossible, print -1.",
+    "prob_desc_input_spec": "The first line contains three integer numbers $$$n$$$, $$$m$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 10^6$$$, $$$0 \\le m \\le n$$$) — the length of the segment of the street Adilbek wants to illuminate, the number of the blocked positions and the maximum power of the post lamp available. The second line contains $$$m$$$ integer numbers $$$s_1, s_2, \\dots, s_m$$$ ($$$0 \\le s_1 &lt; s_2 &lt; \\dots s_m &lt; n$$$) — the blocked positions. The third line contains $$$k$$$ integer numbers $$$a_1, a_2, \\dots, a_k$$$ ($$$1 \\le a_i \\le 10^6$$$) — the costs of the post lamps.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_001.jsonl",
+    "code_uid": "f3bd9dfbf9ec4f5696466b685f09edac",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 2 3\\n1 3\\n1 2 3\", \"4 3 4\\n1 2 3\\n1 10 100 1000\", \"5 1 5\\n0\\n3 3 3 3 3\", \"7 4 3\\n2 4 5 6\\n3 14 15\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom math import ceil\n\nn, m, k = map(int, sys.stdin.readline().split())\nplaces = [True for _ in range(n)]\nfor x in map(int, sys.stdin.readline().split()):\n    places[x] = False\ncosts = list(map(int, sys.stdin.readline().split()))\nif not places[0]:\n    print(-1)\n    sys.exit(0)\n\nprev = [i for i in range(n)]\nlast = 0\nfor i in range(n):\n    if places[i]:\n        last = i\n    prev[i] = last\n\nbest_cost = float('inf')\nfor lamp in range(k, 0, -1):\n    min_cost = ceil(n/lamp) * costs[lamp-1]\n    if min_cost >= best_cost:\n        continue\n\n    # try this shit\n    cost = costs[lamp-1]\n    reach = lamp\n    fail = False\n\n    while reach < n:\n        if prev[reach] + lamp <= reach:\n            fail = True\n            break\n        reach = prev[reach] + lamp\n        cost += costs[lamp - 1]\n\n        if cost + (ceil((n - reach)/lamp) * costs[lamp-1]) >= best_cost:\n            fail = True\n            break\n\n    if not fail:\n        best_cost = min(best_cost, cost)\n\nprint(best_cost if best_cost != float('inf') else -1)",
+    "prob_desc_created_at": "1528625100",
+    "tags": [
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

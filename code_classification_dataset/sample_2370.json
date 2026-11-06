@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "0.5 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n4\\n6\", \"2\\n5\", \"1\\n2\\n3\\n4\", \"1\\n3\\n4\\n6\"]",
+    "src_uid": "5a6b97a2aa27dd2c562f73a7a8f16720",
+    "prob_desc_notes": "Note   Picture for the fourth test.  ",
+    "prob_desc_description": "In the rush of modern life, people often forget how beautiful the world is. The time to enjoy those around them is so little that some even stand in queues to several rooms at the same time in the clinic, running from one queue to another.(Cultural note: standing in huge and disorganized queues for hours is a native tradition in Russia, dating back to the Soviet period. Queues can resemble crowds rather than lines. Not to get lost in such a queue, a person should follow a strict survival technique: you approach the queue and ask who the last person is, somebody answers and you join the crowd. Now you're the last person in the queue till somebody else shows up. You keep an eye on the one who was last before you as he is your only chance to get to your destination) I'm sure many people have had the problem when a stranger asks who the last person in the queue is and even dares to hint that he will be the last in the queue and then bolts away to some unknown destination. These are the representatives of the modern world, in which the ratio of lack of time is so great that they do not even watch foreign top-rated TV series. Such people often create problems in queues, because the newcomer does not see the last person in the queue and takes a place after the \"virtual\" link in this chain, wondering where this legendary figure has left.The Smart Beaver has been ill and he's made an appointment with a therapist. The doctor told the Beaver the sad news in a nutshell: it is necessary to do an electrocardiogram. The next day the Smart Beaver got up early, put on the famous TV series on download (three hours till the download's complete), clenched his teeth and bravely went to join a queue to the electrocardiogram room, which is notorious for the biggest queues at the clinic.Having stood for about three hours in the queue, the Smart Beaver realized that many beavers had not seen who was supposed to stand in the queue before them and there was a huge mess. He came up to each beaver in the ECG room queue and asked who should be in front of him in the queue. If the beaver did not know his correct position in the queue, then it might be his turn to go get an ECG, or maybe he should wait for a long, long time...As you've guessed, the Smart Beaver was in a hurry home, so he gave you all the necessary information for you to help him to determine what his number in the queue can be.",
+    "prob_desc_output_spec": "Print all possible positions of the Smart Beaver in the line in the increasing order.",
+    "prob_desc_input_spec": "The first line contains two integers n (1 ≤ n ≤ 103) and x (1 ≤ x ≤ n) — the number of beavers that stand in the queue and the Smart Beaver's number, correspondingly. All willing to get to the doctor are numbered from 1 to n. The second line contains n integers a1, a2, ..., an (0 ≤ ai ≤ n) — the number of the beaver followed by the i-th beaver. If ai = 0, then the i-th beaver doesn't know who is should be in front of him. It is guaranteed that values ai are correct. That is there is no cycles in the dependencies. And any beaver is followed by at most one beaver in the queue. The input limits for scoring 30 points are (subproblem B1):    It is guaranteed that the number of zero elements ai doesn't exceed 20.  The input limits for scoring 100 points are (subproblems B1+B2):    The number of zero elements ai is arbitrary. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_021.jsonl",
+    "code_uid": "23ac20a18045655502496d205013ac1e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 1\\n2 0 4 0 6 0\", \"6 2\\n2 3 0 5 6 0\", \"4 1\\n0 0 0 0\", \"6 2\\n0 0 1 0 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\n\nn, x = map(int, input().split())\n\na = [-10000] + list(map(int, input().split()))\n\nceps = []\nones = 0\nwas = set()\n\nfor i in range(1, n+1):\n    if i not in was and i not in a:\n        cep = [i]\n        while a[i]:\n            cep.append(a[i])\n            i = a[i]\n        for i in cep:\n            was.add(i)\n        #print(cep)\n        if x in cep:\n            r = cep.index(x)\n            l = len(cep) - r - 1\n        else:\n            if len(cep) == 1:\n                ones += 1\n            else:\n                ceps.append(len(cep))\n\nimport itertools\n\nsums = set(ceps)\nfor i in range(2, len(ceps)+1):\n    for comb in itertools.combinations(ceps, i):\n        sums.add(sum(comb))\nsums.add(0)\n\nposs = set()\n#print(l + 1)\nfor s in sums:\n    for i in range(ones+1):\n        poss.add(l + s + 1 + i)\n    #print(l + s + 1)\n\nfor pos in sorted(poss):\n    print(pos)\n",
+    "prob_desc_created_at": "1371042000",
+    "tags": [
+        "dfs and similar",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

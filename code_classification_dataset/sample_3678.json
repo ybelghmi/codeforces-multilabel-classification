@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"5.000000000 2.549499369\\n4.000000000 0.378324889\", \"10.204081436 0.000000000\\n4.000000000 0.378324889\"]",
+    "src_uid": "d51aa18439e7afffa11ad181064c0450",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Bertown is under siege! The attackers have blocked all the ways out and their cannon is bombarding the city. Fortunately, Berland intelligence managed to intercept the enemies' shooting plan. Let's introduce the Cartesian system of coordinates, the origin of which coincides with the cannon's position, the Ox axis is directed rightwards in the city's direction, the Oy axis is directed upwards (to the sky). The cannon will make n more shots. The cannon balls' initial speeds are the same in all the shots and are equal to V, so that every shot is characterized by only one number alphai which represents the angle at which the cannon fires. Due to the cannon's technical peculiarities this angle does not exceed 45 angles (π / 4). We disregard the cannon sizes and consider the firing made from the point (0, 0).The balls fly according to the known physical laws of a body thrown towards the horizon at an angle: vx(t) = V·cos(alpha) vy(t) = V·sin(alpha)  –  g·t x(t) = V·cos(alpha)·t y(t) = V·sin(alpha)·t  –  g·t2 / 2Think of the acceleration of gravity g as equal to 9.8.Bertown defends m walls. The i-th wall is represented as a vertical segment (xi, 0) - (xi, yi). When a ball hits a wall, it gets stuck in it and doesn't fly on. If a ball doesn't hit any wall it falls on the ground (y = 0) and stops. If the ball exactly hits the point (xi, yi), it is considered stuck. Your task is to find for each ball the coordinates of the point where it will be located in the end.",
+    "prob_desc_output_spec": "Print n lines containing two real numbers each — calculate for every ball the coordinates of its landing point. Your answer should have the relative or absolute error less than 10 - 4.",
+    "prob_desc_input_spec": "The first line contains integers n and V (1 ≤ n ≤ 104, 1 ≤ V ≤ 1000) which represent the number of shots and the initial speed of every ball. The second line contains n space-separated real numbers alphai (0 &lt; alphai &lt; π / 4) which represent the angles in radians at which the cannon will fire. The third line contains integer m (1 ≤ m ≤ 105) which represents the number of walls. Then follow m lines, each containing two real numbers xi and yi (1 ≤ xi ≤ 1000, 0 ≤ yi ≤ 1000) which represent the wall’s coordinates. All the real numbers have no more than 4 decimal digits. The walls may partially overlap or even coincide.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_078.jsonl",
+    "code_uid": "11b07351bc932b8eba66e1f7ba7309fc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 10\\n0.7853\\n0.3\\n3\\n5.0 5.0\\n4.0 2.4\\n6.0 1.9\", \"2 10\\n0.7853\\n0.3\\n2\\n4.0 2.4\\n6.0 1.9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom array import array  # noqa: F401\nfrom math import pi, sin, cos\nfrom bisect import bisect_left\n\n\ndef input():\n    return sys.stdin.buffer.readline().decode('utf-8')\n\n\nn, v = map(int, input().split())\nv = float(v)\nalpha = [float(input()) for _ in range(n)]\nm = int(input())\nwall = sorted(tuple(map(float, input().split())) for _ in range(m)) + [(1e9, 1e9)]\nmax_angle = pi / 4\neps = 1e-9\na = [0.0] * m + [max_angle + eps]\n\nfor i in range(m):\n    ng_angle, ok_angle = 0.0, max_angle + eps\n\n    for _ in range(50):\n        mid_angle = (ok_angle + ng_angle) / 2\n        t = wall[i][0] / (v * cos(mid_angle))\n        if (v * sin(mid_angle) * t - 9.8 * t**2 / 2) - eps <= wall[i][1]:\n            ng_angle = mid_angle\n        else:\n            ok_angle = mid_angle\n\n    a[i] = max(a[i], ng_angle)\n    a[i + 1] = max(a[i], a[i + 1])\n\n\nans = [''] * n\nfor i in range(n):\n    wi = bisect_left(a, alpha[i])\n\n    ok, ng = 0.0, 1e7\n    sin_a = sin(alpha[i])\n\n    for _ in range(50):\n        t = (ok + ng) / 2\n        if v * sin_a * t - 9.8 * t**2 / 2 >= 0.0:\n            ok = t\n        else:\n            ng = t\n\n    x = v * cos(alpha[i]) * ok\n\n    if x < wall[wi][0]:\n        ans[i] = f'{x:.8f} {0:.8f}'\n    else:\n        ok, ng = 0.0, 1e7\n        cos_a = cos(alpha[i])\n\n        for _ in range(50):\n            t = (ok + ng) / 2\n            if v * cos_a * t <= wall[wi][0]:\n                ok = t\n            else:\n                ng = t\n        y = v * sin_a * ok - 9.8 * ok**2 / 2\n        ans[i] = f'{wall[wi][0]:.8f} {y:.8f}'\n\nprint('\\n'.join(ans))\n",
+    "prob_desc_created_at": "1291737600",
+    "tags": [
+        "data structures",
+        "sortings",
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

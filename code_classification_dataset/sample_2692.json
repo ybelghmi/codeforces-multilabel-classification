@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"yes\\nyes\\nNo\\nyes\\nNo\"]",
+    "src_uid": "eb0841b6722c46ba714ea61b2519aaca",
+    "prob_desc_notes": "NoteFor the first test case, we can swap prefix $$$a[1:1]$$$ with suffix $$$a[2:2]$$$ to get $$$a=[2, 1]$$$.For the second test case, $$$a$$$ is already equal to $$$b$$$.For the third test case, it is impossible since we cannot obtain $$$3$$$ in $$$a$$$.For the fourth test case, we can first swap prefix $$$a[1:1]$$$ with suffix $$$a[4:4]$$$ to obtain $$$a=[2, 2, 3, 1]$$$. Now we can swap prefix $$$a[1:2]$$$ with suffix $$$a[3:4]$$$ to obtain $$$a=[3, 1, 2, 2]$$$.For the fifth test case, it is impossible to convert $$$a$$$ to $$$b$$$.",
+    "prob_desc_description": "Ayush, Ashish and Vivek are busy preparing a new problem for the next Codeforces round and need help checking if their test cases are valid.Each test case consists of an integer $$$n$$$ and two arrays $$$a$$$ and $$$b$$$, of size $$$n$$$. If after some (possibly zero) operations described below, array $$$a$$$ can be transformed into array $$$b$$$, the input is said to be valid. Otherwise, it is invalid.An operation on array $$$a$$$ is:   select an integer $$$k$$$ $$$(1 \\le k \\le \\lfloor\\frac{n}{2}\\rfloor)$$$  swap the prefix of length $$$k$$$ with the suffix of length $$$k$$$ For example, if array $$$a$$$ initially is $$$\\{1, 2, 3, 4, 5, 6\\}$$$, after performing an operation with $$$k = 2$$$, it is transformed into $$$\\{5, 6, 3, 4, 1, 2\\}$$$.Given the set of test cases, help them determine if each one is valid or invalid.",
+    "prob_desc_output_spec": "For each test case, print \"Yes\" if the given input is valid. Otherwise print \"No\". You may print the answer in any case.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ $$$(1 \\le t \\le 500)$$$ — the number of test cases. The description of each test case is as follows. The first line of each test case contains a single integer $$$n$$$ $$$(1 \\le n \\le 500)$$$ — the size of the arrays. The second line of each test case contains $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_n$$$ $$$(1 \\le a_i \\le 10^9)$$$ — elements of array $$$a$$$. The third line of each test case contains $$$n$$$ integers $$$b_1$$$, $$$b_2$$$, ..., $$$b_n$$$ $$$(1 \\le b_i \\le 10^9)$$$ — elements of array $$$b$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_028.jsonl",
+    "code_uid": "d169d5dd4af1793166b0b5cee4786e0b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2\\n1 2\\n2 1\\n3\\n1 2 3\\n1 2 3\\n3\\n1 2 4\\n1 3 4\\n4\\n1 2 3 2\\n3 1 2 2\\n3\\n1 2 3\\n1 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nimport collections\n\n\ndef read():\n    return input().strip()\n\n\ndef readInt():\n    return int(input().strip())\n\n\ndef readList():\n    return list(map(int, input().strip().split()))\n\n\ndef solve(n, arrA, arrB):\n    if n & 1:\n        midA, midB = arrA[n//2], arrB[n//2]\n\n        if midA != midB:\n            return False\n\n    pairsA = collections.defaultdict(int)\n\n    for i in range(n//2):\n        a1, a2 = arrA[i], arrA[n-i-1]\n        pairsA[tuple(sorted([a1, a2]))] += 1\n\n    for i in range(n//2):\n        b1, b2 = arrB[i], arrB[n-i-1]\n\n        pair = tuple(sorted([b1, b2]))\n\n        if pair not in pairsA or pairsA[pair] == 0:\n            return False\n\n        pairsA[pair] -= 1\n\n    return True\n\n\nt = readInt()\n# [n,m] = readList()\n\nfor i in range(t):\n    n = readInt()\n    arrA = readList()\n    arrB = readList()\n\n    print(\"yes\" if solve(n, arrA, arrB) else \"No\")\n",
+    "prob_desc_created_at": "1591540500",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

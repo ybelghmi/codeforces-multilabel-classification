@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"6\\n5\\n375000012\\n500000026\\n958557139\\n0\\n49735962\"]",
+    "src_uid": "ee4038a896565a82d2d0d5293fce2a18",
+    "prob_desc_notes": "NoteIn the first test case, the entire game has $$$3$$$ turns, and since $$$m = 3$$$, Bob has to add in each of them. Therefore Alice should pick the biggest number she can, which is $$$k = 2$$$, every turn.In the third test case, Alice has a strategy to guarantee a score of $$$\\frac{75}{8} \\equiv 375000012 \\pmod{10^9 + 7}$$$.In the fourth test case, Alice has a strategy to guarantee a score of $$$\\frac{45}{2} \\equiv 500000026 \\pmod{10^9 + 7}$$$.",
+    "prob_desc_description": "This is the easy version of the problem. The difference is the constraints on $$$n$$$, $$$m$$$ and $$$t$$$. You can make hacks only if all versions of the problem are solved.Alice and Bob are given the numbers $$$n$$$, $$$m$$$ and $$$k$$$, and play a game as follows:The game has a score that Alice tries to maximize, and Bob tries to minimize. The score is initially $$$0$$$. The game consists of $$$n$$$ turns. Each turn, Alice picks a real number from $$$0$$$ to $$$k$$$ (inclusive) which Bob either adds to or subtracts from the score of the game. But throughout the game, Bob has to choose to add at least $$$m$$$ out of the $$$n$$$ turns.Bob gets to know which number Alice picked before deciding whether to add or subtract the number from the score, and Alice gets to know whether Bob added or subtracted the number for the previous turn before picking the number for the current turn (except on the first turn since there was no previous turn).If Alice and Bob play optimally, what will the final score of the game be?",
+    "prob_desc_output_spec": "For each test case output a single integer number — the score of the optimal game modulo $$$10^9 + 7$$$. Formally, let $$$M = 10^9 + 7$$$. It can be shown that the answer can be expressed as an irreducible fraction $$$\\frac{p}{q}$$$, where $$$p$$$ and $$$q$$$ are integers and $$$q \\not \\equiv 0 \\pmod{M}$$$. Output the integer equal to $$$p \\cdot q^{-1} \\bmod M$$$. In other words, output such an integer $$$x$$$ that $$$0 \\le x &lt; M$$$ and $$$x \\cdot q \\equiv p \\pmod{M}$$$.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The description of test cases follows. Each test case consists of a single line containing the three integers, $$$n$$$, $$$m$$$, and $$$k$$$ ($$$1 \\le m \\le n \\le 2000, 0 \\le k &lt; 10^9 + 7$$$) — the number of turns, how many of those turns Bob has to add, and the biggest number Alice can choose, respectively. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_093.jsonl",
+    "code_uid": "739510c8a71e2896f4b8121002835310",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n\\n3 3 2\\n\\n2 1 10\\n\\n6 3 10\\n\\n6 4 10\\n\\n100 1 1\\n\\n4 4 0\\n\\n69 4 20\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "mxn=10**9 + 7\r\n\r\ndef modI(a, m):\r\n\r\n    m0=m\r\n    y=0\r\n    x=1;\r\n    if(m==1): return 0;\r\n    while(a>1):\r\n    \r\n        q=a//m;\r\n        t=m;\r\n        m=a%m;\r\n        a=t;\r\n        t=y;\r\n        y=x-q*y;\r\n        x=t;\r\n    \r\n    if(x<0):x+=m0;\r\n    return x;\r\n\r\ndef fastfrac(a,b,M):\r\n    numb = modI(b,M)\r\n    return ((a%M)*(numb%M))%M\r\n    \r\n\r\nfor _ in range(int(input())):\r\n    n,m,k=map(int,input().split())\r\n    dp=[[0 for i in range(m+1)] for j in range(n+1)]\r\n    for i in range(1,n+1):\r\n        for j in range(1,m+1):\r\n            if i==j:\r\n                dp[i][j]=(k*i)%mxn\r\n            else:\r\n                dp[i][j]=fastfrac((dp[i-1][j]+dp[i-1][j-1])%mxn,2,mxn)\r\n    print(dp[n][m])",
+    "prob_desc_created_at": "1642862100",
+    "tags": [
+        "combinatorics",
+        "dp",
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

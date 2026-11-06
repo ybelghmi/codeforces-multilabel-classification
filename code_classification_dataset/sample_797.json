@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2\"]",
+    "src_uid": "58edc35ef6482689f9ac14cc52e19d76",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are running through a rectangular field. This field can be represented as a matrix with 3 rows and m columns. (i, j) denotes a cell belonging to i-th row and j-th column.You start in (2, 1) and have to end your path in (2, m). From the cell (i, j) you may advance to:  (i - 1, j + 1) — only if i &gt; 1,  (i, j + 1), or  (i + 1, j + 1) — only if i &lt; 3. However, there are n obstacles blocking your path. k-th obstacle is denoted by three integers ak, lk and rk, and it forbids entering any cell (ak, j) such that lk ≤ j ≤ rk.You have to calculate the number of different paths from (2, 1) to (2, m), and print it modulo 109 + 7.",
+    "prob_desc_output_spec": "Print the number of different paths from (2, 1) to (2, m), taken modulo 109 + 7. If it is impossible to get from (2, 1) to (2, m), then the number of paths is 0.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n ≤ 104, 3 ≤ m ≤ 1018) — the number of obstacles and the number of columns in the matrix, respectively. Then n lines follow, each containing three integers ak, lk and rk (1 ≤ ak ≤ 3, 2 ≤ lk ≤ rk ≤ m - 1) denoting an obstacle blocking every cell (ak, j) such that lk ≤ j ≤ rk. Some cells may be blocked by multiple obstacles.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_004.jsonl",
+    "code_uid": "7b281583079c0c74bd009984c7f48a87",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 5\\n1 3 4\\n2 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import print_function, division\nfrom collections import OrderedDict\nmod = 1000000007\n\ndef mat(s, m):\n\tt = [[0,0,0],[0,0,0],[0,0,0]]\n\tfor i in xrange(3):\n\t\tfor j in xrange(3):\n\t\t\tt[i][j] = (s[i][0] * m[0][j] + s[i][1] * m[1][j] + s[i][2] * m[2][j]) % mod\n\tfor i in xrange(3):\n\t\ts[i] = t[i][:]\n\ndef matmul(matrix, v, times):\n\tif times == 0:\n\t\treturn\n\ttmatrix = [[1,1,0],[1,1,1],[0,1,1]]\n\tfor i in xrange(3):\n\t\tif v[i] > 0:\n\t\t\ttmatrix[0][i], tmatrix[1][i], tmatrix[2][i] = 0, 0, 0\n\n\tans = [[1,0,0],[0,1,0],[0,0,1]]\n\twhile times > 0:\n\t\tif times % 2 == 1:\n\t\t\t# ans = np.matmul(ans, tmatrix)\n\t\t\tmat(ans, tmatrix)\n\t\t# tmatrix = np.matmul(tmatrix, tmatrix)\n\t\tmat(tmatrix, tmatrix)\n\t\ttimes //= 2\n\n\tmat(matrix, ans)\n\t# matrix = np.matmul(matrix, ans)\ndef getans():\n\trun = {}\n\n\tn, m = map(int, raw_input().split())\n\n\tfor i in xrange(n):\n\t\ta, l, r = map(int, raw_input().split())\n\t\tif not (l-1 in run):\n\t\t\trun[l-1] = [0, 0, 0]\n\t\trun[l-1][a-1] += 1\n\n\t\tif not (r in run):\n\t\t\trun[r] = [0, 0, 0]\n\t\trun[r][a-1] -= 1\n\n\tcurrent = (0, 0, 0)\n\trun = OrderedDict(sorted(run.items(), key=lambda t: t[0]))\n\n\tfor k, v in run.iteritems():\n\t\trun[k] = (current[0] + v[0], current[1] + v[1], current[2] + v[2])\n\t\tcurrent = run[k]\n\n\tinit_pos = 1\n\tcurrent = (0, 0, 0)\n\tmatrix = [[1,0,0],[0,1,0],[0,0,1]]\n\tfor k, v in run.iteritems():\n\t\tmatmul(matrix, current, k - init_pos)\n\t\tcurrent = v\n\t\tinit_pos = k\n\tmatmul(matrix, current, m - init_pos)\n\n\treturn matrix[1][1]\n\t\nans = getans()\nprint(\"%d\" % ans)",
+    "prob_desc_created_at": "1521698700",
+    "tags": [
+        "dp",
+        "sortings",
+        "matrices"
+    ],
+    "hidden_unit_tests": ""
+}

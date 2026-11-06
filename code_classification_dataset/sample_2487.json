@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n1 2\", \"NO\", \"YES\\n3 3\"]",
+    "src_uid": "12a768b502ddb07798830c9728fba5c4",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a description of a depot. It is a rectangular checkered field of n × m size. Each cell in a field can be empty (\".\") or it can be occupied by a wall (\"*\"). You have one bomb. If you lay the bomb at the cell (x, y), then after triggering it will wipe out all walls in the row x and all walls in the column y.You are to determine if it is possible to wipe out all walls in the depot by placing and triggering exactly one bomb. The bomb can be laid both in an empty cell or in a cell occupied by a wall.",
+    "prob_desc_output_spec": "If it is impossible to wipe out all walls by placing and triggering exactly one bomb, then print \"NO\" in the first line (without quotes). Otherwise print \"YES\" (without quotes) in the first line and two integers in the second line — the coordinates of the cell at which the bomb should be laid. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains two positive integers n and m (1 ≤ n, m ≤ 1000) — the number of rows and columns in the depot field.  The next n lines contain m symbols \".\" and \"*\" each — the description of the field. j-th symbol in i-th of them stands for cell (i, j). If the symbol is equal to \".\", then the corresponding cell is empty, otherwise it equals \"*\" and the corresponding cell is occupied by a wall.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_023.jsonl",
+    "code_uid": "053d599b1e51fc41be5aafb2bcd863f0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\n.*..\\n....\\n.*..\", \"3 3\\n..*\\n.*.\\n*..\", \"6 5\\n..*..\\n..*..\\n*****\\n..*..\\n..*..\\n..*..\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -------------------------------#\n# INCLUDE <HajLorenzo>\n# INCLUDE <mega16.h>\n# Submit_Some_1400_ELO_:)\n# -------------------------------#\n\narray=[]\n\na=list(map(int,input().split()))\n\nif(a[0]==1 or a[1]==1):\n    for i in range(a[0]):\n        tmp = input()\n    print(\"YES\")\n    print(\"1 1\")\nelse:\n    r=[0 for i in range(a[0])]\n    c=[0 for i in range(a[1])]\n    TOTAL=0\n    for i in range(a[0]):\n        tmp=input()\n        array.append(tmp)\n        if (\"*\" in tmp):\n            r[i]+=tmp.count(\"*\")\n            TOTAL+=r[i]\n            for j in range(tmp.find(\"*\"),a[1]):\n                if(tmp[j]==\"*\"):\n                    c[j]+=1\n    max=max(c)\n    for i in range(a[0]):\n        if(r[i]+max>=TOTAL):\n            for j in range(a[1]):\n                if(r[i]+c[j]>=TOTAL):\n                    DF0X=r[i] + c[j]\n                    if(array[i][j]==\"*\"):\n                        DF0X-=1\n                    if(DF0X==TOTAL):\n                        print(\"YES\")\n                        print(i+1,end=\" \")\n                        print(j+1)\n                        exit(0)\n    print(\"NO\")\n\n#I This one Should Be Ok :)\n#Good",
+    "prob_desc_created_at": "1468933500",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

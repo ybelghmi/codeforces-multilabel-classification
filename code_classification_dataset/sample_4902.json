@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n1 2 3 4 5\\nYES\\n1145 1926 1440 1220 1230 1350 1001 1000 1233\\nNO\\nYES\\n1000000000\"]",
+    "src_uid": "d2cc6efe7173a64482659ba59efeec16",
+    "prob_desc_notes": "NoteIn the first test case, $$$\\gcd(1,a_1),\\gcd(2,a_2),\\ldots,\\gcd(5,a_5)$$$ are equal to $$$1$$$, $$$2$$$, $$$3$$$, $$$4$$$, $$$5$$$, respectively.",
+    "prob_desc_description": "You are given three integers $$$n$$$, $$$l$$$, and $$$r$$$. You need to construct an array $$$a_1,a_2,\\dots,a_n$$$ ($$$l\\le a_i\\le r$$$) such that $$$\\gcd(i,a_i)$$$ are all distinct or report there's no solution.Here $$$\\gcd(x, y)$$$ denotes the greatest common divisor (GCD) of integers $$$x$$$ and $$$y$$$.",
+    "prob_desc_output_spec": "For each test case, if there is no solution, print \"NO\" (without quotes). You can print letters in any case (upper or lower). Otherwise, print \"YES\" (without quotes). In the next line, print $$$n$$$ integers $$$a_1,a_2,\\ldots,a_n$$$ — the array you construct. If there are multiple solutions, you may output any.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1\\le t\\le 10^4$$$) — the number of test cases. The description of the test cases follows. The first line contains three integers $$$n$$$, $$$l$$$, $$$r$$$ ($$$1 \\le n \\le 10^5$$$, $$$1\\le l\\le r\\le 10^9$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_108.jsonl",
+    "code_uid": "41f371e60d17f7738724802f7a0f13af",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n5 1 5\\n9 1000 2000\\n10 30 35\\n1 1000000000 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n    n,l,r=[int(num) for num in input().split(\" \",2)]\r\n    truth=True\r\n    for i in range(1,n+1):\r\n        if i*(1+(l-1)//i)>r:\r\n            print(\"No\")\r\n            truth=False\r\n            break\r\n    if truth:\r\n        print(\"Yes\")\r\n        a=[i*(1+(l-1)//i) for i in range(1,n+1)]\r\n        print(*a)",
+    "prob_desc_created_at": "1657982100",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

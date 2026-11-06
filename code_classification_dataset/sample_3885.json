@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2 \\n1 3 4 2 \\n1 4 2 3 5\"]",
+    "src_uid": "5827192d9b8b6b2b51a0bd373ec17daf",
+    "prob_desc_notes": "NoteIn the first test case, there are two permutations of length $$$2$$$: $$$(1, 2)$$$ and $$$(2, 1)$$$. Permutation $$$(1, 2)$$$ has weight $$$|1 - p_2| + |2 - p_1| = 0$$$, and permutation $$$(2, 1)$$$ has the same weight: $$$|2 - p_1| + |1 - p_2| = 0$$$. You can output any of these permutations in this version.In the second test case, the weight of the permutation $$$(1, 3, 4, 2)$$$ is $$$|1 - p_3| + |3 - p_4| + |4 - p_2| + |2 - p_1| = |1 - 1| + |3 - 4| + |4 - 3| + |2 - 2| = 2$$$. There are no permutations with smaller weights.In the third test case, the weight of the permutation $$$(1, 4, 2, 3, 5)$$$ is $$$|1 - p_4| + |4 - p_2| + |2 - p_3| + |3 - p_5| + |5 - p_1| = |1 - 2| + |4 - 4| + |2 - 3| + |3 - 1| + |5 - 5| = 4$$$. There are no permutations with smaller weights.",
+    "prob_desc_description": "This is an easy version of the problem. The difference between the easy and hard versions is that in this version, you can output any permutation with the smallest weight.You are given a permutation $$$p_1, p_2, \\ldots, p_n$$$ of integers from $$$1$$$ to $$$n$$$.Let's define the weight of the permutation $$$q_1, q_2, \\ldots, q_n$$$ of integers from $$$1$$$ to $$$n$$$ as $$$$$$|q_1 - p_{q_{2}}| + |q_2 - p_{q_{3}}| + \\ldots + |q_{n-1} - p_{q_{n}}| + |q_n - p_{q_{1}}|$$$$$$You want your permutation to be as lightweight as possible. Find any permutation $$$q$$$ with the smallest possible weight.",
+    "prob_desc_output_spec": "For each test case, output $$$n$$$ integers $$$q_1, q_2, \\ldots, q_n$$$ ($$$1 \\le q_i \\le n$$$, all $$$q_i$$$ are distinct)  — one of the permutations with the smallest weight.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$)  — the number of test cases. The description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 200$$$)  — the size of the permutation. The second line of each test case contains $$$n$$$ integers $$$p_1, p_2, \\ldots, p_n$$$ ($$$1 \\le p_i \\le n$$$, all $$$p_i$$$ are distinct)  — the elements of the permutation. The sum of $$$n$$$ over all test cases doesn't exceed $$$400$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_085.jsonl",
+    "code_uid": "7cf8e88d0f8f93db831657be9f536079",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n2\\n\\n2 1\\n\\n4\\n\\n2 3 1 4\\n\\n5\\n\\n5 4 3 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\n\r\nclass Node:\r\n    def __init__(self, i):\r\n        self.i = i\r\n        self.nex = None\r\n        self.bef = None\r\n\r\ndef solve():\r\n    n = int(input())\r\n    P = list(map(int, input().split()))\r\n    node = [Node(i) for i in range(n)]\r\n    for i, p in enumerate(P):\r\n        p -= 1\r\n        node[p].nex = node[i]\r\n        node[i].bef = node[p]\r\n    used = [False] * n\r\n    V = node[0]\r\n    while not used[V.i]:\r\n        used[V.i] = True\r\n        V = V.nex\r\n    for i in range(n):\r\n        if used[i]:\r\n            continue\r\n        V = node[i]\r\n        while not used[V.i]:\r\n            used[V.i] = True\r\n            V = V.nex\r\n        \"\"\"\r\n        node[i].nex = node[i - 1].nex\r\n        node[i - 1].nex = node[i].nex\r\n        node[i].nex.bef = node[i - 1]\r\n        node[i - 1].nex.bef = node[i]\r\n        \"\"\"\r\n        node[i].nex, node[i - 1].nex, node[i].nex.bef, node[i - 1].nex.bef = node[i - 1].nex, node[i].nex, node[i - 1], node[i]\r\n\r\n    ans = [1]\r\n    V = node[0].nex\r\n    while V.i != 0:\r\n        ans.append(V.i + 1)\r\n        V = V.nex\r\n    print(*ans)\r\n\r\nfor _ in range(int(input())):\r\n    solve()",
+    "prob_desc_created_at": "1653500100",
+    "tags": [
+        "constructive algorithms",
+        "dfs and similar",
+        "dsu"
+    ],
+    "hidden_unit_tests": ""
+}

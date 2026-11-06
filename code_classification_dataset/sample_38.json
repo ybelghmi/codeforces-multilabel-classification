@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"169\"]",
+    "src_uid": "e367f5d18b08882ec518b2d4188ccdea",
+    "prob_desc_notes": "NoteIn the first sample, the three special numbers are 3, 5 and 6. They get reduced to 2 in one operation (since there are two set bits in each of 3, 5 and 6) and then to 1 in one more operation (since there is only one set bit in 2).",
+    "prob_desc_description": "The Travelling Salesman spends a lot of time travelling so he tends to get bored. To pass time, he likes to perform operations on numbers. One such operation is to take a positive integer x and reduce it to the number of bits set to 1 in the binary representation of x. For example for number 13 it's true that 1310 = 11012, so it has 3 bits set and 13 will be reduced to 3 in one operation.He calls a number special if the minimum number of operations to reduce it to 1 is k.He wants to find out how many special numbers exist which are not greater than n. Please help the Travelling Salesman, as he is about to reach his destination!Since the answer can be large, output it modulo 109 + 7.",
+    "prob_desc_output_spec": "Output a single integer — the number of special numbers not greater than n, modulo 109 + 7.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n &lt; 21000). The second line contains integer k (0 ≤ k ≤ 1000). Note that n is given in its binary representation without any leading zeros.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_000.jsonl",
+    "code_uid": "e6658c0c8f75918fdf9eae5fbfc84251",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"110\\n2\", \"111111011\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "dpc=[1]\ndpci=[]\nfor i in range(1,2000):\n    dpc.append((dpc[i-1]*i)%1000000007)\ndef modInverse(a, m) :\n    m0 = m\n    y = 0\n    x = 1\n    if (m == 1) :\n        return 0\n    while (a > 1) :\n        q = a // m\n        t = m\n        m = a % m\n        a = t\n        t = y\n        y = x - q * y\n        x = t\n    if (x < 0) :\n        x = x + m0\n    return x\nfor i in dpc:\n    dpci.append(modInverse(i,1000000007))\ndef c(n,r):\n    if(r<0):\n        return 0\n    if(n<r):\n        return 0\n    if(n<0):\n        return 0\n    return dpc[n]*dpci[r]*dpci[n-r]\n\ndp={1:0}\ndef f(n):\n    x=n\n    b=0\n    while x!=0:\n        x=x&(x-1)\n        b+=1\n    dp[n]=dp[b]+1\nfor i in range(2,1001):\n    f(i)\na=[[],[],[],[],[]]\nfor i in dp:\n    a[dp[i]].append(i)\nn=input()\nl=len(n)\nx=[]\nfor i in range(l):\n    if n[i]=='1':\n        x.append(i)\n#print(l)\nk=int(input())\nif k>5:\n    print(0)\nelif k==0:\n    print(1)\nelse:\n    ans=0\n    for i in a[k-1]:\n        r=0\n        for j in x:\n            if i-r<0:\n                break\n            xy=c(l-j-1,i-r)\n            #print(l-j-1,i-r,xy)\n            ans=(ans+xy)%1000000007\n            r+=1\n    if len(x) in a[k-1] and len(x)!=1:\n        ans+=1\n    if len(x)>1 and k==1:\n        ans-=1\n    print(ans)",
+    "prob_desc_created_at": "1516462500",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

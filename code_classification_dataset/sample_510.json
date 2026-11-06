@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\\n2\"]",
+    "src_uid": "a2b71d66ea1fdc3249e37be3ab0e67ef",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Jon Snow is on the lookout for some orbs required to defeat the white walkers. There are k different types of orbs and he needs at least one of each. One orb spawns daily at the base of a Weirwood tree north of the wall. The probability of this orb being of any kind is equal. As the north of wall is full of dangers, he wants to know the minimum number of days he should wait before sending a ranger to collect the orbs such that the probability of him getting at least one of each kind of orb is at least , where ε &lt; 10 - 7.To better prepare himself, he wants to know the answer for q different values of pi. Since he is busy designing the battle strategy with Sam, he asks you for your help.",
+    "prob_desc_output_spec": "Output q lines. On i-th of them output single integer — answer for i-th query.",
+    "prob_desc_input_spec": "First line consists of two space separated integers k, q (1 ≤ k, q ≤ 1000) — number of different kinds of orbs and number of queries respectively. Each of the next q lines contain a single integer pi (1 ≤ pi ≤ 1000) — i-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_002.jsonl",
+    "code_uid": "de0c6f0d62bc8e0c0362c588e21ebfd6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\\n1\", \"2 2\\n1\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import random\nimport time\n\nseed = int(time.time())\nrandom.seed(seed)\n\ndef solve(k, p):\n    pass\n\ndef main():\n    xs = [int(x) for x in raw_input().strip().split()]\n    k = xs[0]\n    dp = [[0.0 for _ in range(k+1)] for _ in range(10000)]\n    for d in range(1, 10000):\n        dp[d][1] = 1.0\n        for ki in range(2, min(d, k)+1):\n            dp[d][ki] = (float(k-ki+1)/k)*dp[d-1][ki-1] + (float(ki-1)/k)*dp[d-1][ki]\n    for _ in range(xs[1]):\n        p = int(raw_input().strip())\n        for d in range(k, 10000):\n            if dp[d][k] > float(p)/2000:\n                print d\n                break\n\nif '__main__'==__name__:\n    main()\n",
+    "prob_desc_created_at": "1487606700",
+    "tags": [
+        "dp",
+        "probabilities",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

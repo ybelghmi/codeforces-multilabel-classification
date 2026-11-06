@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"94\\n0\\n32\"]",
+    "src_uid": "12814033bec4956e7561767a6778d77e",
+    "prob_desc_notes": "NoteIn the example testcase:Here are the intersections used:    Intersections on the path are 3, 1, 2 and 4.  Intersections on the path are 4, 2 and 1.  Intersections on the path are only 3 and 6.  Intersections on the path are 4, 2, 1 and 3. Passing fee of roads on the path are 32, 32 and 30 in order. So answer equals to 32 + 32 + 30 = 94.  Intersections on the path are 6, 3 and 1.  Intersections on the path are 3 and 7. Passing fee of the road between them is 0.  Intersections on the path are 2 and 4. Passing fee of the road between them is 32 (increased by 30 in the first event and by 2 in the second). ",
+    "prob_desc_description": "Barney lives in NYC. NYC has infinite number of intersections numbered with positive integers starting from 1. There exists a bidirectional road between intersections i and 2i and another road between i and 2i + 1 for every positive integer i. You can clearly see that there exists a unique shortest path between any two intersections.  Initially anyone can pass any road for free. But since SlapsGiving is ahead of us, there will q consecutive events happen soon. There are two types of events:1. Government makes a new rule. A rule can be denoted by integers v, u and w. As the result of this action, the passing fee of all roads on the shortest path from u to v increases by w dollars. 2. Barney starts moving from some intersection v and goes to intersection u where there's a girl he wants to cuddle (using his fake name Lorenzo Von Matterhorn). He always uses the shortest path (visiting minimum number of intersections or roads) between two intersections.Government needs your calculations. For each time Barney goes to cuddle a girl, you need to tell the government how much money he should pay (sum of passing fee of all roads he passes).",
+    "prob_desc_output_spec": "For each event of second type print the sum of passing fee of all roads Barney passes in this event, in one line. Print the answers in chronological order of corresponding events.",
+    "prob_desc_input_spec": "The first line of input contains a single integer q (1 ≤ q ≤ 1 000). The next q lines contain the information about the events in chronological order. Each event is described in form 1 v u w if it's an event when government makes a new rule about increasing the passing fee of all roads on the shortest path from u to v by w dollars, or in form 2 v u if it's an event when Barnie goes to cuddle from the intersection v to the intersection u. 1 ≤ v, u ≤ 1018, v ≠ u, 1 ≤ w ≤ 109 states for every description line.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_037.jsonl",
+    "code_uid": "1dbd27f90dd65b67bedfe9b659524eea",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n1 3 4 30\\n1 4 1 2\\n1 3 6 8\\n2 4 3\\n1 6 1 40\\n2 3 7\\n2 2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "q = int(input())\nans = []\ncost = {}\n\ndef getn(v, k = 1):\n    res = []\n    while k <= v:\n        res.append(v)\n        v //= 2\n    return res\n\ndef getp(arr):\n    res = []\n    for i in range(len(arr) - 1):\n        res.append((arr[i], arr[i + 1]))\n    return res\n\ndef gets(u, v):\n    resu, resv = getn(u), getn(v)\n    for i in resv:\n        if i in resu:\n            return getp(getn(u, i)) + getp(getn(v, i))\n\nfor i in range(q):\n    t, *p = map(int, input().split())\n    u, v = p[0], p[1]\n    if v < u:\n        u, v = v, u\n\n    path = gets(u, v)\n    if t == 1:\n        for rd in path:\n            if rd in cost:\n                cost[rd] += p[2]\n            else:\n                cost[rd] = p[2]\n    else:\n        tot = 0\n        for rd in path:\n            if rd in cost:\n                tot += cost[rd]\n        \n        ans.append(tot)\n\nprint(\"\\n\".join(map(str, ans)))",
+    "prob_desc_created_at": "1468514100",
+    "tags": [
+        "data structures",
+        "implementation",
+        "trees",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Alice\\nAlice\\nBob\\nAlice\"]",
+    "src_uid": "d0c9f2f2037d093762fb87206f396850",
+    "prob_desc_notes": "NoteIn the first and second test cases, Alice always selects two odd numbers, so the sum of her selected numbers is always even. Therefore, Alice always wins.In the third test case, Bob has a winning strategy that he always selects a number with the same parity as Alice selects in her last turn. Therefore, Bob always wins.In the fourth test case, Alice always selects two even numbers, so the sum of her selected numbers is always even. Therefore, Alice always wins.",
+    "prob_desc_description": "Alice and Bob are playing a game on a sequence $$$a_1, a_2, \\dots, a_n$$$ of length $$$n$$$. They move in turns and Alice moves first.In the turn of each player, he or she should select an integer and remove it from the sequence. The game ends when there is no integer left in the sequence. Alice wins if the sum of her selected integers is even; otherwise, Bob wins. Your task is to determine who will win the game, if both players play optimally.",
+    "prob_desc_output_spec": "For each test case, output \"Alice\" (without quotes) if Alice wins and \"Bob\" (without quotes) otherwise.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. The following lines contain the description of each test case. The first line of each test case contains an integer $$$n$$$ ($$$1 \\leq n \\leq 100$$$), indicating the length of the sequence. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$-10^9 \\leq a_i \\leq 10^9$$$), indicating the elements of the sequence.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_103.jsonl",
+    "code_uid": "18a4ec199b3940d6c6161e93b860b71f",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n3\\n\\n1 3 5\\n\\n4\\n\\n1 3 5 7\\n\\n4\\n\\n1 2 3 4\\n\\n4\\n\\n10 20 30 40\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\n\r\ndef solve(n, a):\r\n    x, y = 0, 0\r\n    for i in a:\r\n        if (i&1): x = x+1\r\n        else: y = y+1\r\n\r\n    def f(x):\r\n        return (((x>>1)+(x&1))&1)\r\n\r\n    if x>=2:\r\n        if not f(x) and not (x&1):\r\n            return \"Alice\"\r\n        if f(x) and not (x&1):\r\n            return \"Bob\"\r\n        if not f(x) or (y&1):\r\n            return \"Alice\"\r\n        return \"Bob\"\r\n    \r\n    else:\r\n        if x==0:\r\n            return \"Alice\"\r\n        if x==1 and (y&1):\r\n            return \"Alice\"\r\n        return \"Bob\"\r\n        \r\n\r\nfor i in range(t):\r\n    n = int(input())\r\n    a = list(map(int, input().split()))\r\n    print(solve(n, a))",
+    "prob_desc_created_at": "1664548500",
+    "tags": [
+        "dp",
+        "games",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

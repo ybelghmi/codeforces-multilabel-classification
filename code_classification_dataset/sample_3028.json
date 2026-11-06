@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"263\"]",
+    "src_uid": "fc84555813fc8f3cc4c524c377602fa8",
+    "prob_desc_notes": "NoteIn the example test the best course of action is as follows:During the first turn, play all three cards in any order and deal $$$18$$$ damage.During the second turn, play both cards and deal $$$7$$$ damage.During the third turn, play the first and the third card and deal $$$13$$$ damage.During the fourth turn, play the first and the third card and deal $$$25$$$ damage.During the fifth turn, play the only card, which will deal double damage ($$$200$$$).",
+    "prob_desc_description": "You are playing a computer card game called Splay the Sire. Currently you are struggling to defeat the final boss of the game.The boss battle consists of $$$n$$$ turns. During each turn, you will get several cards. Each card has two parameters: its cost $$$c_i$$$ and damage $$$d_i$$$. You may play some of your cards during each turn in some sequence (you choose the cards and the exact order they are played), as long as the total cost of the cards you play during the turn does not exceed $$$3$$$. After playing some (possibly zero) cards, you end your turn, and all cards you didn't play are discarded. Note that you can use each card at most once.Your character has also found an artifact that boosts the damage of some of your actions: every $$$10$$$-th card you play deals double damage.What is the maximum possible damage you can deal during $$$n$$$ turns?",
+    "prob_desc_output_spec": "Print one integer — the maximum damage you may deal.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of turns. Then $$$n$$$ blocks of input follow, the $$$i$$$-th block representing the cards you get during the $$$i$$$-th turn. Each block begins with a line containing one integer $$$k_i$$$ ($$$1 \\le k_i \\le 2 \\cdot 10^5$$$) — the number of cards you get during $$$i$$$-th turn. Then $$$k_i$$$ lines follow, each containing two integers $$$c_j$$$ and $$$d_j$$$ ($$$1 \\le c_j \\le 3$$$, $$$1 \\le d_j \\le 10^9$$$) — the parameters of the corresponding card. It is guaranteed that $$$\\sum \\limits_{i = 1}^{n} k_i \\le 2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_039.jsonl",
+    "code_uid": "3259761ddd8652539f8e7424d6dbee71",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3\\n1 6\\n1 7\\n1 5\\n2\\n1 4\\n1 3\\n3\\n1 10\\n3 5\\n2 3\\n3\\n1 15\\n2 4\\n1 10\\n1\\n1 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys,math\nfrom fractions import gcd\nfrom bisect import bisect_left, bisect\nfrom collections import defaultdict\nfrom io import BytesIO\nsys.stdin = BytesIO(sys.stdin.read())\ninput = lambda: sys.stdin.readline().rstrip('\\r\\n')\nn = int(input())\n\n#s = list(input())\n#l = len(s)\n#arr = [int(_) for _ in input().split()]\nd = [0] * 10\nfor step in range(n):\n    k = int(input())\n    b3,b2,b11,b12,b13 = 0,0,0,0,0\n    for i in range(k):\n        c,s = [int(_) for _ in input().split()]\n        if c == 3 and s > b3:\n            b3 = s\n        elif c == 2 and s > b2:\n            b2 = s\n        elif c == 1:\n            if s > b11:\n                b11,b12,b13 = s,b11,b12\n            elif s > b12:\n                b12,b13 = s,b12\n            elif s > b13:\n                b13 = s\n    newd = d[:]\n    for i in range(10):\n        if i == 0 or d[i]:\n            nz = 0\n            if b11 > 0:\n                nz += 1\n            if b12 > 0:\n                nz += 1\n            if b13 > 0:\n                nz += 1\n            if nz > 2:\n                if 3 + i >= 10:\n                    op = 1\n                else:\n                    op = 0\n                newd[(i+3)%10] = max(newd[(i+3)%10],d[i] + b11 + b12 + b13 + op * max(b11,b12,b13))\n            if nz > 1:\n                if 2 + i >= 10:\n                    op = 1\n                else:\n                    op = 0\n                newd[(i+2)%10] = max(newd[(i+2)%10],d[i] + b11 + b12 + b13 - min(b11,b12,b13) + op * max(b11,b12,b13))\n            if nz > 0:\n                if 1 + i >= 10:\n                    op = 1\n                else:\n                    op = 0\n                newd[(i+1)%10] = max(newd[(i+1)%10],d[i] + max(b11,b12,b13) + op * max(b11,b12,b13))\n            if b2 > 0:\n                if nz > 0:\n                    if 2 + i >= 10:\n                        op = 1\n                    else:\n                        op = 0\n                    newd[(i+2)%10] = max(newd[(i+2)%10],d[i] + b2 + max(b11,b12,b13) + op * max(b2,b11,b12,b13))\n                if 1 + i >= 10:\n                    op = 1\n                else:\n                    op = 0\n                newd[(i+1)%10] = max(newd[(i+1)%10],d[i] + b2 + op * b2)\n            if b3 > 0:\n                if i + 1 >= 10:\n                    op = 1\n                else:\n                    op = 0\n                newd[(i+1)%10] = max(newd[(i+1)%10],d[i] + b3 + op * b3)\n    d = newd[:]\n    #print(step,d)\nprint(max(d))\n                ",
+    "prob_desc_created_at": "1560090900",
+    "tags": [
+        "dp",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1.000000000\\n-1\\n2.000000000\\n2.000000000\\n0.000000000\"]",
+    "src_uid": "29fd4c77a2f28478ebce98dfc6496aac",
+    "prob_desc_notes": "NoteThe configuration of the first test case is shown in the picture. But the movement of the first table is not optimal. One of the optimal movement, for example, is to move the table by $$$(0, -1)$$$, so the lower left corner will move from $$$(2, 1)$$$ to $$$(2, 0)$$$. Then you can place the second table at $$$(0, 3)-(4, 5)$$$.In the second test case, there is no way to fit both tables in the room without intersecting.In the third test case, you can move the first table by $$$(0, 2)$$$, so the lower left corner will move from $$$(0, 3)$$$ to $$$(0, 5)$$$.",
+    "prob_desc_description": "You have an axis-aligned rectangle room with width $$$W$$$ and height $$$H$$$, so the lower left corner is in point $$$(0, 0)$$$ and the upper right corner is in $$$(W, H)$$$.There is a rectangular table standing in this room. The sides of the table are parallel to the walls, the lower left corner is in $$$(x_1, y_1)$$$, and the upper right corner in $$$(x_2, y_2)$$$.You want to place another rectangular table in this room with width $$$w$$$ and height $$$h$$$ with the width of the table parallel to the width of the room.The problem is that sometimes there is not enough space to place the second table without intersecting with the first one (there are no problems with tables touching, though).You can't rotate any of the tables, but you can move the first table inside the room.   Example of how you may move the first table. What is the minimum distance you should move the first table to free enough space for the second one?",
+    "prob_desc_output_spec": "For each test case, print the minimum distance you should move the first table, or $$$-1$$$ if there is no way to free enough space for the second table. Your answer will be considered correct if its absolute or relative error doesn't exceed $$$10^{-6}$$$.",
+    "prob_desc_input_spec": "The first line contains the single integer $$$t$$$ ($$$1 \\le t \\le 5000$$$) — the number of the test cases. The first line of each test case contains two integers $$$W$$$ and $$$H$$$ ($$$1 \\le W, H \\le 10^8$$$) — the width and the height of the room. The second line contains four integers $$$x_1$$$, $$$y_1$$$, $$$x_2$$$ and $$$y_2$$$ ($$$0 \\le x_1 &lt; x_2 \\le W$$$; $$$0 \\le y_1 &lt; y_2 \\le H$$$) — the coordinates of the corners of the first table. The third line contains two integers $$$w$$$ and $$$h$$$ ($$$1 \\le w \\le W$$$; $$$1 \\le h \\le H$$$) — the width and the height of the second table.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_088.jsonl",
+    "code_uid": "a0390159c686728f804f71d3263256d3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n8 5\\n2 1 7 4\\n4 2\\n5 4\\n2 2 5 4\\n3 3\\n1 8\\n0 3 1 6\\n1 5\\n8 1\\n3 0 6 1\\n5 1\\n8 10\\n4 5 7 8\\n8 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# Kevin Hwang, 2022\r\n# https://codeforces.com/problemset/problem/1555/B\r\n\r\nN = int(input())\r\n\r\nfor i in range(N):\r\n    boxWidth, boxLength = map(int, input().split())\r\n    x1, y1, x2, y2 = map(int, input().split())\r\n    newTableWidth, newTableLength = map(int, input().split())\r\n\r\n    # If there is no overlap, then the result of these calculations are negative or 0 \r\n    # We can just do max(0, calc) to find the minimum distance you need to move\r\n    # |       |   |       |\r\n    # |         |     |   |\r\n    # 0 1 2 3 4 5 6 7 8 9 10\r\n    # Minimum distance that you need if you are going to travel in the opposite direciton\r\n    # if you place the new table to the ___ of the rectangle\r\n    downDist = max(0, newTableLength-y1)\r\n    upDist = max(0, y2 - (boxLength - newTableLength))\r\n    leftDist = max(0, newTableWidth-x1)\r\n    rightDist = max(0, x2 - (boxWidth - newTableWidth))\r\n\r\n    # Check if within bounds\r\n    # why does checking whether the individual translated points are in bounds not work:\r\n    #if down_dist + y2 > boxLength:\r\n    #    down_dist = float(\"inf\")\r\n    #if y1 - up_dist < 0:\r\n    #    up_dist = float(\"inf\")\r\n    #if left_dist + x2 > boxWidth:\r\n    #    left_dist = float(\"inf\")\r\n    #if x1 - down_dist < 0:\r\n    #    right_dist = float(\"inf\")\r\n    if newTableLength + (y2-y1) > boxLength:\r\n        downDist, upDist = None, None\r\n    if newTableWidth + (x2-x1) > boxWidth:\r\n        leftDist, rightDist = None, None\r\n\r\n    solutionSet = [i for i in (downDist, upDist, leftDist, rightDist) if i is not None]\r\n    if not solutionSet:\r\n        print(-1)\r\n    else:\r\n        print(min(solutionSet))\r\n",
+    "prob_desc_created_at": "1627655700",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

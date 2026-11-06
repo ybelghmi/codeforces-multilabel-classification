@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\\n9\\n0\\n2\"]",
+    "src_uid": "3bf5d493813c5582200eca9248b357d3",
+    "prob_desc_notes": "NoteIn the first testcase one of the optimal sequences of operations is the following (bold font shows l-shape figure on which operation was performed):   Matrix before any operation was performed:  101111011110  Matrix after $$$1$$$ operation was performed:  100101011110  Matrix after $$$2$$$ operations were performed:  100100011110  Matrix after $$$3$$$ operations were performed:  100100010110  Matrix after $$$4$$$ operations were performed:  100000010110  Matrix after $$$5$$$ operations were performed:  100000010100  Matrix after $$$6$$$ operations were performed:  100000000100  Matrix after $$$7$$$ operations were performed:  000000000100  Matrix after $$$8$$$ operations were performed:  000000000000 In the third testcase from the sample we can not perform any operation because the matrix doesn't contain any ones.In the fourth testcase it does not matter which L-shape figure we pick in our first operation. We will always be left with single one. So we will perform $$$2$$$ operations.",
+    "prob_desc_description": "You are given a matrix consisting of $$$n$$$ rows and $$$m$$$ columns. Each cell of this matrix contains $$$0$$$ or $$$1$$$.Let's call a square of size $$$2 \\times 2$$$ without one corner cell an L-shape figure. In one operation you can take one L-shape figure, with at least one cell containing $$$1$$$ and replace all numbers in it with zeroes.Find the maximum number of operations that you can do with the given matrix.",
+    "prob_desc_output_spec": "For each test case output the maximum number of operations you can do with the given matrix.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\leq t \\leq 500$$$) — the number of test cases. Then follow the descriptions of each test case. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\leq n, m \\leq 500$$$) — the size of the matrix. Each of the following $$$n$$$ lines contains a binary string of length $$$m$$$ — the description of the matrix. It is guaranteed that the sum of $$$n$$$ and the sum of $$$m$$$ over all test cases does not exceed $$$1000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_098.jsonl",
+    "code_uid": "16f49da3880be7f299b4168a3552fb74",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n4 3\\n\\n101\\n\\n111\\n\\n011\\n\\n110\\n\\n3 4\\n\\n1110\\n\\n0111\\n\\n0111\\n\\n2 2\\n\\n00\\n\\n00\\n\\n2 2\\n\\n11\\n\\n11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\r\nfor _ in range(t):\r\n    \r\n    \r\n    a=list(map(int,input().split()))\r\n    n,m=a\r\n    L=[]\r\n    x=0\r\n    for i in range(n):\r\n        a=input()\r\n        a=list(a)\r\n        x+=a.count('1')\r\n        L.append(a)\r\n    c=0\r\n    # print(L)\r\n    # print(x)\r\n    for i in range(n-1):\r\n        for j in range(m-1):\r\n            L1=[L[i][j],L[i][j+1],L[i+1][j],L[i+1][j+1]]\r\n            \r\n            \r\n            if L1.count('0')>=2:\r\n                c=2\r\n                break\r\n            elif L1.count('0')==1:\r\n                \r\n                c=1\r\n        if c==2:\r\n            break\r\n    # print(L1)\r\n    \r\n    \r\n    if c==2:\r\n        print(x)\r\n    elif c==1:\r\n        print(x-1)\r\n    else:\r\n        print(x-2)\r\n    ",
+    "prob_desc_created_at": "1660829700",
+    "tags": [
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"-1\"]",
+    "src_uid": "48494a73273cd8d999e94ba1a9581fdf",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This is the easier version of the problem. In this version, $$$1 \\le n \\le 10^5$$$ and $$$0 \\le a_i \\le 1$$$. You can hack this problem only if you solve and lock both problems.Christmas is coming, and our protagonist, Bob, is preparing a spectacular present for his long-time best friend Alice. This year, he decides to prepare $$$n$$$ boxes of chocolate, numbered from $$$1$$$ to $$$n$$$. Initially, the $$$i$$$-th box contains $$$a_i$$$ chocolate pieces.Since Bob is a typical nice guy, he will not send Alice $$$n$$$ empty boxes. In other words, at least one of $$$a_1, a_2, \\ldots, a_n$$$ is positive. Since Alice dislikes coprime sets, she will be happy only if there exists some integer $$$k &gt; 1$$$ such that the number of pieces in each box is divisible by $$$k$$$. Note that Alice won't mind if there exists some empty boxes. Charlie, Alice's boyfriend, also is Bob's second best friend, so he decides to help Bob by rearranging the chocolate pieces. In one second, Charlie can pick up a piece in box $$$i$$$ and put it into either box $$$i-1$$$ or box $$$i+1$$$ (if such boxes exist). Of course, he wants to help his friend as quickly as possible. Therefore, he asks you to calculate the minimum number of seconds he would need to make Alice happy.",
+    "prob_desc_output_spec": "If there is no way for Charlie to make Alice happy, print $$$-1$$$. Otherwise, print a single integer $$$x$$$ — the minimum number of seconds for Charlie to help Bob make Alice happy.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the number of chocolate boxes. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\le a_i \\le 1$$$) — the number of chocolate pieces in the $$$i$$$-th box. It is guaranteed that at least one of $$$a_1, a_2, \\ldots, a_n$$$ is positive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_003.jsonl",
+    "code_uid": "43ea29d48d104f990b6e12a84b2e6274",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 0 1\", \"1\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def count_wyn(st_p, end_p, curr_x):\n    tmp_wyn_to_ret = 0\n    tmp_wyn_to_ret_1 = 0\n    num_1 = 0\n    mid_10 = 0\n    mid_11 = 0\n    mid_12 = 0\n    mid = False\n    for x in range(st_p, end_p + 1):\n        if t[x] != 0:\n            if mid == False:\n                num_1 += 1\n                if num_1 == curr_x//2:\n                    mid_10 = x\n                    mid_11 = x\n                    mid = True\n            else:\n                mid_12 = x\n                break\n    if curr_x%2 == 0:\n        for xx in range(st_p, end_p + 1):\n            if t[xx] == 1:\n                tmp_wyn_to_ret += abs(mid_10 - xx)\n        #print('DLA MID_P ZWRACAM:', tmp_wyn_to_ret, 'st_p:', st_p, 'end_p:', end_p, 'mid_10:', mid_10)\n        #print('------------------------------------')\n        return tmp_wyn_to_ret\n    else:\n        for xx in range(st_p, end_p + 1):\n            if t[xx] == 1:\n                tmp_wyn_to_ret += abs(xx - mid_11)\n                tmp_wyn_to_ret_1 += abs(xx - mid_12)\n        #print('DLA MID_P_1_2 ZWRACAM:', min(tmp_wyn_to_ret, tmp_wyn_to_ret_1), 'st_p:', st_p, 'end_p:', end_p, 'mid_11', mid_11, 'mid_12', mid_12)\n        #print('------------------------------------')\n        return min(tmp_wyn_to_ret, tmp_wyn_to_ret_1)\n\nn = int(input())\nt = list(map(int, input().split()))\nt_sum = sum(t)\nwyn = 10**18\nt_div = []\nif t_sum <= 1:\n    print('-1')\n    exit(0)\nfor i in range(2, int(t_sum ** .5) + 2):\n    if t_sum % i == 0:\n        while t_sum % i == 0:\n            t_sum //= i\n        t_div.append(i)\nif t_sum > 1:\n    t_div.append(t_sum)\nfor x in t_div:\n    tmp_s = 0\n    tmp_wyn = 0\n    pocz = 0\n    for y in range(0, len(t), +1):\n        tmp_s += t[y]\n        if tmp_s == x:\n            #print('WYWOLUJE DLA - pocz:', pocz, 'y:', y, 'x:', x)\n            tmp_wyn += count_wyn(pocz ,y, x)\n            pocz = y+1\n            tmp_s = 0\n    if tmp_wyn <= wyn:\n        wyn = tmp_wyn\nprint(wyn)",
+    "prob_desc_created_at": "1574174100",
+    "tags": [
+        "number theory",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

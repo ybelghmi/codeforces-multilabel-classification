@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1 2\\n2 1\\n3\\n1 2 3\\n3 2 1\\n3 1 2\"]",
+    "src_uid": "02bdd12987af6e666d4283f075f73725",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A permutation of length $$$n$$$ is a sequence of integers from $$$1$$$ to $$$n$$$ such that each integer appears in it exactly once.Let the fixedness of a permutation $$$p$$$ be the number of fixed points in it — the number of positions $$$j$$$ such that $$$p_j = j$$$, where $$$p_j$$$ is the $$$j$$$-th element of the permutation $$$p$$$.You are asked to build a sequence of permutations $$$a_1, a_2, \\dots$$$, starting from the identity permutation (permutation $$$a_1 = [1, 2, \\dots, n]$$$). Let's call it a permutation chain. Thus, $$$a_i$$$ is the $$$i$$$-th permutation of length $$$n$$$.For every $$$i$$$ from $$$2$$$ onwards, the permutation $$$a_i$$$ should be obtained from the permutation $$$a_{i-1}$$$ by swapping any two elements in it (not necessarily neighboring). The fixedness of the permutation $$$a_i$$$ should be strictly lower than the fixedness of the permutation $$$a_{i-1}$$$.Consider some chains for $$$n = 3$$$:  $$$a_1 = [1, 2, 3]$$$, $$$a_2 = [1, 3, 2]$$$ — that is a valid chain of length $$$2$$$. From $$$a_1$$$ to $$$a_2$$$, the elements on positions $$$2$$$ and $$$3$$$ get swapped, the fixedness decrease from $$$3$$$ to $$$1$$$.  $$$a_1 = [2, 1, 3]$$$, $$$a_2 = [3, 1, 2]$$$ — that is not a valid chain. The first permutation should always be $$$[1, 2, 3]$$$ for $$$n = 3$$$.  $$$a_1 = [1, 2, 3]$$$, $$$a_2 = [1, 3, 2]$$$, $$$a_3 = [1, 2, 3]$$$ — that is not a valid chain. From $$$a_2$$$ to $$$a_3$$$, the elements on positions $$$2$$$ and $$$3$$$ get swapped but the fixedness increase from $$$1$$$ to $$$3$$$.  $$$a_1 = [1, 2, 3]$$$, $$$a_2 = [3, 2, 1]$$$, $$$a_3 = [3, 1, 2]$$$ — that is a valid chain of length $$$3$$$. From $$$a_1$$$ to $$$a_2$$$, the elements on positions $$$1$$$ and $$$3$$$ get swapped, the fixedness decrease from $$$3$$$ to $$$1$$$. From $$$a_2$$$ to $$$a_3$$$, the elements on positions $$$2$$$ and $$$3$$$ get swapped, the fixedness decrease from $$$1$$$ to $$$0$$$. Find the longest permutation chain. If there are multiple longest answers, print any of them.",
+    "prob_desc_output_spec": "For each testcase, first, print the length of a permutation chain $$$k$$$. Then print $$$k$$$ permutations $$$a_1, a_2, \\dots, a_k$$$. $$$a_1$$$ should be an identity permutation of length $$$n$$$ ($$$[1, 2, \\dots, n]$$$). For each $$$i$$$ from $$$2$$$ to $$$k$$$, $$$a_i$$$ should be obtained by swapping two elements in $$$a_{i-1}$$$. It should also have a strictly lower fixedness than $$$a_{i-1}$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 99$$$) — the number of testcases. The only line of each testcase contains a single integer $$$n$$$ ($$$2 \\le n \\le 100$$$) — the required length of permutations in the chain.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_109.jsonl",
+    "code_uid": "bc346aef51ae35693acf3a0678142daa",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n2\\n\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding: utf-8 -*-\r\n\"\"\"\r\nCreated on Thu Aug 18 23:35:19 2022\r\n\r\n@author: khale\r\n\"\"\"\r\nt = int(input())\r\nfor i in range(t):\r\n    n = int(input())\r\n    print(n)\r\n    L = [int(x) for x in range(1,n+1)]\r\n    for i in range(n-1,-1,-1):\r\n        for j in range(n):\r\n            print(L[j],end = ' ')\r\n        print()\r\n        var = L[i]\r\n        L[i] = L[i-1]\r\n        L[i-1] = var\r\n    ",
+    "prob_desc_created_at": "1659623700",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

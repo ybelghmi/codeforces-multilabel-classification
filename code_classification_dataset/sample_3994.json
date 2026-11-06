@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 секунды",
+    "prob_desc_sample_outputs": "[\"5\", \"21\"]",
+    "src_uid": "32c99f64fdf69b9fd87b07dbd14ceffa",
+    "prob_desc_notes": "ПримечаниеВ первом примере подходящими являются пары мониторов с номерами $$$(1, 2)$$$, $$$(1, 4)$$$, $$$(1, 5)$$$, $$$(3, 4)$$$, $$$(4, 5)$$$.Во втором примере все пары мониторов — подходящие.",
+    "prob_desc_description": "ВКонтакте открыла второй штаб в Санкт-Петербурге! Вы не преминули возможностью сменить обстановку и решили переехать из офиса в Доме Зингера в офис на Красном мосту.Для комфортной работы вам потребуются два монитора с одинаковой высотой, чтобы изображение на них выглядело единым целым. На складе офиса на Красном мосту есть $$$n$$$ мониторов, $$$i$$$-й из них имеет ширину $$$w_i$$$ и высоту $$$h_i$$$. Любой монитор можно повернуть на 90 градусов, и тогда он будет иметь ширину $$$h_i$$$ и высоту $$$w_i$$$.Назовём неупорядоченную пару из двух различных мониторов подходящей, если можно их повернуть так, чтобы они имели одинаковую высоту. Любой из мониторов в паре можно как повернуть относительно исходной ориентации, так и не поворачивать.Подсчитайте подходящие пары мониторов.",
+    "prob_desc_output_spec": "Выведите число подходящих пар мониторов.",
+    "prob_desc_input_spec": "В первой строке задано одно целое число $$$n$$$ — число мониторов на складе. В каждой из следующих $$$n$$$ строк заданы два целых числа $$$w_i$$$ и $$$h_i$$$ ($$$1 \\le w_i, h_i \\le 10^9$$$) — ширина и высота $$$i$$$-го монитора. Обратите внимание, что мониторы могут быть квадратными ($$$w_i = h_i$$$), а размеры разных мониторов могут совпадать. В этой версии задачи $$$2 \\le n \\le 10^3$$$.",
+    "prob_desc_output_to": "стандартный вывод",
+    "prob_desc_input_from": "стандартный ввод",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": -1,
+    "file_name": "train_088.jsonl",
+    "code_uid": "9a19cf52c15927ba4e801f1dbd30d9ba",
+    "prob_desc_memory_limit": "512 мегабайт",
+    "prob_desc_sample_inputs": "[\"5\\n3 2\\n2 2\\n5 5\\n3 5\\n4 3\", \"7\\n10 10\\n10 20\\n20 10\\n10 20\\n10 20\\n10 10\\n20 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\r\ns = []\r\nfor i in range(n):\r\n    s.append([int(j) for j in input().split()])\r\nsymcnt = {}\r\ndouble = {}\r\nfor now in s:\r\n    stroka1 = str(now)\r\n    el1 = int(stroka1[1:stroka1.find(\",\")])\r\n    el2 = int(stroka1[stroka1.find(\",\")+2:len(stroka1)-1])\r\n    if el1 > el2:\r\n        stroka1 = \"[\" + str(el2) + \", \" + str(el1) + \"]\"\r\n    if el1 != el2:\r\n        if stroka1 not in double:\r\n            double[stroka1] = 0\r\n        double[stroka1] += 1\r\n    if el1 not in symcnt:\r\n        symcnt[el1] = 0\r\n    symcnt[el1] += 1\r\n    if int(el1) != int(el2):\r\n        if el2 not in symcnt:\r\n            symcnt[el2] = 0\r\n        symcnt[el2] += 1\r\ns2 = list(double.values())\r\nres1 = 0\r\nfor l in s2:\r\n    if l > 1:\r\n        for j in range(l):\r\n            res1 += j\r\ns1 = list(symcnt.values())\r\nk = 0\r\nfor i in s1:\r\n    for j in range(i):\r\n        k += j\r\nprint(k - res1)",
+    "prob_desc_created_at": "1621846800",
+    "tags": [
+        "*special"
+    ],
+    "hidden_unit_tests": ""
+}

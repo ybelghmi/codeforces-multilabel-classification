@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n4\\n4\\n3\\n4\\n5\\n5\\n5\", \"2\\n3\\n3\\n3\\n2\"]",
+    "src_uid": "9afb205f542c0d8ba4f7fa03faa617ae",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Your friend Ivan asked you to help him rearrange his desktop. The desktop can be represented as a rectangle matrix of size $$$n \\times m$$$ consisting of characters '.' (empty cell of the desktop) and '*' (an icon).The desktop is called good if all its icons are occupying some prefix of full columns and, possibly, the prefix of the next column (and there are no icons outside this figure). In other words, some amount of first columns will be filled with icons and, possibly, some amount of first cells of the next (after the last full column) column will be also filled with icons (and all the icons on the desktop belong to this figure). This is pretty much the same as the real life icons arrangement.In one move, you can take one icon and move it to any empty cell in the desktop.Ivan loves to add some icons to his desktop and remove them from it, so he is asking you to answer $$$q$$$ queries: what is the minimum number of moves required to make the desktop good after adding/removing one icon?Note that queries are permanent and change the state of the desktop.",
+    "prob_desc_output_spec": "Print $$$q$$$ integers. The $$$i$$$-th of them should be the minimum number of moves required to make the desktop good after applying the first $$$i$$$ queries.",
+    "prob_desc_input_spec": "The first line of the input contains three integers $$$n$$$, $$$m$$$ and $$$q$$$ ($$$1 \\le n, m \\le 1000; 1 \\le q \\le 2 \\cdot 10^5$$$) — the number of rows in the desktop, the number of columns in the desktop and the number of queries, respectively. The next $$$n$$$ lines contain the description of the desktop. The $$$i$$$-th of them contains $$$m$$$ characters '.' and '*' — the description of the $$$i$$$-th row of the desktop. The next $$$q$$$ lines describe queries. The $$$i$$$-th of them contains two integers $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le x_i \\le n; 1 \\le y_i \\le m$$$) — the position of the cell which changes its state (if this cell contained the icon before, then this icon is removed, otherwise an icon appears in this cell).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_107.jsonl",
+    "code_uid": "260bdc735e7fa73dc11b5f000f3a244a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4 8\\n..**\\n.*..\\n*...\\n...*\\n1 3\\n2 3\\n3 1\\n2 3\\n3 4\\n4 3\\n2 3\\n2 2\", \"2 5 5\\n*...*\\n*****\\n1 3\\n2 2\\n1 3\\n1 5\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin,stdout\r\nraw_input = lambda: stdin.readline().rstrip()\r\ninput = lambda: int(raw_input())\r\nI=lambda: map(int, raw_input().split())\r\n\r\ndef f(i,j):\r\n\treturn (j-1)*n + i-1\r\n\t\r\ndef fn(c):\r\n\treturn c%n + 1, c//n + 1\r\n\r\nn,m,q = I()\r\nmat = []\r\nc = 0\r\nfor _ in xrange(n):\r\n\ts = raw_input()\r\n\tc += s.count('*')\r\n\tmat.append(list(s))\r\n\r\n# pI = c//n + 1\r\n# pJ = c%n + 1\r\nr = 0\r\nfor i in xrange(n):\r\n\tfor j in xrange(m):\r\n\t\tif mat[i][j]=='*':\r\n\t\t\tif f(i+1,j+1)>=c:\r\n\t\t\t\tr += 1\r\n\r\nfor _ in xrange(q):\r\n\tx,y = I()\r\n\tif mat[x-1][y-1]=='*':\r\n\t\tc -= 1\r\n\t\tc1 = f(x,y)\r\n\t\tif c1>=c:\r\n\t\t\tr -= 1\r\n\t\ti,j = fn(c)\r\n\t\tif mat[i-1][j-1]=='*':\r\n\t\t\tr += 1\r\n\t\tmat[x-1][y-1] = '.'\r\n\telse:\r\n\t\tc += 1\r\n\t\tc1 = f(x,y)\r\n\t\tif c1>=c:\r\n\t\t\tr += 1\r\n\t\ti,j = fn(c-1)\r\n\t\tif mat[i-1][j-1]=='*':\r\n\t\t\tr -= 1\r\n\t\tmat[x-1][y-1] = '*'\r\n\t# print c1, c\r\n\tstdout.write(str(r)+'\\n')",
+    "prob_desc_created_at": "1651502100",
+    "tags": [
+        "data structures",
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

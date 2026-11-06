@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n3\\n2\", \"4\\n2\\n3\"]",
+    "src_uid": "d1c3b8985d0c17e0806117bef30d7ff2",
+    "prob_desc_notes": "NoteIn the first test case,   The substring is $$$\\texttt{101}$$$, so we can do one operation to make the substring empty.  The substring is $$$\\texttt{11011}$$$, so we can do one operation on $$$s[2, 4]$$$ to make $$$\\texttt{11}$$$, then use two more operations to make the substring empty.  The substring is $$$\\texttt{011}$$$, so we can do one operation on $$$s[1, 2]$$$ to make $$$\\texttt{1}$$$, then use one more operation to make the substring empty. ",
+    "prob_desc_description": "You have a binary string $$$a$$$ of length $$$n$$$ consisting only of digits $$$0$$$ and $$$1$$$. You are given $$$q$$$ queries. In the $$$i$$$-th query, you are given two indices $$$l$$$ and $$$r$$$ such that $$$1 \\le l \\le r \\le n$$$. Let $$$s=a[l,r]$$$. You are allowed to do the following operation on $$$s$$$:  Choose two indices $$$x$$$ and $$$y$$$ such that $$$1 \\le x \\le y \\le |s|$$$. Let $$$t$$$ be the substring $$$t = s[x, y]$$$. Then for all $$$1 \\le i \\le |t| - 1$$$, the condition $$$t_i \\neq t_{i+1}$$$ has to hold. Note that $$$x = y$$$ is always a valid substring.  Delete the substring $$$s[x, y]$$$ from $$$s$$$. For each of the $$$q$$$ queries, find the minimum number of operations needed to make $$$s$$$ an empty string.Note that for a string $$$s$$$, $$$s[l,r]$$$ denotes the subsegment $$$s_l,s_{l+1},\\ldots,s_r$$$.",
+    "prob_desc_output_spec": "Print $$$q$$$ lines, the $$$i$$$-th line representing the minimum number of operations needed for the $$$i$$$-th query.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$q$$$ ($$$1 \\le n, q \\le 2 \\cdot 10 ^ 5$$$)  — the length of the binary string $$$a$$$ and the number of queries respectively. The second line contains a binary string $$$a$$$ of length $$$n$$$ ($$$a_i \\in \\{0, 1\\}$$$). Each of the next $$$q$$$ lines contains two integers $$$l$$$ and $$$r$$$ ($$$1 \\le l \\le r \\le n$$$)  — representing the substring of each query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_108.jsonl",
+    "code_uid": "b12987642efe7c4e3ff15e02d000bba4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n11011\\n2 4\\n1 5\\n3 5\", \"10 3\\n1001110110\\n1 10\\n2 5\\n5 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys;input=sys.stdin.readline\r\n\r\nI=lambda:map(int,input().split())\r\nn, q = I()\r\ns = input()\r\npre0,pre1 = [0]*n,[0]*n\r\nfor i in range(1,n):\r\n  c1,c2=s[i-1],s[i]\r\n  pre0[i],pre1[i] = pre0[i-1],pre1[i-1]\r\n  if c1 == c2 == '0':pre0[i]+=1\r\n  elif c1 == c2 == '1':pre1[i]+=1\r\nfor _ in range(q):\r\n  l,r=I()\r\n  print(max(pre0[r-1]-pre0[l-1], pre1[r-1]-pre1[l-1])+1)",
+    "prob_desc_created_at": "1650722700",
+    "tags": [
+        "constructive algorithms",
+        "data structures",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

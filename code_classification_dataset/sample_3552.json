@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"860616440\"]",
+    "src_uid": "c602545676f6388a5c5107a5d83fc2c6",
+    "prob_desc_notes": "NoteAn example of a valid set S is {00000, 00101, 00010, 00111, 11000, 11010, 11101, 11111}.",
+    "prob_desc_description": "You are given an integer m.Let M = 2m - 1.You are also given a set of n integers denoted as the set T. The integers will be provided in base 2 as n binary strings of length m.A set of integers S is called \"good\" if the following hold.   If , then .  If , then     All elements of S are less than or equal to M. Here,  and  refer to the bitwise XOR and bitwise AND operators, respectively.Count the number of good sets S, modulo 109 + 7.",
+    "prob_desc_output_spec": "Print a single integer, the number of good sets modulo 109 + 7. ",
+    "prob_desc_input_spec": "The first line will contain two integers m and n (1 ≤ m ≤ 1 000, 1 ≤ n ≤ min(2m, 50)). The next n lines will contain the elements of T. Each line will contain exactly m zeros and ones. Elements of T will be distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_068.jsonl",
+    "code_uid": "723c91ddc44a78810fbb2eb203f64390",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n11010\\n00101\\n11000\", \"30 2\\n010101010101010010101010101010\\n110110110110110011011011011011\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "MOD = 10**9 + 7\nm, N = map(int, input().split())\n\nbinom = [[1] + [0 for i in range(m)] for j in range(m + 1)]\nfor n in range(1, m + 1):\n    for k in range(1, n + 1):\n        binom[n][k] = (binom[n - 1][k] + binom[n - 1][k - 1]) % MOD\n\nbell = [0 for n in range(m + 1)]\nbell[0] = bell[1] = 1\nfor n in range(1, m):\n    for k in range(n + 1):\n        bell[n + 1] += bell[k] * binom[n][k]\n        bell[n + 1] %= MOD\n#print(bell)\n\nbags = [0 for i in range(m)]\nfor it in range(N):\n    for i, z in enumerate(input()):\n        if z == '1':\n            bags[i] |= (1 << it)\ndifs = set(bags)\nsol = 1\nfor mask in difs:\n    sol = sol * bell[bags.count(mask)] % MOD\nprint(sol)\n",
+    "prob_desc_created_at": "1514562000",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "bitmasks",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"NO\", \"YES\"]",
+    "src_uid": "ba47e6eea45d32cba660eb6d66a9adbb",
+    "prob_desc_notes": "NoteIn the first example, we can add any real $$$x$$$ to the value written on the only edge $$$(1, 2)$$$.  In the second example, one of configurations that we can't reach is $$$0$$$ written on $$$(1, 2)$$$ and $$$1$$$ written on $$$(2, 3)$$$.  Below you can see graphs from examples $$$3$$$, $$$4$$$:    ",
+    "prob_desc_description": "Note that this is the first problem of the two similar problems. You can hack this problem only if you solve both problems.You are given a tree with $$$n$$$ nodes. In the beginning, $$$0$$$ is written on all edges. In one operation, you can choose any $$$2$$$ distinct leaves $$$u$$$, $$$v$$$ and any real number $$$x$$$ and add $$$x$$$ to values written on all edges on the simple path between $$$u$$$ and $$$v$$$.For example, on the picture below you can see the result of applying two operations to the graph: adding $$$2$$$ on the path from $$$7$$$ to $$$6$$$, and then adding $$$-0.5$$$ on the path from $$$4$$$ to $$$5$$$.   Is it true that for any configuration of real numbers written on edges, we can achieve it with a finite number of operations?Leaf is a node of a tree of degree $$$1$$$. Simple path is a path that doesn't contain any node twice.",
+    "prob_desc_output_spec": "If there is a configuration of real numbers written on edges of the tree that we can't achieve by performing the operations, output \"NO\".  Otherwise, output \"YES\".  You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$) — the number of nodes. Each of the next $$$n-1$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u, v \\le n$$$, $$$u \\neq v$$$), meaning that there is an edge between nodes $$$u$$$ and $$$v$$$. It is guaranteed that these edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_004.jsonl",
+    "code_uid": "e4fbde6ba3b0ebdad1b51f2964b993b8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 2\", \"3\\n1 2\\n2 3\", \"5\\n1 2\\n1 3\\n1 4\\n2 5\", \"6\\n1 2\\n1 3\\n1 4\\n2 5\\n2 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\ncounter = [0] * (n + 1)\nfor i in range(n - 1):\n    [u, v] = list(map(int, input().split()))\n    counter[u] += 1\n    counter[v] += 1\nif 2 in counter:\n    print(\"NO\")\n    exit()\n\nprint(\"YES\")",
+    "prob_desc_created_at": "1562339100",
+    "tags": [
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

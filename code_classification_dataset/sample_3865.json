@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"0\"]",
+    "src_uid": "1b8596fcbaa42fa334b782b78ad1931b",
+    "prob_desc_notes": "NoteIn the first test case, Qingshan can only choose $$$x=3$$$ to win, so the answer is $$$1$$$.In the second test case, if Qingshan will choose $$$x=4$$$, Daniel can choose $$$y=1$$$. In the first turn (Qingshan's) Qingshan chooses $$$x'=3$$$ and changes $$$x$$$ to $$$3$$$. In the second turn (Daniel's) Daniel chooses $$$y'=2$$$ and changes $$$y$$$ to $$$2$$$. Qingshan can't choose $$$x'=2$$$ because $$$y=2$$$ at this time. Then Qingshan loses.",
+    "prob_desc_description": "On a weekend, Qingshan suggests that she and her friend Daniel go hiking. Unfortunately, they are busy high school students, so they can only go hiking on scratch paper.A permutation $$$p$$$ is written from left to right on the paper. First Qingshan chooses an integer index $$$x$$$ ($$$1\\le x\\le n$$$) and tells it to Daniel. After that, Daniel chooses another integer index $$$y$$$ ($$$1\\le y\\le n$$$, $$$y \\ne x$$$).The game progresses turn by turn and as usual, Qingshan moves first. The rules follow:   If it is Qingshan's turn, Qingshan must change $$$x$$$ to such an index $$$x'$$$ that $$$1\\le x'\\le n$$$, $$$|x'-x|=1$$$, $$$x'\\ne y$$$, and $$$p_{x'}&lt;p_x$$$ at the same time.  If it is Daniel's turn, Daniel must change $$$y$$$ to such an index $$$y'$$$ that $$$1\\le y'\\le n$$$, $$$|y'-y|=1$$$, $$$y'\\ne x$$$, and $$$p_{y'}&gt;p_y$$$ at the same time. The person who can't make her or his move loses, and the other wins. You, as Qingshan's fan, are asked to calculate the number of possible $$$x$$$ to make Qingshan win in the case both players play optimally.",
+    "prob_desc_output_spec": "Print the number of possible values of $$$x$$$ that Qingshan can choose to make her win.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2\\le n\\le 10^5$$$) — the length of the permutation. The second line contains $$$n$$$ distinct integers $$$p_1,p_2,\\dots,p_n$$$ ($$$1\\le p_i\\le n$$$) — the permutation.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_085.jsonl",
+    "code_uid": "bcbe05872ccfdfee5211bb0a249738a3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 5 4 3\", \"7\\n1 2 4 6 5 3 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\r\na = [int(i) for i in input().split()]\r\nr = []\r\ncur = 0\r\ni = 0\r\nwhile n != i + 1:\r\n    while n != i + 1 and a[i] < a[i + 1]:\r\n        i += 1\r\n        cur += 1\r\n    r.append(cur + 1)\r\n    cur = 1\r\n    while n != i + 1 and a[i] > a[i + 1]:\r\n        i += 1\r\n        cur += 1\r\n    r.append(cur)\r\n    cur = 0\r\nt = max(r)\r\nif t % 2 == 0:\r\n    print(0)\r\n    exit()\r\nans = 0\r\nfl = False\r\nfor i in range(0, len(r), 2):\r\n    if (r[i] == t and r[i + 1] == t) and not fl:\r\n        ans += 1\r\n    elif fl and r[i] == t or r[i+1] == t:\r\n        print(0)\r\n        exit()\r\n    if r[i] == t or r[i+1] == t:\r\n        fl = True\r\nprint(ans)\r\n",
+    "prob_desc_created_at": "1615377900",
+    "tags": [
+        "games",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

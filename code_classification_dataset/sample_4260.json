@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 1 1\\n66 0 61\\n5 5 0\\n0 1001 1001\\n1000000001 0 1000000001\"]",
+    "src_uid": "f80dea1e07dba355bfbefa4ff65ff45a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The elections in which three candidates participated have recently ended. The first candidate received $$$a$$$ votes, the second one received $$$b$$$ votes, the third one received $$$c$$$ votes. For each candidate, solve the following problem: how many votes should be added to this candidate so that he wins the election (i.e. the number of votes for this candidate was strictly greater than the number of votes for any other candidate)?Please note that for each candidate it is necessary to solve this problem independently, i.e. the added votes for any candidate do not affect the calculations when getting the answer for the other two candidates.",
+    "prob_desc_output_spec": "For each test case, output in a separate line three integers $$$A$$$, $$$B$$$, and $$$C$$$ ($$$A, B, C \\ge 0$$$) separated by spaces — the answers to the problem for the first, second, and third candidate, respectively.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case consists of one line containing three integers $$$a$$$, $$$b$$$, and $$$c$$$ ($$$0 \\le a,b,c \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_093.jsonl",
+    "code_uid": "a320cb4bd70d5f2c0faae617e986eae6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n0 0 0\\n10 75 15\\n13 13 17\\n1000 0 0\\n0 1000000000 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nfor i in range(t):\r\n    a,b,c = map(int,input().split())\r\n    if (a==b==c) == 1:\r\n        print(1,1,1)\r\n    elif a>b and a>c:\r\n        print(0,a-b+1,a-c+1)\r\n    elif b>c and b>a:\r\n        print(b-a+1,0,b-c+1)\r\n    elif c>a and c>b:\r\n        print(c-a+1,c-b+1,0)\r\n    elif a==b:\r\n        if c>a:\r\n            print(c-a+1,c-b+1,c-c+1)\r\n        else:\r\n            print(a-a+1,a-b+1,a-c+1)\r\n    elif b==c:\r\n        if a>c:\r\n            print(b-a+1,a-b+1,a-c+1)\r\n        else:\r\n            print(b-a+1,1,1)\r\n    elif c==a:\r\n        if c>b:\r\n            print(c-a+1,c-b+1,1)\r\n        else:\r\n            print(b-a+1,0,b-c+1)\r\n    \r\n",
+    "prob_desc_created_at": "1634135700",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

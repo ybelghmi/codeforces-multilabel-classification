@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n3 4 \\n4\\n4 5 6 7\"]",
+    "src_uid": "6e0ca509476a3efa3a352ca08c43023e",
+    "prob_desc_notes": "NoteIn the first sample case, closing any two spots is suitable.In the second sample case, closing only the spot $$$1$$$ is also suitable.",
+    "prob_desc_description": "Arthur owns a ski resort on a mountain. There are $$$n$$$ landing spots on the mountain numbered from $$$1$$$ to $$$n$$$ from the top to the foot of the mountain. The spots are connected with one-directional ski tracks. All tracks go towards the foot of the mountain, so there are no directed cycles formed by the tracks. There are at most two tracks leaving each spot, but many tracks may enter the same spot.A skier can start skiing from one spot and stop in another spot if there is a sequence of tracks that lead from the starting spot and end in the ending spot. Unfortunately, recently there were many accidents, because the structure of the resort allows a skier to go through dangerous paths, by reaching high speed and endangering himself and the other customers. Here, a path is called dangerous, if it consists of at least two tracks.Arthur wants to secure his customers by closing some of the spots in a way that there are no dangerous paths in the resort. When a spot is closed, all tracks entering and leaving that spot become unusable. Formally, after closing some of the spots, there should not be a path that consists of two or more tracks.Arthur doesn't want to close too many spots. He will be happy to find any way to close at most $$$\\frac{4}{7}n$$$ spots so that the remaining part is safe. Help him find any suitable way to do so.",
+    "prob_desc_output_spec": "For each test case, print a single integer $$$k$$$ ($$$0 \\leq k \\leq \\frac{4}{7}n$$$) — the number of spots to be closed. In the next line, print $$$k$$$ distinct integers — indices of all spots to be closed, in any order. If there are several answers, you may output any of them. Note that you don't have to minimize $$$k$$$. It can be shown that a suitable answer always exists.",
+    "prob_desc_input_spec": "The first line contains a single positive integer $$$T$$$ — the number of test cases. $$$T$$$ test case description follows. The first line of each description contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\leq n \\leq 2 \\cdot 10^5$$$) — the number of landing spots and tracks respectively. The following $$$m$$$ lines describe the tracks. Each of these lines contains two integers $$$x$$$ and $$$y$$$ ($$$1 \\leq x &lt; y \\leq n$$$) — indices of the starting and finishing spots for the respective track. It is guaranteed that at most two tracks start at each spot. There may be tracks in which starting and finishing spots both coincide. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_014.jsonl",
+    "code_uid": "60417202e4069bfd0b129bf017b45bb2",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4 6\\n1 2\\n1 3\\n2 3\\n2 4\\n3 4\\n3 4\\n7 6\\n1 2\\n1 3\\n2 4\\n2 5\\n3 6\\n3 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io\nimport os\n\nfrom collections import Counter, defaultdict, deque\nimport random\n\nfrom heapq import heappush, heappop, heapify\n\n\ndef solve(N, M, tracks):\n\n    stops = range(1, N + 1)\n    graph = [[] for i in range(N + 1)]\n    graphT = [[] for i in range(N + 1)]\n    for u, v in tracks:\n        graph[u].append(v)\n        graphT[v].append(u)\n\n    # Since out degree is limited to 2, dangerous pairs of paths doesn't explode\n    danger = []\n    for u in stops:\n        for fr in graphT[u]:\n            for to in graph[u]:\n                danger.append([fr, u, to])\n    if not danger:\n        return \"0\\n\"\n    del graph\n    del graphT\n\n    maxRemove = 4 * N // 7\n    dangerIds = list(range(len(danger)))\n    removed = set()\n    for i in dangerIds:\n        needsRemove = [u for u in danger[i] if u not in removed]\n        if len(needsRemove) == 3:\n            removed.add(needsRemove[-1])\n    # every triplet of dangerous had something removed, so they aren't dangerous anymore\n    assert len(removed) <= maxRemove\n    return str(len(removed)) + \"\\n\" + \" \".join(map(str, removed))\n\n\nif True:\n    tracks = []\n    for i in range(1, 10 ** 4):\n        tracks.append((i, 2 * i))\n        tracks.append((i, 2 * i + 1))\n    N = 2 * 10 ** 5\n    solve(N, len(tracks), tracks)\n\n\nif __name__ == \"__main__\":\n    input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\n    T = int(input())\n    for t in range(T):\n        N, M = [int(x) for x in input().split()]\n        tracks = [[int(x) for x in input().split()] for i in range(M)]\n        ans = solve(N, M, tracks)\n        print(ans)\n",
+    "prob_desc_created_at": "1592491500",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2015\\n12015\\n1991\\n1989\\n1990\", \"1989\\n1999\\n2999\\n9999\"]",
+    "src_uid": "31be4d38a8b5ea8738a65bfee24a5a21",
+    "prob_desc_notes": null,
+    "prob_desc_description": "International Abbreviation Olympiad takes place annually starting from 1989. Each year the competition receives an abbreviation of form IAO'y, where y stands for some number of consequent last digits of the current year. Organizers always pick an abbreviation with non-empty string y that has never been used before. Among all such valid abbreviations they choose the shortest one and announce it to be the abbreviation of this year's competition.For example, the first three Olympiads (years 1989, 1990 and 1991, respectively) received the abbreviations IAO'9, IAO'0 and IAO'1, while the competition in 2015 received an abbreviation IAO'15, as IAO'5 has been already used in 1995.You are given a list of abbreviations. For each of them determine the year it stands for.",
+    "prob_desc_output_spec": "For each abbreviation given in the input, find the year of the corresponding Olympiad.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 1000) — the number of abbreviations to process.  Then n lines follow, each containing a single abbreviation. It's guaranteed that each abbreviation contains at most nine digits.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_018.jsonl",
+    "code_uid": "9e1b64d0db6ee77d17b1052f089d3efc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nIAO'15\\nIAO'2015\\nIAO'1\\nIAO'9\\nIAO'0\", \"4\\nIAO'9\\nIAO'99\\nIAO'999\\nIAO'9999\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = input()\nfor _ in xrange(t):\n    blah, abr = raw_input().split('\\'')\n    \n    # print len(abr)\n    abri = int(abr)\n    abrl = len(abr)\n\n    if abrl == 1:\n        if abri == 9:\n            print 1989\n            continue\n        else:\n            print 1990+abri\n            continue\n    else:\n        if abrl == 2:\n            if abri >= 0 and abri <=98:\n                print 2000+abri\n                continue\n            else:\n                print 1999\n        elif abrl == 3:\n            if abri >= 99 and abri <= 999:\n                print 2000+abri\n                continue\n\n            else:\n                print 3000+abri\n                continue\n        # else:\n        #     if int(abr[-abrl:])>=3099  and int(abr[-4:]) <= 9999:\n        #         print abr\n        #         continue\n        #     else:\n        #         print str(1)+abr\n        #         continue\n        else:\n            str1 = '0'\n            str2 = ''\n            for i in range(abrl-4):\n                str1 += '1'\n                str2 += '9'\n            if abri >= int(str1 + \"3099\") and abri <= int(str2+\"9999\"):\n                print abr\n                continue\n            else:\n                print str(1)+abr\n                continue\n\n\n\n\n    \n\n",
+    "prob_desc_created_at": "1460729700",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

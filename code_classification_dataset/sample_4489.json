@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n6\\n0\\n540\"]",
+    "src_uid": "81d4867a7e5128baf316193e9cc3dfce",
+    "prob_desc_notes": "NoteExplanation of the first test case from the example:There are two possible permutations, $$$p = [1, 2]$$$ and $$$p = [2, 1]$$$. For $$$p = [1, 2]$$$, the process is the following:  the first jury member tells a task;  the second jury member tells a task;  the first jury member doesn't have any tasks left to tell, so they are skipped;  the second jury member tells a task. So, the second jury member has told two tasks in a row (in succession), so the permutation is not nice.For $$$p = [2, 1]$$$, the process is the following:  the second jury member tells a task;  the first jury member tells a task;  the second jury member tells a task. So, this permutation is nice.",
+    "prob_desc_description": "$$$n$$$ people gathered to hold a jury meeting of the upcoming competition, the $$$i$$$-th member of the jury came up with $$$a_i$$$ tasks, which they want to share with each other.First, the jury decides on the order which they will follow while describing the tasks. Let that be a permutation $$$p$$$ of numbers from $$$1$$$ to $$$n$$$ (an array of size $$$n$$$ where each integer from $$$1$$$ to $$$n$$$ occurs exactly once).Then the discussion goes as follows:  If a jury member $$$p_1$$$ has some tasks left to tell, then they tell one task to others. Otherwise, they are skipped.  If a jury member $$$p_2$$$ has some tasks left to tell, then they tell one task to others. Otherwise, they are skipped.  ...  If a jury member $$$p_n$$$ has some tasks left to tell, then they tell one task to others. Otherwise, they are skipped.  If there are still members with tasks left, then the process repeats from the start. Otherwise, the discussion ends. A permutation $$$p$$$ is nice if none of the jury members tell two or more of their own tasks in a row. Count the number of nice permutations. The answer may be really large, so print it modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_output_spec": "For each test case, print one integer — the number of nice permutations, taken modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The first line of the test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — number of jury members. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — the number of problems that the $$$i$$$-th member of the jury came up with. The sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_099.jsonl",
+    "code_uid": "bfd32358471c31088f7b8cb4bc4629b7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2\\n1 2\\n3\\n5 5 5\\n4\\n1 3 3 7\\n6\\n3 4 2 1 3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninpu = sys.stdin.readline\r\nprin = sys.stdout.write\r\nmod = 998244353\r\ndef factorial_mod(n) :\r\n    ans = 1\r\n    for i in range(2, n + 1) :\r\n        ans *= i\r\n        ans %= mod\r\n    return ans\r\ndef factorial_d(n, k) :\r\n    ans = 1\r\n    for i in range(2, n + 1) :\r\n        if i == k :\r\n            continue\r\n        ans *= i\r\n        ans %= mod\r\n    return ans\r\nfor _ in range(int(inpu())) :\r\n    n = int(inpu())\r\n    lis = list(map(int, inpu().split(' ')))\r\n    first = second = -1\r\n    for i in lis:\r\n        if i > first:\r\n            second = first\r\n            first = i\r\n        elif i > second:\r\n            second = i\r\n    if first - second > 1:\r\n        prin('0\\n')\r\n        continue\r\n    cou1 = 0\r\n    cou2 = 0\r\n    for i in lis :\r\n        if i == first :\r\n            cou1 += 1\r\n        if i == second :\r\n            cou2 += 1\r\n    ans = factorial_mod(n)\r\n    if cou1 == 1 :\r\n        ans = factorial_d(n, cou2 + 1)\r\n        ans *= cou2\r\n        ans %= mod\r\n    prin(str(ans) + '\\n')",
+    "prob_desc_created_at": "1631111700",
+    "tags": [
+        "combinatorics",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

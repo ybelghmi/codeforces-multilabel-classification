@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 4\", \"1 3\"]",
+    "src_uid": "74095fe82bd22257eeb97e1caf586499",
+    "prob_desc_notes": "NoteIn the first sample mr. Boosch signs laws with numbers from segments [1;2] and [4;5]. The total absurdity of the signed laws equals 3 + 6 + 1 + 6 = 16.In the second sample mr. Boosch signs laws with numbers from segments [1;2] and [3;4]. The total absurdity of the signed laws equals 1 + 1 + 1 + 1 = 4.",
+    "prob_desc_description": "Reforms continue entering Berland. For example, during yesterday sitting the Berland Parliament approved as much as n laws (each law has been assigned a unique number from 1 to n). Today all these laws were put on the table of the President of Berland, G.W. Boosch, to be signed.This time mr. Boosch plans to sign 2k laws. He decided to choose exactly two non-intersecting segments of integers from 1 to n of length k and sign all laws, whose numbers fall into these segments. More formally, mr. Boosch is going to choose two integers a, b (1 ≤ a ≤ b ≤ n - k + 1, b - a ≥ k) and sign all laws with numbers lying in the segments [a; a + k - 1] and [b; b + k - 1] (borders are included).As mr. Boosch chooses the laws to sign, he of course considers the public opinion. Allberland Public Opinion Study Centre (APOSC) conducted opinion polls among the citizens, processed the results into a report and gave it to the president. The report contains the absurdity value for each law, in the public opinion. As mr. Boosch is a real patriot, he is keen on signing the laws with the maximum total absurdity. Help him.",
+    "prob_desc_output_spec": "Print two integers a, b — the beginning of segments that mr. Boosch should choose. That means that the president signs laws with numbers from segments [a; a + k - 1] and [b; b + k - 1]. If there are multiple solutions, print the one with the minimum number a. If there still are multiple solutions, print the one with the minimum b.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (2 ≤ n ≤ 2·105, 0 &lt; 2k ≤ n) — the number of laws accepted by the parliament and the length of one segment in the law list, correspondingly. The next line contains n integers x1, x2, ..., xn — the absurdity of each law (1 ≤ xi ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_008.jsonl",
+    "code_uid": "7bbf28e1f7e6c0c04fdcf8e60579761b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2\\n3 6 1 1 6\", \"6 2\\n1 1 1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, raw_input().split())\nx = map(int, raw_input().split())\nsum = [0]\nfor i in range(1, n + 1):\n    sum.append(sum[i - 1] + x[i - 1])\nksum = [0]\nfor i in range(1, n - k + 2): \n    ksum.append(sum[i + k - 1] - sum[i - 1])\nright = [0 for i in ksum]\npos = [0 for i in ksum]\nright[len(ksum) - 1] = ksum[len(ksum) - 1]\npos[len(ksum) - 1] = len(ksum) - 1\nfor i in range(len(ksum) - 2, 0, -1):\n    if ksum[i] >= right[i + 1]:\n        right[i] = ksum[i]\n        pos[i] = i\n    else:\n        right[i] = right[i + 1]\n        pos[i] = pos[i + 1]\nans = -1\na = -1\nfor i in range(1, len(ksum) - k):\n    if (ksum[i] + right[i + k] > ans):\n        ans = ksum[i] + right[i + k]\n        a = i\nb = pos[a + k]\nprint(str(a) + \" \" + str(b))\n",
+    "prob_desc_created_at": "1374679800",
+    "tags": [
+        "dp",
+        "implementation",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

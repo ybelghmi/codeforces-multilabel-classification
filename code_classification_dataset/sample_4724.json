@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12\\n2 6\\n5 1\\n7 8\\n\\n10\\n1 6\\n5 2\\n3 4\\n\\n-6\\n5 1\\n4 2\"]",
+    "src_uid": "bfb2831c319400d4a62890e6ea20d045",
+    "prob_desc_notes": "NoteThe first test case coincides with the example from the condition. It can be shown that the weight of the composed system is minimal.The second test case has only $$$6$$$ points, so you need to use each of them to compose $$$3$$$ segments.",
+    "prob_desc_description": "On the number line there are $$$m$$$ points, $$$i$$$-th of which has integer coordinate $$$x_i$$$ and integer weight $$$w_i$$$. The coordinates of all points are different, and the points are numbered from $$$1$$$ to $$$m$$$.A sequence of $$$n$$$ segments $$$[l_1, r_1], [l_2, r_2], \\dots, [l_n, r_n]$$$ is called system of nested segments if for each pair $$$i, j$$$ ($$$1 \\le i &lt; j \\le n$$$) the condition $$$l_i &lt; l_j &lt; r_j &lt; r_i$$$ is satisfied. In other words, the second segment is strictly inside the first one, the third segment is strictly inside the second one, and so on.For a given number $$$n$$$, find a system of nested segments such that:  both ends of each segment are one of $$$m$$$ given points;  the sum of the weights $$$2\\cdot n$$$ of the points used as ends of the segments is minimal. For example, let $$$m = 8$$$. The given points are marked in the picture, their weights are marked in red, their coordinates are marked in blue. Make a system of three nested segments:  weight of the first segment: $$$1 + 1 = 2$$$  weight of the second segment: $$$10 + (-1) = 9$$$  weight of the third segment: $$$3 + (-2) = 1$$$  sum of the weights of all the segments in the system: $$$2 + 9 + 1 = 12$$$     System of three nested segments ",
+    "prob_desc_output_spec": "For each test case, output $$$n + 1$$$ lines: in the first of them, output the weight of the composed system, and in the next $$$n$$$ lines output exactly two numbers  — the indices of the points which are the endpoints of the $$$i$$$-th segment ($$$1 \\le i \\le n$$$). The order in which you output the endpoints of a segment is not important — you can output the index of the left endpoint first and then the number of the right endpoint, or the other way around. If there are several ways to make a system of nested segments with minimal weight, output any of them.",
+    "prob_desc_input_spec": "The first line of input data contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) —the number of input test cases. An empty line is written before each test case. The first line of each test case contains two positive integers $$$n$$$ ($$$1 \\le n \\le 10^5$$$) and $$$m$$$ ($$$2 \\cdot n \\le m \\le 2 \\cdot 10^5$$$).  The next $$$m$$$ lines contain pairs of integers $$$x_i$$$ ($$$-10^9 \\le x_i \\le 10^9$$$) and $$$w_i$$$ ($$$-10^4 \\le w_i \\le 10^4$$$) — coordinate and weight of point number $$$i$$$ ($$$1 \\le i \\le m$$$) respectively. All $$$x_i$$$ are different. It is guaranteed that the sum of $$$m$$$ values over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_104.jsonl",
+    "code_uid": "af57e8f3d106635d8f53348671f3e2b8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n3 8\\n0 10\\n-2 1\\n4 10\\n11 20\\n7 -1\\n9 1\\n2 3\\n5 -2\\n\\n3 6\\n-1 2\\n1 3\\n3 -1\\n2 4\\n4 0\\n8 2\\n\\n2 5\\n5 -1\\n3 -2\\n1 0\\n-2 0\\n-5 -3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#https://codeforces.com/blog/entry/71884\r\nimport io,os,sys\r\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\r\nimport heapq\r\nfrom collections import defaultdict\r\n############ ---- Input Functions ---- ############\r\ndef inp():\r\n    return(int(input()))\r\ndef inlt():\r\n    return(list(map(int,input().split())))\r\ndef insr():\r\n    s = input()\r\n    return(list(s[:len(s) - 1]))\r\ndef invr():\r\n    return(map(int,input().split()))\r\n \r\nt = inp()\r\nfor k in range(t):\r\n    skip = inlt()\r\n    x = inlt()\r\n    size = x[0]\r\n    points = x[1]\r\n    weights = []\r\n    for i in range(points):\r\n        weights.append(inlt() + [i+1])\r\n    weights.sort()\r\n    count = []\r\n    for i,x in enumerate(weights):\r\n        count.append([x[1],x[2],i])\r\n    count.sort()\r\n \r\n    ans = 0\r\n    count = count[:size*2]\r\n    ans = sum([x[0] for x in count])\r\n    print(ans)\r\n    count.sort(key = lambda x: x[2])\r\n    for i in range(len(count)//2):\r\n        print(count[i][1],count[len(count)-i-1][1])\r\n    print()",
+    "prob_desc_created_at": "1646750100",
+    "tags": [
+        "greedy",
+        "hashing",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

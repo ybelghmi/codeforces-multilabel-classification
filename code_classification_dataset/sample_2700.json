@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "0.5 seconds",
+    "prob_desc_sample_outputs": "[\"12\"]",
+    "src_uid": "41ae8b0dee3b0f4e91bd06e4a0635492",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Petya has k matches, placed in n matchboxes lying in a line from left to right. We know that k is divisible by n. Petya wants all boxes to have the same number of matches inside. For that, he can move a match from its box to the adjacent one in one move. How many such moves does he need to achieve the desired configuration?",
+    "prob_desc_output_spec": "Print the total minimum number of moves.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 50000). The second line contains n non-negative numbers that do not exceed 109, the i-th written number is the number of matches in the i-th matchbox. It is guaranteed that the total number of matches is divisible by n.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_028.jsonl",
+    "code_uid": "3c0c550e96f69e5a99774dd0063d0ea5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n1 6 2 5 3 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = list(map(int, input().split())) + [0]\ns = sum(a) // n\nd = 0\nfor i in range(n):\n    if a[i] > s:\n        a[i + 1] += abs(a[i] - s)\n    else:\n        a[i + 1] -= abs(a[i] - s)\n    d += abs(a[i] - s)\nprint(d)\n",
+    "prob_desc_created_at": "1401809400",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

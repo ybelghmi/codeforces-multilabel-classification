@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\", \"28\", \"0\"]",
+    "src_uid": "03907ca0d34a2c80942ed3968b2c067d",
+    "prob_desc_notes": "NoteIn the first example, the transformations are $$$2 \\rightarrow 4 \\rightarrow (-2) \\rightarrow (-4) \\rightarrow 2$$$.In the third example, it is impossible to perform even a single transformation.",
+    "prob_desc_description": "You are given a positive integer $$$n$$$ greater or equal to $$$2$$$. For every pair of integers $$$a$$$ and $$$b$$$ ($$$2 \\le |a|, |b| \\le n$$$), you can transform $$$a$$$ into $$$b$$$ if and only if there exists an integer $$$x$$$ such that $$$1 &lt; |x|$$$ and ($$$a \\cdot x = b$$$ or $$$b \\cdot x = a$$$), where $$$|x|$$$ denotes the absolute value of $$$x$$$.After such a transformation, your score increases by $$$|x|$$$ points and you are not allowed to transform $$$a$$$ into $$$b$$$ nor $$$b$$$ into $$$a$$$ anymore.Initially, you have a score of $$$0$$$. You can start at any integer and transform it as many times as you like. What is the maximum score you can achieve?",
+    "prob_desc_output_spec": "Print an only integer — the maximum score that can be achieved with the transformations. If it is not possible to perform even a single transformation for all possible starting integers, print $$$0$$$.",
+    "prob_desc_input_spec": "A single line contains a single integer $$$n$$$ ($$$2 \\le n \\le 100\\,000$$$) — the given integer described above.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_043.jsonl",
+    "code_uid": "49655470591f72f2fc46c4acdde38e74",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\", \"6\", \"2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class IntegersFun():\n    def __init__(self, n):\n        self.n = n\n\n    def get_value(self):\n        sm = 0\n        for i in range(2,self.n+1):\n            for j in range(2*i, self.n+1, i):\n                sm += 4*j/i\n        return int(sm)\n\nn = int(input())\nprint(IntegersFun(n).get_value())",
+    "prob_desc_created_at": "1542209700",
+    "tags": [
+        "graphs",
+        "implementation",
+        "dfs and similar",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\\n5\\n6\"]",
+    "src_uid": "2dc69231824db013161e4f223e25ccb9",
+    "prob_desc_notes": "NoteIn the first query, a customer can buy three items worth $$$5, 3, 5$$$, the two cheapest of them are $$$3 + 5 = 8$$$.In the second query, a customer can buy two items worth $$$5$$$ and $$$5$$$, the cheapest of them is $$$5$$$.In the third query, a customer has to buy all the items to receive the three cheapest of them for free; their total price is $$$1 + 2 + 3 = 6$$$.",
+    "prob_desc_description": "The store sells $$$n$$$ items, the price of the $$$i$$$-th item is $$$p_i$$$. The store's management is going to hold a promotion: if a customer purchases at least $$$x$$$ items, $$$y$$$ cheapest of them are free.The management has not yet decided on the exact values of $$$x$$$ and $$$y$$$. Therefore, they ask you to process $$$q$$$ queries: for the given values of $$$x$$$ and $$$y$$$, determine the maximum total value of items received for free, if a customer makes one purchase.Note that all queries are independent; they don't affect the store's stock.",
+    "prob_desc_output_spec": "For each query, print a single integer — the maximum total value of items received for free for one purchase.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$q$$$ ($$$1 \\le n, q \\le 2 \\cdot 10^5$$$) — the number of items in the store and the number of queries, respectively. The second line contains $$$n$$$ integers $$$p_1, p_2, \\dots, p_n$$$ ($$$1 \\le p_i \\le 10^6$$$), where $$$p_i$$$ — the price of the $$$i$$$-th item. The following $$$q$$$ lines contain two integers $$$x_i$$$ and $$$y_i$$$ each ($$$1 \\le y_i \\le x_i \\le n$$$) — the values of the parameters $$$x$$$ and $$$y$$$ in the $$$i$$$-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_083.jsonl",
+    "code_uid": "b9b1d77dcced663cffb8259f70ccbb68",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n5 3 1 5 2\\n3 2\\n1 1\\n5 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\r\nn,m = map(int,input().split())\r\np = sorted(list(map(int,input().split())),reverse = True)\r\narr = [0]\r\nfor i in p:\r\n    arr.append(arr[-1]+i)\r\nfor _ in range(m):\r\n    x,y = map(int,input().split())\r\n    print(arr[x]-arr[x-y])",
+    "prob_desc_created_at": "1655044500",
+    "tags": [
+        "greedy",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

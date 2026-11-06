@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 1 2\", \"2 4 5\"]",
+    "src_uid": "d662310e13c399554d90b5367bf6d3e0",
+    "prob_desc_notes": "NoteIn the first sample one of optimal solutions is to pass orders 1, 2, 3. In this case the chairperson obeys orders number 1 and 2. She gets 10 new grey hairs in the head and the directors' displeasement will equal 3. Note that the same result can be achieved with order 4 instead of order 3.In the second sample, the chairperson can obey all the orders, so the best strategy for the students is to pick the orders with the maximum sum of ai values. The chairperson gets 58 new gray hairs and the directors' displeasement will equal 0.",
+    "prob_desc_description": "A student's life is fraught with complications. Some Berland University students know this only too well. Having studied for two years, they contracted strong antipathy towards the chairperson of some department. Indeed, the person in question wasn't the kindest of ladies to begin with: prone to reforming groups, banning automatic passes and other mean deeds. At last the students decided that she just can't get away with all this anymore...The students pulled some strings on the higher levels and learned that the next University directors' meeting is going to discuss n orders about the chairperson and accept exactly p of them. There are two values assigned to each order: ai is the number of the chairperson's hairs that turn grey if she obeys the order and bi — the displeasement of the directors if the order isn't obeyed. The students may make the directors pass any p orders chosen by them. The students know that the chairperson will obey exactly k out of these p orders. She will pick the orders to obey in the way that minimizes first, the directors' displeasement and second, the number of hairs on her head that turn grey.The students want to choose p orders in the way that maximizes the number of hairs on the chairperson's head that turn grey. If there are multiple ways to accept the orders, then the students are keen on maximizing the directors' displeasement with the chairperson's actions. Help them.",
+    "prob_desc_output_spec": "Print in an arbitrary order p distinct integers — the numbers of the orders to accept so that the students could carry out the revenge. The orders are indexed from 1 to n in the order they occur in the input. If there are multiple solutions, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains three integers n (1 ≤ n ≤ 105), p (1 ≤ p ≤ n), k (1 ≤ k ≤ p) — the number of orders the directors are going to discuss, the number of orders to pass and the number of orders to be obeyed by the chairperson, correspondingly. Each of the following n lines contains two integers ai and bi (1 ≤ ai, bi ≤ 109), describing the corresponding order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_018.jsonl",
+    "code_uid": "d6a9f99659a17aafce0c6912fb96ebae",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3 2\\n5 6\\n5 8\\n1 3\\n4 3\\n4 11\", \"5 3 3\\n10 18\\n18 17\\n10 20\\n20 18\\n20 18\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, p, k = map(int, raw_input().split(' '));\nv = [map(int, raw_input().split(' ')) + [i] for i in range(n)];\nv1 = sorted(v, key = lambda x : (x[1], -x[0]));\nv2 = sorted([v1[i] + [i] for i in range(p - k, n)], key = lambda x : (-x[0], -x[3]));\nmin_id = n + 1;\nfor x in v2[:k]:\n    print x[2] + 1, ;\n    min_id = min(min_id, x[3]);\nfor x in v1[min_id - (p - k) : min_id]:\n    print x[2] + 1, ;\n\n",
+    "prob_desc_created_at": "1374679800",
+    "tags": [
+        "data structures",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

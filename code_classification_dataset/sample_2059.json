@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\"]",
+    "src_uid": "cf7cd545a48b050354ae786a263e2847",
+    "prob_desc_notes": "NoteIn the first example:  $$$1100\\oplus \\mbox{shift}^1(1100) = 1010$$$  $$$1000\\oplus \\mbox{shift}^2(1000) = 1010$$$  $$$0110\\oplus \\mbox{shift}^3(0110) = 1010$$$ There is no $$$x$$$ such that $$$x \\oplus x = 1010$$$, hence the answer is $$$3$$$.",
+    "prob_desc_description": "After learning about polynomial hashing, Heidi decided to learn about shift-xor hashing. In particular, she came across this interesting problem.Given a bitstring $$$y \\in \\{0,1\\}^n$$$ find out the number of different $$$k$$$ ($$$0 \\leq k &lt; n$$$) such that there exists $$$x \\in \\{0,1\\}^n$$$ for which $$$y = x \\oplus \\mbox{shift}^k(x).$$$In the above, $$$\\oplus$$$ is the xor operation and $$$\\mbox{shift}^k$$$ is the operation of shifting a bitstring cyclically to the right $$$k$$$ times. For example, $$$001 \\oplus 111 = 110$$$ and $$$\\mbox{shift}^3(00010010111000) = 00000010010111$$$.",
+    "prob_desc_output_spec": "Output a single integer: the number of suitable values of $$$k$$$.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$1 \\leq n \\leq 2 \\cdot 10^5$$$), the length of the bitstring $$$y$$$. The second line contains the bitstring $$$y$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_016.jsonl",
+    "code_uid": "59b7975d7ee1c0de558d2731605fd666",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1010\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\n\nn = int(raw_input())\ny = [int(x) for x in raw_input()]\ndef poss(k):\n    x = [0]*n\n    for i in range(n-k):\n        x[i + k] = x[i] ^ y[i]\n    for i in range(n-k,n):\n        if x[i] ^ x[i + k - n] != y[i]:\n            return 0\n    return 1\npossible = [0]*(n+1)\ni = 1\nwhile i * i < n:\n    if n % i == 0:\n        possible[i] = poss(i)\n        possible[n//i] = poss(n//i)\n    i += 1\nif i * i == n:\n    possible[i] = poss(i)\ndef gcd(a,b):\n    while b:\n        a,b = b,a%b\n    return a\nans = 0\nfor k in range(1, n+1):\n    ans += possible[gcd(n,k)]\nprint(ans)",
+    "prob_desc_created_at": "1562483100",
+    "tags": [
+        "number theory",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

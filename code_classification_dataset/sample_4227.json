@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"-1\\n2\\n1\\n2\"]",
+    "src_uid": "09a0bad93090b65b5515abf0ccb96bd4",
+    "prob_desc_notes": "NoteIn the first set of inputs, even if all the friends stay in the maze, Vlad can still win. Therefore, the answer is \"-1\".In the second set of inputs it is enough to leave friends from rooms $$$6$$$ and $$$7$$$. Then Vlad will not be able to win. The answer is \"2\".In the third and fourth sets of inputs Vlad cannot win only if all his friends stay in the maze. Therefore the answers are \"1\" and \"2\".",
+    "prob_desc_description": "The only difference with E1 is the question of the problem.Vlad built a maze out of $$$n$$$ rooms and $$$n-1$$$ bidirectional corridors. From any room $$$u$$$ any other room $$$v$$$ can be reached through a sequence of corridors. Thus, the room system forms an undirected tree.Vlad invited $$$k$$$ friends to play a game with them.Vlad starts the game in the room $$$1$$$ and wins if he reaches a room other than $$$1$$$, into which exactly one corridor leads. Friends are placed in the maze: the friend with number $$$i$$$ is in the room $$$x_i$$$, and no two friends are in the same room (that is, $$$x_i \\neq x_j$$$ for all $$$i \\neq j$$$). Friends win if one of them meets Vlad in any room or corridor before he wins.For one unit of time, each participant of the game can go through one corridor. All participants move at the same time. Participants may not move. Each room can fit all participants at the same time.Friends know the plan of a maze and intend to win. They don't want to waste too much energy. They ask you to determine if they can win and if they can, what minimum number of friends must remain in the maze so that they can always catch Vlad.In other words, you need to determine the size of the minimum (by the number of elements) subset of friends who can catch Vlad or say that such a subset does not exist.",
+    "prob_desc_output_spec": "Print $$$t$$$ lines, each line containing the answer to the corresponding test case. The answer to a test case should be $$$-1$$$ if Vlad wins anyway and a minimal number of friends otherwise.",
+    "prob_desc_input_spec": "The first line of the input contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the input. The input contains an empty string before each test case. The first line of the test case contains two numbers $$$n$$$ and $$$k$$$ ($$$1 \\le k &lt; n \\le 2\\cdot 10^5$$$) — the number of rooms and friends, respectively. The next line of the test case contains $$$k$$$ integers $$$x_1, x_2, \\dots, x_k$$$ ($$$2 \\le x_i \\le n$$$) — numbers of rooms with friends. All $$$x_i$$$ are different. The next $$$n-1$$$ lines contain descriptions of the corridors, two numbers per line $$$v_j$$$ and $$$u_j$$$ ($$$1 \\le u_j, v_j \\le n$$$) — numbers of rooms that connect the $$$j$$$ corridor. All corridors are bidirectional. From any room, you can go to any other by moving along the corridors. It is guaranteed that the sum of the values $$$n$$$ over all test cases in the test is not greater than $$$2\\cdot10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_093.jsonl",
+    "code_uid": "490b449b4b194ce92c4646280af4d08d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n8 2\\n5 3\\n4 7\\n2 5\\n1 6\\n3 6\\n7 2\\n1 7\\n6 8\\n\\n8 4\\n6 5 7 3\\n4 7\\n2 5\\n1 6\\n3 6\\n7 2\\n1 7\\n6 8\\n\\n3 1\\n2\\n1 2\\n2 3\\n\\n3 2\\n2 3\\n3 1\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict, deque\r\nimport sys\r\ninput = sys.stdin.buffer.readline\r\nfor _ in range(int(input())):\r\n\tinput()\r\n\tn, k = map(int, input().split())\r\n\tfl = input()\r\n\td = defaultdict(list)\r\n\tfor _ in range(n-1):\r\n\t\ta, b = map(int, input().split())\r\n\t\td[a].append(b)\r\n\t\td[b].append(a)\r\n\r\n\tp = dict()\r\n\tc = defaultdict(list)\r\n\tvis = set()\r\n\tq = deque([(1, None)])\r\n\twhile q:\r\n\t\tcurr, prev = q.popleft()\r\n\t\tif curr in vis: continue\r\n\t\tvis.add(curr)\r\n\t\tif prev:\r\n\t\t\tp[curr] = prev\r\n\t\t\tc[prev].append(curr)\r\n\t\tfor v in d[curr]:\r\n\t\t\tif v not in vis:\r\n\t\t\t\tq.append((v, curr))\r\n\r\n\tdist = dict()\r\n\t# q = deque([(x,0) for x in fl])\r\n\tq = deque(map(lambda x: (int(x),0), fl.split()))\r\n\twhile q:\r\n\t\tcurr, dis = q.popleft()\r\n\t\tif curr in dist: continue\r\n\t\tdist[curr] = dis\r\n\t\tif curr != 1 and p[curr] not in dist:\r\n\t\t\tq.append((p[curr], dis+1))\r\n\r\n\t# vis = set()\r\n\tq = deque([(1,0)])\r\n\tans = 0\r\n\twhile q:\r\n\t\tcurr, dis = q.popleft()\r\n\t\tif curr not in dist:\r\n\t\t\tans = -1\r\n\t\t\tbreak\r\n\t\telif dis == dist[curr] or dis == dist[curr]+1:\r\n\t\t\tans += 1\r\n\t\t\tcontinue\r\n\t\telif not c[curr]:\r\n\t\t\tans = -1\r\n\t\t\tbreak\r\n\t\telse:\r\n\t\t\tfor v in c[curr]:\r\n\t\t\t\tq.append((v,dis+1))\r\n\tprint(ans)\r\n",
+    "prob_desc_created_at": "1637850900",
+    "tags": [
+        "dfs and similar",
+        "dp",
+        "greedy",
+        "shortest paths",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

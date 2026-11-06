@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0 0\", \"0 1\", \"2 1\"]",
+    "src_uid": "01adc5002997b7f5c79eeb6d9b3dc60b",
+    "prob_desc_notes": "NoteIn the first sample test the given permutation p is the identity permutation, that's why its deviation equals to 0, the shift id equals to 0 as well.In the second sample test the deviation of p equals to 4, the deviation of the 1-st cyclic shift (1, 2, 3) equals to 0, the deviation of the 2-nd cyclic shift (3, 1, 2) equals to 4, the optimal is the 1-st cyclic shift.In the third sample test the deviation of p equals to 4, the deviation of the 1-st cyclic shift (1, 3, 2) equals to 2, the deviation of the 2-nd cyclic shift (2, 1, 3) also equals to 2, so the optimal are both 1-st and 2-nd cyclic shifts.",
+    "prob_desc_description": "Some time ago Mister B detected a strange signal from the space, which he started to study.After some transformation the signal turned out to be a permutation p of length n or its cyclic shift. For the further investigation Mister B need some basis, that's why he decided to choose cyclic shift of this permutation which has the minimum possible deviation.Let's define the deviation of a permutation p as .Find a cyclic shift of permutation p with minimum possible deviation. If there are multiple solutions, print any of them.Let's denote id k (0 ≤ k &lt; n) of a cyclic shift of permutation p as the number of right shifts needed to reach this shift, for example:  k = 0: shift p1, p2, ... pn,  k = 1: shift pn, p1, ... pn - 1,  ...,  k = n - 1: shift p2, p3, ... pn, p1. ",
+    "prob_desc_output_spec": "Print two integers: the minimum deviation of cyclic shifts of permutation p and the id of such shift. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "First line contains single integer n (2 ≤ n ≤ 106) — the length of the permutation. The second line contains n space-separated integers p1, p2, ..., pn (1 ≤ pi ≤ n) — the elements of the permutation. It is guaranteed that all elements are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_023.jsonl",
+    "code_uid": "df92ab11bbf0d6b260f4ffb691521c1e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\", \"3\\n2 3 1\", \"3\\n3 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    n=input()\n    A=list(map(int,raw_input().strip().split(' ')))\n\n    #for i in range(len(A)):\n    #    A[i]-=1\n\n    ans=0\n    pos=0\n    neg=0\n    change=[0 for i in range(len(A))]\n\n    for i in range(len(A)):\n        ans+=abs(A[i]-i-1)\n        if A[i]-1-i>0:\n            pos+=1\n        else:\n            neg+=1\n        if A[i]-i-1>0:\n            change[i]=A[i]-i-1\n        elif A[i]==i+1:\n            change[i]=0\n        else:\n            if A[i]!=1:\n                change[i]=A[i]+n-i-1\n            else:\n                change[i]=0\n    MIN=ans\n    index=0\n    #print(ans)\n    collect=[0 for i in range(n)]\n    for x in range(len(change)):\n        collect[change[x]]+=1\n    #print(collect)\n\n    #print(ans,pos,neg)    \n    for s in range(1,n):  \n        ans-=abs(A[n-s]-n+1-1)\n        ans+=abs(A[n-s]-0-1)\n        neg-=1\n\n        ans-=pos\n        ans+=neg\n        if A[n-s]>1:\n            pos+=1\n        else:\n            neg+=1\n\n\n        pos-=(collect[s])\n        neg+=(collect[s])\n        #print(ans,pos,neg)\n        if ans<MIN:\n            MIN=ans\n            index=s\n    print MIN,index      \n    #brutal(A)        \nmain()",
+    "prob_desc_created_at": "1498574100",
+    "tags": [
+        "data structures",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

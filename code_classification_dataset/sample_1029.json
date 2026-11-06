@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n2 4 8 \\nNO\\nNO\\nNO\\nYES\\n3 5 823\"]",
+    "src_uid": "0f7ceecdffe11f45d0c1d618ef3c6469",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given one integer number $$$n$$$. Find three distinct integers $$$a, b, c$$$ such that $$$2 \\le a, b, c$$$ and $$$a \\cdot b \\cdot c = n$$$ or say that it is impossible to do it.If there are several answers, you can print any.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer on it. Print \"NO\" if it is impossible to represent $$$n$$$ as $$$a \\cdot b \\cdot c$$$ for some distinct integers $$$a, b, c$$$ such that $$$2 \\le a, b, c$$$. Otherwise, print \"YES\" and any possible such representation.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. The next $$$n$$$ lines describe test cases. The $$$i$$$-th test case is given on a new line as one integer $$$n$$$ ($$$2 \\le n \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_005.jsonl",
+    "code_uid": "8842322a670790c54ce36c85751dc47e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n64\\n32\\n97\\n2\\n12345\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def factors(n):\n    factor = []\n    for i in range(2, int(n**0.5)+1):\n        if n % i == 0:\n            factor.append(i)\n    return factor\n\n\nt = int(input())\nfor l in range(t):\n    n = int(input())\n    x = 0\n    factor = factors(n)\n    lenfactor = len(factor)\n    for i in range(lenfactor):\n        for j in range(i+1, lenfactor):\n            k = n/(factor[i]*factor[j])\n            if k%1 == 0 and k != factor[i] and k != factor[j]:\n                print('YES')\n                print(str(factor[i]) + ' ' + str(factor[j]) + ' ' + str(int(k))  )\n                x = 1 \n                break\n        if x == 1:\n            break\n    if x == 0:\n        print('NO')",
+    "prob_desc_created_at": "1579703700",
+    "tags": [
+        "number theory",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

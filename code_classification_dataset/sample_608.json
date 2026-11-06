@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"6\"]",
+    "src_uid": "2475df43379ffd450fa661927ae3b734",
+    "prob_desc_notes": "NoteThe first example:  aa $$$+$$$ bb $$$\\to$$$ abba. The second example:  aab $$$+$$$ abcac $$$=$$$ aababcac $$$\\to$$$ aabccbaa aab $$$+$$$ aa $$$=$$$ aabaa abcac $$$+$$$ aa $$$=$$$ abcacaa $$$\\to$$$ aacbcaa dffe $$$+$$$ ed $$$=$$$ dffeed $$$\\to$$$ fdeedf dffe $$$+$$$ aade $$$=$$$ dffeaade $$$\\to$$$ adfaafde ed $$$+$$$ aade $$$=$$$ edaade $$$\\to$$$ aeddea ",
+    "prob_desc_description": "After learning a lot about space exploration, a little girl named Ana wants to change the subject.Ana is a girl who loves palindromes (string that can be read the same backwards as forward). She has learned how to check for a given string whether it's a palindrome or not, but soon she grew tired of this problem, so she came up with a more interesting one and she needs your help to solve it:You are given an array of strings which consist of only small letters of the alphabet. Your task is to find how many palindrome pairs are there in the array. A palindrome pair is a pair of strings such that the following condition holds: at least one permutation of the concatenation of the two strings is a palindrome. In other words, if you have two strings, let's say \"aab\" and \"abcac\", and you concatenate them into \"aababcac\", we have to check if there exists a permutation of this new string such that it is a palindrome (in this case there exists the permutation \"aabccbaa\"). Two pairs are considered different if the strings are located on different indices. The pair of strings with indices $$$(i,j)$$$ is considered the same as the pair $$$(j,i)$$$.",
+    "prob_desc_output_spec": "Output one number, representing how many palindrome pairs there are in the array.",
+    "prob_desc_input_spec": "The first line contains a positive integer $$$N$$$ ($$$1 \\le N \\le 100\\,000$$$), representing the length of the input array. Eacg of the next $$$N$$$ lines contains a string (consisting of lowercase English letters from 'a' to 'z') — an element of the input array.  The total number of characters in the input array will be less than $$$1\\,000\\,000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_003.jsonl",
+    "code_uid": "ab549f3abda40bede48f94f632480b6f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\naa\\nbb\\ncd\", \"6\\naab\\nabcac\\ndffe\\ned\\naa\\naade\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\n\nn = int(input())\nstrings = []\n\nfor i in range(0,n):\n  counter = { x: 0 for x in range(ord('a'), ord('z')+1) }\n  napis = input()\n  for val in napis:\n    counter[ord(val)] = (counter[ord(val)] + 1) % 2\n  \n  napis = \"\"\n  for key, val in counter.items():\n    if val != 0:\n      napis+=chr(key)\n  \n  strings.append(napis)\n\nc = Counter(strings)\nstrings = sorted(c.most_common(), key=lambda i: i[0])\n#print(strings)\n\ncount = 0\nfor key, val in strings:\n  if val > 1:\n    count += val*(val-1)/2\n\nfor charInt in range(ord('a'), ord('z')+1):\n  char = chr(charInt)\n  copy = {}\n  for key, val in strings:\n    if char in key:\n      copy[key.replace(char, \"\")] = copy.get(key.replace(char, \"\"), 0) + val\n  #print(copy)\n  for key, val in strings:\n    if copy.get(key,0) != 0:\n      count+=val * copy[key]\n      #print(\"pokrywa : \", key, \" \", val*copy[key])\n\nprint(int(count))\n",
+    "prob_desc_created_at": "1537612500",
+    "tags": [
+        "hashing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

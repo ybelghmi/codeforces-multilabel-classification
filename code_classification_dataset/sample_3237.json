@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n2\\n4 3\\n3 1\"]",
+    "src_uid": "b97db0567760f2fc5d3ca15611fe7177",
+    "prob_desc_notes": "NoteIn the first sample test we swap numbers on positions 3 and 4 and permutation p becomes 4 2 3 1. We pay |3 - 4| = 1 coins for that. On second turn we swap numbers on positions 1 and 3 and get permutation 3241 equal to s. We pay |3 - 1| = 2 coins for that. In total we pay three coins.",
+    "prob_desc_description": "Anton loves transforming one permutation into another one by swapping elements for money, and Ira doesn't like paying for stupid games. Help them obtain the required permutation by paying as little money as possible.More formally, we have two permutations, p and s of numbers from 1 to n. We can swap pi and pj, by paying |i - j| coins for it. Find and print the smallest number of coins required to obtain permutation s from permutation p. Also print the sequence of swap operations at which we obtain a solution. ",
+    "prob_desc_output_spec": "In the first line print the minimum number of coins that you need to spend to transform permutation p into permutation s. In the second line print number k (0 ≤ k ≤ 2·106) — the number of operations needed to get the solution. In the next k lines print the operations. Each line must contain two numbers i and j (1 ≤ i, j ≤ n, i ≠ j), which means that you need to swap pi and pj. It is guaranteed that the solution exists.",
+    "prob_desc_input_spec": "The first line contains a single number n (1 ≤ n ≤ 2000) — the length of the permutations. The second line contains a sequence of n numbers from 1 to n — permutation p. Each number from 1 to n occurs exactly once in this line. The third line contains a sequence of n numbers from 1 to n — permutation s. Each number from 1 to n occurs once in this line.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_048.jsonl",
+    "code_uid": "ec4fe4aae531b51db135f9ad6d812061",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4 2 1 3\\n3 2 4 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\ndef sol1(): #wrong solution\n\tglobal n, p1, p2, di, di2\n\tswaps = []\n\tcost = 0\n\tflag = True\n\twhile flag:\n\t\tflag = False\n\t\tfor i in range(n-1):\n\t\t\tif di[p1[i]] > di[p1[i+1]]:\n\t\t\t\ttemp = p1[i]\n\t\t\t\tp1[i] = p1[i+1]\n\t\t\t\tp1[i+1] = p1[i]\n\t\t\t\tcost += 1\n\t\t\t\tswaps.append( (i,i+1) )\n\t\t\t\tflag = True\n\n\ndef sol2():\n\tglobal n, p1, p2, di, di2, cost, swap\n\tflag = True\n\twhile flag:\n\t\tflag = False\n\t\tfor i in range(0,n):\n\t\t\tif di[p1[i]] != i:\n\t\t\t\t#print i\n\t\t\t\t#print p1\n\t\t\t\t#print di\n\t\t\t\tflag = True\n\t\t\t\tk = di2[i]\n\t\t\t\tfor j in xrange(i, k):\n\t\t\t\t\tif di[p1[j]] >= k:\n\t\t\t\t\t\t#print k,j\n\t\t\t\t\t\tcost += k-j\n\t\t\t\t\t\tswap.append((k,j))\n\t\t\t\t\t\tdi2[i] = j\n\t\t\t\t\t\tdi2[di[p1[j]]] = k\n\t\t\t\t\t\ttemp = p1[k]\n\t\t\t\t\t\tp1[k] = p1[j]\n\t\t\t\t\t\tp1[j] = temp\n\t\t\t\t\t\tbreak\n\t\t\t\tbreak\n\nn = int(raw_input())\np1 = [int(x) for x in raw_input().split()]\np2 = [int(x) for x in raw_input().split()]\ndi = {k:p2.index(k) for k in p1} #where should I be ultimately located?\ndi2 = {k:p1.index(p2[k]) for k in range(0,n)} #where is the guy who should ultimately come here?\ncost = 0\nswap = []\n#print di\n#print di2\n\nsol2()\nprint cost\nprint len(swap)\nfor i in swap:\n\tprint i[0]+1, i[1]+1\n\n\n\n\n\n\n\n",
+    "prob_desc_created_at": "1444149000",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

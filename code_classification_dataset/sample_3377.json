@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 2 1 1 0 0\", \"0 1 1 2 1 1 0 0\"]",
+    "src_uid": "abdf06347e6db23932ef07020f49aa52",
+    "prob_desc_notes": "NoteFor the first sample, the corresponding optimal values of s' after removal 0 through |s| = 5 characters from s are {\"aaaaa\", \"aaaa\", \"aaa\", \"aa\", \"a\", \"\"}. For the second sample, possible corresponding optimal values of s' are {\"axbaxxb\", \"abaxxb\", \"axbab\", \"abab\", \"aba\", \"ab\", \"a\", \"\"}.",
+    "prob_desc_description": "Dreamoon has a string s and a pattern string p. He first removes exactly x characters from s obtaining string s' as a result. Then he calculates  that is defined as the maximal number of non-overlapping substrings equal to p that can be found in s'. He wants to make this number as big as possible.More formally, let's define  as maximum value of  over all s' that can be obtained by removing exactly x characters from s. Dreamoon wants to know  for all x from 0 to |s| where |s| denotes the length of string s.",
+    "prob_desc_output_spec": "Print |s| + 1 space-separated integers in a single line representing the  for all x from 0 to |s|.",
+    "prob_desc_input_spec": "The first line of the input contains the string s (1 ≤ |s| ≤ 2 000). The second line of the input contains the string p (1 ≤ |p| ≤ 500). Both strings will only consist of lower case English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_055.jsonl",
+    "code_uid": "c4262816dbcc14465cb603acff4888b6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"aaaaa\\naa\", \"axbaxxb\\nab\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s, p = input(), input()\nn, m = len(s) + 1, len(p)\nd = [[0] * n for t in range(n)]\nfor x in range(1, n):\n    i, j = x, m\n    while i and j:\n        j -= s[i - 1] == p[j - 1]\n        i -= 1\n    if not j:\n        for y in range(i + 1): d[x][y + x - i - m] = d[i][y] + 1\n    for y in range(x): d[x][y] = max(d[x][y], d[x - 1][y])\nprint(*d[-1])\n",
+    "prob_desc_created_at": "1413122400",
+    "tags": [
+        "dp",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

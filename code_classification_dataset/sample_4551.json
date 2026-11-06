@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"aaaacbb\\nabccc\\nbcdis\\naaaaacbbdrr\\ndddddddddddd\\nbbc\\nac\"]",
+    "src_uid": "419ef3579fe142c295ec4d89ee7becfc",
+    "prob_desc_notes": "NoteIn the first test case, both aaaabbc and aaaabcb are lexicographically smaller than aaaacbb, but they contain abc as a subsequence.In the second test case, abccc is the smallest permutation of cccba and does not contain acb as a subsequence.In the third test case, bcdis is the smallest permutation of dbsic and does not contain bac as a subsequence.",
+    "prob_desc_description": "You are given strings $$$S$$$ and $$$T$$$, consisting of lowercase English letters. It is guaranteed that $$$T$$$ is a permutation of the string abc. Find string $$$S'$$$, the lexicographically smallest permutation of $$$S$$$ such that $$$T$$$ is not a subsequence of $$$S'$$$.String $$$a$$$ is a permutation of string $$$b$$$ if the number of occurrences of each distinct character is the same in both strings.A string $$$a$$$ is a subsequence of a string $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) elements.A string $$$a$$$ is lexicographically smaller than a string $$$b$$$ if and only if one of the following holds: $$$a$$$ is a prefix of $$$b$$$, but $$$a \\ne b$$$; in the first position where $$$a$$$ and $$$b$$$ differ, the string $$$a$$$ has a letter that appears earlier in the alphabet than the corresponding letter in $$$b$$$.",
+    "prob_desc_output_spec": "For each test case, output a single string $$$S'$$$, the lexicographically smallest permutation of $$$S$$$ such that $$$T$$$ is not a subsequence of $$$S'$$$.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains a string $$$S$$$ ($$$1 \\le |S| \\le 100$$$), consisting of lowercase English letters. The second line of each test case contains a string $$$T$$$ that is a permutation of the string abc. (Hence, $$$|T| = 3$$$). Note that there is no limit on the sum of $$$|S|$$$ across all test cases.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_100.jsonl",
+    "code_uid": "5fcc132f12fbb7038f9009b0b4f2a589",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\nabacaba\\nabc\\ncccba\\nacb\\ndbsic\\nbac\\nabracadabra\\nabc\\ndddddddddddd\\ncba\\nbbc\\nabc\\nac\\nabc\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys;input=sys.stdin.readline\r\nfor _ in range(int(input())):\r\n    a=sorted(input().strip())\r\n    t=input().strip()\r\n    one=a.count(t[0])\r\n    two=a.count(t[1])\r\n    thr=a.count(t[2])\r\n    if one>0 and two>0 and thr>0:\r\n        if t[0]=='a':print(t[0]*one+t[2]*thr+t[1]*two,end='')\r\n        else:print('a'*a.count('a')+'b'*a.count('b')+'c'*a.count('c'),end='')\r\n    elif one+two+thr==0:print('',end='')\r\n    elif one+two==0:print(t[2]*thr,end='')\r\n    elif one+thr==0:print(t[1]*two,end='')\r\n    elif two+thr==0:print(t[0]*one,end='')\r\n    elif one==0:\r\n        if t[1]>t[2]:print(t[2]*thr+t[1]*two,end='')\r\n        else:print(t[1]*two+t[2]*thr,end='')\r\n    elif two==0:\r\n        if t[0]>t[2]:print(t[2]*thr+t[0]*one,end='')\r\n        else:print(t[0]*one+t[2]*thr,end='')\r\n    elif thr==0:\r\n        if t[1]>t[0]:print(t[0]*one+t[1]*two,end='')\r\n        else:print(t[1]*two+t[0]*one,end='')\r\n    print(''.join(a[one+two+thr:]))\r\n    \r\n \r\n",
+    "prob_desc_created_at": "1639661700",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "sortings",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

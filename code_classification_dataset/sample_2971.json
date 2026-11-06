@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"40\", \"4\"]",
+    "src_uid": "4357300b397ad91bfb5ce81a29abfdd6",
+    "prob_desc_notes": "NoteConsider the first example.A simple path from node $$$1$$$ to node $$$2$$$: $$$1 \\rightarrow 2$$$ has alternating function equal to $$$A(1,2) = 1 \\cdot (-4)+(-1) \\cdot 1 = -5$$$.A simple path from node $$$1$$$ to node $$$3$$$: $$$1 \\rightarrow 3$$$ has alternating function equal to $$$A(1,3) = 1 \\cdot (-4)+(-1) \\cdot 5 = -9$$$.A simple path from node $$$2$$$ to node $$$4$$$: $$$2 \\rightarrow 1 \\rightarrow 4$$$ has alternating function $$$A(2,4) = 1 \\cdot (1)+(-1) \\cdot (-4)+1 \\cdot (-2) = 3$$$.A simple path from node $$$1$$$ to node $$$1$$$ has a single node $$$1$$$, so $$$A(1,1) = 1 \\cdot (-4) = -4$$$.Similarly, $$$A(2, 1) = 5$$$, $$$A(3, 1) = 9$$$, $$$A(4, 2) = 3$$$, $$$A(1, 4) = -2$$$, $$$A(4, 1) = 2$$$, $$$A(2, 2) = 1$$$, $$$A(3, 3) = 5$$$, $$$A(4, 4) = -2$$$, $$$A(3, 4) = 7$$$, $$$A(4, 3) = 7$$$, $$$A(2, 3) = 10$$$, $$$A(3, 2) = 10$$$. So the answer is $$$(-5) + (-9) + 3 + (-4) + 5 + 9 + 3 + (-2) + 2 + 1 + 5 + (-2) + 7 + 7 + 10 + 10 = 40$$$.Similarly $$$A(1,4)=-2, A(2,2)=1, A(2,1)=5, A(2,3)=10, A(3,3)=5, A(3,1)=9, A(3,2)=10, A(3,4)=7, A(4,4)=-2, A(4,1)=2, A(4,2)=3 , A(4,3)=7$$$ which sums upto 40. ",
+    "prob_desc_description": "Given a tree with $$$n$$$ nodes numbered from $$$1$$$ to $$$n$$$. Each node $$$i$$$ has an associated value $$$V_i$$$.If the simple path from $$$u_1$$$ to $$$u_m$$$ consists of $$$m$$$ nodes namely $$$u_1 \\rightarrow u_2 \\rightarrow u_3 \\rightarrow \\dots u_{m-1} \\rightarrow u_{m}$$$, then its alternating function $$$A(u_{1},u_{m})$$$ is defined as $$$A(u_{1},u_{m}) = \\sum\\limits_{i=1}^{m} (-1)^{i+1} \\cdot V_{u_{i}}$$$. A path can also have $$$0$$$ edges, i.e. $$$u_{1}=u_{m}$$$.Compute the sum of alternating functions of all unique simple paths. Note that the paths are directed: two paths are considered different if the starting vertices differ or the ending vertices differ. The answer may be large so compute it modulo $$$10^{9}+7$$$. ",
+    "prob_desc_output_spec": "Print the total sum of alternating functions of all unique simple paths modulo $$$10^{9}+7$$$. ",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ $$$(2 \\leq n \\leq 2\\cdot10^{5} )$$$ — the number of vertices in the tree. The second line contains $$$n$$$ space-separated integers $$$V_1, V_2, \\ldots, V_n$$$ ($$$-10^9\\leq V_i \\leq 10^9$$$) — values of the nodes. The next $$$n-1$$$ lines each contain two space-separated integers $$$u$$$ and $$$v$$$ $$$(1\\leq u, v\\leq n, u \\neq v)$$$ denoting an edge between vertices $$$u$$$ and $$$v$$$. It is guaranteed that the given graph is a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_037.jsonl",
+    "code_uid": "34a9322a898c0718638d664963889b5f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n-4 1 5 -2\\n1 2\\n1 3\\n1 4\", \"8\\n-2 6 -4 -4 -9 -3 -7 23\\n8 2\\n2 3\\n1 4\\n6 5\\n7 6\\n4 7\\n5 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\ninp = [int(x) for x in sys.stdin.read().split()]\nii = 0\n\nn = inp[ii]\nii += 1\n\nV = inp[ii:ii + n]\nii += n\n\ncoupl = [[] for _ in range(n)]\n\nfor _ in range(n - 1):\n    u = inp[ii] - 1\n    ii += 1\n    v = inp[ii] - 1\n    ii += 1\n    \n    coupl[u].append(v)\n    coupl[v].append(u)\n\nfound = [0]*n\nchildren = [[] for _ in range(n)]\nP = [-1]*n\n\nbfs = [0]\nP[0] = 0\nfor node in bfs:\n    for nei in coupl[node]:\n        if P[nei] == -1:\n            bfs.append(nei)\n            P[nei] = node\n            children[node].append(nei)\n\n\nE = [0]*n\nO = [0]*n\n\nfor node in reversed(bfs):\n    O[node] += 1\n    p = P[node]\n    if p != node:\n        E[p] += O[node]\n        O[p] += E[node]\n\nUE = list(E)\nUO = list(O)\n\nfor node in bfs:\n    for child in children[node]:\n        UO[child] += UE[node] - O[child]\n        UE[child] += UO[node] - E[child]\n\nout = []\nfor node in range(n):\n\n    ue = UE[node]\n    count = uo = UO[node]\n    p = P[node]\n    if p != node:\n        e = UE[p] - O[node]\n        o = UO[p] - E[node]\n\n        count += - E[node] * o + O[node] * e\n    for child in children[node]:\n        e = ue - O[child]\n        o = uo - E[child]\n\n        count += E[child] * o - O[child] * e\n    out.append(count)\nprint sum(out[i] * V[i] for i in range(n)) % (10**9 + 7)\n",
+    "prob_desc_created_at": "1523117100",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "probabilities",
+        "divide and conquer",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

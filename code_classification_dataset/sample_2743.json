@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"14\"]",
+    "src_uid": "94f84b89e98228de170ae68c5cb8f375",
+    "prob_desc_notes": "NoteIn the second sample above, the Old Peykan stays in c1 for 3 hours.",
+    "prob_desc_description": "There are n cities in the country where the Old Peykan lives. These cities are located on a straight line, we'll denote them from left to right as c1, c2, ..., cn. The Old Peykan wants to travel from city c1 to cn using roads. There are (n - 1) one way roads, the i-th road goes from city ci to city ci + 1 and is di kilometers long.The Old Peykan travels 1 kilometer in 1 hour and consumes 1 liter of fuel during this time.Each city ci (except for the last city cn) has a supply of si liters of fuel which immediately transfers to the Old Peykan if it passes the city or stays in it. This supply refreshes instantly k hours after it transfers. The Old Peykan can stay in a city for a while and fill its fuel tank many times. Initially (at time zero) the Old Peykan is at city c1 and s1 liters of fuel is transferred to it's empty tank from c1's supply. The Old Peykan's fuel tank capacity is unlimited. Old Peykan can not continue its travel if its tank is emptied strictly between two cities.Find the minimum time the Old Peykan needs to reach city cn.",
+    "prob_desc_output_spec": "In the only line of the output print a single integer — the minimum time required for The Old Peykan to reach city cn from city c1.",
+    "prob_desc_input_spec": "The first line of the input contains two space-separated integers m and k (1 ≤ m, k ≤ 1000). The value m specifies the number of roads between cities which is equal to n - 1. The next line contains m space-separated integers d1, d2, ..., dm (1 ≤ di ≤ 1000) and the following line contains m space-separated integers s1, s2, ..., sm (1 ≤ si ≤ 1000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_029.jsonl",
+    "code_uid": "e09fc835cc54f0d8a16f7ed5de088011",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 6\\n1 2 5 2\\n2 3 3 4\", \"2 3\\n5 6\\n5 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys \nimport math\n#4\n#1 3 2 0\nm,k = [int(i) for i in sys.stdin.readline().split()]\nd = [int(i) for i in sys.stdin.readline().split()]\ns = [int(i) for i in sys.stdin.readline().split()]\n \n### 0 closed closed 1 gym 2 contest 3 both\n \ntime = 0\noil = 0\nmax_val = 0\nfor i,val in enumerate(d):\n    oil += s[i]\n    if s[i] > max_val:\n        max_val = s[i]\n    if val <=  oil: ## you can move\n        time += val\n        oil -= val\n    else:\n        left = val - oil  ## the required gas\n        ## if the required gas is less than\n        times = math.ceil(left/max_val) ## time \n        oil += times * max_val\n        time += val + times * k\n        oil -= val\nprint(time)",
+    "prob_desc_created_at": "1351783800",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

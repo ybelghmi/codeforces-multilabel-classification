@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\\nNO\"]",
+    "src_uid": "0bc73dfd5745b00c24e3553b161d75a4",
+    "prob_desc_notes": "NoteIn first test case the can sort subarray $$$a_1 \\dots a_5$$$, then $$$a$$$ will turn into $$$[1, 1, 4, 4, 7, 5, 6]$$$, and then sort subarray $$$a_5 \\dots a_6$$$.",
+    "prob_desc_description": "You are given an array $$$a_1, a_2, \\dots, a_n$$$ and an array $$$b_1, b_2, \\dots, b_n$$$.For one operation you can sort in non-decreasing order any subarray $$$a[l \\dots r]$$$ of the array $$$a$$$.For example, if $$$a = [4, 2, 2, 1, 3, 1]$$$ and you choose subbarray $$$a[2 \\dots 5]$$$, then the array turns into $$$[4, 1, 2, 2, 3, 1]$$$. You are asked to determine whether it is possible to obtain the array $$$b$$$ by applying this operation any number of times (possibly zero) to the array $$$a$$$.",
+    "prob_desc_output_spec": "For each query print YES (in any letter case) if it is possible to obtain an array $$$b$$$ and NO (in any letter case) otherwise.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 3 \\cdot 10^5$$$) — the number of queries. The first line of each query contains one integer $$$n$$$ ($$$1 \\le n \\le 3 \\cdot 10^5$$$). The second line of each query contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le n$$$). The third line of each query contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$1 \\le b_i \\le n$$$). It is guaranteed that $$$\\sum n \\le 3 \\cdot 10^5$$$ over all queries in a test.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_026.jsonl",
+    "code_uid": "a35f0e4c69fa1a76ecd954c24ab25a38",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n7\\n1 7 1 4 4 5 6\\n1 1 4 4 5 7 6\\n5\\n1 1 3 3 5\\n1 1 3 3 5\\n2\\n1 1\\n1 2\\n3\\n1 2 3\\n3 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import division, print_function\nDEBUG = 0\nINF = float('inf')\nimport os, sys\nfrom atexit import*\nfrom io import*\nimport itertools\nif sys.version_info[0] < 3:\n    input = raw_input\n    range = xrange\n    filter = itertools.ifilter\n    map = itertools.imap\n    zip = itertools.izip\nif DEBUG:\n    debug_print = print\nelse:\n    sys.stdin = BytesIO(os.read(0, os.fstat(0).st_size))\n    sys.stdout = BytesIO()\n    register(lambda: os.write(1, sys.stdout.getvalue()))\n    input = lambda: sys.stdin.readline().rstrip('\\r\\n')\n    debug_print = lambda *x, **y: None\ndef input_as_list():\n    return list(map(int, input().split()))\ndef array_of(f, *dim):\n    return [array_of(f, *dim[1:]) for _ in range(dim[0])] if dim else f()\ndef main():\n    q = int(input())\n    def build(src):\n        n = len(src)\n        out = [0]*n + src\n        for i in range(n-1, -1, -1):\n            out[i] = min(out[2*i], out[2*i+1])\n        return out\n    def modify(st, n, idx, value):\n        idx += n\n        st[idx] = value\n        while idx > 1:\n            st[idx//2] = min(st[idx], st[idx^1])\n            idx //= 2\n    def rangemin(st, n, l, r):\n        res = INF\n        l += n\n        r += n\n        while l < r:\n            if l&1:\n                res = min(res, st[l])\n                l += 1\n            if r&1:\n                r -= 1\n                res = min(res, st[r])\n            l //= 2\n            r //= 2\n        return res\n    for _ in range(q):\n        from collections import Counter, defaultdict\n        n = int(input())\n        a = input_as_list()\n        b = input_as_list()\n        if Counter(a) != Counter(b):\n            print(\"NO\")\n            continue\n        st = build(a)\n        debug_print(st)\n        a2, b2 = [], []\n        c = defaultdict(int)\n        for e in a:\n            c[e] += 1\n            a2.append((e, c[e]))\n        c = defaultdict(int)\n        for e in b:\n            c[e] += 1\n            b2.append((e, c[e]))\n        idx_of = {x: i for i, x in enumerate(a2)}\n        flag = True\n        for e in b2:\n            idx = idx_of[e]\n            val = rangemin(st, n, 0, idx+1)\n            if val < e[0]:\n                flag = False\n                break\n            modify(st, n, idx, INF)\n        print(\"YES\" if flag else \"NO\")\nmain()",
+    "prob_desc_created_at": "1561905900",
+    "tags": [
+        "data structures",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

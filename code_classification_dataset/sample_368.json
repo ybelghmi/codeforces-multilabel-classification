@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"8\", \"5\"]",
+    "src_uid": "5e2a5ee02c1a2f35a52e76cde96463a3",
+    "prob_desc_notes": "NoteIn the first example days $$$3$$$ and $$$8$$$ are not-so-rainy. The $$$3$$$-rd day is earlier.In the second example day $$$3$$$ is not not-so-rainy, because $$$3 + y = 6$$$ and $$$a_3 &gt; a_6$$$. Thus, day $$$8$$$ is the answer. Note that $$$8 + y = 11$$$, but we don't consider day $$$11$$$, because it is not summer.",
+    "prob_desc_description": "For years, the Day of city N was held in the most rainy day of summer. New mayor decided to break this tradition and select a not-so-rainy day for the celebration. The mayor knows the weather forecast for the $$$n$$$ days of summer. On the $$$i$$$-th day, $$$a_i$$$ millimeters of rain will fall. All values $$$a_i$$$ are distinct.The mayor knows that citizens will watch the weather $$$x$$$ days before the celebration and $$$y$$$ days after. Because of that, he says that a day $$$d$$$ is not-so-rainy if $$$a_d$$$ is smaller than rain amounts at each of $$$x$$$ days before day $$$d$$$ and and each of $$$y$$$ days after day $$$d$$$. In other words, $$$a_d &lt; a_j$$$ should hold for all $$$d - x \\le j &lt; d$$$ and $$$d &lt; j \\le d + y$$$. Citizens only watch the weather during summer, so we only consider such $$$j$$$ that $$$1 \\le j \\le n$$$.Help mayor find the earliest not-so-rainy day of summer.",
+    "prob_desc_output_spec": "Print a single integer — the index of the earliest not-so-rainy day of summer. We can show that the answer always exists.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$x$$$ and $$$y$$$ ($$$1 \\le n \\le 100\\,000$$$, $$$0 \\le x, y \\le 7$$$) — the number of days in summer, the number of days citizens watch the weather before the celebration and the number of days they do that after. The second line contains $$$n$$$ distinct integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_n$$$ ($$$1 \\le a_i \\le 10^9$$$), where $$$a_i$$$ denotes the rain amount on the $$$i$$$-th day.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_001.jsonl",
+    "code_uid": "443067609de5f37931e3c658e03bf3d2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 2 2\\n10 9 6 7 8 3 2 1 4 5\", \"10 2 3\\n10 9 6 7 8 3 2 1 4 5\", \"5 5 5\\n100000 10000 1000 100 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def mx(x,y):\n    if(x>y):\n        return x\n    else:\n        return y\n\n\ndef mn(x,y):\n    if(x<y):\n        return x\n    else:\n        return y\nn,a,b=[int(x) for x in input().split()]\nc=list(map(int,input().split()))\nfor i in range(n):\n    x=min(c[mx(0,i-a):mn(n,i+b+1)])\n    if(c[i]==x):\n        print(i+1)\n        break\n",
+    "prob_desc_created_at": "1564497300",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

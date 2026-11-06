@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"392\\n1 1\", \"240\\n2 3\"]",
+    "src_uid": "45ac482a6b95f44a26b7363e6756c8d1",
+    "prob_desc_notes": "NoteIn the first test case the total time of guessing all cars is equal to 3·8 + 3·8 + 4·8 + 9·8 + 5·40 + 1·40 = 392.The coordinate system of the field:   ",
+    "prob_desc_description": "A widely known among some people Belarusian sport programmer Yura possesses lots of information about cars. That is why he has been invited to participate in a game show called \"Guess That Car!\".The game show takes place on a giant parking lot, which is 4n meters long from north to south and 4m meters wide from west to east. The lot has n + 1 dividing lines drawn from west to east and m + 1 dividing lines drawn from north to south, which divide the parking lot into n·m 4 by 4 meter squares. There is a car parked strictly inside each square. The dividing lines are numbered from 0 to n from north to south and from 0 to m from west to east. Each square has coordinates (i, j) so that the square in the north-west corner has coordinates (1, 1) and the square in the south-east corner has coordinates (n, m). See the picture in the notes for clarifications.Before the game show the organizers offer Yura to occupy any of the (n + 1)·(m + 1) intersection points of the dividing lines. After that he can start guessing the cars. After Yura chooses a point, he will be prohibited to move along the parking lot before the end of the game show. As Yura is a car expert, he will always guess all cars he is offered, it's just a matter of time. Yura knows that to guess each car he needs to spend time equal to the square of the euclidean distance between his point and the center of the square with this car, multiplied by some coefficient characterizing the machine's \"rarity\" (the rarer the car is, the harder it is to guess it). More formally, guessing a car with \"rarity\" c placed in a square whose center is at distance d from Yura takes c·d2 seconds. The time Yura spends on turning his head can be neglected.It just so happened that Yura knows the \"rarity\" of each car on the parking lot in advance. Help him choose his point so that the total time of guessing all cars is the smallest possible.",
+    "prob_desc_output_spec": "In the first line print the minimum total time Yura needs to guess all offered cars. In the second line print two numbers li and lj (0 ≤ li ≤ n, 0 ≤ lj ≤ m) — the numbers of dividing lines that form a junction that Yura should choose to stand on at the beginning of the game show. If there are multiple optimal starting points, print the point with smaller li. If there are still multiple such points, print the point with smaller lj. Please do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 1000) — the sizes of the parking lot. Each of the next n lines contains m integers: the j-th number in the i-th line describes the \"rarity\" cij (0 ≤ cij ≤ 100000) of the car that is located in the square with coordinates (i, j).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_067.jsonl",
+    "code_uid": "5cc96ee4a879573f49625082bc47ddba",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\n3 4 5\\n3 9 1\", \"3 4\\n1 0 0 0\\n0 0 3 0\\n0 0 5 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def getmin(c, m):\n    l, r = 0, m\n    cx = lambda x:sum([c[i]*((x-i)*4-2)**2 for i in range(m)])\n    while True:\n        ml = (l*2+r)/3\n        mr = (l+r*2)/3\n        l, r = (ml, r) if cx(ml) > cx(mr) else (l, mr)\n        if r<=l+10:\n            px = cx(l)+1\n            for i in xrange(r-l+2):\n                if px <= cx(l+i):\n                    r, x = (px, l+i-1)\n                    break\n                px = cx(l+i)\n            break\n    return r, x\n\nn, m = [int(i) for i in raw_input().split()]\nvsum = [0]*m \nhsum = [0]*n\n\nfor i in xrange(n):\n    row = [int(k) for k in raw_input().split()]\n    hsum[i] = sum(row)\n    vsum = [i+j for i, j in zip(vsum, row)]\n\nr1, rx = getmin(vsum, m)\nr2, ry = getmin(hsum, n)\n\nprint r1+r2\nprint ry, rx\n",
+    "prob_desc_created_at": "1340983800",
+    "tags": [
+        "dp",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

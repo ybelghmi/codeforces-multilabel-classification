@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"3\"]",
+    "src_uid": "eea7860e6bbbe5f399b9123ebd663e3e",
+    "prob_desc_notes": "Notegcd (greatest common divisor) of positive integers set {a1, a2, ..., an} is the maximum positive integer that divides all the integers {a1, a2, ..., an}.In the first sample, we can take Pokemons with strengths {2, 4} since gcd(2, 4) = 2.In the second sample, we can take Pokemons with strengths {2, 4, 6}, and there is no larger group with gcd ≠ 1.",
+    "prob_desc_description": "Bash has set out on a journey to become the greatest Pokemon master. To get his first Pokemon, he went to Professor Zulu's Lab. Since Bash is Professor Zulu's favourite student, Zulu allows him to take as many Pokemon from his lab as he pleases.But Zulu warns him that a group of k &gt; 1 Pokemon with strengths {s1, s2, s3, ..., sk} tend to fight among each other if gcd(s1, s2, s3, ..., sk) = 1 (see notes for gcd definition).Bash, being smart, does not want his Pokemon to fight among each other. However, he also wants to maximize the number of Pokemon he takes from the lab. Can you help Bash find out the maximum number of Pokemon he can take? Note: A Pokemon cannot fight with itself.",
+    "prob_desc_output_spec": "Print single integer — the maximum number of Pokemons Bash can take.",
+    "prob_desc_input_spec": "The input consists of two lines. The first line contains an integer n (1 ≤ n ≤ 105), the number of Pokemon in the lab. The next line contains n space separated integers, where the i-th of them denotes si (1 ≤ si ≤ 105), the strength of the i-th Pokemon.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_012.jsonl",
+    "code_uid": "5ff303b7b41d94173510a011c561a205",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 3 4\", \"5\\n2 3 4 6 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\nfrom math import sqrt\ndef solve():\n    n = int(input())\n    numbers = list(map(int, input().split(\" \")))\n\n    if n == 1:\n        print(1)\n        return\n\n    amount = {}\n    for number in numbers:\n        if number not in amount:\n            amount[number] = 1\n        else:\n            amount[number] += 1\n\n    freq = defaultdict(int)\n    for key, value in sorted(amount.items()):\n        if key == 1:\n            freq[key] += value\n            continue\n\n        freq[key] += value\n        for j in range(2, int(sqrt(key)) + 1):\n            if key % j == 0:\n                freq[j] += value\n                if key // j != j:\n                    freq[key//j] += value\n\n    highest = sorted(freq.items(), key=lambda x:x[1])[-1]\n\n    if highest[0] == 1:\n        print(1)\n    else:\n        print(highest[1])\nsolve()",
+    "prob_desc_created_at": "1484235300",
+    "tags": [
+        "number theory",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

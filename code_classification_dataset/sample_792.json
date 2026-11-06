@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n0\\n1\\n-1\"]",
+    "src_uid": "389be6455476db86a8a5d9d5343ee35a",
+    "prob_desc_notes": "NoteIn the first test case, there are 3 good prefixes of $$$t$$$: with length $$$28$$$, $$$30$$$ and $$$32$$$.",
+    "prob_desc_description": "You are given string $$$s$$$ of length $$$n$$$ consisting of 0-s and 1-s. You build an infinite string $$$t$$$ as a concatenation of an infinite number of strings $$$s$$$, or $$$t = ssss \\dots$$$ For example, if $$$s =$$$ 10010, then $$$t =$$$ 100101001010010...Calculate the number of prefixes of $$$t$$$ with balance equal to $$$x$$$. The balance of some string $$$q$$$ is equal to $$$cnt_{0, q} - cnt_{1, q}$$$, where $$$cnt_{0, q}$$$ is the number of occurrences of 0 in $$$q$$$, and $$$cnt_{1, q}$$$ is the number of occurrences of 1 in $$$q$$$. The number of such prefixes can be infinite; if it is so, you must say that.A prefix is a string consisting of several first letters of a given string, without any reorders. An empty prefix is also a valid prefix. For example, the string \"abcd\" has 5 prefixes: empty string, \"a\", \"ab\", \"abc\" and \"abcd\".",
+    "prob_desc_output_spec": "Print $$$T$$$ integers — one per test case. For each test case print the number of prefixes or $$$-1$$$ if there is an infinite number of such prefixes.",
+    "prob_desc_input_spec": "The first line contains the single integer $$$T$$$ ($$$1 \\le T \\le 100$$$) — the number of test cases. Next $$$2T$$$ lines contain descriptions of test cases — two lines per test case. The first line contains two integers $$$n$$$ and $$$x$$$ ($$$1 \\le n \\le 10^5$$$, $$$-10^9 \\le x \\le 10^9$$$) — the length of string $$$s$$$ and the desired balance, respectively. The second line contains the binary string $$$s$$$ ($$$|s| = n$$$, $$$s_i \\in \\{\\text{0}, \\text{1}\\}$$$). It's guaranteed that the total sum of $$$n$$$ doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_004.jsonl",
+    "code_uid": "8dca9099c4c5940f13721bd53c96f999",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n6 10\\n010010\\n5 3\\n10101\\n1 0\\n0\\n2 0\\n01\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for i in range(int(input())):\n\tn,x = map(int,input().split())\n\ts=input()\n\tcount0=0\n\tl=[]\n\tfor j in range(n):\n\t\tif s[j]==\"0\":\n\t\t\tcount0+=1\n\t\t\tl.append(count0)\n\t\telse:\n\t\t\tcount0-=1\n\t\t\tl.append(count0)\t\t\n\ta=s.count(\"0\")\n\tb=len(s)-a\n\tk=a-b\n\tif a==b and x==0:\n\t\tprint(-1)\n\telif a==b and x in l:\n\t\tprint(-1)\n\telif a==b and x not in l:\n\t\tprint(0)\t\n\telse:\n\t\tflag=0\t\n\t\tfor j in l:\n\t\t\tc=(x-j)/k\n\t\t\tif c==(int(c)) and c>=0:\n\t\t\t\tflag+=1\n\t\tif x==0:\n\t\t\tprint(flag+1)\n\t\telse:\t\n\t\t\tprint(flag)",
+    "prob_desc_created_at": "1580308500",
+    "tags": [
+        "math",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n-1\\n3\\n2\"]",
+    "src_uid": "a5c38d4842d3d4652cd79dd9715c138d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Polycarp has $$$n$$$ coins, the value of the $$$i$$$-th coin is $$$a_i$$$. It is guaranteed that all the values are integer powers of $$$2$$$ (i.e. $$$a_i = 2^d$$$ for some non-negative integer number $$$d$$$).Polycarp wants to know answers on $$$q$$$ queries. The $$$j$$$-th query is described as integer number $$$b_j$$$. The answer to the query is the minimum number of coins that is necessary to obtain the value $$$b_j$$$ using some subset of coins (Polycarp can use only coins he has). If Polycarp can't obtain the value $$$b_j$$$, the answer to the $$$j$$$-th query is -1.The queries are independent (the answer on the query doesn't affect Polycarp's coins).",
+    "prob_desc_output_spec": "Print $$$q$$$ integers $$$ans_j$$$. The $$$j$$$-th integer must be equal to the answer on the $$$j$$$-th query. If Polycarp can't obtain the value $$$b_j$$$ the answer to the $$$j$$$-th query is -1.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$q$$$ ($$$1 \\le n, q \\le 2 \\cdot 10^5$$$) — the number of coins and the number of queries. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ — values of coins ($$$1 \\le a_i \\le 2 \\cdot 10^9$$$). It is guaranteed that all $$$a_i$$$ are integer powers of $$$2$$$ (i.e. $$$a_i = 2^d$$$ for some non-negative integer number $$$d$$$). The next $$$q$$$ lines contain one integer each. The $$$j$$$-th line contains one integer $$$b_j$$$ — the value of the $$$j$$$-th query ($$$1 \\le b_j \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_035.jsonl",
+    "code_uid": "b2cf6ce50953bff7fa1ccbb913e19f67",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n2 4 8 2 4\\n8\\n5\\n14\\n10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\n\ngetListInput = lambda: list(map(int, input().split()))\n\nNC, NQ = getListInput()\nCS = getListInput()\n\nCOUNTER = sorted(Counter(CS).items(), reverse=True)\n\nANSWER = []\nfor _ in range(NQ):\n    QT = int(input())\n    \n    MIN = 0\n    for k, v in COUNTER:\n        coins = min(QT//k, v)\n        MIN += coins\n        QT -= coins*k\n\n    ANSWER.append(MIN if QT == 0 else -1)\n    \nprint(\" \".join(map(str, ANSWER)))\n\n\n",
+    "prob_desc_created_at": "1530628500",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

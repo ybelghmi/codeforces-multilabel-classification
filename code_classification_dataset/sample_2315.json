@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1.00000000000000000000\", \"1.50000000000000000000\", \"1.33333333333333350000\", \"2.50216960000000070000\"]",
+    "src_uid": "c2b3b577c2bcb3a2a8cb48700c637270",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are n students living in the campus. Every morning all students wake up at the same time and go to wash. There are m rooms with wash basins. The i-th of these rooms contains ai wash basins. Every student independently select one the rooms with equal probability and goes to it. After all students selected their rooms, students in each room divide into queues by the number of wash basins so that the size of the largest queue is the least possible. Calculate the expected value of the size of the largest queue among all rooms.",
+    "prob_desc_output_spec": "Output single number: the expected value of the size of the largest queue. Your answer must have an absolute or relative error less than 10 - 9.",
+    "prob_desc_input_spec": "The first line contains two positive integers n and m (1 ≤ n, m ≤ 50) — the amount of students and the amount of rooms. The second line contains m integers a1, a2, ... , am (1 ≤ ai ≤ 50). ai means the amount of wash basins in the i-th room.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_020.jsonl",
+    "code_uid": "9ae6365e128a1cf4e5efc387e6e2c9d9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\\n2\", \"2 2\\n1 1\", \"2 3\\n1 1 1\", \"7 5\\n1 1 2 3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, raw_input().split())\na = map(int, raw_input().split())\n\nprob = [(n+1)*[None] for _ in range(m+1)]\nfor k in range(1, m+1):\n    prob[k][0] = [1.0]\n    for i in range(1, n+1):\n        prob[k][i] = (i+1)*[0.0]\n        for j in range(i):\n            prob[k][i][j+1] += prob[k][i-1][j]*(1.0/k)\n            prob[k][i][j] += prob[k][i-1][j]*(1-1.0/k)\n\ndp = [[(n+1)*[0.0] for _ in range(n+1)] for _ in range(m+1)]\ndp[m][n][0] = 1.0\nfor k in range(m, 0, -1):\n    for i in range(n+1):\n        for x in range(n+1):\n            t = dp[k][i][x]\n            if t == 0.0:\n                continue\n            for j in range(i+1):\n                dp[k-1][i-j][max(x, (j+a[m-k]-1)/a[m-k])] += t*prob[k][i][j]\n\nres = 0\nfor x in range(n+1):\n    res += x*dp[0][0][x]\nprint \"%.13f\" % res\n\n",
+    "prob_desc_created_at": "1284735600",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "probabilities"
+    ],
+    "hidden_unit_tests": ""
+}

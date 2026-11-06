@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n-1\\n1\\n2\\n5\"]",
+    "src_uid": "af40a0de6d3c0ff7bcd2c1b077b05d6e",
+    "prob_desc_notes": "NoteIn the first example, we will understand chapters $$$\\{2, 4\\}$$$ in the first reading and chapters $$$\\{1, 3\\}$$$ in the second reading of the book.In the second example, every chapter requires the understanding of some other chapter, so it is impossible to understand the book.In the third example, every chapter requires only chapters that appear earlier in the book, so we can understand everything in one go.In the fourth example, we will understand chapters $$$\\{2, 3, 4\\}$$$ in the first reading and chapter $$$1$$$ in the second reading of the book.In the fifth example, we will understand one chapter in every reading from $$$5$$$ to $$$1$$$.",
+    "prob_desc_description": "You are given a book with $$$n$$$ chapters.Each chapter has a specified list of other chapters that need to be understood in order to understand this chapter. To understand a chapter, you must read it after you understand every chapter on its required list.Currently you don't understand any of the chapters. You are going to read the book from the beginning till the end repeatedly until you understand the whole book. Note that if you read a chapter at a moment when you don't understand some of the required chapters, you don't understand this chapter.Determine how many times you will read the book to understand every chapter, or determine that you will never understand every chapter no matter how many times you read the book.",
+    "prob_desc_output_spec": "For each test case, if the entire book can be understood, print how many times you will read it, otherwise print $$$-1$$$.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 2\\cdot10^4$$$). The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 2\\cdot10^5$$$) — number of chapters. Then $$$n$$$ lines follow. The $$$i$$$-th line begins with an integer $$$k_i$$$ ($$$0 \\le k_i \\le n-1$$$) — number of chapters required to understand the $$$i$$$-th chapter. Then $$$k_i$$$ integers $$$a_{i,1}, a_{i,2}, \\dots, a_{i, k_i}$$$ ($$$1 \\le a_{i, j} \\le n, a_{i, j} \\ne i, a_{i, j} \\ne a_{i, l}$$$ for $$$j \\ne l$$$) follow — the chapters required to understand the $$$i$$$-th chapter. It is guaranteed that the sum of $$$n$$$ and sum of $$$k_i$$$ over all testcases do not exceed $$$2\\cdot10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_094.jsonl",
+    "code_uid": "bd9707c575d230e94cb38c7b9453c41b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n4\\n1 2\\n0\\n2 1 4\\n1 2\\n5\\n1 5\\n1 1\\n1 2\\n1 3\\n1 4\\n5\\n0\\n0\\n2 1 2\\n1 2\\n2 2 1\\n4\\n2 2 3\\n0\\n0\\n2 3 2\\n5\\n1 2\\n1 3\\n1 4\\n1 5\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\n    n = int(input())\n    adj = [[] for i in range(n)]\n    in_degree= [[] for i in range(n)]\n    for i in range(n):\n        l = list(map(int,input().split()))\n        for j in range(1,len(l)):\n            adj[l[j]-1].append(i)\n        in_degree[i] = l[0]\n    count= 0\n    from collections import deque\n    q=deque()\n    for i,val in enumerate(in_degree):\n        if(val==0):\n            q.append(i)\n    dp = [1 for i in range(n)]\n    while(q):\n        count+= 1\n        temp = q.popleft()\n        for item in adj[temp]:\n            if(item<temp):\n                if(dp[item]<dp[temp]+1):\n                    dp[item] = dp[temp]+1\n            else:\n                if(dp[item]<dp[temp]):\n                    dp[item]= dp[temp]\n            in_degree[item]-=1\n            if(in_degree[item]==0):\n                q.append(item)\n    if(count==n):\n        print(max(dp))\n    else:\n        print(-1)\n                \n        \n\n           \n                    \n            \n",
+    "prob_desc_created_at": "1631975700",
+    "tags": [
+        "data structures",
+        "dp",
+        "graphs",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

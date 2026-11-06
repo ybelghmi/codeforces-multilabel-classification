@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"-1\", \"2\", \"3\"]",
+    "src_uid": "6667153172a20520f1d3a2de79e5f62b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array of $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_n$$$, and a set $$$b$$$ of $$$k$$$ distinct integers from $$$1$$$ to $$$n$$$.In one operation, you may choose two integers $$$i$$$ and $$$x$$$ ($$$1 \\le i \\le n$$$, $$$x$$$ can be any integer) and assign $$$a_i := x$$$. This operation can be done only if $$$i$$$ does not belong to the set $$$b$$$.Calculate the minimum number of operations you should perform so the array $$$a$$$ is increasing (that is, $$$a_1 &lt; a_2 &lt; a_3 &lt; \\dots &lt; a_n$$$), or report that it is impossible.",
+    "prob_desc_output_spec": "If it is impossible to make the array $$$a$$$ increasing using the given operations, print $$$-1$$$. Otherwise, print one integer — the minimum number of operations you have to perform.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 5 \\cdot 10^5$$$, $$$0 \\le k \\le n$$$) — the size of the array $$$a$$$ and the set $$$b$$$, respectively. The second line contains $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_n$$$ ($$$1 \\le a_i \\le 10^9$$$). Then, if $$$k \\ne 0$$$, the third line follows, containing $$$k$$$ integers $$$b_1$$$, $$$b_2$$$, ..., $$$b_k$$$ ($$$1 \\le b_1 &lt; b_2 &lt; \\dots &lt; b_k \\le n$$$). If $$$k = 0$$$, this line is skipped.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_006.jsonl",
+    "code_uid": "6df9ffc017972e34819f3112049d4e78",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 2\\n1 2 1 1 3 5 1\\n3 5\", \"3 3\\n1 3 2\\n1 2 3\", \"5 0\\n4 3 1 2 3\", \"10 3\\n1 3 5 6 12 9 8 10 13 15\\n2 4 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import bisect_left as bl\nfrom bisect import bisect_right as br\nfrom heapq import heappush,heappop\nimport math\nfrom collections import *\nfrom functools import reduce,cmp_to_key, lru_cache\n\n\nimport sys\ninput = sys.stdin.readline\nM = mod = 998244353\ndef factors(n):return sorted(set(reduce(list.__add__, ([i, n//i] for i in range(1, int(n**0.5) + 1) if n % i == 0))))\ndef inv_mod(n):return pow(n, mod - 2, mod)\n \ndef li():return [int(i) for i in input().rstrip('\\n').split()]\ndef st():return input().rstrip('\\n')\ndef val():return int(input().rstrip('\\n'))\ndef li2():return [i for i in input().rstrip('\\n')]\ndef li3():return [int(i) for i in input().rstrip('\\n')]\n\n\n\ndef give(i, j, mi, ma):\n    # print(i, j, mi, ma)\n    l1 = []\n    for k in range(i, j + 1):\n        if mi <= l[k] <= ma:\n            ind = br(l1, l[k])\n            if ind == len(l1):l1.append(l[k])\n            else:l1[ind] = l[k]\n    # print(j - i + 1, len(l1))\n    return j - i - len(l1) + 1\n    \n    \n\nn, k = li()\nl = [0] + li()\n\n\nif k:\n    b = li()\nelse:b = []\n\nfor i in range(1, k):\n    if l[b[i]] - l[b[i - 1]] < b[i] - b[i - 1] or l[b[i]] < l[b[i - 1]]:\n        print(-1)\n        exit()\n        \nfor i in range(n + 1):l[i] -= i\n\nif k:\n    ans = give(1, b[0] - 1, -float('inf'), l[b[0]])\n    ans += give(b[-1] + 1, n, l[b[-1]], float('inf'))\n    \n    for i in range(1, k):\n        ans += give(b[i-1], b[i], l[b[i - 1]], l[b[i]])\n    \n    \nelse:\n    ans = give(1, n, -float('inf'), float('inf'))\n    \n\nprint(ans)",
+    "prob_desc_created_at": "1603809300",
+    "tags": [
+        "dp",
+        "constructive algorithms",
+        "implementation",
+        "data structures",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"18\\n1000000000000000000\"]",
+    "src_uid": "7e6bc93543ad7bf80a019559b7bf99e0",
+    "prob_desc_notes": "NoteThe picture below shows the solution for the first sample. The cost $$$18$$$ is reached by taking $$$c_3$$$ 3 times and $$$c_2$$$ once, amounting to $$$5+5+5+3=18$$$.  ",
+    "prob_desc_description": "Lindsey Buckingham told Stevie Nicks \"Go your own way\". Nicks is now sad and wants to go away as quickly as possible, but she lives in a 2D hexagonal world.Consider a hexagonal tiling of the plane as on the picture below.  Nicks wishes to go from the cell marked $$$(0, 0)$$$ to a certain cell given by the coordinates. She may go from a hexagon to any of its six neighbors you want, but there is a cost associated with each of them. The costs depend only on the direction in which you travel. Going from $$$(0, 0)$$$ to $$$(1, 1)$$$ will take the exact same cost as going from $$$(-2, -1)$$$ to $$$(-1, 0)$$$. The costs are given in the input in the order $$$c_1$$$, $$$c_2$$$, $$$c_3$$$, $$$c_4$$$, $$$c_5$$$, $$$c_6$$$ as in the picture below.  Print the smallest cost of a path from the origin which has coordinates $$$(0, 0)$$$ to the given cell.",
+    "prob_desc_output_spec": "For each testcase output the smallest cost of a path from the origin to the given cell.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10^{4}$$$). Description of the test cases follows. The first line of each test case contains two integers $$$x$$$ and $$$y$$$ ($$$-10^{9} \\le x, y \\le 10^{9}$$$) representing the coordinates of the target hexagon. The second line of each test case contains six integers $$$c_1$$$, $$$c_2$$$, $$$c_3$$$, $$$c_4$$$, $$$c_5$$$, $$$c_6$$$ ($$$1 \\le c_1, c_2, c_3, c_4, c_5, c_6 \\le 10^{9}$$$) representing the six costs of the making one step in a particular direction (refer to the picture above to see which edge is for each value).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_057.jsonl",
+    "code_uid": "c568755c85884c2ed08ab579f968dc55",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n-3 1\\n1 3 5 7 9 11\\n1000000000 1000000000\\n1000000000 1000000000 1000000000 1000000000 1000000000 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\n\ndef main():\n    x, y = map(int, input().split())\n    clst = list(map(int, input().split()))\n    clst[0] = min(clst[0], clst[5] + clst[1])\n    clst[1] = min(clst[1], clst[0] + clst[2])\n    clst[2] = min(clst[2], clst[1] + clst[3])\n    clst[3] = min(clst[3], clst[2] + clst[4])\n    clst[4] = min(clst[4], clst[3] + clst[5])\n    clst[5] = min(clst[5], clst[4] + clst[0])\n    directions = [(1, 1), (0, 1), (-1, 0), (-1, -1), (0, -1), (1, 0)]\n    ans = 10 ** 20\n    for i in range(6):\n        dx1, dy1 = directions[i]\n        dx2, dy2 = directions[(i + 1) % 6]\n        a = (x * dy2 - y * dx2) // (dx1 * dy2 - dy1 * dx2)\n        b = (x * dy1 - y * dx1) // (dx2 * dy1 - dy2 * dx1)\n        if a < 0 or b < 0:\n            continue\n        ans = min(ans, clst[i] * a + clst[(i + 1) % 6] * b)\n    print(ans)\n    \nfor _ in range(int(input())):\n    main()\n",
+    "prob_desc_created_at": "1603011900",
+    "tags": [
+        "greedy",
+        "constructive algorithms",
+        "shortest paths",
+        "math",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

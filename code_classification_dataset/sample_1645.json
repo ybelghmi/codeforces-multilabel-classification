@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 1 4 6 2 5 \\n3 2 1 4 5 \\n2 1 6 3 5 4 7 \\n1 2 \\n2 5 3 4 1\"]",
+    "src_uid": "bb521123f9863345d75cfe10677ab344",
+    "prob_desc_notes": null,
+    "prob_desc_description": "We guessed a permutation $$$p$$$ consisting of $$$n$$$ integers. The permutation of length $$$n$$$ is the array of length $$$n$$$ where each element from $$$1$$$ to $$$n$$$ appears exactly once. This permutation is a secret for you.For each position $$$r$$$ from $$$2$$$ to $$$n$$$ we chose some other index $$$l$$$ ($$$l &lt; r$$$) and gave you the segment $$$p_l, p_{l + 1}, \\dots, p_r$$$ in sorted order (i.e. we rearranged the elements of this segment in a way that the elements of this segment are sorted). Thus, you are given exactly $$$n-1$$$ segments of the initial permutation but elements inside each segment are sorted. The segments are given to you in random order.For example, if the secret permutation is $$$p=[3, 1, 4, 6, 2, 5]$$$ then the possible given set of segments can be:  $$$[2, 5, 6]$$$  $$$[4, 6]$$$  $$$[1, 3, 4]$$$  $$$[1, 3]$$$  $$$[1, 2, 4, 6]$$$ Your task is to find any suitable permutation (i.e. any permutation corresponding to the given input data). It is guaranteed that the input data corresponds to some permutation (i.e. such permutation exists).You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer: $$$n$$$ integers $$$p_1, p_2, \\dots, p_n$$$ ($$$1 \\le p_i \\le n$$$, all $$$p_i$$$ should be distinct) — any suitable permutation (i.e. any permutation corresponding to the test case input).",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of the test case contains one integer $$$n$$$ ($$$2 \\le n \\le 200$$$) — the length of the permutation. The next $$$n-1$$$ lines describe given segments. The $$$i$$$-th line contains the description of the $$$i$$$-th segment. The line starts with the integer $$$k_i$$$ ($$$2 \\le k_i \\le n$$$) — the length of the $$$i$$$-th segment. Then $$$k_i$$$ integers follow. All integers in a line are distinct, sorted in ascending order, between $$$1$$$ and $$$n$$$, inclusive. It is guaranteed that the required $$$p$$$ exists for each test case. It is also guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$200$$$ ($$$\\sum n \\le 200$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_011.jsonl",
+    "code_uid": "756a744b339e0c8b9bea8cc8036b1c69",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n6\\n3 2 5 6\\n2 4 6\\n3 1 3 4\\n2 1 3\\n4 1 2 4 6\\n5\\n2 2 3\\n2 1 2\\n2 1 4\\n2 4 5\\n7\\n3 1 2 6\\n4 1 3 5 6\\n2 1 2\\n3 4 5 7\\n6 1 2 3 4 5 6\\n3 1 3 6\\n2\\n2 1 2\\n5\\n2 2 5\\n3 2 3 5\\n4 2 3 4 5\\n5 1 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport collections\nimport threading\nimport copy\n\ndef check(itr, sets):\n    d={}\n    def dmap(x):\n        return d[x]    \n    for i in range(len(itr)):\n        d[itr[i]] = i\n    for perm in sets:\n        tmp = sorted(list( map(dmap, perm) ))\n        if len(tmp) != tmp[-1] - tmp[0] + 1:\n            return False\n\n    return True\n\n\ndef main():\n    n = int( input() )\n    sets = []\n    start = set()\n    for _ in range(n-1):\n        l, *tmp = map( int, input().split() )\n        sets.append( set(tmp) )\n        if l == 2:\n            start.add(tmp[0])\n            start.add(tmp[1])\n\n    ans = collections.deque()\n    for i in start:\n        permuts = copy.deepcopy(sets)\n        next = i\n        while len(ans) > 0: ans.pop()\n\n        ans.append(next)\n        while len(ans) < n:\n            q = []\n            for permut in permuts:\n                if next in permut:\n                    permut.remove(next)\n                    if len(permut) == 1:\n                        q.append(permut)\n            if len(q) != 1:\n                break ########## exit\n            next = list(q[0])[0]\n            ans.append(next)\n        if len(ans)==n and check(ans, sets):\n            print(*ans)\n            return\n    print(\"error\")\n    return\n        \n\n        \n\n\n\n\ninput = sys.stdin.readline\n#sys.setrecursionlimit(2097152)\ntnum = int(input())\nfor _ in range(tnum):\n    main()\n\n# threading.stack_size(134217728)\n\n# main_thread = threading.Thread(target=main)\n# main_thread.start()\n# main_thread.join()",
+    "prob_desc_created_at": "1587479700",
+    "tags": [
+        "greedy",
+        "constructive algorithms",
+        "implementation",
+        "data structures",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6\", \"-1\"]",
+    "src_uid": "e3275cd360d8f46cbbae03dfa86b924a",
+    "prob_desc_notes": "NoteIn the first example we can firstly reorder the segment from first to the fourth character, replacing it with \"()()\", the whole sequence will be \"()()())(\". And then reorder the segment from the seventh to eighth character, replacing it with \"()\". In the end the sequence will be \"()()()()\", while the total time spent is $$$4 + 2 = 6$$$ nanoseconds.",
+    "prob_desc_description": "A bracketed sequence is called correct (regular) if by inserting \"+\" and \"1\" you can get a well-formed mathematical expression from it. For example, sequences \"(())()\", \"()\" and \"(()(()))\" are correct, while \")(\", \"(()\" and \"(()))(\" are not.The teacher gave Dmitry's class a very strange task — she asked every student to come up with a sequence of arbitrary length, consisting only of opening and closing brackets. After that all the students took turns naming the sequences they had invented. When Dima's turn came, he suddenly realized that all his classmates got the correct bracketed sequence, and whether he got the correct bracketed sequence, he did not know.Dima suspects now that he simply missed the word \"correct\" in the task statement, so now he wants to save the situation by modifying his sequence slightly. More precisely, he can the arbitrary number of times (possibly zero) perform the reorder operation.The reorder operation consists of choosing an arbitrary consecutive subsegment (substring) of the sequence and then reordering all the characters in it in an arbitrary way. Such operation takes $$$l$$$ nanoseconds, where $$$l$$$ is the length of the subsegment being reordered. It's easy to see that reorder operation doesn't change the number of opening and closing brackets. For example for \"))((\" he can choose the substring \")(\" and do reorder \")()(\" (this operation will take $$$2$$$ nanoseconds).Since Dima will soon have to answer, he wants to make his sequence correct as fast as possible. Help him to do this, or determine that it's impossible.",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of nanoseconds to make the sequence correct or \"-1\" if it is impossible to do so.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^6$$$) — the length of Dima's sequence. The second line contains string of length $$$n$$$, consisting of characters \"(\" and \")\" only.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_015.jsonl",
+    "code_uid": "ddb08b434ce6eebf7d63b18d1df8bad5",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n))((())(\", \"3\\n(()\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\nn = int(input())\nif ( (n&1)):\n    input()\n    print(-1)\nelse :\n    x = input()\n    d = Counter(x)\n    if ( d['('] != d[')']):\n        print(-1)\n    else :\n        op = 0\n        cl = 0\n        c= 0\n        for i in x :\n            if (i == \"(\"):\n                op+=1\n            else :\n                cl+=1\n                if (cl > op):\n                    #print(op , cl)\n                    c+=1\n        print(c*2)",
+    "prob_desc_created_at": "1583573700",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

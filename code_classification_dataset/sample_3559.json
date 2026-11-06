@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2.5 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"9\"]",
+    "src_uid": "fb454aaf337ecb8c172a72d5d7186263",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a connected undirected weighted graph consisting of $$$n$$$ vertices and $$$m$$$ edges.You need to print the $$$k$$$-th smallest shortest path in this graph (paths from the vertex to itself are not counted, paths from $$$i$$$ to $$$j$$$ and from $$$j$$$ to $$$i$$$ are counted as one).More formally, if $$$d$$$ is the matrix of shortest paths, where $$$d_{i, j}$$$ is the length of the shortest path between vertices $$$i$$$ and $$$j$$$ ($$$1 \\le i &lt; j \\le n$$$), then you need to print the $$$k$$$-th element in the sorted array consisting of all $$$d_{i, j}$$$, where $$$1 \\le i &lt; j \\le n$$$.",
+    "prob_desc_output_spec": "Print one integer — the length of the $$$k$$$-th smallest shortest path in the given graph (paths from the vertex to itself are not counted, paths from $$$i$$$ to $$$j$$$ and from $$$j$$$ to $$$i$$$ are counted as one).",
+    "prob_desc_input_spec": "The first line of the input contains three integers $$$n, m$$$ and $$$k$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$, $$$n - 1 \\le m \\le \\min\\Big(\\frac{n(n-1)}{2}, 2 \\cdot 10^5\\Big)$$$, $$$1 \\le k \\le \\min\\Big(\\frac{n(n-1)}{2}, 400\\Big)$$$ — the number of vertices in the graph, the number of edges in the graph and the value of $$$k$$$, correspondingly. Then $$$m$$$ lines follow, each containing three integers $$$x$$$, $$$y$$$ and $$$w$$$ ($$$1 \\le x, y \\le n$$$, $$$1 \\le w \\le 10^9$$$, $$$x \\ne y$$$) denoting an edge between vertices $$$x$$$ and $$$y$$$ of weight $$$w$$$. It is guaranteed that the given graph is connected (there is a path between any pair of vertices), there are no self-loops (edges connecting the vertex with itself) and multiple edges (for each pair of vertices $$$x$$$ and $$$y$$$, there is at most one edge between this pair of vertices in the graph).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_068.jsonl",
+    "code_uid": "a7c70e75b520535a4e98c9a31ed0e24d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 10 5\\n2 5 1\\n5 3 9\\n6 2 2\\n1 3 1\\n5 1 8\\n6 5 10\\n1 6 5\\n6 4 6\\n3 6 2\\n3 4 5\", \"7 15 18\\n2 6 3\\n5 7 4\\n6 5 4\\n3 6 9\\n6 7 7\\n1 6 4\\n7 1 6\\n7 2 1\\n4 3 2\\n3 2 8\\n5 3 6\\n2 5 5\\n3 7 9\\n4 1 8\\n2 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import division, print_function\n \nDEBUG = 0\n \nimport os, sys\nfrom atexit import register\nfrom io import BytesIO\nimport itertools\n \nif sys.version_info[0] < 3:\n    input = raw_input\n    range = xrange\n \n    filter = itertools.ifilter\n    map = itertools.imap\n    zip = itertools.izip\n \nif DEBUG:\n    debug_print = print\nelse:\n    sys.stdin = BytesIO(os.read(0, os.fstat(0).st_size))\n    sys.stdout = BytesIO()\n    register(lambda: os.write(1, sys.stdout.getvalue()))\n \n    input = lambda: sys.stdin.readline().rstrip('\\r\\n')\n    debug_print = lambda *x, **y: None\n \n \ndef input_as_list():\n    return list(map(int, input().split()))\n \n \ndef array_of(f, *dim):\n    return [array_of(f, *dim[1:]) for _ in range(dim[0])] if dim else f()\n \n \ndef main():\n    from heapq import heapify, heappop, heappush\n \n    n, m, k = input_as_list()\n \n    g = array_of(list, n)\n    elist = []\n    pq = []\n \n    for _ in range(m):\n        u, v, d = input_as_list()\n        elist.append((d, u-1, v-1))\n \n    elist.sort()\n    elist = elist[:k]\n \n    V = set()\n    for d, u, v in elist:\n        V.add(u)\n        V.add(v)\n        g[u].append((v, d))\n        g[v].append((u, d))\n \n    all_paths = []\n \n    for v in V:\n        pq = [(0, v)]\n        ub = dict()\n        done = set()\n \n        while pq:\n            d, x = heappop(pq)\n \n            if x in done:\n                continue\n \n            debug_print(v, x, d)\n            done.add(x)\n            if d > 0 : all_paths.append(d)\n \n            for u, du in g[x]:\n                du += d\n \n                if u in ub and du >= ub[u]:\n                    continue\n \n                heappush(pq, (du, u))\n                ub[u] = du\n \n    all_paths.sort()\n    print(all_paths[2*k-1])\n \nmain()",
+    "prob_desc_created_at": "1563978900",
+    "tags": [
+        "constructive algorithms",
+        "sortings",
+        "brute force",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

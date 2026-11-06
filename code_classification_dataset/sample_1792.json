@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"fatma\\nmona\", \"likes\\nposted\"]",
+    "src_uid": "b1a86308739067f2b6c9940b564e2648",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Facetook is a well known social network website, and it will launch a new feature called Facetook Priority Wall. This feature will sort all posts from your friends according to the priority factor (it will be described).This priority factor will be affected by three types of actions:   1. \"X posted on Y's wall\" (15 points),  2. \"X commented on Y's post\" (10 points),  3. \"X likes Y's post\" (5 points). X and Y will be two distinct names. And each action will increase the priority factor between X and Y (and vice versa) by the above value of points (the priority factor between X and Y is the same as the priority factor between Y and X).You will be given n actions with the above format (without the action number and the number of points), and you have to print all the distinct names in these actions sorted according to the priority factor with you.",
+    "prob_desc_output_spec": "Print m lines, where m is the number of distinct names in the input (excluding yourself). Each line should contain just 1 name. The names should be sorted according to the priority factor with you in the descending order (the highest priority factor should come first). If two or more names have the same priority factor, print them in the alphabetical (lexicographical) order. Note, that you should output all the names that are present in the input data (excluding yourself), even if that person has a zero priority factor. The lexicographical comparison is performed by the standard \"&lt;\" operator in modern programming languages. The line a is lexicographically smaller than the line b, if either a is the prefix of b, or if exists such an i (1 ≤ i ≤ min(|a|, |b|)), that ai &lt; bi, and for any j (1 ≤ j &lt; i) aj = bj, where |a| and |b| stand for the lengths of strings a and b correspondently.",
+    "prob_desc_input_spec": "The first line contains your name. The second line contains an integer n, which is the number of actions (1 ≤ n ≤ 100). Then n lines follow, it is guaranteed that each one contains exactly 1 action in the format given above. There is exactly one space between each two words in a line, and there are no extra spaces. All the letters are lowercase. All names in the input will consist of at least 1 letter and at most 10 small Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_013.jsonl",
+    "code_uid": "791614154f3071e5cfd2550bb1ad06a3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"ahmed\\n3\\nahmed posted on fatma's wall\\nfatma commented on ahmed's post\\nmona likes ahmed's post\", \"aba\\n1\\nlikes likes posted's post\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "r={'posted':15,'commented':10,'likes':5}\nn=input()\na={}\nm=set()\nfor _ in '0'*int(input()):\n\tt=input().split()\n\ts=t[0]\n\tp=t[3-(t[1]=='likes')][:-2]\n\tm.add(s)\n\tm.add(p)\n\tif s==n:\n\t\ta[p]=a.get(p,0)+r[t[1]]\n\tif p==n:\n\t\ta[s]=a.get(s,0)+r[t[1]]\nif n in m:\n\tm.remove(n)\nfor v in sorted(set(a.values())|set([0]))[::-1]:\n\tprint('\\n'.join(sorted(s for s in m if a.get(s,0)==v)))\n",
+    "prob_desc_created_at": "1302706800",
+    "tags": [
+        "implementation",
+        "expression parsing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

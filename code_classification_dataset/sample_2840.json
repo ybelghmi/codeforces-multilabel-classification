@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"11\", \"11\"]",
+    "src_uid": "8a905ae55ac9364a9ed2807f06a05ff0",
+    "prob_desc_notes": "NoteFor the first sample test, we can modify: column 2, row 2. After that the matrix becomes:1 10 0For the second sample test, we can modify: column 2, row 2, row 1, column 1, column 2. After that the matrix becomes:-3 -3-2 -2",
+    "prob_desc_description": "As we know, DZY loves playing games. One day DZY decided to play with a n × m matrix. To be more precise, he decided to modify the matrix with exactly k operations.Each modification is one of the following:  Pick some row of the matrix and decrease each element of the row by p. This operation brings to DZY the value of pleasure equal to the sum of elements of the row before the decreasing.  Pick some column of the matrix and decrease each element of the column by p. This operation brings to DZY the value of pleasure equal to the sum of elements of the column before the decreasing. DZY wants to know: what is the largest total value of pleasure he could get after performing exactly k modifications? Please, help him to calculate this value.",
+    "prob_desc_output_spec": "Output a single integer — the maximum possible total pleasure value DZY could get.",
+    "prob_desc_input_spec": "The first line contains four space-separated integers n, m, k and p (1 ≤ n, m ≤ 103; 1 ≤ k ≤ 106; 1 ≤ p ≤ 100). Then n lines follow. Each of them contains m integers representing aij (1 ≤ aij ≤ 103) — the elements of the current row of the matrix.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_033.jsonl",
+    "code_uid": "9122c539f200daed00cb0ceeef4860f7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2 2 2\\n1 3\\n2 4\", \"2 2 5 2\\n1 3\\n2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from heapq import heappush,heappop,heapify\nn,m,k,p=map(int,raw_input().split())\nrow=[]\ncol=[]\nheapify(row)\nheapify(col)\narr=[]\nfor i in range(n):\n    s=map(int,raw_input().split())\n    heappush(row,-sum(s))\n    arr.append(s)\nfor i in range(m):\n    s=0\n    for j in range(n):\n        s-=arr[j][i]\n    heappush(col,s)\npr={}\npc={}\nrr=0\nrc=0\npr[0]=0\npc[0]=0\nfor h in range(k):\n    a=-(heappop(row))\n    b=-(heappop(col))\n    temp=a\n    a-=m*p\n    heappush(row,-a)\n    rr+=temp\n    pr[h+1]=rr\n\n    temp=b\n    b-=n*p\n    heappush(col,-b)\n    rc+=temp\n    pc[h+1]=rc\n#print pr\nans=-10**20\nfor i in range(0,k+1):\n    ans=max(ans,pc[i]+pr[k-i]-i*(k-i)*p)\nprint ans",
+    "prob_desc_created_at": "1405256400",
+    "tags": [
+        "data structures",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

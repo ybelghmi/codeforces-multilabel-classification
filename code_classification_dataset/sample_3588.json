@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"3\"]",
+    "src_uid": "3fba1fbbcb6ef38a446de1b0565dccc2",
+    "prob_desc_notes": "NoteThe examples and some of optimal solutions are shown on the pictures below.  ",
+    "prob_desc_description": "There is a square grid of size $$$n \\times n$$$. Some cells are colored in black, all others are colored in white. In one operation you can select some rectangle and color all its cells in white. It costs $$$\\min(h, w)$$$ to color a rectangle of size $$$h \\times w$$$. You are to make all cells white for minimum total cost.The square is large, so we give it to you in a compressed way. The set of black cells is the union of $$$m$$$ rectangles.",
+    "prob_desc_output_spec": "Print a single integer — the minimum total cost of painting the whole square in white.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 10^{9}$$$, $$$0 \\le m \\le 50$$$) — the size of the square grid and the number of black rectangles. Each of the next $$$m$$$ lines contains 4 integers $$$x_{i1}$$$ $$$y_{i1}$$$ $$$x_{i2}$$$ $$$y_{i2}$$$ ($$$1 \\le x_{i1} \\le x_{i2} \\le n$$$, $$$1 \\le y_{i1} \\le y_{i2} \\le n$$$) — the coordinates of the bottom-left and the top-right corner cells of the $$$i$$$-th black rectangle. The rectangles may intersect.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_071.jsonl",
+    "code_uid": "79d0820bd5f65a5efa379dd4157537e0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 2\\n4 1 5 10\\n1 4 10 5\", \"7 6\\n2 1 2 1\\n4 2 4 3\\n2 5 2 5\\n2 3 5 3\\n1 2 1 2\\n3 2 5 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom collections import defaultdict\n\nclass MaxFlow(object):\n    def __init__(self):\n        self.edges = defaultdict(lambda: defaultdict(lambda: 0))\n\n    def add_edge(self, u, v, capacity=float('inf')):\n        self.edges[u][v] = capacity\n\n    def bfs(self, s, t):\n        open_q = [s]\n\n        visited = set()\n        parent = dict()\n        while open_q:\n            close_q = []\n            for node in open_q:\n                for v, capacity in self.edges[node].items():\n                    if v not in visited and capacity > 0:\n                        close_q.append(v)\n                        parent[v] = node\n                        visited.add(v)\n                        if v == t:\n                            result = []\n                            n2 = v\n                            n1 = node\n                            while n1 != s:\n                                result.append((n1, n2))\n                                n2 = n1\n                                n1 = parent[n1]\n                            result.append((n1, n2))\n                            return result\n\n            open_q = close_q\n\n        return None\n\n    def solve(self, s, t):\n        flow = 0\n        route = self.bfs(s, t)\n        while route is not None:\n            new_flow = float('inf')\n            for _, (n1, n2) in enumerate(route):\n                new_flow = min(new_flow, self.edges[n1][n2])\n            for _, (n1, n2) in enumerate(route):\n                self.edges[n1][n2] -= new_flow\n                self.edges[n2][n1] += new_flow\n            flow += new_flow\n\n            route = self.bfs(s, t)\n\n        return flow\n\n    def __str__(self):\n        result = \"{ \"\n        for k, v in self.edges.items():\n            result += str(k) + \":\" + str(dict(v)) + \", \"\n        result += \"}\"\n        return result\n\n\ndef main():\n    (n, m) = tuple([int(x) for x in input().split()])\n    r = []\n    xs = set()\n    ys = set()\n    for i in range(m):\n        (x1, y1, x2, y2) = tuple(int(x) for x in input().split())\n        r.append((x1, y1, x2, y2))\n        xs.add(x1)\n        xs.add(x2 + 1)\n        ys.add(y1)\n        ys.add(y2 + 1)\n\n    xx = sorted(xs)\n    yy = sorted(ys)\n    xsize = len(xs)\n    ysize = len(ys)\n    grid = []\n    for i in range(ysize):\n        grid.append([False] * xsize)\n\n    for rect in r:\n        x1 = rect[0]\n        y1 = rect[1]\n        x2 = rect[2]\n        y2 = rect[3]\n        for i, y in enumerate(yy):\n            for j, x in enumerate(xx):\n                if x1 <= x and y1 <= y and x2 >= x and y2 >= y:\n                    grid[i][j] = True\n\n    f = MaxFlow()\n    for i in range(len(yy)):\n        for j in range(len(xx)):\n            if grid[i][j]:\n                f.add_edge(1 + i, len(yy) + 1 + j, float('inf'))\n    for i in range(len(yy) - 1):\n        f.add_edge(0, i + 1, yy[i + 1] - yy[i])\n    for i in range(len(xx) - 1):\n        f.add_edge(len(yy) + 1 + i, len(xx) + len(yy) + 1, xx[i + 1] - xx[i])\n\n    # print(xx)\n    # print(yy)\n    # print(f)\n    print(f.solve(0, len(xx) + len(yy) + 1))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1564497300",
+    "tags": [
+        "graph matchings",
+        "flows",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

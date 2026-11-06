@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"1\", \"-1\"]",
+    "src_uid": "6946f088e462d12da47419f492ad51ea",
+    "prob_desc_notes": "NoteNote to the first example. If you delete the $$$4$$$-th element, you can get the arithmetic progression $$$[2, 4, 6, 8]$$$.Note to the second example. The original sequence is already arithmetic progression, so you can delete $$$1$$$-st or last element and you will get an arithmetical progression again.",
+    "prob_desc_description": "A sequence $$$a_1, a_2, \\dots, a_k$$$ is called an arithmetic progression if for each $$$i$$$ from $$$1$$$ to $$$k$$$ elements satisfy the condition $$$a_i = a_1 + c \\cdot (i - 1)$$$ for some fixed $$$c$$$.For example, these five sequences are arithmetic progressions: $$$[5, 7, 9, 11]$$$, $$$[101]$$$, $$$[101, 100, 99]$$$, $$$[13, 97]$$$ and $$$[5, 5, 5, 5, 5]$$$. And these four sequences aren't arithmetic progressions: $$$[3, 1, 2]$$$, $$$[1, 2, 4, 8]$$$, $$$[1, -1, 1, -1]$$$ and $$$[1, 2, 3, 3, 3]$$$.You are given a sequence of integers $$$b_1, b_2, \\dots, b_n$$$. Find any index $$$j$$$ ($$$1 \\le j \\le n$$$), such that if you delete $$$b_j$$$ from the sequence, you can reorder the remaining $$$n-1$$$ elements, so that you will get an arithmetic progression. If there is no such index, output the number -1.",
+    "prob_desc_output_spec": "Print such index $$$j$$$ ($$$1 \\le j \\le n$$$), so that if you delete the $$$j$$$-th element from the sequence, you can reorder the remaining elements, so that you will get an arithmetic progression. If there are multiple solutions, you are allowed to print any of them. If there is no such index, print -1.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$2 \\le n \\le 2\\cdot10^5$$$) — length of the sequence $$$b$$$. The second line contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$-10^9 \\le b_i \\le 10^9$$$) — elements of the sequence $$$b$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_002.jsonl",
+    "code_uid": "58502abe75e2f867247347d1ca1b0688",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 6 8 7 4\", \"8\\n1 2 3 4 5 6 7 8\", \"4\\n1 2 4 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\ndef main():\n    buf = input()\n    n = int(buf)\n    buf = input()\n    buflist = buf.split()\n    if n == 2 or n == 3:\n        print(1) # corner\n        return\n    b = list(map(int, buflist))\n    for i in range(n):\n        b[i] = (b[i], i)\n    b.sort()\n    delta = []\n    for i in range(n-1):\n        delta.append(b[i+1][0] - b[i][0])\n    deltamap = dict()\n    for x in delta:\n        if x in deltamap:\n            deltamap[x] += 1\n        else:\n            deltamap[x] = 1\n    if len(deltamap) == 1:\n        print(b[0][1] + 1) # arithmetic progression already\n        return\n    #print(delta)\n    #print(deltamap, len(deltamap))\n    zero_candidate = []\n    norm_candidate = []\n    for k, v in deltamap.items():\n        if v == n - 2:\n            zero_candidate.append(k)\n        elif v == n - 3:\n            norm_candidate.append(k)\n    if zero_candidate:\n        if delta[0] != zero_candidate[0]:\n            print(b[0][1] + 1) # delete first\n            return\n        elif delta[-1] != zero_candidate[0]:\n            print(b[-1][1] + 1) # delete last\n            return\n        elif 0 in deltamap:\n            if zero_candidate[0] == 0:\n                print(-1)\n                return\n            for i, x in enumerate(delta):\n                if x == 0:\n                    print(b[i][1] + 1) # delete same num\n                    return\n        print(-1) # impossible\n        return\n    elif norm_candidate:\n        if 0 in deltamap:\n            print(-1)\n            return\n        for x in norm_candidate:\n            for i in range(n-2):\n                if delta[i] + delta[i+1] == x:\n                    print(b[i+1][1] + 1)\n                    return\n        print(-1) # impossible\n        return\n    else:\n        print(-1) # impossible\n        return\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1560955500",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

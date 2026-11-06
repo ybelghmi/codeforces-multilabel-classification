@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"14\"]",
+    "src_uid": "46c3222580a31f5a04ea276b6946aeaa",
+    "prob_desc_notes": "NoteIn first example matrix $$$c$$$ is:  There are $$$4$$$ subrectangles of size $$$2$$$ consisting of only ones in it:  In second example matrix $$$c$$$ is:  ",
+    "prob_desc_description": "You are given an array $$$a$$$ of length $$$n$$$ and array $$$b$$$ of length $$$m$$$ both consisting of only integers $$$0$$$ and $$$1$$$. Consider a matrix $$$c$$$ of size $$$n \\times m$$$ formed by following rule: $$$c_{i, j} = a_i \\cdot b_j$$$ (i.e. $$$a_i$$$ multiplied by $$$b_j$$$). It's easy to see that $$$c$$$ consists of only zeroes and ones too.How many subrectangles of size (area) $$$k$$$ consisting only of ones are there in $$$c$$$?A subrectangle is an intersection of a consecutive (subsequent) segment of rows and a consecutive (subsequent) segment of columns. I.e. consider four integers $$$x_1, x_2, y_1, y_2$$$ ($$$1 \\le x_1 \\le x_2 \\le n$$$, $$$1 \\le y_1 \\le y_2 \\le m$$$) a subrectangle $$$c[x_1 \\dots x_2][y_1 \\dots y_2]$$$ is an intersection of the rows $$$x_1, x_1+1, x_1+2, \\dots, x_2$$$ and the columns $$$y_1, y_1+1, y_1+2, \\dots, y_2$$$.The size (area) of a subrectangle is the total number of cells in it.",
+    "prob_desc_output_spec": "Output single integer — the number of subrectangles of $$$c$$$ with size (area) $$$k$$$ consisting only of ones.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$m$$$ and $$$k$$$ ($$$1 \\leq n, m \\leq 40\\,000, 1 \\leq k \\leq n \\cdot m$$$), length of array $$$a$$$, length of array $$$b$$$ and required size of subrectangles. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\leq a_i \\leq 1$$$), elements of $$$a$$$. The third line contains $$$m$$$ integers $$$b_1, b_2, \\ldots, b_m$$$ ($$$0 \\leq b_i \\leq 1$$$), elements of $$$b$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_003.jsonl",
+    "code_uid": "e8fa4b8fbd4937893b5d39849e508c62",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3 2\\n1 0 1\\n1 1 1\", \"3 5 4\\n1 1 1\\n1 1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#import numpy as np\n#line1=\"3 5 4\".split(\" \")\nline1=input().split(\" \")\n\nfor i in range(3):\n\tline1[i]=int(line1[i])\nn,m,k=line1\na=dict()\nb=dict()\ndef output(inp,arr,n,k):\n\tc=0\n\tfor i in range(n): \n\t\tif inp[i]==\"1\":\n\t\t\tc+=1\n\t\telse:\n\t\t\td=min(c+1,k+1)\n\t\t\tfor j in range(1,d):\n\t\t\t\tif j not in arr:\n\t\t\t\t\tarr[j]=c+1-j\n\t\t\t\telse:\n\t\t\t\t\tarr[j]+=c+1-j\n\t\t\tc=0\n\td=min(c+1,k+1)\n\tfor j in range(1,d):\n\t\tif j not in arr:\n\t\t\tarr[j]=c+1-j\n\t\telse:\n\t\t\tarr[j]+=c+1-j\n\treturn arr\na=output(input().split(\" \"),a,n,k)\nb=output(input().split(\" \"),b,m,k)\n\n#line3=input().split(\" \")\n#line3=\"1 1 1\".split(\" \")\n#print(a,b)\noutput=0\nfor i in range(1,n+1):\n\tif k%i==0:\n\t\tif i in a and k//i in b:\n\t\t#print(1)\n\t\t\toutput+=a[i]*b[k//i]\nprint(\"%d\"%(output))\n\n\n\n\n",
+    "prob_desc_created_at": "1583573700",
+    "tags": [
+        "binary search",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

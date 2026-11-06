@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Alice\\nDraw\"]",
+    "src_uid": "6cffd0fa1146b250a2608d53f3f738fa",
+    "prob_desc_notes": "NoteOne of the possible games Alice and Bob can play in the first testcase:   Alice picks the first letter in $$$s$$$: $$$s=$$$\"orces\", $$$a=$$$\"f\", $$$b=$$$\"\";  Bob picks the last letter in $$$s$$$: $$$s=$$$\"orce\", $$$a=$$$\"f\", $$$b=$$$\"s\";  Alice picks the last letter in $$$s$$$: $$$s=$$$\"orc\", $$$a=$$$\"ef\", $$$b=$$$\"s\";  Bob picks the first letter in $$$s$$$: $$$s=$$$\"rc\", $$$a=$$$\"ef\", $$$b=$$$\"os\";  Alice picks the last letter in $$$s$$$: $$$s=$$$\"r\", $$$a=$$$\"cef\", $$$b=$$$\"os\";  Bob picks the remaining letter in $$$s$$$: $$$s=$$$\"\", $$$a=$$$\"cef\", $$$b=$$$\"ros\". Alice wins because \"cef\" &lt; \"ros\". Neither of the players follows any strategy in this particular example game, so it doesn't show that Alice wins if both play optimally.",
+    "prob_desc_description": "Alice and Bob are playing a game. Initially, they are given a non-empty string $$$s$$$, consisting of lowercase Latin letters. The length of the string is even. Each player also has a string of their own, initially empty.Alice starts, then they alternate moves. In one move, a player takes either the first or the last letter of the string $$$s$$$, removes it from $$$s$$$ and prepends (adds to the beginning) it to their own string.The game ends when the string $$$s$$$ becomes empty. The winner is the player with a lexicographically smaller string. If the players' strings are equal, then it's a draw.A string $$$a$$$ is lexicographically smaller than a string $$$b$$$ if there exists such position $$$i$$$ that $$$a_j = b_j$$$ for all $$$j &lt; i$$$ and $$$a_i &lt; b_i$$$.What is the result of the game if both players play optimally (e. g. both players try to win; if they can't, then try to draw)?",
+    "prob_desc_output_spec": "For each testcase, print the result of the game if both players play optimally. If Alice wins, print \"Alice\". If Bob wins, print \"Bob\". If it's a draw, print \"Draw\".",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of testcases. Each testcase consists of a single line — a non-empty string $$$s$$$, consisting of lowercase Latin letters. The length of the string $$$s$$$ is even. The total length of the strings over all testcases doesn't exceed $$$2000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_098.jsonl",
+    "code_uid": "6e37abf2becbf1e73f8cb2094859efc9",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\nforces\\n\\nabba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from functools import lru_cache\r\nt = int(input())\r\nfor _ in range(t):\r\n    s = input()\r\n    l = len(s)\r\n    dp = [[True for i in range(l + 1)] for j in range(l + 1)]\r\n    for k in range(2, l + 1, 2):\r\n        for i in range(l + 1 - k):\r\n            j = i + k\r\n            dp[i][j] = (s[i] == s[j - 1] and dp[i + 1][j - 1]) or ((s[i] == s[i + 1] and dp[i + 2][j]) & (s[j - 1] == s[j - 2] and dp[i][j - 2]))\r\n    if dp[0][-1]:\r\n        print(\"Draw\")\r\n    else:\r\n        print(\"Alice\")",
+    "prob_desc_created_at": "1662647700",
+    "tags": [
+        "constructive algorithms",
+        "dp",
+        "games",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

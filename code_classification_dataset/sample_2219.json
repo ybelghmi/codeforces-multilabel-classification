@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n2 2 2\", \"4\\n2 2 3 3\"]",
+    "src_uid": "a9bad412597726f8cdc0cfa2da891bc4",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This is simplified version of the problem used on the original contest. The original problem seems to have too difiicult solution. The constraints for input data have been reduced.Polycarp likes to play computer role-playing game «Lizards and Basements». At the moment he is playing it as a magician. At one of the last levels he has to fight the line of archers. The only spell with which he can damage them is a fire ball. If Polycarp hits the i-th archer with his fire ball (they are numbered from left to right), the archer loses a health points. At the same time the spell damages the archers adjacent to the i-th (if any) — they lose b (1 ≤ b &lt; a ≤ 10) health points each.As the extreme archers (i.e. archers numbered 1 and n) are very far, the fire ball cannot reach them. Polycarp can hit any other archer with his fire ball.The amount of health points for each archer is known. An archer will be killed when this amount is less than 0. What is the minimum amount of spells Polycarp can use to kill all the enemies?Polycarp can throw his fire ball into an archer if the latter is already killed.",
+    "prob_desc_output_spec": "In the first line print t — the required minimum amount of fire balls. In the second line print t numbers — indexes of the archers that Polycarp should hit to kill all the archers in t shots. All these numbers should be between 2 and n - 1. Separate numbers with spaces. If there are several solutions, output any of them. Print numbers in any order.",
+    "prob_desc_input_spec": "The first line of the input contains three integers n, a, b (3 ≤ n ≤ 10; 1 ≤ b &lt; a ≤ 10). The second line contains a sequence of n integers — h1, h2, ..., hn (1 ≤ hi ≤ 15), where hi is the amount of health points the i-th archer has.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_018.jsonl",
+    "code_uid": "ace2abaf87a483e2098180948ec2f7c3",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 1\\n2 2 2\", \"4 3 1\\n1 4 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#-*- coding:utf-8 -*-\n#!/usr/bin/python3\n\ndef dfs(step, left, mx):\n\t#print(step, left)\n\tif step == 0:\n\t\tfor i in range(0, n):\n\t\t\tif h[i] >= 0:\n\t\t\t\treturn False\n\t\treturn True\n\telse:\n\t\tif h[left - 1] < 0 and h[left] < 0 and left + 2 != n:\n\t\t\tif dfs(step, left + 1, mx):\n\t\t\t\treturn True\n\t\telse:\n\t\t\tif left >= mx:\n\t\t\t\th[left - 1] -= b; h[left] -= a; h[left + 1] -= b\n\t\t\t\tans[step] = left\n\t\t\t\tif dfs(step - 1, left, left):\n\t\t\t\t\treturn True\n\t\t\t\th[left - 1] += b; h[left] += a; h[left + 1] += b\n\t\t\tif left + 1 >= mx and left + 1 < n - 1:\n\t\t\t\th[left] -= b; h[left + 1] -= a; h[left + 2] -= b\n\t\t\t\tans[step] = left + 1\n\t\t\t\tif dfs(step - 1, left, left + 1):\n\t\t\t\t\treturn True\n\t\t\t\th[left] += b; h[left + 1] += a; h[left + 2] += b\n\t\t\t\t\n\t\treturn False\n\nn, a, b = input().split()\nn = int(n)\na = int(a)\nb = int(b)\nh = list(map(int, input().split()))\nans = list(range(0, 200))\n\nfor i in range(0, 200):\n\tif (dfs(i, 1, 1)):\n\t\tprint(i)\n\t\tfor j in range(1, i):\n\t\t\tprint(ans[j] + 1, end = \" \")\n\t\tprint(ans[i] + 1)\n\t\tbreak\n\n\n\n# Made By Mostafa_Khaled",
+    "prob_desc_created_at": "1269673200",
+    "tags": [
+        "dp",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

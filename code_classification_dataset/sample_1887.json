@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\", \"4\", \"6\"]",
+    "src_uid": "19564d66e0de78780f4a61c69f2c8e27",
+    "prob_desc_notes": "NoteThe numbers from the answer of the first example are 16, 26, 36, 46, 56, 76, 86 and 96.The numbers from the answer of the second example are 2, 4, 6 and 8.The numbers from the answer of the third example are 1767, 2717, 5757, 6707, 8797 and 9747.",
+    "prob_desc_description": "Consider the decimal presentation of an integer. Let's call a number d-magic if digit d appears in decimal presentation of the number on even positions and nowhere else.For example, the numbers 1727374, 17, 1 are 7-magic but 77, 7, 123, 34, 71 are not 7-magic. On the other hand the number 7 is 0-magic, 123 is 2-magic, 34 is 4-magic and 71 is 1-magic.Find the number of d-magic numbers in the segment [a, b] that are multiple of m. Because the answer can be very huge you should only find its value modulo 109 + 7 (so you should find the remainder after dividing by 109 + 7).",
+    "prob_desc_output_spec": "Print the only integer a — the remainder after dividing by 109 + 7 of the number of d-magic numbers in segment [a, b] that are multiple of m.",
+    "prob_desc_input_spec": "The first line contains two integers m, d (1 ≤ m ≤ 2000, 0 ≤ d ≤ 9) — the parameters from the problem statement. The second line contains positive integer a in decimal presentation (without leading zeroes). The third line contains positive integer b in decimal presentation (without leading zeroes). It is guaranteed that a ≤ b, the number of digits in a and b are the same and don't exceed 2000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_014.jsonl",
+    "code_uid": "664b8537aa6c45226b2d2cb5baa1df6c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 6\\n10\\n99\", \"2 0\\n1\\n9\", \"19 7\\n1000\\n9999\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n\nfrom __future__ import division, print_function\n\ndef counter(a, m, d):\n    modulo = 1000000007\n    res = [0, ] * (2*m)\n    res[0] = 1\n    shift = 1\n    for pos in range(len(a), 0, -1):\n        ptype = pos % 2\n        cur = int(a[pos-1])\n        tres = [0, ] * (2*m)\n        for i in range(10):\n            if ptype==1 and i == d:\n                continue\n            if ptype==0 and i != d:\n                continue\n            k = (i * shift) % m\n            for j in range(m):\n                if i < cur:\n                    tres[k*2+0] += res[j*2+0]\n                    if tres[k*2+0] >= modulo:\n                        tres[k*2+0] -= modulo\n                    tres[k*2+0] += res[j*2+1]\n                    if tres[k*2+0] >= modulo:\n                        tres[k*2+0] -= modulo\n                elif i == cur:\n                    tres[k*2+0] += res[j*2+0]\n                    if tres[k*2+0] >= modulo:\n                        tres[k*2+0] -= modulo\n                    tres[k*2+1] += res[j*2+1]\n                    if tres[k*2+1] >= modulo:\n                        tres[k*2+1] -= modulo\n                else:\n                    tres[k*2+1] += res[j*2+0]\n                    if tres[k*2+1] >= modulo:\n                        tres[k*2+1] -= modulo\n                    tres[k*2+1] += res[j*2+1]\n                    if tres[k*2+1] >= modulo:\n                        tres[k*2+1] -= modulo\n                k = k+1 if k+1<m else 0\n        res = tres\n        shift = (shift * 10) % m\n    return res[0]\n\n\ndef solver(ifs):\n    m, d = list(map(int, ifs.readline().split()))\n    a = ifs.readline().strip()\n    b = ifs.readline().strip()\n    res = counter(b, m, d)\n    if a != '0':\n        a = str(int(a) - 1)\n        if len(a) < len(b):\n            a = '0' + a\n        modulo = 1000000007\n        res = res + modulo - counter(a, m, d)\n        res %= modulo\n    print(res)\n\ndef main():\n    import sys\n    if sys.version_info.major == 3:\n        from io import StringIO as StreamIO\n    else:\n         from io import BytesIO as StreamIO\n    \n    with StreamIO(sys.stdin.read()) as ifs, StreamIO() as ofs:\n        _stdout = sys.stdout\n        sys.stdout = ofs\n        solver(ifs)\n        sys.stdout = _stdout\n        sys.stdout.write(ofs.getvalue())\n    return 0\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1455894000",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

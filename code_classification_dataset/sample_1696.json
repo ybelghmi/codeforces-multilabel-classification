@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"3\"]",
+    "src_uid": "bcd689387c9167c7d0d45d4ca3b0c4c7",
+    "prob_desc_notes": "NoteFor the first sample case, the minimum number of beacons destroyed is 1. One way to achieve this is to place a beacon at position 9 with power level 2.For the second sample case, the minimum number of beacons destroyed is 3. One way to achieve this is to place a beacon at position 1337 with power level 42.",
+    "prob_desc_description": "There are n beacons located at distinct positions on a number line. The i-th beacon has position ai and power level bi. When the i-th beacon is activated, it destroys all beacons to its left (direction of decreasing coordinates) within distance bi inclusive. The beacon itself is not destroyed however. Saitama will activate the beacons one at a time from right to left. If a beacon is destroyed, it cannot be activated.Saitama wants Genos to add a beacon strictly to the right of all the existing beacons, with any position and any power level, such that the least possible number of beacons are destroyed. Note that Genos's placement of the beacon means it will be the first beacon activated. Help Genos by finding the minimum number of beacons that could be destroyed.",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of beacons that could be destroyed if exactly one beacon is added.",
+    "prob_desc_input_spec": "The first line of input contains a single integer n (1 ≤ n ≤ 100 000) — the initial number of beacons. The i-th of next n lines contains two integers ai and bi (0 ≤ ai ≤ 1 000 000, 1 ≤ bi ≤ 1 000 000) — the position and power level of the i-th beacon respectively. No two beacons will have the same position, so ai ≠ aj if i ≠ j.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_011.jsonl",
+    "code_uid": "5227824047ee8f1b28a35ff03f20b07c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 9\\n3 1\\n6 1\\n7 4\", \"7\\n1 1\\n2 1\\n3 1\\n4 1\\n5 1\\n6 1\\n7 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N=1<<20\nn=input()\nc=[0]*N\nfor _ in range(n):\n  a,b=map(int,raw_input().split())\n  c[a]=b\nfor i in range(N):\n  c[i]=(1 if c[i]>=i else c[i-c[i]-1]+1) if c[i] else c[i-1]\nprint n-max(c)\n\n",
+    "prob_desc_created_at": "1450888500",
+    "tags": [
+        "dp",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

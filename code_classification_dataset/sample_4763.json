@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\\nYES\\nYES\\nNO\"]",
+    "src_uid": "d69e10bb05d119ec2ad4b5c0e4304336",
+    "prob_desc_notes": "NoteConsider the examples.The first test case is described in the statement.In the second test case, you can place the chip on the $$$1$$$-st position, move it twice to the right, and then move it twice to the left.In the fourth test case, you can place the chip on the $$$2$$$-nd position, and then don't move it at all.In the fifth test case, you can place the chip on the $$$1$$$-st position, move it $$$5$$$ times to the right, and then finish the process.",
+    "prob_desc_description": "You have a string $$$s$$$ and a chip, which you can place onto any character of this string. After placing the chip, you move it to the right several (maybe zero) times, i. e. you perform the following operation several times: if the current position of the chip is $$$i$$$, you move it to the position $$$i + 1$$$. Of course, moving the chip to the right is impossible if it is already in the last position.After moving the chip to the right, you move it to the left several (maybe zero) times, i. e. you perform the following operation several times: if the current position of the chip is $$$i$$$, you move it to the position $$$i - 1$$$. Of course, moving the chip to the left is impossible if it is already in the first position.When you place a chip or move it, you write down the character where the chip ends up after your action. For example, if $$$s$$$ is abcdef, you place the chip onto the $$$3$$$-rd character, move it to the right $$$2$$$ times and then move it to the left $$$3$$$ times, you write down the string cdedcb.You are given two strings $$$s$$$ and $$$t$$$. Your task is to determine whether it's possible to perform the described operations with $$$s$$$ so that you write down the string $$$t$$$ as a result.",
+    "prob_desc_output_spec": "For each test case, print \"YES\" if you can obtain the string $$$t$$$ by performing the process mentioned in the statement with the string $$$s$$$, or \"NO\" if you cannot. You may print each letter in any case (YES, yes, Yes will all be recognized as positive answer, NO, no and nO will all be recognized as negative answer).",
+    "prob_desc_input_spec": "The first line contains one integer $$$q$$$ ($$$1 \\le q \\le 500$$$) — the number of test cases. Each test case consists of two lines. The first line contains the string $$$s$$$ ($$$1 \\le |s| \\le 500$$$), the second line contains the string $$$t$$$ ($$$1 \\le |t| \\le 2 \\cdot |s| - 1$$$). Both strings consist of lowercase English characters. It is guaranteed that the sum of $$$|s|$$$ over all test cases does not exceed $$$500$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_105.jsonl",
+    "code_uid": "145797c9431d656693b49b93037d0382",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\nabcdef\\ncdedcb\\naaa\\naaaaa\\naab\\nbaaa\\nab\\nb\\nabcdef\\nabcdef\\nba\\nbaa\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nres = []\r\nfor _ in range(t):\r\n    a = list(input())\r\n    isAnswered = False\r\n    a1 = list(input())\r\n    isConversely = False\r\n    for j in range(len(a)):\r\n        if(a1[0] == a[j]):\r\n            if(len(a1) == 1):\r\n                res.append(\"YES\")\r\n                isAnswered = True\r\n                break\r\n            o = 1\r\n            i = j\r\n            check = 0\r\n            ckeck1 = 0\r\n            while(o < len(a1) and i + 1 < len(a) and a1[o] == a[i + 1]):\r\n                if(a[i - 1] == a[i + 1]):\r\n                    check = o - 1\r\n                    check1 = i\r\n                    while(check1 >= 0 and check1 < len(a) and check < len(a1) and a1[check] == a[check1]):\r\n                        if check == len(a1) - 1:\r\n                            res.append(\"YES\")\r\n                            isAnswered = True\r\n                            break\r\n                        check += 1\r\n                        check1 -= 1\r\n                if(isAnswered):\r\n                    break\r\n                o += 1\r\n                i += 1\r\n                isConversely = True\r\n                if o == len(a1):\r\n                    res.append(\"YES\")\r\n                    isAnswered = True\r\n                    break\r\n            if isAnswered:\r\n                break\r\n            elif isConversely:\r\n                i = o - 1\r\n                o += j - 1\r\n            else:\r\n                i = 0\r\n                o = j\r\n            while(i >= 0 and o < len(a) and a1[i] == a[o] and o >= 0):\r\n                if i == len(a1) - 1:\r\n                    res.append(\"YES\")\r\n                    isAnswered = True\r\n                    break\r\n                i += 1\r\n                o -= 1\r\n    if(not isAnswered):\r\n        res.append(\"NO\")\r\nprint(*res, sep=\"\\n\")",
+    "prob_desc_created_at": "1626964500",
+    "tags": [
+        "brute force",
+        "dp",
+        "hashing",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

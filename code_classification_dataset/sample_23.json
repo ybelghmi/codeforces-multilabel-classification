@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\\nNO\\nYES\"]",
+    "src_uid": "b132bf94af4352c4a690316eb610ebe1",
+    "prob_desc_notes": "NoteIn the first test case, you can stop the algorithm before the $$$0$$$-th step, or don't choose any position several times and stop the algorithm.In the second test case, you can add $$$k^0$$$ to $$$v_1$$$ and stop the algorithm.In the third test case, you can't make two $$$1$$$ in the array $$$v$$$.In the fifth test case, you can skip $$$9^0$$$ and $$$9^1$$$, then add $$$9^2$$$ and $$$9^3$$$ to $$$v_3$$$, skip $$$9^4$$$ and finally, add $$$9^5$$$ to $$$v_2$$$.",
+    "prob_desc_description": "Suppose you are performing the following algorithm. There is an array $$$v_1, v_2, \\dots, v_n$$$ filled with zeroes at start. The following operation is applied to the array several times — at $$$i$$$-th step ($$$0$$$-indexed) you can:   either choose position $$$pos$$$ ($$$1 \\le pos \\le n$$$) and increase $$$v_{pos}$$$ by $$$k^i$$$;  or not choose any position and skip this step. You can choose how the algorithm would behave on each step and when to stop it. The question is: can you make array $$$v$$$ equal to the given array $$$a$$$ ($$$v_j = a_j$$$ for each $$$j$$$) after some step?",
+    "prob_desc_output_spec": "For each test case print YES (case insensitive) if you can achieve the array $$$a$$$ after some step or NO (case insensitive) otherwise.",
+    "prob_desc_input_spec": "The first line contains one integer $$$T$$$ ($$$1 \\le T \\le 1000$$$) — the number of test cases. Next $$$2T$$$ lines contain test cases — two lines per test case. The first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 30$$$, $$$2 \\le k \\le 100$$$) — the size of arrays $$$v$$$ and $$$a$$$ and value $$$k$$$ used in the algorithm. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 10^{16}$$$) — the array you'd like to achieve.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_000.jsonl",
+    "code_uid": "29be1ad0f126e5a3e6d36c2f864393f5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n4 100\\n0 0 0 0\\n1 2\\n1\\n3 4\\n1 4 1\\n3 2\\n0 1 3\\n3 9\\n0 59049 810\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def giveb(num, k):\n    l = []\n    while num > 0:\n        if num%k not in [0,1]:\n            return 'notvalid'\n        else:\n            l.append(str(num%k))\n            num = num//k\n    return ''.join(l[::-1])\n\n\nfor _ in range(int(input())):\n    n, k = map(int, input().split())\n    l = list(map(int, input().split()))\n    ans = []\n    used = set()\n    valid = True\n    for i in l:\n        ans.append(giveb(i, k))\n    for i in ans:\n        for idx, j in enumerate(i[::-1]):\n            if j == '0': continue\n            if j != '1' or idx in used:\n                valid = False\n                break\n            else:\n                used.add(idx)\n    #print(ans,used)\n    if valid: print(\"YES\")\n    else: print('NO')",
+    "prob_desc_created_at": "1583764500",
+    "tags": [
+        "greedy",
+        "number theory",
+        "bitmasks",
+        "math",
+        "implementation",
+        "ternary search"
+    ],
+    "hidden_unit_tests": ""
+}

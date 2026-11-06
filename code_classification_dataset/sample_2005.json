@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n6\"]",
+    "src_uid": "fc01082e3ed7877126e750bc380f5c63",
+    "prob_desc_notes": "NoteIn the second test case, if we place a mine under the fourth building and then activate it, then all mines on the field are activated. The cost of such operations is six, $$$b=1$$$ coin for placing a mine and $$$a=5$$$ coins for activating.",
+    "prob_desc_description": "Bertown is a city with $$$n$$$ buildings in a straight line.The city's security service discovered that some buildings were mined. A map was compiled, which is a string of length $$$n$$$, where the $$$i$$$-th character is \"1\" if there is a mine under the building number $$$i$$$ and \"0\" otherwise.Bertown's best sapper knows how to activate mines so that the buildings above them are not damaged. When a mine under the building numbered $$$x$$$ is activated, it explodes and activates two adjacent mines under the buildings numbered $$$x-1$$$ and $$$x+1$$$ (if there were no mines under the building, then nothing happens). Thus, it is enough to activate any one mine on a continuous segment of mines to activate all the mines of this segment. For manual activation of one mine, the sapper takes $$$a$$$ coins. He can repeat this operation as many times as you want.Also, a sapper can place a mine under a building if it wasn't there. For such an operation, he takes $$$b$$$ coins. He can also repeat this operation as many times as you want.The sapper can carry out operations in any order.You want to blow up all the mines in the city to make it safe. Find the minimum number of coins that the sapper will have to pay so that after his actions there are no mines left in the city.",
+    "prob_desc_output_spec": "For each test case, output one integer — the minimum number of coins that the sapper will have to pay.",
+    "prob_desc_input_spec": "The first line contains one positive integer $$$t$$$ ($$$1 \\le t \\le 10^5$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case begins with a line containing two integers $$$a$$$ and $$$b$$$ ($$$1 \\le a, b \\le 1000$$$) — the cost of activating and placing one mine, respectively. The next line contains a map of mines in the city — a string consisting of zeros and ones. The sum of the string lengths for all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_015.jsonl",
+    "code_uid": "9473e87dc494be577586b887e7ed05be",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 1\\n01000010\\n5 1\\n01101110\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nN = int(input())\n\nfor _ in range(N):\n    \n    a,b = map(int,input().split())\n    s = input()\n    while len(s) !=0 and s[0] == '0':\n        s = s[1:]\n    while len(s) !=0 and s[-1] == '0':\n        s = s[0:-1]\n    zerosForSkip = int(math.ceil(a / b))\n    \n    zeroesCount = 0\n    res = 0\n    tryFill = False\n    for i in s:\n        if  i == '0' and tryFill:\n            zeroesCount += 1\n            res += b\n        elif i == '1':\n            zeroesCount = 0\n            if not tryFill:\n                res += a\n            tryFill = True\n        \n        if zeroesCount == zerosForSkip:\n            res -= zeroesCount*b\n            tryFill = False\n            zeroesCount = 0\n        \n    print(res)\n        \n\n    \n    \n    \n",
+    "prob_desc_created_at": "1604327700",
+    "tags": [
+        "dp",
+        "sortings",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

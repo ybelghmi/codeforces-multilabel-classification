@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"111011\\n10\\n-1\"]",
+    "src_uid": "02854d98266e5b74bf105ba30ea332df",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Consider the following process. You have a binary string (a string where each character is either 0 or 1) $$$w$$$ of length $$$n$$$ and an integer $$$x$$$. You build a new binary string $$$s$$$ consisting of $$$n$$$ characters. The $$$i$$$-th character of $$$s$$$ is chosen as follows:  if the character $$$w_{i-x}$$$ exists and is equal to 1, then $$$s_i$$$ is 1 (formally, if $$$i &gt; x$$$ and $$$w_{i-x} = $$$ 1, then $$$s_i = $$$ 1);  if the character $$$w_{i+x}$$$ exists and is equal to 1, then $$$s_i$$$ is 1 (formally, if $$$i + x \\le n$$$ and $$$w_{i+x} = $$$ 1, then $$$s_i = $$$ 1);  if both of the aforementioned conditions are false, then $$$s_i$$$ is 0. You are given the integer $$$x$$$ and the resulting string $$$s$$$. Reconstruct the original string $$$w$$$.",
+    "prob_desc_output_spec": "For each test case, print the answer on a separate line as follows:   if no string $$$w$$$ can produce the string $$$s$$$ at the end of the process, print $$$-1$$$;  otherwise, print the binary string $$$w$$$ consisting of $$$|s|$$$ characters. If there are multiple answers, print any of them. ",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Each test case consists of two lines. The first line contains the resulting string $$$s$$$ ($$$2 \\le |s| \\le 10^5$$$, each character of $$$s$$$ is either 0 or 1). The second line contains one integer $$$x$$$ ($$$1 \\le x \\le |s| - 1$$$). The total length of all strings $$$s$$$ in the input does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_004.jsonl",
+    "code_uid": "714e801e01e34684391371c7e0b13b94",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n101110\\n2\\n01\\n1\\n110\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport math,bisect\nfrom collections import defaultdict\nfrom itertools import groupby,accumulate\nfrom heapq import heapify,heappop,heappush\nfrom collections import deque,Counter,OrderedDict\n#input = iter(sys.stdin.buffer.read().decode().splitlines()).next\ndef neo(): return map(int,input().split())\ndef Neo(): return list(map(int,input().split()))\nfor _ in range(int(input())):\n    s = input()\n    x = int(input())\n    n,f = len(s),0\n    z = [1]*len(s)\n    for i in range(len(s)):\n        if s[i] == '0':\n            if i-x >= 0:\n                z[i-x] = 0\n            if i+x < n:\n                z[i+x] = 0\n    for i in range(n):\n        if s[i] == '1':\n            if (i-x >= 0 and z[i-x] == 1) or (i+x < n and z[i+x] ==1):\n                continue\n            else:\n                f = 1\n                break\n    if f == 1:\n        print(-1)\n        continue\n    z = map(str,z)\n    print(''.join(z))\n",
+    "prob_desc_created_at": "1598366100",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "brute force",
+        "2-sat"
+    ],
+    "hidden_unit_tests": ""
+}

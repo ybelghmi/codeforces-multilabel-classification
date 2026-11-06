@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n3\\n0\\n8\"]",
+    "src_uid": "2b611e202c931d50d8a260b2b45d4cd7",
+    "prob_desc_notes": "NoteIn the first example, the correct pairs are: ($$$1, 4$$$), ($$$4,1$$$), ($$$3, 6$$$), ($$$6, 3$$$).In the second example, the correct pairs are: ($$$1, 2$$$), ($$$2, 1$$$), ($$$3, 3$$$).",
+    "prob_desc_description": "You are given three positive (greater than zero) integers $$$c$$$, $$$d$$$ and $$$x$$$. You have to find the number of pairs of positive integers $$$(a, b)$$$ such that equality $$$c \\cdot lcm(a, b) - d \\cdot gcd(a, b) = x$$$ holds. Where $$$lcm(a, b)$$$ is the least common multiple of $$$a$$$ and $$$b$$$ and $$$gcd(a, b)$$$ is the greatest common divisor of $$$a$$$ and $$$b$$$.",
+    "prob_desc_output_spec": "For each test case, print one integer — the number of pairs ($$$a, b$$$) such that the above equality holds.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Each test case consists of one line containing three integer $$$c$$$, $$$d$$$ and $$$x$$$ ($$$1 \\le c, d, x \\le 10^7$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_104.jsonl",
+    "code_uid": "a8f61ce25f495e816fe420d0ffc5ee21",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 1 3\\n4 2 6\\n3 3 7\\n2 7 25\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = lambda: sys.stdin.readline().rstrip()\nMAX = 2*(10**7) + 1\n\nmemo = {}\ndef get_divisors(x: int) -> list:\n    if x in memo:\n        return memo[x]\n\n    factori = []\n    while x > 1:\n        factori.append(min_fact[x])\n        x //= min_fact[x]\n\n    now = [1]\n    factori.sort()\n    for p in factori:\n        nxt = []\n        for i in now:\n            nxt.append(i*p)\n            if i % p:\n                nxt.append(i)\n        now = nxt\n    memo[x] = now\n    return now\n\n\ndef sieve_of_eratosthenes(n):\n    min_fact = [1] * (n + 1)\n\n    lst = [1] * (n+1)\n\n    for p in range(2, n + 1):\n        if min_fact[p] > 1:\n            continue\n        for i in range(p, n+1, p):\n            min_fact[i] = p\n            lst[i] *= 2\n\n    return min_fact, lst\n\n\nmin_fact, lst = sieve_of_eratosthenes(MAX)\n\nt = int(input())\nfor _ in range(t):\n    c, d, x = map(int, input().split())\n    ans = 0\n    divs = get_divisors(x)\n    for g in divs:\n        tmp = (x + d*g)\n        if tmp % c == 0:\n            l = tmp // c\n        else:\n            continue\n        if l % g:\n            continue\n        n = l // g\n        ans += lst[n]\n    print(ans)\n",
+    "prob_desc_created_at": "1616079000",
+    "tags": [
+        "dp",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"11\\n7\\n15\\n10\\n2999999997\"]",
+    "src_uid": "f974c33780a933a6076c0559e48b7552",
+    "prob_desc_notes": "NoteIn the first test case, we can get a score of $$$11$$$ if we select $$$a_1, a_2$$$ without performing any operations.In the third test case, we can get a score of $$$15$$$ if we first swap $$$a_1$$$ with $$$a_4$$$ and then select $$$a_3, a_4, a_5$$$. ",
+    "prob_desc_description": "You are given an array $$$a$$$ with $$$n$$$ integers. You can perform the following operation at most $$$k$$$ times:  Choose two indices $$$i$$$ and $$$j$$$, in which $$$i \\,\\bmod\\, k = j \\,\\bmod\\, k$$$ ($$$1 \\le i &lt; j \\le n$$$).  Swap $$$a_i$$$ and $$$a_j$$$. After performing all operations, you have to select $$$k$$$ consecutive elements, and the sum of the $$$k$$$ elements becomes your score. Find the maximum score you can get.Here $$$x \\bmod y$$$ denotes the remainder from dividing $$$x$$$ by $$$y$$$.",
+    "prob_desc_output_spec": "For each test case, print the maximum score you can get, one per line.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 600$$$) — the number of test cases. Each test case consists of two lines.  The first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 100$$$) — the length of the array and the number in the statement above. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\le a_i \\le 10^9$$$)  — the array itself.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_104.jsonl",
+    "code_uid": "77e733020135c1d5594c7aa6d9f53e87",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n3 2\\n\\n5 6 0\\n\\n1 1\\n\\n7\\n\\n5 3\\n\\n7 0 4 0 4\\n\\n4 2\\n\\n2 7 3 4\\n\\n3 3\\n\\n1000000000 1000000000 999999997\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "numberOfTestCases = int(input())\nfor i in range(numberOfTestCases):\n    firstLine = [int(x) for x in input().split()]\n    array = [int(x) for x in input().split()]\n\n    arrayLen = firstLine[0]\n    k = firstLine[1]\n    tempK = k\n\n    msum = 0\n    for i in range(k):\n        maxi = 0\n        for j in range(i, arrayLen, k):\n            if array[j] > maxi:\n                maxi = array[j]\n        msum += maxi\n    print(msum)\n\n\n",
+    "prob_desc_created_at": "1663598100",
+    "tags": [
+        "greedy",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

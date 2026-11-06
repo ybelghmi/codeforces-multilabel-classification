@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\naaabb\\naabbb\\ncbb..\\nccb..\", \"YES\\nabbd\\ncccd\\n...d\\n...d\"]",
+    "src_uid": "a7f034a696c943f11165e6541f0ce3c8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A revolution took place on the Buka Island. New government replaced the old one. The new government includes n parties and each of them is entitled to some part of the island according to their contribution to the revolution. However, they can't divide the island.The island can be conventionally represented as two rectangles a × b and c × d unit squares in size correspondingly. The rectangles are located close to each other. At that, one of the sides with the length of a and one of the sides with the length of c lie on one line. You can see this in more details on the picture.  The i-th party is entitled to a part of the island equal to xi unit squares. Every such part should fully cover several squares of the island (it is not allowed to cover the squares partially) and be a connected figure. A \"connected figure\" presupposes that from any square of this party one can move to any other square of the same party moving through edge-adjacent squares also belonging to that party.Your task is to divide the island between parties.",
+    "prob_desc_output_spec": "If dividing the island between parties in the required manner is impossible, print \"NO\" (without the quotes). Otherwise, print \"YES\" (also without the quotes) and, starting from the next line, print max(b, d) lines each containing a + c characters. To mark what square should belong to what party, use lowercase Latin letters. For the party that is first in order in the input data, use \"a\", for the second one use \"b\" and so on. Use \".\" for the squares that belong to the sea. The first symbol of the second line of the output data should correspond to the square that belongs to the rectangle a × b. The last symbol of the second line should correspond to the square that belongs to the rectangle c × d. If there are several solutions output any.",
+    "prob_desc_input_spec": "The first line contains 5 space-separated integers — a, b, c, d and n (1 ≤ a, b, c, d ≤ 50, b ≠ d, 1 ≤ n ≤ 26). The second line contains n space-separated numbers. The i-th of them is equal to number xi (1 ≤ xi ≤ a × b + c × d). It is guaranteed that .",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_033.jsonl",
+    "code_uid": "616d1404de7bd905d7a8fbe3857159d6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4 2 2 3\\n5 8 3\", \"3 2 1 4 4\\n1 2 3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# https://codeforces.com/problemset/problem/63/D\n\ndef solve(x0, y0, dx, X):\n    for i, x in enumerate(X):\n        while x > 0:\n            x-=1\n            m[y0][x0] = i\n            x0 += dx\n            if x == 0 and i == len(X)-1:\n                break\n            \n            if x0 == -1:\n                y0 += 1\n                x0  = 0\n                dx *= -1\n                \n                if m[y0][x0] == -1:\n                    return False\n                \n            elif x0 == a+c:\n                y0 += 1\n                x0  = a+c-1\n                dx *=-1\n                \n                if m[y0][x0] == -1:\n                    return False\n                \n            elif m[y0][x0] == -1:\n                y0 +=1\n                x0 -=dx\n                dx *=-1\n    return True            \n\na, b, c, d, n = map(int, input().split())\nX = list(map(int, input().split()))\n\nm = [[0] * (a+c) for _ in range(max(b, d))]\nif b < d:\n    for i in range(b, d):\n        for j in range(a):\n            m[i][j] = -1\nelse:\n    for i in range(d, b):\n        for j in range(a, a+c):\n            m[i][j] = -1\n            \nif solve(a+c-1, 0, -1, X) == False:\n    solve(0, 0, 1, X)\n    \nprint('YES')    \nfor x in m:\n    print(''.join([chr(c+97) if c>=0 else '.' for c in x]))\n    \n#3 2 1 4 4\n#1 2 3 4            ",
+    "prob_desc_created_at": "1298908800",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

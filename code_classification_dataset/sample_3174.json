@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6 5 8 3 4 1 9 2 7\", \"1 2 3\"]",
+    "src_uid": "138f7db4a858fb1efe817ee6491f83d9",
+    "prob_desc_notes": "NoteIn the first example, g(1) = g(6) = g(7) = g(9) = 2 and g(2) = g(3) = g(4) = g(5) = g(8) = 5 In the second example, g(1) = g(2) = g(3) = 1",
+    "prob_desc_description": "For a permutation P[1... N] of integers from 1 to N, function f is defined as follows:  Let g(i) be the minimum positive integer j such that f(i, j) = i. We can show such j always exists.For given N, A, B, find a permutation P of integers from 1 to N such that for 1 ≤ i ≤ N, g(i) equals either A or B.",
+    "prob_desc_output_spec": "If no such permutation exists, output -1. Otherwise, output a permutation of integers from 1 to N.",
+    "prob_desc_input_spec": "The only line contains three integers N, A, B (1 ≤ N ≤ 106, 1 ≤ A, B ≤ N).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_045.jsonl",
+    "code_uid": "075abe756b65137d7d405700038aa0db",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9 2 5\", \"3 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,a,b=map(int,input().split())\np=[i+1 for i in range(n)]\nf=0\na,b=min(a,b),max(a,b)\nfor i in range(0,n+1,a):\n\tif (n-i)%b==0:\n\t\tx=((n-i)//b)\n\t\tf=1\n\t\tbreak\nif f:\n\tfor i in range(0,b*x,b):\n\t\tp[i:i+b]=[p[i+b-1]]+p[i:i+b-1]\n\tfor j in range(b*x,n,a):\n\t\tp[j:j+a]=[p[j+a-1]]+p[j:j+a-1]\n\tprint(*p)\n\nelse:\n\tprint(-1)",
+    "prob_desc_created_at": "1518705300",
+    "tags": [
+        "constructive algorithms",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

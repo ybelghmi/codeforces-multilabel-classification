@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 7\\n7 2\\n2 2\"]",
+    "src_uid": "e6753e3f71ff13cebc1aaf04d3d2106b",
+    "prob_desc_notes": "NoteIn the first testcase, all cells are isolated. A knight can't move from any cell of the board to any other one. Thus, any cell on board is a correct answer.In the second testcase, there are no isolated cells. On a normal chess board, a knight has at least two moves from any cell. Thus, again, any cell is a correct answer.In the third testcase, only the middle cell of the board is isolated. The knight can move freely around the border of the board, but can't escape the middle.",
+    "prob_desc_description": "There is a chess board of size $$$n \\times m$$$. The rows are numbered from $$$1$$$ to $$$n$$$, the columns are numbered from $$$1$$$ to $$$m$$$.Let's call a cell isolated if a knight placed in that cell can't move to any other cell on the board. Recall that a chess knight moves two cells in one direction and one cell in a perpendicular direction:   Find any isolated cell on the board. If there are no such cells, print any cell on the board.",
+    "prob_desc_output_spec": "For each testcase, print two integers — the row and the column of any isolated cell on the board. If there are no such cells, print any cell on the board.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 64$$$) — the number of testcases. The only line of each testcase contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 8$$$) — the number of rows and columns of the board.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_109.jsonl",
+    "code_uid": "20a05ae4a3f56164f254410171a08cc0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n1 7\\n\\n8 8\\n\\n3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def knights(ro, co):\r\n\tif ro == 1 or co == 1:\r\n\t\treturn (ro,co)\r\n\r\n\tdirections = [(-2,1),(-2,-1),(2,1),(2,-1),(-1,-2),(1,-2),(-1,2),(1,2)]\r\n\r\n\tfor row in range(1, ro+1):\r\n\t\tfor column in range(1, co+1):\r\n\t\t\tisImmobile = True\r\n\t\t\tfor move in directions:\r\n\t\t\t\tif ((row+move[0]) >= 1  and (row+move[0]) <= ro) and ((column+move[1]) >= 1  and (column+move[1]) <= co):\r\n\t\t\t\t\tisImmobile = False\r\n\r\n\t\t\tif isImmobile:\r\n\t\t\t\treturn (row,column)\r\n\r\n\treturn (ro,co)\r\n\r\nq = int(input()) # Number of quiries\r\nfor i in range(q):\r\n\tn,m = map(int, input().split())\r\n\r\n\tresult = knights(n,m)\r\n\tprint (str(result[0]) + \" \" +str(result[1]))\r\n",
+    "prob_desc_created_at": "1664462100",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

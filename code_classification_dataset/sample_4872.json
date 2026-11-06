@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nNO\"]",
+    "src_uid": "0b9be2f076cfa13cdc76c489bf1ea416",
+    "prob_desc_notes": "NoteIn the first test case, we transform $$$s_1$$$ as such: $$$\\varnothing \\to \\color{red}{\\texttt{AAB}} \\to \\texttt{A}\\color{red}{\\texttt{AB}}\\texttt{AB}$$$.In the third test case, we transform $$$s_1$$$ as such: $$$\\varnothing \\to \\color{red}{\\texttt{AAAAAAAAB}}$$$.In the second and fourth test case, it can be shown that it is impossible to turn $$$s_1$$$ into $$$s_2$$$.",
+    "prob_desc_description": "Let's call a string good if its length is at least $$$2$$$ and all of its characters are $$$\\texttt{A}$$$ except for the last character which is $$$\\texttt{B}$$$. The good strings are $$$\\texttt{AB},\\texttt{AAB},\\texttt{AAAB},\\ldots$$$. Note that $$$\\texttt{B}$$$ is not a good string.You are given an initially empty string $$$s_1$$$.You can perform the following operation any number of times:   Choose any position of $$$s_1$$$ and insert some good string in that position. Given a string $$$s_2$$$, can we turn $$$s_1$$$ into $$$s_2$$$ after some number of operations?",
+    "prob_desc_output_spec": "For each test case, print \"YES\" (without quotes) if we can turn $$$s_1$$$ into $$$s_2$$$ after some number of operations, and \"NO\" (without quotes) otherwise. You can output \"YES\" and \"NO\" in any case (for example, strings \"yEs\", \"yes\" and \"Yes\" will be recognized as a positive response).",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains a single string $$$s_2$$$ ($$$1 \\leq |s_2| \\leq 2 \\cdot 10^5$$$). It is guaranteed that $$$s_2$$$ consists of only the characters $$$\\texttt{A}$$$ and $$$\\texttt{B}$$$. It is guaranteed that the sum of $$$|s_2|$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_108.jsonl",
+    "code_uid": "963f9865226e53209bf61094f41ddbb6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\nAABAB\\n\\nABB\\n\\nAAAAAAAAB\\n\\nA\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "nt = int(input())\nfor _ in range(nt):\n\tcounter = 0\n\tflagb = 0\n\tflaga = 0\n\ts2 = input()\n\tl = len(s2)\n\t\t\t\n\tfor i in range(l-1,-1,-1):\n\t\tch = s2[i]\n\t\tif ch == \"B\":\n\t\t\tflagb = 1\n\t\t\tcounter += 1\n\t\telse:\n\t\t\tflaga = 1\n\t\t\tif i == l-1:\n\t\t\t\tbreak\n\t\t\tif(counter != 0):\n\t\t\t\tcounter -= 1\n\tif (flaga == 0 or flagb == 0 or counter != 0):\n\t\tprint(\"NO\")\n\telse:\n\t\tprint(\"YES\")",
+    "prob_desc_created_at": "1650722700",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

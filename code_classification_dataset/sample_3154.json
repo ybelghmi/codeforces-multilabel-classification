@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 -\\n1 -\\n5 -\\n3 +\\n4 -\"]",
+    "src_uid": "0c0ec1bb75f00f732b8b091ffe73e6c0",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have a set of dominoes. Each domino is a rectangular tile with a line dividing its face into two square ends. Can you put all dominoes in a line one by one from left to right so that any two dominoes touched with the sides that had the same number of points? You can rotate the dominoes, changing the left and the right side (domino \"1-4\" turns into \"4-1\").",
+    "prob_desc_output_spec": "Print \"No solution\", if it is impossible to arrange the dominoes in the required manner. If the solution exists, then describe any way to arrange the dominoes. You put the dominoes from left to right. In each of n lines print the index of the domino to put in the corresponding position and then, after a space, character \"+\" (if you don't need to turn the domino) or \"–\" (if you need to turn it).",
+    "prob_desc_input_spec": "The first line contains number n (1  ≤  n  ≤  100). Next n lines contains the dominoes. Each of these lines contains two numbers — the number of points (spots) on the left and the right half, correspondingly. The numbers of points (spots) are non-negative integers from 0 to 6.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_044.jsonl",
+    "code_uid": "a77c9883681c775abb7643e0c41ad815",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2\\n2 4\\n2 4\\n6 4\\n2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def F(x):\n\tfor y in range(7):\n\t\twhile t[x][y]:\n\t\t\tt[x][y] -= 1\n\t\t\tt[y][x] -= 1\n\t\t\tF(y)\n\tr.append(x)\n\ne = {}\nt = [[0] * 7 for i in range(7)]\nc = [0] * 7\nn = input()\nfor i in range(n):\n\tx, y = map(int, raw_input().split())\n\tc[x] += 1\n\tc[y] += 1\n\tt[x][y] += 1\n\tt[y][x] += 1\n\tif (x, y) not in e:\n\t\te[(x, y)] = []\n\te[(x, y)].append(i + 1)\nv = [i for i in range(7) if c[i] & 1]\nr = []\nif len(v) > 2:\n\tprint 'No solution'\nelse:\n\tv.extend(i for i in range(7) if c[i])\n\tF(v[0])\n\tif len(r) - 1 != n:\n\t\tprint 'No solution'\n\telse:\n\t\tx = r[0]\n\t\tfor y in r[1 : ]:\n\t\t\tif len(e.get((x, y), [])):\n\t\t\t\tprint e[(x, y)].pop(), '+'\n\t\t\telse:\n\t\t\t\tprint e[(y, x)].pop(), '-'\n\t\t\tx = y\n",
+    "prob_desc_created_at": "1358002800",
+    "tags": [
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"9\", \"61\"]",
+    "src_uid": "ee3c228cc817536bf6c10ea4508d786f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The new ITone 6 has been released recently and George got really keen to buy it. Unfortunately, he didn't have enough money, so George was going to work as a programmer. Now he faced the following problem at the work.Given a sequence of n integers p1, p2, ..., pn. You are to choose k pairs of integers: [l1, r1], [l2, r2], ..., [lk, rk] (1 ≤ l1 ≤ r1 &lt; l2 ≤ r2 &lt; ... &lt; lk ≤ rk ≤ n; ri - li + 1 = m), in such a way that the value of sum  is maximal possible. Help George to cope with the task.",
+    "prob_desc_output_spec": "Print an integer in a single line — the maximum possible value of sum.",
+    "prob_desc_input_spec": "The first line contains three integers n, m and k (1 ≤ (m × k) ≤ n ≤ 5000). The second line contains n integers p1, p2, ..., pn (0 ≤ pi ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_016.jsonl",
+    "code_uid": "468b1f5c7d934bcca30b29e2d6c5604c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2 1\\n1 2 3 4 5\", \"7 1 3\\n2 10 7 18 5 33 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#dp[t][m] = largest possible starting at a position  >= t with m intervals left\nn, m, k = map(int, input().split(' '))\n#m = length of interval\n#k = # of intervals\narray = list(map(int, input().split(' ')))\ndp = [[0]*5002 for a in range(5002)]\nprefsums = [array[0]]\nif (m==25 and k==100):\n    print(2500000000000)\n    quit()\nif (n==k):\n    ans=0\n    for g in array:\n        ans+=g\n    print(ans)\n    quit()\nif (m==1):\n    array.sort()\n    ans=0\n    for g in range(len(array)-1, len(array)-1-k, -1):\n        ans+=array[g]\n    print(ans)\n    quit()\nfor i in range(1, len(array)):\n    prefsums.append(prefsums[i-1] + array[i])\nprefsums = [0] + prefsums\nfor g in range(n, 0, -1):\n    for y in range(1, k+1):\n        if (g==n):\n            dp[g][y]=array[g-1]\n            continue\n        first = g\n        second = first + m - 1\n        if second <= n:\n            dp[g][y] = max(prefsums[second] - prefsums[first-1] + dp[second+1][y-1], dp[g+1][y])\n        else:\n            break\nprint(dp[1][k])",
+    "prob_desc_created_at": "1411054200",
+    "tags": [
+        "dp",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

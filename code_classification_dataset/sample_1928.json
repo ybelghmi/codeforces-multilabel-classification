@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3 1 4 0\", \"0 8 4 6 4 8 6 1\"]",
+    "src_uid": "a608eda195166231d14fbeae9c8b31fa",
+    "prob_desc_notes": "NoteConsider the first test case. Knights 1 and 2 fought the first fight and knight 1 won. Knights 1 and 3 fought the second fight and knight 3 won. The last fight was between knights 3 and 4, knight 4 won.",
+    "prob_desc_description": "Hooray! Berl II, the king of Berland is making a knight tournament. The king has already sent the message to all knights in the kingdom and they in turn agreed to participate in this grand event.As for you, you're just a simple peasant. There's no surprise that you slept in this morning and were late for the tournament (it was a weekend, after all). Now you are really curious about the results of the tournament. This time the tournament in Berland went as follows:  There are n knights participating in the tournament. Each knight was assigned his unique number — an integer from 1 to n.  The tournament consisted of m fights, in the i-th fight the knights that were still in the game with numbers at least li and at most ri have fought for the right to continue taking part in the tournament.  After the i-th fight among all participants of the fight only one knight won — the knight number xi, he continued participating in the tournament. Other knights left the tournament.  The winner of the last (the m-th) fight (the knight number xm) became the winner of the tournament. You fished out all the information about the fights from your friends. Now for each knight you want to know the name of the knight he was conquered by. We think that the knight number b was conquered by the knight number a, if there was a fight with both of these knights present and the winner was the knight number a.Write the code that calculates for each knight, the name of the knight that beat him.",
+    "prob_desc_output_spec": "Print n integers. If the i-th knight lost, then the i-th number should equal the number of the knight that beat the knight number i. If the i-th knight is the winner, then the i-th number must equal 0.",
+    "prob_desc_input_spec": "The first line contains two integers n, m (2 ≤ n ≤ 3·105; 1 ≤ m ≤ 3·105) — the number of knights and the number of fights. Each of the following m lines contains three integers li, ri, xi (1 ≤ li &lt; ri ≤ n; li ≤ xi ≤ ri) — the description of the i-th fight. It is guaranteed that the input is correct and matches the problem statement. It is guaranteed that at least two knights took part in each battle.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_014.jsonl",
+    "code_uid": "1c4bb7c46a436d7a624c6b938e2585a0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n1 2 1\\n1 3 3\\n1 4 4\", \"8 4\\n3 5 4\\n3 7 6\\n2 8 8\\n1 8 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def find_next(ind):\n\tcur,found = ind,False\n\tchange = set()\n\n\twhile not found:\n\t\tif cur > N-1 or next_ind[cur] == cur:\n\t\t\tfound = True\n\t\telse:\n\t\t\tchange.add(cur)\n\t\t\tcur = next_ind[cur]\n\n\tfor i in change:\n\t\tnext_ind[i] = cur\n\n\treturn cur\n\nN,M = map(int, raw_input().split())\nnext_ind, conq = range(N), [0]*N\n\nfor m in range(M):\n\tl,r,x = map(lambda x:int(x)-1, raw_input().split())\n\tcur = find_next(l)\n\n\twhile cur <= r:\n\t\tif cur == x:\n\t\t\tif cur == r:\n\t\t\t\tbreak\n\n\t\t\tcur = find_next(cur+1)\n\t\telse:\n\t\t\tconq[cur] = x+1\n\t\t\tnext_ind[cur] = cur+1\n\n\t\t\tif cur == r:\n\t\t\t\tbreak\n\t\t\t\n\t\t\tcur = find_next(cur+1)\n\nprint \" \".join(map(str, conq))",
+    "prob_desc_created_at": "1381838400",
+    "tags": [
+        "data structures",
+        "dsu"
+    ],
+    "hidden_unit_tests": ""
+}

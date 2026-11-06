@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 2\\n2 3\", \"16 32 48\\n32 48 64\", \"327 583\\n408 664\"]",
+    "src_uid": "5f0b8e6175113142be15ac960e4e9c4c",
+    "prob_desc_notes": "NoteIn the first example, the matrix $$$a$$$ can be used as the matrix $$$b$$$, because the absolute value of the difference between numbers in any adjacent pair of cells is $$$1 = 1^4$$$.In the third example:   $$$327$$$ is a multiple of $$$3$$$, $$$583$$$ is a multiple of $$$11$$$, $$$408$$$ is a multiple of $$$12$$$, $$$664$$$ is a multiple of $$$8$$$;  $$$|408 - 327| = 3^4$$$, $$$|583 - 327| = 4^4$$$, $$$|664 - 408| = 4^4$$$, $$$|664 - 583| = 3^4$$$. ",
+    "prob_desc_description": "You are given a matrix $$$a$$$ consisting of positive integers. It has $$$n$$$ rows and $$$m$$$ columns.Construct a matrix $$$b$$$ consisting of positive integers. It should have the same size as $$$a$$$, and the following conditions should be met:   $$$1 \\le b_{i,j} \\le 10^6$$$;  $$$b_{i,j}$$$ is a multiple of $$$a_{i,j}$$$;  the absolute value of the difference between numbers in any adjacent pair of cells (two cells that share the same side) in $$$b$$$ is equal to $$$k^4$$$ for some integer $$$k \\ge 1$$$ ($$$k$$$ is not necessarily the same for all pairs, it is own for each pair). We can show that the answer always exists.",
+    "prob_desc_output_spec": "The output should contain $$$n$$$ lines each containing $$$m$$$ integers. The $$$j$$$-th integer in the $$$i$$$-th line should be $$$b_{i,j}$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n,m \\le 500$$$). Each of the following $$$n$$$ lines contains $$$m$$$ integers. The $$$j$$$-th integer in the $$$i$$$-th line is $$$a_{i,j}$$$ ($$$1 \\le a_{i,j} \\le 16$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_092.jsonl",
+    "code_uid": "1e3d9f925d7235ff95b86a9b7f6e0e14",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n1 2\\n2 3\", \"2 3\\n16 16 16\\n16 16 16\", \"2 2\\n3 11\\n12 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a = []\r\nn, m = map(int, input().split())\r\nt = 720720\r\nfor _ in range(n):\r\n    a.append([])\r\n    for j in map(int, input().split()):\r\n        a[-1].append(j)\r\nfor i in range(n):\r\n    for j in range(m):\r\n        if ((i + 1) + (j + 1)) % 2 == 1:\r\n            a[i][j] = t\r\n        else:\r\n            a[i][j] **= 4\r\n            a[i][j] += t\r\nfor i in range(n):\r\n    print(*a[i])\r\n",
+    "prob_desc_created_at": "1613141400",
+    "tags": [
+        "constructive algorithms",
+        "graphs",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

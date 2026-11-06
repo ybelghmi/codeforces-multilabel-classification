@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\"]",
+    "src_uid": "9e17daaa5ca2297673b8a2a9db497471",
+    "prob_desc_notes": "NoteIn the first example there is only one suitable value x = 5. Then the Beaver takes 1 suitcase with 5 presents to the first planet. Here he spends 2 days: he hangs around on the first day, and he gives away five presents on the second day. He takes 2 suitcases with 10 presents to the second planet. Here he spends 3 days — he gives away 4 presents on the second and the third days and leaves the remaining 2 presents at the hotel. In total, the Beaver spends 5 days traveling.For x = 4 or less the Beaver won't have enough presents for the second day on the first planet, so the voyage will end too soon. For x = 6 and more the Beaver will spend at least one more day on the second planet, and the voyage will take too long.",
+    "prob_desc_description": "The Smart Beaver from ABBYY plans a space travel on an ultramodern spaceship. During the voyage he plans to visit n planets. For planet i ai is the maximum number of suitcases that an alien tourist is allowed to bring to the planet, and bi is the number of citizens on the planet.The Smart Beaver is going to bring some presents from ABBYY to the planets he will be visiting. The presents are packed in suitcases, x presents in each. The Beaver will take to the ship exactly a1 + ... + an suitcases.As the Beaver lands on the i-th planet, he takes ai suitcases and goes out. On the first day on the planet the Beaver takes a walk and gets to know the citizens. On the second and all subsequent days the Beaver gives presents to the citizens — each of the bi citizens gets one present per day. The Beaver leaves the planet in the evening of the day when the number of presents left is strictly less than the number of citizens (i.e. as soon as he won't be able to give away the proper number of presents the next day). He leaves the remaining presents at the hotel.The Beaver is going to spend exactly c days traveling. The time spent on flights between the planets is considered to be zero. In how many ways can one choose the positive integer x so that the planned voyage will take exactly c days?",
+    "prob_desc_output_spec": "Print a single number k — the number of ways to choose x so as to travel for exactly c days. If there are infinitely many possible values of x, print -1. Please do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first input line contains space-separated integers n and c — the number of planets that the Beaver is going to visit and the number of days he is going to spend traveling, correspondingly. The next n lines contain pairs of space-separated integers ai, bi (1 ≤ i ≤ n) — the number of suitcases he can bring to the i-th planet and the number of citizens of the i-th planet, correspondingly. The input limitations for getting 30 points are:    1 ≤ n ≤ 100  1 ≤ ai ≤ 100  1 ≤ bi ≤ 100  1 ≤ c ≤ 100  The input limitations for getting 100 points are:    1 ≤ n ≤ 104  0 ≤ ai ≤ 109  1 ≤ bi ≤ 109  1 ≤ c ≤ 109  Due to possible overflow, it is recommended to use the 64-bit arithmetic. In some solutions even the 64-bit arithmetic can overflow. So be careful in calculations!",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_009.jsonl",
+    "code_uid": "3b96876872e774bd12bca7f54a8b305f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 5\\n1 5\\n2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, c = map(int, input().split())\na = []\nb = []\nfor i in range(n):\n    aa, bb = map(int, input().split())\n    a.append(aa)\n    b.append(bb)\n\ndef all_zero():\n    for aa in a:\n        if aa > 0: return False\n    return True\n\ndef days(x):\n    c = 0\n    for aa, bb in zip(a, b):\n        c += 1 + aa*x//bb\n    return c\n\ndef run():\n    if n > c: return 0\n    if all_zero(): return -1 if n == c else 0\n    lo = 1\n    hi = int(2e18)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if days(mid) < c: lo = mid+1\n        else: hi = mid\n    if days(lo) != c: return 0\n    ans0 = lo\n    lo = 1\n    hi = int(2e18)\n    while lo < hi:\n        mid = (lo + hi + 1) // 2\n        if days(mid) > c: hi = mid-1\n        else: lo = mid\n    if days(lo) != c: return 0\n    return lo - ans0 + 1\n\nprint(run())\n",
+    "prob_desc_created_at": "1335016800",
+    "tags": [
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

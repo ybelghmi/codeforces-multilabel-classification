@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 0 1 1\", \"0 1 1 0\", \"-1\"]",
+    "src_uid": "71dea31e1244797f916adf5f526f776e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Pashmak has fallen in love with an attractive girl called Parmida since one year ago...Today, Pashmak set up a meeting with his partner in a romantic garden. Unfortunately, Pashmak has forgotten where the garden is. But he remembers that the garden looks like a square with sides parallel to the coordinate axes. He also remembers that there is exactly one tree on each vertex of the square. Now, Pashmak knows the position of only two of the trees. Help him to find the position of two remaining ones.",
+    "prob_desc_output_spec": "If there is no solution to the problem, print -1. Otherwise print four space-separated integers x3, y3, x4, y4 that correspond to the coordinates of the two other trees. If there are several solutions you can output any of them.  Note that x3, y3, x4, y4 must be in the range ( - 1000 ≤ x3, y3, x4, y4 ≤ 1000).",
+    "prob_desc_input_spec": "The first line contains four space-separated x1, y1, x2, y2 ( - 100 ≤ x1, y1, x2, y2 ≤ 100) integers, where x1 and y1 are coordinates of the first tree and x2 and y2 are coordinates of the second tree. It's guaranteed that the given points are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_004.jsonl",
+    "code_uid": "3e80d47651907d0b522cf27d72636ca2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"0 0 0 1\", \"0 0 1 1\", \"0 0 1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n\nx1, y1, x2, y2 = list(map(int, input().split()))\n\ndef verify():\n    global x1, y1, x2, y2\n    if x1 != x2:\n        m = abs(math.degrees(math.atan((y2-y1)/(x2-x1))))\n    else:\n        m = 90\n    if m in (0, 45, 90):\n        return m\n    else:\n        return None\n\nslope = verify()\nx3, y3, x4, y4 = [None for i in range(4)]\n\nif slope != None:\n    distance = round(((x2-x1)**2+(y2-y1)**2)**0.5)\n    if slope in (0, 90):\n        if slope == 0:\n            x3, y3 = x1, y1 + distance\n            x4, y4 = x2, y2 + distance\n        else:\n            x3, y3 = x1 + distance, y1\n            x4, y4 = x2 + distance, y2\n    else:\n        x3, y3 = x1, y2\n        x4, y4 = x2, y1\n    print(x3, y3, x4, y4)\nelse:\n    print(\"-1\")\n",
+    "prob_desc_created_at": "1408116600",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

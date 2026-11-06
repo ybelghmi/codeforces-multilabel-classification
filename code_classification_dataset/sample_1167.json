@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0011\", \"impossible\"]",
+    "src_uid": "2df181f2d1f4063a22fd2fa2d47eef92",
+    "prob_desc_notes": "NoteIn the first sample different answers are possible, namely — 0010, 0011, 0110, 0111, 1000, 1001, 1100, 1101.",
+    "prob_desc_description": "Little Susie loves strings. Today she calculates distances between them. As Susie is a small girl after all, her strings contain only digits zero and one. She uses the definition of Hamming distance:We will define the distance between two strings s and t of the same length consisting of digits zero and one as the number of positions i, such that si isn't equal to ti. As besides everything else Susie loves symmetry, she wants to find for two strings s and t of length n such string p of length n, that the distance from p to s was equal to the distance from p to t.It's time for Susie to go to bed, help her find such string p or state that it is impossible.",
+    "prob_desc_output_spec": "Print a string of length n, consisting of digits zero and one, that meets the problem statement. If no such string exist, print on a single line \"impossible\" (without the quotes). If there are multiple possible answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains string s of length n.  The second line contains string t of length n. The length of string n is within range from 1 to 105. It is guaranteed that both strings contain only digits zero and one.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_007.jsonl",
+    "code_uid": "d9631129fb1c4a759c8c64df4b807c26",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"0001\\n1011\", \"000\\n111\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a = list(input())\nb = list(input())\nnums = []\nras = 0\nfor i in range(len(a)):\n    if not a[i] == b[i]:\n        ras += 1\n        nums.append(i)\nif ras%2:\n    print(\"impossible\")\nelse:\n    for i in range(ras//2):\n        if a[nums[i]] == '1':\n            a[nums[i]] = '0'\n        else:\n            a[nums[i]] = '1'\n    print(\"\".join(a))\n",
+    "prob_desc_created_at": "1432053000",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

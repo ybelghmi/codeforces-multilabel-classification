@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n6\\n6\\n0\", \"0\\n1\\n0\"]",
+    "src_uid": "ea7f8bd397f80ba7d3add6f9609dcc4a",
+    "prob_desc_notes": "NoteIf we reverse an array x[1], x[2], ..., x[n] it becomes new array y[1], y[2], ..., y[n], where y[i] = x[n - i + 1] for each i.The number of inversions of an array x[1], x[2], ..., x[n] is the number of pairs of indices i, j such that: i &lt; j and x[i] &gt; x[j].",
+    "prob_desc_description": "Mashmokh's boss, Bimokh, didn't like Mashmokh. So he fired him. Mashmokh decided to go to university and participate in ACM instead of finding a new job. He wants to become a member of Bamokh's team. In order to join he was given some programming tasks and one week to solve them. Mashmokh is not a very experienced programmer. Actually he is not a programmer at all. So he wasn't able to solve them. That's why he asked you to help him with these tasks. One of these tasks is the following.You have an array a of length 2n and m queries on it. The i-th query is described by an integer qi. In order to perform the i-th query you must:  split the array into 2n - qi parts, where each part is a subarray consisting of 2qi numbers; the j-th subarray (1 ≤ j ≤ 2n - qi) should contain the elements a[(j - 1)·2qi + 1], a[(j - 1)·2qi + 2], ..., a[(j - 1)·2qi + 2qi];  reverse each of the subarrays;  join them into a single array in the same order (this array becomes new array a);  output the number of inversions in the new a. Given initial array a and all the queries. Answer all the queries. Please, note that the changes from some query is saved for further queries.",
+    "prob_desc_output_spec": "Output m lines. In the i-th line print the answer (the number of inversions) for the i-th query.",
+    "prob_desc_input_spec": "The first line of input contains a single integer n (0 ≤ n ≤ 20).  The second line of input contains 2n space-separated integers a[1], a[2], ..., a[2n] (1 ≤ a[i] ≤ 109), the initial array. The third line of input contains a single integer m (1 ≤ m ≤ 106).  The fourth line of input contains m space-separated integers q1, q2, ..., qm (0 ≤ qi ≤ n), the queries. Note: since the size of the input and output could be very large, don't use slow output techniques in your language. For example, do not use input and output streams (cin, cout) in C++.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_015.jsonl",
+    "code_uid": "16651ca35de343e35cca085e05cca9af",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2 1 4 3\\n4\\n1 2 0 2\", \"1\\n1 2\\n3\\n0 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    n = int(raw_input())\n    aa = list(map(int, raw_input().split()))\n    raw_input()\n    res = []\n    if n < 2:\n        l, f = (\"01\"[aa[0] > aa[-1]], \"01\"[aa[0] < aa[-1]]), False\n        for q in raw_input()[::2]:\n            f ^= q == '1'\n            res.append(l[f])\n        print('\\n'.join(res))\n        return\n    n2 = 2 ** n\n    a00 = a01 = a10 = a11 = 0\n    for i in xrange(0, n2, 4):\n        a, b, c, d = aa[i:i + 4]\n        a00 += (b < a) + (d < c)\n        a01 += (c < a) + (c < b) + (d < a) + (d < b)\n        a10 += (b > a) + (d > c)\n        a11 += (c > a) + (c > b) + (d > a) + (d > b)\n    acc0 = [a00, a01]\n    acc1 = [a10, a11]\n    w = 4\n    while w < n2:\n        a00 = a10 = 0\n        for i in xrange(0, n2, w * 2):\n            le = sorted(aa[i:i + w])\n            ri = sorted(aa[i + w:i + w * 2])\n            i = j = 0\n            try:\n                while True:\n                    if le[i] > ri[j]:\n                        j += 1\n                    else:\n                        a00 += j\n                        i += 1\n            except IndexError:\n                if i < j:\n                    a00 += j * (w - i)\n            i = j = 0\n            try:\n                while True:\n                    if ri[i] > le[j]:\n                        j += 1\n                    else:\n                        a10 += j\n                        i += 1\n            except IndexError:\n                if i < j:\n                    a10 += j * (w - i)\n        acc0.append(a00)\n        acc1.append(a10)\n        w *= 2\n    for q in map(int, raw_input().split()):\n        while q:\n            q -= 1\n            acc0[q], acc1[q] = acc1[q], acc0[q]\n        res.append(sum(acc0))\n    print('\\n'.join(map(str, res)))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1396798800",
+    "tags": [
+        "combinatorics",
+        "divide and conquer"
+    ],
+    "hidden_unit_tests": ""
+}

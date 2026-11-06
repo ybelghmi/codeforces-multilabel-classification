@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n6\\n11\\n17\\n23\", \"0\\n6\\n11\\n17\\n6\", \"-1\"]",
+    "src_uid": "900ab562f1e71721bfefd4ebd9159965",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Nowadays it is becoming increasingly difficult to park a car in cities successfully. Let's imagine a segment of a street as long as L meters along which a parking lot is located. Drivers should park their cars strictly parallel to the pavement on the right side of the street (remember that in the country the authors of the tasks come from the driving is right side!). Every driver when parking wants to leave for themselves some extra space to move their car freely, that's why a driver is looking for a place where the distance between his car and the one behind his will be no less than b meters and the distance between his car and the one in front of his will be no less than f meters (if there's no car behind then the car can be parked at the parking lot segment edge; the same is true for the case when there're no cars parked in front of the car). Let's introduce an axis of coordinates along the pavement. Let the parking lot begin at point 0 and end at point L. The drivers drive in the direction of the coordinates' increasing and look for the earliest place (with the smallest possible coordinate) where they can park the car. In case there's no such place, the driver drives on searching for his perfect peaceful haven. Sometimes some cars leave the street and free some space for parking. Considering that there never are two moving cars on a street at a time write a program that can use the data on the drivers, entering the street hoping to park there and the drivers leaving it, to model the process and determine a parking lot space for each car.",
+    "prob_desc_output_spec": "For every request of the 1 type print number -1 on the single line if the corresponding car couldn't find place to park along the street. Otherwise, print a single number equal to the distance between the back of the car in its parked position and the beginning of the parking lot zone.",
+    "prob_desc_input_spec": "The first line contains three integers L, b и f (10 ≤ L ≤ 100000, 1 ≤ b, f ≤ 100). The second line contains an integer n (1 ≤ n ≤ 100) that indicates the number of requests the program has got. Every request is described on a single line and is given by two numbers. The first number represents the request type. If the request type is equal to 1, then in that case the second number indicates the length of a car (in meters) that enters the street looking for a place to park. And if the request type is equal to 2, then the second number identifies the number of such a request (starting with 1) that the car whose arrival to the parking lot was described by a request with this number, leaves the parking lot. It is guaranteed that that car was parked at the moment the request of the 2 type was made. The lengths of cars are integers from 1 to 1000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_069.jsonl",
+    "code_uid": "57967fab9b19bc69b3611faffd9f78f0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"30 1 2\\n6\\n1 5\\n1 4\\n1 5\\n2 2\\n1 5\\n1 4\", \"30 1 1\\n6\\n1 5\\n1 4\\n1 5\\n2 2\\n1 5\\n1 4\", \"10 1 1\\n1\\n1 12\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class Car:\n  def __init__(self, id, size, location):\n    self.id = id\n    self.size = size\n    self.location = location\n    print(location)\n\ncars = []\nlot_size, back_gap, front_gap = map(int, input().split())\nq = int(input())\nfor id in range(1, q + 1):\n  request, value = map(int, input().split())\n  if request == 1:\n    size = value\n    # Only car in the lot.\n    if len(cars) == 0:\n      if size <= lot_size:\n        cars.append(Car(id, size, 0))\n      else:\n        print(-1)\n      continue\n    # Park before first car.\n    if size + front_gap <= cars[0].location:\n      cars.insert(0, Car(id, size, 0))\n      continue\n    # Park between two cars.\n    found = False\n    for pos in range(1, len(cars)):\n      a, b = cars[pos - 1], cars[pos]\n      x = a.location + a.size + back_gap\n      if x + size + front_gap <= b.location:\n        cars.insert(pos, Car(id, size, x))\n        found = True\n        break\n    if found:\n      continue\n    # Park after last car.\n    a = cars[len(cars) - 1]\n    x = a.location + a.size + back_gap\n    if x + size <= lot_size:\n      cars.append(Car(id, size, x))\n      continue\n    # Fail.\n    print(-1)\n  else:\n    id = value\n    for pos, car in enumerate(cars):\n      if car.id == id:\n        del cars[pos]\n        break\n\n",
+    "prob_desc_created_at": "1291536000",
+    "tags": [
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

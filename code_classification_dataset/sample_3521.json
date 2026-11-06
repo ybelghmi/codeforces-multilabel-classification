@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1 3 4\", \"1 3 4 5\"]",
+    "src_uid": "7dccfaab4ed17b93a27202affa9408d4",
+    "prob_desc_notes": "NoteIn the first sample, the maximum possible total number of fans is $$$2^2 + 2^5 + 2^6 = 100$$$. We can achieve it by removing the contestants of the districts 1, 3, and 4.",
+    "prob_desc_description": "The nation of Panel holds an annual show called The Number Games, where each district in the nation will be represented by one contestant.The nation has $$$n$$$ districts numbered from $$$1$$$ to $$$n$$$, each district has exactly one path connecting it to every other district. The number of fans of a contestant from district $$$i$$$ is equal to $$$2^i$$$.This year, the president decided to reduce the costs. He wants to remove $$$k$$$ contestants from the games. However, the districts of the removed contestants will be furious and will not allow anyone to cross through their districts. The president wants to ensure that all remaining contestants are from districts that can be reached from one another. He also wishes to maximize the total number of fans of the participating contestants.Which contestants should the president remove?",
+    "prob_desc_output_spec": "Print $$$k$$$ space-separated integers: the numbers of the districts of which the contestants should be removed, in increasing order of district number.",
+    "prob_desc_input_spec": "The first line of input contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\leq k &lt; n \\leq 10^6$$$) — the number of districts in Panel, and the number of contestants the president wishes to remove, respectively. The next $$$n-1$$$ lines each contains two integers $$$a$$$ and $$$b$$$ ($$$1 \\leq a, b \\leq n$$$, $$$a \\ne b$$$), that describe a road that connects two different districts $$$a$$$ and $$$b$$$ in the nation. It is guaranteed that there is exactly one path between every two districts.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_065.jsonl",
+    "code_uid": "b6634c6f3a04ad0877464af825aedaf6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3\\n2 1\\n2 6\\n4 2\\n5 6\\n2 3\", \"8 4\\n2 6\\n2 7\\n7 8\\n1 2\\n3 1\\n2 4\\n7 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n# import time\n\n\ndef calc_result(n, k, edges):\n    # t1 = time.clock()\n\n    storage = [-1] * (4 * n)\n    storage_index = 0\n    lookup = [-1] * (n + 1)\n    for u, v in edges:\n        storage[storage_index] = lookup[u]\n        storage[storage_index + 1] = v\n        lookup[u] = storage_index\n        storage_index += 2\n        storage[storage_index] = lookup[v]\n        storage[storage_index + 1] = u\n        lookup[v] = storage_index\n        storage_index += 2\n\n    # t2 = time.clock()\n\n    nodes = [0] * (2 * (n + 1))\n\n    # t3 = time.clock()\n\n    stack = [n]\n    stack_pop = stack.pop\n    stack_append = stack.append\n    while stack:\n        index = stack_pop()\n        parent_index = nodes[index * 2]\n        t = lookup[index]\n        while t >= 0:\n            v = storage[t + 1]\n            t = storage[t]\n            if v == parent_index:\n                continue\n            nodes[v * 2] = index\n            stack_append(v)\n\n    # t4 = time.clock()\n\n    count = n - k\n    for i in xrange(n, 0, -1):\n        new_nodes = []\n\n        p = i * 2\n        abort = False\n        while True:\n            flag = nodes[p + 1]\n            if flag == -1:\n                abort = True\n                break\n            elif flag == 1:\n                break\n            new_nodes.append(p)\n            index = nodes[p]\n            if index <= 0:\n                break\n            p = index * 2\n        if abort:\n            for p in new_nodes:\n                nodes[p + 1] = -1\n            continue\n\n        c = count - len(new_nodes)\n        if c >= 0:\n            for p in new_nodes:\n                nodes[p + 1] = 1\n            count = c\n            if count == 0:\n                break\n        else:\n            for j in xrange(-c):\n                nodes[new_nodes[j] + 1] = -1\n\n    # t5 = time.clock()\n    #\n    # print('---t5 - t1: %s' % (t5 - t1))\n    # print('---t2 - t1: %s' % (t2 - t1))\n    # print('---t3 - t2: %s' % (t3 - t2))\n    # print('---t4 - t3: %s' % (t4 - t3))\n    # print('---t5 - t4: %s' % (t5 - t4))\n\n    result = [i for i in xrange(1, n + 1) if nodes[i * 2 + 1] != 1]\n\n    print(' '.join(map(str, result)))\n\n\ndef main():\n    sys.setcheckinterval(2147483647)\n\n    n, k = map(int, sys.stdin.readline().split())\n    edges = [map(int, sys.stdin.readline().split()) for _ in xrange(n - 1)]\n\n    # import random\n    # n, k = 1000000, 19\n    # edges = []\n    # rnd = random.Random()\n    # rnd.seed(1)\n    # t = range(1, n + 1)\n    # random.shuffle(t, random=rnd.random)\n    # for i in xrange(2, n + 1):\n    #     j = rnd.randint(1, i - 1)\n    #     edges.append([i, j])\n\n    calc_result(n, k, edges)\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1525791900",
+    "tags": [
+        "data structures",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3 2 0 2 0\", \"2 3 4 0\"]",
+    "src_uid": "e544ed0904e2def0c1b2d91f94acbc56",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The capital of Berland has n multifloor buildings. The architect who built up the capital was very creative, so all the houses were built in one row.Let's enumerate all the houses from left to right, starting with one. A house is considered to be luxurious if the number of floors in it is strictly greater than in all the houses with larger numbers. In other words, a house is luxurious if the number of floors in it is strictly greater than in all the houses, which are located to the right from it. In this task it is assumed that the heights of floors in the houses are the same.The new architect is interested in n questions, i-th of them is about the following: \"how many floors should be added to the i-th house to make it luxurious?\" (for all i from 1 to n, inclusive). You need to help him cope with this task.Note that all these questions are independent from each other — the answer to the question for house i does not affect other answers (i.e., the floors to the houses are not actually added).",
+    "prob_desc_output_spec": "Print n integers a1, a2, ..., an, where number ai is the number of floors that need to be added to the house number i to make it luxurious. If the house is already luxurious and nothing needs to be added to it, then ai should be equal to zero. All houses are numbered from left to right, starting from one.",
+    "prob_desc_input_spec": "The first line of the input contains a single number n (1 ≤ n ≤ 105) — the number of houses in the capital of Berland. The second line contains n space-separated positive integers hi (1 ≤ hi ≤ 109), where hi equals the number of floors in the i-th house. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_001.jsonl",
+    "code_uid": "5995d4c0bb90ec2b3026b9108a50f587",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 3 1 2\", \"4\\n3 2 1 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nh = map(int, input().split()[::-1])\nm_h = 0\nres = []\nfor h in h:\n    if m_h < h:\n        res.append(0)\n        m_h = h\n    else:\n        res.append(m_h - h + 1)\nprint(\" \".join(map(str, res[::-1])))",
+    "prob_desc_created_at": "1443430800",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

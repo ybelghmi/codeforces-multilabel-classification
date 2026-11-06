@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nNO\\nYES\"]",
+    "src_uid": "b44d59eded2cb3a65686dc7fd07d21b7",
+    "prob_desc_notes": "NoteIn the second test case the table is not elegant, because the red and the purple subrectangles are nice and intersect.   In the fourth test case the table is not elegant, because the red and the purple subrectangles are nice and intersect.   ",
+    "prob_desc_description": "Madoka's father just reached $$$1$$$ million subscribers on Mathub! So the website decided to send him a personalized award — The Mathhub's Bit Button! The Bit Button is a rectangular table with $$$n$$$ rows and $$$m$$$ columns with $$$0$$$ or $$$1$$$ in each cell. After exploring the table Madoka found out that: A subrectangle $$$A$$$ is contained in a subrectangle $$$B$$$ if there's no cell contained in $$$A$$$ but not contained in $$$B$$$. Two subrectangles intersect if there is a cell contained in both of them. A subrectangle is called black if there's no cell with value $$$0$$$ inside it. A subrectangle is called nice if it's black and it's not contained in another black subrectangle. The table is called elegant if there are no two nice intersecting subrectangles.For example, in the first illustration the red subrectangle is nice, but in the second one it's not, because it's contained in the purple subrectangle.  Help Madoka to determine whether the table is elegant.",
+    "prob_desc_output_spec": "For each test case print \"YES\" if its table is elegant or print \"NO\" otherwise. You may print each letter in any case (for example, \"YES\", \"Yes\", \"yes\", \"yEs\" will all be recognized as positive answer).",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 200$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains two positive integers $$$n, m$$$ ($$$1 \\le n, m \\le 100$$$). The next $$$n$$$ lines contain strings of length $$$m$$$ consisting of zeros and ones — the description of the table. It is guaranteed that the sum of the values of $$$n$$$ and the sum of the values of $$$m$$$ for all test cases do not exceed $$$777$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_096.jsonl",
+    "code_uid": "fe66e8d0108f373ef8c039a1feb8f5f8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3 3\\n100\\n011\\n011\\n3 3\\n110\\n111\\n110\\n1 5\\n01111\\n4 5\\n11111\\n01010\\n01000\\n01000\\n3 2\\n11\\n00\\n11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python\n# coding: utf-8\n\n# In[13]:\n\n\nimport sys\n# input = sys.stdin.readline\n\n\n# In[2]:\n\n\n# input = sys.stdin.readline\n# def inp():\n#     return(int(input()))\n# def inlt():\n#     return(list(map(int,input().split())))\n# def insr():\n#     s = input()\n# #     return(list(s[:len(s) - 1]))\n#     return(list(s[:len(s)]))\n\n# def invr():\n#     return(map(int,input().split()))\n\n\n# In[3]:\n\n\n# #Problem 1 https://codeforces.com/contest/1647/problem/A\n# def findLargest(inputNumber):\n#     if inputNumber%3==0:\n#         return int('21'*int(inputNumber/3))\n#     if inputNumber%3==1:\n#         return int('1'+(int((inputNumber-1)/3)*'21'))\n#     if inputNumber%3==2:\n#         return int('2'+(int((inputNumber-2)/3)*'12'))\n    \n# length=inp()\n# for k in range(length):\n#     myNumber=inp()\n#     print(findLargest(myNumber))    \n\n\n# In[17]:\n\n\ndef checkArray(array, x, y):\n    #loop through columns by two\n    for k in range(x-1):\n        first=array[k]\n        second=array[k+1]\n        #check two columns:\n        for i in range(y-1):\n            a,b,c,d=first[i],first[i+1], second[i], second[i+1]\n            if int(a)+int(b)+int(c)+int(d)==3:\n                print('NO')\n                return\n    print('YES')\n\n\n# In[5]:\n\n\n# length=inp()\n\n# for k in range(length):\n#     firstList=inlt()\n#     x,y=firstList[0], firstList[1]\n#     if (x==1 or y==1):\n#         print('YES')\n#     else:\n#         myArray=[]\n#         for row in range(x):\n#             myArray.append(insr())\n#         checkArray(myArray, x, y)\n\n\n# In[23]:\n\n\nlength=int(input())\n\nfor k in range(length):\n    firstInputList=list(map(int, input().split()))\n    x,y=firstInputList[0], firstInputList[1]\n    myArray=[]\n    for row in range(x):\n        s = input()\n        new=(list(s[:len(s)]))\n        myArray.append(new)\n    if(x==1 or y==1):\n        print('YES')\n    else:\n        checkArray(myArray, x, y)\n\n\n# In[ ]:\n\n\n\n\n\n# In[ ]:\n\n\n\n\n\n# In[ ]:\n\n\n\n\n",
+    "prob_desc_created_at": "1647009300",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "graphs",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

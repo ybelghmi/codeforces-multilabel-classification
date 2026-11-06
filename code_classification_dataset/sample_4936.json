@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\\n101000\\n100001\", \"Yes\\n10100\\n10010\", \"No\"]",
+    "src_uid": "ea620a8dbef506567464dcaddcc2b34f",
+    "prob_desc_notes": "NoteIn the first example, $$$x = 101000_2 = 2^5 + 2^3 = 40_{10}$$$, $$$y = 100001_2 = 2^5 + 2^0 = 33_{10}$$$, $$$40_{10} - 33_{10} = 7_{10} = 2^2 + 2^1 + 2^0 = 111_{2}$$$. Hence $$$x-y$$$ has $$$3$$$ ones in base-2.In the second example, $$$x = 10100_2 = 2^4 + 2^2 = 20_{10}$$$, $$$y = 10010_2 = 2^4 + 2^1 = 18$$$, $$$x - y = 20 - 18 = 2_{10} = 10_{2}$$$. This is precisely one 1.In the third example, one may show, that it's impossible to find an answer.",
+    "prob_desc_description": "You are given three integers $$$a$$$, $$$b$$$, $$$k$$$.Find two binary integers $$$x$$$ and $$$y$$$ ($$$x \\ge y$$$) such that   both $$$x$$$ and $$$y$$$ consist of $$$a$$$ zeroes and $$$b$$$ ones;  $$$x - y$$$ (also written in binary form) has exactly $$$k$$$ ones.  You are not allowed to use leading zeros for $$$x$$$ and $$$y$$$. ",
+    "prob_desc_output_spec": "If it's possible to find two suitable integers, print \"Yes\" followed by $$$x$$$ and $$$y$$$ in base-2. Otherwise print \"No\". If there are multiple possible answers, print any of them.",
+    "prob_desc_input_spec": "The only line contains three integers $$$a$$$, $$$b$$$, and $$$k$$$ ($$$0 \\leq a$$$; $$$1 \\leq b$$$; $$$0 \\leq k \\leq a + b \\leq 2 \\cdot 10^5$$$) — the number of zeroes, ones, and the number of ones in the result.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_109.jsonl",
+    "code_uid": "158e3bd13e626daa40efa4dd7f3ebc86",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2 3\", \"3 2 1\", \"3 2 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "try:\r\n        import sys\r\n        from functools import lru_cache, cmp_to_key\r\n        from heapq import merge, heapify, heappop, heappush\r\n        from math import *\r\n        from collections import defaultdict as dd, deque, Counter as Cntr\r\n        from itertools import combinations as comb, permutations as perm\r\n        from bisect import bisect_left as bl, bisect_right as br, bisect, insort\r\n        from time import perf_counter\r\n        from fractions import Fraction\r\n        import copy\r\n        from copy import deepcopy\r\n        import time\r\n        starttime = time.time()\r\n        mod = int(pow(10, 9) + 7)\r\n        mod2 = 998244353\r\n\r\n        def data(): return sys.stdin.readline().strip()\r\n        def out(*var, end=\"\\n\"): sys.stdout.write(' '.join(map(str, var))+end)\r\n        def L(): return list(sp())\r\n        def sl(): return list(ssp())\r\n        def sp(): return map(int, data().split())\r\n        def ssp(): return map(str, data().split())\r\n        def l1d(n, val=0): return [val for i in range(n)]\r\n        def l2d(n, m, val=0): return [l1d(n, val) for j in range(m)]\r\n        def A2(n,m): return [[0]*m for i in range(n)]\r\n        def A(n):return [0]*n\r\n        # sys.setrecursionlimit(int(pow(10,6)))\r\n        # from sys import stdin\r\n        # input = stdin.buffer.readline\r\n        # I = lambda : list(map(int,input().split()))\r\n        # import sys\r\n        # input=sys.stdin.readline\r\n        \r\n\r\n        sys.stdin = open(\"input.txt\", \"r\")\r\n        sys.stdout = open(\"output.txt\", \"w\")\r\nexcept:\r\n        pass\r\n\r\n\r\na,b,k = L()\r\nif b==1 or a==0:\r\n        if k==0:\r\n                print(\"Yes\")\r\n                print(\"1\"*b+\"0\"*a)\r\n                print(\"1\"*b+\"0\"*a)\r\n        else:\r\n                print(\"No\")\r\n        exit()\r\nif k>a+b-2:\r\n        print(\"No\")\r\n        exit()\r\n\r\n\r\nprint(\"Yes\")\r\nA = [1]*b+[0]*a\r\nB = [1]*b+[0]*a\r\nK = [0]*(a+b)\r\ncnt = k\r\ni=b-1\r\nlast = a+b-1\r\nwhile(cnt and i):\r\n        final = min(i+cnt,last)\r\n        B[i]=0\r\n        B[final]=1\r\n        cnt -= final-i\r\n        last=i\r\n        i-=1\r\nprint(*A,sep=\"\")\r\nprint(*B,sep=\"\")\r\n",
+    "prob_desc_created_at": "1614071100",
+    "tags": [
+        "bitmasks",
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

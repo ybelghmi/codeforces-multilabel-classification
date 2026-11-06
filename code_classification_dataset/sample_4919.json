@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"2\", \"4\", \"0\", \"4\", \"8\", \"6\"]",
+    "src_uid": "a04cfd22f90b2b87f7c5b48dfe3de873",
+    "prob_desc_notes": "NoteIn the first example, you can clean the cell $$$(1, 2)$$$, so the path of the robot is $$$(1, 1) \\rightarrow (2, 1) \\rightarrow (2, 2)$$$.In the second example, you can leave the hallway as it is, so the path of the robot is $$$(1, 1) \\rightarrow (1, 2) \\rightarrow (2, 2)$$$.In the third example, you can clean the cell $$$(1, 2)$$$, so the path of the robot is $$$(1, 1) \\rightarrow (2, 1) \\rightarrow (2, 3) \\rightarrow (2, 4) \\rightarrow (1, 4)$$$.In the fourth example, the hallway is already clean. Maybe you have launched the robot earlier?",
+    "prob_desc_description": "Consider a hallway, which can be represented as the matrix with $$$2$$$ rows and $$$n$$$ columns. Let's denote the cell on the intersection of the $$$i$$$-th row and the $$$j$$$-th column as $$$(i, j)$$$. The distance between the cells $$$(i_1, j_1)$$$ and $$$(i_2, j_2)$$$ is $$$|i_1 - i_2| + |j_1 - j_2|$$$.There is a cleaning robot in the cell $$$(1, 1)$$$. Some cells of the hallway are clean, other cells are dirty (the cell with the robot is clean). You want to clean the hallway, so you are going to launch the robot to do this.After the robot is launched, it works as follows. While at least one cell is dirty, the robot chooses the closest (to its current cell) cell among those which are dirty, moves there and cleans it (so the cell is no longer dirty). After cleaning a cell, the robot again finds the closest dirty cell to its current cell, and so on. This process repeats until the whole hallway is clean.However, there is a critical bug in the robot's program. If at some moment, there are multiple closest (to the robot's current position) dirty cells, the robot malfunctions.You want to clean the hallway in such a way that the robot doesn't malfunction. Before launching the robot, you can clean some (possibly zero) of the dirty cells yourself. However, you don't want to do too much dirty work yourself while you have this nice, smart (yet buggy) robot to do this. Note that you cannot make a clean cell dirty.Calculate the maximum possible number of cells you can leave dirty before launching the robot, so that it doesn't malfunction.",
+    "prob_desc_output_spec": "Print one integer — the maximum possible number of cells you can leave dirty before launching the robot, so that it doesn't malfunction.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the number of columns in the hallway. Then two lines follow, denoting the $$$1$$$-st and the $$$2$$$-nd row of the hallway. These lines contain $$$n$$$ characters each, where 0 denotes a clean cell and 1 denotes a dirty cell. The starting cell of the robot $$$(1, 1)$$$ is clean.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_109.jsonl",
+    "code_uid": "9606231c8224eff8f3508363af292d65",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n01\\n11\", \"2\\n01\\n01\", \"4\\n0101\\n1011\", \"4\\n0000\\n0000\", \"5\\n00011\\n10101\", \"6\\n011111\\n111111\", \"10\\n0101001010\\n1010100110\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = lambda: sys.stdin.readline().rstrip()\r\n\r\ndef solve():\r\n    N = int(input())\r\n    G = [[int(x) for x in input()] + [0] for _ in range(2)]\r\n    \r\n    dp = [[0] * 2  for _ in range(N + 1)]   # number of 1 cells robot will clean when it arrives at cell (j, i) from the left\r\n    for j in range(2):\r\n        dp[N - 1][j] = G[1 - j][N - 1]\r\n    \r\n    for i in range(N - 2, - 1, -1):\r\n        for j in range(2):\r\n            dp[i][j] = G[j][i + 1] + dp[i + 1][j]   # base case: ignore row 1 - j and proceed right\r\n            if G[1 - j][i]:\r\n                dp[i][j] = max(dp[i][j], 1 + G[1 - j][i + 1] + G[1 - j][i + 2] + dp[i + 2][1 - j])\r\n\r\n    print(dp[0][0])\r\n    return\r\n\r\nsolve()",
+    "prob_desc_created_at": "1664462100",
+    "tags": [
+        "bitmasks",
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n3\", \"3\\n11\\n100\"]",
+    "src_uid": "4577a9b2d96110966ad95a960ef7ec20",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Vasya had a strictly increasing sequence of positive integers a1, ..., an. Vasya used it to build a new sequence b1, ..., bn, where bi is the sum of digits of ai's decimal representation. Then sequence ai got lost and all that remained is sequence bi.Vasya wonders what the numbers ai could be like. Of all the possible options he likes the one sequence with the minimum possible last number an. Help Vasya restore the initial sequence.It is guaranteed that such a sequence always exists.",
+    "prob_desc_output_spec": "Print n integer numbers, one per line — the correct option for numbers ai, in order of following in sequence. The sequence should be strictly increasing. The sum of digits of the i-th number should be equal to bi.  If there are multiple sequences with least possible number an, print any of them. Print the numbers without leading zeroes.",
+    "prob_desc_input_spec": "The first line contains a single integer number n (1 ≤ n ≤ 300). Next n lines contain integer numbers b1, ..., bn  — the required sums of digits. All bi belong to the range 1 ≤ bi ≤ 300.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_017.jsonl",
+    "code_uid": "db078c9feb63363674e6f3432e81b619",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1\\n2\\n3\", \"3\\n3\\n2\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def getnum(digsum):\n    if digsum < 0:\n        return 0\n    if digsum < 10:\n        return digsum\n    else:\n        nnine = digsum // 9\n        res = digsum % 9\n        for i in range(nnine):\n            res = 10 * res + 9\n        return res\n\ndef digsumf(n):\n    return sum([int(i) for i in str(n)])\n\ndef getnext(bnum, last):\n    if last == 0:\n        return getnum(bnum)\n\n    k = last + 1\n    digsum = digsumf(k)\n    diff = bnum - digsum\n    if diff >= 0 and 9 - k % 10 >= diff:\n        return k + diff\n\n    omitsum = 0\n    startdigsum = digsumf(last)\n    lastl = [int(i) for i in str(last)]\n    digsum = digsumf(last)\n    l = 10\n    i = 1\n    while True:\n        if i == 1 and len(str(l)) - 1 <= len(lastl):\n            omitsum += lastl[-(len(str(l)) - 1)]\n        if (last // l) % 10 + i > 9:\n            l *= 10\n            i = 1\n            continue\n        k = (last // l) * l + l * i\n        digsum = startdigsum - omitsum + i\n        diff = bnum - digsum\n        r = getnum(diff)\n        if diff >= 0 and len(str(r)) <= len(str(l // 10)):\n            return r + k\n        if diff < 0:\n            l *= 10\n            i = 1\n        else:\n            i += 1\n\nn = int(input())\nlast = 0\nfor i in range(n):\n    last = getnext(int(input()), last)\n    print(last)\n",
+    "prob_desc_created_at": "1422705600",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

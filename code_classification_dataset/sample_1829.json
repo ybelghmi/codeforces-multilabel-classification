@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\"]",
+    "src_uid": "afac59c927522fb223f59c36184229e2",
+    "prob_desc_notes": "NoteIn the first sample test one possible path is:After the first visit of cell (2, 2) the ice on it cracks and when you step there for the second time, your character falls through the ice as intended.",
+    "prob_desc_description": "You play a computer game. Your character stands on some level of a multilevel ice cave. In order to move on forward, you need to descend one level lower and the only way to do this is to fall through the ice.The level of the cave where you are is a rectangular square grid of n rows and m columns. Each cell consists either from intact or from cracked ice. From each cell you can move to cells that are side-adjacent with yours (due to some limitations of the game engine you cannot make jumps on the same place, i.e. jump from a cell to itself). If you move to the cell with cracked ice, then your character falls down through it and if you move to the cell with intact ice, then the ice on this cell becomes cracked.Let's number the rows with integers from 1 to n from top to bottom and the columns with integers from 1 to m from left to right. Let's denote a cell on the intersection of the r-th row and the c-th column as (r, c). You are staying in the cell (r1, c1) and this cell is cracked because you've just fallen here from a higher level. You need to fall down through the cell (r2, c2) since the exit to the next level is there. Can you do this?",
+    "prob_desc_output_spec": "If you can reach the destination, print 'YES', otherwise print 'NO'.",
+    "prob_desc_input_spec": "The first line contains two integers, n and m (1 ≤ n, m ≤ 500) — the number of rows and columns in the cave description. Each of the next n lines describes the initial state of the level of the cave, each line consists of m characters \".\" (that is, intact ice) and \"X\" (cracked ice). The next line contains two integers, r1 and c1 (1 ≤ r1 ≤ n, 1 ≤ c1 ≤ m) — your initial coordinates. It is guaranteed that the description of the cave contains character 'X' in cell (r1, c1), that is, the ice on the starting cell is initially cracked. The next line contains two integers r2 and c2 (1 ≤ r2 ≤ n, 1 ≤ c2 ≤ m) — the coordinates of the cell through which you need to fall. The final cell may coincide with the starting one.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_013.jsonl",
+    "code_uid": "03bd29175cd9e7c50b6db2f24958e3b4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 6\\nX...XX\\n...XX.\\n.X..X.\\n......\\n1 6\\n2 2\", \"5 4\\n.X..\\n...X\\nX.X.\\n....\\n.XX.\\n5 3\\n1 1\", \"4 7\\n..X.XX.\\n.XX..X.\\nX...X..\\nX......\\n2 2\\n1 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import queue\nMAX = 500\ndr = [0,0,1,-1]\ndc = [1,-1,0,0]\n \ndef isValid(r, c):\n  return r in range(m) and c in range(n)\n \ndef BFS(sr, sc, fr, fc):\n  q = [0] * (MAX * MAX)\n  left = right = 0\n  q[0] = (sr, sc)\n  while left <= right:\n    ur, uc = q[left]\n    left += 1\n    for i in range(4):\n      vr = ur + dr[i]\n      vc = uc + dc[i]\n      if isValid(vr, vc):\n        if maze[vr][vc] == '.':\n          maze[vr][vc] = 'X'\n          right += 1\n          q[right] = (vr,vc)\n        else:\n          if(vr == fr) and (vc==fc):\n            return True\n  return False\n \nif __name__ == '__main__':\n \n  maze = [] * MAX\n  m, n = map(int, input().split())\n  \n  for i in range(m):\n    temp = list(input())\n    maze.append(temp)\n  start, start2 = map(int, input().split())\n  end1, end2 = map(int, input().split())\n  if(BFS(start-1,start2-1,end1-1,end2-1)):\n    print('YES')\n  else:\n    print('NO')",
+    "prob_desc_created_at": "1430411400",
+    "tags": [
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "e95bde11483e05751ee7da91a6b4ede1",
+    "prob_desc_notes": "NoteIn the first sample the ninja should first jump to the right wall, then go one meter down along the right wall, then jump to the left wall. The next jump can get the ninja from the canyon. In the second sample there's no way the ninja can get out of the canyon.",
+    "prob_desc_description": "Vasya plays a computer game with ninjas. At this stage Vasya's ninja should get out of a deep canyon.The canyon consists of two vertical parallel walls, their height is n meters. Let's imagine that we split these walls into 1 meter-long areas and number them with positive integers from 1 to n from bottom to top. Some areas are safe and the ninja can climb them. Others are spiky and ninja can't be there. Let's call such areas dangerous.Initially the ninja is on the lower area of the left wall. He can use each second to perform one of the following actions:   climb one area up;  climb one area down;  jump to the opposite wall. That gets the ninja to the area that is exactly k meters higher than the area he jumped from. More formally, if before the jump the ninja is located at area x of one wall, then after the jump he is located at area x + k of the other wall. If at some point of time the ninja tries to get to an area with a number larger than n, then we can assume that the ninja got out of the canyon.The canyon gets flooded and each second the water level raises one meter. Initially the water level is at the lower border of the first area. Ninja cannot be on the area covered by water. We can assume that the ninja and the water \"move in turns\" — first the ninja performs some action, then the water raises for one meter, then the ninja performs one more action and so on.The level is considered completed if the ninja manages to get out of the canyon.After several failed attempts Vasya started to doubt whether it is possible to complete the level at all. Help him answer the question.",
+    "prob_desc_output_spec": "Print \"YES\" (without the quotes) if the ninja can get out from the canyon, otherwise, print \"NO\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n, k ≤ 105) — the height of the canyon and the height of ninja's jump, correspondingly. The second line contains the description of the left wall — a string with the length of n characters. The i-th character represents the state of the i-th wall area: character \"X\" represents a dangerous area and character \"-\" represents a safe area. The third line describes the right wall in the same format. It is guaranteed that the first area of the left wall is not dangerous.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_025.jsonl",
+    "code_uid": "b4bf10aba22cf476310381a6d07ae34f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 3\\n---X--X\\n-X--XX-\", \"6 2\\n--X-X-\\nX--XX-\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\n\nl, j = [int(i) for i in input().split(' ')]\nwallA = list(input())\nwallB = list(input())\ng = {}\n\nfor i in range(l):\n    # Each 4-tuple represents: (Visited?, Current Height, Current Water Height, Drowned?)\n    if wallA[i] == '-':\n        g[(1,i+1)] = (-1, 0, 0, False) \n    if wallB[i] == '-':\n        g[(-1,i+1)] = (-1, 0, 0, False)\n\ng[(1, 1)] = ('VISITED', 1, 0, False)\nq = deque([(1, 1)]) \n\nwhile q:\n    c = q.popleft()\n    up = (c[0], c[1]+1)\n    down = (c[0], c[1]-1)\n    jump = (c[0]*-1, c[1] + j)\n    if g[c][1] <= g[c][2]: \n        g[c] = (g[c][0], g[c][1], g[c][2], True)\n    if up in g and g[up][0] == -1:\n        q.append(up)\n        g[up] = ('VISITED', g[c][1] + 1, g[c][2] + 1, g[c][3])\n    if down in g and g[down][0] == -1:\n        q.append(down)\n        g[down] = ('VISITED', g[c][1] - 1, g[c][2] + 1, g[c][3])\n    if jump in g and g[jump][0] == -1:\n        q.append(jump)\n        g[jump] = ('VISITED', g[c][1] + j, g[c][2] + 1, g[c][3])\n\ndef graphHasEscape(graph):\n    for node in graph:\n        result = graph[node]\n        if result[0] == 'VISITED' and ((result[1] + 1 > l) or (result[1] + j > l)) and not result[3]:\n            return True\n            break\n    return False\n\nif graphHasEscape(g):\n    print('YES')\nelse:\n    print('NO')\n",
+    "prob_desc_created_at": "1340379000",
+    "tags": [
+        "dfs and similar",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

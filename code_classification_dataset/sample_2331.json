@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3 7\", \"2 0\"]",
+    "src_uid": "bce9ebad1dc8bd5aae516c4ca9e551c0",
+    "prob_desc_notes": "NoteIn the first example, we can change $$$1$$$ into $$$2$$$ and $$$10$$$ into $$$4$$$ with cost $$$|1 - 2| + |10 - 4| = 1 + 6 = 7$$$ and the resulting lengths $$$[2, 4, 4]$$$ are almost good for $$$t = 3$$$.In the second example, the sticks lengths are already almost good for $$$t = 2$$$, so we don't have to do anything.",
+    "prob_desc_description": "Salem gave you $$$n$$$ sticks with integer positive lengths $$$a_1, a_2, \\ldots, a_n$$$.For every stick, you can change its length to any other positive integer length (that is, either shrink or stretch it). The cost of changing the stick's length from $$$a$$$ to $$$b$$$ is $$$|a - b|$$$, where $$$|x|$$$ means the absolute value of $$$x$$$.A stick length $$$a_i$$$ is called almost good for some integer $$$t$$$ if $$$|a_i - t| \\le 1$$$.Salem asks you to change the lengths of some sticks (possibly all or none), such that all sticks' lengths are almost good for some positive integer $$$t$$$ and the total cost of changing is minimum possible. The value of $$$t$$$ is not fixed in advance and you can choose it as any positive integer. As an answer, print the value of $$$t$$$ and the minimum cost. If there are multiple optimal choices for $$$t$$$, print any of them.",
+    "prob_desc_output_spec": "Print the value of $$$t$$$ and the minimum possible cost. If there are multiple optimal choices for $$$t$$$, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 1000$$$) — the number of sticks. The second line contains $$$n$$$ integers $$$a_i$$$ ($$$1 \\le a_i \\le 100$$$) — the lengths of the sticks.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_020.jsonl",
+    "code_uid": "48d3467d455e1730a05221154b420c69",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n10 1 4\", \"5\\n1 1 2 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = [*map(int, input().split())]\n\nans = {}\n\nfor i in range(1, 101):\n    temp = 0\n    for j in a:\n        if i == j:\n            continue\n        temp += min(abs(j - i - 1), abs(j - i + 1))\n    ans[i] = temp\n\nprint(min(ans, key=ans.get), ans[min(ans, key=ans.get)])",
+    "prob_desc_created_at": "1547985900",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

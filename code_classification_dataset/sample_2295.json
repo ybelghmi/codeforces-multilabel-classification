@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0.57142857142857139685\", \"-1\"]",
+    "src_uid": "2df45858a638a90d30315844df6d1084",
+    "prob_desc_notes": "NoteHere is a picture of the first samplePoints A, B, C, D - start mice positions, segments are their paths.Then, at first time when all mice will be in rectangle it will be looks like this:Here is a picture of the second samplePoints A, D, B will never enter rectangle.",
+    "prob_desc_description": "Igor the analyst fell asleep on the work and had a strange dream. In the dream his desk was crowded with computer mice, so he bought a mousetrap to catch them.The desk can be considered as an infinite plane, then the mousetrap is a rectangle which sides are parallel to the axes, and which opposite sides are located in points (x1, y1) and (x2, y2).Igor wants to catch all mice. Igor has analysed their behavior and discovered that each mouse is moving along a straight line with constant speed, the speed of the i-th mouse is equal to (vix, viy), that means that the x coordinate of the mouse increases by vix units per second, while the y coordinates increases by viy units. The mousetrap is open initially so that the mice are able to move freely on the desk. Igor can close the mousetrap at any moment catching all the mice that are strictly inside the mousetrap.Igor works a lot, so he is busy in the dream as well, and he asks you to write a program that by given mousetrap's coordinates, the initial coordinates of the mice and their speeds determines the earliest time moment in which he is able to catch all the mice. Please note that Igor can close the mousetrap only once.",
+    "prob_desc_output_spec": "In the only line print minimum possible non-negative number t such that if Igor closes the mousetrap at t seconds from the beginning, then all the mice are strictly inside the mousetrap. If there is no such t, print -1. Your answer is considered correct if its absolute or relative error doesn't exceed 10 - 6.  Formally, let your answer be a, and the jury's answer be b. Your answer is considered correct if .",
+    "prob_desc_input_spec": "The first line contains single integer n (1 ≤ n ≤ 100 000) — the number of computer mice on the desk. The second line contains four integers x1, y1, x2 and y2 (0 ≤ x1 ≤ x2 ≤ 100 000), (0 ≤ y1 ≤ y2 ≤ 100 000) — the coordinates of the opposite corners of the mousetrap. The next n lines contain the information about mice. The i-th of these lines contains four integers rix, riy, vix and viy, (0 ≤ rix, riy ≤ 100 000,  - 100 000 ≤ vix, viy ≤ 100 000), where (rix, riy) is the initial position of the mouse, and (vix, viy) is its speed.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_020.jsonl",
+    "code_uid": "80f745db8f080782def902190e43c603",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n7 7 9 8\\n3 5 7 5\\n7 5 2 4\\n3 3 7 8\\n6 6 3 2\", \"4\\n7 7 9 8\\n0 3 -5 4\\n5 0 5 4\\n9 9 -1 -6\\n10 5 -7 -10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "rd = lambda: map(int, input().split())\nn = int(input())\nx1, y1, x2, y2 = rd()\nl = []\nr = []\nm = []\nfor i in range(n):\n    t = []\n    rx, ry, vx, vy = rd()\n    m.append([rx, ry, vx, vy])\n    if x1 <= rx <= x2 and y1 <= ry <= y2:\n        t.append(0)\n        if vx == 0 and vy == 0:\n            t.append(0x3f3f3f3f3f3f3f3f)\n    if vx:\n        t1 = (x1 - rx) / vx\n        if t1 >= 0:\n            if y1 <= ry + t1 * vy <= y2:\n                t.append(t1)\n        t1 = (x2 - rx) / vx\n        if t1 >= 0:\n            if y1 <= ry + t1 * vy <= y2:\n                t.append(t1)\n    if vy:\n        t1 = (y1 - ry) / vy\n        if t1 >= 0:\n            if x1 <= rx + t1 * vx <= x2:\n                t.append(t1)\n        t1 = (y2 - ry) / vy\n        if t1 >= 0:\n            if x1 <= rx + t1 * vx <= x2:\n                t.append(t1)\n    if len(t) < 2:\n        print(-1)\n        exit()\n    t.sort()\n    l.append(t[0])\n    r.append(t[-1])\nl.sort()\nr.sort()\nif l[-1] > r[0]:\n    print(-1)\nelse:\n    p = (l[-1] + r[0]) / 2\n    if not all(x1 < rx + p * vx < x2 and y1 < ry + p * vy < y2 for rx, ry, vx, vy in m):\n        print(-1)\n    else:\n        print(l[-1])\n",
+    "prob_desc_created_at": "1492965900",
+    "tags": [
+        "geometry",
+        "implementation",
+        "sortings",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

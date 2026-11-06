@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n1\", \"3\\n1\\n0\"]",
+    "src_uid": "81122f1a525ac6e80b1d9c2adc735f6f",
+    "prob_desc_notes": "NoteThe first test case of the first example is explained in the statement.In the second test case of the first example, two friends with cars live at vertex $$$5$$$, one can give a ride to friends from vertices $$$2$$$ and $$$3$$$, and the second from vertex $$$4$$$, only a friend from vertex $$$6$$$ will have to walk.",
+    "prob_desc_description": "Kirill lives on a connected undirected graph of $$$n$$$ vertices and $$$m$$$ edges at vertex $$$1$$$. One fine evening he gathered $$$f$$$ friends, the $$$i$$$-th friend lives at the vertex $$$h_i$$$. So all friends are now in the vertex $$$1$$$, the $$$i$$$-th friend must get to his home to the vertex $$$h_i$$$.The evening is about to end and it is time to leave. It turned out that $$$k$$$ ($$$k \\le 6$$$) of his friends have no cars, and they would have to walk if no one gives them a ride. One friend with a car can give a ride to any number of friends without cars, but only if he can give them a ride by driving along one of the shortest paths to his house.For example, in the graph below, a friend from vertex $$$h_i=5$$$ can give a ride to friends from the following sets of vertices: $$$[2, 3]$$$, $$$[2, 4]$$$, $$$[2]$$$, $$$[3]$$$, $$$[4]$$$, but can't give a ride to friend from vertex $$$6$$$ or a set $$$[3, 4]$$$.    The vertices where friends without cars live are highlighted in green, and with cars — in red. Kirill wants as few friends as possible to have to walk. Help him find the minimum possible number.",
+    "prob_desc_output_spec": "Output $$$t$$$ lines, each of which contains the answer to the corresponding test case. As an answer, output a single integer — the minimum possible number of friends who will have to walk.",
+    "prob_desc_input_spec": "The first line of input data contains an integer $$$t$$$ ($$$1 \\le t \\le 10^3$$$) — the number of test cases in the test. The first line of the test case contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n \\le 10^4$$$, $$$n-1 \\le m \\le min (10^4, $$$$$$ \\frac{n \\cdot (n - 1)}{2} $$$$$$)$$$) — the number of vertices and edges, respectively. The next $$$m$$$ lines of the test case contain a description of the edges, two integers each $$$u$$$ and $$$v$$$ ($$$1 \\le u, v \\le n$$$, $$$u \\ne v$$$) — indexes of vertices connected by an edge. It is guaranteed that there is at most one edge between any pair of vertices (i.e. no multiple edges in the graph). Then follows line containing the number $$$f$$$ ($$$1 \\le f \\le 10^4$$$) — the number of Kirill's friends. The next line of the test case contains $$$f$$$ integers: $$$h_1, h_2, \\dots, h_f$$$ ($$$2 \\le h_i \\le n$$$) — the vertices in which they live. Some vertices may be repeated. The next line of the set contains the number $$$k$$$ ($$$1 \\le k \\le min(6, f)$$$) — the number of friends without cars. The last line of each test case contains $$$k$$$ integers: $$$p_1, p_2, \\dots, p_k$$$ ($$$1 \\le p_i \\le f$$$, $$$p_i &lt; p_{i+1}$$$) — indexes of friends without cars. It is guaranteed that the sum of $$$n$$$ over all cases does not exceed $$$10^4$$$, as well as the sums of $$$m$$$ and $$$f$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_084.jsonl",
+    "code_uid": "bb756c9ea1ad831be9fc8eb2379cfa56",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n6 7\\n\\n1 2\\n\\n2 3\\n\\n2 4\\n\\n3 5\\n\\n4 5\\n\\n3 6\\n\\n6 5\\n\\n5\\n\\n2 3 4 5 6\\n\\n4\\n\\n1 2 3 5\\n\\n6 7\\n\\n1 2\\n\\n2 3\\n\\n2 4\\n\\n3 5\\n\\n4 5\\n\\n3 6\\n\\n6 5\\n\\n6\\n\\n2 3 4 5 6 5\\n\\n4\\n\\n1 2 3 5\\n\\n4 4\\n\\n1 2\\n\\n1 3\\n\\n2 3\\n\\n3 4\\n\\n3\\n\\n3 4 2\\n\\n2\\n\\n1 3\", \"3\\n\\n2 1\\n\\n1 2\\n\\n3\\n\\n2 2 2\\n\\n3\\n\\n1 2 3\\n\\n3 3\\n\\n1 2\\n\\n1 3\\n\\n2 3\\n\\n4\\n\\n2 2 2 3\\n\\n3\\n\\n1 2 4\\n\\n4 4\\n\\n3 1\\n\\n3 2\\n\\n1 4\\n\\n2 4\\n\\n5\\n\\n3 2 2 4 2\\n\\n3\\n\\n1 3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\r\n \r\n \r\ndef solve():\r\n    n, m = map(int, input().split())\r\n    sl = [[] for _ in range(n)]\r\n    for _ in range(m):\r\n        u, v = map(int, input().split())\r\n        u -= 1\r\n        v -= 1\r\n        sl[u] += [v]\r\n        sl[v] += [u]\r\n    f = int(input())\r\n    h = [int(x) - 1 for x in input().split()]\r\n    mask = [0] * n\r\n    k = int(input())\r\n    p = [int(x) - 1 for x in input().split()] + [-1]\r\n    for i in range(k):\r\n        mask[h[p[i]]] += 1 << i\r\n    vars = [set() for _ in range(n)]\r\n    dist = [-1] * n\r\n    dist[0] = 0\r\n    vars[0].add(mask[0])\r\n    q = deque([0])\r\n    while len(q) > 0:\r\n        v = q.popleft()\r\n        for u in sl[v]:\r\n            if dist[u] == -1:\r\n                dist[u] = dist[v] + 1\r\n                q.append(u)\r\n            if dist[u] == dist[v] + 1:\r\n                for msk in vars[v]:\r\n                    vars[u].add(msk | mask[u])\r\n    backpack = [False] * (1 << k)\r\n    backpack[0] = True\r\n    j = 0\r\n    for i in range(f):\r\n        if i == p[j]:\r\n            j += 1\r\n            continue\r\n        nw = backpack.copy()\r\n        for msk in range(1 << k):\r\n            if not backpack[msk]:\r\n                continue\r\n            for var in vars[h[i]]:\r\n                nw[msk | var] = True\r\n        backpack = nw\r\n    mn = k\r\n    for msk in range(1 << k):\r\n        if not backpack[msk]:\r\n            continue\r\n        ans = 0\r\n        for b in range(k):\r\n            if msk & (1 << b) == 0:\r\n                ans += 1\r\n        mn = min(mn, ans)\r\n    print(mn)\r\n \r\n \r\nt = int(input())\r\nfor _ in range(t):\r\n    solve()",
+    "prob_desc_created_at": "1665498900",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "dfs and similar",
+        "dp",
+        "flows",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

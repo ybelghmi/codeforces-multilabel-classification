@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"3\"]",
+    "src_uid": "aa0e8640f3930cfde32d98b82e789ff3",
+    "prob_desc_notes": "NoteIn the first example Oleg visiting banks by path 1 → 6 → 2 → 4.Path 1 → 6 → 2 → 7 with smaller difficulity is incorrect because crossroad 2 → 7 passes near already visited office on the crossroad 6.In the second example Oleg can visit banks by path 4 → 1 → 3.",
+    "prob_desc_description": "Bankopolis is an incredible city in which all the n crossroads are located on a straight line and numbered from 1 to n along it. On each crossroad there is a bank office.The crossroads are connected with m oriented bicycle lanes (the i-th lane goes from crossroad ui to crossroad vi), the difficulty of each of the lanes is known.Oleg the bank client wants to gift happiness and joy to the bank employees. He wants to visit exactly k offices, in each of them he wants to gift presents to the employees.The problem is that Oleg don't want to see the reaction on his gifts, so he can't use a bicycle lane which passes near the office in which he has already presented his gifts (formally, the i-th lane passes near the office on the x-th crossroad if and only if min(ui, vi) &lt; x &lt; max(ui, vi))). Of course, in each of the offices Oleg can present gifts exactly once. Oleg is going to use exactly k - 1 bicycle lane to move between offices. Oleg can start his path from any office and finish it in any office.Oleg wants to choose such a path among possible ones that the total difficulty of the lanes he will use is minimum possible. Find this minimum possible total difficulty.",
+    "prob_desc_output_spec": "In the only line print the minimum possible total difficulty of the lanes in a valid path, or -1 if there are no valid paths.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n, k ≤ 80) — the number of crossroads (and offices) and the number of offices Oleg wants to visit. The second line contains single integer m (0 ≤ m ≤ 2000) — the number of bicycle lanes in Bankopolis. The next m lines contain information about the lanes. The i-th of these lines contains three integers ui, vi and ci (1 ≤ ui, vi ≤ n, 1 ≤ ci ≤ 1000), denoting the crossroads connected by the i-th road and its difficulty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_048.jsonl",
+    "code_uid": "a9ea3b8e299e41bc2f335254da34ede1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 4\\n4\\n1 6 2\\n6 2 2\\n2 4 2\\n2 7 1\", \"4 3\\n4\\n2 1 2\\n1 3 2\\n3 4 2\\n4 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom functools import lru_cache\ninput = sys.stdin.readline\n# sys.setrecursionlimit(2 * 10**6)\n\n\ndef inpl():\n    return list(map(int, input().split()))\n\n\n@lru_cache(maxsize=None)\ndef recur(v, s, e, k):\n    \"\"\"\n    vから初めて[s, e]の都市をk個まわる最小値は？\n    \"\"\"\n    if k == 0:\n        return 0\n    elif k > e - s + 1:\n        return INF\n\n    ret = INF\n    # print(v, k)\n    for nv in edge[v]:\n        if not(s <= nv <= e):\n            continue\n\n        tmp = [0] * 2\n        if v < nv:\n            tmp[0] = recur(nv, max(s, v + 1), nv - 1, k - 1)\n            tmp[1] = recur(nv, nv + 1, e, k - 1)\n        else:\n            tmp[0] = recur(nv, s, nv - 1, k - 1)\n            tmp[1] = recur(nv, nv + 1, min(v - 1, e), k - 1)\n        # print(v, nv, tmp)\n        if min(tmp) + cost[(v, nv)] < ret:\n            ret = min(tmp) + cost[(v, nv)]\n    return ret\n\n\ndef main():\n    M = int(input())\n    U, V, C = [], [], []\n    for _ in range(M):\n        u, v, c = inpl()\n        U.append(u)\n        V.append(v)\n        C.append(c)\n\n    for u, v, c in zip(U, V, C):\n        if (u, v) in cost:\n            cost[(u, v)] = min(cost[(u, v)], c)\n        else:\n            edge[u].append(v)\n            cost[(u, v)] = c\n\n    # print(cost)\n    ans = INF\n    for v in range(N + 1):\n        for nv in edge[v]:\n            tmp = [float('inf')] * 2\n            if v < nv:\n                tmp[0] = recur(nv, nv + 1, N, K - 2)\n                tmp[1] = recur(nv, v + 1, nv - 1, K - 2)\n            else:\n                tmp[0] = recur(nv, 1, nv - 1, K - 2)\n                tmp[1] = recur(nv, nv + 1, v - 1, K - 2)\n            if min(tmp) + cost[(v, nv)] < ans:\n                ans = min(tmp) + cost[(v, nv)]\n\n    if ans == INF:\n        print(-1)\n    else:\n        print(ans)\n\n\nif __name__ == '__main__':\n    INF = float('inf')\n    N, K = inpl()\n    if K < 2:\n        print(0)\n        exit()\n    edge = [[] for _ in range(N + 1)]\n    cost = {}\n    main()\n",
+    "prob_desc_created_at": "1492965900",
+    "tags": [
+        "dp",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

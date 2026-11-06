@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "10 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"3\", \"3\"]",
+    "src_uid": "a9d6e888fdd10b4e6f2404f2b99ca5ef",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Whereas humans nowadays read fewer and fewer books on paper, book readership among marmots has surged. Heidi has expanded the library and is now serving longer request sequences.",
+    "prob_desc_output_spec": "Same as the easy version.",
+    "prob_desc_input_spec": "Same as the easy version, but the limits have changed: 1 ≤ n, k ≤ 400 000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_032.jsonl",
+    "code_uid": "339f018d233d666c15458eb213c4e14f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 100\\n1 2 2 1\", \"4 1\\n1 2 2 1\", \"4 2\\n1 2 3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport heapq\nfrom collections import namedtuple\n\nRecord = namedtuple('Record', ['index', 'book_id'])\n\nl1 = sys.stdin.readline()\nl2 = sys.stdin.readline()\n\nn, k = map(int, l1.split(' '))\nbooks = list(map(int, l2.split(' ')))\n\ncost = 0\ncache = set()\nprev = dict() # book_id -> index\nnext = [n+1] * n # index of next with the same value\ninactive_ids = set() # set of inactive object id()s\nbook_to_record = dict()\n\n\ndef serve_book(book_id, i):\n\tcache.add(book_id)\n\trecord = Record(-next[i], book_id)\n\theapq.heappush(h, record)\n\tbook_to_record[book_id] = record\n\nh = []\nfor i, book_id in enumerate(books):\n\tif book_id in prev:\n\t\tnext[prev[book_id]] = i\n\tprev[book_id] = i\n\nfor i, book_id in enumerate(books):\n\t# print(\"book_id=%s, h=%s, inactive=%s\" %(book_id, h, inactive_ids))\n\tif book_id in cache:\n\t\tprevious_record = book_to_record[book_id]\n\t\tinactive_ids.add(id(previous_record))\n\t\tserve_book(book_id, i)\n\t\t# print('--> Serve book from library ', book_id)\n\t\tcontinue\n\n\tif len(cache) < k:\n\t\tcost += 1\n\t\tserve_book(book_id, i)\n\t\t# print('--> Buy book', book_id)\n\t\tcontinue\n\n\twhile True:\n\t\titem = heapq.heappop(h)\n\t\tif id(item) in inactive_ids:\n\t\t\t# print(\"--> Ignore record\", item)\n\t\t\tinactive_ids.remove(id(item))\n\t\t\tcontinue\n\t\tcache.remove(item.book_id)\n\t\tserve_book(book_id, i)\n\t\tcost += 1\n\t\t# print('--> Throw away book', item.book_id)\n\t\t# print('--> Add book to libary', book_id)\n\t\tbreak\n\t# print(\"To evict %s\" % to_evict)\n\t\n\nprint(cost)\n\n\n\n",
+    "prob_desc_created_at": "1495958700",
+    "tags": [
+        "data structures",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

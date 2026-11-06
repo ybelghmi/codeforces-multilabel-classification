@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"-1\", \"6\", \"7237\"]",
+    "src_uid": "42d0350a0a18760ce6d0d7a4d65135ec",
+    "prob_desc_notes": "NoteIn first sample test, buying one card is not enough: for example, if you buy a card with length 100, you can't jump to any cell whose index is not a multiple of 100. The best way is to buy first and second card, that will make you be able to jump to any cell.In the second sample test, even if you buy all cards, you can't jump to any cell whose index is not a multiple of 10, so you should output -1.",
+    "prob_desc_description": "Fox Ciel is playing a game. In this game there is an infinite long tape with cells indexed by integers (positive, negative and zero). At the beginning she is standing at the cell 0.There are also n cards, each card has 2 attributes: length li and cost ci. If she pays ci dollars then she can apply i-th card. After applying i-th card she becomes able to make jumps of length li, i. e. from cell x to cell (x - li) or cell (x + li).She wants to be able to jump to any cell on the tape (possibly, visiting some intermediate cells). For achieving this goal, she wants to buy some cards, paying as little money as possible. If this is possible, calculate the minimal cost.",
+    "prob_desc_output_spec": "If it is impossible to buy some cards and become able to jump to any cell, output -1. Otherwise output the minimal cost of buying such set of cards.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 300), number of cards. The second line contains n numbers li (1 ≤ li ≤ 109), the jump lengths of cards. The third line contains n numbers ci (1 ≤ ci ≤ 105), the costs of cards.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_042.jsonl",
+    "code_uid": "bcc042319447dc20ed76302950868889",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n100 99 9900\\n1 1 1\", \"5\\n10 20 30 40 50\\n1 1 1 1 1\", \"7\\n15015 10010 6006 4290 2730 2310 1\\n1 1 1 1 1 1 10\", \"8\\n4264 4921 6321 6984 2316 8432 6120 1026\\n4264 4921 6321 6984 2316 8432 6120 1026\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python\n#-*- coding:utf-8 -*-\n\nimport sys\nimport math\nimport random\nimport operator\nfrom fractions import Fraction, gcd\nfrom decimal import Decimal, getcontext\nfrom itertools import product, permutations, combinations\ngetcontext().prec = 100\n\ndef gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a\n\nMOD = 10**9 + 7\nINF = float(\"+inf\")\n\nn = int(raw_input())\n\narr = map(int, raw_input().split())\narr_costs = map(int, raw_input().split())\ncosts = {}\nfor i, c in enumerate(arr):\n    costs[c] = min(arr_costs[i], costs.get(c, INF))\n\nmin_cost = sum(arr_costs)\n\nfor i in xrange(100):\n    lst = arr[::]\n    random.shuffle(lst)\n    r = 0\n    cost = 0\n    for x in lst:\n        r0 = r\n        r = gcd(r, x)\n        if r != r0:\n            cost += costs[x]\n        if r == 1:\n            break\n    if cost < min_cost:\n        min_cost = cost\n\nif reduce(gcd, arr, 0) != 1:\n    print -1\n    quit()\n\ng_min_cost = {0: 0}\nfrom Queue import PriorityQueue\nq = PriorityQueue()\nq.put((0, 0))\nchecked = set()\nwhile not q.empty():\n    cost, g = q.get()\n    # print cost, g\n    if g_min_cost[g] != cost:\n        continue\n    checked.add((cost, g))\n\n    for x in arr:\n        cost2 = cost + costs[x]\n        if cost2 >= min_cost:\n            continue\n        g2 = int(abs(gcd(g, x)))\n        if g2 == g:\n            continue\n        if g2 == 1:\n            min_cost = min(min_cost, cost2)\n            continue\n\n        if g_min_cost.get(g2, INF) > cost2:\n            g_min_cost[g2] = cost2\n            q.put((cost2, g2))\n        # if (cost2, g2) not in checked:\n\nprint min_cost\n",
+    "prob_desc_created_at": "1422894600",
+    "tags": [
+        "dp",
+        "number theory",
+        "math",
+        "shortest paths",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

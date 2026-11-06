@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"? 1 2\\n\\n? 12 4\\n\\n! 4\\n? 2000000000 1999999999\\n\\n! 1000000000\"]",
+    "src_uid": "442015fe13f7f75876d7163f438960d8",
+    "prob_desc_notes": "NoteThe first hidden number is $$$4$$$, that's why the answers for the queries are:\"? 1 2\" — $$$\\gcd(4 + 1, 4 + 2) = \\gcd(5, 6) = 1$$$.\"? 12 4\" — $$$\\gcd(4 + 12, 4 + 4) = \\gcd(16, 8) = 8$$$.The second hidden number is $$$10^9$$$, that's why the answer for the query is:\"? 2000000000 1999999999\" — $$$\\gcd(3 \\cdot 10^9, 3 \\cdot 10^9 - 1) = 1$$$.These queries are made only for understanding the interaction and are not enough for finding the true $$$x$$$.",
+    "prob_desc_description": "This is an interactive problem.There is a positive integer $$$1 \\le x \\le 10^9$$$ that you have to guess.In one query you can choose two positive integers $$$a \\neq b$$$. As an answer to this query you will get $$$\\gcd(x + a, x + b)$$$, where $$$\\gcd(n, m)$$$ is the greatest common divisor of the numbers $$$n$$$ and $$$m$$$.To guess one hidden number $$$x$$$ you are allowed to make no more than $$$30$$$ queries.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line of input contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) denoting the number of test cases. The integer $$$x$$$ that you have to guess satisfies the constraints: ($$$1 \\le x \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_096.jsonl",
+    "code_uid": "d84f7b54b5f8bdc02ef65d0d65f2640f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n1\\n\\n8\\n\\n\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "if True:\r\n    from math import gcd\r\n    from sys import stdout\r\n    t = int(input())\r\n    for _ in range(t):\r\n        num = 0\r\n        for i in range(30):\r\n            print(f'? {2**i-num} {3*2**i-num}')\r\n            stdout.flush()\r\n            if int(input()) == 2**(i+1):\r\n                num += 2**i\r\n        print(f'! {num}')\r\n",
+    "prob_desc_created_at": "1649428500",
+    "tags": [
+        "bitmasks",
+        "chinese remainder theorem",
+        "constructive algorithms",
+        "games",
+        "interactive",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

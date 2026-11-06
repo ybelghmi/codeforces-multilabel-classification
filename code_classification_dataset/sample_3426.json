@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"16\", \"0\", \"18716\"]",
+    "src_uid": "47a8fd4c1f4e7b1d4fd15fbaf5f6fda8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Imagine that your city is an infinite 2D plane with Cartesian coordinate system. The only crime-affected road of your city is the x-axis. Currently, there are n criminals along the road. No police station has been built on this road yet, so the mayor wants to build one.As you are going to be in charge of this new police station, the mayor has asked you to choose a suitable position (some integer point) for building it. You should choose the best position for the police station, so that you could minimize the total time of your criminal catching mission. Your mission of catching the criminals will operate only from this station. The new station will have only one patrol car. You will go to the criminals by this car, carry them on the car, bring them back to the police station and put them in prison. The patrol car can carry at most m criminals at a time. Note that, the criminals don't know about your mission. So, they will stay where they are instead of running away.Your task is to find the position for the police station, so that total distance you need to cover to catch all the criminals will be minimum possible. Note that, you also can built the police station on the positions where one or more criminals already exist. In such a case all these criminals are arrested instantly.",
+    "prob_desc_output_spec": "Print a single integer, that means the minimum possible distance you need to cover to catch all the criminals.",
+    "prob_desc_input_spec": "The first line of the input will have two integers n (1 ≤ n ≤ 106) and m (1 ≤ m ≤ 106) separated by spaces. The next line will contain n integers separated by spaces. The ith integer is the position of the ith criminal on the x-axis. Absolute value of positions will not exceed 109. If a criminal has position x, he/she is located in the point (x, 0) of the plane.  The positions of the criminals will be given in non-decreasing order. Note, that there can be more than one criminal standing at some point of the plane. Note: since the size of the input/output could be very large, don't use slow input/output techniques in your language. For example, do not use input/output streams (cin, cout) in C++.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_059.jsonl",
+    "code_uid": "465864721312b41ec9b5ec83aeb0c216",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 6\\n1 2 3\", \"5 5\\n-7 -6 -3 -1 1\", \"1 369\\n0\", \"11 2\\n-375 -108 1336 1453 1598 1892 2804 3732 4291 4588 4822\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int,raw_input().split())\nC = map(int,raw_input().split())\n\nres,l = 0, 0\nwhile l < n:\n    res = res + C[n - 1] - C[l]\n    l,n = l + m, n - m\n\nprint res*2\n",
+    "prob_desc_created_at": "1399044600",
+    "tags": [
+        "implementation",
+        "greedy",
+        "ternary search",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

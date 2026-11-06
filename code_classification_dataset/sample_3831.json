@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"-1\"]",
+    "src_uid": "292bd9788a0d5d4a19a1924302f04feb",
+    "prob_desc_notes": "NoteExplanation for the first sample:  In the first operation, Mashtali can choose vertex $$$1$$$ and eliminate players with colors red and blue. In the second operation, he can choose vertex $$$6$$$ and eliminate the player with orange color. In the second sample, Mashtali can't eliminate the first player.",
+    "prob_desc_description": "After watching the new over-rated series Squid Game, Mashtali and Soroush decided to hold their own Squid Games! Soroush agreed to be the host and will provide money for the winner's prize, and Mashtali became the Front Man!$$$m$$$ players registered to play in the games to win the great prize, but when Mashtali found out how huge the winner's prize is going to be, he decided to kill eliminate all the players so he could take the money for himself!Here is how evil Mashtali is going to eliminate players:There is an unrooted tree with $$$n$$$ vertices. Every player has $$$2$$$ special vertices $$$x_i$$$ and $$$y_i$$$.In one operation, Mashtali can choose any vertex $$$v$$$ of the tree. Then, for each remaining player $$$i$$$ he finds a vertex $$$w$$$ on the simple path from $$$x_i$$$ to $$$y_i$$$, which is the closest to $$$v$$$. If $$$w\\ne x_i$$$ and $$$w\\ne y_i$$$, player $$$i$$$ will be eliminated.Now Mashtali wondered: \"What is the minimum number of operations I should perform so that I can remove every player from the game and take the money for myself?\"Since he was only thinking about the money, he couldn't solve the problem by himself and asked for your help!",
+    "prob_desc_output_spec": "Print the minimum number of operations Mashtali has to perform. If there is no way for Mashtali to eliminate all the players, print $$$-1$$$.",
+    "prob_desc_input_spec": "The first line contains $$$2$$$ integer $$$n$$$ and $$$m$$$ $$$(1 \\le n, m \\le 3 \\cdot 10^5)$$$ — the number of vertices of the tree and the number of players. The second line contains $$$n-1$$$ integers $$$par_2, par_3, \\ldots, par_n$$$ $$$(1 \\le par_i &lt; i)$$$ — denoting an edge between node $$$i$$$ and $$$par_i$$$. The $$$i$$$-th of the following $$$m$$$ lines contains two integers $$$x_i$$$ and $$$y_i$$$ $$$(1 \\le x_i, y_i \\le n, x_i \\ne y_i)$$$ — the special vertices of the $$$i$$$-th player.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 3100,
+    "file_name": "train_085.jsonl",
+    "code_uid": "02fbad03a9b230c937030302b38ed539",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3\\n1 1 1 4 4\\n1 5\\n3 4\\n2 6\", \"5 3\\n1 1 3 3\\n1 2\\n1 4\\n1 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nraw_input = iter(sys.stdin.read().splitlines()).next\r\n\r\ndef iter_dfs(adj):\r\n    L, R, D = [[1]*(len(adj)) for _ in xrange(3)]\r\n    cnt = -1\r\n    stk = [(1, ROOT)]\r\n    while stk:\r\n        step, i = stk.pop()\r\n        if step == 1:\r\n            stk.append((2, i))\r\n            cnt += 1\r\n            L[i] = cnt\r\n            for j in reversed(adj[i]):\r\n                D[j] = D[i]+1\r\n                stk.append((1, j))\r\n        elif step == 2:\r\n            R[i] = cnt\r\n    return L, R, D\r\n\r\ndef iter_dfs2(adj, up, D):\r\n    dp, dp2 = [[0]*(len(adj)) for _ in xrange(2)]\r\n    stk = [(1, ROOT)]\r\n    while stk:\r\n        step, i = stk.pop()\r\n        if step == 1:\r\n            stk.append((2, i))\r\n            for j in reversed(adj[i]):\r\n                stk.append((1, j))\r\n        elif step == 2:\r\n            for j in adj[i]:\r\n                if not dp[j]:\r\n                    if not dp[i]:\r\n                        dp2[i] = max(dp2[i], dp2[j], up[j])\r\n                    continue\r\n                dp2[i] = max(dp2[j], up[j]) if not dp[i] else 0\r\n                dp[i] += dp[j]\r\n            if dp2[i] == D[i]:\r\n                dp2[i] = 0\r\n                dp[i] += 1\r\n    return dp\r\n\r\ndef solution():\r\n    n, m = map(int, raw_input().strip().split())\r\n    par = map(int, raw_input().strip().split())\r\n    adj = [[] for _ in xrange(n)]\r\n    for i, p in enumerate(par, 1):\r\n        adj[p-1].append(i)\r\n    L, R, D = iter_dfs(adj)\r\n    up, cross = [0]*n, []\r\n    for _ in xrange(m):\r\n        x, y = map(int, raw_input().strip().split())\r\n        x, y = x-1, y-1\r\n        if L[x] > L[y]:\r\n            x, y = y, x\r\n        if R[y] <= R[x]:\r\n            if D[y] == D[x]+1:\r\n                return -1\r\n            up[y] = max(up[y], D[x]+1)\r\n        else:\r\n            cross.append((x, y))\r\n    dp = iter_dfs2(adj, up, D)\r\n    return dp[ROOT]+ any(dp[x]+dp[y] == dp[ROOT] for x, y in cross)\r\n\r\nROOT = 0\r\nprint '%s' % solution()",
+    "prob_desc_created_at": "1637678100",
+    "tags": [
+        "data structures",
+        "dfs and similar",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

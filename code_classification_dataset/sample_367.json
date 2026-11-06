@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1/6\\n7/30\"]",
+    "src_uid": "f4c743af8e8a1f90b74a27ca9bbc8b7b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Let's assume that   v(n) is the largest prime number, that does not exceed n; u(n) is the smallest prime number strictly greater than n. Find .",
+    "prob_desc_output_spec": "Print t lines: the i-th of them must contain the answer to the i-th test as an irreducible fraction \"p/q\", where p, q are integers, q &gt; 0.",
+    "prob_desc_input_spec": "The first line contains integer t (1 ≤ t ≤ 500) — the number of testscases.  Each of the following t lines of the input contains integer n (2 ≤ n ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": null,
+    "file_name": "train_001.jsonl",
+    "code_uid": "86fdc66c4e439679e2f17b127c381fc3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "T = int( input() )\n\n#for every prime x\n#(b-a)/ab\n#1/a-1/b\n\nMAX = 33000\n\nbePrime = [0] * MAX;\nprimNum = []\n\nfor j in range(2, MAX):\n    if bePrime[j] == 0: \n        primNum.append( j )\n        i = j\n        while i < MAX:\n            bePrime[i] = 1\n            i = i + j\n\ndef isPrime( a ):\n    for j in primNum:\n        if j >= a:\n            return True\n        if a % j == 0:\n            return False\n    return True\n\ndef gcd( a, b ):\n    if b == 0:\n        return a\n    return gcd( b, a % b );\n\nwhile T > 0:\n    num = 0;\n    n = int( input() )\n\n    m = n\n    while isPrime(m) == False:\n        m -= 1\n    while isPrime(n + 1) == False:\n        n += 1\n        num += 1\n\n    a = n - 1\n    b = 2 * ( n+1 )\n\n    a = a * (n+1) * m - num * b\n    b = b * (n+1) * m\n\n    g = gcd( a, b)\n    a //= g\n    b //= g\n\n\n    print( '{0}/{1}'.format( a, b  ) )\n    T -= 1;\n",
+    "prob_desc_created_at": "1393428600",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

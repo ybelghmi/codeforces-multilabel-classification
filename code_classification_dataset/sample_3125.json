@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n1\\n1 3\"]",
+    "src_uid": "bbcb051b08fa3d19a7cf285242d50451",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Hexadecimal likes drawing. She has drawn many graphs already, both directed and not. Recently she has started to work on a still-life «interesting graph and apples». An undirected graph is called interesting, if each of its vertices belongs to one cycle only — a funny ring — and does not belong to any other cycles. A funny ring is a cycle that goes through all the vertices just once. Moreover, loops are funny rings too.She has already drawn the apples and some of the graph edges. But now it is not clear, how to connect the rest of the vertices to get an interesting graph as a result. The answer should contain the minimal amount of added edges. And furthermore, the answer should be the lexicographically smallest one. The set of edges (x1, y1), (x2, y2), ..., (xn, yn), where xi ≤ yi, is lexicographically smaller than the set (u1, v1), (u2, v2), ..., (un, vn), where ui ≤ vi, provided that the sequence of integers x1, y1, x2, y2, ..., xn, yn is lexicographically smaller than the sequence u1, v1, u2, v2, ..., un, vn. If you do not cope, Hexadecimal will eat you. ...eat you alive.",
+    "prob_desc_output_spec": "In the first line output «YES» or «NO»: if it is possible or not to construct an interesting graph. If the answer is «YES», in the second line output k — the amount of edges that should be added to the initial graph. Finally, output k lines: pairs of vertices xj and yj, between which edges should be drawn. The result may contain multiple edges and loops. k can be equal to zero.",
+    "prob_desc_input_spec": "The first line of the input data contains a pair of integers n and m (1 ≤ n ≤ 50, 0 ≤ m ≤ 2500) — the amount of vertices and edges respectively. The following lines contain pairs of numbers xi and yi (1 ≤ xi, yi ≤ n) — the vertices that are already connected by edges. The initial graph may contain multiple edges and loops.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_043.jsonl",
+    "code_uid": "09f449f8cf745ed652fbf2c2f3523e67",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 2\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from itertools import *\n\nread = lambda: map(int, raw_input().split())\n\ndef check_deg():\n    for i in xrange(n):\n        if deg[i] > 2:\n            return False\n    return True\n\ndef check_cycle():\n    def cycle(u):\n        mk.add(u)\n        for v in xrange(n):\n            if g[u][v]:\n                g[u][v] -= 1\n                g[v][u] -= 1\n                if v in mk or cycle(v):\n                    return True\n        return False\n\n    mk = set()\n    cycle_num = 0\n    for i in xrange(n):\n        if i in mk:\n            continue\n        if cycle(i):\n            cycle_num += 1\n    if cycle_num == 1 and deg.count(2) == n:\n        return True\n    return cycle_num == 0\n\ndef root(u):\n    global f\n    r = u\n    while f[r] != r: r = f[r]\n    while f[u] != r: f[u], u = r, f[u]\n    return r\n\nn, m = read()\ng = [[0] * n for i in xrange(n)]\ndeg = [0] * n\nf = range(n)\nfor i in xrange(m):\n    u, v = read()\n    u -= 1\n    v -= 1\n    deg[u] += 1\n    deg[v] += 1\n    g[u][v] += 1\n    g[v][u] += 1\n    f[root(u)] = root(v)\n\nif m > n or not check_deg() or not check_cycle():\n    print 'NO'\nelse:\n    print 'YES'\n    print n - m\n\n    if n == 1 and n - m > 0:\n        print '1 1'\n        exit(0)\n\n    for i in xrange(n - m):\n        for u, v in combinations(xrange(n), 2):\n            if deg[u] < 2 and deg[v] < 2 and root(u) != root(v):\n                print u + 1, v + 1\n                deg[u] += 1\n                deg[v] += 1\n                f[root(u)] = root(v)\n                break\n    for u, v in combinations(xrange(n), 2):\n        if deg[u] < 2 and deg[v] < 2:\n            print u + 1, v + 1\n            deg[u] += 1\n            deg[v] += 1\n",
+    "prob_desc_created_at": "1270983600",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

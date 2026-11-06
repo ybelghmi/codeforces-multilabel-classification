@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"144\", \"48\", \"4\", \"9\"]",
+    "src_uid": "c9b4ff8729ab152b7c58dd9fdb5d89a7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have a large rectangular board which is divided into $$$n \\times m$$$ cells (the board has $$$n$$$ rows and $$$m$$$ columns). Each cell is either white or black.You paint each white cell either red or blue. Obviously, the number of different ways to paint them is $$$2^w$$$, where $$$w$$$ is the number of white cells.After painting the white cells of the board, you want to place the maximum number of dominoes on it, according to the following rules:  each domino covers two adjacent cells;  each cell is covered by at most one domino;  if a domino is placed horizontally (it covers two adjacent cells in one of the rows), it should cover only red cells;  if a domino is placed vertically (it covers two adjacent cells in one of the columns), it should cover only blue cells. Let the value of the board be the maximum number of dominoes you can place. Calculate the sum of values of the board over all $$$2^w$$$ possible ways to paint it. Since it can be huge, print it modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_output_spec": "Print one integer — the sum of values of the board over all $$$2^w$$$ possible ways to paint it, taken modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 3 \\cdot 10^5$$$; $$$nm \\le 3 \\cdot 10^5$$$) — the number of rows and columns, respectively. Then $$$n$$$ lines follow, each line contains a string of $$$m$$$ characters. The $$$j$$$-th character in the $$$i$$$-th string is * if the $$$j$$$-th cell in the $$$i$$$-th row is black; otherwise, that character is o.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_089.jsonl",
+    "code_uid": "fa702afe87e2c0e29056f9360786072d",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\n**oo\\noo*o\\n**oo\", \"3 4\\n**oo\\noo**\\n**oo\", \"2 2\\noo\\no*\", \"1 4\\noooo\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys \r\ninput = sys.stdin.readline\r\nI = lambda : list(map(int,input().split()))\r\n\r\n\r\nn,m = I()\r\nl = []\r\nw = 0\r\nmod = 998244353\r\nan = 0\r\nN = 3*10**5 + 20\r\ndp = [0]*(N)\r\ns = prev = dp[2] = 1\r\n\r\nfor i in range(n):\r\n    l.append(input().strip())\r\n    w += l[-1].count('o')\r\n\r\nfor i in range(w-2):\r\n\tdp[i+3] = (2*prev + s) % mod\r\n\tif (i & 1): s = (s * 2 - 1) % mod\r\n\telse: s = (s * 2 + 1) % mod\r\n\tprev = dp[i+3]\r\n\tdp[i+3] = (dp[i+3]*pow(2,w-2-i-1,mod))%mod\r\n\r\ndp[2] = (dp[2]*pow(2,w-2,mod) if w>=2 else 0)%mod\r\n\r\nfor i in range(n):\r\n    ct = 0\r\n    for j in range(m):\r\n        if l[i][j] == 'o':\r\n            ct+=1\r\n        else:\r\n            an = (an + dp[ct])%mod\r\n            ct=0\r\n    an = (an + dp[ct])%mod\r\n    \r\nfor j in range(m):\r\n    ct = 0\r\n    for i in range(n):\r\n        if l[i][j] == 'o':\r\n            ct+=1\r\n        else:\r\n            an = (an + dp[ct])%mod\r\n            ct=0\r\n    an = (an + dp[ct])%mod\r\n\r\nprint(an)\r\n    ",
+    "prob_desc_created_at": "1618238100",
+    "tags": [
+        "combinatorics",
+        "dp",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

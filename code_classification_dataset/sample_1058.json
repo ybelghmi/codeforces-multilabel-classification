@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"13\"]",
+    "src_uid": "5adb1cf0529c3d6c93c107cf72fa5e0b",
+    "prob_desc_notes": "NoteIn the sample he needs 13 moves:  1 disk:   2 disk:   3 disk:   4 disk:   5 disk:  ",
+    "prob_desc_description": "Scrooge McDuck keeps his most treasured savings in a home safe with a combination lock. Each time he wants to put there the treasures that he's earned fair and square, he has to open the lock.  The combination lock is represented by n rotating disks with digits from 0 to 9 written on them. Scrooge McDuck has to turn some disks so that the combination of digits on the disks forms a secret combination. In one move, he can rotate one disk one digit forwards or backwards. In particular, in one move he can go from digit 0 to digit 9 and vice versa. What minimum number of actions does he need for that?",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of moves Scrooge McDuck needs to open the lock.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 1000) — the number of disks on the combination lock. The second line contains a string of n digits — the original state of the disks. The third line contains a string of n digits — Scrooge McDuck's combination that opens the lock.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_006.jsonl",
+    "code_uid": "7319c769364e5947219e386da738b936",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n82195\\n64723\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def my_function(no_of_disks=5, current_state=82195, unlock_state=64723):\n    solution = 0\n    for i in range(no_of_disks):\n        x = abs(int(current_state[i]) - int(unlock_state[i]))\n        y = abs(10 + int(current_state[i]) - (int(unlock_state[i])))\n        z = abs(int(current_state[i]) - (10 + int(unlock_state[i])))\n        solution += min(x, y, z)\n    print solution\n\n\nno_of_disks = int(raw_input())\ncurrent_state = raw_input()\nunlock_state = raw_input()\nmy_function(no_of_disks, current_state, unlock_state)\n",
+    "prob_desc_created_at": "1430411400",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

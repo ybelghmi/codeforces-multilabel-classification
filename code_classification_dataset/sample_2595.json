@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n0 0\\n1 0\\n2 0\\n0 1\\n1 1\", \"NO\"]",
+    "src_uid": "ad186f6df24d31243cde541b7fc69a8c",
+    "prob_desc_notes": "NoteIn the first sample, point (2, 0) gets number 3, point (0, 0) gets number one, point (1, 0) gets number 2, point (1, 1) gets number 5 and point (0, 1) gets number 4. One can easily check that this numbering is aesthetically pleasing and yi - xi = wi.In the second sample, the special values of the points in the set are 0,  - 1, and  - 2 while the sequence that the friend gives to Wilbur is 0, 1, 2. Therefore, the answer does not exist.",
+    "prob_desc_description": "Wilbur is playing with a set of n points on the coordinate plane. All points have non-negative integer coordinates. Moreover, if some point (x, y) belongs to the set, then all points (x', y'), such that 0 ≤ x' ≤ x and 0 ≤ y' ≤ y also belong to this set.Now Wilbur wants to number the points in the set he has, that is assign them distinct integer numbers from 1 to n. In order to make the numbering aesthetically pleasing, Wilbur imposes the condition that if some point (x, y) gets number i, then all (x',y') from the set, such that x' ≥ x and y' ≥ y must be assigned a number not less than i. For example, for a set of four points (0, 0), (0, 1), (1, 0) and (1, 1), there are two aesthetically pleasing numberings. One is 1, 2, 3, 4 and another one is 1, 3, 2, 4.Wilbur's friend comes along and challenges Wilbur. For any point he defines it's special value as s(x, y) = y - x. Now he gives Wilbur some w1, w2,..., wn, and asks him to find an aesthetically pleasing numbering of the points in the set, such that the point that gets number i has it's special value equal to wi, that is s(xi, yi) = yi - xi = wi.Now Wilbur asks you to help him with this challenge.",
+    "prob_desc_output_spec": "If there exists an aesthetically pleasant numbering of points in the set, such that s(xi, yi) = yi - xi = wi, then print \"YES\" on the first line of the output. Otherwise, print \"NO\". If a solution exists, proceed output with n lines. On the i-th of these lines print the point of the set that gets number i. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The first line of the input consists of a single integer n (1 ≤ n ≤ 100 000) — the number of points in the set Wilbur is playing with. Next follow n lines with points descriptions. Each line contains two integers x and y (0 ≤ x, y ≤ 100 000), that give one point in Wilbur's set. It's guaranteed that all points are distinct. Also, it is guaranteed that if some point (x, y) is present in the input, then all points (x', y'), such that 0 ≤ x' ≤ x and 0 ≤ y' ≤ y, are also present in the input. The last line of the input contains n integers. The i-th of them is wi ( - 100 000 ≤ wi ≤ 100 000) — the required special value of the point that gets number i in any aesthetically pleasing numbering.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_025.jsonl",
+    "code_uid": "bc8cdd67d4b6065a8b46d8c138a5c400",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 0\\n0 0\\n1 0\\n1 1\\n0 1\\n0 -1 -2 1 0\", \"3\\n1 0\\n0 0\\n2 0\\n0 1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "R=lambda:map(int, raw_input().split())\nn=input()\na=sorted([R() for i in range(n)], key=lambda x:(x[1]-x[0],x[0]))\nb=sorted(zip(R(),range(1,n+1)))\nif all(map(lambda i:a[i][1]-a[i][0]==b[i][0] and b[i][1]>=(a[i][0]+1)*(a[i][1]+1),range(n))):\n    print 'YES'\n    c=[0]*n\n    for i in range(n): c[b[i][1]-1]=a[i]\n    for i in range(n): print c[i][0], c[i][1]\nelse:\n    print 'NO'\n",
+    "prob_desc_created_at": "1447605300",
+    "tags": [
+        "combinatorics",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

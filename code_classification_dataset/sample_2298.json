@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6\\n4\\n10\", \"8\"]",
+    "src_uid": "cfdcfe449868ed50516f0895bf6a66e1",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Igor is in the museum and he wants to see as many pictures as possible.Museum can be represented as a rectangular field of n × m cells. Each cell is either empty or impassable. Empty cells are marked with '.', impassable cells are marked with '*'. Every two adjacent cells of different types (one empty and one impassable) are divided by a wall containing one picture.At the beginning Igor is in some empty cell. At every moment he can move to any empty cell that share a side with the current one.For several starting positions you should calculate the maximum number of pictures that Igor can see. Igor is able to see the picture only if he is in the cell adjacent to the wall with this picture. Igor have a lot of time, so he will examine every picture he can see.",
+    "prob_desc_output_spec": "Print k integers — the maximum number of pictures, that Igor can see if he starts in corresponding position.",
+    "prob_desc_input_spec": "First line of the input contains three integers n, m and k (3 ≤ n, m ≤ 1000, 1 ≤ k ≤ min(n·m, 100 000)) — the museum dimensions and the number of starting positions to process. Each of the next n lines contains m symbols '.', '*' — the description of the museum. It is guaranteed that all border cells are impassable, so Igor can't go out from the museum. Each of the last k lines contains two integers x and y (1 ≤ x ≤ n, 1 ≤ y ≤ m) — the row and the column of one of Igor's starting positions respectively. Rows are numbered from top to bottom, columns — from left to right. It is guaranteed that all starting positions are empty cells.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_020.jsonl",
+    "code_uid": "82409ff7d8fb92343df7d47d144e2cfa",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 6 3\\n******\\n*..*.*\\n******\\n*....*\\n******\\n2 2\\n2 5\\n4 3\", \"4 4 1\\n****\\n*..*\\n*.**\\n****\\n3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom queue import deque\n\n# sys.stdin = open('ivo.in')\n\nmove = [(0, 1), (1, 0), (0, -1), (-1, 0)]\nn, m, k = map(int, sys.stdin.readline().split())\n\na = []\nfor i in range(n):\n    a.append(sys.stdin.readline().rstrip())\n\n\nvisited = []\nvalues = []\nfor x in range(n):\n    visited.append([])\n    values.append([])\n    for y in range(m):\n        visited[x].append(False)\n        values[x].append(0)\n\n\nfor x in range(n):\n    for y in range(m):\n        if a[x][y] == '*' or visited[x][y]:\n            continue\n        q = deque()\n        visited[x][y] = True\n        q.append((x, y))\n        sum = 0\n        connected = [(x, y)]\n        while len(q) != 0:\n            cur = q.pop()\n            for l in move:\n                tx = cur[0] + l[0]\n                ty = cur[1] + l[1]\n                if tx < 0 or tx >= n or ty < 0 or ty >= m:\n                    continue\n                if a[tx][ty] == '.' and visited[tx][ty]:\n                    continue\n                if a[tx][ty] == '*':\n                    sum += 1\n                    continue\n                q.append((tx, ty))\n                visited[tx][ty] = True\n                connected.append((tx, ty))\n        for c in connected:\n            values[c[0]][c[1]] = sum\n\nfor i in range(k):\n    x, y = map(int, sys.stdin.readline().split())\n    print(values[x - 1][y - 1])",
+    "prob_desc_created_at": "1447426800",
+    "tags": [
+        "graphs",
+        "dfs and similar",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

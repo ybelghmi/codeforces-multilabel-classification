@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"8\"]",
+    "src_uid": "3b7cafc280a9b0dba567863c80b978b0",
+    "prob_desc_notes": "NoteIn the second example, there are six one-element sets. Additionally, there are two two-element sets, the first one consists of the first and the third cells of the first row, the second one consists of the first and the third cells of the second row. To sum up, there are 8 sets.",
+    "prob_desc_description": "You are given n × m table. Each cell of the table is colored white or black. Find the number of non-empty sets of cells such that:  All cells in a set have the same color.  Every two cells in a set share row or column. ",
+    "prob_desc_output_spec": "Output single integer  — the number of non-empty sets from the problem description.",
+    "prob_desc_input_spec": "The first line of input contains integers n and m (1 ≤ n, m ≤ 50) — the number of rows and the number of columns correspondingly. The next n lines of input contain descriptions of rows. There are m integers, separated by spaces, in each line. The number equals 0 if the corresponding cell is colored white and equals 1 if the corresponding cell is colored black.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_015.jsonl",
+    "code_uid": "0a5a4486701e3377db660db3213414ac",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\\n0\", \"2 3\\n1 0 1\\n0 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m = map(int, raw_input().split(\" \"))\na =[]\nfor i in range(n):\n    b = map(int, raw_input().split(\" \"))\n    a.append(b)\nans=0\nfor i in range(n):\n    d={1:0, 0:0}\n    for j in a[i]:\n        if j==0:\n            d[0]+=1\n        else:\n            d[1]+=1\n    ans+=pow(2,d[0])-1\n    ans+=pow(2,d[1])-1\nc =[[] for i in range(m)]\nfor i in range(m):\n    for j in range(n):\n        c[i].append(a[j][i])\nfor i in range(m):\n    d={1:0, 0:0}\n    for j in c[i]:\n        if j==0:\n            d[0]+=1\n        else:\n            d[1]+=1\n    ans+=pow(2,d[0])-1\n    ans+=pow(2,d[1])-1\nans-=(n*m)\nprint ans",
+    "prob_desc_created_at": "1503592500",
+    "tags": [
+        "combinatorics",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

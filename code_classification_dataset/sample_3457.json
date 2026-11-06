@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"6\", \"16\", \"477\"]",
+    "src_uid": "003625f24c301df2530f79f419f72b44",
+    "prob_desc_notes": "NoteIn the first sample Koa can obtain binary strings: $$$0$$$, $$$00$$$ and $$$000$$$.In the second sample Koa can obtain binary strings: $$$1$$$, $$$01$$$, $$$11$$$, $$$011$$$, $$$101$$$ and $$$0101$$$. For example:  to obtain $$$01$$$ from $$$0101$$$ Koa can operate as follows: $$$0101 \\rightarrow 0(10)1 \\rightarrow 011 \\rightarrow 0(11) \\rightarrow 01$$$.  to obtain $$$11$$$ from $$$0101$$$ Koa can operate as follows: $$$0101 \\rightarrow (01)01 \\rightarrow 101 \\rightarrow 1(01) \\rightarrow 11$$$. Parentheses denote the two positions Koa selected in each operation.",
+    "prob_desc_description": "Koa the Koala has a binary string $$$s$$$ of length $$$n$$$. Koa can perform no more than $$$n-1$$$ (possibly zero) operations of the following form:In one operation Koa selects positions $$$i$$$ and $$$i+1$$$ for some $$$i$$$ with $$$1 \\le i &lt; |s|$$$ and sets $$$s_i$$$ to $$$max(s_i, s_{i+1})$$$. Then Koa deletes position $$$i+1$$$ from $$$s$$$ (after the removal, the remaining parts are concatenated).Note that after every operation the length of $$$s$$$ decreases by $$$1$$$.How many different binary strings can Koa obtain by doing no more than $$$n-1$$$ (possibly zero) operations modulo $$$10^9+7$$$ ($$$1000000007$$$)?",
+    "prob_desc_output_spec": "On a single line print the answer to the problem modulo $$$10^9+7$$$ ($$$1000000007$$$).",
+    "prob_desc_input_spec": "The only line of input contains binary string $$$s$$$ ($$$1 \\le |s| \\le 10^6$$$). For all $$$i$$$ ($$$1 \\le i \\le |s|$$$) $$$s_i = 0$$$ or $$$s_i = 1$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_060.jsonl",
+    "code_uid": "4311889bf51540c0aab69e1756e30723",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"000\", \"0101\", \"0001111\", \"00101100011100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s = raw_input()\nn = len(s)\nh = [0] * n\nfor i, c in enumerate(s):\n    if c == '0':\n        if i > 0:\n            h[i] = h[i - 1]\n        h[i] += 1\n\ndp = [0] * (n + 2)\nnxt = [n] * (n + 2)\nmod = 10 ** 9 + 7\nfor i in xrange(n - 1, -1, -1):\n    dp[i] = (int(h[i] <= h[-1]) + dp[nxt[0]] + dp[nxt[h[i] + 1]]) % mod\n    nxt[h[i]] = i\n\nif nxt[0] == n:\n    print n\nelse:\n    print (nxt[0] + 1) * dp[nxt[0]] % mod\n",
+    "prob_desc_created_at": "1595601300",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

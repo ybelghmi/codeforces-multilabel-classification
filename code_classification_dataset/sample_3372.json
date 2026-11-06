@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"123+45=168\", \"0+9=9\", \"1+99=100\", \"123123123+456456456=579579579\"]",
+    "src_uid": "ae34b6eda34df321a16e272125fb247b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A correct expression of the form a+b=c was written; a, b and c are non-negative integers without leading zeros. In this expression, the plus and equally signs were lost. The task is to restore the expression. In other words, one character '+' and one character '=' should be inserted into given sequence of digits so that:   character'+' is placed on the left of character '=',  characters '+' and '=' split the sequence into three non-empty subsequences consisting of digits (let's call the left part a, the middle part — b and the right part — c),  all the three parts a, b and c do not contain leading zeros,  it is true that a+b=c. It is guaranteed that in given tests answer always exists.",
+    "prob_desc_output_spec": "Output the restored expression. If there are several solutions, you can print any of them. Note that the answer at first should contain two terms (divided with symbol '+'), and then the result of their addition, before which symbol'=' should be.  Do not separate numbers and operation signs with spaces. Strictly follow the output format given in the examples. If you remove symbol '+' and symbol '=' from answer string you should get a string, same as string from the input data.",
+    "prob_desc_input_spec": "The first line contains a non-empty string consisting of digits. The length of the string does not exceed 106.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_055.jsonl",
+    "code_uid": "96493dc2da88fd0c81271d4cfa4e568a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"12345168\", \"099\", \"199100\", \"123123123456456456579579579\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def pp(a, b, c):\n    t = map(str, a) + ['+'] + map(str, b) + ['='] + map(str, c)\n    print ''.join(t)\ndef go(s, a, b, i):\n    if i != 1 and s[-i] == 0:\n        return 0\n    if a != 1 and s[0] == 0:\n        return 0\n    if b != 1 and s[a] == 0:\n        return 0\n    if max(a, b) < i:\n        if not a == b and not (a == i - 1 and s[0] == 9) and not (b == i - 1 and s[a] == 9):\n            return 0\n        if s[-i] != 1:\n            return 0\n        t = 1\n        if a == i - 1:\n            for j in xrange(a-b):\n                t = t * 10 + s[-a+j] - s[j]\n                if t < 0 or t > 1:\n                    return 0\n            for j in xrange(b):\n                t = t * 10 + s[-b+j] - s[a-b+j] - s[a+j]\n                if t < 0 or t > 1:\n                    return 0\n            if t == 0:\n                pp(s[:a], s[a:a+b], s[-i:])\n                return 1\n            return 0\n        else:\n            for j in xrange(b-a):\n                t = t * 10 + s[-b+j] - s[a+j]\n                if t < 0 or t > 1:\n                    return 0\n            for j in xrange(a):\n                t = t * 10 + s[-a+j] - s[j] - s[a+b-a+j]\n                if t < 0 or t > 1:\n                    return 0\n            if t == 0:\n                pp(s[:a], s[a:a+b], s[-i:])\n                return 1\n            return 0\n    else:\n        if a == i:\n            t = 0\n            for j in xrange(i-b):\n                t = t * 10 + s[-a+j] - s[j]\n                if t < 0 or t > 1:\n                    return 0\n            for j in xrange(b):\n                t = t * 10 + s[-b+j] - s[i-b+j] - s[a+j]\n                if t < 0 or t > 1:\n                    return 0\n            if t == 0:\n                pp(s[:a], s[a:a+b], s[-i:])\n                return 1\n            return 0\n        else:\n            t = 0\n            for j in xrange(i-a):\n                t = t * 10 + s[-b+j] - s[a+j]\n                if t < 0 or t > 1:\n                    return 0\n            for j in xrange(a):\n                t = t * 10 + s[-a+j] - s[j] - s[a+i-a+j]\n                if t < 0 or t > 1:\n                    return 0\n            if t == 0:\n                pp(s[:a], s[a:a+b], s[-i:])\n                return 1\n            return 0\ndef main():\n    s = map(int, raw_input().strip())\n    l = len(s)\n    mod = 10007\n    t = [0] * (l + 1)\n    u = [1] * (l + 1)\n    for i in xrange(l):\n        u[i+1] = u[i] * 10 % mod\n        t[i+1] = (t[i] * 10 + s[i]) % mod\n    for i in xrange(1, l - 1):\n        a, b = i - 1, l - i - i + 1\n        hi = (t[l] - t[l-i] * u[i]) % mod\n        if 1 <= b <= i:\n            if hi == (t[a] + (t[a+b] - t[a] * u[b])) % mod and go(s, a, b, i):\n                return\n            if hi == (t[b] + (t[a+b] - t[b] * u[a])) % mod and go(s, b, a, i):\n                return\n        a += 1\n        b -= 1\n        if 1 <= b <= i:\n            if hi == (t[a] + (t[a+b] - t[a] * u[b])) % mod and go(s, a, b, i):\n                return\n            if hi == (t[b] + (t[a+b] - t[b] * u[a])) % mod and go(s, b, a, i):\n                return\nmain()\n",
+    "prob_desc_created_at": "1513424100",
+    "tags": [
+        "hashing",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

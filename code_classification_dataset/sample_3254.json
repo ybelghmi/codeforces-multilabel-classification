@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"-1\"]",
+    "src_uid": "5d7ba962400c05433ee17c5658888e69",
+    "prob_desc_notes": "NotePicture to the first sample test: In the second sample, any line containing the origin is good.",
+    "prob_desc_description": "You are given a set of n points on the plane. A line containing the origin is called good, if projection of the given set to this line forms a symmetric multiset of points. Find the total number of good lines.Multiset is a set where equal elements are allowed.Multiset is called symmetric, if there is a point P on the plane such that the multiset is centrally symmetric in respect of point P.",
+    "prob_desc_output_spec": "If there are infinitely many good lines, print -1. Otherwise, print single integer — the number of good lines.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 2000) — the number of points in the set. Each of the next n lines contains two integers xi and yi ( - 106  ≤  xi,  yi  ≤  106) — the coordinates of the points. It is guaranteed that no two points coincide.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2900,
+    "file_name": "train_050.jsonl",
+    "code_uid": "85473960300a0b13184a6ecccdef3aa1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2\\n2 1\\n3 3\", \"2\\n4 3\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from fractions import Fraction\nimport time\n\n\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def to_tuple(self):\n        return (self.x, self.y)\n\n    def __repr__(self):\n        return \"Point({}, {})\".format(self.x, self.y)\n\n    def __eq__(self, other):\n        return self.to_tuple() == other.to_tuple()\n\n    def __hash__(self):\n        return hash(self.to_tuple())\n\n    def __neg__(self):\n        return Point(-self.x, -self.y)\n\n    def __add__(self, other):\n        return Point(self.x+other.x, self.y+other.y)\n\n    def __sub__(self, other):\n        return self+(-other)\n\n    def scalar_mul(self, mu):\n        return Point(mu*self.x, mu*self.y)\n\n    def int_divide(self, den):\n        return Point(self.x//den, self.y//den)\n\n\nclass Line:\n    def __init__(self, a, b, c):\n        # ax+by+c=0\n        self.a = a\n        self.b = b\n        self.c = c\n\n    def __repr__(self):\n        return \"{}*x + {}*y + {} = 0\".format(self.a, self.b, self.c)\n\n    @classmethod\n    def between_two_points(cls, P, Q):\n        return cls(P.y-Q.y, Q.x-P.x, P.x*Q.y-P.y*Q.x)\n\n    def evaluate(self, P):\n        return self.a*P.x+self.b*P.y+self.c\n\n    def direction(self):\n        if self.a == 0:\n            return (0, 1)\n        return (1, Fraction(self.b, self.a))\n\n\ndef abs_sgn(x):\n    if x == 0:\n        return 0, 0\n    if x < 0:\n        return -x, -1\n    return x, 1\n\n\ndef solve(tuple_points):\n    points = set()\n    center = Point(0, 0)\n    for cur in tuple_points:\n        cur = Point(*cur).scalar_mul(2*n)\n        center += cur\n        points.add(cur)\n\n    center = center.int_divide(n)\n    dcenter = center+center\n\n    sym_points_set = set()\n    for p in points:\n        sym_points_set.add(dcenter-p)\n    nosym = list(points - sym_points_set)\n\n    if len(nosym) == 0:\n        print(-1)\n        exit(0)\n\n    p0 = nosym[0]\n    good_lines = set()\n    for p in nosym:\n        m = (p+p0).int_divide(2)\n        line = Line.between_two_points(m, center)\n        distances = list(map(line.evaluate, nosym))\n\n        ok = True\n        mydict = {}\n        for dd in distances:\n            dda, sgn = abs_sgn(dd)\n            if dda not in mydict:\n                mydict[dda] = sgn\n            else:\n                mydict[dda] += sgn\n        for k in mydict:\n            if mydict[k] != 0:\n                ok = False\n                break\n        if ok:\n            good_lines.add(line.direction())\n\n    return len(good_lines)\n\n\n# This one is accepted on CF\nif __name__ == \"__main__\":\n    n = int(input())\n    pts = []\n    for i in range(n):\n        row = input().split(\" \")\n        cur = (int(row[0]), int(row[1]))\n        pts.append(cur)\n    print(solve(pts))\n",
+    "prob_desc_created_at": "1510502700",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

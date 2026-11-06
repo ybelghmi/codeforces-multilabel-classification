@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n10\\n01\\n2\\n111\\n111\\n101\\n0\\n0\\n0\\n1111\\n1111\\n1111\\n1111\"]",
+    "src_uid": "0f18382d450be90edf1fd1a3770b232b",
+    "prob_desc_notes": "NoteIn the first test case, the sum of all elements in the grid is equal to $$$2$$$, so the condition is satisfied. $$$R_1 = 1, R_2 = 1$$$ and $$$C_1 = 1, C_2 = 1$$$. Then, $$$f(A) = (1-1)^2 + (1-1)^2 = 0$$$, which is the minimum possible value of $$$f(A)$$$.In the second test case, the sum of all elements in the grid is equal to $$$8$$$, so the condition is satisfied. $$$R_1 = 3, R_2 = 3, R_3 = 2$$$ and $$$C_1 = 3, C_2 = 2, C_3 = 3$$$. Then, $$$f(A) = (3-2)^2 + (3-2)^2 = 2$$$. It can be proven, that it is the minimum possible value of $$$f(A)$$$.",
+    "prob_desc_description": "A mad scientist Dr.Jubal has made a competitive programming task. Try to solve it!You are given integers $$$n,k$$$. Construct a grid $$$A$$$ with size $$$n \\times n$$$ consisting of integers $$$0$$$ and $$$1$$$. The very important condition should be satisfied: the sum of all elements in the grid is exactly $$$k$$$. In other words, the number of $$$1$$$ in the grid is equal to $$$k$$$.Let's define:  $$$A_{i,j}$$$ as the integer in the $$$i$$$-th row and the $$$j$$$-th column.  $$$R_i = A_{i,1}+A_{i,2}+...+A_{i,n}$$$ (for all $$$1 \\le i \\le n$$$).  $$$C_j = A_{1,j}+A_{2,j}+...+A_{n,j}$$$ (for all $$$1 \\le j \\le n$$$).  In other words, $$$R_i$$$ are row sums and $$$C_j$$$ are column sums of the grid $$$A$$$.  For the grid $$$A$$$ let's define the value $$$f(A) = (\\max(R)-\\min(R))^2 + (\\max(C)-\\min(C))^2$$$ (here for an integer sequence $$$X$$$ we define $$$\\max(X)$$$ as the maximum value in $$$X$$$ and $$$\\min(X)$$$ as the minimum value in $$$X$$$). Find any grid $$$A$$$, which satisfies the following condition. Among such grids find any, for which the value $$$f(A)$$$ is the minimum possible. Among such tables, you can find any.",
+    "prob_desc_output_spec": "For each test case, firstly print the minimum possible value of $$$f(A)$$$ among all tables, for which the condition is satisfied. After that, print $$$n$$$ lines contain $$$n$$$ characters each. The $$$j$$$-th character in the $$$i$$$-th line should be equal to $$$A_{i,j}$$$. If there are multiple answers you can print any.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Next $$$t$$$ lines contain descriptions of test cases. For each test case the only line contains two integers $$$n$$$, $$$k$$$ $$$(1 \\le n \\le 300, 0 \\le k \\le n^2)$$$. It is guaranteed that the sum of $$$n^2$$$ for all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_001.jsonl",
+    "code_uid": "6887513ccc3d000e365b093faf23c7a7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 2\\n3 8\\n1 0\\n4 16\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nfor _ in range(t):\n    n,k=map(int,input().split())\n    di=k//n\n    re=k%n\n    ll=[]\n    if re==0:\n        print(0)\n    else:\n        print(2)\n    for i in range(n):\n        ll.append(['0']*n)\n    for i in range(k):\n        ll[i%n][((i//n)+i%n)%n]='1'\n    ch=''\n    for i in ll:\n        ch=\"\".join(i)\n        print(ch)\n            \n  \n",
+    "prob_desc_created_at": "1593610500",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

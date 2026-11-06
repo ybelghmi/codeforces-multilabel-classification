@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n5\"]",
+    "src_uid": "b978ca6fdef4a02cc027485294caa0f5",
+    "prob_desc_notes": "NoteIn the first sample, the new array is $$$[3,2,\\textbf{1},3,\\textbf{2},1,\\textbf{3},2,1]$$$. The longest increasing subsequence is marked in bold.In the second sample, the longest increasing subsequence will be $$$[1,3,4,5,9]$$$.",
+    "prob_desc_description": "Ehab has an array $$$a$$$ of length $$$n$$$. He has just enough free time to make a new array consisting of $$$n$$$ copies of the old array, written back-to-back. What will be the length of the new array's longest increasing subsequence?A sequence $$$a$$$ is a subsequence of an array $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) elements. The longest increasing subsequence of an array is the longest subsequence such that its elements are ordered in strictly increasing order.",
+    "prob_desc_output_spec": "For each testcase, output the length of the longest increasing subsequence of $$$a$$$ if you concatenate it to itself $$$n$$$ times.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ — the number of test cases you need to solve. The description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the number of elements in the array $$$a$$$. The second line contains $$$n$$$ space-separated integers $$$a_1$$$, $$$a_2$$$, $$$\\ldots$$$, $$$a_{n}$$$ ($$$1 \\le a_i \\le 10^9$$$) — the elements of the array $$$a$$$. The sum of $$$n$$$ across the test cases doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_000.jsonl",
+    "code_uid": "50f54f19f5a3fa05b30d1cd354ff34da",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3\\n3 2 1\\n6\\n3 1 4 1 5 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import collections\nimport copy\n\n \ndef f(n, arr):\n\tif n >= len(arr):\n\t\treturn len(set(arr))\n\ttails = []\n\twhile(n):\n\t\tl = len(tails)\n\t\tfor i in range(len(arr)):\n\t\t\tlo,hi = 0, len(tails) - 1\n\t\t\twhile(lo < hi):\n\t\t\t\tmed = (lo + hi)/ 2\n\t\t\t\tif tails[med] >= arr[i]:\n\t\t\t\t\thi = med\n\t\t\t\telse:\n\t\t\t\t\tlo = med + 1\n\t\t\tif lo < len(tails) and tails[lo] >= arr[i]: tails[lo] = arr[i]\n\t\t\telse: tails.append(arr[i])\n\t\tif len(tails) == l: break\n\t\tif len(tails) >= len(arr): break\n\t\tn-= 1\n\treturn len(tails)\nt = int(raw_input())\nfor i in xrange(1, t + 1):\n\tn = int(raw_input()) \n\tprint \"{}\".format(f(n,map(int,raw_input().split(' '))))",
+    "prob_desc_created_at": "1584196500",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

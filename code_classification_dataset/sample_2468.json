@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"11\", \"15\", \"1\"]",
+    "src_uid": "d1926feaeec151f4a2f186a46a863d90",
+    "prob_desc_notes": "NoteIn the first sample Bob should flip the suffix of length one.In the second sample Bob should flip the prefix or the suffix (here it is the same) of length 5.In the third sample Bob should do nothing.",
+    "prob_desc_description": "Alice and Bob are playing a game. The game involves splitting up game pieces into two teams. There are n pieces, and the i-th piece has a strength pi.The way to split up game pieces is split into several steps:  First, Alice will split the pieces into two different groups A and B. This can be seen as writing the assignment of teams of a piece in an n character string, where each character is A or B.  Bob will then choose an arbitrary prefix or suffix of the string, and flip each character in that suffix (i.e. change A to B and B to A). He can do this step at most once.  Alice will get all the pieces marked A and Bob will get all the pieces marked B. The strength of a player is then the sum of strengths of the pieces in the group.Given Alice's initial split into two teams, help Bob determine an optimal strategy. Return the maximum strength he can achieve.",
+    "prob_desc_output_spec": "Print the only integer a — the maximum strength Bob can achieve.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 5·105) — the number of game pieces. The second line contains n integers pi (1 ≤ pi ≤ 109) — the strength of the i-th piece. The third line contains n characters A or B — the assignment of teams after the first step (after Alice's step).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_023.jsonl",
+    "code_uid": "68b7aa0c9869ad1c56b2667d053ee535",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 3 4 5\\nABABA\", \"5\\n1 2 3 4 5\\nAAAAA\", \"1\\n1\\nB\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\np = list(map(int, input().split()))\ns = input()\n\nans = bob1 = bob2 = 0\nfor i in range(n):\n    if s[i] == 'B':\n        ans += p[i]\n        bob1 += p[i]\n        bob2 += p[i]\n\nfor i in range(n):\n    if s[i] == 'A':\n        bob1 += p[i]\n    else:\n        bob1 -= p[i]\n    ans = max(ans, bob1)\n\nfor i in reversed(range(n)):\n    if s[i] == 'A':\n        bob2 += p[i]\n    else:\n        bob2 -= p[i]\n    ans = max(ans, bob2)\n\nprint(ans)",
+    "prob_desc_created_at": "1456844400",
+    "tags": [
+        "constructive algorithms",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

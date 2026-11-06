@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6\", \"1\", \"0\"]",
+    "src_uid": "d4909bd6c23312ac3968d81cb6340035",
+    "prob_desc_notes": "NoteIn the first example, the following figure shows an optimal case.  Note that on day 3, a new mark should be created because if not, there cannot be 3 marks above water on day 4. The total number of marks underwater is 0 + 0 + 2 + 0 + 3 + 1 = 6.In the second example, the following figure shows an optimal case.  ",
+    "prob_desc_description": "Arkady decides to observe a river for n consecutive days. The river's water level on each day is equal to some real value.Arkady goes to the riverside each day and makes a mark on the side of the channel at the height of the water level, but if it coincides with a mark made before, no new mark is created. The water does not wash the marks away. Arkady writes down the number of marks strictly above the water level each day, on the i-th day this value is equal to mi.Define di as the number of marks strictly under the water level on the i-th day. You are to find out the minimum possible sum of di over all days. There are no marks on the channel before the first day.",
+    "prob_desc_output_spec": "Output one single integer — the minimum possible sum of the number of marks strictly below the water level among all days.",
+    "prob_desc_input_spec": "The first line contains a single positive integer n (1 ≤ n ≤ 105) — the number of days. The second line contains n space-separated integers m1, m2, ..., mn (0 ≤ mi &lt; i) — the number of marks strictly above the water on each day.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_042.jsonl",
+    "code_uid": "787e5ec725c7907a9f705eb3117210e1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n0 1 0 3 0 2\", \"5\\n0 1 2 1 2\", \"5\\n0 1 1 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nm = list(map(int, input().split()))\na = [0] * n\nk = 0\nfor i in range(n):\n    k = max(k, m[i] + 1)\n    a[i] = k\nfor i in range(n - 1, 0, -1):\n    a[i - 1] = max(a[i] - 1, a[i - 1])\nans = 0\nfor i in range(n):\n    ans += a[i] - m[i] - 1\nprint(ans)",
+    "prob_desc_created_at": "1521905700",
+    "tags": [
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

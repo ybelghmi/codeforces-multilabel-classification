@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0 1 0 1 0 0 0 0 0 0\\n2 2 2 0 0 0 0 0 0 0\\n0 0 0 0 0 0 0 0 0 0\\n2 3 2 1 0 0 0 0 0 0\"]",
+    "src_uid": "5c3fc40b18c9b3e58c49d9f6e44ea28c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There is a programming language in which every program is a non-empty sequence of \"&lt;\" and \"&gt;\" signs and digits. Let's explain how the interpreter of this programming language works. A program is interpreted using movement of instruction pointer (IP) which consists of two parts.  Current character pointer (CP);  Direction pointer (DP) which can point left or right; Initially CP points to the leftmost character of the sequence and DP points to the right.We repeat the following steps until the first moment that CP points to somewhere outside the sequence.  If CP is pointing to a digit the interpreter prints that digit then CP moves one step according to the direction of DP. After that the value of the printed digit in the sequence decreases by one. If the printed digit was 0 then it cannot be decreased therefore it's erased from the sequence and the length of the sequence decreases by one.  If CP is pointing to \"&lt;\" or \"&gt;\" then the direction of DP changes to \"left\" or \"right\" correspondingly. Then CP moves one step according to DP. If the new character that CP is pointing to is \"&lt;\" or \"&gt;\" then the previous character will be erased from the sequence. If at any moment the CP goes outside of the sequence the execution is terminated.It's obvious the every program in this language terminates after some steps.We have a sequence s1, s2, ..., sn of \"&lt;\", \"&gt;\" and digits. You should answer q queries. Each query gives you l and r and asks how many of each digit will be printed if we run the sequence sl, sl + 1, ..., sr as an independent program in this language.",
+    "prob_desc_output_spec": "For each query print 10 space separated integers: x0, x1, ..., x9 where xi equals the number of times the interpreter prints i while running the corresponding program. Print answers to the queries in the order they are given in input.",
+    "prob_desc_input_spec": "The first line of input contains two integers n and q (1 ≤ n, q ≤ 105) — represents the length of the sequence s and the number of queries.  The second line contains s, a sequence of \"&lt;\", \"&gt;\" and digits (0..9) written from left to right. Note, that the characters of s are not separated with spaces.  The next q lines each contains two integers li and ri (1 ≤ li ≤ ri ≤ n) — the i-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_019.jsonl",
+    "code_uid": "2db42e029938d49a69e3bc770febc3d4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 4\\n1&gt;3&gt;22&lt;\\n1 3\\n4 7\\n7 7\\n1 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, q = map(int, raw_input().split())\ns = list(raw_input())\nfor _ in range(q):\n\tl, r = map(int, raw_input().split())\n\tt = s[l - 1 : r]\n\tc = 0\n\td = 1\n\tr = [0] * 10\n\twhile 0 <= c < len(t):\n\t\tv = t[c]\n\t\tif '0' <= v <= '9':\n\t\t\tv = int(v)\n\t\t\tr[v] += 1\n\t\t\tc += d\n\t\t\tif c < 0 or c >= len(t):\n\t\t\t\tbreak\n\t\t\tif v:\n\t\t\t\tt[c - d] = str(v - 1)\n\t\t\telse:\n\t\t\t\tt.pop(c - d)\n\t\t\t\tc -= max(d, 0)\n\t\telse:\n\t\t\td = [-1, 1][v == '>']\n\t\t\tc += d\n\t\t\tif c < 0 or c >= len(t):\n\t\t\t\tbreak\n\t\t\tif t[c] in set('<>'):\n\t\t\t\tt.pop(c - d)\n\t\t\t\tc -= max(d, 0)\n\tprint ' '.join(map(str, r))\n",
+    "prob_desc_created_at": "1352044800",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

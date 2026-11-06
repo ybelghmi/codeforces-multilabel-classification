@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "9fa772b53e655a55f2ec502bc96d0e28",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Polycarp is a great fan of television.He wrote down all the TV programs he is interested in for today. His list contains n shows, i-th of them starts at moment li and ends at moment ri.Polycarp owns two TVs. He can watch two different shows simultaneously with two TVs but he can only watch one show at any given moment on a single TV. If one show ends at the same moment some other show starts then you can't watch them on a single TV.Polycarp wants to check out all n shows. Are two TVs enough to do so?",
+    "prob_desc_output_spec": "If Polycarp is able to check out all the shows using only two TVs then print \"YES\" (without quotes). Otherwise, print \"NO\" (without quotes).",
+    "prob_desc_input_spec": "The first line contains one integer n (1 ≤ n ≤ 2·105) — the number of shows. Each of the next n lines contains two integers li and ri (0 ≤ li &lt; ri ≤ 109) — starting and ending time of i-th show.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_028.jsonl",
+    "code_uid": "f4dcc91121876b94cbfce4d5e59ddd7f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2\\n2 3\\n4 5\", \"4\\n1 2\\n2 3\\n2 3\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\nschedule = sorted([map(int, raw_input().split()) for x in range(n)], key=lambda x: x[0])\n\ndef scheduler(schedule):\n    tv1, tv2 = [], []\n    for tvshow in schedule:\n        if len(tv1) == 0:\n            tv1.append(tvshow)\n        elif tvshow[0] > tv1[-1][1]:\n            tv1.append(tvshow)\n        elif len(tv2) == 0:\n            tv2.append(tvshow)\n        elif tvshow[0] > tv2[-1][1]:\n            tv2.append(tvshow)\n        else:\n            return \"NO\"\n    \n    return \"YES\"\n\nprint scheduler(schedule)",
+    "prob_desc_created_at": "1503327900",
+    "tags": [
+        "data structures",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

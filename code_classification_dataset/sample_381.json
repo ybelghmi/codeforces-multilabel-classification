@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"-1\", \"3\"]",
+    "src_uid": "0e0f30521f9f5eb5cff2549cd391da3c",
+    "prob_desc_notes": "NoteIn the first example $$$2$$$ is the maximum number. If you divide the array into $$$\\{[5], [5, 7, 2]\\}$$$, the XOR value of the subset of only the second segment is $$$5 \\oplus 7 \\oplus 2 = 0$$$. $$$\\{[5, 5], [7, 2]\\}$$$ has the value of the subset of only the first segment being $$$5 \\oplus 5 = 0$$$. However, $$$\\{[5, 5, 7], [2]\\}$$$ will lead to subsets $$$\\{[5, 5, 7]\\}$$$ of XOR $$$7$$$, $$$\\{[2]\\}$$$ of XOR $$$2$$$ and $$$\\{[5, 5, 7], [2]\\}$$$ of XOR $$$5 \\oplus 5 \\oplus 7 \\oplus 2 = 5$$$.Let's take a look at some division on $$$3$$$ segments — $$$\\{[5], [5, 7], [2]\\}$$$. It will produce subsets:  $$$\\{[5]\\}$$$, XOR $$$5$$$;  $$$\\{[5, 7]\\}$$$, XOR $$$2$$$;  $$$\\{[5], [5, 7]\\}$$$, XOR $$$7$$$;  $$$\\{[2]\\}$$$, XOR $$$2$$$;  $$$\\{[5], [2]\\}$$$, XOR $$$7$$$;  $$$\\{[5, 7], [2]\\}$$$, XOR $$$0$$$;  $$$\\{[5], [5, 7], [2]\\}$$$, XOR $$$5$$$; As you can see, subset $$$\\{[5, 7], [2]\\}$$$ has its XOR equal to $$$0$$$, which is unacceptable. You can check that for other divisions of size $$$3$$$ or $$$4$$$, non-empty subset with $$$0$$$ XOR always exists.The second example has no suitable divisions.The third example array can be divided into $$$\\{[3], [1], [10]\\}$$$. No subset of these segments has its XOR equal to $$$0$$$.",
+    "prob_desc_description": "You are given an array $$$a_1, a_2, \\dots, a_n$$$ of integer numbers.Your task is to divide the array into the maximum number of segments in such a way that:  each element is contained in exactly one segment;  each segment contains at least one element;  there doesn't exist a non-empty subset of segments such that bitwise XOR of the numbers from them is equal to $$$0$$$. Print the maximum number of segments the array can be divided into. Print -1 if no suitable division exists.",
+    "prob_desc_output_spec": "Print the maximum number of segments the array can be divided into while following the given constraints. Print -1 if no suitable division exists.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the size of the array. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_001.jsonl",
+    "code_uid": "8cda022b69c0aabe3067a06d7af8b880",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n5 5 7 2\", \"3\\n1 2 3\", \"3\\n3 1 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N, B, E = input(), [], 0\nfor a in map(int, raw_input().split()):\n  E ^= a\n  for x in B:\n    a = min(a, a ^ x)\n  if a:\n    B = sorted(B + [a], reverse=True)\nprint -1 if E == 0 else len(B)\n",
+    "prob_desc_created_at": "1547217300",
+    "tags": [
+        "math",
+        "matrices"
+    ],
+    "hidden_unit_tests": ""
+}

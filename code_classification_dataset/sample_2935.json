@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n1 2 4 5 6 8\", \"NO\", \"YES\\n1\", \"NO\"]",
+    "src_uid": "df801ebbe05c17bb1d157108d523d1f8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Polycarp has to solve exactly $$$n$$$ problems to improve his programming skill before an important programming competition. But this competition will be held very soon, most precisely, it will start in $$$k$$$ days. It means that Polycarp has exactly $$$k$$$ days for training!Polycarp doesn't want to procrastinate, so he wants to solve at least one problem during each of $$$k$$$ days. He also doesn't want to overwork, so if he solves $$$x$$$ problems during some day, he should solve no more than $$$2x$$$ problems during the next day. And, at last, he wants to improve his skill, so if he solves $$$x$$$ problems during some day, he should solve at least $$$x+1$$$ problem during the next day.More formally: let $$$[a_1, a_2, \\dots, a_k]$$$ be the array of numbers of problems solved by Polycarp. The $$$i$$$-th element of this array is the number of problems Polycarp solves during the $$$i$$$-th day of his training. Then the following conditions must be satisfied:   sum of all $$$a_i$$$ for $$$i$$$ from $$$1$$$ to $$$k$$$ should be $$$n$$$;  $$$a_i$$$ should be greater than zero for each $$$i$$$ from $$$1$$$ to $$$k$$$;  the condition $$$a_i &lt; a_{i + 1} \\le 2 a_i$$$ should be satisfied for each $$$i$$$ from $$$1$$$ to $$$k-1$$$. Your problem is to find any array $$$a$$$ of length $$$k$$$ satisfying the conditions above or say that it is impossible to do it.",
+    "prob_desc_output_spec": "If it is impossible to find any array $$$a$$$ of length $$$k$$$ satisfying Polycarp's rules of training, print \"NO\" in the first line. Otherwise print \"YES\" in the first line, then print $$$k$$$ integers $$$a_1, a_2, \\dots, a_k$$$ in the second line, where $$$a_i$$$ should be the number of problems Polycarp should solve during the $$$i$$$-th day. If there are multiple answers, you can print any.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 10^9, 1 \\le k \\le 10^5$$$) — the number of problems Polycarp wants to solve and the number of days Polycarp wants to train.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_036.jsonl",
+    "code_uid": "5490ac684ee3f588bd65d8a1899f995e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"26 6\", \"8 3\", \"1 1\", \"9 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = [int(x) for x in input().split()]\na = [i for i in range(1, k+1)]\ns = (k*(k+1))//2\np = 0\nif n == s:\n    p = 0\nelif n > s:\n    if n - s == k:\n        p = 0\n        for i in range(k):\n            a[i] += 1\n    elif n - s > k:\n        d = (n - s) // k\n        for i in range(k):\n            a[i] += d\n        p = (n-s) - (d*k)\n        for i in range(k-2, -1, -1):\n            c = (2 * a[i]) - a[i+1]\n            if p <= 0:\n                break\n            elif p >= c:\n                a[i+1] += c\n                p -= c\n            elif p < c:\n                a[i+1] += p\n                p = 0\n    elif n - s < k:\n        p = n - s\n        for i in range(k-2, -1, -1):\n            c = (2 * a[i]) - a[i + 1]\n            if p <= 0:\n                break\n            elif p >= c:\n                a[i+1] += c\n                p -= c\n            elif p < c:\n                a[i+1] += p\n                p = 0\nelse:\n    p = 1\n\nif p <= 0:\n    print('YES')\n    for i in range(k):\n        print(a[i], end=' ')\nelse:\n    print('NO')\n",
+    "prob_desc_created_at": "1556289300",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"16\", \"24\"]",
+    "src_uid": "6992db71923a01211b5073ee0f8a193a",
+    "prob_desc_notes": "NoteThe 16 triples of vertexes from the first sample are: (1, 2, 4), (1, 4, 2), (2, 1, 3), (2, 1, 4), (2, 3, 1), (2, 3, 4), (2, 4, 1), (2, 4, 3), (3, 2, 4), (3, 4, 2), (4, 1, 2), (4, 1, 3), (4, 2, 1), (4, 2, 3), (4, 3, 1), (4, 3, 2).In the second sample all the triples should be counted: 4·3·2 = 24.",
+    "prob_desc_description": "Petya loves lucky numbers. We all know that lucky numbers are the positive integers whose decimal representations contain only the lucky digits 4 and 7. For example, numbers 47, 744, 4 are lucky and 5, 17, 467 are not.One day Petya encountered a tree with n vertexes. Besides, the tree was weighted, i. e. each edge of the tree has weight (a positive integer). An edge is lucky if its weight is a lucky number. Note that a tree with n vertexes is an undirected connected graph that has exactly n - 1 edges.Petya wondered how many vertex triples (i, j, k) exists that on the way from i to j, as well as on the way from i to k there must be at least one lucky edge (all three vertexes are pairwise distinct). The order of numbers in the triple matters, that is, the triple (1, 2, 3) is not equal to the triple (2, 1, 3) and is not equal to the triple (1, 3, 2). Find how many such triples of vertexes exist.",
+    "prob_desc_output_spec": "On the single line print the single number — the answer. Please do not use the %lld specificator to read or write 64-bit numbers in С++. It is recommended to use the cin, cout streams or the %I64d specificator.",
+    "prob_desc_input_spec": "The first line contains the single integer n (1 ≤ n ≤ 105) — the number of tree vertexes. Next n - 1 lines contain three integers each: ui vi wi (1 ≤ ui, vi ≤ n, 1 ≤ wi ≤ 109) — the pair of vertexes connected by the edge and the edge's weight.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_028.jsonl",
+    "code_uid": "244ee45df1ec1d287197caab255065a1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2 4\\n3 1 2\\n1 4 7\", \"4\\n1 2 4\\n1 3 47\\n1 4 7447\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nimport re\nfrom random import randrange\nfrom pprint import PrettyPrinter\npprint = PrettyPrinter(width=55).pprint\n\ndef is_lucky(num):\n    return re.fullmatch(\"[47]+\", num) is not None\n\ngr = None\ndef topo_order(u):\n    res = [(u, None, None)]\n    i = 0\n    while i < len(res):\n        u, p, _ = res[i]\n        i += 1\n        for v, c in gr[u]:\n            if v != p:\n                res.append((v, u, c))\n    return reversed(res)\n\ndef main():\n    global gr\n    n = int(stdin.readline())\n    # n = 4000\n    gr = [[] for i in range(n)]\n    for _ in range(n - 1):\n        s = stdin.readline().split()\n        u, v = int(s[0]) - 1, int(s[1]) - 1\n        c = is_lucky(s[-1])\n        # u, v = randrange(n), randrange(n)\n        # c = randrange(2) == 1\n        gr[u].append((v, c))\n        gr[v].append((u, c))\n    topo = list(topo_order(0))\n\n    tree_size = [1 for i in range(n)]\n    for u, p, _ in topo:\n        if p is not None:\n            tree_size[p] += tree_size[u]\n\n    dp_up, dp_down = [0 for i in range(n)], [0 for i in range(n)]\n    for u, p, cost in topo:\n        if p is not None:\n            dp_up[p] += tree_size[u] if cost else dp_up[u]\n\n    for u, p, cost in reversed(topo):\n        if p is not None:\n            dp_down[u] += tree_size[0] - tree_size[u] if cost else dp_down[p] + dp_up[p] - dp_up[u]\n\n    ans = sum(((u + v) * (u + v - 1) for u, v in zip(dp_up, dp_down)))\n    print(ans)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "prob_desc_created_at": "1314633600",
+    "tags": [
+        "dp",
+        "dsu",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

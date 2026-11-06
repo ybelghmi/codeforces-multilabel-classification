@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "6 seconds",
+    "prob_desc_sample_outputs": "[\"98\\n128\\n219\\n229\", \"3639\\n5122\\n5162\\n5617\\n7663\\n7806\\n7960\"]",
+    "src_uid": "470ada4754e9601bc7a1548456dab8d7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "  William has two arrays of numbers $$$a_1, a_2, \\dots, a_n$$$ and $$$b_1, b_2, \\dots, b_m$$$. The arrays satisfy the conditions of being convex. Formally an array $$$c$$$ of length $$$k$$$ is considered convex if $$$c_i - c_{i - 1} &lt; c_{i + 1} - c_i$$$ for all $$$i$$$ from $$$2$$$ to $$$k - 1$$$ and $$$c_1 &lt; c_2$$$.Throughout William's life he observed $$$q$$$ changes of two types happening to the arrays:   Add the arithmetic progression $$$d, d \\cdot 2, d \\cdot 3, \\dots, d \\cdot k$$$ to the suffix of the array $$$a$$$ of length $$$k$$$. The array after the change looks like this: $$$[a_1, a_2, \\dots, a_{n - k}, a_{n - k + 1} + d, a_{n - k + 2} + d \\cdot 2, \\dots, a_n + d \\cdot k]$$$.  The same operation, but for array $$$b$$$. After each change a matrix $$$d$$$ is created from arrays $$$a$$$ and $$$b$$$, of size $$$n \\times m$$$, where $$$d_{i, j}=a_i + b_j$$$. William wants to get from cell ($$$1, 1$$$) to cell ($$$n, m$$$) of this matrix. From cell ($$$x, y$$$) he can only move to cells ($$$x + 1, y$$$) and ($$$x, y + 1$$$). The length of a path is calculated as the sum of numbers in cells visited by William, including the first and the last cells.After each change William wants you to help find out the minimal length of the path he could take.",
+    "prob_desc_output_spec": "After each change, output one integer, the minimum length of the path in the constructed matrix.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$m$$$ and $$$q$$$ ($$$2 \\le n \\le 100, 2 \\le m \\le 10^5$$$, $$$1 \\le q \\le 10^5$$$), the sizes of the arrays and the number of changes. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^{12}$$$), the contents of array $$$a$$$. The third line contains $$$m$$$ integers $$$b_1, b_2, \\dots, b_m$$$ ($$$1 \\le b_i \\le 10^{12}$$$), the contents of array $$$b$$$. Each of the next $$$q$$$ lines contains three integers $$$type$$$, $$$k$$$ and $$$d$$$ ($$$1 \\le type \\le 2$$$, if $$$type = 1$$$, then $$$1 \\le k \\le n$$$ otherwise $$$1 \\le k \\le m$$$, $$$1 \\le d \\le 10^3$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 3000,
+    "file_name": "train_110.jsonl",
+    "code_uid": "b5a01e1e18bd101b7d29c77fd61bdac2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3 4\\n1 2 4 7 11\\n5 7 10\\n1 3 2\\n2 2 5\\n1 5 4\\n2 1 7\", \"5 6 7\\n4 9 22 118 226\\n7 94 238 395 565 738\\n2 1 95\\n1 4 54\\n1 2 5\\n1 2 87\\n2 6 62\\n2 1 143\\n1 1 77\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class BIT(object):\r\n    def __init__(self, n):\r\n        self.__bit = [0]*(n+1)\r\n\r\n    def add(self, i, val):\r\n        while i < len(self.__bit):\r\n            self.__bit[i] += val\r\n            i += (i & -i)\r\n\r\n    def query(self, i):\r\n        ret = 0\r\n        while i > 0:\r\n            ret += self.__bit[i]\r\n            i -= (i & -i)\r\n        return ret\r\n\r\n    def search(self, val):\r\n        floor_log2_n = (len(self.__bit)-1).bit_length()-1\r\n        pow_i = 2**floor_log2_n\r\n        total = pos = 0\r\n        for _ in reversed(range(floor_log2_n+1)):\r\n            if pos+pow_i < len(self.__bit) and total+self.__bit[pos+pow_i] < val:\r\n                total += self.__bit[pos+pow_i]\r\n                pos += pow_i\r\n            pow_i >>= 1\r\n        return pos\r\n\r\ndef solution():\r\n    n, m, q = list(map(int, input().strip().split()))\r\n    arr = list(map(int, input().strip().split()))\r\n    brr = list(map(int, input().strip().split()))\r\n    for i in reversed(range(1, n)):\r\n        arr[i] -= arr[i-1]\r\n    for i in reversed(range(1, m)):\r\n        brr[i] -= brr[i-1]\r\n    curr = (arr[0]+brr[0])*(n+m-1)+sum(brr[i]*(m-i) for i in range(1, m))\r\n    bit1, bit2, bit3 = BIT(m), BIT(m), BIT(m)\r\n    for i in range(1, m):\r\n        bit1.add(i, brr[i])\r\n        bit1.add(i+1, -brr[i])\r\n        bit2.add(i, brr[i])\r\n    bit1.add(m, float(\"inf\"))\r\n    result = []\r\n    for _ in range(q):\r\n        a, b, c = list(map(int, input().strip().split()))\r\n        if a == 1:\r\n            for i in range(b):\r\n                arr[i+(n-b)] += c\r\n            if b == n:\r\n                curr += c*(n+m-1)\r\n        else:\r\n            if b == m:\r\n                curr += c*(n+m-1)\r\n                b -= 1\r\n            curr += (b)*(b+1)//2*c\r\n            bit1.add(m-b, c)\r\n            bit3.add(m-b, c)\r\n            bit2.add(m-b, -c*(m-b-1))\r\n        ans = curr\r\n        for i in range(1, n):\r\n            idx = bit1.search(arr[i])\r\n            ans += bit3.query(idx)*idx+bit2.query(idx)\r\n            ans += arr[i]*(n+m-i-idx-1)\r\n        result.append(ans)\r\n    return \"\\n\".join(map(str, result))\r\n\r\nprint('%s' % solution())",
+    "prob_desc_created_at": "1638110100",
+    "tags": [
+        "data structures",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

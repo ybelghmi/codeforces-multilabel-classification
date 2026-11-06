@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4 8\\n10 5\\n8 8\\n10 6\\n10 2\\n1 8\\n7 8\\n10 6\", \"1 3\\n2 1\\n1 3\"]",
+    "src_uid": "8f64c179a883047bf66ee14994364580",
+    "prob_desc_notes": "NoteThe first example corresponds to the initial setup in the legend, and the tracks of dancers are marked with different colours in the following figure.  In the second example, no dancers collide.",
+    "prob_desc_description": "Wherever the destination is, whoever we meet, let's render this song together.On a Cartesian coordinate plane lies a rectangular stage of size w × h, represented by a rectangle with corners (0, 0), (w, 0), (w, h) and (0, h). It can be seen that no collisions will happen before one enters the stage.On the sides of the stage stand n dancers. The i-th of them falls into one of the following groups:   Vertical: stands at (xi, 0), moves in positive y direction (upwards);  Horizontal: stands at (0, yi), moves in positive x direction (rightwards).   According to choreography, the i-th dancer should stand still for the first ti milliseconds, and then start moving in the specified direction at 1 unit per millisecond, until another border is reached. It is guaranteed that no two dancers have the same group, position and waiting time at the same time.When two dancers collide (i.e. are on the same point at some time when both of them are moving), they immediately exchange their moving directions and go on.  Dancers stop when a border of the stage is reached. Find out every dancer's stopping position.",
+    "prob_desc_output_spec": "Output n lines, the i-th of which contains two space-separated integers (xi, yi) — the stopping position of the i-th dancer in the input.",
+    "prob_desc_input_spec": "The first line of input contains three space-separated positive integers n, w and h (1 ≤ n ≤ 100 000, 2 ≤ w, h ≤ 100 000) — the number of dancers and the width and height of the stage, respectively. The following n lines each describes a dancer: the i-th among them contains three space-separated integers gi, pi, and ti (1 ≤ gi ≤ 2, 1 ≤ pi ≤ 99 999, 0 ≤ ti ≤ 100 000), describing a dancer's group gi (gi = 1 — vertical, gi = 2 — horizontal), position, and waiting time. If gi = 1 then pi = xi; otherwise pi = yi. It's guaranteed that 1 ≤ xi ≤ w - 1 and 1 ≤ yi ≤ h - 1. It is guaranteed that no two dancers have the same group, position and waiting time at the same time.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_001.jsonl",
+    "code_uid": "79e64c8079a75fa5e70a0c8718e7b366",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8 10 8\\n1 1 10\\n1 4 13\\n1 7 1\\n1 8 2\\n2 2 0\\n2 5 14\\n2 6 0\\n2 6 1\", \"3 2 3\\n1 1 2\\n2 1 1\\n1 1 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import namedtuple\n\nDancer = namedtuple('Dancer', ['category', 'x', 'y', 'idx', 'group'])\n\ndef read_dancer(idx):\n\tgroup, pos, time = [int(x) for x in input().split(' ')]\n\tx, y = None, None\n\tif group == 1:\n\t\tx, y = pos, 0\n\telse:\n\t\tx, y = 0, pos\n\treturn Dancer(time-pos, x, y, idx, group)\n\nn, w, h = [int(x) for x in input().split(' ')]\n\ndancers = [read_dancer(idx) for idx in range(n)]\n\ndancers_in = sorted(dancers, key = lambda d: (d.category, -d.group, d.x, -d.y))\ndancers_out = sorted(dancers, key = lambda d: (d.category, d.group, d.x, -d.y))\n\n\nend_pos = [None for _ in range(n)]\n\ndef get_end_pos(dancer):\n\tx, y = None, None\n\tif dancer.x == 0:\n\t\tx, y = w, dancer.y\n\telse:\n\t\tx, y = dancer.x, h\n\treturn (x, y)\n\nfor i in range(n):\n\tend_pos[dancers_in[i].idx] = get_end_pos(dancers_out[i])\n\nfor i in range(n):\n\tprint(*end_pos[i])",
+    "prob_desc_created_at": "1504272900",
+    "tags": [
+        "geometry",
+        "two pointers",
+        "constructive algorithms",
+        "implementation",
+        "sortings",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

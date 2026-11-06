@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5.0000000000\", \"39.2846263444\"]",
+    "src_uid": "afcd217811ca5853179e5a936b4633fe",
+    "prob_desc_notes": "NoteThe optimal strategy in the first sample is to guess friends alternately.",
+    "prob_desc_description": "A MIPT student named Misha has a birthday today, and he decided to celebrate it in his country house in suburban Moscow. n friends came by, and after a typical party they decided to play blind man's buff.The birthday boy gets blindfolded and the other players scatter around the house. The game is played in several rounds. In each round, Misha catches exactly one of his friends and has to guess who it is. The probability of catching the i-th friend does not change between rounds and is equal to pi percent (as we know, it is directly proportional to the amount of alcohol consumed by the i-th friend) and p1 + p2 + ... + pn = 100 holds. Misha has no information about who he caught. After Misha makes an attempt to guess the caught person, the round ends. Even then, Misha isn't told whether he guessed correctly, and a new round begins.The game ends when Misha guesses every friend at least once, that is, there exists such set of rounds k1, k2, ..., kn, that during round number ki Misha caught the i-th friend and guessed him. Misha wants to minimize the expectation of the number of rounds of the game. Despite the fact that at any point in the game Misha has no information about who he has already guessed, his friends are honest, and if they see that the condition for the end of the game is fulfilled, the game ends immediately. Find the expectation of the number of rounds in the game if Misha plays optimally.",
+    "prob_desc_output_spec": "Print a single real value — the expectation of the number of rounds provided that Misha plays optimally. Your answer will be considered correct if its absolute or relative error does not exceed 10 - 6.  Namely: let's assume that your answer is a, and the answer of the jury is b. The checker program will consider your answer correct, if .",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 100) — the number of Misha's friends. The second line contains n integers pi (), giving the probability to catch the i-th friend in one particular round in percent.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_076.jsonl",
+    "code_uid": "ea801460d2e2ee74e4d930a8d2faf652",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n50 50\", \"4\\n50 20 20 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import random\n\nN = int(input())\nprob = [float(x)/100 for x in input().strip().split()]\nprob_sum = []\ncur = 0\nfor i in range(N):\n    cur += prob[i]\n    prob_sum.append(cur)\n\ndef experiment():\n    cur_prob = [1.] * N\n    cur_exp = 0\n    for i in range(200000):\n\n        bp = [prob[i] * cur_prob[i] / (1-cur_prob[i]+1E-100) for i in range(N)]\n        mn = max(bp)\n        for j in range(N):\n            if bp[j] == mn:\n                choice = j\n        cur_prob[choice] *= 1-prob[choice]\n        tp = 1\n        for j in range(N):\n            tp *= (1-cur_prob[j])\n        tp = 1 - tp\n        cur_exp += tp\n\n    return cur_exp + 1\n\nans = experiment()\nprint(ans)\n",
+    "prob_desc_created_at": "1454605500",
+    "tags": [
+        "greedy",
+        "probabilities",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

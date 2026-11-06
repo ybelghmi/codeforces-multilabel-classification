@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n4 1 2 3 \\n1 10\\n1 2 3 4 5 6 7 8 9 10 \\n-1\"]",
+    "src_uid": "6b2dfd5501f81bb3c5f11ca11e4c5520",
+    "prob_desc_notes": "NoteIn the first test case: the subset $$$\\{1, 2, 3, 4\\}$$$ is a clique of size $$$4$$$.In the second test case: degree of each vertex in the original graph is at least $$$3$$$. So the set of all vertices is a correct answer.In the third test case: there are no cliques of size $$$4$$$ or required subsets, so the answer is $$$-1$$$.",
+    "prob_desc_description": "You are given an undirected graph with $$$n$$$ vertices and $$$m$$$ edges. Also, you are given an integer $$$k$$$.Find either a clique of size $$$k$$$ or a non-empty subset of vertices such that each vertex of this subset has at least $$$k$$$ neighbors in the subset. If there are no such cliques and subsets report about it.A subset of vertices is called a clique of size $$$k$$$ if its size is $$$k$$$ and there exists an edge between every two vertices from the subset. A vertex is called a neighbor of the other vertex if there exists an edge between them.",
+    "prob_desc_output_spec": "For each test case:  If you found a subset of vertices such that each vertex of this subset has at least $$$k$$$ neighbors in the subset in the first line output $$$1$$$ and the size of the subset. On the second line output the vertices of the subset in any order. If you found a clique of size $$$k$$$ then in the first line output $$$2$$$ and in the second line output the vertices of the clique in any order. If there are no required subsets and cliques print $$$-1$$$. If there exists multiple possible answers you can print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^5$$$) — the number of test cases. The next lines contain descriptions of test cases. The first line of the description of each test case contains three integers $$$n$$$, $$$m$$$, $$$k$$$ ($$$1 \\leq n, m, k \\leq 10^5$$$, $$$k \\leq n$$$). Each of the next $$$m$$$ lines contains two integers $$$u, v$$$ $$$(1 \\leq u, v \\leq n, u \\neq v)$$$, denoting an edge between vertices $$$u$$$ and $$$v$$$. It is guaranteed that there are no self-loops or multiple edges. It is guaranteed that the sum of $$$n$$$ for all test cases and the sum of $$$m$$$ for all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_072.jsonl",
+    "code_uid": "0f15e1a8300de1c4ed8987923f7fa427",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n5 9 4\\n1 2\\n1 3\\n1 4\\n1 5\\n2 3\\n2 4\\n2 5\\n3 4\\n3 5\\n10 15 3\\n1 2\\n2 3\\n3 4\\n4 5\\n5 1\\n1 7\\n2 8\\n3 9\\n4 10\\n5 6\\n7 10\\n10 8\\n8 6\\n6 9\\n9 7\\n4 5 4\\n1 2\\n2 3\\n3 4\\n4 1\\n1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import division,print_function\nfrom heapq import*\nimport sys\n\nle = sys.__stdin__.read().split(\"\\n\")[::-1]\naf = []\nfor ezo in range(int(le.pop())):\n    n,m,k=list(map(int,le.pop().split()))\n    #print(n,m,k)\n    ar=[set() for i in range(n)]\n    for i in range(m):\n        a,b=map(int,le.pop().split())\n        #print(a,b)\n        ar[a-1].add(b-1)\n        ar[b-1].add(a-1)\n    #print(n,m,k)\n    if k*(k-1)>2*m:\n        af.append(-1)\n    else:\n        pi=[i for i in range(n) if len(ar[i])<k]\n        re=set(i for i in range(n) if len(ar[i])>=k)\n        #print(re,pi,n,m)\n        while pi:\n            a=pi.pop()\n            if len(ar[a])==k-1:\n                clique=True\n                for j in ar[a]:\n                    if clique:\n                        for h in ar[a]:\n                            if not(h in ar[j]) and h!=j:\n                                #print(a,j,h)\n                                clique=False\n                                break\n                if clique:\n                    af.append(2)\n                    af.append(\" \".join(map(str,[i+1 for i in ar[a]]+[a+1])))\n                    pi=[]\n                    re={-1}\n            for j in ar[a]:\n                ar[j].remove(a)\n                if len(ar[j])<k:\n                    if j in re:\n                        pi.append(j)\n                        re.discard(j)\n        if re and re!={-1}:\n            af.append(\"1\"+\" \"+str(len(re)))\n            af.append(\" \".join(map(str,[i+1 for i in re])))\n        elif re!={-1}:\n            af.append(-1)\nprint(\"\\n\".join(map(str,af)))\n",
+    "prob_desc_created_at": "1605623700",
+    "tags": [
+        "data structures",
+        "hashing",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

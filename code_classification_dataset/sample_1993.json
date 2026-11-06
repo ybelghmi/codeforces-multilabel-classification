@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"0\", \"Impossible\"]",
+    "src_uid": "4147fef7a151c52e92c010915b12c06b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given string s consists of opening and closing brackets of four kinds &lt;&gt;, {}, [], (). There are two types of brackets: opening and closing. You can replace any bracket by another of the same type. For example, you can replace &lt; by the bracket {, but you can't replace it by ) or &gt;.The following definition of a regular bracket sequence is well-known, so you can be familiar with it.Let's define a regular bracket sequence (RBS). Empty string is RBS. Let s1 and s2 be a RBS then the strings &lt;s1&gt;s2, {s1}s2, [s1]s2, (s1)s2 are also RBS.For example the string \"[[(){}]&lt;&gt;]\" is RBS, but the strings \"[)()\" and \"][()()\" are not.Determine the least number of replaces to make the string s RBS.",
+    "prob_desc_output_spec": "If it's impossible to get RBS from s print Impossible. Otherwise print the least number of replaces needed to get RBS from s.",
+    "prob_desc_input_spec": "The only line contains a non empty string s, consisting of only opening and closing brackets of four kinds. The length of s does not exceed 106.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_015.jsonl",
+    "code_uid": "f2bee33273d4cf388ebf1960543f6567",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"[&lt;}){}\", \"{()}[]\", \"]]\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "k, s = 0, []\n\nfor q in input():\n\n    i = '[{<(]}>)'.find(q)\n\n    if i > 3:\n\n        if not s:\n\n            s = 1\n\n            break\n\n        if s.pop() != i - 4: k += 1\n\n    else: s += [i]\n\nprint('Impossible' if s else k)\n\n\n\n\n# Made By Mostafa_Khaled",
+    "prob_desc_created_at": "1451055600",
+    "tags": [
+        "data structures",
+        "math",
+        "expression parsing"
+    ],
+    "hidden_unit_tests": ""
+}

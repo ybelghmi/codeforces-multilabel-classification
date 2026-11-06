@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n1\", \"0\\n3\\n2\\n4\\n1\"]",
+    "src_uid": "5ef966b7d9fbf27e6197b074eca31b15",
+    "prob_desc_notes": "NoteThe tree from the second sample:",
+    "prob_desc_description": "You are given a tree consisting of $$$n$$$ nodes. You want to write some labels on the tree's edges such that the following conditions hold:  Every label is an integer between $$$0$$$ and $$$n-2$$$ inclusive.  All the written labels are distinct.  The largest value among $$$MEX(u,v)$$$ over all pairs of nodes $$$(u,v)$$$ is as small as possible. Here, $$$MEX(u,v)$$$ denotes the smallest non-negative integer that isn't written on any edge on the unique simple path from node $$$u$$$ to node $$$v$$$.",
+    "prob_desc_output_spec": "Output $$$n-1$$$ integers. The $$$i^{th}$$$ of them will be the number written on the $$$i^{th}$$$ edge (in the input order).",
+    "prob_desc_input_spec": "The first line contains the integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$) — the number of nodes in the tree. Each of the next $$$n-1$$$ lines contains two space-separated integers $$$u$$$ and $$$v$$$ ($$$1 \\le u,v \\le n$$$) that mean there's an edge between nodes $$$u$$$ and $$$v$$$. It's guaranteed that the given graph is a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_011.jsonl",
+    "code_uid": "63c07907fa7dbcc961ddde96bfbd5e44",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2\\n1 3\", \"6\\n1 2\\n1 3\\n2 4\\n2 5\\n5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\ndata = input().rstrip().split()\nn = int(data[0])\n\nedges = []\n\ng = {i+1: [] for i in range(n)}\n\nleafes = set()\n\nfor _ in range(n-1):\n    data = input().rstrip().split()\n    a, b = int(data[0]), int(data[1])\n    a, b = sorted([a, b])\n    edges.append((a, b))\n    g[a].append(b)\n    g[b].append(a)\n\nfor k, v in g.items():\n    if len(leafes) == 3:\n        break\n\n    if len(v) == 1:\n        e = sorted([k, v[0]])\n        leafes.add(tuple(e))\n\ncounter = len(leafes)\nl_counter = 0\nto_print = []\n\nfor edge in edges:\n    a, b = edge\n\n    if edge in leafes:\n        to_print.append(l_counter)\n        l_counter += 1\n\n    else:\n        to_print.append(counter)\n        counter += 1\n\nfor p in to_print:\n    print(p)\n",
+    "prob_desc_created_at": "1584196500",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

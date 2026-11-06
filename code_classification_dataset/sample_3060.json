@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"acb\"]",
+    "src_uid": "b442b73ecb559f0841c0e86f84b5cbb1",
+    "prob_desc_notes": null,
+    "prob_desc_description": "While exploring the old caves, researchers found a book, or more precisely, a stash of mixed pages from a book. Luckily, all of the original pages are present and each page contains its number. Therefore, the researchers can reconstruct the book.After taking a deeper look into the contents of these pages, linguists think that this may be some kind of dictionary. What's interesting is that this ancient civilization used an alphabet which is a subset of the English alphabet, however, the order of these letters in the alphabet is not like the one in the English language.Given the contents of pages that researchers have found, your task is to reconstruct the alphabet of this ancient civilization using the provided pages from the dictionary.",
+    "prob_desc_output_spec": "Output a string representing the reconstructed alphabet of this ancient civilization. If the book found is not a dictionary, output \"IMPOSSIBLE\" without quotes. In case there are multiple solutions, output any of them.",
+    "prob_desc_input_spec": "First-line contains two integers: $$$n$$$ and $$$k$$$ ($$$1 \\le n, k \\le 10^3$$$) — the number of pages that scientists have found and the number of words present at each page. Following $$$n$$$ groups contain a line with a single integer $$$p_i$$$ ($$$0 \\le n \\lt 10^3$$$) — the number of $$$i$$$-th page, as well as $$$k$$$ lines, each line containing one of the strings (up to $$$100$$$ characters) written on the page numbered $$$p_i$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_040.jsonl",
+    "code_uid": "a4b560defcec44f69201b47d9eff366f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n2\\nb\\nb\\nbbac\\n0\\na\\naca\\nacba\\n1\\nab\\nc\\nccb\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\nimport io\nfrom collections import deque, defaultdict\n\ninput = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline\n\ndef li():return [int(i) for i in input().rstrip().split()]\ndef st():return str(input().rstrip())[2:-1]\ndef val():return int(input().rstrip())\n\n# def li():return [int(i) for i in input().rstrip().split()]\n# def st():return str(input())\n# def val():return int(input())\n\n#Input Reading\n\nn,k = li()\n\nwords = [\"\"] * n * k\nindeg = {}\n\nfor i in range(n):\n    p = val()\n    page = []\n    for j in range(k):\n        word = st()\n        words[p*k+j] = word\n    for c in word:\n        indeg[c] = 0\n\ndef match(w1,w2):\n    for i in range(min(len(w1), len(w2))):\n        if w1[i] == w2[i]:\n            continue\n        else:\n            return (w1[i],w2[i])\n\n    if len(w1) > len(w2):\n        print(\"IMPOSSIBLE\")\n        exit()    \n\n#Reading the graph and its indegrees\ng = defaultdict(set)\n\nfor i in range(len(words) - 1):\n    out = match(words[i], words[i+1])\n    if out is not None:\n        c1,c2 = out\n        if c2 not in g[c1]:\n            g[c1].add(c2)\n            indeg[c2] += 1\n\n\n#Topsort things\nts = []\nzero = deque()\nfor u in indeg:\n    if indeg[u] == 0:\n        zero.append(u)\n\nwhile len(ts) != len(indeg):\n    if len(zero) == 0:\n        print(\"IMPOSSIBLE\")\n        exit()\n    \n    u = zero.popleft()\n    ts.append(u)\n    for v in g[u]:\n        indeg[v] -= 1\n        if indeg[v] == 0:\n            zero.append(v)\n\nprint(\"\".join(ts))",
+    "prob_desc_created_at": "1601903100",
+    "tags": [
+        "sortings",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

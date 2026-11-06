@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"1\", \"6\"]",
+    "src_uid": "393ed779ea3ca8fdb63e8de1293eecd3",
+    "prob_desc_notes": "NoteIn the first sample the superior subarrays are (0, 1) and (3, 2).Subarray (0, 1) is superior, as a0 ≥ a0, a0 ≥ a1, a0 ≥ a2, a0 ≥ a3, a0 ≥ a0, ...Subarray (3, 2) is superior a3 ≥ a3, a0 ≥ a0, a3 ≥ a1, a0 ≥ a2, a3 ≥ a3, ...In the third sample any pair of (l, s) corresponds to a superior subarray as all the elements of an array are distinct.",
+    "prob_desc_description": "You are given an infinite periodic array a0, a1, ..., an - 1, ... with the period of length n. Formally, . A periodic subarray (l, s) (0 ≤ l &lt; n, 1 ≤ s &lt; n) of array a is an infinite periodic array with a period of length s that is a subsegment of array a, starting with position l.A periodic subarray (l, s) is superior, if when attaching it to the array a, starting from index l, any element of the subarray is larger than or equal to the corresponding element of array a. An example of attaching is given on the figure (top — infinite array a, bottom — its periodic subarray (l, s)):  Find the number of distinct pairs (l, s), corresponding to the superior periodic arrays.",
+    "prob_desc_output_spec": "Print a single integer — the sought number of pairs.",
+    "prob_desc_input_spec": "The first line contains number n (1 ≤ n ≤ 2·105). The second line contains n numbers a0, a1, ..., an - 1 (1 ≤ ai ≤ 106), separated by a space.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_054.jsonl",
+    "code_uid": "b4ed419ee263930a37c82b6eba4a43dc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n7 1 2 3\", \"2\\n2 1\", \"3\\n1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding: utf-8 -*-\nimport fractions\nfrom collections import defaultdict\n\n\nif __name__ == '__main__':\n    n = int(raw_input())\n    a = map(int, raw_input().split())\n    a *= 2\n    inf = min(a) - 1\n    a[-1] = inf\n    result = 0\n\n    numbers_by_gcd = defaultdict(list)\n    for i in xrange(1, n):\n        numbers_by_gcd[fractions.gcd(i, n)].append(i)\n\n    for d in xrange(1, n):\n        if n % d != 0:\n            continue\n        m = [inf] * d\n        for i in xrange(n):\n            if a[i] > m[i % d]:\n                m[i % d] = a[i]\n        l = 0\n        r = 0\n        while l < n:\n            if a[r] < m[r % d]:\n                for i in numbers_by_gcd[d]:\n                    if i > r - l:\n                        break\n                    result += min(r - i, n - 1) - l + 1\n                l = r + 1\n            r += 1\n    print result",
+    "prob_desc_created_at": "1443890700",
+    "tags": [
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

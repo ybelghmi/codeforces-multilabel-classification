@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\", \"Yes\", \"No\", \"No\", \"No\"]",
+    "src_uid": "c5ec8b18c39720098f6ac2dbc0ddd4f4",
+    "prob_desc_notes": "NoteIn the first example $$$3! + 2! + 2! + 2! + 3! + 3! = 6 + 2 + 2 + 2 + 6 + 6 = 24$$$. Number $$$24$$$ is divisible by $$$4! = 24$$$.In the second example $$$3! + 2! + 2! + 2! + 2! + 2! + 1! + 1! = 18$$$, is divisible by $$$3! = 6$$$.In the third example $$$7! + 7! + 7! + 7! + 7! + 7! + 7! = 7 \\cdot 7!$$$. It is easy to prove that this number is not divisible by $$$8!$$$.",
+    "prob_desc_description": "You are given an integer $$$x$$$ and an array of integers $$$a_1, a_2, \\ldots, a_n$$$. You have to determine if the number $$$a_1! + a_2! + \\ldots + a_n!$$$ is divisible by $$$x!$$$.Here $$$k!$$$ is a factorial of $$$k$$$ — the product of all positive integers less than or equal to $$$k$$$. For example, $$$3! = 1 \\cdot 2 \\cdot 3 = 6$$$, and $$$5! = 1 \\cdot 2 \\cdot 3 \\cdot 4 \\cdot 5 = 120$$$.",
+    "prob_desc_output_spec": "In the only line print \"Yes\" (without quotes) if $$$a_1! + a_2! + \\ldots + a_n!$$$ is divisible by $$$x!$$$, and \"No\" (without quotes) otherwise.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$x$$$ ($$$1 \\le n \\le 500\\,000$$$, $$$1 \\le x \\le 500\\,000$$$). The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le x$$$) — elements of given array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_100.jsonl",
+    "code_uid": "c3236abe16ad94ae830b7995b9ce46f9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 4\\n3 2 2 2 3 3\", \"8 3\\n3 2 2 2 2 2 1 1\", \"7 8\\n7 7 7 7 7 7 7\", \"10 5\\n4 3 2 1 4 3 2 4 3 4\", \"2 500000\\n499999 499999\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,val=map(int,input().split())\r\nif val==1:\r\n    print('Yes')\r\nelse:\r\n    numeri=list(map(int,input().split())) \r\n    m=min(numeri)\r\n    occorrenze=[0]*(val-m+1)\r\n    for i in numeri:\r\n        occorrenze[i-m]=occorrenze[i-m]+1   \r\n    for j in range(len(occorrenze)-1):\r\n        if occorrenze[j]%(j+m+1)!=0:\r\n            print('No')\r\n            quit()\r\n        elif j<len(occorrenze)-1:\r\n            occorrenze[j+1]=occorrenze[j+1]+(occorrenze[j]//(j+m+1))\r\n    print('Yes')\r\n  ",
+    "prob_desc_created_at": "1666511400",
+    "tags": [
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

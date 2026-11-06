@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nBRBRB 1\\nNO\\nYES\\nRB 3\"]",
+    "src_uid": "10751c875f4d7667ba21685c57cddd9e",
+    "prob_desc_notes": "NoteThe coloring and the cut for the first testcase:  ",
+    "prob_desc_description": "You are given a matrix, consisting of $$$n$$$ rows and $$$m$$$ columns. The $$$j$$$-th cell of the $$$i$$$-th row contains an integer $$$a_{ij}$$$.First, you have to color each row of the matrix either red or blue in such a way that at least one row is colored red and at least one row is colored blue.Then, you have to choose an integer $$$k$$$ ($$$1 \\le k &lt; m$$$) and cut the colored matrix in such a way that the first $$$k$$$ columns become a separate matrix (the left matrix) and the last $$$m-k$$$ columns become a separate matrix (the right matrix).The coloring and the cut are called perfect if two properties hold:   every red cell in the left matrix contains an integer greater than every blue cell in the left matrix;  every blue cell in the right matrix contains an integer greater than every red cell in the right matrix. Find any perfect coloring and cut, or report that there are none.",
+    "prob_desc_output_spec": "For each testcase print an answer. If there are no perfect colorings and cuts in the matrix, then print \"NO\". Otherwise, first, print \"YES\". Then a string, consisting of $$$n$$$ characters: the $$$i$$$-th character should be 'R' if the $$$i$$$-th row is colored red and 'B' if it's colored blue. The string should contain at least one 'R' and at least one 'B'. Finally, print an integer $$$k$$$ ($$$1 \\le k &lt; m$$$) — the number of columns from the left that are cut.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of testcases. Then the descriptions of $$$t$$$ testcases follow. The first line of each testcase contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n, m \\le 5 \\cdot 10^5$$$; $$$n \\cdot m \\le 10^6$$$) — the number of rows and the number of columns in the matrix, respectively. The $$$i$$$-th of the next $$$n$$$ lines contains $$$m$$$ integers $$$a_{i1}, a_{i2}, \\dots, a_{im}$$$ ($$$1 \\le a_{ij} \\le 10^6$$$). The sum of $$$n \\cdot m$$$ over all testcases doesn't exceed $$$10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_108.jsonl",
+    "code_uid": "4f0ea32e3bf6d4f9dac084107f57aea1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n5 5\\n1 5 8 8 7\\n5 2 1 4 3\\n1 6 9 7 5\\n9 3 3 3 2\\n1 7 9 9 8\\n3 3\\n8 9 8\\n1 5 3\\n7 5 7\\n2 6\\n3 3 3 2 2 2\\n1 1 1 4 4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io,os\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n \n\ndef main(t):\n \n    inf = 2147483647\n    m,n = map(int,input().split())\n    matrix = []\n    for _ in range(m):\n        matrix.append( tuple(map(int,input().split()))  )\n \n    maxleft = [[0 for j in range(n+1)] for i in range(m)]\n    maxright = [[0 for j in range(n+1)] for i in range(m)]\n    minleft = [[inf for j in range(n+1)] for i in range(m)]\n    minright = [[inf for j in range(n+1)] for i in range(m)]\n    for i in range(m):\n        for j in range(n):\n            maxleft[i][j] = max(maxleft[i][j-1],matrix[i][j])\n            minleft[i][j] = min(minleft[i][j-1],matrix[i][j])\n        for j in range(n-1,-1,-1):\n            maxright[i][j] = max(maxright[i][j+1],matrix[i][j])\n            minright[i][j] = min(minright[i][j+1],matrix[i][j])\n \n \n    ans = ['B']*m\n    for j in range(n-1):\n        minleft_index = [i for i in range(m)]\n        minleft_index.sort(key=lambda i:-minleft[i][j])\n        currright = [maxright[i][j+1] for i in minleft_index]\n        for i in range(1,m):  currright[i] = max(currright[i-1],currright[i])\n        leftmaximum = -inf\n        rightminimum = inf\n        for i in range(m-1,0,-1):\n            front,rear = minleft_index[i-1],minleft_index[i]\n            leftmaximum = max(leftmaximum, maxleft[rear][j] )\n            rightminimum = min(rightminimum, minright[rear][j+1]  )\n            if minleft[front][j] > leftmaximum and currright[i-1] < rightminimum:\n                print(\"YES\")\n                for k in range(i):   ans[minleft_index[k]] = 'R'\n                print(\"\".join(ans), j+1 )\n                return \n    print(\"NO\")        \n \n \n \nT = int(input())\nt = 1\nwhile t<=T:\n    main(t)\n    t += 1\n",
+    "prob_desc_created_at": "1635518100",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

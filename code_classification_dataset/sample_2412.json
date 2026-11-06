@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n1\", \"2\\n1 5\"]",
+    "src_uid": "ef82292a6591de818ddda9f426208291",
+    "prob_desc_notes": "NoteIn the first example we can connect the pairs of stones:  2 and 4, the size of the parallelepiped: 3 × 2 × 5, the radius of the inscribed sphere 1  2 and 5, the size of the parallelepiped: 3 × 2 × 8 or 6 × 2 × 4 or 3 × 4 × 4, the radius of the inscribed sphere 1, or 1, or 1.5 respectively.  2 and 6, the size of the parallelepiped: 3 × 5 × 4, the radius of the inscribed sphere 1.5  4 and 5, the size of the parallelepiped: 3 × 2 × 5, the radius of the inscribed sphere 1  5 and 6, the size of the parallelepiped: 3 × 4 × 5, the radius of the inscribed sphere 1.5 Or take only one stone:  1 the size of the parallelepiped: 5 × 5 × 5, the radius of the inscribed sphere 2.5  2 the size of the parallelepiped: 3 × 2 × 4, the radius of the inscribed sphere 1  3 the size of the parallelepiped: 1 × 4 × 1, the radius of the inscribed sphere 0.5  4 the size of the parallelepiped: 2 × 1 × 3, the radius of the inscribed sphere 0.5  5 the size of the parallelepiped: 3 × 2 × 4, the radius of the inscribed sphere 1  6 the size of the parallelepiped: 3 × 3 × 4, the radius of the inscribed sphere 1.5 It is most profitable to take only the first stone. ",
+    "prob_desc_description": "Kostya is a genial sculptor, he has an idea: to carve a marble sculpture in the shape of a sphere. Kostya has a friend Zahar who works at a career. Zahar knows about Kostya's idea and wants to present him a rectangular parallelepiped of marble from which he can carve the sphere. Zahar has n stones which are rectangular parallelepipeds. The edges sizes of the i-th of them are ai, bi and ci. He can take no more than two stones and present them to Kostya. If Zahar takes two stones, he should glue them together on one of the faces in order to get a new piece of rectangular parallelepiped of marble. Thus, it is possible to glue a pair of stones together if and only if two faces on which they are glued together match as rectangles. In such gluing it is allowed to rotate and flip the stones in any way. Help Zahar choose such a present so that Kostya can carve a sphere of the maximum possible volume and present it to Zahar.",
+    "prob_desc_output_spec": "In the first line print k (1 ≤ k ≤ 2) the number of stones which Zahar has chosen. In the second line print k distinct integers from 1 to n — the numbers of stones which Zahar needs to choose. Consider that stones are numbered from 1 to n in the order as they are given in the input data. You can print the stones in arbitrary order. If there are several answers print any of them. ",
+    "prob_desc_input_spec": "The first line contains the integer n (1 ≤ n ≤ 105). n lines follow, in the i-th of which there are three integers ai, bi and ci (1 ≤ ai, bi, ci ≤ 109) — the lengths of edges of the i-th stone. Note, that two stones may have exactly the same sizes, but they still will be considered two different stones.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_022.jsonl",
+    "code_uid": "45f17af24e42f22f4ed98d842a84bca7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n5 5 5\\n3 2 4\\n1 4 1\\n2 1 3\\n3 2 4\\n3 3 4\", \"7\\n10 7 8\\n5 10 3\\n4 2 6\\n5 5 5\\n10 2 8\\n4 2 1\\n7 7 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nnum = [list(map(int, input().split())) for i in range(n)]\n\ndata = dict()\nans = 0\nind = []\n\nfor i in range(n):\n    x,y,z = sorted(num[i])\n    \n    if min(x,y,z)>ans:\n        ans = min(x,y,z)\n        ind = [i]\n    if (x,y) in data:\n        zz,j = data[(x,y)]\n        cur = min(x,y,zz+z)\n        if cur>ans:\n            ans = cur\n            ind = [j,i]\n    if (x,z) in data:\n        yy,j = data[(x,z)]\n        cur = min(x,yy+y,z)\n        if cur>ans:\n            ans = cur\n            ind = [j,i]\n    if (y,z) in data:\n        xx,j = data[(y,z)]\n        cur = min(xx+x,y,z)\n        if cur>ans:\n            ans = cur\n            ind = [j,i]\n    if (x,y) in data:\n        zz,j = data[(x,y)]\n        if z>zz: data[(x,y)]=(z,i)\n    else:\n        data[(x,y)]=(z,i)\n    if (x,z) in data:\n        yy,j = data[(x,z)]\n        if y>yy: data[(x,z)]=(y,i)\n    else:\n        data[(x,z)]=(y,i)\n    if (y,z) in data:\n        xx,j = data[(y,z)]\n        if x>xx: data[(y,z)]=(x,i)\n    else:\n        data[(y,z)]=(x,i)\n\nprint(len(ind))\nprint(' '.join([str(x+1) for x in ind]))\n",
+    "prob_desc_created_at": "1477922700",
+    "tags": [
+        "data structures",
+        "hashing"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"3\"]",
+    "src_uid": "dc044b8fe01b0a94638139cea034b1a8",
+    "prob_desc_notes": "NoteThe graph for the first example is shown below. The special fields are denoted by red. It is optimal for Farmer John to add a road between fields $$$3$$$ and $$$5$$$, and the resulting shortest path from $$$1$$$ to $$$5$$$ is length $$$3$$$.     The graph for the second example is shown below. Farmer John must add a road between fields $$$2$$$ and $$$4$$$, and the resulting shortest path from $$$1$$$ to $$$5$$$ is length $$$3$$$.     ",
+    "prob_desc_description": "Bessie is out grazing on the farm, which consists of $$$n$$$ fields connected by $$$m$$$ bidirectional roads. She is currently at field $$$1$$$, and will return to her home at field $$$n$$$ at the end of the day.The Cowfederation of Barns has ordered Farmer John to install one extra bidirectional road. The farm has $$$k$$$ special fields and he has decided to install the road between two different special fields. He may add the road between two special fields that already had a road directly connecting them.After the road is added, Bessie will return home on the shortest path from field $$$1$$$ to field $$$n$$$. Since Bessie needs more exercise, Farmer John must maximize the length of this shortest path. Help him!",
+    "prob_desc_output_spec": "Output one integer, the maximum possible length of the shortest path from field $$$1$$$ to $$$n$$$ after Farmer John installs one road optimally.",
+    "prob_desc_input_spec": "The first line contains integers $$$n$$$, $$$m$$$, and $$$k$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$, $$$n-1 \\le m \\le 2 \\cdot 10^5$$$, $$$2 \\le k \\le n$$$)  — the number of fields on the farm, the number of roads, and the number of special fields.  The second line contains $$$k$$$ integers $$$a_1, a_2, \\ldots, a_k$$$ ($$$1 \\le a_i \\le n$$$)  — the special fields. All $$$a_i$$$ are distinct. The $$$i$$$-th of the following $$$m$$$ lines contains integers $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le x_i, y_i \\le n$$$, $$$x_i \\ne y_i$$$), representing a bidirectional road between fields $$$x_i$$$ and $$$y_i$$$.  It is guaranteed that one can reach any field from every other field. It is also guaranteed that for any pair of fields there is at most one road connecting them.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_022.jsonl",
+    "code_uid": "7d3adca4b7a738d4f862048a9a57bbb1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5 3\\n1 3 5\\n1 2\\n2 3\\n3 4\\n3 5\\n2 4\", \"5 4 2\\n2 4\\n1 2\\n2 3\\n3 4\\n4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import factorial\nfrom collections import Counter, defaultdict, deque\nfrom heapq import heapify, heappop, heappush\nimport os\nimport sys\nfrom io import BytesIO, IOBase\n# region fastio\n\nBUFSIZE = 8192\n\nclass FastIO(IOBase):\n    newlines = 0\n\n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\n        self.write = self.buffer.write if self.writable else None\n\n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n\n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b\"\\n\") + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n\n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n\n\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\n\n\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\n\n# ------------------------------\n\ndef RL(): return map(int, sys.stdin.readline().rstrip().split())\ndef comb(n, m): return factorial(n) / (factorial(m) * factorial(n - m)) if n >= m else 0\ndef perm(n, m): return factorial(n) // (factorial(n - m)) if n >= m else 0\ndef mdis(x1, y1, x2, y2): return abs(x1 - x2) + abs(y1 - y2)\nmod = 1000000007\nINF = float('inf')\n\n# ------------------------------\ndef main():\n    n, m, k = RL()\n    spa = list(RL())\n\n    dic = defaultdict(set)\n    ds = 0\n\n    for _ in range(m):\n        a, b = RL()\n        dic[a].add(b)\n        dic[b].add(a)\n\n\n    def bfs(root):\n        rec = [0]*(n+1)\n        q = [(root, 0)]\n\n        da = [0]*(n+1)\n        rec[root] = 1\n\n        for i, d in q:\n            for nex in dic[i]:\n                if rec[nex]==0:\n                    q.append((nex, d+1))\n                    rec[nex] = 1\n                    da[nex] = d+1\n        return da\n\n    star = bfs(1)\n    end = bfs(n)\n\n    res = end[1]\n\n    spa.sort(key=lambda i: star[i]-end[i])\n\n    ts = float('-inf')\n    disa = star[spa[0]]\n    dis = 0\n    # print(end, spa)\n    for i in spa[1:]:\n        dis = max(end[i]+1+disa, dis)\n        disa = max(disa, star[i])\n        # print(dis, disa, i)\n    print(min(res, dis))\n\nif __name__ == \"__main__\":\n    main()",
+    "prob_desc_created_at": "1581953700",
+    "tags": [
+        "greedy",
+        "graphs",
+        "shortest paths",
+        "sortings",
+        "data structures",
+        "binary search",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

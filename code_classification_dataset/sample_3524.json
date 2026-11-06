@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"AG\\nCT\", \"TGCAT\\nCATGC\\nTGCAT\"]",
+    "src_uid": "d80a963af909638d5504dbc6adb2ba38",
+    "prob_desc_notes": "NoteIn the first sample, the table is already nice. In the second sample, you can change 9 elements to make the table nice.",
+    "prob_desc_description": "You are given an $$$n \\times m$$$ table, consisting of characters «A», «G», «C», «T». Let's call a table nice, if every $$$2 \\times 2$$$ square contains all four distinct characters. Your task is to find a nice table (also consisting of «A», «G», «C», «T»), that differs from the given table in the minimum number of characters.",
+    "prob_desc_output_spec": "Output $$$n$$$ lines, $$$m$$$ characters each. This table must be nice and differ from the input table in the minimum number of characters.",
+    "prob_desc_input_spec": "First line contains two positive integers $$$n$$$ and $$$m$$$ — number of rows and columns in the table you are given ($$$2 \\leq n, m, n \\times m \\leq 300\\,000$$$). Then, $$$n$$$ lines describing the table follow. Each line contains exactly $$$m$$$ characters «A», «G», «C», «T».",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_066.jsonl",
+    "code_uid": "25a45a2ef8ab4e29f237955986c5c4be",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\nAG\\nCT\", \"3 5\\nAGCAG\\nAGCAG\\nAGCAG\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\ntran = [0]*1000\ntran[ord('A')] = 0\ntran[ord('G')] = 1\ntran[ord('C')] = 2\ntran[ord('T')] = 3\n\ninv = ['A','G','C','T']\n\nh,w = [int(x) for x in input().split()]\nA = [[tran[ord(c)] for c in inp] for inp in sys.stdin.read().splitlines()]\n\ncomb = []\nfor i in range(4):\n    for j in range(4):\n        if i!=j:\n            comb.append((i,j))\nworking = [[] for _ in range(12)]\nfor i in range(12):\n    a,b = comb[i]\n    for j in range(12):\n        c,d = comb[j]\n        if a!=c and a!=d and b!=c and b!=d:\n            working[i].append(j)\n\nopt = h*w+1\nfor rot in [False,True]: \n    if rot:\n        B = [[0]*h for _ in range(w)]\n        for x in range(w):\n            for y in range(h):\n                B[x][y] = A[y][x]\n        h,w,A = w,h,B\n\n    cost = [[0]*h for _ in range(12)]\n\n    for i in range(12):\n        for y in range(h):\n            alt = comb[i]\n            c = 0\n            for x in range(w):\n                if A[y][x]!=alt[x%2]:\n                    c += 1\n            cost[i][y] = c\n\n    DP = [[0]*h for _ in range(12)]\n    color = [-1]*h\n    for i in range(12):\n        DP[i][0] = cost[i][0]\n\n    for y in range(1,h):\n        for i in range(12):\n            DP[i][y] = min(DP[j][y-1] for j in working[i]) + cost[i][y]\n    \n    score = min(DP[i][-1] for i in range(12))\n    color[-1] = min(range(12),key=lambda i: DP[i][-1])\n    for y in reversed(range(1,h)):\n        i = color[y]\n        for j in working[i]:\n            if DP[j][y-1]+cost[i][y]==DP[i][y]:\n                color[y-1] = j\n                break\n\n    if score<opt:\n        opt = score\n        opt_color = color\n        opt_rot = rot\n        opt_h = h\n        opt_w = w\n\nC = []\nfor y in range(opt_h):\n    alt = comb[opt_color[y]]\n    C.append([alt[x%2] for x in range(opt_w)])\n\n\nif opt_rot:\n    B = [[0]*opt_h for _ in range(opt_w)]\n    for x in range(opt_w):\n        for y in range(opt_h):\n            B[x][y] = C[y][x]\n    opt_h,opt_w,C = opt_w,opt_h,B\n    opt_rot = False\n\nprint '\\n'.join(''.join(inv[c] for c in C[y]) for y in range(opt_h))\n",
+    "prob_desc_created_at": "1546706100",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

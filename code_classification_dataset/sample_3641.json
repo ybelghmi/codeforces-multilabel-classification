@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0 3 4 \\n3 0 5 \\n4 5 0\"]",
+    "src_uid": "4217f062fee8d759adbfb3440c275157",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Volodya has recently visited a very odd town. There are N tourist attractions in the town and every two of them are connected by a bidirectional road. Each road has some travel price (natural number) assigned to it and all prices are distinct. But the most striking thing about this town is that each city sightseeing tour has the same total price! That is, if we choose any city sightseeing tour — a cycle which visits every attraction exactly once — the sum of the costs of the tour roads is independent of the tour. Volodya is curious if you can find such price system with all road prices not greater than 1000.",
+    "prob_desc_output_spec": "Output should contain N rows containing N positive integer numbers each — the adjacency matrix of the prices graph (thus, j-th number in i-th row should be equal to the price of the road between the j-th and the i-th attraction). Diagonal numbers should be equal to zero. All numbers should not be greater than 1000. All prices should be positive and pairwise distinct. If there are several solutions, output any of them.",
+    "prob_desc_input_spec": "Input contains just one natural number (3 ≤ N ≤ 20) — the number of town attractions.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_075.jsonl",
+    "code_uid": "60c68cd1875a7b733b470c7f3ebcdb60",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#codeforces 42d: strange town: math, constructive algorithm\n\ndef readGen(trans):\n\twhile 1:\n\t\tfor x in input().split():\n\t\t\tyield(trans(x))\nreadint=readGen(int)\n\nn=next(readint)\n\ndef constructRow(n):\n\tcan=[1 for i in range(1001)]\n\tb=[0 for i in range(n+1)]\n\tb[2]=1\n\tb[3]=2\n\tcan[1]=0\n\tcan[2]=0\n\tfor k in range(4,n+1):\n\t\tb[k]=b[k-1]+1\n\t\twhile (not can[b[k]]): b[k]+=1\n\t\tcan[b[k]]=0\n\t\tfor i in range(2,k):\n\t\t\tfor p in range(2,k):\n\t\t\t\tcan[b[k]+b[p]-b[i]]=0\n\treturn b\n\ndef constructMatrix(b,n):\n\tcan=[1 for i in range(1001)]\n\tfor i in range(2,n+1):\n\t\tfor j in range(2,n+1):\n\t\t\tfor p in range(2,n+1):\n\t\t\t\tcan[b[2]+b[3]+b[p]-b[i]-b[j]]=0\n\tx=1\n\twhile (not can[x]): x+=1\n\ta=[[0 for j in range(n+1)] for i in range(n+1)]\n\tfor i in range(n+1):\n\t\ta[1][i]=a[i][1]=b[i]\n\tfor i in range(2,n+1):\n\t\tfor j in range(i+1,n+1):\n\t\t\ta[i][j]=a[j][i]=b[i]+b[j]+x-b[2]-b[3]\n\treturn a\n\t\nb=constructRow(n)\n#print(b)\n\na=constructMatrix(b,n)\nfor i in range(1,n+1):\n\tfor j in range(1,n+1):\n\t\tprint(\"{:4}\".format(a[i][j]),end='')\n\tprint()\n",
+    "prob_desc_created_at": "1290096000",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

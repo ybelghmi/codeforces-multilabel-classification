@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"3\", \"17\"]",
+    "src_uid": "ebaf9444531bb6ba6c3322dfa8edb69c",
+    "prob_desc_notes": "NotePicture for the third sample:  ",
+    "prob_desc_description": "Last year the world's largest square was built in Berland. It is known that the square can be represented as an infinite plane with an introduced Cartesian system of coordinates. On that square two sets of concentric circles were painted. Let's call the set of concentric circles with radii 1, 2, ..., K and the center in the point (z, 0) a (K, z)-set. Thus, on the square were painted a (N, x)-set and a (M, y)-set. You have to find out how many parts those sets divided the square into.",
+    "prob_desc_output_spec": "Print the sought number of parts.",
+    "prob_desc_input_spec": "The first line contains integers N, x, M, y. (1 ≤ N, M ≤ 100000,  - 100000 ≤ x, y ≤ 100000, x ≠ y).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_006.jsonl",
+    "code_uid": "d112fdc294001ecc12fcc0bb529cf8d6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 0 1 1\", \"1 0 1 2\", \"3 3 4 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def readGen(trans):\n\twhile 1:\n\t\tfor x in input().split():\n\t\t\tyield(trans(x))\n\t\nreadint=readGen(int)\n\n[N,x,M,y]=(next(readint) for i in range(4))\n\nd=abs(y-x)\n\ndef interval(a,b): return range(a,b+1)\n\ndef case1(N,M,d): # d>=N\n\tans=0\n\tfor r in interval(1, min(M,d-N)):\n\t\tans+=1\n\tif (M<=d-N):\n\t\treturn ans\n\tfor r in interval(d-N+1, min(M,d)):\n\t\tans+=2*(N+r-d)\n\tif (M<=d):\n\t\treturn ans\n\tfor r in interval(d+1,min(M,d+N)):\n\t\tans+=2*(d+N-r+1)\n\tif (M<=d+N):\n\t\treturn ans\n\tfor r in interval(d+N+1,M):\n\t\tans+=1\n\treturn ans\n\ndef partA(N,M,d):\n\tans=0\n\tfor r in interval(1,min(M,d)):\n\t\tans+=2*r-1\n\tif (M<d+1):\n\t\treturn ans\n\tfor r in interval(d+1,min(M,2*d)):\n\t\tans+=2*(2*d-r)+1\n\treturn ans\n\ndef partB(N,M,d):\n\tans=0\n\tbound1=min(2*d,N-d)\n\tfor r in interval(1,min(M,bound1)):\n\t\tans+=2*(r-1)+1\n\tif (M<=bound1):\n\t\treturn ans\n\tif (2*d<=N-d):\n\t\tfor r in interval(bound1+1,min(M,N-d)):\n\t\t\tans+=4*d\n\t\tif (M<=N-d):\n\t\t\treturn ans\n\tif (2*d>N-d):\n\t\tfor r in interval(bound1+1,min(M,2*d)):\n\t\t\tans+=2*(N-d)+1\n\t\tif (M<=2*d):\n\t\t\treturn ans\n\tbound2=max(2*d,N-d)\n\tfor r in interval(bound2+1,min(M,d+N)):\n\t\tans+=2*(d+N-r)+2\n\tif (M<=d+N):\n\t\treturn ans\n\tfor r in interval(d+N+1,M):\n\t\tans+=1\n\treturn ans\n\t\ndef case2(N,M,d): # d<N\n\treturn partA(N,M,d)+partB(N,M,d)\n\ndef remain(N,M,d):\n\tif (M>=d+N):\n\t\treturn 1\n\tif (M>d):\n\t\treturn d+N-M+1\n\tif (M<=d):\n\t\treturn N+1\n\t\ndef calc(N,M,d):\n\tif (N<=d): return remain(N,M,d)+case1(N,M,d)\n\telse: return remain(N,M,d)+case2(N,M,d)\n\nprint(calc(N,M,d))\n",
+    "prob_desc_created_at": "1288972800",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

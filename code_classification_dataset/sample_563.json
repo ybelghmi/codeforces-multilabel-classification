@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n18\\n10\\n6\\n75015\"]",
+    "src_uid": "43b8e9fb2bd0ec5e0250a33594417f63",
+    "prob_desc_notes": "NoteIn the first test case, Santa can give $$$3$$$ and $$$2$$$ candies to kids. There $$$a=2, b=3,a+1=3$$$.In the second test case, Santa can give $$$5, 5, 4$$$ and $$$4$$$ candies. There $$$a=4,b=5,a+1=5$$$. The answer cannot be greater because then the number of kids with $$$5$$$ candies will be $$$3$$$.In the third test case, Santa can distribute candies in the following way: $$$[1, 2, 2, 1, 1, 2, 1]$$$. There $$$a=1,b=2,a+1=2$$$. He cannot distribute two remaining candies in a way to be satisfied.In the fourth test case, Santa can distribute candies in the following way: $$$[3, 3]$$$. There $$$a=3, b=3, a+1=4$$$. Santa distributed all $$$6$$$ candies.",
+    "prob_desc_description": "Santa has $$$n$$$ candies and he wants to gift them to $$$k$$$ kids. He wants to divide as many candies as possible between all $$$k$$$ kids. Santa can't divide one candy into parts but he is allowed to not use some candies at all.Suppose the kid who recieves the minimum number of candies has $$$a$$$ candies and the kid who recieves the maximum number of candies has $$$b$$$ candies. Then Santa will be satisfied, if the both conditions are met at the same time:  $$$b - a \\le 1$$$ (it means $$$b = a$$$ or $$$b = a + 1$$$);  the number of kids who has $$$a+1$$$ candies (note that $$$a+1$$$ not necessarily equals $$$b$$$) does not exceed $$$\\lfloor\\frac{k}{2}\\rfloor$$$ (less than or equal to $$$\\lfloor\\frac{k}{2}\\rfloor$$$). $$$\\lfloor\\frac{k}{2}\\rfloor$$$ is $$$k$$$ divided by $$$2$$$ and rounded down to the nearest integer. For example, if $$$k=5$$$ then $$$\\lfloor\\frac{k}{2}\\rfloor=\\lfloor\\frac{5}{2}\\rfloor=2$$$.Your task is to find the maximum number of candies Santa can give to kids so that he will be satisfied.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case print the answer on it — the maximum number of candies Santa can give to kids so that he will be satisfied.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 5 \\cdot 10^4$$$) — the number of test cases. The next $$$t$$$ lines describe test cases. The $$$i$$$-th test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n, k \\le 10^9$$$) — the number of candies and the number of kids.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_002.jsonl",
+    "code_uid": "e3986c08bf98a582883c36ce23440295",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n5 2\\n19 4\\n12 7\\n6 2\\n100000 50010\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\n\tx, y = map(int, input().split())\n\tprint(x - max(0, x % y - y // 2))\n",
+    "prob_desc_created_at": "1577552700",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

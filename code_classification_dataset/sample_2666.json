@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"107\", \"116\"]",
+    "src_uid": "296552dc2df23b3920baef7d47d0a591",
+    "prob_desc_notes": "NoteIn the first sample, Mahmoud should replace the word \"second\" with the word \"loser\" because it has less cost so the cost will be 100+1+5+1=107.In the second sample, Mahmoud shouldn't do any replacement so the cost will be 100+1+5+10=116.",
+    "prob_desc_description": "Mahmoud wants to send a message to his friend Ehab. Their language consists of n words numbered from 1 to n. Some words have the same meaning so there are k groups of words such that all the words in some group have the same meaning.Mahmoud knows that the i-th word can be sent with cost ai. For each word in his message, Mahmoud can either replace it with another word of the same meaning or leave it as it is. Can you help Mahmoud determine the minimum cost of sending the message?The cost of sending the message is the sum of the costs of sending every word in it.",
+    "prob_desc_output_spec": "The only line should contain the minimum cost to send the message after replacing some words (maybe none) with some words of the same meaning.",
+    "prob_desc_input_spec": "The first line of input contains integers n, k and m (1 ≤ k ≤ n ≤ 105, 1 ≤ m ≤ 105) — the number of words in their language, the number of groups of words, and the number of words in Mahmoud's message respectively. The second line contains n strings consisting of lowercase English letters of length not exceeding 20 which represent the words. It's guaranteed that the words are distinct. The third line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 109) where ai is the cost of sending the i-th word. The next k lines describe the groups of words of same meaning. The next k lines each start with an integer x (1 ≤ x ≤ n) which means that there are x words in this group, followed by x integers which represent the indices of words in this group. It's guaranteed that each word appears in exactly one group. The next line contains m space-separated words which represent Mahmoud's message. Each of these words appears in the list of language's words.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_027.jsonl",
+    "code_uid": "f7e6ce6169452670e8746ef12a03b988",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4 4\\ni loser am the second\\n100 1 1 5 10\\n1 1\\n1 3\\n2 2 5\\n1 4\\ni am the second\", \"5 4 4\\ni loser am the second\\n100 20 1 5 10\\n1 1\\n1 3\\n2 2 5\\n1 4\\ni am the second\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k,m=map(int,input().split())\nL=input().split()\nA=list(map(int,input().split()))\nfor i in range(k):\n    inp=list(map(int,input().split()))\n    X=[]\n    ind=1\n    for i in range(2,inp[0]+1):\n        if A[inp[i]-1]<A[inp[ind]-1]:\n            ind=i\n    #print(ind)\n    for i in range(1,inp[0]+1):\n        A[inp[i]-1]=A[inp[ind]-1]\n    #print(A)\n\ndic=dict()\nfor i in range(n):\n    dic[L[i]]=A[i]\n\n\nmes=input().split()\nout=0\nfor i in mes:\n    out+=dic[i]\nprint(out)\n    \n",
+    "prob_desc_created_at": "1522771500",
+    "tags": [
+        "dsu",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"3223\", \"3133\"]",
+    "src_uid": "0aa46c224476bfba2b1e1227b58e1630",
+    "prob_desc_notes": "NoteIn the second sample, sequence a consists of 4 elements: {a1, a2, a3, a4} = {1, 3, 2, 5}. Sequence a has exactly 2 longest increasing subsequences of length 3, they are {a1, a2, a4} = {1, 3, 5} and {a1, a3, a4} = {1, 2, 5}.In the third sample, sequence a consists of 4 elements: {a1, a2, a3, a4} = {1, 5, 2, 3}. Sequence a have exactly 1 longest increasing subsequence of length 3, that is {a1, a3, a4} = {1, 2, 3}.",
+    "prob_desc_description": "The next \"Data Structures and Algorithms\" lesson will be about Longest Increasing Subsequence (LIS for short) of a sequence. For better understanding, Nam decided to learn it a few days before the lesson.Nam created a sequence a consisting of n (1 ≤ n ≤ 105) elements a1, a2, ..., an (1 ≤ ai ≤ 105). A subsequence ai1, ai2, ..., aik where 1 ≤ i1 &lt; i2 &lt; ... &lt; ik ≤ n is called increasing if ai1 &lt; ai2 &lt; ai3 &lt; ... &lt; aik. An increasing subsequence is called longest if it has maximum length among all increasing subsequences. Nam realizes that a sequence may have several longest increasing subsequences. Hence, he divides all indexes i (1 ≤ i ≤ n), into three groups: group of all i such that ai belongs to no longest increasing subsequences. group of all i such that ai belongs to at least one but not every longest increasing subsequence. group of all i such that ai belongs to every longest increasing subsequence. Since the number of longest increasing subsequences of a may be very large, categorizing process is very difficult. Your task is to help him finish this job.",
+    "prob_desc_output_spec": "Print a string consisting of n characters. i-th character should be '1', '2' or '3' depending on which group among listed above index i belongs to.",
+    "prob_desc_input_spec": "The first line contains the single integer n (1 ≤ n ≤ 105) denoting the number of elements of sequence a. The second line contains n space-separated integers a1, a2, ..., an (1 ≤ ai ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_046.jsonl",
+    "code_uid": "6da85e1824eddba6e014ce3f1c036a01",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n4\", \"4\\n1 3 2 5\", \"4\\n1 5 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# a simple parser for python. use get_number() and get_word() to read\ndef main():\n    def parser():\n        while 1:\n            data = list(input().split(' '))\n            for number in data:\n                if len(number) > 0:\n                    yield(number)\n\n    input_parser = parser()\n    gets = lambda: next(input_parser)\n\n    def getNum():\n        data = gets()\n        try:\n            return int(data)\n        except ValueError:\n            return float(data)\n    # ---------program---------\n    from bisect import bisect_left as binsleft\n    # bisect_left = bisect_left\n    MAXA = int(9e9)\n    n = getNum()\n    RANGN = range(n)\n    a = [ getNum() for _ in RANGN ]\n\n    revlis = []\n    g = [MAXA]*n\n    for i in reversed(RANGN):\n        x = -a[i]\n        pt = binsleft( g, x )\n        revlis.append(pt+1)\n        if( x < g[pt] ):\n            g[pt] = x\n    hlis = max( revlis )\n\n    lis, inlis = [], []\n    d = [0]*n\n    for i in RANGN: g[i] = MAXA\n    for i in RANGN:\n        pt = binsleft( g, a[i] )\n        lis.append( pt+1 )\n        inlis.append( lis[i] + revlis[n-i-1] > hlis )\n        d[pt] += inlis[-1]\n        if( a[i] < g[pt] ):\n            g[pt] = a[i]\n    \n    print( ''.join(\n        [ '32'[d[lis[i]-1] > 1] if inlis[i] else '1'  \n        for i in RANGN ]\n    ) )\n        \nif __name__ == \"__main__\":\n    main()",
+    "prob_desc_created_at": "1415718000",
+    "tags": [
+        "dp",
+        "hashing",
+        "greedy",
+        "math",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

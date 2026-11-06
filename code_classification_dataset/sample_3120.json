@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 1 -1\", \"1\", \"1 1 1 1 1 1 1 -1\"]",
+    "src_uid": "a37a92db3626b46c7af79e3eb991983a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "For a vector $$$\\vec{v} = (x, y)$$$, define $$$|v| = \\sqrt{x^2 + y^2}$$$.Allen had a bit too much to drink at the bar, which is at the origin. There are $$$n$$$ vectors $$$\\vec{v_1}, \\vec{v_2}, \\cdots, \\vec{v_n}$$$. Allen will make $$$n$$$ moves. As Allen's sense of direction is impaired, during the $$$i$$$-th move he will either move in the direction $$$\\vec{v_i}$$$ or $$$-\\vec{v_i}$$$. In other words, if his position is currently $$$p = (x, y)$$$, he will either move to $$$p + \\vec{v_i}$$$ or $$$p - \\vec{v_i}$$$.Allen doesn't want to wander too far from home (which happens to also be the bar). You need to help him figure out a sequence of moves (a sequence of signs for the vectors) such that his final position $$$p$$$ satisfies $$$|p| \\le 1.5 \\cdot 10^6$$$ so that he can stay safe.",
+    "prob_desc_output_spec": "Output a single line containing $$$n$$$ integers $$$c_1, c_2, \\cdots, c_n$$$, each of which is either $$$1$$$ or $$$-1$$$. Your solution is correct if the value of $$$p = \\sum_{i = 1}^n c_i \\vec{v_i}$$$, satisfies $$$|p| \\le 1.5 \\cdot 10^6$$$. It can be shown that a solution always exists under the given constraints.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the number of moves. Each of the following lines contains two space-separated integers $$$x_i$$$ and $$$y_i$$$, meaning that $$$\\vec{v_i} = (x_i, y_i)$$$. We have that $$$|v_i| \\le 10^6$$$ for all $$$i$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_042.jsonl",
+    "code_uid": "95e582a63c276ed52ea9915ae7031277",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n999999 0\\n0 999999\\n999999 0\", \"1\\n-824590 246031\", \"8\\n-67761 603277\\n640586 -396671\\n46147 -122580\\n569609 -2112\\n400 914208\\n131792 309779\\n-850150 -486293\\n5272 721899\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=input()\nx=0\ny=0\ndef dis(x,y,a,b):\n  return (x-a)**2+(y-b)**2\nlst=[]\nans=[0]*n\nlst2=[]\nlst4=[]\nans2=[0]*n\nfor i in range(0,n):\n  a,b=map(int,raw_input().split())\n  lst4.append((a,b))\n  lst.append((a*a,a,b,i))\n  lst2.append((b*b,a,b,i))\nlst.sort(reverse=True)\nlst2.sort(reverse=True)\nfor i in range(0,n):\n  a=lst[i][1]\n  b=lst[i][2]\n  val=lst[i][3]\n  if dis(a,b,x,y)<dis(a,b,-x,-y):\n    ans[val]=str(-1)\n    x=x-a\n    y=y-b \n  else:\n    ans[val]=str(1)\n    x=x+a \n    y=y+b\nif n<1000:\n    \n  for i in range(0,n):\n    a=lst2[i][1]\n    b=lst2[i][2]\n    val=lst2[i][3]\n    if dis(a,b,x,y)<dis(a,b,-x,-y):\n      ans2[val]=str(-1)\n      x=x-a\n      y=y-b \n    else:\n      ans2[val]=str(1)\n      x=x+a \n      y=y+b\n  s1=0\n  s2=0\n  s3=0\n  s4=0\n  for i in range(0,n):\n    s1+=int(ans[i])*lst4[i][0]\n    s2+=int(ans[i])*lst4[i][1]\n    s3+=int(ans2[i])*lst4[i][0]\n    s4+=int(ans2[i])*lst4[i][1]\n  if s1**2+s2**2<s3**2+s4**2:\n    print \" \".join(ans)\n  else:\n    print \" \".join(ans2)\nelse:\n  \n  print \" \".join(ans)\n\n\n\n\n",
+    "prob_desc_created_at": "1529858100",
+    "tags": [
+        "geometry",
+        "greedy",
+        "math",
+        "sortings",
+        "data structures",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

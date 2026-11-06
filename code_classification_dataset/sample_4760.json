@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\\n1 2\\nNo\\nYes\\n1 3\\n2 3\\nNo\\nYes\\n1 2\\n1 4\\n2 3\\n2 5\"]",
+    "src_uid": "2d96a753ae2df1f1084a2cda65839a86",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Fishingprince loves trees. A tree is a connected undirected graph without cycles.Fishingprince has a tree of $$$n$$$ vertices. The vertices are numbered $$$1$$$ through $$$n$$$. Let $$$d(x,y)$$$ denote the shortest distance on the tree from vertex $$$x$$$ to vertex $$$y$$$, assuming that the length of each edge is $$$1$$$.However, the tree was lost in an accident. Fortunately, Fishingprince still remembers some information about the tree. More specifically, for every triple of integers $$$x,y,z$$$ ($$$1\\le x&lt;y\\le n$$$, $$$1\\le z\\le n$$$) he remembers whether $$$d(x,z)=d(y,z)$$$ or not.Help him recover the structure of the tree, or report that no tree satisfying the constraints exists.",
+    "prob_desc_output_spec": "For each test case:   if no answer exists, output No;  otherwise, on the first line output Yes. Then output $$$n-1$$$ lines. Each line should contain two integers $$$x,y$$$ ($$$1\\le x,y\\le n$$$), denoting an edge between vertices $$$x$$$ and $$$y$$$ of the tree. If there are multiple solutions, print any.  When printing Yes and No, you can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 200$$$). Description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$2\\le n\\le 100$$$) — the number of vertices in the tree. Then $$$n-1$$$ lines follow. The $$$i$$$-th line of these $$$n-1$$$ lines contains $$$n-i$$$ strings of length $$$n$$$ consisting of 0 and 1. If the $$$k$$$-th character in the $$$j$$$-th string of the $$$i$$$-th line is 0, it means that $$$d(i,k)\\ne d(i+j,k)$$$; if the $$$k$$$-th character in the $$$j$$$-th string of the $$$i$$$-th line is 1, it means that $$$d(i,k)=d(i+j,k)$$$. It is guaranteed that in one input file,   there are at most $$$2$$$ test cases that have $$$n&gt;50$$$;  there are at most $$$5$$$ test cases that have $$$n&gt;20$$$. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_105.jsonl",
+    "code_uid": "1b4f43568113b10fe5bca4b066a495da",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n2\\n\\n00\\n\\n2\\n\\n10\\n\\n3\\n\\n001 000\\n\\n000\\n\\n3\\n\\n001 010\\n\\n000\\n\\n5\\n\\n00000 01001 00000 01100\\n\\n00000 10000 00000\\n\\n00000 11010\\n\\n00000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def edge(x, y, n):\r\n    return min(x, y) * n + max(x, y)\r\n\r\n\r\ndef solve():\r\n    n = int(input())\r\n    eqlist, neqlist = [], []\r\n    m = n * n\r\n    edge_adj = [[] for _ in range(m)]\r\n    for i in range(n-1):\r\n        for j, s in enumerate(input().split()):\r\n            for k, c in enumerate(s):\r\n                if c == '1':\r\n                    eqlist.append((i, i+j+1, k))\r\n                    u, v = edge(k, i, n), edge(k, i+j+1, n)\r\n                    edge_adj[u].append(v)\r\n                    edge_adj[v].append(u)\r\n                else:\r\n                    neqlist.append((i, i+j+1, k))\r\n\r\n    def check(edges):\r\n        dist = [[n*3]*n for _ in range(n)]\r\n        adj = [[] for _ in range(n)]\r\n        for e in edges:\r\n            u, v = e // n, e % n\r\n            adj[u].append(v)\r\n            adj[v].append(u)\r\n            if u == v:\r\n                return False\r\n        \r\n        for i in range(n):\r\n            dist[i][i] = 0\r\n            stack = [(i, -1, 0)]\r\n            while len(stack) > 0:\r\n                u, par, d = stack.pop()\r\n                for v in adj[u]:\r\n                    if v == par:\r\n                        continue\r\n                    if dist[i][v] < n: # cycle\r\n                        return False\r\n                    dist[i][v] = d + 1\r\n                    stack.append((v, u, d+1))\r\n        \r\n        for i in range(n):\r\n            for j in range(n):\r\n                if dist[i][j] >= n:\r\n                    return False\r\n \r\n        return all(dist[i][k] == dist[j][k] for i, j, k in eqlist) and\\\r\n            all(dist[i][k] != dist[j][k] for i, j, k in neqlist)\r\n    \r\n    edges = None\r\n    vis = [False] * m\r\n    for i in range(m):\r\n        if vis[i]:\r\n            continue\r\n        if i // n > i % n:\r\n            continue\r\n\r\n        vis[i] = True\r\n        visited = []\r\n        stack = [i]\r\n        while len(stack) > 0:\r\n            u = stack.pop()\r\n            visited.append(u)\r\n            for v in edge_adj[u]:\r\n                if vis[v]:\r\n                    continue\r\n                vis[v] = True\r\n                stack.append(v)\r\n        \r\n        if len(visited) == n-1 and check(visited):\r\n            edges = visited\r\n            break\r\n    \r\n    if edges is None:\r\n        print('No')\r\n    else:\r\n        print('Yes')\r\n        for e in edges:\r\n            print(e // n + 1, e % n + 1)\r\n\r\n\r\nif __name__ == '__main__':\r\n    for i in range(int(input())):\r\n        solve()",
+    "prob_desc_created_at": "1656167700",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "dfs and similar",
+        "dsu",
+        "graphs",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

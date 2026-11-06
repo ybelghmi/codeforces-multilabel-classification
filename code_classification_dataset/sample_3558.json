@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"44\", \"377\", \"422899\"]",
+    "src_uid": "db1e1831383d057dccda263f2ec864f7",
+    "prob_desc_notes": "NoteIn the first sample, we can select person $$$1$$$ to play in the $$$1$$$-st position and persons $$$2$$$ and $$$3$$$ as audience members. Then the total strength of the club will be equal to $$$a_{2}+a_{3}+s_{1,1}$$$.",
+    "prob_desc_description": "Alice, the president of club FCB, wants to build a team for the new volleyball tournament. The team should consist of $$$p$$$ players playing in $$$p$$$ different positions. She also recognizes the importance of audience support, so she wants to select $$$k$$$ people as part of the audience.There are $$$n$$$ people in Byteland. Alice needs to select exactly $$$p$$$ players, one for each position, and exactly $$$k$$$ members of the audience from this pool of $$$n$$$ people. Her ultimate goal is to maximize the total strength of the club.The $$$i$$$-th of the $$$n$$$ persons has an integer $$$a_{i}$$$ associated with him — the strength he adds to the club if he is selected as a member of the audience.For each person $$$i$$$ and for each position $$$j$$$, Alice knows $$$s_{i, j}$$$  — the strength added by the $$$i$$$-th person to the club if he is selected to play in the $$$j$$$-th position.Each person can be selected at most once as a player or a member of the audience. You have to choose exactly one player for each position.Since Alice is busy, she needs you to help her find the maximum possible strength of the club that can be achieved by an optimal choice of players and the audience.",
+    "prob_desc_output_spec": "Print a single integer $$${res}$$$  — the maximum possible strength of the club.",
+    "prob_desc_input_spec": "The first line contains $$$3$$$ integers $$$n,p,k$$$ ($$$2 \\leq n \\leq 10^{5}, 1 \\leq p \\leq 7, 1 \\le k, p+k \\le n$$$). The second line contains $$$n$$$ integers $$$a_{1},a_{2},\\ldots,a_{n}$$$. ($$$1 \\leq a_{i} \\leq 10^{9}$$$). The $$$i$$$-th of the next $$$n$$$ lines contains $$$p$$$ integers $$$s_{i, 1}, s_{i, 2}, \\dots, s_{i, p}$$$. ($$$1 \\leq s_{i,j} \\leq 10^{9}$$$)",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_068.jsonl",
+    "code_uid": "ef41df8218260613ca94dd142ca897d9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 1 2\\n1 16 10 3\\n18\\n19\\n13\\n15\", \"6 2 3\\n78 93 9 17 13 78\\n80 97\\n30 52\\n26 17\\n56 68\\n60 36\\n84 55\", \"3 2 1\\n500 498 564\\n100002 3\\n422332 2\\n232323 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io\nimport os\n\n\n# PSA:\n# The key optimization that made this pass was to avoid python big ints by using floats (which have integral precision <= 2^52)\n# None of the other optimizations really mattered in comparison.\n# Credit for this trick goes to pajenegod: https://codeforces.com/blog/entry/77309?#comment-622486\n\npopcount = []\nfor mask in range(1 << 7):\n    popcount.append(bin(mask).count(\"1\"))\n\nmaskToPos = []\nfor mask in range(1 << 7):\n    maskToPos.append([i for i in range(7) if mask & (1 << i)])\n\n\ninf = float(\"inf\")\n\n\ndef solve(N, P, K, audienceScore, playerScore):\n    scores = sorted(zip(audienceScore, playerScore), reverse=True)\n    scoresA = [0.0 for i in range(N)]\n    scoresP = [0.0 for i in range(7 * N)]\n    for i, (a, ps) in enumerate(scores):\n        scoresA[i] = float(a)\n        for j, p in enumerate(ps):\n            scoresP[7 * i + j] = float(p)\n\n    f = [-inf for mask in range(1 << P)]\n    nextF = [-inf for mask in range(1 << P)]\n\n    f[0] = scoresA[0]\n    for pos in range(P):\n        f[1 << pos] = scoresP[pos]\n\n    for n in range(1, N):\n        for mask in range(1 << P):\n            best = f[mask]\n            if n - popcount[mask] < K:\n                best += scoresA[n]\n            for pos in maskToPos[mask]:\n                best = max(best, scoresP[7 * n + pos] + f[mask - (1 << pos)])\n            nextF[mask] = best\n\n        f, nextF = nextF, f\n\n    return int(max(f))\n\n\nif __name__ == \"__main__\":\n    input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\n    N, P, K = list(map(int, input().split()))\n    audienceScore = [int(x) for x in input().split()]\n    playerScore = [[int(x) for x in input().split()] for i in range(N)]\n    ans = solve(N, P, K, audienceScore, playerScore)\n    print(ans)\n",
+    "prob_desc_created_at": "1583332500",
+    "tags": [
+        "dp",
+        "bitmasks",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

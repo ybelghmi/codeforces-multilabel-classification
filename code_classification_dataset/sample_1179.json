@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"13-12-2013\"]",
+    "src_uid": "dd7fd84f7915ad57b0e21f416e2a3ea0",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A recently found Ancient Prophesy is believed to contain the exact Apocalypse date. The prophesy is a string that only consists of digits and characters \"-\".We'll say that some date is mentioned in the Prophesy if there is a substring in the Prophesy that is the date's record in the format \"dd-mm-yyyy\". We'll say that the number of the date's occurrences is the number of such substrings in the Prophesy. For example, the Prophesy \"0012-10-2012-10-2012\" mentions date 12-10-2012 twice (first time as \"0012-10-2012-10-2012\", second time as \"0012-10-2012-10-2012\").The date of the Apocalypse is such correct date that the number of times it is mentioned in the Prophesy is strictly larger than that of any other correct date.A date is correct if the year lies in the range from 2013 to 2015, the month is from 1 to 12, and the number of the day is strictly more than a zero and doesn't exceed the number of days in the current month. Note that a date is written in the format \"dd-mm-yyyy\", that means that leading zeroes may be added to the numbers of the months or days if needed. In other words, date \"1-1-2013\" isn't recorded in the format \"dd-mm-yyyy\", and date \"01-01-2013\" is recorded in it.Notice, that any year between 2013 and 2015 is not a leap year.",
+    "prob_desc_output_spec": "In a single line print the date of the Apocalypse. It is guaranteed that such date exists and is unique.",
+    "prob_desc_input_spec": "The first line contains the Prophesy: a non-empty string that only consists of digits and characters \"-\". The length of the Prophesy doesn't exceed 105 characters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_007.jsonl",
+    "code_uid": "e2843da249328fdaa98f52fb3d8dbeb1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"777-444---21-12-2013-12-2013-12-2013---444-777\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import re\n\ndef c(d):\n    d,m,y=map(int,d.split('-'))\n    M=set([1,3,5,7,8,10,12])\n    return y > 2012 and y< 2016 and d>0and(d<29 and m==2 or d<32 and m in M or d<30 and m in (set(range(4,13))-M))\n    \n    \nd=re.findall(\"(?=(\\d\\d-\\d\\d-\\d{4}))\", raw_input())\nr={}\nfor i in d:\n    r[i]=r.get(i,0)+c(i)\n\nprint max(r.items(), key=lambda y:y[1])[0]",
+    "prob_desc_created_at": "1356622500",
+    "tags": [
+        "implementation",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

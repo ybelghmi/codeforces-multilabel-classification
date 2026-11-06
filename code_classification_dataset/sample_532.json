@@ -1,0 +1,32 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n5\"]",
+    "src_uid": "58d7066178839b400b08f39b680da140",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are $$$n$$$ segments on a $$$Ox$$$ axis $$$[l_1, r_1]$$$, $$$[l_2, r_2]$$$, ..., $$$[l_n, r_n]$$$. Segment $$$[l, r]$$$ covers all points from $$$l$$$ to $$$r$$$ inclusive, so all $$$x$$$ such that $$$l \\le x \\le r$$$.Segments can be placed arbitrarily  — be inside each other, coincide and so on. Segments can degenerate into points, that is $$$l_i=r_i$$$ is possible.Union of the set of segments is such a set of segments which covers exactly the same set of points as the original set. For example:  if $$$n=3$$$ and there are segments $$$[3, 6]$$$, $$$[100, 100]$$$, $$$[5, 8]$$$ then their union is $$$2$$$ segments: $$$[3, 8]$$$ and $$$[100, 100]$$$;  if $$$n=5$$$ and there are segments $$$[1, 2]$$$, $$$[2, 3]$$$, $$$[4, 5]$$$, $$$[4, 6]$$$, $$$[6, 6]$$$ then their union is $$$2$$$ segments: $$$[1, 3]$$$ and $$$[4, 6]$$$. Obviously, a union is a set of pairwise non-intersecting segments.You are asked to erase exactly one segment of the given $$$n$$$ so that the number of segments in the union of the rest $$$n-1$$$ segments is maximum possible.For example, if $$$n=4$$$ and there are segments $$$[1, 4]$$$, $$$[2, 3]$$$, $$$[3, 6]$$$, $$$[5, 7]$$$, then:  erasing the first segment will lead to $$$[2, 3]$$$, $$$[3, 6]$$$, $$$[5, 7]$$$ remaining, which have $$$1$$$ segment in their union;  erasing the second segment will lead to $$$[1, 4]$$$, $$$[3, 6]$$$, $$$[5, 7]$$$ remaining, which have $$$1$$$ segment in their union;  erasing the third segment will lead to $$$[1, 4]$$$, $$$[2, 3]$$$, $$$[5, 7]$$$ remaining, which have $$$2$$$ segments in their union;  erasing the fourth segment will lead to $$$[1, 4]$$$, $$$[2, 3]$$$, $$$[3, 6]$$$ remaining, which have $$$1$$$ segment in their union. Thus, you are required to erase the third segment to get answer $$$2$$$.Write a program that will find the maximum number of segments in the union of $$$n-1$$$ segments if you erase any of the given $$$n$$$ segments.Note that if there are multiple equal segments in the given set, then you can erase only one of them anyway. So the set after erasing will have exactly $$$n-1$$$ segments.",
+    "prob_desc_output_spec": "Print $$$t$$$ integers — the answers to the $$$t$$$ given test cases in the order of input. The answer is the maximum number of segments in the union of $$$n-1$$$ segments if you erase any of the given $$$n$$$ segments.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the test. Then the descriptions of $$$t$$$ test cases follow. The first of each test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 2\\cdot10^5$$$) — the number of segments in the given set. Then $$$n$$$ lines follow, each contains a description of a segment — a pair of integers $$$l_i$$$, $$$r_i$$$ ($$$-10^9 \\le l_i \\le r_i \\le 10^9$$$), where $$$l_i$$$ and $$$r_i$$$ are the coordinates of the left and right borders of the $$$i$$$-th segment, respectively. The segments are given in an arbitrary order. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2\\cdot10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_002.jsonl",
+    "code_uid": "50d3b02c2a4be09177c2b42209db4b0a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4\\n1 4\\n2 3\\n3 6\\n5 7\\n3\\n5 5\\n5 5\\n5 5\\n6\\n3 3\\n1 1\\n5 5\\n1 5\\n2 2\\n4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\nimport sys\n\nstdin = sys.stdin.read().split('\\n')\nlinecount = -1\ndef input():\n    global linecount\n    linecount+=1\n    return stdin[linecount]\n\nt = int(input())\n\noutput = []\n\n\nfor test in range(t):\n\n    n = int(input())\n    actives = set()\n    count = Counter()\n    events = []\n    for i in range(n):\n        l,r = map(int, input().split())\n        events.append((l, False, i))\n        events.append((r, True, i))\n    events.sort()\n    cnt = 0\n    ans = 0\n    for (pos, end, index) in events:\n        # print(pos,end,index)\n        if end:\n            cnt-=1\n            actives.remove(index)\n        else:\n            cnt+=1\n            if cnt ==1:\n                ans+=1\n            if cnt==2:\n                count[index]+=1\n                f = actives.pop()\n                count[f]+=1\n                actives.add(f)\n            if cnt > 2:\n                count[index]+=1\n            actives.add(index)\n\n    # print(count)\n    # print(\"###############\")\n    if len(count)==0:\n        output.append(str(ans - 1))\n    else:\n        output.append(str(ans + max(count.values()) - 1))\n\n\nprint('\\n'.join(output))\n",
+    "prob_desc_created_at": "1578665100",
+    "tags": [
+        "dp",
+        "graphs",
+        "constructive algorithms",
+        "two pointers",
+        "sortings",
+        "data structures",
+        "trees",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

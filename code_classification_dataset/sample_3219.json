@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"68.538461538\\n44.538461538\", \"-93.666666667\\n-74.666666667\\n-15.666666667\"]",
+    "src_uid": "2432a746446990ecc2926bf00807a5ee",
+    "prob_desc_notes": null,
+    "prob_desc_description": "On a number line there are n balls. At time moment 0 for each ball the following data is known: its coordinate xi, speed vi (possibly, negative) and weight mi. The radius of the balls can be ignored.The balls collide elastically, i.e. if two balls weighing m1 and m2 and with speeds v1 and v2 collide, their new speeds will be: .Your task is to find out, where each ball will be t seconds after.",
+    "prob_desc_output_spec": "Output n numbers — coordinates of the balls t seconds after. Output the numbers accurate to at least 4 digits after the decimal point.",
+    "prob_desc_input_spec": "The first line contains two integers n and t (1 ≤ n ≤ 10, 0 ≤ t ≤ 100) — amount of balls and duration of the process. Then follow n lines, each containing three integers: xi, vi, mi (1 ≤ |vi|, mi ≤ 100, |xi| ≤ 100) — coordinate, speed and weight of the ball with index i at time moment 0. It is guaranteed that no two balls have the same coordinate initially. Also each collision will be a collision of not more than two balls (that is, three or more balls never collide at the same point in all times from segment [0;t]).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_047.jsonl",
+    "code_uid": "ffeacc886ae41bce894da2615b06bdf7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 9\\n3 4 5\\n0 7 8\", \"3 10\\n1 2 3\\n4 -5 6\\n7 -8 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class Ball:\n    def __init__(self, x, v, m):\n        self.v = v\n        self.x = x\n        self.m = m\n\n    def move(self, time):\n        self.x += self.v * time\n\n    def collisionTime(self, other):\n        if self.v == other.v:\n            return float(\"inf\")\n\n        t = - (self.x - other.x) / (self.v - other.v)\n\n        if t < 1e-9:\n            return float(\"inf\")\n        return t \n        \n    def __str__(self):\n        return \"Ball(x={:.2f} v={:.2f} m={:.2f})\".format(self.x, self.v, self.m)\n\n\ndef findFirst():\n    global nBalls, balls\n\n    minTime = float(\"inf\")\n    minPairs = []\n\n    for i in range(nBalls):\n        for j in range(i + 1, nBalls):\n            time = balls[i].collisionTime(balls[j])\n            if time < minTime:\n                minTime = time\n                minPairs = [(i, j)]\n            elif abs(time - minTime) < 1e-9:\n                minPairs.append((i, j))\n                \n    return minTime, minPairs\n\n\ndef collidePair(i, j):\n    global balls\n\n    v1 = balls[i].v\n    v2 = balls[j].v\n\n    m1 = balls[i].m\n    m2 = balls[j].m\n\n    balls[i].v = ((m1 - m2) * v1 + 2 * m2 * v2) / (m1 + m2)\n    balls[j].v = ((m2 - m1) * v2 + 2 * m1 * v1) / (m1 + m2)\n\n\n\nnBalls, maxTime = map(int, input().split())\n\nballs = []\nfor i in range(nBalls):\n    x, v, m = map(int, input().split())\n    balls.append(Ball(x, v, m))\n\nwhile True:\n    time, pairs = findFirst()\n    if time > maxTime:\n        break\n    \n    for i in range(nBalls):\n        balls[i].move(time)\n\n    # print(time, maxTime)\n    for i, j in pairs:\n        collidePair(i, j)\n        # print(i, balls[i], j, balls[j])\n    # print()\n\n    maxTime -= time\n   \n\nfor ball in balls:\n    ball.move(maxTime)\n    print(\"{:.6f}\".format(ball.x))\n",
+    "prob_desc_created_at": "1286802000",
+    "tags": [
+        "implementation",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

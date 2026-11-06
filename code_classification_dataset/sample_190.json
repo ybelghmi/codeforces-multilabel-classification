@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\", \"No\"]",
+    "src_uid": "e72fa6f8a31c34fd3ca0ce3a3873ff50",
+    "prob_desc_notes": "NoteIn the first sample, Arya can understand  because 5 is one of the ancient numbers.In the second sample, Arya can't be sure what  is. For example 1 and 7 have the same remainders after dividing by 2 and 3, but they differ in remainders after dividing by 7.",
+    "prob_desc_description": "Today Pari and Arya are playing a game called Remainders.Pari chooses two positive integer x and k, and tells Arya k but not x. Arya have to find the value . There are n ancient numbers c1, c2, ..., cn and Pari has to tell Arya  if Arya wants. Given k and the ancient values, tell us if Arya has a winning strategy independent of value of x or not. Formally, is it true that Arya can understand the value  for any positive integer x?Note, that  means the remainder of x after dividing it by y.",
+    "prob_desc_output_spec": "Print \"Yes\" (without quotes) if Arya has a winning strategy independent of value of x, or \"No\" (without quotes) otherwise.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and k (1 ≤ n,  k ≤ 1 000 000) — the number of ancient integers and value k that is chosen by Pari. The second line contains n integers c1, c2, ..., cn (1 ≤ ci ≤ 1 000 000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_000.jsonl",
+    "code_uid": "5052386e91fc1fe0d05d0df22ed00077",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 5\\n2 3 5 12\", \"2 7\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n\ndef main():\n    n,k = map(int,input().split())\n    C = list(map(int,input().split()))\n    l=C[0]\n    for c in C:\n        l = l*c//math.gcd(l,c)%k\n        if(l==0):\n            print(\"Yes\")\n            return\n    print(\"No\")\n\nmain()\n",
+    "prob_desc_created_at": "1467219900",
+    "tags": [
+        "number theory",
+        "chinese remainder theorem",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

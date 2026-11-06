@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"42\", \"13\", \"719\"]",
+    "src_uid": "ed5bf2596ec33a1a044ffd7952cdb897",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Sereja has a sequence that consists of n positive integers, a1, a2, ..., an. First Sereja took a piece of squared paper and wrote all distinct non-empty non-decreasing subsequences of sequence a. Then for each sequence written on the squared paper, Sereja wrote on a piece of lines paper all sequences that do not exceed it.A sequence of positive integers x = x1, x2, ..., xr doesn't exceed a sequence of positive integers y = y1, y2, ..., yr, if the following inequation holds: x1 ≤ y1, x2 ≤ y2, ..., xr ≤ yr.Now Sereja wonders, how many sequences are written on the lines piece of paper. Help Sereja, find the required quantity modulo 1000000007 (109 + 7). ",
+    "prob_desc_output_spec": "In the single line print the answer to the problem modulo 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105). The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 106).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_067.jsonl",
+    "code_uid": "8c9e8ff878857cc132426e3c8205ea6f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n42\", \"3\\n1 2 2\", \"5\\n1 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "M=10**9+7\nN=2**20\nv,w=[0]*N,[0]*N\ndef S(y):\n  s=0\n  while y>0:\n    s+=w[y]\n    y-=y&-y\n  return s\ninput()\nfor x in map(int,raw_input().split()):\n  s=1+S(x)\n  d=((s*x-v[x])%M+M)%M\n  v[x]+=d\n  y=x\n  while y<N:\n    w[y]=(w[y]+d)%M\n    y+=y&-y\nprint S(N-1)%M\n",
+    "prob_desc_created_at": "1370619000",
+    "tags": [
+        "data structures",
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

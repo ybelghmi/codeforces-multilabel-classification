@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"6 2 1\", \"5 2 0\"]",
+    "src_uid": "e53a6f0bd06550e078e8093590de0360",
+    "prob_desc_notes": "NoteThe picture describing the first example:Points with coordinates $$$[0, 4, 5, 6, 7, 8]$$$ are covered by one segment, points $$$[1, 2]$$$ are covered by two segments and point $$$[3]$$$ is covered by three segments.The picture describing the second example:Points $$$[1, 4, 5, 6, 7]$$$ are covered by one segment, points $$$[2, 3]$$$ are covered by two segments and there are no points covered by three segments.",
+    "prob_desc_description": "You are given $$$n$$$ segments on a coordinate line; each endpoint of every segment has integer coordinates. Some segments can degenerate to points. Segments can intersect with each other, be nested in each other or even coincide.Your task is the following: for every $$$k \\in [1..n]$$$, calculate the number of points with integer coordinates such that the number of segments that cover these points equals $$$k$$$. A segment with endpoints $$$l_i$$$ and $$$r_i$$$ covers point $$$x$$$ if and only if $$$l_i \\le x \\le r_i$$$.",
+    "prob_desc_output_spec": "Print $$$n$$$ space separated integers $$$cnt_1, cnt_2, \\dots, cnt_n$$$, where $$$cnt_i$$$ is equal to the number of points such that the number of segments that cover these points equals to $$$i$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of segments. The next $$$n$$$ lines contain segments. The $$$i$$$-th line contains a pair of integers $$$l_i, r_i$$$ ($$$0 \\le l_i \\le r_i \\le 10^{18}$$$) — the endpoints of the $$$i$$$-th segment.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_059.jsonl",
+    "code_uid": "da52f63e4fa97f6f911b9bc49051ec94",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0 3\\n1 3\\n3 8\", \"3\\n1 3\\n2 4\\n5 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\npoints = set()\nstarts = {}\nends = {}\n\nfor i in range(n):\n    a, b = map(int, input().split())\n    points.add(a)\n    points.add(b)\n    starts[a] = 1 + starts.get(a, 0)\n    ends[b] = 1 + ends.get(b, 0)\n\nspoints = sorted(points)\n\ndensity_stats = {}\n\nprev_point = spoints[0]\ndensity = 0\nfor cur_point in spoints:\n    interval_length = cur_point - prev_point - 1\n    if interval_length > 0:\n        density_stats[density] = interval_length + density_stats.get(density, 0)\n\n    starts_here = starts.get(cur_point, 0)\n    density += starts_here\n    density_stats[density] = 1 + density_stats.get(density, 0)\n\n    ends_here = ends.get(cur_point, 0)\n    density -= ends_here\n    prev_point = cur_point\n\nfor i in range(1, n + 1):\n    print(density_stats.get(i, 0), end=' ')\n",
+    "prob_desc_created_at": "1530110100",
+    "tags": [
+        "data structures",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

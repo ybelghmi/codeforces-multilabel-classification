@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"32\\n5\\n25\\n14\\n4\", \"6\\n3\\n98\\n13\\n22\\n15\\n3\"]",
+    "src_uid": "af002b3aef8e7c698eb6f154a4b0bae0",
+    "prob_desc_notes": "NoteThe first example is explained in the legend.",
+    "prob_desc_description": "Vus the Cossack has a field with dimensions $$$n \\times m$$$, which consists of \"0\" and \"1\". He is building an infinite field from this field. He is doing this in this way: He takes the current field and finds a new inverted field. In other words, the new field will contain \"1\" only there, where \"0\" was in the current field, and \"0\" there, where \"1\" was. To the current field, he adds the inverted field to the right.  To the current field, he adds the inverted field to the bottom.  To the current field, he adds the current field to the bottom right.  He repeats it.For example, if the initial field was: $$$\\begin{matrix} 1 &amp; 0 &amp; \\\\ 1 &amp; 1 &amp; \\\\ \\end{matrix}$$$ After the first iteration, the field will be like this: $$$\\begin{matrix} 1 &amp; 0 &amp; 0 &amp; 1 \\\\ 1 &amp; 1 &amp; 0 &amp; 0 \\\\ 0 &amp; 1 &amp; 1 &amp; 0 \\\\ 0 &amp; 0 &amp; 1 &amp; 1 \\\\ \\end{matrix}$$$ After the second iteration, the field will be like this: $$$\\begin{matrix} 1 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 1 &amp; 0 \\\\ 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 \\\\ 0 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 1 \\\\ 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\\\ 0 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 1 \\\\ 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\\\ 1 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 1 &amp; 0 \\\\ 1 &amp; 1 &amp; 0&amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 \\\\ \\end{matrix}$$$ And so on...Let's numerate lines from top to bottom from $$$1$$$ to infinity, and columns from left to right from $$$1$$$ to infinity. We call the submatrix $$$(x_1, y_1, x_2, y_2)$$$ all numbers that have coordinates $$$(x, y)$$$ such that $$$x_1 \\leq x \\leq x_2$$$ and $$$y_1 \\leq y \\leq y_2$$$.The Cossack needs sometimes to find the sum of all the numbers in submatrices. Since he is pretty busy right now, he is asking you to find the answers!",
+    "prob_desc_output_spec": "For each query, print the answer.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$m$$$, $$$q$$$ ($$$1 \\leq n, m \\leq 1\\,000$$$, $$$1 \\leq q \\leq 10^5$$$) — the dimensions of the initial matrix and the number of queries. Each of the next $$$n$$$ lines contains $$$m$$$ characters $$$c_{ij}$$$ ($$$0 \\leq c_{ij} \\leq 1$$$) — the characters in the matrix. Each of the next $$$q$$$ lines contains four integers $$$x_1$$$, $$$y_1$$$, $$$x_2$$$, $$$y_2$$$ ($$$1 \\leq x_1 \\leq x_2 \\leq 10^9$$$, $$$1 \\leq y_1 \\leq y_2 \\leq 10^9$$$) — the coordinates of the upper left cell and bottom right cell, between which you need to find the sum of all numbers.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_076.jsonl",
+    "code_uid": "073eaab86ac4edce005bf25ac6dc9c38",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2 5\\n10\\n11\\n1 1 8 8\\n2 4 5 6\\n1 2 7 8\\n3 3 6 8\\n5 6 7 8\", \"2 3 7\\n100\\n101\\n4 12 5 17\\n5 4 9 4\\n1 4 13 18\\n12 1 14 9\\n3 10 7 18\\n3 15 12 17\\n8 6 8 12\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin,stdout\n\nn,m,q = map(int, stdin.readline().split())\n\nmat = [[0]*m for i in range(n)]\n\nfor i in range(n):\n    row = stdin.readline().strip()\n    for j,c in enumerate(row):\n        mat[i][j] = 1 if c == '1' else -1\n\n#print(mat)\ndef get(a,b):\n    if a < 0 or b < 0:\n        return 0\n    x = a^b\n    ans = 1\n    while x > 0:\n        if x % 2 == 1:\n            ans *= -1\n        x //= 2\n    return ans\n\nrow_sums = [[0]*(m+1) for i in range(n+1)]\nfor i in range(n):\n    for j in range(m):\n        row_sums[i+1][j+1] = row_sums[i][j+1] + mat[i][j]\n#print(row_sums)\nmat_sums = [[0]*(m+1) for i in range(n+1)]\nfor i in range(n):\n    for j in range(m):\n        mat_sums[i+1][j+1] = mat_sums[i+1][j] + row_sums[i+1][j+1]\n#print(mat_sums)\n\ntotal = mat_sums[n][m]\ndef rect_sum(a, b):\n    if a == 0 or b == 0:\n        return 0\n    top_edge = 0\n    right_edge = 0\n    small = 0\n    x = a//n\n    x_rem = a%n\n    y = b // m\n    y_rem = b%m\n#    print(\"x\", x, \"y\", y, \"x_rem\", x_rem, \"y_rem\", y_rem)\n    big = 0 if x % 2 == 0 or y % 2 == 0 else total\n    big *= get(x-1,y-1)\n    if x % 2 == 1:\n        right_edge= mat_sums[n][y_rem]\n    right_edge *= get(x-1,y)\n    if y % 2 == 1:\n        top_edge = mat_sums[x_rem][m]\n    top_edge *= get(x,y-1)\n    small = mat_sums[x_rem][y_rem]\n    small *= get(x,y)\n\n#    print(\"big\", big, \"top\", top_edge, \"right\", right_edge, \"small\", small)\n    return top_edge + right_edge+small+big\n\nfor it in range(q):\n    x1,y1,x2,y2 = map(int, stdin.readline().split())\n    ans = rect_sum(x2,y2) - rect_sum(x1-1, y2) - rect_sum(x2, y1-1) + rect_sum(x1-1,y1-1)\n    ans = ((x2-x1+1)*(y2-y1+1) + ans)//2\n    stdout.write(str(ans) + '\\n')\n",
+    "prob_desc_created_at": "1561710000",
+    "tags": [
+        "implementation",
+        "divide and conquer",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

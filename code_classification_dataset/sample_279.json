@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2\\n1 3\\n1 4\\n1 5\\n1 6\\n2 3\\n2 4\\n2 5\\n2 6\\n3 4\\n3 5\\n3 6\"]",
+    "src_uid": "ddbac4053bd07eada84bc44275367ae2",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Let's call an undirected graph of n vertices p-interesting, if the following conditions fulfill:   the graph contains exactly 2n + p edges;  the graph doesn't contain self-loops and multiple edges;  for any integer k (1 ≤ k ≤ n), any subgraph consisting of k vertices contains at most 2k + p edges. A subgraph of a graph is some set of the graph vertices and some set of the graph edges. At that, the set of edges must meet the condition: both ends of each edge from the set must belong to the chosen set of vertices. Your task is to find a p-interesting graph consisting of n vertices.",
+    "prob_desc_output_spec": "For each of the t tests print 2n + p lines containing the description of the edges of a p-interesting graph: the i-th line must contain two space-separated integers ai, bi (1 ≤ ai, bi ≤ n; ai ≠ bi) — two vertices, connected by an edge in the resulting graph. Consider the graph vertices numbered with integers from 1 to n.  Print the answers to the tests in the order the tests occur in the input. If there are multiple solutions, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer t (1 ≤ t ≤ 5) — the number of tests in the input. Next t lines each contains two space-separated integers: n, p (5 ≤ n ≤ 24; p ≥ 0; ) — the number of vertices in the graph and the interest value for the appropriate test.  It is guaranteed that the required graph exists.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "ffa59de54a103421c0547de702ffc6af",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n6 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#b=b[2:].zfill(32)\n#for deque append(),pop(),appendleft(),popleft(),count()\nimport math,sys\nfrom collections import Counter, defaultdict, deque\nfrom sys import stdin, stdout\ninput = stdin.readline\nlili=lambda:list(map(int,sys.stdin.readlines()))\nli = lambda:list(map(int,input().split()))\nI=lambda:int(input())\nS=lambda:input().strip()\nmod = 1000000007\n\nfor _ in range(I()):\n    n,p=li()\n    k=1\n    c=k+1\n    p=2*n+p\n    while(p):\n        print(k,c)\n        p-=1\n        if(c==n):\n            k+=1\n            c=k\n        c+=1\n\n\n",
+    "prob_desc_created_at": "1394983800",
+    "tags": [
+        "constructive algorithms",
+        "brute force",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

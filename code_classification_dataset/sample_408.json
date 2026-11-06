@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n3 1\\n4 1\\n1 2\\n5 2\\n2 6\", \"NO\", \"YES\\n2 9\\n2 10\\n10 3\\n3 1\\n6 10\\n8 2\\n4 3\\n5 6\\n6 7\", \"YES\\n2 5\\n7 2\\n3 7\\n3 1\\n1 6\\n8 7\\n4 3\"]",
+    "src_uid": "a4849505bca48b408a5e8fb5aebf5cb6",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given three integers $$$n$$$, $$$d$$$ and $$$k$$$.Your task is to construct an undirected tree on $$$n$$$ vertices with diameter $$$d$$$ and degree of each vertex at most $$$k$$$, or say that it is impossible.An undirected tree is a connected undirected graph with $$$n - 1$$$ edges.Diameter of a tree is the maximum length of a simple path (a path in which each vertex appears at most once) between all pairs of vertices of this tree.Degree of a vertex is the number of edges incident to this vertex (i.e. for a vertex $$$u$$$ it is the number of edges $$$(u, v)$$$ that belong to the tree, where $$$v$$$ is any other vertex of a tree).",
+    "prob_desc_output_spec": "If there is no tree satisfying the conditions above, print only one word \"NO\" (without quotes). Otherwise in the first line print \"YES\" (without quotes), and then print $$$n - 1$$$ lines describing edges of a tree satisfying the conditions above. Vertices of the tree must be numbered from $$$1$$$ to $$$n$$$. You can print edges and vertices connected by an edge in any order. If there are multiple answers, print any of them.1",
+    "prob_desc_input_spec": "The first line of the input contains three integers $$$n$$$, $$$d$$$ and $$$k$$$ ($$$1 \\le n, d, k \\le 4 \\cdot 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_002.jsonl",
+    "code_uid": "67d367d8f6c84392f200638e9f4aab1b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3 3\", \"6 2 3\", \"10 4 3\", \"8 5 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,d,k=map(int,raw_input().strip().split())\nans=[]\nif (d>n-1):\n\tprint (\"NO\")\n\texit(0)\nif (k<2 and n>2):\n\tprint (\"NO\")\n\texit(0)\nl1=[0 for i in range(d+2)]\ncount=d\ncnt=d+2\ndef insert(par,v,r,e):\n\tglobal count\n\tglobal cnt\n\tif count==n-1:\n\t\tprint (\"YES\")\n\t\tfor o in ans:\n\t\t\tprint o[0],o[1]\n\t\texit(0)\n\telse:\n\t\tans.append([par,v])\n\t\tcnt=cnt+1\n\t\tcount=count+1\n\tif (e==0):\n\t\treturn \n\twhile(r!=0):\n\t\tinsert(v,cnt,k-1,e-1)\n\t\tr=r-1\n\treturn \nfor i in range(1,d+1):\n\tans.append([i,i+1])\nfor i in range(1,d+2):\n\tl1[i]=min(i-1,d+1-i)\nfor i in range(2,d+1):\n\tr=k-2\n\twhile(r!=0):\n\t\tinsert(i,cnt,k-1,l1[i]-1)\n\t\tr=r-1\nif (count<n-1):\n\tprint (\"NO\")\nelse:\n\tprint (\"YES\")\n\tfor o in ans:\n\t\tprint o[0],o[1]\n\texit(0)",
+    "prob_desc_created_at": "1530628500",
+    "tags": [
+        "constructive algorithms",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

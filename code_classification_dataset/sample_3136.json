@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\"]",
+    "src_uid": "9e7f977b4761fcc2d0791cdb34583ba6",
+    "prob_desc_notes": "NoteWe first choose k = 2.The image is padded as follows: 001000101100110010000000We can toggle the image to look as follows: 001100001100000000000000We can see that this image is compressible for k = 2.",
+    "prob_desc_description": "You are given an image, that can be represented with a 2-d n by m grid of pixels. Each pixel of the image is either on or off, denoted by the characters \"0\" or \"1\", respectively. You would like to compress this image. You want to choose an integer k &gt; 1 and split the image into k by k blocks. If n and m are not divisible by k, the image is padded with only zeros on the right and bottom so that they are divisible by k. Each pixel in each individual block must have the same value. The given image may not be compressible in its current state. Find the minimum number of pixels you need to toggle (after padding) in order for the image to be compressible for some k. More specifically, the steps are to first choose k, then the image is padded with zeros, then, we can toggle the pixels so it is compressible for this k. The image must be compressible in that state.",
+    "prob_desc_output_spec": "Print a single integer, the minimum number of pixels needed to toggle to make the image compressible.",
+    "prob_desc_input_spec": "The first line of input will contain two integers n, m (2 ≤ n, m ≤ 2 500), the dimensions of the image. The next n lines of input will contain a binary string with exactly m characters, representing the image.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_043.jsonl",
+    "code_uid": "196601fd80ee5dbbb85b6016c392d295",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 5\\n00100\\n10110\\n11001\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin as fin\n# fin = open(\"ih2e2017a.in\", \"r\")\n# fout = open(\"ih2e2017a.in\", \"a\")\n\n# for i in range(2500):\n#     for j in range(2500):\n#         print('1' if (i % 2) == (j % 2) else '0', end='', file=fout)\n#     print(file=fout)\n\n\ndef check(x, y):\n    if x < 0 or y < 0:\n        return 0\n    else:\n        return d[x][y]\n\ndef check2(x, y):\n    if x < 0 or y < 0:\n        return 0\n    else:\n        return d[min(x, n - 1)][min(y, m - 1)]\n\ndef border(a, b):\n    d, m = divmod(a, b)\n    return b * (d + (m != 0))\n\n\n# print('lol')\nn, m = map(int, fin.readline().split())\n# field = tuple(fin.readline().strip() for i in range(n))\nfield = fin.readlines()\n# print(\"inp\")\n# print(len(field), len(field[0]))\nd = [[None] * m for i in range(n)]\nd[0][0] = int(field[0][0]) #field[0][0]\nfor i in range(n):\n    for j in range(m):\n        d[i][j] = check(i - 1, j) + check(i, j - 1) - check(i - 1, j - 1) + int(field[i][j])# field[i][j]\n\nminv = float('inf')\nfor k in range(2, max(n, m)):\n    cv = 0\n    # print(k)\n    for i in range(k - 1, border(n, k), k):\n        for j in range(k - 1, border(m, k), k):\n            ccnt = check2(i, j) - check2(i - k, j) - check2(i, j - k) + check2(i - k, j - k)\n            cv += min(ccnt, k**2 - ccnt)\n    minv = min(minv, cv)\n\nprint(minv)\n\nfin.close()",
+    "prob_desc_created_at": "1502085900",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

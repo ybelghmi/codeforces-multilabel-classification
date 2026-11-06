@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"3\"]",
+    "src_uid": "b812d2d3a031dadf3d850605d2e78e33",
+    "prob_desc_notes": "NoteIn the first example the following pairs of indexes include in answer: (1, 4) and (2, 4).In the second example all pairs of indexes (i, j) (where i &lt; j) include in answer.",
+    "prob_desc_description": "You are given n integers a1, a2, ..., an. Find the number of pairs of indexes i, j (i &lt; j) that ai + aj is a power of 2 (i. e. some integer x exists so that ai + aj = 2x).",
+    "prob_desc_output_spec": "Print the number of pairs of indexes i, j (i &lt; j) that ai + aj is a power of 2.",
+    "prob_desc_input_spec": "The first line contains the single positive integer n (1 ≤ n ≤ 105) — the number of integers. The second line contains n positive integers a1, a2, ..., an (1 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_005.jsonl",
+    "code_uid": "91b412fe9a9e230663ca1bcd17de36d3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n7 3 2 1\", \"3\\n1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#import sys\n#sys.stdin = open('in', 'r')\nn = int(input())\na = [int(x) for x in input().split()]\n#n,m = map(int, input().split())\n\nst2 = [1]\nwhile st2[-1] <= 10**10:\n    st2.append(st2[-1]*2)\n\nr = 0\nd = {}\nfor i in range(n):\n    for s2 in st2:\n        if (s2 - a[i]) in d:\n            r += d[s2-a[i]]\n    d[a[i]] = d.get(a[i], 0) + 1\n\nprint(r)\n",
+    "prob_desc_created_at": "1469804400",
+    "tags": [
+        "data structures",
+        "implementation",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

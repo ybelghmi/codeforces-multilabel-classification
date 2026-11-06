@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"SPPSPSPS\", \"PPSS\", \"PS\"]",
+    "src_uid": "ddbde202d00b928a858e9f4ff461e88c",
+    "prob_desc_notes": "NoteThe only string which Ivan can guess in the first example is \"ababa\".The only string which Ivan can guess in the second example is \"aaa\". Answers \"SPSP\", \"SSPP\" and \"PSPS\" are also acceptable.In the third example Ivan can guess the string \"ac\" or the string \"ca\". The answer \"SP\" is also acceptable.",
+    "prob_desc_description": "Ivan wants to play a game with you. He picked some string $$$s$$$ of length $$$n$$$ consisting only of lowercase Latin letters. You don't know this string. Ivan has informed you about all its improper prefixes and suffixes (i.e. prefixes and suffixes of lengths from $$$1$$$ to $$$n-1$$$), but he didn't tell you which strings are prefixes and which are suffixes.Ivan wants you to guess which of the given $$$2n-2$$$ strings are prefixes of the given string and which are suffixes. It may be impossible to guess the string Ivan picked (since multiple strings may give the same set of suffixes and prefixes), but Ivan will accept your answer if there is at least one string that is consistent with it. Let the game begin!",
+    "prob_desc_output_spec": "Print one string of length $$$2n-2$$$ — the string consisting only of characters 'P' and 'S'. The number of characters 'P' should be equal to the number of characters 'S'. The $$$i$$$-th character of this string should be 'P' if the $$$i$$$-th of the input strings is the prefix and 'S' otherwise. If there are several possible answers, you can print any.",
+    "prob_desc_input_spec": "The first line of the input contains one integer number $$$n$$$ ($$$2 \\le n \\le 100$$$) — the length of the guessed string $$$s$$$. The next $$$2n-2$$$ lines are contain prefixes and suffixes, one per line. Each of them is the string of length from $$$1$$$ to $$$n-1$$$ consisting only of lowercase Latin letters. They can be given in arbitrary order. It is guaranteed that there are exactly $$$2$$$ strings of each length from $$$1$$$ to $$$n-1$$$. It is also guaranteed that these strings are prefixes and suffixes of some existing string of length $$$n$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_024.jsonl",
+    "code_uid": "3aea82658177127cc06f07d4c4f145e9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nba\\na\\nabab\\na\\naba\\nbaba\\nab\\naba\", \"3\\na\\naa\\naa\\na\", \"2\\na\\nc\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\nl=[input() for i in range(2*n-2)]\nm=[i+j for i in l for j in l if len(i+j)==n]\nfor j in m:\n\tp={j[:i] for i in range(1,n)}\n\ts={j[i:] for i in range(1,n)}\n\tif set(p|s)==set(l):\n\t\tfor i in l:\n\t\t\tif i in p:print('P',end='');p-= {i}\n\t\t\telse:print('S',end='');s-={i}\n\t\texit()",
+    "prob_desc_created_at": "1545143700",
+    "tags": [
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

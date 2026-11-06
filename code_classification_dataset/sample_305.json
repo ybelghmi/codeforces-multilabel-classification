@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n4\\n3\\n3\\n4\"]",
+    "src_uid": "337b6d2a11a25ef917809e6409f8edef",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Mike and some bears are playing a game just for fun. Mike is the judge. All bears except Mike are standing in an n × m grid, there's exactly one bear in each cell. We denote the bear standing in column number j of row number i by (i, j). Mike's hands are on his ears (since he's the judge) and each bear standing in the grid has hands either on his mouth or his eyes.  They play for q rounds. In each round, Mike chooses a bear (i, j) and tells him to change his state i. e. if his hands are on his mouth, then he'll put his hands on his eyes or he'll put his hands on his mouth otherwise. After that, Mike wants to know the score of the bears.Score of the bears is the maximum over all rows of number of consecutive bears with hands on their eyes in that row.Since bears are lazy, Mike asked you for help. For each round, tell him the score of these bears after changing the state of a bear selected in that round. ",
+    "prob_desc_output_spec": "After each round, print the current score of the bears.",
+    "prob_desc_input_spec": "The first line of input contains three integers n, m and q (1 ≤ n, m ≤ 500 and 1 ≤ q ≤ 5000). The next n lines contain the grid description. There are m integers separated by spaces in each line. Each of these numbers is either 0 (for mouth) or 1 (for eyes). The next q lines contain the information about the rounds. Each of them contains two integers i and j (1 ≤ i ≤ n and 1 ≤ j ≤ m), the row number and the column number of the bear changing his state.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_001.jsonl",
+    "code_uid": "033831b9b5c6c6f31fd0529f3b7e4f29",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4 5\\n0 1 1 0\\n1 0 0 1\\n0 1 1 0\\n1 0 0 1\\n0 0 0 0\\n1 1\\n1 4\\n1 1\\n4 2\\n4 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from io import StringIO\n\nimport sys\ndata = sys.stdin\n\ndef score_line(row):\n    score = 0\n    max_score = 0\n    combo = False\n    for b in row:\n        if b == 1:\n            if combo:\n                score += 1\n            else:\n                score = 1\n                combo = True\n        else:\n            score = 0\n            combo = False\n        \n        max_score = max(score, max_score)\n    return max_score\n        \nrows = []\n\nn, m, q = map(int, data.readline().split(' '))\nfor i in range(n):\n    rows.append(list(map(int, data.readline().split(' '))))\n\nrow_scores = list(map(score_line, rows))\n    \nfor i in range(q):\n    r, c  = map(int, data.readline().split(' '))\n    rows[r-1][c-1] = 1 - rows[r-1][c-1]\n    row_scores[r-1] = score_line(rows[r-1])\n    print(max(row_scores))",
+    "prob_desc_created_at": "1432658100",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 1 1\\n-1\", \"2 2 2\\n1 1 2\\n3 1 3\\n2 1 1\"]",
+    "src_uid": "2db7891a2fa4e78fd9d145304a36b9aa",
+    "prob_desc_notes": null,
+    "prob_desc_description": "All cinema halls in Berland are rectangles with K rows of K seats each, and K is an odd number. Rows and seats are numbered from 1 to K. For safety reasons people, who come to the box office to buy tickets, are not allowed to choose seats themselves. Formerly the choice was made by a cashier, but now this is the responsibility of a special seating program. It was found out that the large majority of Berland's inhabitants go to the cinema in order to watch a movie, that's why they want to sit as close to the hall center as possible. Moreover, a company of M people, who come to watch a movie, want necessarily to occupy M successive seats in one row. Let's formulate the algorithm, according to which the program chooses seats and sells tickets. As the request for M seats comes, the program should determine the row number x and the segment [yl, yr] of the seats numbers in this row, where yr - yl + 1 = M. From all such possible variants as a final result the program should choose the one with the minimum function value of total seats remoteness from the center. Say,  — the row and the seat numbers of the most \"central\" seat. Then the function value of seats remoteness from the hall center is . If the amount of minimum function values is more than one, the program should choose the one that is closer to the screen (i.e. the row number x is lower). If the variants are still multiple, it should choose the one with the minimum yl. If you did not get yet, your task is to simulate the work of this program. ",
+    "prob_desc_output_spec": "Output N lines. In the i-th line output «-1» (without quotes), if it is impossible to find Mi successive seats in one row, otherwise output three numbers x, yl, yr. Separate the numbers with a space.",
+    "prob_desc_input_spec": "The first line contains two integers N and K (1 ≤ N ≤ 1000, 1 ≤ K ≤ 99) — the amount of requests and the hall size respectively. The second line contains N space-separated integers Mi from the range [1, K] — requests to the program.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_019.jsonl",
+    "code_uid": "771809ec88def9e6faa21d0d2ebf16b4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 1\\n1 1\", \"4 3\\n1 2 3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nn, k = map(int, raw_input().split())\nM = map(int, raw_input().split())\n\nxc = yc = k / 2\ntaken = [[False for i in xrange(k)] for i in xrange(k)]\nv = [[0 for i in xrange(k + 1)] for i in xrange(k)]\nfor x in xrange(k):\n    for y in xrange(k):\n        v[x][y + 1] = abs(x - xc) + abs(y - yc)\n#v is prefix sum of cost\nfor x in xrange(k):\n    for y in xrange(1, k + 1):\n        v[x][y] += v[x][y - 1]\n\nfor m in M:\n    minCost = 999999999\n    for x in xrange(k):\n        # center of this row is not taken, just use it\n        if not taken[x][yc]:\n            y = yc + (m - 1) / 2\n            cost = v[x][y + 1] - v[x][y - m + 1]\n        else:\n            yl = yc\n            cost = costl = costr = 999999999\n            # go left of center to find a place\n            while yl >= m - 1 and taken[x][yl]:\n                yl -= 1\n            if yl >= m - 1:\n                costl = min(cost, v[x][yl + 1] - v[x][yl - m + 1])\n            yr = yc\n            # go right of center to find a place\n            while yr + m - 1 < k and taken[x][yr]:\n                yr += 1\n            if yr + m - 1 < k:\n                yr += m - 1\n                costr = min(cost, v[x][yr + 1] - v[x][yr - m + 1])\n            # take a min of left and right place\n            if costl < cost and costl <= costr:\n                cost = costl\n                y = yl\n            elif costr < costl:\n                cost = costr\n                y = yr\n        if cost < minCost:\n            minCost = cost\n            minx = x\n            miny = y\n\n    if minCost < 999999999:\n        for j in xrange(m):\n            taken[minx][miny - j] = True\n        print minx + 1, miny - m + 2, miny + 1\n    else:\n        print -1\n",
+    "prob_desc_created_at": "1271346300",
+    "tags": [
+        "dp",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

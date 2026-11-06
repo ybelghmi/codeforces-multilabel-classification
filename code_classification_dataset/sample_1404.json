@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n1 3 5 2\", \"NO\"]",
+    "src_uid": "4ea61e86dad295bf9f5b32b9c8f599a7",
+    "prob_desc_notes": "NoteIn the first example:  $$$1 \\mod 3 = 1$$$  $$$3 \\mod 5 = 3$$$  $$$5 \\mod 2 = 1$$$  $$$2 \\mod 1 = 0$$$ ",
+    "prob_desc_description": "While discussing a proper problem A for a Codeforces Round, Kostya created a cyclic array of positive integers $$$a_1, a_2, \\ldots, a_n$$$. Since the talk was long and not promising, Kostya created a new cyclic array $$$b_1, b_2, \\ldots, b_{n}$$$ so that $$$b_i = (a_i \\mod a_{i + 1})$$$, where we take $$$a_{n+1} = a_1$$$. Here $$$mod$$$ is the modulo operation. When the talk became interesting, Kostya completely forgot how array $$$a$$$ had looked like. Suddenly, he thought that restoring array $$$a$$$ from array $$$b$$$ would be an interesting problem (unfortunately, not A).",
+    "prob_desc_output_spec": "If it is possible to restore some array $$$a$$$ of length $$$n$$$ so that $$$b_i = a_i \\mod a_{(i \\mod n) + 1}$$$ holds for all $$$i = 1, 2, \\ldots, n$$$, print «YES» in the first line and the integers $$$a_1, a_2, \\ldots, a_n$$$ in the second line. All $$$a_i$$$ should satisfy $$$1 \\le a_i \\le 10^{18}$$$. We can show that if an answer exists, then an answer with such constraint exists as well. It it impossible to restore any valid $$$a$$$, print «NO» in one line. You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 140582$$$) — the length of the array $$$a$$$. The second line contains $$$n$$$ integers $$$b_1, b_2, \\ldots, b_{n}$$$ ($$$0 \\le b_i \\le 187126$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_008.jsonl",
+    "code_uid": "ce65dedf693d23891cf099da47f6bed4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 3 1 0\", \"2\\n4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nn = int(stdin.readline())\nb = [int(x) for x in stdin.readline().strip().split()]\nstart = -1\na = [0]*n\nfor i in range(n):\n    if b[i] < b[(i+1)%n]:\n        start = (i+1)%n\n        break\nif max(b) == 0:\n    print('YES')\n    print(' '.join(['123']*n))\n    exit()\nif start == -1:\n    print('NO')\n    exit()\ncnt=0\nprev = start\na[start] = b[start]\nwhile cnt < n:\n    next = (prev-1+n)%n\n    if b[next] == 0:\n        a[next] = a[prev]\n    else:\n        a[next] = b[next]\n        if b[next] >= a[prev]:\n            prevprev = (prev+1)%n\n            q = (b[next]-a[prev])//a[prevprev]+1\n            a[prev] += a[prevprev]*q\n    prev = next\n    cnt += 1\n\nprint('YES')\nprint(' '.join([str(x) for x in a]))\n# check\nfor i in range(n):\n    if b[i] != a[i]%a[(i+1)%n]:\n        raise Exception('fail')\n\n",
+    "prob_desc_created_at": "1535387700",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

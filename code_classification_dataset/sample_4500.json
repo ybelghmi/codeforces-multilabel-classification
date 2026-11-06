@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"19\\n50\\n51\\n42\\n5\"]",
+    "src_uid": "b9771f941967b030aa13d0bfcc4d0a61",
+    "prob_desc_notes": "NoteConsider array from the example and the result of performing each query:  Initial array is $$$[1, 2, 3, 4, 5]$$$.  After performing the first query, array equals to $$$[5, 2, 3, 4, 5]$$$. The sum of all elements is $$$19$$$.  After performing the second query, array equals to $$$[10, 10, 10, 10, 10]$$$. The sum of all elements is $$$50$$$.  After performing the third query, array equals to $$$[10, 10, 10, 10, 11$$$]. The sum of all elements is $$$51$$$.  After performing the fourth query, array equals to $$$[10, 10, 10, 1, 11]$$$. The sum of all elements is $$$42$$$.  After performing the fifth query, array equals to $$$[1, 1, 1, 1, 1]$$$. The sum of all elements is $$$5$$$. ",
+    "prob_desc_description": "Once upon a time Mike and Mike decided to come up with an outstanding problem for some stage of ROI (rare olympiad in informatics). One of them came up with a problem prototype but another stole the idea and proposed that problem for another stage of the same olympiad. Since then the first Mike has been waiting for an opportunity to propose the original idea for some other contest... Mike waited until this moment!You are given an array $$$a$$$ of $$$n$$$ integers. You are also given $$$q$$$ queries of two types:  Replace $$$i$$$-th element in the array with integer $$$x$$$.  Replace each element in the array with integer $$$x$$$. After performing each query you have to calculate the sum of all elements in the array.",
+    "prob_desc_output_spec": "Print $$$q$$$ integers, each on a separate line. In the $$$i$$$-th line print the sum of all elements in the array after performing the first $$$i$$$ queries.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$q$$$ ($$$1 \\le n, q \\le 2 \\cdot 10^5$$$) — the number of elements in the array and the number of queries, respectively. The second line contains $$$n$$$ integers $$$a_1, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — elements of the array $$$a$$$. Each of the following $$$q$$$ lines contains a description of the corresponding query. Description begins with integer $$$t$$$ ($$$t \\in \\{1, 2\\}$$$) which denotes a type of the query:   If $$$t = 1$$$, then two integers $$$i$$$ and $$$x$$$ are following ($$$1 \\le i \\le n$$$, $$$1 \\le x \\le 10^9$$$) — position of replaced element and it's new value.  If $$$t = 2$$$, then integer $$$x$$$ is following ($$$1 \\le x \\le 10^9$$$) — new value of each element in the array. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_099.jsonl",
+    "code_uid": "8e180e21961fced4f7c35da3c8eeb397",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5\\n1 2 3 4 5\\n1 1 5\\n2 10\\n1 5 11\\n1 4 1\\n2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput=sys.stdin.readline\r\nn,q=map(int,input().split())\r\na=list(map(int,input().split()))\r\ns=sum(a)\r\nrep={}\r\nsame='x'\r\nfor i in range(q):\r\n    command=list(map(int,input().split()))\r\n    if command[0]==1:\r\n        if same!='x':\r\n            s=s-rep.get(command[1],same)+command[2]\r\n            rep[command[1]]=command[2]\r\n        else:\r\n            s=s-rep.get(command[1],a[command[1]-1])+command[2]\r\n            rep[command[1]]=command[2]\r\n    else:\r\n        s=n*command[1]\r\n        same=command[1]\r\n        rep={}\r\n    print(s)",
+    "prob_desc_created_at": "1652520900",
+    "tags": [
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

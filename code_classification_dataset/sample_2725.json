@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"roar\", \"db\", \"-1\"]",
+    "src_uid": "b5d0870ee99e06e8b99c74aeb8e81e01",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Limak is a little polar bear. He likes nice strings — strings of length n, consisting of lowercase English letters only.The distance between two letters is defined as the difference between their positions in the alphabet. For example, , and .Also, the distance between two nice strings is defined as the sum of distances of corresponding letters. For example, , and .Limak gives you a nice string s and an integer k. He challenges you to find any nice string s' that . Find any s' satisfying the given conditions, or print \"-1\" if it's impossible to do so.As input/output can reach huge size it is recommended to use fast input/output methods: for example, prefer to use gets/scanf/printf instead of getline/cin/cout in C++, prefer to use BufferedReader/PrintWriter instead of Scanner/System.out in Java.",
+    "prob_desc_output_spec": "If there is no string satisfying the given conditions then print \"-1\" (without the quotes). Otherwise, print any nice string s' that .",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n ≤ 105, 0 ≤ k ≤ 106). The second line contains a string s of length n, consisting of lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_029.jsonl",
+    "code_uid": "ca227e5919ae5760780c48c4b1f2fac4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 26\\nbear\", \"2 7\\naf\", \"3 1000\\nhey\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nn, k = map(int, input().split())\nline = list(input())\nfor i in range(n):\n    if ord('z') - ord(line[i]) >= ord(line[i]) - ord('a'):\n        s = ord('z') - ord(line[i])\n        if s >= k:\n            line[i] = chr(ord(line[i])+k)\n            print(''.join(line))\n            sys.exit()\n        else:\n            line[i] = 'z'\n            k -= s\n    else:\n        s = ord(line[i]) - ord('a')\n        if s >= k:\n            line[i] = chr(ord(line[i])-k)\n            print(''.join(line))\n            sys.exit()\n        else:\n            line[i] = 'a'\n            k -= s\nprint(-1)\n",
+    "prob_desc_created_at": "1455894000",
+    "tags": [
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

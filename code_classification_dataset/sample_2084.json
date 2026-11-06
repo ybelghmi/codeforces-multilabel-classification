@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n7 3 5\", \"1\\n8\"]",
+    "src_uid": "f413556df7dc980ca7e7bd1168d700d2",
+    "prob_desc_notes": "NoteIn the first example the answer is $$$[7, 3, 5]$$$. Note, that $$$|7-3|=4=2^2$$$, $$$|7-5|=2=2^1$$$ and $$$|3-5|=2=2^1$$$. You can't find a subset having more points satisfying the required property.",
+    "prob_desc_description": "There are $$$n$$$ distinct points on a coordinate line, the coordinate of $$$i$$$-th point equals to $$$x_i$$$. Choose a subset of the given set of points such that the distance between each pair of points in a subset is an integral power of two. It is necessary to consider each pair of points, not only adjacent. Note that any subset containing one element satisfies the condition above. Among all these subsets, choose a subset with maximum possible size.In other words, you have to choose the maximum possible number of points $$$x_{i_1}, x_{i_2}, \\dots, x_{i_m}$$$ such that for each pair $$$x_{i_j}$$$, $$$x_{i_k}$$$ it is true that $$$|x_{i_j} - x_{i_k}| = 2^d$$$ where $$$d$$$ is some non-negative integer number (not necessarily the same for each pair of points).",
+    "prob_desc_output_spec": "In the first line print $$$m$$$ — the maximum possible number of points in a subset that satisfies the conditions described above. In the second line print $$$m$$$ integers — the coordinates of points in the subset you have chosen. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of points. The second line contains $$$n$$$ pairwise distinct integers $$$x_1, x_2, \\dots, x_n$$$ ($$$-10^9 \\le x_i \\le 10^9$$$) — the coordinates of points.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_016.jsonl",
+    "code_uid": "943127077480c3fd4c44b9b0f2d96d3e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n3 5 4 7 10 12\", \"5\\n-1 2 5 8 11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\na=(set(map(int,input().split())))\nans=[]\nf=0\nfor i in a:\n    c=1\n    for p in range(31):\n        if(i+c in a):\n            ans=[i,i+c]\n            if(i+c*2 in a):\n                print(3)\n                print(i,i+c,i+c*2)\n                f=1\n                break\n        c*=2\n    if(f):\n        break\nif(f==0):\n    if(ans):\n        print(2)\n        print(*ans)\n    else:\n        print(1)\n        print(min(a))\n",
+    "prob_desc_created_at": "1527863700",
+    "tags": [
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

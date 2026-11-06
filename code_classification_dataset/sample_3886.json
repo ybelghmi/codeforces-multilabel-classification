@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 4 2 3 5 6 \\n1 2 3 4 \\n-1\\n5 6 3 4 1 2 \\n-1\\n1 8 6 7 2 4 3 5\"]",
+    "src_uid": "c2db558ecf921161ab4da003bd393ec7",
+    "prob_desc_notes": "NoteThe first test case is parsed in the problem statement.",
+    "prob_desc_description": "A sequence of $$$n$$$ numbers is called permutation if it contains all numbers from $$$1$$$ to $$$n$$$ exactly once. For example, the sequences [$$$3, 1, 4, 2$$$], [$$$1$$$] and [$$$2,1$$$] are permutations, but [$$$1,2,1$$$], [$$$0,1$$$] and [$$$1,3,4$$$] — are not.For a permutation $$$p$$$ of even length $$$n$$$ you can make an array $$$b$$$ of length $$$\\frac{n}{2}$$$ such that:   $$$b_i = \\max(p_{2i - 1}, p_{2i})$$$ for $$$1 \\le i \\le \\frac{n}{2}$$$ For example, if $$$p$$$ = [$$$2, 4, 3, 1, 5, 6$$$], then:   $$$b_1 = \\max(p_1, p_2) = \\max(2, 4) = 4$$$  $$$b_2 = \\max(p_3, p_4) = \\max(3,1)=3$$$  $$$b_3 = \\max(p_5, p_6) = \\max(5,6) = 6$$$  As a result, we made $$$b$$$ = $$$[4, 3, 6]$$$.For a given array $$$b$$$, find the lexicographically minimal permutation $$$p$$$ such that you can make the given array $$$b$$$ from it.If $$$b$$$ = [$$$4,3,6$$$], then the lexicographically minimal permutation from which it can be made is $$$p$$$ = [$$$1,4,2,3,5,6$$$], since:   $$$b_1 = \\max(p_1, p_2) = \\max(1, 4) = 4$$$  $$$b_2 = \\max(p_3, p_4) = \\max(2, 3) = 3$$$  $$$b_3 = \\max(p_5, p_6) = \\max(5, 6) = 6$$$ A permutation $$$x_1, x_2, \\dots, x_n$$$ is lexicographically smaller than a permutation $$$y_1, y_2 \\dots, y_n$$$ if and only if there exists such $$$i$$$ ($$$1 \\le i \\le n$$$) that $$$x_1=y_1, x_2=y_2, \\dots, x_{i-1}=y_{i-1}$$$ and $$$x_i&lt;y_i$$$.",
+    "prob_desc_output_spec": "For each test case, print on a separate line:    lexicographically minimal permutation $$$p$$$ such that you can make an array $$$b$$$ from it;  or a number -1 if the permutation you are looking for does not exist. ",
+    "prob_desc_input_spec": "The first line of input data contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains one even integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$). The second line of each test case contains exactly $$$\\frac{n}{2}$$$ integers $$$b_i$$$ ($$$1 \\le b_i \\le n$$$) — elements of array $$$b$$$. It is guaranteed that the sum of $$$n$$$ values over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_085.jsonl",
+    "code_uid": "d29358a55d6d4b859d3c787bbdcd35fd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\n6\\n\\n4 3 6\\n\\n4\\n\\n2 4\\n\\n8\\n\\n8 7 2 3\\n\\n6\\n\\n6 4 2\\n\\n4\\n\\n4 4\\n\\n8\\n\\n8 7 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import collections\r\nimport math\r\nimport bisect\r\nimport sys\r\nimport heapq\r\nimport itertools\r\n#import functools\r\n\r\ndef solve():\r\n    n = int(input())\r\n    arr = [int(i) for i in sys.stdin.readline().split()]\r\n    dic = {}\r\n    for i, num in enumerate(arr):\r\n        dic[num] = i\r\n    if len(dic) != n // 2 or n not in dic:\r\n        print(-1)\r\n        return\r\n\r\n    output = [-1] * n\r\n    for num in dic:\r\n        output[dic[num] * 2 + 1] = num\r\n    \r\n    h = []\r\n    for num in range(n, 0, -1):\r\n        if num in dic:\r\n            heapq.heappush(h, -dic[num] * 2)\r\n        elif not h:\r\n            print(-1)\r\n            return\r\n        else:\r\n            output[-heapq.heappop(h)] = num\r\n    print(' '.join(map(str, output)))\r\n\r\n    \r\n    \r\n\r\nt = int(input())\r\nfor _ in range(t):\r\n    solve()",
+    "prob_desc_created_at": "1668782100",
+    "tags": [
+        "binary search",
+        "constructive algorithms",
+        "data structures",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

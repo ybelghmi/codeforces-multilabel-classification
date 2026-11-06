@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"18\", \"-1\"]",
+    "src_uid": "91f0341e7f55bb03d87e4cfc63973295",
+    "prob_desc_notes": "NoteIn the first test sample we can get the total taste of the fruits equal to 18 if we choose fruit number 1 and fruit number 2, then the total calories will equal 9. The condition  fulfills, that's exactly what Inna wants.In the second test sample we cannot choose the fruits so as to follow Inna's principle.",
+    "prob_desc_description": "Dima, Inna and Seryozha have gathered in a room. That's right, someone's got to go. To cheer Seryozha up and inspire him to have a walk, Inna decided to cook something. Dima and Seryozha have n fruits in the fridge. Each fruit has two parameters: the taste and the number of calories. Inna decided to make a fruit salad, so she wants to take some fruits from the fridge for it. Inna follows a certain principle as she chooses the fruits: the total taste to the total calories ratio of the chosen fruits must equal k. In other words,  , where aj is the taste of the j-th chosen fruit and bj is its calories.Inna hasn't chosen the fruits yet, she is thinking: what is the maximum taste of the chosen fruits if she strictly follows her principle? Help Inna solve this culinary problem — now the happiness of a young couple is in your hands!Inna loves Dima very much so she wants to make the salad from at least one fruit.",
+    "prob_desc_output_spec": "If there is no way Inna can choose the fruits for the salad, print in the single line number -1. Otherwise, print a single integer — the maximum possible sum of the taste values of the chosen fruits.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n, k (1 ≤ n ≤ 100, 1 ≤ k ≤ 10). The second line of the input contains n integers a1, a2, ..., an (1 ≤ ai ≤ 100) — the fruits' tastes. The third line of the input contains n integers b1, b2, ..., bn (1 ≤ bi ≤ 100) — the fruits' calories. Fruit number i has taste ai and calories bi.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_004.jsonl",
+    "code_uid": "c855b2a7794204b927a0c37c062d158b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n10 8 1\\n2 7 1\", \"5 3\\n4 4 4 4 4\\n2 2 2 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import bisect_right\nn, k = map(int, input().split())\nt = sorted((u - k * v, v) for u, v in zip(*(map(int, input().split()), map(int, input().split()))))\nm = n - bisect_right(t, (0, 0))\nl, p, t = 0, [0] * 100001, t[:: -1]\nfor d, v in t[: m]:\n    for j in range(l, 0, -1):\n        if p[j]: p[j + d] = max(p[j + d], p[j] + v)\n    p[d] = max(p[d], p[0] + v)\n    l += d\nfor d, v in t[m: ]:\n    for j in range(- d, l + 1):\n        if p[j]: p[j + d] = max(p[j + d], p[j] + v)\nprint(p[0] * k if p[0] else -1)",
+    "prob_desc_created_at": "1385307000",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

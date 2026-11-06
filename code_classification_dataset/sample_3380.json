@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 4\\n1 4\\n3 4\\n3 1\\n3 2\", \"-1\"]",
+    "src_uid": "1a9968052a363f04380d1177c764717b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Student Vladislav came to his programming exam completely unprepared as usual. He got a question about some strange algorithm on a graph — something that will definitely never be useful in real life. He asked a girl sitting next to him to lend him some cheat papers for this questions and found there the following definition:The minimum spanning tree T of graph G is such a tree that it contains all the vertices of the original graph G, and the sum of the weights of its edges is the minimum possible among all such trees.Vladislav drew a graph with n vertices and m edges containing no loops and multiple edges. He found one of its minimum spanning trees and then wrote for each edge its weight and whether it is included in the found tree or not. Unfortunately, the piece of paper where the graph was painted is gone and the teacher is getting very angry and demands to see the original graph. Help Vladislav come up with a graph so that the information about the minimum spanning tree remains correct.",
+    "prob_desc_output_spec": "If Vladislav has made a mistake and such graph doesn't exist, print  - 1. Otherwise print m lines. On the j-th line print a pair of vertices (uj, vj) (1 ≤ uj, vj ≤ n, uj ≠ vj), that should be connected by the j-th edge. The edges are numbered in the same order as in the input. The graph, determined by these edges, must be connected, contain no loops or multiple edges and its edges with bj = 1 must define the minimum spanning tree. In case there are multiple possible solutions, print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and m () — the number of vertices and the number of edges in the graph. Each of the next m lines describes an edge of the graph and consists of two integers aj and bj (1 ≤ aj ≤ 109, bj = {0, 1}). The first of these numbers is the weight of the edge and the second number is equal to 1 if this edge was included in the minimum spanning tree found by Vladislav, or 0 if it was not. It is guaranteed that exactly n - 1 number {bj} are equal to one and exactly m - n + 1 of them are equal to zero.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_056.jsonl",
+    "code_uid": "9b5f207249c2428d5556fcf64cc48092",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 5\\n2 1\\n3 1\\n4 0\\n1 1\\n5 0\", \"3 3\\n1 0\\n2 1\\n3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom operator import itemgetter\n\nlines = sys.stdin.readlines()\nn, m = map(int, lines[0].split(' '))\n\ndef build_edge(i, row):\n\tparts = row.split(' ')\n\treturn (int(parts[0]), int(parts[1]), i)\n\ndef edge_key(a):\n\treturn (a[0], -a[1])\n\nedges = [build_edge(i, row) for i, row in enumerate(lines[1:])]\nedges = sorted(edges, key=edge_key)\nx, y = 1, 2\nvertex = 1\ncolor = [0 for x in range(n)]\ncolor[0] = 1 # root of tree\nans = []\nfor weight, used, index in edges:\n\t if used == 1:\n\t \tcolor[vertex] = 1\n\t \tans.append((0, vertex, index))\n\t \tvertex += 1\n\t else:\n\t \tif color[x] != 1 or color[y] != 1:\n\t \t\tprint(-1)\n\t \t\texit(0)\n\t \tans.append((x,y,index))\n\t \tx += 1\n\t \tif x == y:\n\t \t\tx = 1\n\t \t\ty += 1\nans = sorted(ans, key=itemgetter(2))\nfor edge in ans:\n\tprint(\"%s %s\" % (edge[0]+1, edge[1]+1))\n",
+    "prob_desc_created_at": "1449677100",
+    "tags": [
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

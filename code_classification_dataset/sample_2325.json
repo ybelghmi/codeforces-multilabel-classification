@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12.566370614359172464\", \"21.991148575128551812\"]",
+    "src_uid": "1d547a38250c7780ddcf10674417d5ff",
+    "prob_desc_notes": "NoteIn the first sample snow will be removed from that area:  ",
+    "prob_desc_description": "Peter got a new snow blower as a New Year present. Of course, Peter decided to try it immediately. After reading the instructions he realized that it does not work like regular snow blowing machines. In order to make it work, you need to tie it to some point that it does not cover, and then switch it on. As a result it will go along a circle around this point and will remove all the snow from its path.Formally, we assume that Peter's machine is a polygon on a plane. Then, after the machine is switched on, it will make a circle around the point to which Peter tied it (this point lies strictly outside the polygon). That is, each of the points lying within or on the border of the polygon will move along the circular trajectory, with the center of the circle at the point to which Peter tied his machine.Peter decided to tie his car to point P and now he is wondering what is the area of ​​the region that will be cleared from snow. Help him.",
+    "prob_desc_output_spec": "Print a single real value number — the area of the region that will be cleared. Your answer will be considered correct if its absolute or relative error does not exceed 10 - 6.  Namely: let's assume that your answer is a, and the answer of the jury is b. The checker program will consider your answer correct, if .",
+    "prob_desc_input_spec": "The first line of the input contains three integers — the number of vertices of the polygon n (), and coordinates of point P. Each of the next n lines contains two integers — coordinates of the vertices of the polygon in the clockwise or counterclockwise order. It is guaranteed that no three consecutive vertices lie on a common straight line. All the numbers in the input are integers that do not exceed 1 000 000 in their absolute value.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_020.jsonl",
+    "code_uid": "8091f88eb26abb4602aae9807a65d173",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 0 0\\n0 1\\n-1 2\\n1 2\", \"4 1 -1\\n0 0\\n1 2\\n2 0\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def dot_product(v1, v2):\n    return v1.x * v2.x + v1.y * v2.y\n\n\nclass vector:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def length(self):\n        return (self.x ** 2 + self.y ** 2) ** 0.5\n\n    def cross_product(self, v):\n        return self.x * v.y - self.y * v.x\n\nclass line:\n    def __init__(self, a, b):\n        self.a = a\n        self.b = b\n\n    def distance(self, p):\n        return abs(vector(p.x - self.a.x, p.y - self.a.y).cross_product(vector(p.x - self.b.x, p.y - self.b.y)) / vector(self.a.x - self.b.x, self.a.y - self.b.y).length())\n\nclass ray:\n    def __init__(self, a, b):\n        self.a = a\n        self.b = b\n\n    def distance(self, p):\n        if dot_product(vector(self.b.x - self.a.x, self.b.y - self.a.y), vector(p.x - self.a.x, p.y - self.a.y)) >= 0:\n            return line(self.a, self.b).distance(p)\n        return vector(self.a.x - p.x, self.a.y - p.y).length()\n\nclass segment:\n    def __init__(self, a, b):\n        self.a = a\n        self.b = b\n\n    def min_distance(self, p):\n        if dot_product(vector(self.b.x - self.a.x, self.b.y - self.a.y), vector(p.x - self.a.x, p.y - self.a.y)) >= 0:\n            return ray(self.b, self.a).distance(p)\n        return vector(self.a.x - p.x, self.a.y - p.y).length()\n\n    def max_distance(self, p):\n        return max(vector(self.a.x - p.x, self.a.y - p.y).length(), vector(self.b.x - p.x, self.b.y - p.y).length())\n\n\nn, x, y = map(int, input().split())\np = vector(x, y)\n\nmin_r = 2000000\nmax_r = 0\n\na = [[] for i in range(n + 1)]\n\nfor i in range(n):\n    a[i] = list(map(int, input().split()))\n    a[i] = vector(a[i][0], a[i][1])\n\na[n] = a[0]\n\nfor i in range(n):\n    s = segment(a[i], a[i + 1])\n    min_r = min(min_r, s.min_distance(p))\n    max_r = max(max_r, s.max_distance(p))\n\npi = 3.141592653589\nprint(pi * max_r ** 2 - pi * min_r ** 2)",
+    "prob_desc_created_at": "1452789300",
+    "tags": [
+        "binary search",
+        "geometry",
+        "ternary search"
+    ],
+    "hidden_unit_tests": ""
+}

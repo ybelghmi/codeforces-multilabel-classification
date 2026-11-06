@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nYES\\nNO\"]",
+    "src_uid": "235ddb32dbe19c0da1f77069e36128bb",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two strings $$$s$$$ and $$$t$$$, both of length $$$n$$$. Each character in both string is 'a', 'b' or 'c'.In one move, you can perform one of the following actions:   choose an occurrence of \"ab\" in $$$s$$$ and replace it with \"ba\";  choose an occurrence of \"bc\" in $$$s$$$ and replace it with \"cb\". You are allowed to perform an arbitrary amount of moves (possibly, zero). Can you change string $$$s$$$ to make it equal to string $$$t$$$?",
+    "prob_desc_output_spec": "For each testcase, print \"YES\" if you can change string $$$s$$$ to make it equal to string $$$t$$$ by performing an arbitrary amount of moves (possibly, zero). Otherwise, print \"NO\".",
+    "prob_desc_input_spec": "The first line contains a single integer $$$q$$$ ($$$1 \\le q \\le 10^4$$$) — the number of testcases. The first line of each testcase contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the length of strings $$$s$$$ and $$$t$$$. The second line contains string $$$s$$$ of length $$$n$$$. Each character is 'a', 'b' or 'c'. The third line contains string $$$t$$$ of length $$$n$$$. Each character is 'a', 'b' or 'c'. The sum of $$$n$$$ over all testcases doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_083.jsonl",
+    "code_uid": "5f1b8b6a0acb88992dddd16d063df98d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n3\\n\\ncab\\n\\ncab\\n\\n1\\n\\na\\n\\nb\\n\\n6\\n\\nabbabc\\n\\nbbaacb\\n\\n10\\n\\nbcaabababc\\n\\ncbbababaac\\n\\n2\\n\\nba\\n\\nab\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import collections\r\n \r\nq = int(input())\r\nfor _ in range(q):\r\n  n = int(input())\r\n  s = list(input())\r\n  t = list(input())\r\n  occ_s = collections.defaultdict(int)\r\n  occ_t = collections.defaultdict(int)\r\n  s2 = \"\"\r\n  t2 = \"\"\r\n  for i in range(n):\r\n    occ_s[s[i]] += 1\r\n    occ_t[t[i]] += 1\r\n    if s[i] != \"b\": s2 += s[i]\r\n    if t[i] != \"b\": t2 += t[i]\r\n  if s2 != t2:\r\n    print(\"NO\")\r\n    continue\r\n  l, r = 0, 0\r\n  i = 0\r\n  flag = True\r\n  while i < occ_s[\"a\"]:\r\n    while s[l] != \"a\":\r\n      l += 1\r\n    while t[r] != \"a\":\r\n      r += 1\r\n    i += 1\r\n    l += 1\r\n    r += 1\r\n    if l > r:\r\n      flag = False\r\n      break\r\n  if not flag:\r\n    print(\"NO\")\r\n    continue\r\n  l, r = 0, 0\r\n  i = 0\r\n  while i < occ_s[\"c\"]:\r\n    while s[l] != \"c\":\r\n      l += 1\r\n    while t[r] != \"c\":\r\n      r += 1\r\n    i += 1\r\n    l += 1\r\n    r += 1\r\n    if r > l:\r\n      flag = False\r\n      break\r\n  print(\"NO\") if not flag else print(\"YES\")",
+    "prob_desc_created_at": "1655044500",
+    "tags": [
+        "binary search",
+        "constructive algorithms",
+        "data structures",
+        "greedy",
+        "implementation",
+        "strings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

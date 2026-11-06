@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nNO\\nYES\\nYES\"]",
+    "src_uid": "c569b47cf80dfa98a7105e246c3c1e01",
+    "prob_desc_notes": "NoteIn the first test case, $$$s$$$=\"abcde\". You need to get $$$s$$$=\"c\". For the first operation, delete the first two letters, we get $$$s$$$=\"cde\". In the second operation, we delete the last two letters, so we get the expected value of $$$s$$$=\"c\".In the third test case, $$$s$$$=\"x\", it is required to get $$$s$$$=\"y\". Obviously, this cannot be done.",
+    "prob_desc_description": "The string $$$s$$$ is given, the string length is odd number. The string consists of lowercase letters of the Latin alphabet.As long as the string length is greater than $$$1$$$, the following operation can be performed on it: select any two adjacent letters in the string $$$s$$$ and delete them from the string. For example, from the string \"lemma\" in one operation, you can get any of the four strings: \"mma\", \"lma\", \"lea\" or \"lem\" In particular, in one operation, the length of the string reduces by $$$2$$$.Formally, let the string $$$s$$$ have the form $$$s=s_1s_2 \\dots s_n$$$ ($$$n&gt;1$$$). During one operation, you choose an arbitrary index $$$i$$$ ($$$1 \\le i &lt; n$$$) and replace $$$s=s_1s_2 \\dots s_{i-1}s_{i+2} \\dots s_n$$$.For the given string $$$s$$$ and the letter $$$c$$$, determine whether it is possible to make such a sequence of operations that in the end the equality $$$s=c$$$ will be true? In other words, is there such a sequence of operations that the process will end with a string of length $$$1$$$, which consists of the letter $$$c$$$?",
+    "prob_desc_output_spec": "For each test case in a separate line output:  YES, if the string $$$s$$$ can be converted so that $$$s=c$$$ is true; NO otherwise.  You can output YES and NO in any case (for example, the strings yEs, yes, Yes and YES will be recognized as a positive response).",
+    "prob_desc_input_spec": "The first line of input data contains an integer $$$t$$$ ($$$1 \\le t \\le 10^3$$$) — the number of input test cases. The descriptions of the $$$t$$$ cases follow. Each test case is represented by two lines:   string $$$s$$$, which has an odd length from $$$1$$$ to $$$49$$$ inclusive and consists of lowercase letters of the Latin alphabet;  is a string containing one letter $$$c$$$, where $$$c$$$ is a lowercase letter of the Latin alphabet. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_104.jsonl",
+    "code_uid": "6ff28fc4bea9d760cef1fb20c717d017",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\nabcde\\n\\nc\\n\\nabcde\\n\\nb\\n\\nx\\n\\ny\\n\\naaaaaaaaaaaaaaa\\n\\na\\n\\ncontest\\n\\nt\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n    s = str(input())\r\n    c = str(input())\r\n    \r\n    n = len(s)\r\n    index = 0\r\n    \r\n    for i in range(0, n+1, 2):\r\n        if s[i] == c:\r\n            index = 1\r\n            break\r\n        \r\n    if index == 1:\r\n        print(\"YES\")\r\n    else:\r\n        print(\"NO\")",
+    "prob_desc_created_at": "1646750100",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

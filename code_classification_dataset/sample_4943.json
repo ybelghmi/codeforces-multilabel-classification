@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"3\"]",
+    "src_uid": "dddeb7663c948515def967374f2b8812",
+    "prob_desc_notes": "NoteIn the first example all the possible subarrays are $$$[1..3]$$$, $$$[1..4]$$$, $$$[1..5]$$$, $$$[2..4]$$$, $$$[2..5]$$$ and $$$[3..5]$$$ and the median for all of them is $$$2$$$, so the maximum possible median is $$$2$$$ too.In the second example $$$median([3..4]) = 3$$$.",
+    "prob_desc_description": "You are a given an array $$$a$$$ of length $$$n$$$. Find a subarray $$$a[l..r]$$$ with length at least $$$k$$$ with the largest median.A median in an array of length $$$n$$$ is an element which occupies position number $$$\\lfloor \\frac{n + 1}{2} \\rfloor$$$ after we sort the elements in non-decreasing order. For example: $$$median([1, 2, 3, 4]) = 2$$$, $$$median([3, 2, 1]) = 2$$$, $$$median([2, 1, 2, 1]) = 1$$$.Subarray $$$a[l..r]$$$ is a contiguous part of the array $$$a$$$, i. e. the array $$$a_l,a_{l+1},\\ldots,a_r$$$ for some $$$1 \\leq l \\leq r \\leq n$$$, its length is $$$r - l + 1$$$.",
+    "prob_desc_output_spec": "Output one integer $$$m$$$ — the maximum median you can get.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\leq k \\leq n \\leq 2 \\cdot 10^5$$$). The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\leq a_i \\leq n$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_110.jsonl",
+    "code_uid": "0596da0644a2ccc548e0b76ba671c201",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n1 2 3 2 1\", \"4 2\\n1 2 3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\r\n\r\na = []\r\nn, k = 0, 0\r\n\r\n\r\ndef check(median):\r\n    mini = 2*10**5+1\r\n    part_sums = [0]\r\n    for val in a[:k]:\r\n        part_sums.append(part_sums[-1] + (val >= median) - (val < median))\r\n    for key, val in enumerate(a[k:]):\r\n        mini = min(mini, part_sums[key])\r\n        if part_sums[-1] - mini > 0:\r\n            return True\r\n        part_sums.append(part_sums[-1] + (val >= median) - (val < median))\r\n    # corner n == k\r\n    mini = min(mini, part_sums[n - k])\r\n    if part_sums[-1] - mini > 0:\r\n        return True\r\n    return False\r\n\r\n\r\ndef search(l, r) -> int:\r\n    if l == r - 1:\r\n        return l\r\n    mid = (l + r) // 2\r\n    if check(mid):\r\n        return search(mid, r)\r\n    return search(l, mid)\r\n\r\n\r\nif __name__ == '__main__':\r\n    n, k = map(int, input().split())\r\n    a = list(map(int, input().split()))\r\n    print(search(1, 2*10**5+1))\r\n\r\n",
+    "prob_desc_created_at": "1613658900",
+    "tags": [
+        "binary search",
+        "data structures",
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

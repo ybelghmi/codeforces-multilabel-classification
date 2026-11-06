@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n16\\n10\\n0\\n1\\n1\"]",
+    "src_uid": "c601769062070ab983e1d4c9942cdd39",
+    "prob_desc_notes": "NoteThe first test case is explained in the statement.",
+    "prob_desc_description": "Victor has a 24-hour clock that shows the time in the format \"HH:MM\" (00 $$$\\le$$$ HH $$$\\le$$$ 23, 00 $$$\\le$$$ MM $$$\\le$$$ 59). He looks at the clock every $$$x$$$ minutes, and the clock is currently showing time $$$s$$$. How many different palindromes will Victor see in total after looking at the clock every $$$x$$$ minutes, the first time being at time $$$s$$$?For example, if the clock starts out as 03:12 and Victor looks at the clock every $$$360$$$ minutes (i.e. every $$$6$$$ hours), then he will see the times 03:12, 09:12, 15:12, 21:12, 03:12, and the times will continue to repeat. Here the time 21:12 is the only palindrome he will ever see, so the answer is $$$1$$$.A palindrome is a string that reads the same backward as forward. For example, the times 12:21, 05:50, 11:11 are palindromes but 13:13, 22:10, 02:22 are not.",
+    "prob_desc_output_spec": "For each test case, output a single integer — the number of different palindromes Victor will see if he looks at the clock every $$$x$$$ minutes starting from time $$$s$$$.",
+    "prob_desc_input_spec": "The first line of the input contains an integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. The description of each test case follows. The only line of each test case contains a string $$$s$$$ of length $$$5$$$ with the format \"HH:MM\" where \"HH\" is from \"00\" to \"23\" and \"MM\" is from \"00\" to \"59\" (both \"HH\" and \"MM\" have exactly two digits) and an integer $$$x$$$ ($$$1 \\leq x \\leq 1440$$$) — the number of minutes Victor takes to look again at the clock.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_096.jsonl",
+    "code_uid": "5820cc1dba4f2556cbb9b5270eb76b4b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\n03:12 360\\n\\n00:00 1\\n\\n13:22 2\\n\\n15:15 10\\n\\n11:11 1440\\n\\n22:30 27\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import bisect\r\nimport os\r\nimport sys\r\nfrom io import BytesIO, IOBase\r\n\r\nBUFSIZE = 8192\r\n\r\n\r\nclass FastIO(IOBase):\r\n    newlines = 0\r\n\r\n    def __init__(self, file):\r\n        self._fd = file.fileno()\r\n        self.buffer = BytesIO()\r\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\r\n        self.write = self.buffer.write if self.writable else None\r\n\r\n    def read(self):\r\n        while True:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            if not b:\r\n                break\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines = 0\r\n        return self.buffer.read()\r\n\r\n    def readline(self):\r\n        while self.newlines == 0:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            self.newlines = b.count(b\"\\n\") + (not b)\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines -= 1\r\n        return self.buffer.readline()\r\n\r\n    def flush(self):\r\n        if self.writable:\r\n            os.write(self._fd, self.buffer.getvalue())\r\n            self.buffer.truncate(0), self.buffer.seek(0)\r\n\r\n\r\nclass IOWrapper(IOBase):\r\n    def __init__(self, file):\r\n        self.buffer = FastIO(file)\r\n        self.flush = self.buffer.flush\r\n        self.writable = self.buffer.writable\r\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\r\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\r\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\r\n\r\n\r\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\r\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\r\n\r\n\r\ndef Convert(string):\r\n    list1 = []\r\n    list1[:0] = string\r\n    return list1\r\n\r\nfor _ in range(int(input())):\r\n    tans = [[0], [70], [140], [210], [280], [350], [601], [671], [741], [811], [881], [951], [1202], [1272], [1342], [1412]]\r\n    ai = list(map(str, input().split()))\r\n    ct = (int(ai[0][:2])*60) + (int(ai[0][3:5]))\r\n    td = int(ai[1])\r\n    hs = 1\r\n    while (hs*td) % 1440 != 0:\r\n        hs += 1\r\n    hs = (hs*td)//1440\r\n    for i in range(16):\r\n        for j in range(hs+1):\r\n            tans[i].append(tans[i][0] + ((1+j)*1440))\r\n    for i in range(16):\r\n        for j in range(hs+2):\r\n            if tans[i][j] >= ct and (tans[i][j] - ct) % td == 0:\r\n                tans[i] = 0\r\n                break\r\n    ans = 0\r\n    for i in range(16):\r\n        if tans[i] == 0:\r\n            ans += 1\r\n    print(ans)",
+    "prob_desc_created_at": "1655217300",
+    "tags": [
+        "brute force",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

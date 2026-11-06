@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"27\", \"18\"]",
+    "src_uid": "de5a9d39dcd9ad7c53ae0fa2d441d3f0",
+    "prob_desc_notes": "NoteIn the first sample, it would be optimal to buy video cards with powers 3, 15 and 9. The video card with power 3 should be chosen as the leading one and all other video cards will be compatible with it. Thus, the total power would be 3 + 15 + 9 = 27. If he buys all the video cards and pick the one with the power 2 as the leading, the powers of all other video cards should be reduced by 1, thus the total power would be 2 + 2 + 14 + 8 = 26, that is less than 27. Please note, that it's not allowed to reduce the power of the leading video card, i.e. one can't get the total power 3 + 1 + 15 + 9 = 28.In the second sample, the optimal answer is to buy all video cards and pick the one with the power 2 as the leading. The video card with the power 7 needs it power to be reduced down to 6. The total power would be 8 + 2 + 2 + 6 = 18.",
+    "prob_desc_description": "Little Vlad is fond of popular computer game Bota-2. Recently, the developers announced the new add-on named Bota-3. Of course, Vlad immediately bought only to find out his computer is too old for the new game and needs to be updated.There are n video cards in the shop, the power of the i-th video card is equal to integer value ai. As Vlad wants to be sure the new game will work he wants to buy not one, but several video cards and unite their powers using the cutting-edge technology. To use this technology one of the cards is chosen as the leading one and other video cards are attached to it as secondary. For this new technology to work it's required that the power of each of the secondary video cards is divisible by the power of the leading video card. In order to achieve that the power of any secondary video card can be reduced to any integer value less or equal than the current power. However, the power of the leading video card should remain unchanged, i.e. it can't be reduced.Vlad has an infinite amount of money so he can buy any set of video cards. Help him determine which video cards he should buy such that after picking the leading video card and may be reducing some powers of others to make them work together he will get the maximum total value of video power.",
+    "prob_desc_output_spec": "The only line of the output should contain one integer value — the maximum possible total power of video cards working together.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 200 000) — the number of video cards in the shop. The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 200 000) — powers of video cards.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_073.jsonl",
+    "code_uid": "5daf5dcd6ad1a9d9a9fad2f1a3a09612",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3 2 15 9\", \"4\\n8 2 2 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    n = int(input())\n    aa = list(map(int, input().split()))\n    aa.sort()\n    lim = aa[-1] + 1\n    cnt, a = [0] * lim, aa[0] - 1\n    for i, b in zip(range(n, -1, -1), aa):\n        if a != b:\n            cnt[a + 1:b + 1] = [i] * (b - a)\n            a = b\n    avail, res = [True] * lim, []\n    for i, a in enumerate(aa):\n        if avail[a]:\n            avail[a] = False\n            res.append(a * sum(cnt[a::a]))\n    print(max(res))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1476611100",
+    "tags": [
+        "number theory",
+        "math",
+        "implementation",
+        "data structures",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

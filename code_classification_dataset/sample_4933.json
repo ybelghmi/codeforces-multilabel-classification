@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n4\\n0\\n8\"]",
+    "src_uid": "293f9b996eee9f76d4bfdeda85685baa",
+    "prob_desc_notes": "NoteIn the first test case, the first swimmer is on the left side in $$$0, 5, 10, 15, \\ldots$$$ minutes after the start time, the second swimmer is on the left side in $$$0, 4, 8, 12, \\ldots$$$ minutes after the start time, and the third swimmer is on the left side in $$$0, 8, 16, 24, \\ldots$$$ minutes after the start time. You arrived at the pool in $$$9$$$ minutes after the start time and in a minute you will meet the first swimmer on the left side.In the second test case, the first swimmer is on the left side in $$$0, 6, 12, 18, \\ldots$$$ minutes after the start time, the second swimmer is on the left side in $$$0, 10, 20, 30, \\ldots$$$ minutes after the start time, and the third swimmer is on the left side in $$$0, 9, 18, 27, \\ldots$$$ minutes after the start time. You arrived at the pool $$$2$$$ minutes after the start time and after $$$4$$$ minutes meet the first swimmer on the left side.In the third test case, you came to the pool $$$10$$$ minutes after the start time. At the same time, all three swimmers are on the left side. A rare stroke of luck!In the fourth test case, all swimmers are located on the left side in $$$0, 9, 18, 27, \\ldots$$$ minutes after the start time. You arrived at the pool $$$10$$$ minutes after the start time and after $$$8$$$ minutes meet all three swimmers on the left side.",
+    "prob_desc_description": "Three swimmers decided to organize a party in the swimming pool! At noon, they started to swim from the left side of the pool.It takes the first swimmer exactly $$$a$$$ minutes to swim across the entire pool and come back, exactly $$$b$$$ minutes for the second swimmer and $$$c$$$ minutes for the third. Hence, the first swimmer will be on the left side of the pool after $$$0$$$, $$$a$$$, $$$2a$$$, $$$3a$$$, ... minutes after the start time, the second one will be at $$$0$$$, $$$b$$$, $$$2b$$$, $$$3b$$$, ... minutes, and the third one will be on the left side of the pool after $$$0$$$, $$$c$$$, $$$2c$$$, $$$3c$$$, ... minutes.You came to the left side of the pool exactly $$$p$$$ minutes after they started swimming. Determine how long you have to wait before one of the swimmers arrives at the left side of the pool.",
+    "prob_desc_output_spec": "For each test case, output one integer — how long you have to wait (in minutes) before one of the swimmers arrives at the left side of the pool.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 1000$$$) — the number of test cases. Next $$$t$$$ lines contains test case descriptions, one per line. Each line contains four integers $$$p$$$, $$$a$$$, $$$b$$$ and $$$c$$$ ($$$1 \\leq p, a, b, c \\leq 10^{18}$$$), time in minutes after the start, when you came to the pool and times in minutes it take the swimmers to cross the entire pool and come back.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_109.jsonl",
+    "code_uid": "a792a60220a904f70f86e099cc76d0ad",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n9 5 4 8\\n2 6 10 9\\n10 2 5 10\\n10 9 9 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# import sys\r\n# sys.stdout = open('DSA/Stacks/output.txt', 'w')\r\n# sys.stdin = open('DSA/Stacks/input.txt', 'r')\r\n\r\nfor _ in range(int(input())):\r\n    p,a,b,c = map(int, input().split())\r\n    zz = [a,b,c]\r\n    for i in range(len(zz)):\r\n        if p%zz[i]==0:\r\n            zz[i]=0\r\n        else:\r\n            zz[i] = zz[i]-(p%zz[i])\r\n    print(min(zz))",
+    "prob_desc_created_at": "1614071100",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

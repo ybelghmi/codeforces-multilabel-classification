@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"18\", \"8\", \"1\", \"0\"]",
+    "src_uid": "08924ff11b857559a44c1637761b508a",
+    "prob_desc_notes": "NoteIn the first test case all the substrings that are correct e-mail addresses begin from one of the letters of the word agapov and end in one of the letters of the word com.In the second test case note that the e-mail x@x.x is considered twice in the answer. Note that in this example the e-mail entries overlap inside the string.",
+    "prob_desc_description": "One of the most important products of the R1 company is a popular @r1.com mail service. The R1 mailboxes receive and send millions of emails every day.Today, the online news thundered with terrible information. The R1 database crashed and almost no data could be saved except for one big string. The developers assume that the string contains the letters of some users of the R1 mail. Recovering letters is a tedious mostly manual work. So before you start this process, it was decided to estimate the difficulty of recovering. Namely, we need to calculate the number of different substrings of the saved string that form correct e-mail addresses.We assume that valid addresses are only the e-mail addresses which meet the following criteria:  the address should begin with a non-empty sequence of letters, numbers, characters '_', starting with a letter;  then must go character '@';  then must go a non-empty sequence of letters or numbers;  then must go character '.';  the address must end with a non-empty sequence of letters. You got lucky again and the job was entrusted to you! Please note that the substring is several consecutive characters in a string. Two substrings, one consisting of the characters of the string with numbers l1, l1 + 1, l1 + 2, ..., r1 and the other one consisting of the characters of the string with numbers l2, l2 + 1, l2 + 2, ..., r2, are considered distinct if l1 ≠ l2 or r1 ≠ r2.",
+    "prob_desc_output_spec": "Print in a single line the number of substrings that are valid e-mail addresses.",
+    "prob_desc_input_spec": "The first and the only line contains the sequence of characters s1s2... sn (1 ≤ n ≤ 106) — the saved string. It is guaranteed that the given string contains only small English letters, digits and characters '.', '_', '@'.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_080.jsonl",
+    "code_uid": "52f615d55100f38951ad1327226b220c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"gerald.agapov1991@gmail.com\", \"x@x.x@x.x_e_@r1.com\", \"a___@1.r\", \".asd123__..@\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\ndef main():\n    s = stdin.readline().strip()\n    dp = [0] * 4\n    ans = 0\n    for c in s:\n        if c.isalpha():\n            dp[0] += 1\n            dp[2] += dp[1]\n            dp[1] = 0\n            ans += dp[3]\n        elif c.isdigit():\n            dp[2] += dp[1]\n            dp[1] = 0\n            dp[3] = 0\n        elif c == '.':\n            dp[0] = 0\n            dp[1] = 0\n            dp[3] = dp[2]\n            dp[2] = 0\n        elif c == '@':\n            dp[1] = dp[0]\n            dp[0] = 0\n            dp[2] = 0\n            dp[3] = 0\n        elif c == '_':\n            dp[1] = 0\n            dp[2] = 0\n            dp[3] = 0\n    print ans\nmain()\n",
+    "prob_desc_created_at": "1397837400",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

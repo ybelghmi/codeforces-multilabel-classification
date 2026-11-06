@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"180 10\"]",
+    "src_uid": "87c3a8a0d49288d0f6242fe2ac69a641",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You wrote down all integers from $$$0$$$ to $$$10^n - 1$$$, padding them with leading zeroes so their lengths are exactly $$$n$$$. For example, if $$$n = 3$$$ then you wrote out 000, 001, ..., 998, 999.A block in an integer $$$x$$$ is a consecutive segment of equal digits that cannot be extended to the left or to the right.For example, in the integer $$$00027734000$$$ there are three blocks of length $$$1$$$, one block of length $$$2$$$ and two blocks of length $$$3$$$.For all integers $$$i$$$ from $$$1$$$ to $$$n$$$ count the number of blocks of length $$$i$$$ among the written down integers.Since these integers may be too large, print them modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "In the only line print $$$n$$$ integers. The $$$i$$$-th integer is equal to the number of blocks of length $$$i$$$. Since these integers may be too large, print them modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The only line contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_007.jsonl",
+    "code_uid": "62d191e3d38ce5676f43b46a4709c270",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\", \"2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#                                               |\n#   _` |  __ \\    _` |   __|   _ \\   __ \\    _` |   _` |\n#  (   |  |   |  (   |  (     (   |  |   |  (   |  (   |\n# \\__,_| _|  _| \\__,_| \\___| \\___/  _|  _| \\__,_| \\__,_|\n\nimport sys\n\ndef read_line():\n\treturn sys.stdin.readline()[:-1]\n \ndef read_int():\n\treturn int(sys.stdin.readline())\n \ndef read_int_line():\n\treturn [int(v) for v in sys.stdin.readline().split()]\n\ndef power(x, y, p) : \n    res = 1     # Initialize result \n  \n    # Update x if it is more \n    # than or equal to p \n    x = x % p  \n  \n    while (y > 0) : \n          \n        # If y is odd, multiply \n        # x with result \n        if ((y & 1) == 1) : \n            res = (res * x) % p \n  \n        # y must be even now \n        y = y >> 1      # y = y/2 \n        x = (x * x) % p \n          \n    return res \n\nn = read_int()\nd = [0]*n\np = 998244353\nd[n-1] = 10\nif n>1:\n\td[n-2] = 180\n\tfor i in range(n-3,-1,-1):\n\t\ta1 = ((10*(n-i)*9*9)%p*power(10,n-i-3,p))%p\n\t\ta2 = (2*10*9*power(10,n-i-3,p))%p\n\t\td[i] = (a1+a2)%p\n\nprint(*d)",
+    "prob_desc_created_at": "1584974100",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

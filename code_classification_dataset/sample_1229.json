@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"4\"]",
+    "src_uid": "0f8ad0ea2befbbe036fbd5e5f6680c21",
+    "prob_desc_notes": "NoteIn the first example, the following sequences are examples of good sequences: [2; 4; 6; 9], [2; 4; 6], [3; 9], [6]. The length of the longest good sequence is 4.",
+    "prob_desc_description": "Squirrel Liss is interested in sequences. She also has preferences of integers. She thinks n integers a1, a2, ..., an are good.Now she is interested in good sequences. A sequence x1, x2, ..., xk is called good if it satisfies the following three conditions:  The sequence is strictly increasing, i.e. xi &lt; xi + 1 for each i (1 ≤ i ≤ k - 1).  No two adjacent elements are coprime, i.e. gcd(xi, xi + 1) &gt; 1 for each i (1 ≤ i ≤ k - 1) (where gcd(p, q) denotes the greatest common divisor of the integers p and q).  All elements of the sequence are good integers. Find the length of the longest good sequence.",
+    "prob_desc_output_spec": "Print a single integer — the length of the longest good sequence.",
+    "prob_desc_input_spec": "The input consists of two lines. The first line contains a single integer n (1 ≤ n ≤ 105) — the number of good integers. The second line contains a single-space separated list of good integers a1, a2, ..., an in strictly increasing order (1 ≤ ai ≤ 105; ai &lt; ai + 1).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_007.jsonl",
+    "code_uid": "e7abb1a8a03e90e76ee27274635721a3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 3 4 6 9\", \"9\\n1 2 3 5 6 7 8 9 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = 100001\nm = int(input())\ndiv = [[] for _ in range(n)]\ndiv[1] = [1]\nfor i in range(2, n):\n    if not div[i]:\n        div[i] = [i]\n        for j in range(2 * i, n, i):\n            div[j].append(i)\na = list(map(int, input().rstrip().split()))\ndp = [0] * (n + 1)\nfor i in a:\n    x = max(dp[j] for j in div[i]) + 1\n    for j in div[i]:\n        dp[j] = x\nprint(max(dp))",
+    "prob_desc_created_at": "1358686800",
+    "tags": [
+        "dp",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

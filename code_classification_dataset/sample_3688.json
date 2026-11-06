@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"-\\n+\\n+\\n-\\n-\\n+\\n-\\n+\\n+\\n+\"]",
+    "src_uid": "1f5f5ccbdfcbe5cb2d692475f0726bfd",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Petya and Vasya are inventing a new game that requires a rectangular board and one chess piece. At the beginning of the game the piece stands in the upper-left corner of the board. Two players move the piece in turns. Each turn the chess piece can be moved either one square to the right or one square down or jump k squares diagonally down and to the right. The player who can’t move the piece loses.   The guys haven’t yet thought what to call the game or the best size of the board for it. Your task is to write a program that can determine the outcome of the game depending on the board size.",
+    "prob_desc_output_spec": "Output t lines that can determine the outcomes of the game on every board. Write «+» if the first player is a winner, and «-» otherwise.",
+    "prob_desc_input_spec": "The first input line contains two integers t and k (1 ≤ t ≤ 20, 1 ≤ k ≤ 109). Each of the following t lines contains two numbers n, m — the board’s length and width (1 ≤ n, m ≤ 109).",
+    "prob_desc_output_to": "output.txt",
+    "prob_desc_input_from": "input.txt",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_078.jsonl",
+    "code_uid": "da1f71e4fdae8b1e653fe48dffd52a0d",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"10 2\\n1 1\\n1 2\\n2 1\\n2 2\\n1 3\\n2 3\\n3 1\\n3 2\\n3 3\\n4 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/python\n\nc = ['-', '+']\n\ninfile = open(\"input.txt\")\noutfile = open(\"output.txt\", 'w')\n\nt, k = map(lambda x: int(x), infile.readline().split())\nfor i in range(t):\n\tn, m = map(lambda x: int(x)-1, infile.readline().split())\n\tif n > m:\n\t\tn, m = m, n\n\tif k >= 2:\n\t\tr = n % (2*k + 2)\n\t\tif r == k or r == 2*k+1:\n\t\t\toutfile.write('+\\n')\n\t\telif r <= k-1:\n\t\t\toutfile.write(c[(m+n)%2]+'\\n')\n\t\telse:\n\t\t\toutfile.write(c[(m+n+1)%2]+'\\n')\n\telse:\n\t\tif n % 2 == 1:\n\t\t\toutfile.write('+\\n')\n\t\telse:\n\t\t\toutfile.write(c[(m+n)%2]+'\\n')\n",
+    "prob_desc_created_at": "1287482400",
+    "tags": [
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

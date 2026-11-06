@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0 1 2\", \"1 3 4 0\", \"0 2 1\"]",
+    "src_uid": "9a31d88a2fcaf8f3d059ef0e74d6e821",
+    "prob_desc_notes": "NoteIn the second test case, other answers like $$$[1,1,1,0]$$$, for example, are valid.",
+    "prob_desc_description": "Given an array $$$a$$$ of length $$$n$$$, find another array, $$$b$$$, of length $$$n$$$ such that:  for each $$$i$$$ $$$(1 \\le i \\le n)$$$ $$$MEX(\\{b_1$$$, $$$b_2$$$, $$$\\ldots$$$, $$$b_i\\})=a_i$$$. The $$$MEX$$$ of a set of integers is the smallest non-negative integer that doesn't belong to this set.If such array doesn't exist, determine this.",
+    "prob_desc_output_spec": "If there's no such array, print a single line containing $$$-1$$$. Otherwise, print a single line containing $$$n$$$ integers $$$b_1$$$, $$$b_2$$$, $$$\\ldots$$$, $$$b_n$$$ ($$$0 \\le b_i \\le 10^6$$$) If there are multiple answers, print any.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the length of the array $$$a$$$. The second line contains $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, $$$\\ldots$$$, $$$a_n$$$ ($$$0 \\le a_i \\le i$$$) — the elements of the array $$$a$$$. It's guaranteed that $$$a_i \\le a_{i+1}$$$ for $$$1\\le i &lt; n$$$. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_023.jsonl",
+    "code_uid": "0d0850dbf4089c67e048e2adfc2918b6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\", \"4\\n0 0 0 2\", \"3\\n1 1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = list(map(int,input().split()))\nb = [n+1] * n\nisCovered = [False] * a[n-1]\nlastIsNotCovered = 0\nallCovered = False\nfor i in range(n-1):\n    if a[i] != a[i+1]:\n        b[i+1] = a[i]\n        isCovered[a[i]] = True\nfor i in range(lastIsNotCovered,a[n-1]):\n    if isCovered[i] == False:\n        lastIsNotCovered = i\n        break\n    if i == a[n-1] - 1:\n        allCovered = True\n        break\nif a[n-1] == 0:\n    allCovered = True\nfor i in range(n):\n    if allCovered:\n        break\n    if b[i] != n+1:\n        continue\n    else:\n        b[i] = lastIsNotCovered\n        if lastIsNotCovered == a[n-1] - 1:\n            allCovered = True\n            break\n        isCovered[lastIsNotCovered] = True\n        for j in range(lastIsNotCovered,a[n-1]):\n            if isCovered[j] == False:\n                lastIsNotCovered = j\n                break\n            if j == a[n-1] - 1:\n                allCovered = True\n                break\n        if allCovered:\n            break\n\nif allCovered:\n    output = [str(i) for i in b]\n    print(' '.join(output))\nelse:\n    print(-1)",
+    "prob_desc_created_at": "1592060700",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

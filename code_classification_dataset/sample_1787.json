@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"33\", \"0\", \"-1\"]",
+    "src_uid": "df9942d1eb66b1f3b5c6b665b446cd3e",
+    "prob_desc_notes": "NoteIn the first example it is enough to erase only the first digit to obtain a multiple of 3. But if we erase the first digit, then we obtain a number with a leading zero. So the minimum number of digits to be erased is two.",
+    "prob_desc_description": "A positive integer number n is written on a blackboard. It consists of not more than 105 digits. You have to transform it into a beautiful number by erasing some of the digits, and you want to erase as few digits as possible.The number is called beautiful if it consists of at least one digit, doesn't have leading zeroes and is a multiple of 3. For example, 0, 99, 10110 are beautiful numbers, and 00, 03, 122 are not.Write a program which for the given n will find a beautiful number such that n can be transformed into this number by erasing as few digits as possible. You can erase an arbitraty set of digits. For example, they don't have to go one after another in the number n.If it's impossible to obtain a beautiful number, print -1. If there are multiple answers, print any of them.",
+    "prob_desc_output_spec": "Print one number — any beautiful number obtained by erasing as few as possible digits. If there is no answer, print  - 1.",
+    "prob_desc_input_spec": "The first line of input contains n — a positive integer number without leading zeroes (1 ≤ n &lt; 10100000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_013.jsonl",
+    "code_uid": "00d9521369a4b3b82d0aaed9003e0722",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1033\", \"10\", \"11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def checkBeauty (digi):\n\ttotal = 0\n\tfor i in range(0,len(digi)):\n\t\ttotal += int(digi[i])\n\treturn total % 3\n\ndef modThree (digi):\n\tone = []\n\ttwo = []\n\tfor i in range(0,len(digi)):\n\t\tif int(digi[i]) % 3 == 1:\n\t\t\tone.insert(0,i)\n\t\telif int(digi[i]) % 3 == 2:\n\t\t\ttwo.insert(0,i)\n\tmodResult = []\n\tmodResult.append(one)\n\tmodResult.append(two)\n\treturn modResult\n\ndef checkHead (digi):\n\tif len(digi) == 0: return -1\n\twhile len(digi) > 1:\n\t\tif int(digi[0]) == 0:\n\t\t\tdigi.pop(0)\n\t\telse: break\n\treturn \"\".join(digi)\n\nx = list(input())\nmodResult = modThree(x)\nnumToDel = checkBeauty(x)\nfinalResult = -1\ndelOne = []\ndelTwo = []\n\nif numToDel == 0:\n\tfinalResult = checkHead(x)\nelif numToDel == 1:\n\tif len(modResult[0]) != 0:\n\t\tdelOne = x[:]\n\t\tdelOne.pop(modResult[0][0])\n\tif len(modResult[1]) > 1:\n\t\tdelTwo = x[:]\n\t\tdelTwo.pop(modResult[1][0])\n\t\tdelTwo.pop(modResult[1][1])\nelse:\n\tif len(modResult[1]) != 0:\n\t\tdelTwo = x[:]\n\t\tdelTwo.pop(modResult[1][0])\n\tif len(modResult[0]) > 1:\n\t\tdelOne = x[:]\n\t\tdelOne.pop(modResult[0][0])\n\t\tdelOne.pop(modResult[0][1])\n\nresultOne = checkHead(delOne)\nresultTwo = checkHead(delTwo)\n\nif resultOne == -1 and resultTwo != -1: \n\tfinalResult = resultTwo\nelif resultOne != -1 and resultTwo == -1: \n\tfinalResult = resultOne\nelif resultOne != -1 and resultTwo != -1: \n\tfinalResult = resultTwo if len(resultTwo) > len(resultOne) else resultOne\n\nprint (finalResult)",
+    "prob_desc_created_at": "1490625300",
+    "tags": [
+        "dp",
+        "number theory",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

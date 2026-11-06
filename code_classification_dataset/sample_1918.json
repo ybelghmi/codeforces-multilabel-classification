@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10.0000000000\", \"-1\", \"74.6757620881\"]",
+    "src_uid": "d1c53bd1359efa662604d55176d8af75",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Once upon a time in the galaxy of far, far away...Darth Wader found out the location of a rebels' base. Now he is going to destroy the base (and the whole planet that the base is located at), using the Death Star.When the rebels learnt that the Death Star was coming, they decided to use their new secret weapon — space mines. Let's describe a space mine's build.Each space mine is shaped like a ball (we'll call it the mine body) of a certain radius r with the center in the point O. Several spikes protrude from the center. Each spike can be represented as a segment, connecting the center of the mine with some point P, such that  (transporting long-spiked mines is problematic), where |OP| is the length of the segment connecting O and P. It is convenient to describe the point P by a vector p such that P = O + p.The Death Star is shaped like a ball with the radius of R (R exceeds any mine's radius). It moves at a constant speed along the v vector at the speed equal to |v|. At the moment the rebels noticed the Star of Death, it was located in the point A.The rebels located n space mines along the Death Star's way. You may regard the mines as being idle. The Death Star does not know about the mines' existence and cannot notice them, which is why it doesn't change the direction of its movement. As soon as the Star of Death touched the mine (its body or one of the spikes), the mine bursts and destroys the Star of Death. A touching is the situation when there is a point in space which belongs both to the mine and to the Death Star. It is considered that Death Star will not be destroyed if it can move infinitely long time without touching the mines.Help the rebels determine whether they will succeed in destroying the Death Star using space mines or not. If they will succeed, determine the moment of time when it will happen (starting from the moment the Death Star was noticed).",
+    "prob_desc_output_spec": "If the rebels will succeed in stopping the Death Star using space mines, print the time from the moment the Death Star was noticed to the blast. If the Death Star will not touch a mine, print \"-1\" (without quotes). For the answer the absolute or relative error of 10 - 6 is acceptable.",
+    "prob_desc_input_spec": "The first input data line contains 7 integers Ax, Ay, Az, vx, vy, vz, R. They are the Death Star's initial position, the direction of its movement, and its radius ( - 10 ≤ vx, vy, vz ≤ 10, |v| &gt; 0, 0 &lt; R ≤ 100). The second line contains an integer n, which is the number of mines (1 ≤ n ≤ 100). Then follow n data blocks, the i-th of them describes the i-th mine. The first line of each block contains 5 integers Oix, Oiy, Oiz, ri, mi, which are the coordinates of the mine centre, the radius of its body and the number of spikes (0 &lt; ri &lt; 100, 0 ≤ mi ≤ 10). Then follow mi lines, describing the spikes of the i-th mine, where the j-th of them describes the i-th spike and contains 3 integers pijx, pijy, pijz — the coordinates of the vector where the given spike is directed (). The coordinates of the mines' centers and the center of the Death Star are integers, their absolute value does not exceed 10000. It is guaranteed that R &gt; ri for any 1 ≤ i ≤ n. For any mines i ≠ j the following inequality if fulfilled: . Initially the Death Star and the mines do not have common points.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_014.jsonl",
+    "code_uid": "278e65412a7f02f990c5b80560c2481e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"0 0 0 1 0 0 5\\n2\\n10 8 0 2 2\\n0 -3 0\\n2 2 0\\n20 0 0 4 3\\n2 4 0\\n-4 3 0\\n1 -5 0\", \"8 8 4 4 4 2 6\\n1\\n-2 -2 -1 3 0\", \"30 30 2 1 2 1 20\\n3\\n0 0 40 5 1\\n1 4 4\\n-10 -40 -5 7 0\\n100 200 95 8 1\\n-10 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n\ninf = float('inf')\n\nax,ay,az,vx,vy,vz,R=map(int,raw_input().split())\nn=input()\nt=inf\n\ndef check(ox,oy,oz,r):\n\tx,y,z=ax-ox,ay-oy,az-oz\n\t\n\ta=vx**2+vy**2+vz**2\n\tb=2*(x*vx+y*vy+z*vz)\n\tc=x**2+y**2+z**2-r**2\n\td=b*b-4*a*c\n\tif d<0: return\n\n\tx1=(-b+d**0.5)/a/2\n\tx2=(-b-d**0.5)/a/2\n\n\tglobal t\n\tif x1>=0: t=min(t,x1)\n\tif x2>=0: t=min(t,x2)\n\nfor i in xrange(n):\n\tox,oy,oz,r,m = map(int,raw_input().split())\n\tcheck(ox,oy,oz,r+R)\n\tfor j in xrange(m):\n\t\trx,ry,rz = map(int,raw_input().split())\n\t\tcheck(rx+ox,ry+oy,rz+oz,R)\nprint -1 if t==inf else \"%.20f\"%t\n",
+    "prob_desc_created_at": "1308236400",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

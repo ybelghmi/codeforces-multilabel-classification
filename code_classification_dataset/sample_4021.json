@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\"]",
+    "src_uid": "c35d309dd6a9569ec298e7128aa3fc0e",
+    "prob_desc_notes": "NoteIn the first test case, we can change all elements to $$$0$$$ in $$$5$$$ operations. It can be shown that no permutation of $$$[2, 3, 5, 4]$$$ requires less than $$$5$$$ operations to change all elements to $$$0$$$.In the third test case, we need $$$5$$$ operations to change all elements to $$$0$$$, while $$$[2, 3, 3, 1]$$$ only needs $$$3$$$ operations.",
+    "prob_desc_description": "Consider an array $$$a$$$ of $$$n$$$ positive integers.You may perform the following operation:   select two indices $$$l$$$ and $$$r$$$ ($$$1 \\leq l \\leq r \\leq n$$$), then  decrease all elements $$$a_l, a_{l + 1}, \\dots, a_r$$$ by $$$1$$$. Let's call $$$f(a)$$$ the minimum number of operations needed to change array $$$a$$$ into an array of $$$n$$$ zeros.Determine if for all permutations$$$^\\dagger$$$ $$$b$$$ of $$$a$$$, $$$f(a) \\leq f(b)$$$ is true. $$$^\\dagger$$$ An array $$$b$$$ is a permutation of an array $$$a$$$ if $$$b$$$ consists of the elements of $$$a$$$ in arbitrary order. For example, $$$[4,2,3,4]$$$ is a permutation of $$$[3,2,4,4]$$$ while $$$[1,2,2]$$$ is not a permutation of $$$[1,2,3]$$$.",
+    "prob_desc_output_spec": "For each test case, print \"YES\" (without quotes) if for all permutations $$$b$$$ of $$$a$$$, $$$f(a) \\leq f(b)$$$ is true, and \"NO\" (without quotes) otherwise. You can output \"YES\" and \"NO\" in any case (for example, strings \"yEs\", \"yes\" and \"Yes\" will be recognized as a positive response).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 10^5$$$) — the length of the array $$$a$$$. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — description of the array $$$a$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_088.jsonl",
+    "code_uid": "278d5cee62b48686224143c3d40da0e5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n4\\n\\n2 3 5 4\\n\\n3\\n\\n1 2 3\\n\\n4\\n\\n3 1 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\n\r\ntc = int(sys.stdin.readline())\r\nfor test in range(tc):\r\n    n = int(sys.stdin.readline())\r\n    a = list(map(int,sys.stdin.readline().split()))\r\n    b = a.index(max(a))\r\n    if sorted(a[b:]) == a[b:] or sorted(a[b:],reverse=True) == a[b:]:\r\n        if sorted(a[:b+1]) == a[:b+1] or sorted(a[:b+1],reverse=True) == a[:b+1]:\r\n            print(\"YES\")\r\n        else:\r\n            print(\"NO\")\r\n    else:\r\n        print(\"NO\")",
+    "prob_desc_created_at": "1659796500",
+    "tags": [
+        "constructive algorithms",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

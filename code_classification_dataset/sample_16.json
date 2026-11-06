@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"4\"]",
+    "src_uid": "089eea1841ef10064647e61094c374fd",
+    "prob_desc_notes": "NoteIn the first sample case: One optimal way would be to throw away the first three in the first step and the rest in the second step. Also, it's not possible to do it in one step because their sum is not a power of two.In the second sample case: The only optimal way is to throw away one weight in each step. It's not possible to do it in less than 4 steps because there's no subset of weights with more than one weight and sum equal to a power of two.",
+    "prob_desc_description": "Recently, Duff has been practicing weight lifting. As a hard practice, Malek gave her a task. He gave her a sequence of weights. Weight of i-th of them is 2wi pounds. In each step, Duff can lift some of the remaining weights and throw them away. She does this until there's no more weight left. Malek asked her to minimize the number of steps.  Duff is a competitive programming fan. That's why in each step, she can only lift and throw away a sequence of weights 2a1, ..., 2ak if and only if there exists a non-negative integer x such that 2a1 + 2a2 + ... + 2ak = 2x, i. e. the sum of those numbers is a power of two.Duff is a competitive programming fan, but not a programmer. That's why she asked for your help. Help her minimize the number of steps. ",
+    "prob_desc_output_spec": "Print the minimum number of steps in a single line.",
+    "prob_desc_input_spec": "The first line of input contains integer n (1 ≤ n ≤ 106), the number of weights. The second line contains n integers w1, ..., wn separated by spaces (0 ≤ wi ≤ 106 for each 1 ≤ i ≤ n), the powers of two forming the weights values.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_000.jsonl",
+    "code_uid": "39037e5df9afaa17c8f66b0b3166020d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 1 2 3 3\", \"4\\n0 1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# Description of the problem can be found at http://codeforces.com/problemset/problem/587/A\n\nn = int(input())\nw = map(int, input().split())\nm = 1000001\ns = [0] * m\n\nfor i in w:\n    s[i] += 1\n\nans = 0\nz = 0\nfor i in range(m):\n    n_s = s[i]+z\n    z = n_s // 2\n    ans += n_s % 2\n\nwhile z > 0:\n    ans += z % 2\n    z //= 2\n\nprint(ans)",
+    "prob_desc_created_at": "1444926600",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

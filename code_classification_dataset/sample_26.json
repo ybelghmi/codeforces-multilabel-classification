@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 1 3\", \"2 4 1 3\"]",
+    "src_uid": "61e662dd3ae6e29dff2f24817b36b3f7",
+    "prob_desc_notes": "NoteIn the first sample, the initial report looked like: 1 2 3. After the first manager the first two numbers were transposed: 2 1 3. The report got to Blake in this form.In the second sample the original report was like this: 1 2 4 3. After the first manager the report changed to: 4 2 1 3. After the second manager the report changed to: 2 4 1 3. This report was handed over to Blake.",
+    "prob_desc_description": "Each month Blake gets the report containing main economic indicators of the company \"Blake Technologies\". There are n commodities produced by the company. For each of them there is exactly one integer in the final report, that denotes corresponding revenue. Before the report gets to Blake, it passes through the hands of m managers. Each of them may reorder the elements in some order. Namely, the i-th manager either sorts first ri numbers in non-descending or non-ascending order and then passes the report to the manager i + 1, or directly to Blake (if this manager has number i = m).Employees of the \"Blake Technologies\" are preparing the report right now. You know the initial sequence ai of length n and the description of each manager, that is value ri and his favourite order. You are asked to speed up the process and determine how the final report will look like.",
+    "prob_desc_output_spec": "Print n integers — the final report, which will be passed to Blake by manager number m.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and m (1 ≤ n, m ≤ 200 000) — the number of commodities in the report and the number of managers, respectively. The second line contains n integers ai (|ai| ≤ 109) — the initial report before it gets to the first manager. Then follow m lines with the descriptions of the operations managers are going to perform. The i-th of these lines contains two integers ti and ri (, 1 ≤ ri ≤ n), meaning that the i-th manager sorts the first ri numbers either in the non-descending (if ti = 1) or non-ascending (if ti = 2) order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_000.jsonl",
+    "code_uid": "4100dec6ac798a934c9ea44a43665c8d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\n1 2 3\\n2 2\", \"4 2\\n1 2 4 3\\n2 3\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\n\n__author__ = 'aste'\n\n\ndef main():\n    n, m = map(int, input().split())\n    a = [int(x) for x in input().split()]\n    q = [0] * m\n    for i in range(0, m):\n        t, r = map(int, input().split())\n        q[i] = (r, t)\n    max_range = [0] * m\n    max_range[m - 1] = m - 1\n    for i in range(m - 2, -1, -1):\n        if q[i][0] > q[max_range[i + 1]][0]:\n            max_range[i] = i\n        else:\n            max_range[i] = max_range[i + 1]\n    # print(max_range)\n    max_range_global = q[max_range[0]][0]\n    prefix = a[:max_range_global]\n    suffix = a[max_range_global:]\n    if q[max_range[0]][1] == 1:\n        prefix.sort()\n    else:\n        prefix.sort(reverse=True)\n    ops = []\n    i = 0\n    while i < m:\n        ops.append(q[max_range[i]])\n        i = max_range[i] + 1\n    # print(ops)\n    s = 0\n    e = len(prefix)\n    needs_reverse = 0\n    res = deque()\n    for i in range(1, len(ops)):\n        diff = ops[i - 1][0] - ops[i][0]\n        if needs_reverse:\n            res.extendleft(prefix[s:s + diff])\n            s += diff\n        else:\n            res.extendleft(reversed(prefix[e - diff:e]))\n            e -= diff\n        if ops[i][1] != ops[i - 1][1]:\n            needs_reverse ^= 1\n    if needs_reverse:\n        res.extendleft(prefix[s:e])\n    else:\n        res.extendleft(reversed(prefix[s:e]))\n    res = list(res) + suffix\n    print(\" \".join([str(x) for x in res]))\nmain()\n\n\n",
+    "prob_desc_created_at": "1457022900",
+    "tags": [
+        "data structures",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

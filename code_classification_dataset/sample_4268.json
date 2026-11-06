@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\\n12\\n3\"]",
+    "src_uid": "e87ff02ce425fc3e96c09a15679aa656",
+    "prob_desc_notes": "NoteIn the first test case, it can be proven that any subarray of $$$a$$$ is good. For example, subarray $$$[a_2, a_3, a_4]$$$ is good since it contains only three elements and:   $$$d((a_2, 2), (a_4, 4)) = |4 - 3| + |2 - 4| = 3$$$ $$$&lt;$$$ $$$d((a_2, 2), (a_3, 3)) + d((a_3, 3), (a_4, 4)) = 3 + 1 + 2 + 1 = 7$$$;  $$$d((a_2, 2), (a_3, 3))$$$ $$$&lt;$$$ $$$d((a_2, 2), (a_4, 4)) + d((a_4, 4), (a_3, 3))$$$;  $$$d((a_3, 3), (a_4, 4))$$$ $$$&lt;$$$ $$$d((a_3, 3), (a_2, 2)) + d((a_2, 2), (a_4, 4))$$$; In the second test case, for example, subarray $$$[a_1, a_2, a_3, a_4]$$$ is not good, since it contains a bad triple $$$(a_1, 1)$$$, $$$(a_2, 2)$$$, $$$(a_4, 4)$$$:   $$$d((a_1, 1), (a_4, 4)) = |6 - 9| + |1 - 4| = 6$$$;  $$$d((a_1, 1), (a_2, 2)) = |6 - 9| + |1 - 2| = 4$$$;  $$$d((a_2, 2), (a_4, 4)) = |9 - 9| + |2 - 4| = 2$$$; So, $$$d((a_1, 1), (a_4, 4)) = d((a_1, 1), (a_2, 2)) + d((a_2, 2), (a_4, 4))$$$.",
+    "prob_desc_description": "Suppose you have two points $$$p = (x_p, y_p)$$$ and $$$q = (x_q, y_q)$$$. Let's denote the Manhattan distance between them as $$$d(p, q) = |x_p - x_q| + |y_p - y_q|$$$.Let's say that three points $$$p$$$, $$$q$$$, $$$r$$$ form a bad triple if $$$d(p, r) = d(p, q) + d(q, r)$$$.Let's say that an array $$$b_1, b_2, \\dots, b_m$$$ is good if it is impossible to choose three distinct indices $$$i$$$, $$$j$$$, $$$k$$$ such that the points $$$(b_i, i)$$$, $$$(b_j, j)$$$ and $$$(b_k, k)$$$ form a bad triple.You are given an array $$$a_1, a_2, \\dots, a_n$$$. Calculate the number of good subarrays of $$$a$$$. A subarray of the array $$$a$$$ is the array $$$a_l, a_{l + 1}, \\dots, a_r$$$ for some $$$1 \\le l \\le r \\le n$$$.Note that, according to the definition, subarrays of length $$$1$$$ and $$$2$$$ are good.",
+    "prob_desc_output_spec": "For each test case, print the number of good subarrays of array $$$a$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 5000$$$) — the number of test cases. The first line of each test case contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the length of array $$$a$$$. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$). It's guaranteed that the sum of $$$n$$$ doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_094.jsonl",
+    "code_uid": "8c170ddd0e5d61138b00dd62e3cdc87a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4\\n2 4 1 3\\n5\\n6 9 1 9 6\\n2\\n13 37\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# 2022-07-03T12:03:04Z\nimport itertools\nimport sys\n\ninput = sys.stdin.readline\n\n\ndef proc(n, a):\n    res = 0\n    for i in range(n):\n        # print([a[i]])\n        res += 1\n        if i + 1 >= n:\n            continue\n        # print(a[i:i + 2])\n        res += 1\n\n        if i + 2 >= n or a[i] <= a[i + 1] <= a[i + 2] or a[i] >= a[i + 1] >= a[i + 2]:\n            continue\n        # print(a[i:i + 3])\n        res += 1\n\n        if i + 3 >= n \\\n                or a[i] <= a[i + 1] <= a[i + 3] or a[i] <= a[i + 2] <= a[i + 3] or a[i + 1] <= a[i + 2] <= a[i + 3] \\\n                or a[i] >= a[i + 1] >= a[i + 3] or a[i] >= a[i + 2] >= a[i + 3] or a[i + 1] >= a[i + 2] >= a[i + 3]:\n            continue\n        # print(a[i:i + 4])\n        res += 1\n\n    # print(res)\n    return res\n\n\nassert proc(5, [6, 9, 1, 9, 6, ]) == 12\nassert proc(4, [2, 4, 1, 3, ]) == 10\nassert proc(2, [13, 37, ]) == 3\nfor _ in range(int(input().strip())):\n    n = int(input().strip())\n    a = list(map(int, input().strip().split()))\n    ans = proc(n, a)\n    print(ans)\n",
+    "prob_desc_created_at": "1626273300",
+    "tags": [
+        "brute force",
+        "geometry",
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

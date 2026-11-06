@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n-1\\n3\"]",
+    "src_uid": "d132158607bbd0541f2232a300e4a1b1",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two strings $$$s$$$ and $$$t$$$ consisting of lowercase Latin letters. Also you have a string $$$z$$$ which is initially empty. You want string $$$z$$$ to be equal to string $$$t$$$. You can perform the following operation to achieve this: append any subsequence of $$$s$$$ at the end of string $$$z$$$. A subsequence is a sequence that can be derived from the given sequence by deleting zero or more elements without changing the order of the remaining elements. For example, if $$$z = ac$$$, $$$s = abcde$$$, you may turn $$$z$$$ into following strings in one operation:   $$$z = acace$$$ (if we choose subsequence $$$ace$$$);  $$$z = acbcd$$$ (if we choose subsequence $$$bcd$$$);  $$$z = acbce$$$ (if we choose subsequence $$$bce$$$). Note that after this operation string $$$s$$$ doesn't change.Calculate the minimum number of such operations to turn string $$$z$$$ into string $$$t$$$. ",
+    "prob_desc_output_spec": "For each testcase, print one integer — the minimum number of operations to turn string $$$z$$$ into string $$$t$$$. If it's impossible print $$$-1$$$.",
+    "prob_desc_input_spec": "The first line contains the integer $$$T$$$ ($$$1 \\le T \\le 100$$$) — the number of test cases. The first line of each testcase contains one string $$$s$$$ ($$$1 \\le |s| \\le 10^5$$$) consisting of lowercase Latin letters. The second line of each testcase contains one string $$$t$$$ ($$$1 \\le |t| \\le 10^5$$$) consisting of lowercase Latin letters. It is guaranteed that the total length of all strings $$$s$$$ and $$$t$$$ in the input does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_023.jsonl",
+    "code_uid": "3405facae75c047108e51810dff6c5f3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\naabce\\nace\\nabacaba\\naax\\nty\\nyyt\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env pypy\nfrom __future__ import division, print_function\nfrom collections import defaultdict, Counter, deque\nfrom future_builtins import ascii, filter, hex, map, oct, zip\nfrom itertools import imap as map, izip as zip, permutations, combinations, combinations_with_replacement\nfrom __builtin__ import xrange as range\nfrom math import ceil, factorial\nfrom _continuation import continulet\nfrom cStringIO import StringIO\nfrom io import IOBase\nimport __pypy__\nfrom bisect import bisect, insort, bisect_left, bisect_right\nfrom fractions import Fraction\nfrom functools import reduce\nimport sys\nimport os\nimport re\ninf = float('inf')\nmod_ = int(1e9) + 7\nmod = 998244353\n\n\ndef main():\n\tfor _ in range(int(input())):\n\t\ts = input()\n\t\tt = input()\n\t\tposition = defaultdict(list)\n\t\tfor i in range(len(s)):\n\t\t\tposition[s[i]].append(i)\n\n\t\tans, tind, sind = 1, 0, 0\n\t\tfor tind in range(len(t)):\n\t\t\tif t[tind] not in position:\n\t\t\t\tprint(-1)\n\t\t\t\tbreak\n\t\t\tcind = bisect_left(position[t[tind]], sind)\n\t\t\tif cind == len(position[t[tind]]):\n\t\t\t\tsind = position[t[tind]][0] + 1\n\t\t\t\tans += 1\n\t\t\telse:\n\t\t\t\tsind = position[t[tind]][cind] + 1\n\t\telse:\n\t\t\tprint(ans)\n\n\nBUFSIZE = 8192\nclass FastI(IOBase):\n\tdef __init__(self, file):\n\t\tself._fd = file.fileno()\n\t\tself._buffer = StringIO()\n\t\tself.newlines = 0\n\n\tdef read(self):\n\t\twhile True:\n\t\t\tb = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n\t\t\tif not b:\n\t\t\t\tbreak\n\t\t\tptr = self.buffer.tell()\n\t\t\tself.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n\t\tself.newlines = 0\n\t\treturn self.buffer.read()\n\n\tdef readline(self):\n\t\twhile self.newlines == 0:\n\t\t\tb = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n\t\t\tself.newlines = b.count(\"\\n\") + (not b)\n\t\t\tptr = self._buffer.tell()\n\t\t\tself._buffer.seek(0, 2), self._buffer.write(\n\t\t\t\tb), self._buffer.seek(ptr)\n\t\tself.newlines -= 1\n\t\treturn self._buffer.readline()\nclass FastO(IOBase):\n\tdef __init__(self, file):\n\t\tself._fd = file.fileno()\n\t\tself._buffer = __pypy__.builders.StringBuilder()\n\t\tself.write = lambda s: self._buffer.append(s)\n\n\tdef flush(self):\n\t\tos.write(self._fd, self._buffer.build())\n\t\tself._buffer = __pypy__.builders.StringBuilder()\ndef print(*args, **kwargs):\n\tsep, file = kwargs.pop(\"sep\", \" \"), kwargs.pop(\"file\", sys.stdout)\n\tat_start = True\n\tfor x in args:\n\t\tif not at_start:\n\t\t\tfile.write(sep)\n\t\tfile.write(str(x))\n\t\tat_start = False\n\tfile.write(kwargs.pop(\"end\", \"\\n\"))\n\tif kwargs.pop(\"flush\", False):\n\t\tfile.flush()\ndef gcd(x, y):\n\twhile y:\n\t\tx, y = y, x % y\n\treturn x\nsys.stdin, sys.stdout = FastI(sys.stdin), FastO(sys.stdout)\ndef input(): return sys.stdin.readline().rstrip(\"\\r\\n\")\nif __name__ == \"__main__\":\n\tdef bootstrap(cont):\n\t\tcall, arg = cont.switch()\n\t\twhile True:\n\t\t\tcall, arg = cont.switch(to=continulet(\n\t\t\t\tlambda _, f, args: f(*args), call, arg))\n\tcont = continulet(bootstrap)\n\tcont.switch()\n\tmain()",
+    "prob_desc_created_at": "1580308500",
+    "tags": [
+        "dp",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

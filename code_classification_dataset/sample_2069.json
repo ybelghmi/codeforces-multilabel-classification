@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "10 seconds",
+    "prob_desc_sample_outputs": "[\"-1\\n1\\n2\\n-1\\n1\"]",
+    "src_uid": "f2988e4961231b9b38ca8fa78373913f",
+    "prob_desc_notes": "Notegcd(x, y) is greatest common divisor of two integers x and y.",
+    "prob_desc_description": "Caisa is now at home and his son has a simple task for him.Given a rooted tree with n vertices, numbered from 1 to n (vertex 1 is the root). Each vertex of the tree has a value. You should answer q queries. Each query is one of the following:  Format of the query is \"1 v\". Let's write out the sequence of vertices along the path from the root to vertex v: u1, u2, ..., uk (u1 = 1; uk = v). You need to output such a vertex ui that gcd(value of ui, value of v) &gt; 1 and i &lt; k. If there are several possible vertices ui pick the one with maximum value of i. If there is no such vertex output -1.  Format of the query is \"2 v w\". You must change the value of vertex v to w. You are given all the queries, help Caisa to solve the problem.",
+    "prob_desc_output_spec": "For each query of the first type output the result of the query.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n, q (1 ≤ n, q ≤ 105).  The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 2·106), where ai represent the value of node i. Each of the next n - 1 lines contains two integers xi and yi (1 ≤ xi, yi ≤ n; xi ≠ yi), denoting the edge of the tree between vertices xi and yi. Each of the next q lines contains a query in the format that is given above. For each query the following inequalities hold: 1 ≤ v ≤ n and 1 ≤ w ≤ 2·106. Note that: there are no more than 50 queries that changes the value of a vertex.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_016.jsonl",
+    "code_uid": "d47127a5d8df0ea6169b29bac86b8584",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 6\\n10 8 4 3\\n1 2\\n2 3\\n3 4\\n1 1\\n1 2\\n1 3\\n1 4\\n2 1 9\\n1 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, setrecursionlimit\nsetrecursionlimit(1000000007)\n_data = iter(map(int, stdin.read().split()))\nV = 2100000\nn, q = next(_data), next(_data)\na = [next(_data) for _ in range(n)]\ng = [[] for _ in range(n)]\nfor _ in range(n - 1):\n    u, v = next(_data) - 1, next(_data) - 1\n    g[u].append(v)\n    g[v].append(u)\n\nfss = [[] for _ in range(V)]\ndef factors(k):\n    if fss[k]:\n        return fss[k]\n    i = 2\n    t = []\n    v = k\n    while i * i <= v:\n        if v % i == 0:\n            t.append(i)\n            while v % i == 0:\n                v //= i\n        i += 1\n    if v != 1:\n        t.append(v)\n    fss[k] = t\n    return t\n\ndepth = [0] * n\ndef init_depth():\n    st = [(0, 0, 0)]\n    while st:\n        v, p, d = st.pop()\n        depth[v] = d\n        for u in g[v]:\n            if u != p:\n                st.append((u, v, d + 1))\n    \nans = [-2] * n\nscope = [[] for _ in range(V)]\ndef make():\n    st = [(0, 0)]\n    while st:\n        v, p = st.pop()\n        if v < n:\n            st.append((v + n, -1))\n            r = (-2, -2)\n            for d in factors(a[v]):\n                if scope[d]:\n                    u = scope[d][-1]\n                    r = max(r, (depth[u], u))\n                scope[d].append(v)\n            ans[v] = r[1]\n            for u in g[v]:\n                if u != p:\n                    st.append((u, v))\n        elif v >= n:\n            v -= n\n            for d in factors(a[v]):\n                scope[d].pop()\nbuf = []\ninit_depth()\nmake()\nfor _ in range(q):\n    t = next(_data)\n    if t == 1:\n        v = next(_data) - 1\n        buf.append(ans[v] + 1)\n    elif t == 2:\n        v = next(_data) - 1\n        x = next(_data)\n        a[v] = x\n        make()\n    else:\n        assert False\nprint('\\n'.join(map(str, buf)))\n",
+    "prob_desc_created_at": "1409383800",
+    "tags": [
+        "number theory",
+        "math",
+        "dfs and similar",
+        "trees",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

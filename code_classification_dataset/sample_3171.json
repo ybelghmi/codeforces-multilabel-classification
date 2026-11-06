@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n4 1 2 4 3\", \"Impossible\", \"1\\n12 1 2 3 6 5 12 9 8 7 10 11 4\", \"3\\n6 1 2 3 6 5 4\\n10 7 8 9 12 15 14 13 16 11 10\\n8 17 18 23 22 19 20 21 24\"]",
+    "src_uid": "5a57929198fcc0836a5c308c807434cc",
+    "prob_desc_notes": "NoteIn example 1, they can sit around one table, their ages are: 3-8-9-4, adjacent sums are: 11, 17, 13 and 7, all those integers are primes.In example 2, it is not possible: the sum of 2+2 = 4 is not a prime number.",
+    "prob_desc_description": "Fox Ciel is participating in a party in Prime Kingdom. There are n foxes there (include Fox Ciel). The i-th fox is ai years old.They will have dinner around some round tables. You want to distribute foxes such that:  Each fox is sitting at some table.  Each table has at least 3 foxes sitting around it.  The sum of ages of any two adjacent foxes around each table should be a prime number. If k foxes f1, f2, ..., fk are sitting around table in clockwise order, then for 1 ≤ i ≤ k - 1: fi and fi + 1 are adjacent, and f1 and fk are also adjacent.If it is possible to distribute the foxes in the desired manner, find out a way to do that.",
+    "prob_desc_output_spec": "If it is impossible to do this, output \"Impossible\". Otherwise, in the first line output an integer m (): the number of tables. Then output m lines, each line should start with an integer k -=– the number of foxes around that table, and then k numbers — indices of fox sitting around that table in clockwise order. If there are several possible arrangements, output any of them.",
+    "prob_desc_input_spec": "The first line contains single integer n (3 ≤ n ≤ 200): the number of foxes in this party.  The second line contains n integers ai (2 ≤ ai ≤ 104).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_044.jsonl",
+    "code_uid": "6eafbcfb1a319e95a24551c5a814302d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3 4 8 9\", \"5\\n2 2 2 2 2\", \"12\\n2 3 4 5 6 7 8 9 10 11 12 13\", \"24\\n2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#E\ndef main():\n    sieve = [False, True] * 10001\n    for i in range(3, 140, 2):\n        if sieve[i]:\n            j, k = i * 2, i * i\n            le = (20001 - k) // j + 1\n            sieve[k::j] = [False] * le\n    n = int(input())\n    aa = list(map(int, input().split()))\n    pp = [-1] * n\n    def dget(v):\n        if dsu[v]!=v:\n            dsu[v] = dget(dsu[v])\n        return dsu[v]\n    def dfs(v):\n        if free[v]:\n            free[v], a, pv = False, aa[v], pp[v]\n            for i, p in enumerate(pp):\n                if sieve[a + aa[i]] and pv != i and (p == -1 or dfs(p)):\n                    pp[i] = v\n                    return True\n        return False\n    for i in range(n):\n        free = [True] * n\n        if not dfs(i):\n            print('Impossible')\n            return\n    dsu = list(range(n))\n    for i, p in enumerate(pp):\n        i, p = dget(i), dget(p)\n        dsu[p] = i\n    print(sum(dget(i)==i for i in range(n)))\n    for i in range(n):\n        if dget(i) == i:\n            row = [sum(dget(j) == i for j in range(n)), i + 1]\n            j = pp[i]\n            while j != i:\n                row.append(j + 1)\n                j = pp[j]\n            print(*row)\n\nmain()\n",
+    "prob_desc_created_at": "1422894600",
+    "tags": [
+        "flows"
+    ],
+    "hidden_unit_tests": ""
+}

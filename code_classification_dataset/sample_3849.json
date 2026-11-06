@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"RWRRW\\nIMPOSSIBLE\\nWWW\"]",
+    "src_uid": "54a6476fff977dc6ad09fc7c0f18a3a2",
+    "prob_desc_notes": "NoteIn the first test case, there are $$$n = 5$$$ bottles of wine to be arranged and $$$m = 3$$$ critics. The arrangement RWRRW satisfies the requests of all three critics. Indeed:   the first critic can choose the interval $$$[3, \\, 3]$$$, which contains exactly one bottle of red wine (note that $$$[1, \\, 1]$$$ and $$$[4, \\, 4]$$$ are other valid choices);  the second critic can choose the interval $$$[1, \\, 5]$$$, which contains $$$3$$$ bottles of red wine and $$$2$$$ bottles of white wine;  the third critic can choose the interval $$$[2, \\, 5]$$$, which contains $$$2$$$ bottles of red wine and $$$2$$$ bottles of white wine. ",
+    "prob_desc_description": "Gabriella has been instructed to organize a renowned wine tasting event which will be attended by $$$m$$$ critics. On display, there will be $$$n$$$ different varieties of wine, each of which can either be a red wine or a white wine.The wines will come in $$$n$$$ bottles arranged in a line on the table, and, for convenience, each critic will sip from a contiguous interval of bottles: that is, he/she will taste exactly the bottles at position $$$a, \\, a + 1, \\, \\dots, \\, b$$$ for some $$$1 \\le a \\le b \\le n$$$. The interval depends on the critic, who will select it on the spot according to their preferences. In fact, the $$$i$$$-th critic ($$$1 \\le i \\le m$$$) has requested that he/she wants to taste exactly $$$r_i$$$ red wines and $$$w_i$$$ white wines.Gabriella has yet to choose how many bottles of red wine and white wine there will be, and in what order they will appear. Help her find an arrangement (that is, a sequence of $$$n$$$ bottles of either red or white wine) that satisfies the requests of all the critics, or state that no such arrangement exists.",
+    "prob_desc_output_spec": "For each test case, if at least one solution exists, print a string of length $$$n$$$ made up of the characters R and W, where the $$$j$$$-th character ($$$1 \\le j \\le n$$$) denotes the type of the wine in the $$$j$$$-th bottle of the arrangement (R for red and W for white). If there are multiple solutions, print any. If no solution exists, print the string IMPOSSIBLE.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains an integer $$$t$$$ ($$$1\\le t\\le 100$$$) — the number of test cases. The descriptions of the $$$t$$$ test cases follow. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 100$$$, $$$1 \\le m \\le 100$$$) — the number of bottles of wine and the number of critics. Each of the next $$$m$$$ lines contains two integers $$$r_i$$$ and $$$w_i$$$ ($$$0 \\le r_i, \\, w_i \\le 100$$$, $$$r_i + w_i \\ge 1$$$) — the number of red and white wines that the $$$i$$$-th critic wants to taste.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": -1,
+    "file_name": "train_085.jsonl",
+    "code_uid": "e8638b40be5a436928929ead75fc0600",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n5 3\\n\\n1 0\\n\\n3 2\\n\\n2 2\\n\\n4 3\\n\\n2 1\\n\\n1 1\\n\\n0 3\\n\\n3 2\\n\\n0 2\\n\\n0 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import annotations\n\nimp = \"IMPOSSIBLE\"\n\ndef bottleArrangements(tasters : list[(tuple[(int,int)])], n_bottles : int)  -> str:\n    '''\n        - tasters: list of preferences of tasters (Ri,Wi)\n        - n_bottles: number of bottles\n    '''\n    nw = 0\n    nr = 0\n    s = \"\"\n    tasters.sort(key= lambda e : sum(e))\n    for (r,w) in tasters:\n        r_aux = r - nr\n        w_aux = w - nw\n\n        if(r_aux < 0):\n            r_aux = 0\n        \n        if(w_aux < 0):\n            w_aux = 0\n\n        if(nw+nr+r_aux+w_aux > n_bottles):\n            return imp\n        \n        for _ in range(r_aux):\n            nr +=1\n\n            if(len(s) > 0 and s[0] == 'R'):\n                s = 'R' + s\n            else:\n                s = s +'R'\n        \n        for _ in range(w_aux):\n            nw += 1\n            if(len(s) >0 and s[0] == 'W'):\n                s = 'W' + s\n            else:\n                s = s +'W'\n\n    if(len(s) < n_bottles):\n        x = n_bottles - len(s)\n        s = s + 'W'*x\n\n    return s\n\n\n\nn_test = int(input())\nfor i in range(n_test):\n    n_bottle, n_taster = input().split()\n    tasters = []\n    for _ in range(int(n_taster)):\n        r,w = input().split(\" \")\n        tasters.append((int(r),int(w)))\n    \n    print(bottleArrangements(tasters, int(n_bottle)))",
+    "prob_desc_created_at": "1650798300",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

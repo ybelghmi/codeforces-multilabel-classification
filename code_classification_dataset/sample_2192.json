@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 2 3\\n1 2 3\", \"1\\n1 1 1\\n2\", \"-1\"]",
+    "src_uid": "4b49f1b3fca4acb2f5dce25169436cc8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Artsem has a friend Saunders from University of Chicago. Saunders presented him with the following problem.Let [n] denote the set {1, ..., n}. We will also write f: [x] → [y] when a function f is defined in integer points 1, ..., x, and all its values are integers from 1 to y.Now then, you are given a function f: [n] → [n]. Your task is to find a positive integer m, and two functions g: [n] → [m], h: [m] → [n], such that g(h(x)) = x for all , and h(g(x)) = f(x) for all , or determine that finding these is impossible.",
+    "prob_desc_output_spec": "If there is no answer, print one integer -1. Otherwise, on the first line print the number m (1 ≤ m ≤ 106). On the second line print n numbers g(1), ..., g(n). On the third line print m numbers h(1), ..., h(m). If there are several correct answers, you may output any of them. It is guaranteed that if a valid answer exists, then there is an answer satisfying the above restrictions.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 105). The second line contains n space-separated integers — values f(1), ..., f(n) (1 ≤ f(i) ≤ n).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_018.jsonl",
+    "code_uid": "bc887724d80a34931594f42f6d1c8931",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\", \"3\\n2 2 2\", \"2\\n2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nf = [None] + list(map(int, input().split(' ')))\ninvalid = False\n\ng = [None] + [0] * n\nh = [None]\nx_is_f_which = [None] + [0] * n\nm = 0\nvis = [None] + [False] * n\n\nfor i in range(1, n + 1):\n    x = f[i]\n    if f[x] != x:\n        invalid = True\n        break\n    if not vis[x]:\n        vis[x] = True\n        m = m + 1\n        h.append(x)\n        x_is_f_which[x] = m\n\nif invalid:\n    print('-1')\nelse:\n    for i in range(1, n + 1):\n        g[i] = x_is_f_which[f[i]]\n    print(m)\n    def print_list(l):\n        print(' '.join(list(map(str, l[1:]))))\n    print_list(g)\n    print_list(h)\n\n",
+    "prob_desc_created_at": "1487059500",
+    "tags": [
+        "dsu",
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

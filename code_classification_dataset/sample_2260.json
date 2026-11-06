@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\", \"105\", \"5551\"]",
+    "src_uid": "83ec573ad007d9385d6f0bb8f02b24e2",
+    "prob_desc_notes": "NoteIn the second example, the worst-case scenario goes like this: Jenny sends Heidi to the friend labeled by number 2 (incurring a cost of 100), then friend 2 sends her to friend 1 (costing Heidi 3), and finally friend 1 relays her to friend 4 (incurring an additional cost of 2).",
+    "prob_desc_description": "Heidi's friend Jenny is asking Heidi to deliver an important letter to one of their common friends. Since Jenny is Irish, Heidi thinks that this might be a prank. More precisely, she suspects that the message she is asked to deliver states: \"Send the fool further!\", and upon reading it the recipient will ask Heidi to deliver the same message to yet another friend (that the recipient has in common with Heidi), and so on.Heidi believes that her friends want to avoid awkward situations, so she will not be made to visit the same person (including Jenny) twice. She also knows how much it costs to travel between any two of her friends who know each other. She wants to know: what is the maximal amount of money she will waste on travel if it really is a prank?Heidi's n friends are labeled 0 through n - 1, and their network of connections forms a tree. In other words, every two of her friends a, b know each other, possibly indirectly (there is a sequence of friends starting from a and ending on b and such that each two consecutive friends in the sequence know each other directly), and there are exactly n - 1 pairs of friends who know each other directly.Jenny is given the number 0.",
+    "prob_desc_output_spec": "Output a single integer – the maximum sum of costs.",
+    "prob_desc_input_spec": "The first line of the input contains the number of friends n (3 ≤ n ≤ 100). The next n - 1 lines each contain three space-separated integers u, v and c (0 ≤ u, v ≤ n - 1, 1 ≤ c ≤ 104), meaning that u and v are friends (know each other directly) and the cost for travelling between u and v is c. It is guaranteed that the social network of the input forms a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_019.jsonl",
+    "code_uid": "12d9a4fd2d723d789722cf9f342adc5a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n0 1 4\\n0 2 2\\n2 3 3\", \"6\\n1 2 3\\n0 2 100\\n1 4 2\\n0 3 7\\n3 5 10\", \"11\\n1 0 1664\\n2 0 881\\n3 2 4670\\n4 2 1555\\n5 1 1870\\n6 2 1265\\n7 2 288\\n8 7 2266\\n9 2 1536\\n10 6 3378\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# maa chudaaye duniya\nfrom collections import defaultdict\ngraph = defaultdict(list)\nn = int(input())\nweights = {}\nfor _ in range(n-1):\n\ta, b, w = map(int, input().split())\n\tedge1 = '{} : {}'.format(a, b)\n\tedge2 = '{} : {}'.format(b, a)\n\tgraph[a].append(b)\n\tgraph[b].append(a)\n\tweights[edge1] = w\n\tweights[edge2] = w\n\nmaxsf = [-10**9]\nvisited = [False for i in range(n+1)]\n\ndef dfs(node, parent, dist):\n\tvisited[node] = True\n\t# print(maxsf)\n\t# print('checking ', node, parent)\n\t# print(visited)\n\tif parent != -1:\n\t\te ='{} : {}'.format(parent, node)\n\t\te1 = '{} : {}'.format(node, parent)\n\t\tif e in weights:\n\t\t\tdist += weights[e]\n\t\t\t# print(e, dist)\n\t\telse:\n\t\t\tdist += weights[e1]\n\t\t\t# print(e1, dist)\n\t\tif dist > maxsf[0]:\n\t\t\tmaxsf[0] = dist\n\tfor children in graph[node]:\n\t\tif not visited[children]:\n\t\t\tdfs(children, node, dist)\n\t\ndfs(0, -1, 0)\nprint(*maxsf)",
+    "prob_desc_created_at": "1495958700",
+    "tags": [
+        "dfs and similar",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

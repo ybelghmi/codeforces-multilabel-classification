@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"7\", \"-1\"]",
+    "src_uid": "d5fbb3033bd7508fd468edb9bb995d6c",
+    "prob_desc_notes": "NoteIn the first sample Jack has three ways to go from planet 1. If he moves to planet 4 at once, he spends 8 seconds. If he transfers to planet 3, he spends 3 seconds, but as other travellers arrive to planet 3 at time 3 and 4, he can travel to planet 4 only at time 5, thus spending 8 seconds in total. But if Jack moves to planet 2, and then — to planet 4, then he spends a total of only 2 + 5 = 7 seconds.In the second sample one can't get from planet 1 to planet 3 by moving through stargates.",
+    "prob_desc_description": "Goa'uld Apophis captured Jack O'Neill's team again! Jack himself was able to escape, but by that time Apophis's ship had already jumped to hyperspace. But Jack knows on what planet will Apophis land. In order to save his friends, Jack must repeatedly go through stargates to get to this planet.Overall the galaxy has n planets, indexed with numbers from 1 to n. Jack is on the planet with index 1, and Apophis will land on the planet with index n. Jack can move between some pairs of planets through stargates (he can move in both directions); the transfer takes a positive, and, perhaps, for different pairs of planets unequal number of seconds. Jack begins his journey at time 0.It can be that other travellers are arriving to the planet where Jack is currently located. In this case, Jack has to wait for exactly 1 second before he can use the stargate. That is, if at time t another traveller arrives to the planet, Jack can only pass through the stargate at time t + 1, unless there are more travellers arriving at time t + 1 to the same planet.Knowing the information about travel times between the planets, and the times when Jack would not be able to use the stargate on particular planets, determine the minimum time in which he can get to the planet with index n.",
+    "prob_desc_output_spec": "Print a single number — the least amount of time Jack needs to get from planet 1 to planet n. If Jack can't get to planet n in any amount of time, print number -1.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers: n (2 ≤ n ≤ 105), the number of planets in the galaxy, and m (0 ≤ m ≤ 105) — the number of pairs of planets between which Jack can travel using stargates. Then m lines follow, containing three integers each: the i-th line contains numbers of planets ai and bi (1 ≤ ai, bi ≤ n, ai ≠ bi), which are connected through stargates, and the integer transfer time (in seconds) ci (1 ≤ ci ≤ 104) between these planets. It is guaranteed that between any pair of planets there is at most one stargate connection. Then n lines follow: the i-th line contains an integer ki (0 ≤ ki ≤ 105) that denotes the number of moments of time when other travellers arrive to the planet with index i. Then ki distinct space-separated integers tij (0 ≤ tij &lt; 109) follow, sorted in ascending order. An integer tij means that at time tij (in seconds) another traveller arrives to the planet i. It is guaranteed that the sum of all ki does not exceed 105.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_016.jsonl",
+    "code_uid": "bc579456ce3a9b3ef721878051f2b785",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 6\\n1 2 2\\n1 3 3\\n1 4 8\\n2 3 4\\n2 4 5\\n3 4 3\\n0\\n1 3\\n2 3 4\\n0\", \"3 1\\n1 2 3\\n0\\n1 3\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from heapq import *\nINF = 1e16\nviajantes = []\n \nN,M = map(int,input().split())\n \ngalaxia = [[] for i in range(100002)]\ntempo = [INF] * (N+1)\n \n \nfor i in range(M):\n    a,b,c = map(int,input().split())\n    galaxia[a] += [(c,b)]\n    galaxia[b] += [(c,a)]\n \nfor j in range(N):\n    vi = list(map(int,input().split()))\n    viajantes.append(vi[1::])\n \ndef visitante_chegando(w,a):\n    for x in viajantes[a-1]:\n        if x == w:\n            w += 1\n    return w\n \ndef dijsktra(u,v,galaxia):\n    tempo[u] = 0\n    q = [(0,u)]\n \n    while q:\n        z,a = heappop(q)\n        #a[0] = distância\n        #a[1] = vertice\n        #tempo[a[1]] melhor tempo que cheguei em a[1]\n        #if a[0] == tempo[a[1]]:\n        if z <= tempo[a]:\n            w2 = tempo[a]\n            w2 = visitante_chegando(w2,a)\n            for adj in galaxia[a]:\n                w,b = w2 + adj[0],adj[1]\n                #print(w)\n                if w < tempo[b]:\n                    tempo[b] = w\n                    heappush(q,(tempo[b],b))\n    return tempo\n \n \nd = dijsktra(1,N,galaxia)\nif d[-1] == INF:\n    print(-1)\nelse:\n    print(d[N])\n \n\t",
+    "prob_desc_created_at": "1349105400",
+    "tags": [
+        "data structures",
+        "binary search",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

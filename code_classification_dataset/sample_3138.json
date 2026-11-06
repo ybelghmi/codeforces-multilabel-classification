@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"8\", \"9\"]",
+    "src_uid": "624bf3063400fd0c2c466295ff63469b",
+    "prob_desc_notes": "NoteIn the first example, there are $$$4$$$ subsequences of length $$$3$$$ — $$$[1, 7, 3]$$$, $$$[1, 3, 5]$$$, $$$[7, 3, 5]$$$, $$$[1, 7, 5]$$$, each of which has beauty $$$2$$$, so answer is $$$8$$$.In the second example, there is only one subsequence of length $$$5$$$ — the whole array, which has the beauty equal to $$$|10-1| = 9$$$.",
+    "prob_desc_description": "Let's call beauty of an array $$$b_1, b_2, \\ldots, b_n$$$ ($$$n &gt; 1$$$)  — $$$\\min\\limits_{1 \\leq i &lt; j \\leq n} |b_i - b_j|$$$.You're given an array $$$a_1, a_2, \\ldots a_n$$$ and a number $$$k$$$. Calculate the sum of beauty over all subsequences of the array of length exactly $$$k$$$. As this number can be very large, output it modulo $$$998244353$$$.A sequence $$$a$$$ is a subsequence of an array $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) elements.",
+    "prob_desc_output_spec": "Output one integer — the sum of beauty over all subsequences of the array of length exactly $$$k$$$. As this number can be very large, output it modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains integers $$$n, k$$$ ($$$2 \\le k \\le n \\le 1000$$$). The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\le a_i \\le 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_043.jsonl",
+    "code_uid": "c437c66d946a6d80ec484e5d87280bbd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n1 7 3 5\", \"5 5\\n1 10 100 1000 10000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\nimport sys\ninput = sys.stdin.readline\n'''\nfor CASES in range(int(input())):\nn, m = map(int, input().split())\nn = int(input())\nA = list(map(int, input().split()))\nS = input().strip()\nsys.stdout.write(\" \".join(map(str,ans))+\"\\n\")\n'''\ninf = 100000000000000000  # 1e17\nmod = 998244353\n\nn, m = map(int, input().split())\nA = [0] + sorted(list(map(int, input().split())))\n\nans = 0\n\nf = [[0] * (n + 10) for _ in range(m + 10)]\n\nfor x in range(1,(A[n] - A[1]) // (m - 1) + 1):\n    for i in range(1, n + 1):\n        f[1][i] = 1\n    for i in range(2, m + 1):\n        sum = 0\n        pre = 1\n        for j in range(1, n + 1):\n            while pre <= n and A[pre] + x <= A[j]:\n                sum += f[i - 1][pre]\n                sum %= mod\n                pre += 1\n            f[i][j] = sum\n    for i in range(1, n + 1):\n        ans += f[m][i]\n        ans %= mod\nprint(ans)\n\n\n# the end\n",
+    "prob_desc_created_at": "1562339100",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nXL\\nM\\nXXL\", \"NO\"]",
+    "src_uid": "f7e634607f1500c91bf93f44472b18cb",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The organizers of a programming contest have decided to present t-shirts to participants. There are six different t-shirts sizes in this problem: S, M, L, XL, XXL, XXXL (sizes are listed in increasing order). The t-shirts are already prepared. For each size from S to XXXL you are given the number of t-shirts of this size.During the registration, the organizers asked each of the n participants about the t-shirt size he wants. If a participant hesitated between two sizes, he could specify two neighboring sizes — this means that any of these two sizes suits him.Write a program that will determine whether it is possible to present a t-shirt to each participant of the competition, or not. Of course, each participant should get a t-shirt of proper size:   the size he wanted, if he specified one size;  any of the two neibouring sizes, if he specified two sizes. If it is possible, the program should find any valid distribution of the t-shirts.",
+    "prob_desc_output_spec": "If it is not possible to present a t-shirt to each participant, print «NO» (without quotes). Otherwise, print n + 1 lines. In the first line print «YES» (without quotes). In the following n lines print the t-shirt sizes the orginizers should give to participants, one per line. The order of the participants should be the same as in the input. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains six non-negative integers — the number of t-shirts of each size. The numbers are given for the sizes S, M, L, XL, XXL, XXXL, respectively. The total number of t-shirts doesn't exceed 100 000. The second line contains positive integer n (1 ≤ n ≤ 100 000) — the number of participants. The following n lines contain the sizes specified by the participants, one line per participant. The i-th line contains information provided by the i-th participant: single size or two sizes separated by comma (without any spaces). If there are two sizes, the sizes are written in increasing order. It is guaranteed that two sizes separated by comma are neighboring.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_003.jsonl",
+    "code_uid": "1335bd2ad2874da2589e873a19e4a7fb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"0 1 0 1 1 0\\n3\\nXL\\nS,M\\nXL,XXL\", \"1 1 2 0 1 1\\n5\\nS\\nM\\nS,M\\nXXL,XXXL\\nXL,XXL\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nfrom math import *\nfrom sys import *\n\ndef conv(s):\n\tif s==\"S\" or s==\"S\\n\":\n\t\treturn 1\n\tif s==\"M\" or s==\"M\\n\":\n\t\treturn 2\n\tif s==\"L\" or s==\"L\\n\":\n\t\treturn 3\n\tif s==\"XL\" or s==\"XL\\n\":\n\t\treturn 4\n\tif s==\"XXL\" or s==\"XXL\\n\":\n\t\treturn 5\n\treturn 6\n\ndef uncon(x):\n\tif x==1:\n\t\treturn \"S\"\n\tif x==2:\n\t\treturn \"M\"\n\tif x==3:\n\t\treturn \"L\"\n\tif x==4:\n\t\treturn \"XL\"\n\tif x==5:\n\t\treturn \"XXL\"\n\treturn \"XXXL\"\n\t\ns=[]\nm=[]\nl=[]\nxl=[]\nxxl=[]\nsp,mp,lp,xp,xxp=0,0,0,0,0\nt=[0]\nt+=[int(z) for z in stdin.readline().split()]\nn=int(stdin.readline())\nans=[0]*n\n#print(t)\nfor i in range(n):\n\te=[conv(z) for z in stdin.readline().split(\",\")]\n\t#print(e)\n\tif len(e)==1:\n\t\tans[i]=e[0]\n\t\tt[e[0]]-=1\n\t\tif t[e[0]]<0:\n\t\t\tprint(\"NO\")\n\t\t\texit(0)\n\telse:\n\t\tif e[0]==1:\n\t\t\ts.append(i)\n\t\tif e[0]==2:\n\t\t\tm.append(i)\n\t\tif e[0]==3:\n\t\t\tl.append(i)\n\t\tif e[0]==4:\n\t\t\txl.append(i)\n\t\tif e[0]==5:\n\t\t\txxl.append(i)\nwhile len(s)!=sp and t[1]:\n\tans[s[sp]]=1\n\tsp+=1\n\tt[1]-=1\nwhile len(s)!=sp and t[2]:\n\tans[s[sp]]=2\n\tsp+=1\n\tt[2]-=1\nif len(s)!=sp:\n\tprint(\"NO\")\n\texit(0)\nwhile len(m)!=mp and t[2]:\n\tans[m[mp]]=2\n\tmp+=1\n\tt[2]-=1\nwhile len(m)!=mp and t[3]:\n\tans[m[mp]]=3\n\tmp+=1\n\tt[3]-=1\nif len(m)!=mp:\n\tprint(\"NO\")\n\texit(0)\nwhile len(l)!=lp and t[3]:\n\tans[l[lp]]=3\n\tlp+=1\n\tt[3]-=1\nwhile len(l)!=lp and t[4]:\n\tans[l[lp]]=4\n\tlp+=1\n\tt[4]-=1\nif len(l)!=lp:\n\tprint(\"NO\")\n\texit(0)\nwhile len(xl)!=xp and t[4]:\n\tans[xl[xp]]=4\n\txp+=1\n\tt[4]-=1\nwhile len(xl)!=xp and t[5]:\n\tans[xl[xp]]=5\n\txp+=1\n\tt[5]-=1\nif len(xl)!=xp:\n\tprint(\"NO\")\n\texit(0)\nwhile len(xxl)!=xxp and t[5]:\n\tans[xxl[xxp]]=5\n\txxp+=1\n\tt[5]-=1\nwhile len(xxl)!=xxp and t[6]:\n\tans[xxl[xxp]]=6\n\txxp+=1\n\tt[6]-=1\nif len(xxl)!=xxp:\n\tprint(\"NO\")\n\texit(0)\nres=[uncon(z) for z in ans]\nprint(\"YES\")\nfor i in res:\n\tprint(i)",
+    "prob_desc_created_at": "1476522300",
+    "tags": [
+        "constructive algorithms",
+        "flows",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

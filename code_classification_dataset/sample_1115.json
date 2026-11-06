@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n1 2 3 4 5\", \"6\\n1 2 9 4 5 3\", \"-1\"]",
+    "src_uid": "e984b4e1120b8fb083a3ebad9bb93709",
+    "prob_desc_notes": "NoteIn the first test firstly you can take courses number 1 and 2, after that you can take the course number 4, then you can take the course number 5, which is the main. After that you have to take only the course number 3, which is the last not passed main course. ",
+    "prob_desc_description": "Now you can take online courses in the Berland State University! Polycarp needs to pass k main online courses of his specialty to get a diploma. In total n courses are availiable for the passage.The situation is complicated by the dependence of online courses, for each course there is a list of those that must be passed before starting this online course (the list can be empty, it means that there is no limitation).Help Polycarp to pass the least number of courses in total to get the specialty (it means to pass all main and necessary courses). Write a program which prints the order of courses. Polycarp passes courses consistently, he starts the next course when he finishes the previous one. Each course can't be passed more than once. ",
+    "prob_desc_output_spec": "Print -1, if there is no the way to get a specialty.  Otherwise, in the first line print the integer m — the minimum number of online-courses which it is necessary to pass to get a specialty. In the second line print m distinct integers — numbers of courses which it is necessary to pass in the chronological order of their passage. If there are several answers it is allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains n and k (1 ≤ k ≤ n ≤ 105) — the number of online-courses and the number of main courses of Polycarp's specialty.  The second line contains k distinct integers from 1 to n — numbers of main online-courses of Polycarp's specialty.  Then n lines follow, each of them describes the next course: the i-th of them corresponds to the course i. Each line starts from the integer ti (0 ≤ ti ≤ n - 1) — the number of courses on which the i-th depends. Then there follows the sequence of ti distinct integers from 1 to n — numbers of courses in random order, on which the i-th depends. It is guaranteed that no course can depend on itself.  It is guaranteed that the sum of all values ti doesn't exceed 105. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_006.jsonl",
+    "code_uid": "c20814721939efd11bbcc7a1f347d3b9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 2\\n5 3\\n0\\n0\\n0\\n2 2 1\\n1 4\\n1 5\", \"9 3\\n3 9 5\\n0\\n0\\n3 9 4 5\\n0\\n0\\n1 8\\n1 6\\n1 2\\n2 1 2\", \"3 3\\n1 2 3\\n1 2\\n1 3\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import collections as col\nimport itertools as its\nimport sys\nimport operator\nfrom copy import copy, deepcopy\n\n\nclass Solver:\n    def __init__(self):\n        pass\n    \n    def solve(self):\n        n, k = map(int, input().split())\n        q = list(map(lambda x: int(x) - 1, input().split()))\n        used = [False] * n\n        for e in q:\n            used[e] = True\n        edges = [[] for _ in range(n)]\n        redges = [[] for _ in range(n)]\n        for i in range(n):\n            l = list(map(lambda x: int(x) - 1, input().split()))[1:]\n            edges[i] = l\n            for e in l:\n                redges[e].append(i)\n        degs = [len(edges[i]) for i in range(n)]\n        d = 0\n        while d < len(q):\n            v = q[d]\n            d += 1\n            for e in edges[v]:\n                if not used[e]:\n                    used[e] = True\n                    q.append(e)\n        q = q[::-1]\n        nq = []\n        for v in q:\n            if degs[v] == 0:\n                nq.append(v)\n        d = 0\n        while d < len(nq):\n            v = nq[d]\n            d += 1\n            for e in redges[v]:\n                if not used[e]:\n                    continue\n                degs[e] -= 1\n                if degs[e] == 0:\n                    nq.append(e)\n        #print(nq)\n        if len(q) != len(nq):\n            print(-1)\n            return\n        print(len(nq))\n        print(' '.join(map(lambda x: str(x + 1), nq)))\n        \n\n\nif __name__ == '__main__':\n    s = Solver()\n    s.solve()\n",
+    "prob_desc_created_at": "1489233600",
+    "tags": [
+        "implementation",
+        "*special",
+        "graphs",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

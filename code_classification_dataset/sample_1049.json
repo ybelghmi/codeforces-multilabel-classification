@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 1 2\\n1 2 1\\n1 1 3\\n1 3 1\\n1 2 3\\n1 3 2\\n2 2 3\"]",
+    "src_uid": "f4240b7bbc46e2c4a62a4e5c563ec8f6",
+    "prob_desc_notes": "NoteThere are three dishes in sample. Noora ordered dished numberes 2 and 3, which Leha should guess. If Noora receive requests for the first dish (x = 1), then she'll choose the second dish (a = 2) as the dish with the minimum value . For the second (x = 2) and the third (x = 3) dishes themselves will be optimal, because in that case . Let Leha asks Noora about the next couple of dishes:  x = 1, y = 2, then he'll recieve «NIE» answer, because |1 - 2| &gt; |2 - 2|  x = 2, y = 1, then he'll recieve «TAK» answer, because |2 - 2| ≤ |1 - 2|  x = 1, y = 3, then he'll recieve «NIE» answer, because |1 - 2| &gt; |3 - 3|  x = 3, y = 1, then he'll recieve «TAK» answer, because |3 - 3| ≤ |1 - 2|  x = 2, y = 3, then he'll recieve «TAK» answer, because |2 - 2| ≤ |3 - 3|  x = 3, y = 2, then he'll recieve «TAK» answer, because |3 - 3| ≤ |2 - 2| According to the available information, it is possible to say that Nura ordered dishes with numbers 2 and 3.",
+    "prob_desc_description": "This is an interactive problem. In the output section below you will see the information about flushing the output.On Sunday Leha the hacker took Nura from the house where she lives and went with her to one of the most luxurious restaurants in Vičkopolis. Upon arrival, they left the car in a huge parking lot near the restaurant and hurried inside the building.In the restaurant a polite waiter immediately brought the menu to Leha and Noora, consisting of n dishes. It is interesting that all dishes in the menu are numbered with integers from 1 to n. After a little thought, the girl ordered exactly k different dishes from available in the menu. To pass the waiting time while the chefs prepare ordered dishes, the girl invited the hacker to play a game that will help them get to know each other better.The game itself is very simple: Noora wants Leha to guess any two dishes among all ordered. At the same time, she is ready to answer only one type of questions. Leha can say two numbers x and y (1 ≤ x, y ≤ n). After that Noora chooses some dish a for the number x such that, at first, a is among the dishes Noora ordered (x can be equal to a), and, secondly, the value  is the minimum possible. By the same rules the girl chooses dish b for y. After that Noora says «TAK» to Leha, if , and «NIE» otherwise. However, the restaurant is preparing quickly, so Leha has enough time to ask no more than 60 questions. After that he should name numbers of any two dishes Noora ordered.Help Leha to solve this problem!",
+    "prob_desc_output_spec": "If you want to provide an answer, output a string of the form 2 x y (1 ≤ x, y ≤ n, x ≠ y), if you think the dishes x and y was among dishes ordered by Noora. After that, flush the output and terminate your program.",
+    "prob_desc_input_spec": "There are two numbers n and k (2 ≤ k ≤ n ≤ 105) in the single line of input denoting the number of dishes in the menu and the number of dishes Noora ordered.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_006.jsonl",
+    "code_uid": "435ac402b611c99d93acee6a28cb96a5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\nNIE\\nTAK\\nNIE\\nTAK\\nTAK\\nTAK\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\n\ndef chek(x, y):\n    print(1, int(x), int(y))\n    sys.stdout.flush()\n    return input() == 'TAK'\n\n\ndef binp(l, r):\n    if l == r:\n        return l\n    while l < r:\n        m = (l + r) // 2\n        if chek(m, m + 1):\n            r = m\n        else:\n            l = m + 1\n    return int(l)\n\n\nn, k = list(map(int, input().split()))\nx = binp(1, n)\ny1, y2 = x,x\nif x>1: y1=binp(1, x - 1)\nif x<n: y2=binp(x + 1, n)\nif not chek(y1, y2):\n    y1, y2 = y2, y1\nif x == y1:\n    y1, y2 = y2, y1\nprint(2, x, y1)\nsys.stdout.flush()",
+    "prob_desc_created_at": "1495303500",
+    "tags": [
+        "binary search",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

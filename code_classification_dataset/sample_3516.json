@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"abacaba\", \"aaa\", \"ababab\"]",
+    "src_uid": "d66e55ac7fa8a7b57ccd57d9242fd2a2",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Ivan had string s consisting of small English letters. However, his friend Julia decided to make fun of him and hid the string s. Ivan preferred making a new string to finding the old one. Ivan knows some information about the string s. Namely, he remembers, that string ti occurs in string s at least ki times or more, he also remembers exactly ki positions where the string ti occurs in string s: these positions are xi, 1, xi, 2, ..., xi, ki. He remembers n such strings ti.You are to reconstruct lexicographically minimal string s such that it fits all the information Ivan remembers. Strings ti and string s consist of small English letters only.",
+    "prob_desc_output_spec": "Print lexicographically minimal string that fits all the information Ivan remembers. ",
+    "prob_desc_input_spec": "The first line contains single integer n (1 ≤ n ≤ 105) — the number of strings Ivan remembers. The next n lines contain information about the strings. The i-th of these lines contains non-empty string ti, then positive integer ki, which equal to the number of times the string ti occurs in string s, and then ki distinct positive integers xi, 1, xi, 2, ..., xi, ki in increasing order — positions, in which occurrences of the string ti in the string s start. It is guaranteed that the sum of lengths of strings ti doesn't exceed 106, 1 ≤ xi, j ≤ 106, 1 ≤ ki ≤ 106, and the sum of all ki doesn't exceed 106. The strings ti can coincide. It is guaranteed that the input data is not self-contradictory, and thus at least one answer always exists.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_065.jsonl",
+    "code_uid": "75266791808763d7c03b40f6916d7986",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\na 4 1 3 5 7\\nab 2 1 5\\nca 1 4\", \"1\\na 1 3\", \"3\\nab 1 1\\naba 1 3\\nab 2 3 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def magic():\n    string=['1']*10000005\n    n=input()\n    m_index=0\n    till=0\n    for _ in xrange(n):\n        arr=raw_input().split()\n        s=arr[0]\n        times=int(arr[1])\n        arr=map(int,arr[2:])\n        l=len(s)\n        m_index=max(m_index,arr[-1]+l)\n        start=end=0\n        for index in arr:\n            if index==1 and till==0:\n                till=l\n            upto=index+l-1\n            \n            if upto<till or upto<end:\n                continue\n            \n            elif index<end:\n                m=end+1\n                j=end-index+1\n\n            else:\n                m=index\n                j=0\n\n            \n            for i in xrange(m,upto+1):\n                string[i]=s[j]\n                j+=1\n            end=max(end,upto)\n            \n        while till<3000000:\n            if string[till]!='1':\n                till+=1\n            else:\n                break\n    for i in xrange(1,m_index):\n        if string[i]=='1':\n            string[i]='a'\n    print ''.join(string[1:m_index])\nmagic()",
+    "prob_desc_created_at": "1499791500",
+    "tags": [
+        "data structures",
+        "sortings",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

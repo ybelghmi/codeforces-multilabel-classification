@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\\n78.190.209.187\\n79.180.208.197\\n87.190.209.178\\n89.170.207.198\\n97.180.208.179\\n98.170.207.189\", \"16\\n4.4.4.4\\n4.4.4.44\\n4.4.44.4\\n4.4.44.44\\n4.44.4.4\\n4.44.4.44\\n4.44.44.4\\n4.44.44.44\\n44.4.4.4\\n44.4.4.44\\n44.4.44.4\\n44.4.44.44\\n44.44.4.4\\n44.44.4.44\\n44.44.44.4\\n44.44.44.44\"]",
+    "src_uid": "4cb1927ce961aa5370276044f3be2f4a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The problem uses a simplified TCP/IP address model, please read the statement carefully.An IP address is a 32-bit integer, represented as a group of four decimal 8-bit integers (without leading zeroes), separated by commas. For example, record 0.255.1.123 shows a correct IP address and records 0.256.1.123 and 0.255.1.01 do not. In the given problem an arbitrary group of four 8-bit integers is a correct IP address.Our hero Polycarpus still works as a system administrator in some large corporation. He likes beautiful IP addresses. To check if some IP address is beautiful, he should do the following:  write out in a line four 8-bit numbers of the IP address, without the commas;  check if the resulting string is a palindrome. Let us remind you that a palindrome is a string that reads the same from right to left and from left to right.For example, IP addresses 12.102.20.121 and 0.3.14.130 are beautiful (as strings \"1210220121\" and \"0314130\" are palindromes), and IP addresses 1.20.20.1 and 100.4.4.1 are not.Polycarpus wants to find all beautiful IP addresses that have the given set of digits. Each digit from the set must occur in the IP address at least once. IP address must not contain any other digits. Help him to cope with this difficult task.",
+    "prob_desc_output_spec": "In the first line print a single integer k — the number of beautiful IP addresses that contain the given set of digits. In the following k lines print the IP addresses, one per line in the arbitrary order.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 10) — the number of digits in the set. The second line contains the set of integers a1, a2, ..., an (0 ≤ ai ≤ 9). It is guaranteed that all digits in the set are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_021.jsonl",
+    "code_uid": "41a7aa60ed4ede657a9e3238e659d9af",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n0 1 2 9 8 7\", \"1\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "m=input()\ng=map(int,raw_input().split())\nn=reduce(lambda x,y:x|(1<<y),g,0)\na=set()\nv=[0]*4\ndef sp(s,u=0):\n  if u<4:\n    n=len(s)\n    x,y=0,-1\n    for i in range(min(3,n-3+u)):\n      x=x*10+s[i]\n      if x>255 or 0==y:break\n      v[u],y=x,x\n      sp(s[i+1:],u+1)\n  elif not s:\n    a.add(tuple(v))\ndef go(a,b,o=0):\n  l=len(a)+len(b)\n  if 3<l<13 and o==n:sp(a+b)\n  if 2<l<12:\n    for c in g:\n      if (o|(1<<c))==n:sp(a+[c]+b)\n  if l<12:\n    for c in g:go(a+[c],[c]+b,o|(1<<c))\nif m<7:\n  go([],[])\n  print len(a)\n  for x in a:print '%d.%d.%d.%d'%x\nelse:\n  print 0\n",
+    "prob_desc_created_at": "1366040100",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

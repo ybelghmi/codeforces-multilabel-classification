@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0.5\", \"0.875\", \"-1\"]",
+    "src_uid": "74ed99af5a5ed51c73d68f7d4ff2c70e",
+    "prob_desc_notes": "NoteIn the first example choose states 1, 2 and 3, so that the energy conversion efficiency becomes equal to .In the second example choose states 4, 5 and 9, so that the energy conversion efficiency becomes equal to .",
+    "prob_desc_description": "An atom of element X can exist in n distinct states with energies E1 &lt; E2 &lt; ... &lt; En. Arkady wants to build a laser on this element, using a three-level scheme. Here is a simplified description of the scheme. Three distinct states i, j and k are selected, where i &lt; j &lt; k. After that the following process happens:   initially the atom is in the state i, we spend Ek - Ei energy to put the atom in the state k, the atom emits a photon with useful energy Ek - Ej and changes its state to the state j, the atom spontaneously changes its state to the state i, losing energy Ej - Ei, the process repeats from step 1. Let's define the energy conversion efficiency as , i. e. the ration between the useful energy of the photon and spent energy.Due to some limitations, Arkady can only choose such three states that Ek - Ei ≤ U.Help Arkady to find such the maximum possible energy conversion efficiency within the above constraints.",
+    "prob_desc_output_spec": "If it is not possible to choose three states that satisfy all constraints, print -1. Otherwise, print one real number η — the maximum possible energy conversion efficiency. Your answer is considered correct its absolute or relative error does not exceed 10 - 9. Formally, let your answer be a, and the jury's answer be b. Your answer is considered correct if .",
+    "prob_desc_input_spec": "The first line contains two integers n and U (3 ≤ n ≤ 105, 1 ≤ U ≤ 109) — the number of states and the maximum possible difference between Ek and Ei. The second line contains a sequence of integers E1, E2, ..., En (1 ≤ E1 &lt; E2... &lt; En ≤ 109). It is guaranteed that all Ei are given in increasing order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_001.jsonl",
+    "code_uid": "58595d599ad2ee26fd5e4be8d8f8d244",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4\\n1 3 5 7\", \"10 8\\n10 13 15 16 17 19 20 22 24 25\", \"3 1\\n2 5 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,u=[int(x) for x in input().split()]\na=list(map(int,input().split()))\nidx=0\nans=-1\nfor i in range(n):\n    while(idx<n-1 and a[idx+1]-a[i]<=u):\n        idx+=1\n    if(idx-i<2):\n        continue\n    ans=max(ans,(a[idx]-a[i+1])/(a[idx]-a[i]))\nprint(ans)",
+    "prob_desc_created_at": "1521905700",
+    "tags": [
+        "two pointers",
+        "binary search",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

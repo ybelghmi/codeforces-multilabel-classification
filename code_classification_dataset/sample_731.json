@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Possible\\n9 + 13 - 39 + 28 + 31 = 42\", \"Impossible\", \"Possible\\n1000000 = 1000000\"]",
+    "src_uid": "35a97c47182916aaafe4c6e4b69bc79f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a rebus of form ? + ? - ? + ? = n, consisting of only question marks, separated by arithmetic operation '+' and '-', equality and positive integer n. The goal is to replace each question mark with some positive integer from 1 to n, such that equality holds.",
+    "prob_desc_output_spec": "The first line of the output should contain \"Possible\" (without quotes) if rebus has a solution and \"Impossible\" (without quotes) otherwise. If the answer exists, the second line should contain any valid rebus with question marks replaced by integers from 1 to n. Follow the format given in the samples.",
+    "prob_desc_input_spec": "The only line of the input contains a rebus. It's guaranteed that it contains no more than 100 question marks, integer n is positive and doesn't exceed 1 000 000, all letters and integers are separated by spaces, arithmetic operations are located only between question marks.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_003.jsonl",
+    "code_uid": "d817dcb36888fe8024b7e0d25a67e4d1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"? + ? - ? + ? + ? = 42\", \"? - ? = 1\", \"? = 1000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nimport sys\nimport os\ndef low( a , b):\n\tif(a<b):\n\t\treturn a\n\treturn b\n\ndef main():\n\tT = raw_input()\n\tS = T.split()\n\tplus = S.count('+')\n\tmin =  S.count('-')\n\tN = S[-1]\n\tN = int(N)\n\tL1 = []\n\tL2 = []\n\tif((plus+1)*N-min<N or (plus+1) - N * min>N  ):\n\t\tprint 'Impossible'\n\t\treturn 0\n\telse:\n\t\tplus = plus + 1\n\t\tfor x in range(0,plus):\n\t\t\tL1.append(1)\n\t\tfor x in range(0,min):\n\t\t\tL2.append(1)\n\n\t\twhile( sum(L1) - sum(L2)  < N ):\n\t\t\tfor x in range(0,len(L1)):\n\t\t\t\tif(L1[x]<N):\n\t\t\t\t\tbreak\n\t\t\tL1[x] = L1[x]+ low(N-L1[x],N - int(sum(L1)) + int(sum(L2)))\n\t\twhile( sum(L1) - sum(L2)  > N ):\n\t\t\tfor x in range(0,len(L2)):\n\t\t\t\tif(L2[x]<N):\n\t\t\t\t\tbreak\n\t\t\tL2[x] = L2[x]+ low(N-L2[x],int(sum(L1)-sum(L2)) - N)\n\n\tout = ''\n\tlast = 0\n\n\tfor i in range(0, len(T)):\n\t\tif (T[i] != '?'):\n\t\t\tout = out + T[i]\n\t\t\tif (T[i] == '+'):\n\t\t\t\tlast = 0\n\t\t\telif (T[i] == '-'):\n\t\t\t\tlast = 1\n\t\telse:\n\t\t\tif (last == 0):\n\t\t\t\tout = out + str(L1[-1])\n\t\t\t\tL1.pop()\n\t\t\telse:\n\t\t\t\tout = out + str(L2[-1])\n\t\t\t\tL2.pop()\n\tprint 'Possible'\n\tprint out\n\n\nmain()\n",
+    "prob_desc_created_at": "1460824500",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

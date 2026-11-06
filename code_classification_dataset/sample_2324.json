@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"0\"]",
+    "src_uid": "84bd49becca69e126606d5a2f764dd91",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Sereja and his friends went to a picnic. The guys had n soda bottles just for it. Sereja forgot the bottle opener as usual, so the guys had to come up with another way to open bottles.Sereja knows that the i-th bottle is from brand ai, besides, you can use it to open other bottles of brand bi. You can use one bottle to open multiple other bottles. Sereja can open bottle with opened bottle or closed bottle.Knowing this, Sereja wants to find out the number of bottles they've got that they won't be able to open in any way. Help him and find this number.",
+    "prob_desc_output_spec": "In a single line print a single integer — the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 100) — the number of bottles. The next n lines contain the bottles' description. The i-th line contains two integers ai, bi (1 ≤ ai, bi ≤ 1000) — the description of the i-th bottle.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_020.jsonl",
+    "code_uid": "8baca2bd6a233645d44a55d6d79952e1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 1\\n2 2\\n3 3\\n4 4\", \"4\\n1 2\\n2 3\\n3 4\\n4 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\n# count = int(raw_input())\n# [int(s) for s in (raw_input()).split()]\n\ndef main(data = None):\n\n    if data is None:\n        count = raw_input()\n        if count == 0:\n            return 0\n        bottles = [[int(s) for s in (raw_input()).split()] for  i in range(int(count))]\n\n    else:\n        count,bottles = data \n\n    bd = [list(a) for a in zip(bottles,[True,]*len(bottles))]\n    \n    for bottle in bd:\n        opener = bottle[0][1]\n        for bottle_n in bd:\n            if not (bottle is bottle_n):\n                if opener == bottle_n[0][0] :\n                    bottle_n[1]=False\n    return len([bottle for bottle in bd if bottle[1]])       \n        \n\n        \n        \n\nif __name__== \"__main__\":\n\n    print main()",
+    "prob_desc_created_at": "1370619000",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

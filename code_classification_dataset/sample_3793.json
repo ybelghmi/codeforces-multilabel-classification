@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"1 1 2\", \"0 1 1 1 2 2 2\"]",
+    "src_uid": "079382c58c726aaab21ca209ca3f4d2f",
+    "prob_desc_notes": "NoteIn the first test we can change $$$1$$$ to $$$2$$$, so the answer is $$$1$$$.In the second test:   $$$[1]$$$ can be changed into $$$[2]$$$,  $$$[1, 4]$$$ can be changed into $$$[3, 4]$$$,  $$$[1, 4, 2]$$$ can be changed into $$$[2, 3, 2]$$$. ",
+    "prob_desc_description": "New Year is just around the corner, which means that in School 179, preparations for the concert are in full swing.There are $$$n$$$ classes in the school, numbered from $$$1$$$ to $$$n$$$, the $$$i$$$-th class has prepared a scene of length $$$a_i$$$ minutes.As the main one responsible for holding the concert, Idnar knows that if a concert has $$$k$$$ scenes of lengths $$$b_1$$$, $$$b_2$$$, $$$\\ldots$$$, $$$b_k$$$ minutes, then the audience will get bored if there exist two integers $$$l$$$ and $$$r$$$ such that $$$1 \\le l \\le r \\le k$$$ and $$$\\gcd(b_l, b_{l + 1}, \\ldots, b_{r - 1}, b_r) = r - l + 1$$$, where $$$\\gcd(b_l, b_{l + 1}, \\ldots, b_{r - 1}, b_r)$$$ is equal to the greatest common divisor (GCD) of the numbers $$$b_l$$$, $$$b_{l + 1}$$$, $$$\\ldots$$$, $$$b_{r - 1}$$$, $$$b_r$$$.To avoid boring the audience, Idnar can ask any number of times (possibly zero) for the $$$t$$$-th class ($$$1 \\le t \\le k$$$) to make a new scene $$$d$$$ minutes in length, where $$$d$$$ can be any positive integer. Thus, after this operation, $$$b_t$$$ is equal to $$$d$$$. Note that $$$t$$$ and $$$d$$$ can be different for each operation.For a sequence of scene lengths $$$b_1$$$, $$$b_2$$$, $$$\\ldots$$$, $$$b_{k}$$$, let $$$f(b)$$$ be the minimum number of classes Idnar has to ask to change their scene if he wants to avoid boring the audience.Idnar hasn't decided which scenes will be allowed for the concert, so he wants to know the value of $$$f$$$ for each non-empty prefix of $$$a$$$. In other words, Idnar wants to know the values of $$$f(a_1)$$$, $$$f(a_1$$$,$$$a_2)$$$, $$$\\ldots$$$, $$$f(a_1$$$,$$$a_2$$$,$$$\\ldots$$$,$$$a_n)$$$.",
+    "prob_desc_output_spec": "Print a sequence of $$$n$$$ integers in a single line — $$$f(a_1)$$$, $$$f(a_1$$$,$$$a_2)$$$, $$$\\ldots$$$, $$$f(a_1$$$,$$$a_2$$$,$$$\\ldots$$$,$$$a_n)$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of classes in the school. The second line contains $$$n$$$ positive integers $$$a_1$$$, $$$a_2$$$, $$$\\ldots$$$, $$$a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — the lengths of the class scenes.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_084.jsonl",
+    "code_uid": "f874b2c6f3ff65deaf6afb1b56072c85",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n1\", \"3\\n1 4 2\", \"7\\n2 12 4 8 18 3 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import gcd\r\nimport sys\r\n\r\n\r\nclass segmenttree:\r\n    def __init__(self, n, default=0, func=lambda a, b: a + b):\r\n        self.tree, self.n, self.func, self.default = [0] * (2 * n), n, func, default\r\n\r\n    def fill(self, arr):\r\n        self.tree[self.n:] = arr\r\n        for i in range(self.n - 1, 0, -1):\r\n            self.tree[i] = self.func(self.tree[i << 1], self.tree[(i << 1) + 1])\r\n\r\n    # get interval[l,r)\r\n    def query(self, l, r):\r\n        res, l, r = self.default, l + self.n, r + self.n\r\n\r\n        while l < r:\r\n            if l & 1:\r\n                res = self.func(res, self.tree[l])\r\n                l += 1\r\n            if r & 1:\r\n                r -= 1\r\n                res = self.func(res, self.tree[r])\r\n            l, r = l >> 1, r >> 1\r\n\r\n        return res\r\n\r\n    def __setitem__(self, ix, val):\r\n        ix += self.n\r\n        self.tree[ix] = val\r\n\r\n        while ix > 1:\r\n            self.tree[ix >> 1] = self.func(self.tree[ix], self.tree[ix ^ 1])\r\n            ix >>= 1\r\n\r\n    def __getitem__(self, item):\r\n        return self.tree[item + self.n]\r\n\r\n\r\ninput = lambda: sys.stdin.buffer.readline().decode().strip()\r\nn, a = int(input()), [int(x) for x in input().split()]\r\ntree, ans, lst = segmenttree(n, 0, lambda a, b: gcd(a, b)), 0, 0\r\ntree.fill(a)\r\n\r\nfor i in range(n):\r\n    be, en = lst, i\r\n    while be <= en:\r\n        md = (be + en) >> 1\r\n        val = tree.query(md, i + 1)\r\n\r\n        if val == i - md + 1:\r\n            lst = i + 1\r\n            ans += 1\r\n            break\r\n        elif val < i - md + 1:\r\n            be = md + 1\r\n        else:\r\n            en = md - 1\r\n\r\n    print(ans, end=' ')\r\n",
+    "prob_desc_created_at": "1643553300",
+    "tags": [
+        "binary search",
+        "data structures",
+        "greedy",
+        "math",
+        "number theory",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

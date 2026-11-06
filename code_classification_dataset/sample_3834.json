@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Alice\", \"Alice\", \"Bob\"]",
+    "src_uid": "c01e33f3d0c31f1715d8ff118970f42e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Alice and Bob are playing a game. They are given an array $$$A$$$ of length $$$N$$$. The array consists of integers. They are building a sequence together. In the beginning, the sequence is empty. In one turn a player can remove a number from the left or right side of the array and append it to the sequence. The rule is that the sequence they are building must be strictly increasing. The winner is the player that makes the last move. Alice is playing first. Given the starting array, under the assumption that they both play optimally, who wins the game?",
+    "prob_desc_output_spec": "The first and only line of output consists of one string, the name of the winner. If Alice won, print \"Alice\", otherwise, print \"Bob\".",
+    "prob_desc_input_spec": "The first line contains one integer $$$N$$$ ($$$1 \\leq N \\leq 2*10^5$$$) - the length of the array $$$A$$$. The second line contains $$$N$$$ integers $$$A_1$$$, $$$A_2$$$,...,$$$A_N$$$ ($$$0 \\leq A_i \\leq 10^9$$$)",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_085.jsonl",
+    "code_uid": "e4e16dff3587a7e14e32e981df5d0d5f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n5\", \"3\\n5 4 5\", \"6\\n5 8 2 1 10 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\"\"\"\r\nE. Array Game\r\ntime limit per test1 second\r\nmemory limit per test256 megabytes\r\ninputstandard input\r\noutputstandard output\r\n\r\nAlice and Bob are playing a game. They are given an array A of length N.\r\nThe array consists of integers. They are building a sequence together.\r\nIn the beginning, the sequence is empty.\r\nIn one turn a player can remove a number from the left or right side of the array\r\nand append it to the sequence. The rule is that the sequence they are building must be strictly increasing.\r\nThe winner is the player that makes the last move. Alice is playing first.\r\nGiven the starting array, under the assumption that they both play optimally, who wins the game?\r\n\r\nInput\r\nThe first line contains one integer N (1≤N≤2∗105) - the length of the array A.\r\n\r\nThe second line contains N integers A1, A2,...,AN (0≤Ai≤109)\r\n\r\nOutput\r\nThe first and only line of output consists of one string, the name of the winner.\r\nIf Alice won, print \"Alice\", otherwise, print \"Bob\".\r\n\"\"\"\r\n\r\nfrom collections import deque\r\n\r\n\r\ndef array_game(n, array):\r\n    left = 0\r\n    right = n - 1\r\n    while left < n - 1 and array[left] < array[left + 1]:\r\n        left += 1\r\n    while right >= 0 and array[right] < array[right - 1]:\r\n        right -= 1\r\n    if left % 2 == 0 or (n - right) % 2 == 1:\r\n        print(\"Alice\")\r\n    else:\r\n        print(\"Bob\")\r\n\r\n\r\nif __name__ == '__main__':\r\n    N = int(input())\r\n    integers = input().split(\" \")\r\n    integers = [int(el) for el in integers]\r\n    array_game(N, integers)\r\n    # array_game(1, [5])\r\n    # array_game(3, [5, 4, 5])\r\n    # array_game(6, [5, 8, 2, 1, 10, 9])\r\n",
+    "prob_desc_created_at": "1633770300",
+    "tags": [
+        "games",
+        "greedy",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "0.5 seconds",
+    "prob_desc_sample_outputs": "[\"1011.060722383550382782399454922040\"]",
+    "src_uid": "36ad784f23bd1e8e579052642a6e9244",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The city administration of IT City decided to fix up a symbol of scientific and technical progress in the city's main square, namely an indicator board that shows the effect of Moore's law in real time.Moore's law is the observation that the number of transistors in a dense integrated circuit doubles approximately every 24 months. The implication of Moore's law is that computer performance as function of time increases exponentially as well.You are to prepare information that will change every second to display on the indicator board. Let's assume that every second the number of transistors increases exactly 1.000000011 times.",
+    "prob_desc_output_spec": "Output one number — the estimate of the number of transistors in a dence integrated circuit in t seconds since the initial time. The relative error of your answer should not be greater than 10 - 6.",
+    "prob_desc_input_spec": "The only line of the input contains a pair of integers n (1000 ≤ n ≤ 10 000) and t (0 ≤ t ≤ 2 000 000 000) — the number of transistors in the initial time and the number of seconds passed since the initial time.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_012.jsonl",
+    "code_uid": "291302ee37c02fb0459f956c97b61570",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"1000 1000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s  = input()\nS = s.split()\ntransistors = int(S[0])\nseconds = int(S[1])\na1 = 1\na2 = 1\na3 = 1\nfor i in range(1000):\n    a1 = a1*1.000000011\nfor i in range(1000):\n    a2 = a2*a1\nfor i in range(1000):\n    a3 = a3*a2\n\n\nlocal0 = seconds%1000\nseconds = int((seconds-local0)/1000)\nlocal1 = seconds%1000\nseconds = int((seconds-local1)/1000)\nlocal2 = seconds%1000\nseconds = int((seconds-local2)/1000)\nlocal3 = seconds%1000\nfor i in range(local0):\n    transistors = transistors*1.000000011\nfor i in range(local1):\n    transistors = transistors*a1\nfor i in range(local2):\n    transistors = transistors*a2\nfor i in range(local3):\n    transistors = transistors*a3\nprint(transistors)\n",
+    "prob_desc_created_at": "1455807600",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

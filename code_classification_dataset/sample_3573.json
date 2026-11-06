@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n16\\n4\\n-1\\n0\\n1\"]",
+    "src_uid": "ef5f11b7518bb8f63c0071560e6b96fb",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a multiset of powers of two. More precisely, for each $$$i$$$ from $$$0$$$ to $$$n$$$ exclusive you have $$$cnt_i$$$ elements equal to $$$2^i$$$.In one operation, you can choose any one element $$$2^l &gt; 1$$$ and divide it into two elements $$$2^{l - 1}$$$.You should perform $$$q$$$ queries. Each query has one of two types:   \"$$$1$$$ $$$pos$$$ $$$val$$$\" — assign $$$cnt_{pos} := val$$$;  \"$$$2$$$ $$$x$$$ $$$k$$$\" — calculate the minimum number of operations you need to make at least $$$k$$$ elements with value lower or equal to $$$2^x$$$. Note that all queries of the second type don't change the multiset; that is, you just calculate the minimum number of operations, you don't perform them.",
+    "prob_desc_output_spec": "For each query of the second type, print the minimum number of operations you need to make at least $$$k$$$ elements with a value lower or equal to $$$2^x$$$ or $$$-1$$$ if there is no way to do it.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$q$$$ ($$$1 \\le n \\le 30$$$; $$$1 \\le q \\le 2 \\cdot 10^5$$$) — the size of array $$$cnt$$$ and the number of queries. The second line contains $$$n$$$ integers $$$cnt_0, cnt_1, \\dots, cnt_{n - 1}$$$ ($$$0 \\le cnt_i \\le 10^6$$$). Next $$$q$$$ lines contain queries: one per line. Each query has one of two types:    \"$$$1$$$ $$$pos$$$ $$$val$$$\" ($$$0 \\le pos &lt; n$$$; $$$0 \\le val \\le 10^6$$$);  \"$$$2$$$ $$$x$$$ $$$k$$$\" ($$$0 \\le x &lt; n$$$; $$$1 \\le k \\le 10^{15}$$$).  It's guaranteed that there is at least one query of the second type.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2900,
+    "file_name": "train_070.jsonl",
+    "code_uid": "3f71deb5fb2455c30cf460c497469e5a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 11\\n0 1 0 0 1 0\\n2 1 5\\n2 4 18\\n1 1 0\\n2 2 5\\n2 0 17\\n1 0 3\\n2 1 2\\n1 1 4\\n1 4 0\\n1 5 1\\n2 2 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nimport sys;range = xrange;input = raw_input;inp = [int(x) for x in sys.stdin.read().split()]; ii = 0;n = inp[ii]; ii += 1;q = inp[ii]; ii += 1;C = inp[ii: ii + n]; ii += n;C.append(0);total = 0\nfor i in range(n):total += C[i] << i\ninf = 10**18;ans = []\nfor _ in range(q):\n    query = inp[ii]; ii += 1\n    if query == 1:pos = inp[ii]; ii += 1;val = inp[ii]; ii += 1;total -= C[pos] << pos;C[pos] = val;total += C[pos] << pos\n    else:\n        x = inp[ii]; ii += 1;k = inp[ii]; ii += 1\n        if k > total:ans.append(-1);continue\n        left = k;makeable = 0;cost = 0\n        for i in range(x + 1):left -= C[i];makeable += C[i] * ((1 << i) - 1)\n        if left <= 0:ans.append(0);continue        \n        for i in range(x + 1, n):\n            c = C[i];count = min(left // (1 << i - x), c);cost += count * ((1 << i - x) - 1);c -= count;extra = count << i - x;left -= extra;makeable += extra * ((1 << x) - 1)\n            if c and left > 0:break\n        else:ans.append(cost + left);continue\n        I = i;besta = inf\n        if makeable >= left and besta > cost + left:besta = cost + left        \n        while left:\n            make = left.bit_length() - 1;cost += I - (x + make);I = x + make;extra = 1 << I - x;left -= extra;makeable += extra * ((1 << x) - 1);cost += (1 << I - x) - 1\n            if makeable >= left and besta > cost + left:besta = cost + left\n        ans.append(besta)\nprint '\\n'.join(str(x) for x in ans)",
+    "prob_desc_created_at": "1605796500",
+    "tags": [
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

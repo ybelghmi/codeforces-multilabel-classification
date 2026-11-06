@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\n1 3 4 5\", \"1\\n3\", \"0\", \"3\\n2 3 5\", \"0\"]",
+    "src_uid": "a3a337c7b919e7dfd7ff45ebf59681b5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Nearly each project of the F company has a whole team of developers working on it. They often are in different rooms of the office in different cities and even countries. To keep in touch and track the results of the project, the F company conducts shared online meetings in a Spyke chat.One day the director of the F company got hold of the records of a part of an online meeting of one successful team. The director watched the record and wanted to talk to the team leader. But how can he tell who the leader is? The director logically supposed that the leader is the person who is present at any conversation during a chat meeting. In other words, if at some moment of time at least one person is present on the meeting, then the leader is present on the meeting.You are the assistant director. Given the 'user logged on'/'user logged off' messages of the meeting in the chronological order, help the director determine who can be the leader. Note that the director has the record of only a continuous part of the meeting (probably, it's not the whole meeting).",
+    "prob_desc_output_spec": "In the first line print integer k (0 ≤ k ≤ n) — how many people can be leaders. In the next line, print k integers in the increasing order — the numbers of the people who can be leaders. If the data is such that no member of the team can be a leader, print a single number 0.",
+    "prob_desc_input_spec": "The first line contains integers n and m (1 ≤ n, m ≤ 105) — the number of team participants and the number of messages. Each of the next m lines contains a message in the format:   '+ id': the record means that the person with number id (1 ≤ id ≤ n) has logged on to the meeting.  '- id': the record means that the person with number id (1 ≤ id ≤ n) has logged off from the meeting.  Assume that all the people of the team are numbered from 1 to n and the messages are given in the chronological order. It is guaranteed that the given sequence is the correct record of a continuous part of the meeting. It is guaranteed that no two log on/log off events occurred simultaneously.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_049.jsonl",
+    "code_uid": "23e033717479b67a5767e5d5a1f8cacf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n+ 1\\n+ 2\\n- 2\\n- 1\", \"3 2\\n+ 1\\n- 2\", \"2 4\\n+ 1\\n- 1\\n+ 2\\n- 2\", \"5 6\\n+ 1\\n- 1\\n- 3\\n+ 3\\n+ 4\\n- 4\", \"2 4\\n+ 1\\n- 2\\n+ 2\\n- 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#import random\n\nn, m = map(lambda x: int(x), raw_input().split())\n#n, m = 100000, 100000\n\nmessages = list()\n\nfor i in range(m):\n    sign, num = raw_input().split()\n    #sign, num = random.choice(['+', '-']), random.randint(1, n)\n    num = int(num)\n    messages.append((sign, num))\n\nentered = set()\nprefix = list()\nfor m in messages:\n    sign, num = m\n    if sign == '+':\n        entered.add(num)\n    else:\n        if not num in entered:\n            prefix.append(('+', num))\n\nprefix.reverse()\nmessages = prefix + messages\n\nonline = set()\nleaders = set(range(1, n + 1))\n\nprev_sign = None\nprev_num = 0\n\nfor m in messages:\n    sign, num = m\n    if prev_sign and prev_sign != sign and prev_num != num:\n        if num in leaders:\n            leaders.remove(num)\n        if prev_num in leaders:\n            leaders.remove(prev_num)\n    if sign == '+':\n        if len(online) > 0 and num in leaders:\n            leaders.remove(num)\n        online.add(num)\n    else:\n        if num in online:\n            online.remove(num)\n        if len(online) > 0 and num in leaders:\n            leaders.remove(num)\n    prev_sign, prev_num = sign, num\n\nprint len(leaders)\n\nif len(leaders) > 0:\n    print ' '.join([str(x) for x in sorted(list(leaders))])",
+    "prob_desc_created_at": "1398169140",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

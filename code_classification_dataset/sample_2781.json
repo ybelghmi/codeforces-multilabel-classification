@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4 2\\n1 5\\n6 3\", \"-1\"]",
+    "src_uid": "0352429425782d7fe44818594eb0660c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Petya has got 2n cards, each card contains some integer. The numbers on the cards can be the same. Let's index all cards by consecutive integers from 1 to 2n. We'll denote the number that is written on a card with number i, as ai. In order to play one entertaining game with his friends, Petya needs to split the cards into pairs so that each pair had equal numbers on the cards. Help Petya do that.",
+    "prob_desc_output_spec": "If it is impossible to divide the cards into pairs so that cards in each pair had the same numbers, print on a single line integer -1. But if the required partition exists, then print n pairs of integers, a pair per line — the indices of the cards that form the pairs. Separate the numbers on the lines by spaces. You can print the pairs and the numbers in the pairs in any order. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 3·105). The second line contains the sequence of 2n positive integers a1, a2, ..., a2n (1 ≤ ai ≤ 5000) — the numbers that are written on the cards. The numbers on the line are separated by single spaces.",
+    "prob_desc_output_to": "output.txt",
+    "prob_desc_input_from": "input.txt",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_031.jsonl",
+    "code_uid": "dba996e18caf3de8afa80ea1f616bc13",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n20 30 10 30 20 10\", \"1\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import print_function\nimport sys\nfrom collections import defaultdict\n\nsys.stdin = open('input.txt', 'r')\nsys.stdout = open('output.txt', 'a')\n\nrints = lambda: [int(x) for x in sys.stdin.readline().split()]\n\n\ndef main():\n    n, a, out, mem = int(input()), rints(), [], defaultdict(list)\n\n    for j, i in enumerate(a):\n        mem[i].append(j + 1)\n\n    for x, y in mem.items():\n        if len(y) % 2:\n            print(-1)\n            exit()\n        else:\n            out.append(' '.join(['{} {}'.format(y[i], y[i + 1]) for i in range(0, len(y), 2)]))\n\n    print(*out, sep='\\n')\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1355047200",
+    "tags": [
+        "constructive algorithms",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

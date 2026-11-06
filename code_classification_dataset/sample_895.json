@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n52\\n5\\n10\\n16\\n22\"]",
+    "src_uid": "7cc0a6df601e3dcf4e1d9578dd599a36",
+    "prob_desc_notes": "NoteIn the first test case, you can buy all characters and pay $$$3$$$ coins, because both characters $$$0$$$ and $$$1$$$ costs $$$1$$$ coin.In the second test case, you can firstly change $$$2$$$-nd and $$$4$$$-th symbols of the string from $$$1$$$ to $$$0$$$ and pay $$$2$$$ coins for that. Your string will be $$$00000$$$. After that, you can buy the string and pay $$$5 \\cdot 10 = 50$$$ coins for that. The total number of coins paid will be $$$2 + 50 = 52$$$.",
+    "prob_desc_description": "You are given four integers $$$n$$$, $$$c_0$$$, $$$c_1$$$ and $$$h$$$ and a binary string $$$s$$$ of length $$$n$$$.A binary string is a string consisting of characters $$$0$$$ and $$$1$$$.You can change any character of the string $$$s$$$ (the string should be still binary after the change). You should pay $$$h$$$ coins for each change.After some changes (possibly zero) you want to buy the string. To buy the string you should buy all its characters. To buy the character $$$0$$$ you should pay $$$c_0$$$ coins, to buy the character $$$1$$$ you should pay $$$c_1$$$ coins.Find the minimum number of coins needed to buy the string.",
+    "prob_desc_output_spec": "For each test case print a single integer — the minimum number of coins needed to buy the string.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10$$$) — the number of test cases. Next $$$2t$$$ lines contain descriptions of test cases. The first line of the description of each test case contains four integers $$$n$$$, $$$c_{0}$$$, $$$c_{1}$$$, $$$h$$$ ($$$1 \\leq n, c_{0}, c_{1}, h \\leq 1000$$$). The second line of the description of each test case contains the binary string $$$s$$$ of length $$$n$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_004.jsonl",
+    "code_uid": "9bf5ca2ddc87aab9910a34d4cb6af582",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n3 1 1 1\\n100\\n5 10 100 1\\n01010\\n5 10 1 1\\n11111\\n5 1 10 1\\n11111\\n12 2 1 10\\n101110110101\\n2 100 1 10\\n00\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\n\nfor i in range (0,t):\n    n,s0,s1,h=map(int,input().split())\n    string=list(input())\n    string=list(map(lambda x : int(x),string))\n\n    zeros=string.count(0)\n    ones=string.count(1)\n\n    if (s0==h and s1==h) or (h>s0 and h>s1):\n        print(zeros*s0 + ones*s1)\n    else:\n        t=min(s0,s1)\n        on=0\n        if t == s1:\n            on=1\n        if on==0:\n            ans=ones*h + n*s0\n        else:\n            ans=zeros*h + n*s1\n\n        ans=min(ans,zeros*s0 + ones*s1)\n        print(ans)\n            \n    \n    \n",
+    "prob_desc_created_at": "1605623700",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

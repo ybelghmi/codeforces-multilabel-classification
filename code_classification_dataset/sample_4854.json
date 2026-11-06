@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\"]",
+    "src_uid": "95b35c53028ed0565684713a93910860",
+    "prob_desc_notes": "NoteIn the first test case, we can do the following for $$$a = [3, 1, 5, 3]$$$:Step $$$1$$$: $$$a$$$$$$[3, 1, 5, 3]$$$$$$\\Rightarrow$$$$$$[3, 1, 5]$$$$$$\\Rightarrow$$$$$$[3, 1]$$$$$$\\Rightarrow$$$$$$[3]$$$$$$\\Rightarrow$$$$$$[]$$$$$$b$$$$$$[]$$$$$$[\\underline{3}]$$$$$$[3, \\underline{5}]$$$$$$[3, \\underline{1}, 5]$$$$$$[3, \\underline{3}, 1, 5]$$$Step $$$2$$$: $$$b$$$$$$[3, 3, \\underline{1}, 5]$$$$$$\\Rightarrow$$$$$$[3, \\underline{3}, 5]$$$$$$\\Rightarrow$$$$$$[\\underline{3}, 5]$$$$$$\\Rightarrow$$$$$$[\\underline{5}]$$$$$$\\Rightarrow$$$$$$[]$$$$$$c$$$$$$[]$$$$$$[1]$$$$$$[1, 3]$$$$$$[1, 3, 3]$$$$$$[1, 3, 3, 5]$$$ As a result, array $$$c = [1, 3, 3, 5]$$$ and it's sorted.",
+    "prob_desc_description": "You are given three arrays $$$a$$$, $$$b$$$ and $$$c$$$. Initially, array $$$a$$$ consists of $$$n$$$ elements, arrays $$$b$$$ and $$$c$$$ are empty.You are performing the following algorithm that consists of two steps:   Step $$$1$$$: while $$$a$$$ is not empty, you take the last element from $$$a$$$ and move it in the middle of array $$$b$$$. If $$$b$$$ currently has odd length, you can choose: place the element from $$$a$$$ to the left or to the right of the middle element of $$$b$$$. As a result, $$$a$$$ becomes empty and $$$b$$$ consists of $$$n$$$ elements.  Step $$$2$$$: while $$$b$$$ is not empty, you take the middle element from $$$b$$$ and move it to the end of array $$$c$$$. If $$$b$$$ currently has even length, you can choose which of two middle elements to take. As a result, $$$b$$$ becomes empty and $$$c$$$ now consists of $$$n$$$ elements.  Refer to the Note section for examples.Can you make array $$$c$$$ sorted in non-decreasing order?",
+    "prob_desc_output_spec": "For each test, print YES (case-insensitive), if you can make array $$$c$$$ sorted in non-decreasing order. Otherwise, print NO (case-insensitive).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 2 \\cdot 10^4$$$) — the number of test cases. Next $$$t$$$ cases follow. The first line of each test case contains the single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the length of array $$$a$$$. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^6$$$) — the array $$$a$$$ itself. It's guaranteed that the sum of $$$n$$$ doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_107.jsonl",
+    "code_uid": "99484595c842fde377d8352c950f4b65",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n4\\n\\n3 1 5 3\\n\\n3\\n\\n3 2 1\\n\\n1\\n\\n7331\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\nrounds=int(input())\r\nfor ii in range(rounds):\r\n  length=int(input())\r\n  arr=list(map(int,input().split()))\r\n  arr2=sorted(arr)\r\n  out='YES'\r\n  if length%2==1:\r\n    if (arr[0])!=arr2[0]:\r\n      out='NO'\r\n    else:\r\n      for u in range(length):\r\n        if arr[u]!=arr2[u]:\r\n          if u%2==1:\r\n            if arr[u+1]!=arr2[u] or arr[u+1]==arr2[u+1]:\r\n              out='NO'\r\n              break\r\n          else:\r\n            if arr[u-1]!=arr2[u] or arr[u-1]==arr2[u-1]:\r\n              out='NO'\r\n              break\r\n  else:\r\n    for t in range(length):\r\n      if arr[t]!=arr2[t]:\r\n        if t%2==1:\r\n          if arr[t-1]!=arr2[t] or arr[t-1]==arr2[t-1]:\r\n            out='NO'\r\n            break\r\n        else:\r\n          if arr[t+1]!=arr2[t] or arr[t+1]==arr2[t+1]:\r\n            out='NO'\r\n            break\r\n  print(out)\r\n",
+    "prob_desc_created_at": "1651502100",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

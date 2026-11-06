@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 1 0 -1 0 -1\", \"4 2 1 0 -1 -1 -1\", \"1 0 -1 -1 -1\"]",
+    "src_uid": "668f85cc331bc7bcdd708d9190bbd6e8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are n walruses standing in a queue in an airport. They are numbered starting from the queue's tail: the 1-st walrus stands at the end of the queue and the n-th walrus stands at the beginning of the queue. The i-th walrus has the age equal to ai.The i-th walrus becomes displeased if there's a younger walrus standing in front of him, that is, if exists such j (i &lt; j), that ai &gt; aj. The displeasure of the i-th walrus is equal to the number of walruses between him and the furthest walrus ahead of him, which is younger than the i-th one. That is, the further that young walrus stands from him, the stronger the displeasure is.The airport manager asked you to count for each of n walruses in the queue his displeasure.",
+    "prob_desc_output_spec": "Print n numbers: if the i-th walrus is pleased with everything, print \"-1\" (without the quotes). Otherwise, print the i-th walrus's displeasure: the number of other walruses that stand between him and the furthest from him younger walrus.",
+    "prob_desc_input_spec": "The first line contains an integer n (2 ≤ n ≤ 105) — the number of walruses in the queue. The second line contains integers ai (1 ≤ ai ≤ 109). Note that some walruses can have the same age but for the displeasure to emerge the walrus that is closer to the head of the queue needs to be strictly younger than the other one.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_004.jsonl",
+    "code_uid": "beed3e65c07be90dfce9eb6ac2794f74",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n10 8 5 3 50 45\", \"7\\n10 4 6 3 2 8 15\", \"5\\n10 3 1 10 11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import bisect_left\n\nn = int(input())\n\na = list(map(int, input().split()))\n\nb = [0] * n\n\nfor i in range(n - 1, -1, -1):\n\n\tb[i] = bisect_left(a, a[i], i + 1, len(a)) - i - 2\n\n\ta[i] = min(a[i + 1], a[i]) if i != n - 1 else a[i]\n\nprint (*b)\n\n\n\n\n\n# Made By Mostafa_Khaled",
+    "prob_desc_created_at": "1308582000",
+    "tags": [
+        "dp",
+        "binary search",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

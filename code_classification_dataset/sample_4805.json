@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"13 14\\n1 3\\n-1\\n1 4\"]",
+    "src_uid": "13fd45f1892f96eab1d5ab966f465a05",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Given an array $$$a$$$ of length $$$n$$$ and an integer $$$k$$$, you are tasked to find any two numbers $$$l$$$ and $$$r$$$ ($$$l \\leq r$$$) such that:   For each $$$x$$$ $$$(l \\leq x \\leq r)$$$, $$$x$$$ appears in $$$a$$$ at least $$$k$$$ times (i.e. $$$k$$$ or more array elements are equal to $$$x$$$).  The value $$$r-l$$$ is maximized. If no numbers satisfy the conditions, output -1.For example, if $$$a=[11, 11, 12, 13, 13, 14, 14]$$$ and $$$k=2$$$, then:   for $$$l=12$$$, $$$r=14$$$ the first condition fails because $$$12$$$ does not appear at least $$$k=2$$$ times.  for $$$l=13$$$, $$$r=14$$$ the first condition holds, because $$$13$$$ occurs at least $$$k=2$$$ times in $$$a$$$ and $$$14$$$ occurs at least $$$k=2$$$ times in $$$a$$$.  for $$$l=11$$$, $$$r=11$$$ the first condition holds, because $$$11$$$ occurs at least $$$k=2$$$ times in $$$a$$$. A pair of $$$l$$$ and $$$r$$$ for which the first condition holds and $$$r-l$$$ is maximal is $$$l = 13$$$, $$$r = 14$$$.",
+    "prob_desc_output_spec": "For each test case output $$$2$$$ numbers, $$$l$$$ and $$$r$$$ that satisfy the conditions, or \"-1\" if no numbers satisfy the conditions. If multiple answers exist, you can output any.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The description of test cases follows. The first line of each test case contains the integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$, $$$1 \\leq k \\leq n$$$) — the length of the array $$$a$$$ and the minimum amount of times each number in the range $$$[l, r]$$$ should appear respectively. Then a single line follows, containing $$$n$$$ integers describing the array $$$a$$$ ($$$1 \\leq a_i \\leq 10^9$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_106.jsonl",
+    "code_uid": "fb1e98e199d51f109345f046c31c4831",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n7 2\\n\\n11 11 12 13 13 14 14\\n\\n5 1\\n\\n6 3 5 2 1\\n\\n6 4\\n\\n4 3 4 3 3 4\\n\\n14 2\\n\\n1 1 2 2 2 3 3 3 3 4 4 4 4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def solve():\r\n    n, k = map(int, input().split())\r\n    a = list(map(int, input().split()))\r\n    a.sort()\r\n    h = Counter(a)\r\n    ans = (-inf, -1, -1)\r\n    left = 0\r\n    for right in range(n):\r\n        if h[a[right]] < k:\r\n            left = right + 1\r\n            continue\r\n        if right != 0 and a[right]-a[right-1] > 1 and right != left:\r\n            left = right\r\n            continue\r\n        if a[right] - a[left] > ans[0]:\r\n            ans = (a[right] - a[left], a[left], a[right])\r\n            \r\n    if ans[0]==-inf:\r\n        print(-1)\r\n    else:\r\n        print(f\"{ans[1]} {ans[2]}\")\r\n\r\n\r\n\r\n\r\n\r\n\r\ndef main():\r\n    for _ in range(int(input())):\r\n        solve()\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nimport os\r\nimport sys\r\nfrom io import BytesIO, IOBase\r\nfrom math import *\r\nfrom random import *\r\nfrom collections import *\r\nfrom bisect import *\r\nfrom heapq import *\r\n\r\nclass FastInput(IOBase):\r\n    newlines = 0\r\n    def __init__(self, file):\r\n        self._fd = file.fileno();\r\n        self.buffer = BytesIO();\r\n        self.BUFSIZE = 8192\r\n\r\n    def readline(self):\r\n        while self.newlines == 0:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, self.BUFSIZE))\r\n            self.newlines = b.count(b\"\\n\") + (not b)\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines -= 1;\r\n        return self.buffer.readline().decode(\"ascii\").rstrip()\r\n\r\nsys.stdin = FastInput(sys.stdin)\r\ninput = sys.stdin.readline\r\n\r\nRANDOM_MASK = getrandbits(31)\r\nclass myint(int):\r\n    def __hash__(self):\r\n        return self^RANDOM_MASK\r\nint = myint\r\n\r\n#sys.setrecursionlimit(6000)\r\n\r\nif __name__ == \"__main__\":\r\n    main()\r\n",
+    "prob_desc_created_at": "1652193900",
+    "tags": [
+        "data structures",
+        "greedy",
+        "implementation",
+        "sortings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

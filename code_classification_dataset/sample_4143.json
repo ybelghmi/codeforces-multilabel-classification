@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n2\\n1\\n2\\n1\"]",
+    "src_uid": "679a03b57d58907a221689483f59ca34",
+    "prob_desc_notes": "NoteIn the first test case the tree looks as follows:  Firstly you can choose a bud vertex $$$4$$$ and re-hang it to vertex $$$3$$$. After that you can choose a bud vertex $$$2$$$ and re-hang it to vertex $$$7$$$. As a result, you will have the following tree with $$$2$$$ leaves:  It can be proved that it is the minimal number of leaves possible to get.In the second test case the tree looks as follows:  You can choose a bud vertex $$$3$$$ and re-hang it to vertex $$$5$$$. As a result, you will have the following tree with $$$2$$$ leaves:  It can be proved that it is the minimal number of leaves possible to get.",
+    "prob_desc_description": "A tree is a connected graph without cycles. A rooted tree has a special vertex called the root. The parent of a vertex $$$v$$$ (different from root) is the previous to $$$v$$$ vertex on the shortest path from the root to the vertex $$$v$$$. Children of the vertex $$$v$$$ are all vertices for which $$$v$$$ is the parent.A vertex is a leaf if it has no children. We call a vertex a bud, if the following three conditions are satisfied:   it is not a root,  it has at least one child, and  all its children are leaves. You are given a rooted tree with $$$n$$$ vertices. The vertex $$$1$$$ is the root. In one operation you can choose any bud with all its children (they are leaves) and re-hang them to any other vertex of the tree. By doing that you delete the edge connecting the bud and its parent and add an edge between the bud and the chosen vertex of the tree. The chosen vertex cannot be the bud itself or any of its children. All children of the bud stay connected to the bud.What is the minimum number of leaves it is possible to get if you can make any number of the above-mentioned operations (possibly zero)?",
+    "prob_desc_output_spec": "For each test case print a single integer — the minimal number of leaves that is possible to get after some operations.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the number of the vertices in the given tree. Each of the next $$$n-1$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u, v \\le n$$$, $$$u \\neq v$$$) meaning that there is an edge between vertices $$$u$$$ and $$$v$$$ in the tree. It is guaranteed that the given graph is a tree. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_091.jsonl",
+    "code_uid": "6cfce800a7eb4cd259f7996cc66e23de",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n7\\n1 2\\n1 3\\n1 4\\n2 5\\n2 6\\n4 7\\n6\\n1 2\\n1 3\\n2 4\\n2 5\\n3 6\\n2\\n1 2\\n7\\n7 3\\n1 5\\n1 3\\n4 6\\n4 7\\n2 1\\n6\\n2 1\\n2 3\\n4 5\\n3 4\\n3 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\nimport heapq\nfrom sys import *\ninput = stdin.readline\n\nt = int(input())\nfor _ in range(t):\n  n = int(input())\n\n  graph = [set() for _ in range(n+1)]\n\n  for i in range(n-1):\n    c, d = map(int, input().split())\n    graph[c].add(d)\n    graph[d].add(c)\n\n  dist = [-1] * (n+1)\n  dist[0] = 0\n  dist[1] = 0\n  d = deque()\n  d.append(1)\n\n  parent = [0]*(n+1)\n\n  while d:\n    v = d.popleft()\n    for i in graph[v]:\n      if dist[i] != -1:\n        continue\n      dist[i] = dist[v] + 1\n      d.append(i)\n      parent[i] = v\n  \n  QUE = []\n  for i in range(2,n+1):\n    heapq.heappush(QUE, (-dist[i], i))\n\n  budcnt = 0\n  leafcnt = 0\n  used = [0]*(n+1)\n  while QUE:\n    DIST, CHILD = heapq.heappop(QUE)\n    if used[CHILD] == 0:\n      used[CHILD] = 1\n      PARENT = parent[CHILD]\n      used[PARENT] = 1\n      if PARENT != 1:\n        leafcnt += len(graph[PARENT]) - 1\n        budcnt += 1\n        for x in graph[PARENT]:\n          if dist[PARENT] < dist[x]:\n            used[x]  = 1\n        graph[parent[PARENT]].remove(PARENT)\n  \n\n  if len(graph[1]) == 0:\n    print(leafcnt-(budcnt-1))\n  else:\n    print(len(graph[1])+leafcnt-budcnt)",
+    "prob_desc_created_at": "1631457300",
+    "tags": [
+        "constructive algorithms",
+        "dfs and similar",
+        "dp",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

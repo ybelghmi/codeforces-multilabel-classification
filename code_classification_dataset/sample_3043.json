@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1 2\\n1 1\", \"3\\n3 1\\n3 2\\n2 2\"]",
+    "src_uid": "76f314a26ac628c75e61cab6ff491342",
+    "prob_desc_notes": "NoteIn the first sample test first operation is to rotate two rightmost tiles, after this all tiles lie vertically. Second operation is to rotate two leftmost tiles, after this we will get desired configuration.  ",
+    "prob_desc_description": "Peter decided to lay a parquet in the room of size n × m, the parquet consists of tiles of size 1 × 2. When the workers laid the parquet, it became clear that the tiles pattern looks not like Peter likes, and workers will have to re-lay it.The workers decided that removing entire parquet and then laying it again is very difficult task, so they decided to make such an operation every hour: remove two tiles, which form a 2 × 2 square, rotate them 90 degrees and put them back on the same place.  They have no idea how to obtain the desired configuration using these operations, and whether it is possible at all.Help Peter to make a plan for the workers or tell that it is impossible. The plan should contain at most 100 000 commands.",
+    "prob_desc_output_spec": "In the first line output integer k, the number of operations. In the next k lines output description of operations. The operation is specified by coordinates (row and column) of the left upper half-tile on which the operation is performed. If there is no solution, output -1 in the first line.",
+    "prob_desc_input_spec": "The first line contains integer n and m, size of the room (1 ≤ n, m ≤ 50). At least one of them is even number. The following n lines contain m characters each, the description of the current configuration of the parquet tiles. Each character represents the position of the half-tile. Characters 'L', 'R', 'U' and 'D' correspond to the left, right, upper and lower halves, respectively. The following n lines contain m characters each, describing the desired configuration in the same format.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_039.jsonl",
+    "code_uid": "fa9529ca8a1f3dc21462eede95fa21b3",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\nULR\\nDLR\\nLRU\\nLRD\", \"4 3\\nULR\\nDLR\\nLRU\\nLRD\\nULR\\nDUU\\nUDD\\nDLR\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n\nboard = []\nn, m = 0, 0\n\ndef rotate(x, y):\n    if board[x][y] == 'L':\n        board[x][y] = board[x][y+1] = 'U'\n        board[x+1][y] = board[x+1][y+1] = 'D'\n    else:\n        board[x][y] = board[x+1][y] = 'L'\n        board[x][y+1] = board[x+1][y+1] = 'R'\n\ndef fix(x, y, moves):\n    if board[x+1][y] == 'U':\n        if board[x+1][y+1] == 'L':\n            fix(x+1, y+1, moves)\n        rotate(x+1, y)\n        moves.append((x+2, y+1))\n    rotate(x, y)\n    moves.append((x+1, y+1))\n\ndef solve_board(moves):\n    global board, n, m\n    board = []\n    for _ in range(n):\n        board.append(list(input()))\n    for i in range(n-1):\n        for j in range(m):\n            if board[i][j] == 'L':\n                fix(i, j, moves)\n\ndef main():\n    global n, m\n    n, m = map(int, input().split())\n    moves1 = []; moves2 = []\n    solve_board(moves1)\n    solve_board(moves2)\n    print(len(moves1) + len(moves2))\n    for move in moves1:\n        print(str(move[0]) + ' ' + str(move[1]))\n    for move in reversed(moves2):\n        print(str(move[0]) + ' ' + str(move[1]))\n\nif  __name__ == '__main__':\n    main()",
+    "prob_desc_created_at": "1488096300",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

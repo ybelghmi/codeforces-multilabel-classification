@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"-1\", \"2\"]",
+    "src_uid": "a746bd2a212167ea85d00ffebd73fd9c",
+    "prob_desc_notes": "NoteIn the first sample test you can contract vertices 4 and 5 and obtain a chain of length 3.In the second sample test it is initially impossible to contract any pair of vertexes, so it is impossible to achieve the desired result.In the third sample test you can contract vertices 1 and 2 and obtain a chain of length 2.",
+    "prob_desc_description": "Vova and Marina love offering puzzles to each other. Today Marina offered Vova to cope with the following task.Vova has a non-directed graph consisting of n vertices and m edges without loops and multiple edges. Let's define the operation of contraction two vertices a and b that are not connected by an edge. As a result of this operation vertices a and b are deleted and instead of them a new vertex x is added into the graph, and also edges are drawn from it to all vertices that were connected with a or with b (specifically, if the vertex was connected with both a and b, then also exactly one edge is added from x to it). Thus, as a result of contraction again a non-directed graph is formed, it contains no loops nor multiple edges, and it contains (n - 1) vertices.Vova must perform the contraction an arbitrary number of times to transform the given graph into a chain of the maximum length. A chain of length k (k ≥ 0) is a connected graph whose vertices can be numbered with integers from 1 to k + 1 so that the edges of the graph connect all pairs of vertices (i, i + 1) (1 ≤ i ≤ k) and only them. Specifically, the graph that consists of one vertex is a chain of length 0. The vertices that are formed as a result of the contraction are allowed to be used in the following operations of contraction.    The picture illustrates the contraction of two vertices marked by red. Help Vova cope with his girlfriend's task. Find the maximum length of the chain that can be obtained from the resulting graph or else determine that it is impossible to obtain the chain.",
+    "prob_desc_output_spec": "If it is impossible to obtain a chain from the given graph, print  - 1. Otherwise, print the maximum possible number of edges in the resulting chain.",
+    "prob_desc_input_spec": "The first line contains two integers n, m (1 ≤ n ≤ 1000, 0 ≤ m ≤ 100 000) — the number of vertices and the number of edges in the original graph. Next m lines contain the descriptions of edges in the format ai, bi (1 ≤ ai, bi ≤ n, ai ≠ bi), which means that there is an edge between vertices ai and bi. It is guaranteed that there is at most one edge between each pair of vertexes.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_019.jsonl",
+    "code_uid": "5e1ad00cb4c58cb6528f94491b22e465",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n1 2\\n2 3\\n3 4\\n3 5\", \"4 6\\n1 2\\n2 3\\n1 3\\n3 4\\n2 4\\n1 4\", \"4 2\\n1 3\\n2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# lista doble enlazada o(1) operaciones en los bordes es mejor que si se implementa en el propio lenguaje\nfrom collections import deque\n\n\ndef solve():\n    n, m = input().split()\n    n = int(n)\n    m = int(m)\n    global maxValue\n    maxValue = n*2\n    graph = [[] for _ in range(0, n)]\n    for _ in range(0, m):\n        u, v = input().split()\n        u = int(u)-1\n        v = int(v)-1\n        graph[u].append(v)\n        graph[v].append(u)\n\n    diameters = []\n    distance = [maxValue]*n\n    cc = [0]*n # los a lo sumo n-1 vertices en la misma componente conexa de i\n    innerCc = [0]*n # los a lo sumo n-1 vertices en la misma componente conexa de i en distinto orden\n    for i in range(0, n):\n        if distance[i] == maxValue:\n            ccLen = bfs_2k(graph, i, distance,cc)\n            if(ccLen==None):\n                print(-1)\n                return\n            diameters.append(distance[cc[ccLen-1]] if ccLen > 0 else 0)\n            for v in range(0,ccLen):\n                innerDist = [maxValue]*n\n                bfs_2k(graph, cc[v], innerDist,innerCc)\n                diameters[-1] = max(diameters[-1], innerDist[innerCc[ccLen-1]])\n    print(sum(diameters))\n\n\ndef bfs_2k(graph, initVertex, dist,cc):\n    queue = deque()\n    queue.append(initVertex)\n    dist[initVertex] = 0\n    ccLen = 0\n    while queue:\n        u = queue.popleft()\n        for v in graph[u]:\n            if(dist[v] == maxValue):\n                dist[v] = dist[u] + 1\n                queue.append(v)\n                cc[ccLen]=v\n                ccLen+=1\n            if (dist[u] - dist[v]) % 2 == 0:\n                return None\n    return ccLen\n\n\nsolve()\n",
+    "prob_desc_created_at": "1430668800",
+    "tags": [
+        "shortest paths",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

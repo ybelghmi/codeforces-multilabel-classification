@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"2 3 4 5 6\", \"5\", \"9 11 13 15 17 19 21 25 27 33\"]",
+    "src_uid": "1bdcc566e5593429136cf216d361508b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A thief made his way to a shop.As usual he has his lucky knapsack with him. The knapsack can contain k objects. There are n kinds of products in the shop and an infinite number of products of each kind. The cost of one product of kind i is ai.The thief is greedy, so he will take exactly k products (it's possible for some kinds to take several products of that kind).Find all the possible total costs of products the thief can nick into his knapsack.",
+    "prob_desc_output_spec": "Print the only line with all the possible total costs of stolen products, separated by a space. The numbers should be printed in the ascending order.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n, k ≤ 1000) — the number of kinds of products and the number of products the thief will take. The second line contains n integers ai (1 ≤ ai ≤ 1000) — the costs of products for kinds from 1 to n.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_079.jsonl",
+    "code_uid": "df4ae64febda31308aea5eabafc9b42b",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 2 3\", \"5 5\\n1 1 1 1 1\", \"3 3\\n3 5 11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, raw_input().split())\na = map(int, raw_input().split())\n\na = list(set(a))\na.sort()\nmn, mx = a[0], a[-1]\nlo = mn * k\nhi = mx * k\nD = [t - mn for t in a] \n\nmodify_cnt = [k+1] * 1000010\nmodify_cnt[0] = 0\nfor d in D:\n    if d == 0: continue\n    for i in xrange(0, hi - d + 1):\n        modify_cnt[i+d] = min(modify_cnt[i+d], modify_cnt[i]+1)\n\nans = [j+mn*k for j in xrange(hi+1) if modify_cnt[j] <= k]\nprint ' '.join(map(str, ans))\n",
+    "prob_desc_created_at": "1456844400",
+    "tags": [
+        "dp",
+        "divide and conquer",
+        "math",
+        "fft"
+    ],
+    "hidden_unit_tests": ""
+}

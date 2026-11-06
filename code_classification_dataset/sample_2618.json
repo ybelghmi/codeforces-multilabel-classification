@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1\", \"5\\n20\"]",
+    "src_uid": "b9803820370259556ddced7eb4ff03fa",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given n positive integers a1, a2, ..., an.For every ai you need to find a positive integer ki such that the decimal notation of 2ki contains the decimal notation of ai as a substring among its last min(100, length(2ki)) digits. Here length(m) is the length of the decimal notation of m.Note that you don't have to minimize ki. The decimal notations in this problem do not contain leading zeros.",
+    "prob_desc_output_spec": "Print n lines. The i-th of them should contain a positive integer ki such that the last min(100, length(2ki)) digits of 2ki contain the decimal notation of ai as a substring. Integers ki must satisfy 1 ≤ ki ≤ 1050. It can be shown that the answer always exists under the given constraints. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 2 000) — the number of integers ai. Each of the next n lines contains a positive integer ai (1 ≤ ai &lt; 1011).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 3200,
+    "file_name": "train_026.jsonl",
+    "code_uid": "57a01dc1fd2c6f1117c2e3a68962e8fa",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n8\\n2\", \"2\\n3\\n4857\"]",
+    "exec_outcome": "PASSED",
+    "source_code": " #Power substring 913G\ndef dlog(x, n):\n  bigMod = 5 ** n\n  ans = [None, 0, 1, 3, 2][x % 5]\n  val = 2 ** ans % bigMod\n  mod, phi = 5, 4\n  pval = 2 ** phi % bigMod\n  for i in range(2, n + 1):\n    nextMod = mod * 5\n    while val % nextMod != x % nextMod:\n      val = val * pval % bigMod\n      ans += phi\n    phi *= 5\n    pval = (pval * pval % bigMod * pval % bigMod *\n              pval % bigMod *\n              pval % bigMod)\n    mod = nextMod\n  return ans\n\ndef main():\n  inp = input()\n  n = len(inp)\n  a = int(inp)\n  for m in range(n + 1):\n    l = a * 10 ** m\n    x, mod = l, 2 ** (n + m)\n    if x % mod != 0:\n      x += mod - x % mod\n    if x % 5 == 0:\n      x += mod\n    if x < l + 10 ** m:\n      assert x % mod == 0 and x % 5 != 0\n      x = x // mod\n      mod = 5 ** (n + m)\n      print(n + m + dlog(x % mod, n + m))\n      return\n  assert False\n\nif __name__ == '__main__':\n  cnt = int(input())\n  for i in range(cnt):\n    main()",
+    "prob_desc_created_at": "1515422700",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

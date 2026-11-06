@@ -1,0 +1,23 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"no\", \"yes\"]",
+    "src_uid": "f0c91ae53d5b4fc8019f6a3294978398",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One particularly well-known fact about zombies is that they move and think terribly slowly. While we still don't know why their movements are so sluggish, the problem of laggy thinking has been recently resolved. It turns out that the reason is not (as previously suspected) any kind of brain defect – it's the opposite! Independent researchers confirmed that the nervous system of a zombie is highly complicated – it consists of n brains (much like a cow has several stomachs). They are interconnected by brain connectors, which are veins capable of transmitting thoughts between brains. There are two important properties such a brain network should have to function properly:   It should be possible to exchange thoughts between any two pairs of brains (perhaps indirectly, through other brains).  There should be no redundant brain connectors, that is, removing any brain connector would make property 1 false. If both properties are satisfied, we say that the nervous system is valid. Unfortunately (?), if the system is not valid, the zombie stops thinking and becomes (even more) dead. Your task is to analyze a given nervous system of a zombie and find out whether it is valid.",
+    "prob_desc_output_spec": "The output consists of one line, containing either yes or no depending on whether the nervous system is valid.",
+    "prob_desc_input_spec": "The first line of the input contains two space-separated integers n and m (1 ≤ n, m ≤ 1000) denoting the number of brains (which are conveniently numbered from 1 to n) and the number of brain connectors in the nervous system, respectively. In the next m lines, descriptions of brain connectors follow. Every connector is given as a pair of brains a b it connects (1 ≤ a, b ≤ n, a ≠ b).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_044.jsonl",
+    "code_uid": "8efe228d87d2414785538cc0f87c66aa",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4\\n1 2\\n2 3\\n3 1\\n4 1\", \"6 5\\n1 2\\n2 3\\n3 4\\n4 5\\n3 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def is_valid():\n    import sys\n    #with open(filename, 'r') as f:\n    with sys.stdin as f:\n        for i, line in enumerate(f):\n            if i == 0:\n                N, M = line.split(' ')\n                N, M = int(N), int(M)\n                if N-1 != M:\n                    return False\n                graph = [[] for _ in range(N)] # [[]] * N not working, no deepcopy\n            else:\n                fromVertex, toVertex = line.split(' ')\n                fromVertex, toVertex = int(fromVertex)-1, int(toVertex)-1\n                graph[fromVertex].append(toVertex)\n                graph[toVertex].append(fromVertex)\n\n    from queue import LifoQueue\n    def is_single_component(start_node, graph):\n        N = len(graph)\n        visited = [False for _ in range(N)]\n        visited[start_node] = True\n        nodes_queue = LifoQueue()\n        nodes_queue.put(start_node)\n        while not nodes_queue.empty():\n            node = nodes_queue.get()\n            for neigh in graph[node]:\n                if not visited[neigh]:\n                    visited[neigh] = True\n                    nodes_queue.put(neigh)\n                #else: not a cycle because edges in both directions\n\n        return all(visited)\n\n    return is_single_component(0, graph)\n\nif is_valid():\n    print(\"yes\")\nelse:\n    print(\"no\")",
+    "prob_desc_created_at": "1468137600",
+    "tags": [],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"200\", \"314\"]",
+    "src_uid": "96e7521c566c97cc75aad69d65c8e412",
+    "prob_desc_notes": "NoteIn the first example, we can buy 100 of each size.",
+    "prob_desc_description": "It's another Start[c]up, and that means there are T-shirts to order. In order to make sure T-shirts are shipped as soon as possible, we've decided that this year we're going to order all of the necessary T-shirts before the actual competition. The top C contestants are going to be awarded T-shirts, but we obviously don't know which contestants that will be. The plan is to get the T-Shirt sizes of all contestants before the actual competition, and then order enough T-shirts so that no matter who is in the top C we'll have T-shirts available in order to award them.In order to get the T-shirt sizes of the contestants, we will send out a survey. The survey will allow contestants to either specify a single desired T-shirt size, or two adjacent T-shirt sizes. If a contestant specifies two sizes, it means that they can be awarded either size.As you can probably tell, this plan could require ordering a lot of unnecessary T-shirts. We'd like your help to determine the minimum number of T-shirts we'll need to order to ensure that we'll be able to award T-shirts no matter the outcome of the competition.",
+    "prob_desc_output_spec": "Print the minimum number of T-shirts we need to buy.",
+    "prob_desc_input_spec": "Input will begin with two integers N and C (1 ≤ N ≤ 2·105, 1 ≤ C), the number of T-shirt sizes and number of T-shirts to be awarded, respectively. Following this is a line with 2·N - 1 integers, s1 through s2·N - 1 (0 ≤ si ≤ 108). For odd i, si indicates the number of contestants desiring T-shirt size ((i + 1) / 2). For even i, si indicates the number of contestants okay receiving either of T-shirt sizes (i / 2) and (i / 2 + 1). C will not exceed the total number of contestants.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_031.jsonl",
+    "code_uid": "9ed72f3da1bfb1b1360d4d168b852094",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 200\\n100 250 100\", \"4 160\\n88 69 62 29 58 52 44\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom itertools import repeat\nfrom collections import deque\ndef main():\n    n, c = map(int, stdin.readline().split())\n    s = map(int, stdin.readline().split(), repeat(10, 2 * n - 1))\n    l = len(s)\n    st = min(c, s[0])\n    ss = s[0]\n    ans = st\n    q = deque([(s[0], st)])\n    for i in xrange(2, l, 2):\n        q.append(s[i-1])\n        ss += s[i] + s[i-1]\n        while len(q) > 2:\n            z = q[-1]\n            x, y = q[-2]\n            if x + z - y <= 0:\n                q.pop()\n                q.pop()\n                q[-2] = (q[-2][0] + x + z, q[-2][1] + y)\n            else:\n                break\n        bt = min(ss, c) - st\n        while ss > c and q:\n            x, y = q.popleft()\n            ss -= x\n            st -= y\n            x = q.popleft()\n            ss -= x\n        z = min(ss, c) - st\n        if bt < z:\n            bt = z\n        if bt < 0:\n            bt = 0\n        st += bt\n        q.append((s[i], bt))\n        ans += bt\n    print ans\nmain()\n",
+    "prob_desc_created_at": "1505583300",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

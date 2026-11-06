@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"15\", \"9\"]",
+    "src_uid": "130755f31abe81e5314a1fd5ef06ba81",
+    "prob_desc_notes": "NoteIn the first case there are two shelves, each with three items. To maximize the total value of the items chosen, one can take two items from the left side of the first shelf and one item from the right side of the second shelf.In the second case there is only one shelf, so all three items are taken from it — two from the left side and one from the right side.",
+    "prob_desc_description": "During her tantrums the princess usually smashes some collectable porcelain. Every furious shriek is accompanied with one item smashed.The collection of porcelain is arranged neatly on n shelves. Within each shelf the items are placed in one row, so that one can access only the outermost items — the leftmost or the rightmost item, not the ones in the middle of the shelf. Once an item is taken, the next item on that side of the shelf can be accessed (see example). Once an item is taken, it can't be returned to the shelves.You are given the values of all items. Your task is to find the maximal damage the princess' tantrum of m shrieks can inflict on the collection of porcelain.",
+    "prob_desc_output_spec": "Output the maximal total value of a tantrum of m shrieks.",
+    "prob_desc_input_spec": "The first line of input data contains two integers n (1 ≤ n ≤ 100) and m (1 ≤ m ≤ 10000). The next n lines contain the values of the items on the shelves: the first number gives the number of items on this shelf (an integer between 1 and 100, inclusive), followed by the values of the items (integers between 1 and 100, inclusive), in the order in which they appear on the shelf (the first number corresponds to the leftmost item, the last one — to the rightmost one). The total number of items is guaranteed to be at least m.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_025.jsonl",
+    "code_uid": "e128e2c6af831a89de1b25458bfd57fa",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\n3 3 7 2\\n3 4 1 5\", \"1 3\\n4 4 3 1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\nimport os\nimport sys\nfrom io import BytesIO, IOBase\n\n\nclass FastO:\n    def __init__(self, fd=1):\n        stream = BytesIO()\n        self.flush = lambda: os.write(fd, stream.getvalue()) and not stream.truncate(0) and stream.seek(0)\n        self.write = lambda b: stream.write(b.encode())\n\n\nclass ostream:\n    def __lshift__(self, a):\n        sys.stdout.write(str(a))\n        return self\n\n\nsys.stdout, cout = FastO(), ostream()\n\nnumbers, num, sign = [], 0, True\nfor char in os.read(0, os.fstat(0).st_size):\n    if char >= 48:\n        num = num * 10 + char - 48\n    elif char == 45:\n        sign = False\n    elif char != 13:\n        numbers.append(num if sign else -num)\n        num, sign = 0, True\n\nif char >= 48:\n    numbers.append(num if sign else -num)\n\ngetnum = iter(numbers).__next__\n\n\ndef main():\n    n, m = getnum(), getnum()\n\n    _dp = [[] for _ in range(n)]\n    for i in range(n):\n        ni = getnum()\n        ai = [getnum() for _ in range(ni)]\n\n        cumsum = [0] * (ni + 1)\n        for j in range(ni):\n            cumsum[j + 1] = cumsum[j] + ai[j]\n\n        _dpi = [0] * (ni + 1)\n        for j in range(ni + 1):\n            for k in range(j, ni + 1):\n                _dpi[ni + j - k] = max(_dpi[ni + j - k], cumsum[j] + cumsum[-1] - cumsum[k])\n        _dp[i] = _dpi\n\n    dp = [0] * (m + 1)\n    for i in range(n):\n        for j in reversed(range(m + 1)):\n            for k in range(min(len(_dp[i]), j + 1)):\n                dp[j] = max(dp[j], _dp[i][k] + dp[j - k])\n\n    cout << dp[m]\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1328198400",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

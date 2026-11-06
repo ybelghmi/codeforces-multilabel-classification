@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"60\\n200\\n65\\n60\\n120600000\\n10\\n100\\n200\\n100\\n7\"]",
+    "src_uid": "83af7209bb8a81cde303af5d207c2749",
+    "prob_desc_notes": "NoteIn the first case $$$n = 6$$$, $$$m = 11$$$. We cannot get a number with two zeros or more at the end, because we need to increase the price $$$50$$$ times, but $$$50 &gt; m = 11$$$. The maximum price multiple of $$$10$$$ would be $$$6 \\cdot 10 = 60$$$.In the second case $$$n = 5$$$, $$$m = 43$$$. The maximum price multiple of $$$100$$$ would be $$$5 \\cdot 40 = 200$$$.In the third case, $$$n = 13$$$, $$$m = 5$$$. All possible new prices will not end in $$$0$$$, then you should output $$$n \\cdot m = 65$$$.In the fourth case, you should increase the price $$$15$$$ times.In the fifth case, increase the price $$$12000$$$ times.",
+    "prob_desc_description": "Inflation has occurred in Berlandia, so the store needs to change the price of goods.The current price of good $$$n$$$ is given. It is allowed to increase the price of the good by $$$k$$$ times, with $$$1 \\le k \\le m$$$, k is an integer. Output the roundest possible new price of the good. That is, the one that has the maximum number of zeros at the end.For example, the number 481000 is more round than the number 1000010 (three zeros at the end of 481000 and only one at the end of 1000010).If there are several possible variants, output the one in which the new price is maximal.If it is impossible to get a rounder price, output $$$n \\cdot m$$$ (that is, the maximum possible price).",
+    "prob_desc_output_spec": "For each test case, output on a separate line the roundest integer of the form $$$n \\cdot k$$$ ($$$1 \\le k \\le m$$$, $$$k$$$ — an integer). If there are several possible variants, output the one in which the new price (value $$$n \\cdot k$$$) is maximal. If it is impossible to get a more rounded price, output $$$n \\cdot m$$$ (that is, the maximum possible price).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) —the number of test cases in the test. Each test case consists of one line. This line contains two integers: $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 10^9$$$). Where $$$n$$$ is the old price of the good, and the number $$$m$$$ means that you can increase the price $$$n$$$ no more than $$$m$$$ times.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_086.jsonl",
+    "code_uid": "92b6e6b90e0f639998c50c25c9d752f1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n\\n6 11\\n\\n5 43\\n\\n13 5\\n\\n4 16\\n\\n10050 12345\\n\\n2 6\\n\\n4 30\\n\\n25 10\\n\\n2 81\\n\\n1 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#I = lambda: [int(i) for i in input().split()]\r\n#import io, os, sys\r\n#input = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline\r\n \r\n \r\nfrom collections import Counter,defaultdict,deque\r\n#from heapq import heappush,heappop,heapify\r\nimport sys\r\nimport math\r\nimport bisect\r\ndef lcm(a,b):\r\n    return ((a*b)//math.gcd(a,b))\r\n\r\n\r\ndef all_factors(n):\r\n    \"\"\"returns a sorted list of all distinct factors of n\"\"\"\r\n    small, large = [], []\r\n    for i in range(1, int(n**0.5) + 1, 2 if n & 1 else 1):\r\n        if not n % i:\r\n            small.append(i)\r\n            large.append(n // i)\r\n    if small[-1] == large[-1]:\r\n        large.pop()\r\n    large.reverse()\r\n    small.extend(large)\r\n    return small\r\n \r\n# n = int(input())\r\n# l1 = list(map(int,input().split()))\r\n# n,x = map(int,input().split())\r\n# s = input()\r\nmod = 1000000007\r\n# print(\"Case #\"+str(_+1)+\":\",)\r\ndef f(x):\r\n    l = [x,0,0]\r\n    while(x%2==0 or x%5==0):\r\n        if x%2==0:\r\n            l[1]+=1\r\n            x = x//2\r\n        if x%5==0:\r\n            l[2]+=1\r\n            x = x//5\r\n    l[0] = x\r\n    return l\r\ndef count(x):\r\n    c = 0\r\n    x = str(x)\r\n    for i in range(len(x)-1,-1,-1):\r\n        if x[i] != '0':\r\n            break\r\n        c+=1\r\n    return c\r\nfor _ in range(int(input())):\r\n    n,m = map(int,input().split())\r\n    a = f(n)\r\n    x = 1\r\n    px = -1\r\n    t1 = a[1]\r\n    t2 = a[2]\r\n    a[1] -= min(t1,t2)\r\n    a[2] -= min(t1,t2)\r\n    while(x < m and (a[1] or a[2])):\r\n        if x==px:\r\n            break\r\n        px = x\r\n        if a[1] and x*5<=m:\r\n            x*=5\r\n            a[1]-=1\r\n        if a[2] and x*2<=m:\r\n            x*=2\r\n            a[2]-=1\r\n        \r\n    while(x*10 < m):\r\n        x*=10\r\n    x = x*(m//x)\r\n    ans = n*x\r\n    print(ans)\r\n    '''if count(ans)-count(n) > count(m):\r\n        print(ans)\r\n    else:\r\n        while(x < m):\r\n            x = x+(pow(10,len(str(m))-1))\r\n            t = n*x\r\n            if count(t)>=count(ans):\r\n                ans =  max(ans,t)\r\n        print(ans)'''\r\n        \r\n            \r\n        \r\n    \r\n                    \r\n    \r\n    \r\n",
+    "prob_desc_created_at": "1668782100",
+    "tags": [
+        "brute force",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

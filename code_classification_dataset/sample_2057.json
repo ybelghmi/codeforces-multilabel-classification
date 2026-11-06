@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1\\n1\\n2\\n2\\n22\"]",
+    "src_uid": "ae10ebd2c99515472fd7ee6646af17b5",
+    "prob_desc_notes": "NoteLet's write out the divisors that give answers for the first 5 queries:1) 1, 2, 4 2) 33) 54) 2, 65) 9, 18",
+    "prob_desc_description": "Little Petya loves looking for numbers' divisors. One day Petya came across the following problem:You are given n queries in the form \"xi yi\". For each query Petya should count how many divisors of number xi divide none of the numbers xi - yi, xi - yi + 1, ..., xi - 1. Help him.",
+    "prob_desc_output_spec": "For each query print the answer on a single line: the number of positive integers k such that ",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 105). Each of the following n lines contain two space-separated integers xi and yi (1 ≤ xi ≤ 105, 0 ≤ yi ≤ i - 1, where i is the query's ordinal number; the numeration starts with 1).  If yi = 0 for the query, then the answer to the query will be the number of divisors of the number xi. In this case you do not need to take the previous numbers x into consideration.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_016.jsonl",
+    "code_uid": "99a444d325c2020ca75ef95e51ae8e12",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n4 0\\n3 1\\n5 2\\n6 2\\n18 4\\n10000 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python\n\"\"\"(c) gorlum0 [at] gmail.com\"\"\"\nimport itertools as it\nfrom sys import stdin\nmaxn = 10**5\n\ndef get_divisors(n, _cache = {}):\n    if n not in _cache:\n        divisors = []\n        for i in xrange(1, int(n**0.5) + 1):\n            if not n % i:\n                divisors.extend([i, n//i])\n        _cache[n] = list(set(divisors))\n    return _cache[n]\n\ndef solve(n, xss):\n    lastdiv = [0] * (maxn+1)\n    for i in xrange(1, n+1):\n        x, y = next(xss)\n        uncommon = 0\n        ## print x, get_divisors(x)\n        for d in get_divisors(x):\n            if not lastdiv[d] >= i-y:\n                uncommon += 1\n            lastdiv[d] = i\n        yield uncommon\n\ndef main():\n    for line in stdin:\n        n = int(line)\n        xss = (map(int, next(stdin).split()) for _ in xrange(n))\n        print '\\n'.join(map(str, solve(n, xss)))\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1315051200",
+    "tags": [
+        "implementation",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

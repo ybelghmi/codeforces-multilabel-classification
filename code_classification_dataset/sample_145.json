@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\"]",
+    "src_uid": "0ef324e3e314ea17c01aafb822e90c63",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a sequence a consisting of n integers. Find the maximum possible value of  (integer remainder of ai divided by aj), where 1 ≤ i, j ≤ n and ai ≥ aj.",
+    "prob_desc_output_spec": "Print the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains integer n — the length of the sequence (1 ≤ n ≤ 2·105).  The second line contains n space-separated integers ai (1 ≤ ai ≤ 106).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_000.jsonl",
+    "code_uid": "d4176629e96d618983cf756526b2f1d1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "input()\ns = sorted(set(map(int, input().split())))\nc = m = 0\nd = []\nfor b in s:\n    d += [c] * (b - c)\n    c = b\nfor b in s[-1::-1]:\n    if b < m + 2: break\n    m = max(m, c % b, *(a % b for a in d[2 * b - 1::b]))\nprint(m)",
+    "prob_desc_created_at": "1415205000",
+    "tags": [
+        "two pointers",
+        "binary search",
+        "sortings",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

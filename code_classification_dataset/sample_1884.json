@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"10\", \"2\"]",
+    "src_uid": "f99a23bc65a1f5cdbf7909dba573ce51",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have array a1, a2, ..., an. Segment [l, r] (1 ≤ l ≤ r ≤ n) is good if ai = ai - 1 + ai - 2, for all i (l + 2 ≤ i ≤ r).Let's define len([l, r]) = r - l + 1, len([l, r]) is the length of the segment [l, r]. Segment [l1, r1], is longer than segment [l2, r2], if len([l1, r1]) &gt; len([l2, r2]).Your task is to find a good segment of the maximum length in array a. Note that a segment of length 1 or 2 is always good.",
+    "prob_desc_output_spec": "Print the length of the longest good segment in array a.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 105) — the number of elements in the array. The second line contains integers: a1, a2, ..., an (0 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_014.jsonl",
+    "code_uid": "9ce5b8679512b3148bfa6fe93294df8a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n1 2 3 5 8 13 21 34 55 89\", \"5\\n1 1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nli = list(map(int, input().split()))\ndp = [1 for i in range(n)]\nfor i in range(2, n):\n\tif li[i] == li[i-1] + li[i-2]:\n\t\tif dp[i-1] != 1:\n\t\t\tdp[i] = dp[i-1] + 1\n\t\telse:\n\t\t\tdp[i] = 3\nif max(dp) == 1:\n\tif n != 1:\n\t\tprint(2)\n\telse:\n\t\tprint(1)\nelse:\n\tprint(max(dp))",
+    "prob_desc_created_at": "1384875000",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

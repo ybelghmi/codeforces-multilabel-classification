@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nYES\\nYES\\nYES\\nNO\\nNO\\nNO\\nNO\\nNO\\nNO\"]",
+    "src_uid": "801bf7c73c44c68eaa61c714d5aedf50",
+    "prob_desc_notes": "NoteThe example contains test cases from the main part of the condition.",
+    "prob_desc_description": "A string $$$s$$$ of length $$$n$$$ ($$$1 \\le n \\le 26$$$) is called alphabetical if it can be obtained using the following algorithm:  first, write an empty string to $$$s$$$ (i.e. perform the assignment $$$s$$$ := \"\");  then perform the next step $$$n$$$ times;  at the $$$i$$$-th step take $$$i$$$-th lowercase letter of the Latin alphabet and write it either to the left of the string $$$s$$$ or to the right of the string $$$s$$$ (i.e. perform the assignment $$$s$$$ := $$$c+s$$$ or $$$s$$$ := $$$s+c$$$, where $$$c$$$ is the $$$i$$$-th letter of the Latin alphabet). In other words, iterate over the $$$n$$$ first letters of the Latin alphabet starting from 'a' and etc. Each time we prepend a letter to the left of the string $$$s$$$ or append a letter to the right of the string $$$s$$$. Strings that can be obtained in that way are alphabetical.For example, the following strings are alphabetical: \"a\", \"ba\", \"ab\", \"bac\" and \"ihfcbadeg\". The following strings are not alphabetical: \"z\", \"aa\", \"ca\", \"acb\", \"xyz\" and \"ddcba\".From the given string, determine if it is alphabetical.",
+    "prob_desc_output_spec": "Output $$$t$$$ lines, each of them must contain the answer to the corresponding test case. Output YES if the given string $$$s$$$ is alphabetical and NO otherwise. You can output YES and NO in any case (for example, strings yEs, yes, Yes and YES will be recognized as a positive answer).",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case is written on a separate line that contains one string $$$s$$$. String $$$s$$$ consists of lowercase letters of the Latin alphabet and has a length between $$$1$$$ and $$$26$$$, inclusive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_103.jsonl",
+    "code_uid": "5be5352b5574622db9696b6ae847361e",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"11\\na\\nba\\nab\\nbac\\nihfcbadeg\\nz\\naa\\nca\\nacb\\nxyz\\nddcba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\nimport string\n\ndef is_abc(S):\n    abc = list(string.ascii_lowercase)\n    del abc[0]\n\n    if S == 'a':\n        return True\n    \n    if S == '':\n        return True\n\n \n    if len(set(S)) == len(S) and 'a' in S:\n        a = S.index('a')\n        prev_S = list(reversed(S[:a]))\n        post_S = S[a+1:]\n        c = len(prev_S) + len(post_S)\n\n        for i in range(c):\n            current_S = abc[i]\n            prev = prev_S[0] if prev_S else None\n            post = post_S[0] if post_S else None\n\n            if current_S == prev:\n                del prev_S[0]\n            elif current_S == post:\n                del post_S[0]\n            else:\n                return False\n        return True\n    else:\n        return False\n                \nfor i in range(t):\n    S = list(input())\n    if is_abc(S):\n        print('YES') \n    else:\n        print('NO')",
+    "prob_desc_created_at": "1625927700",
+    "tags": [
+        "greedy",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

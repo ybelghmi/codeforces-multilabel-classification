@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"0\", \"3\"]",
+    "src_uid": "c0c29565e465840103a4af884f951cda",
+    "prob_desc_notes": "NoteIn the first example two seconds are needed. In each second, a single task from server #2 should be moved to server #1. After two seconds there should be 3 tasks on server #1 and 4 tasks on server #2.In the second example the load is already balanced.A possible sequence of task movements for the third example is:  move a task from server #4 to server #1 (the sequence m becomes: 2 2 3 3 5);  then move task from server #5 to server #1 (the sequence m becomes: 3 2 3 3 4);  then move task from server #5 to server #2 (the sequence m becomes: 3 3 3 3 3). The above sequence is one of several possible ways to balance the load of servers in three seconds.",
+    "prob_desc_description": "In the school computer room there are n servers which are responsible for processing several computing tasks. You know the number of scheduled tasks for each server: there are mi tasks assigned to the i-th server.In order to balance the load for each server, you want to reassign some tasks to make the difference between the most loaded server and the least loaded server as small as possible. In other words you want to minimize expression ma - mb, where a is the most loaded server and b is the least loaded one.In one second you can reassign a single task. Thus in one second you can choose any pair of servers and move a single task from one server to another.Write a program to find the minimum number of seconds needed to balance the load of servers.",
+    "prob_desc_output_spec": "Print the minimum number of seconds required to balance the load.",
+    "prob_desc_input_spec": "The first line contains positive number n (1 ≤ n ≤ 105) — the number of the servers.  The second line contains the sequence of non-negative integers m1, m2, ..., mn (0 ≤ mi ≤ 2·104), where mi is the number of tasks assigned to the i-th server.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_005.jsonl",
+    "code_uid": "2bbb606be5826c0d8f1cec88017cf09c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 6\", \"7\\n10 11 10 11 10 11 11\", \"5\\n1 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = input()\nlst = map(float, raw_input().split())\nmean = sum(lst)/len(lst)\nl = int(mean)\ndown_sum, up_sum = 0, 0\nfor i in lst:\n    if i <= l:\n        down_sum += (l-i)\n    else:\n        up_sum += (i-l-1)\nprint int(max(down_sum, up_sum))",
+    "prob_desc_created_at": "1450537200",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

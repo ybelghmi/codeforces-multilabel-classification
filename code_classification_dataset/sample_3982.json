@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 \\n2 4 1 5 3 \\n-1\\n-1\\n1 3 6 5 4 2\"]",
+    "src_uid": "b4bb11ea4650ead54026453ea9a76f39",
+    "prob_desc_notes": "NoteIn the second test case of the example, we have array $$$a = [2,4,1,5,3]$$$. Here, indices $$$i=2$$$ and $$$i=4$$$ are the peaks of the array. This is because $$$(a_{2} \\gt a_{1} $$$, $$$a_{2} \\gt a_{3})$$$ and $$$(a_{4} \\gt a_{3}$$$, $$$a_{4} \\gt a_{5})$$$. ",
+    "prob_desc_description": "A sequence of $$$n$$$ integers is called a permutation if it contains all integers from $$$1$$$ to $$$n$$$ exactly once.Given two integers $$$n$$$ and $$$k$$$, construct a permutation $$$a$$$ of numbers from $$$1$$$ to $$$n$$$ which has exactly $$$k$$$ peaks. An index $$$i$$$ of an array $$$a$$$ of size $$$n$$$ is said to be a peak if $$$1 &lt; i &lt; n$$$ and $$$a_i \\gt a_{i-1}$$$ and $$$a_i \\gt a_{i+1}$$$. If such permutation is not possible, then print $$$-1$$$.",
+    "prob_desc_output_spec": "Output $$$t$$$ lines. For each test case, if there is no permutation with given length and number of peaks, then print $$$-1$$$. Otherwise print a line containing $$$n$$$ space-separated integers which forms a permutation of numbers from $$$1$$$ to $$$n$$$ and contains exactly $$$k$$$ peaks.  If there are multiple answers, print any.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. Then $$$t$$$ lines follow, each containing two space-separated integers $$$n$$$ ($$$1 \\leq n \\leq 100$$$) and $$$k$$$ ($$$0 \\leq k \\leq n$$$) — the length of an array and the required number of peaks.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_088.jsonl",
+    "code_uid": "87bab622c0bac464cc3f75e3b114404a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 0\\n5 2\\n6 6\\n2 1\\n6 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nfor _ in range(t):\r\n    n, k = map(int,input().split())\r\n    s = \"\"\r\n    if k == 0:\r\n        for x in range(1,n+1):\r\n            s += str(x) + \" \"\r\n        print(s)\r\n        continue\r\n    if (n-1)/2 >= k:\r\n        for i in range(1,((n+1)//2)+1):\r\n            s += str(i) + \" \" + str(n-i+1) + \" \"\r\n            if i == k:\r\n                for j in range(i+1,n+1-i):\r\n                    s += str(j) + \" \"\r\n                break\r\n        if n%2 !=0:\r\n            s = s[:-1]\r\n        print(s)\r\n    else:\r\n        print(-1)",
+    "prob_desc_created_at": "1618151700",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

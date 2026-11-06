@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\\naaaabb\\naabbaa\\nbbaaaa\\nbbbbbb\"]",
+    "src_uid": "d43786ca0472a5da735b04b9808c62d9",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Hamming distance between strings a and b of equal length (denoted by h(a, b)) is equal to the number of distinct integers i (1 ≤ i ≤ |a|), such that ai ≠ bi, where ai is the i-th symbol of string a, bi is the i-th symbol of string b. For example, the Hamming distance between strings \"aba\" and \"bba\" equals 1, they have different first symbols. For strings \"bbba\" and \"aaab\" the Hamming distance equals 4.John Doe had a paper on which four strings of equal length s1, s2, s3 and s4 were written. Each string si consisted only of lowercase letters \"a\" and \"b\". John found the Hamming distances between all pairs of strings he had. Then he lost the paper with the strings but he didn't lose the Hamming distances between all pairs.Help John restore the strings; find some four strings s'1, s'2, s'3, s'4 of equal length that consist only of lowercase letters \"a\" and \"b\", such that the pairwise Hamming distances between them are the same as between John's strings. More formally, set s'i must satisfy the condition . To make the strings easier to put down on a piece of paper, you should choose among all suitable sets of strings the one that has strings of minimum length. ",
+    "prob_desc_output_spec": "Print -1 if there's no suitable set of strings. Otherwise print on the first line number len — the length of each string. On the i-th of the next four lines print string s'i. If there are multiple sets with the minimum length of the strings, print any of them. ",
+    "prob_desc_input_spec": "The first line contains space-separated integers h(s1, s2), h(s1, s3), h(s1, s4). The second line contains space-separated integers h(s2, s3) and h(s2, s4). The third line contains the single integer h(s3, s4). All given integers h(si, sj) are non-negative and do not exceed 105. It is guaranteed that at least one number h(si, sj) is positive.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_077.jsonl",
+    "code_uid": "fb3402eb1ed73655f48921abd801a033",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4 4\\n4 4\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def get_input():\n\n    a, b, d = map(int, input().split())\n\n    c, e = map(int, input().split())\n\n    f = int(input())\n\n    return [a, b, c, d, e, f]\n\n\n\n\n\ndef check_condition(a, b, c, d, e, f):\n\n    condition1 = (a + b + c) % 2 == 0\n\n    condition2 = (d + e + a) % 2 == 0\n\n    condition3 = (e + f + c) % 2 == 0\n\n    condition4 = (d + f + b) % 2 == 0\n\n    condition = condition1 and condition2 and condition3 and condition4\n\n    return condition\n\n\n\n\n\ndef find_t(a, b, c, d, e, f):\n\n    t_min1 = round((d + f - a - c) / 2)\n\n    t_min2 = round((e + f - a - b) / 2)\n\n    t_min3 = round((d + e - b - c) / 2)\n\n    t_min4 = 0\n\n    t_min = max(t_min1, t_min2, t_min3, t_min4)\n\n    t_max1 = round((d + e - a) / 2)\n\n    t_max2 = round((e + f - c) / 2)\n\n    t_max3 = round((d + f - b) / 2)\n\n    t_max = min(t_max1, t_max2, t_max3)\n\n    if t_min <= t_max:\n\n        return t_min\n\n    else:\n\n        return -1\n\n\n\n\n\ndef find_all(a, b, c, d, e, f, t):\n\n    x1 = round((a + c - d - f) / 2 + t)\n\n    x2 = round((d + f - b) / 2 - t)\n\n    y1 = round((a + b - e - f) / 2 + t)\n\n    y2 = round((e + f - c) / 2 - t)\n\n    z1 = round((b + c - d - e) / 2 + t)\n\n    z2 = round((d + e - a) / 2 - t)\n\n    return [x1, x2, y1, y2, z1, z2]\n\n\n\n\n\ndef generate_string(x1, x2, y1, y2, z1, z2, t):\n\n    n = x1 + x2 + y1 + y2 + z1 + z2 + t\n\n    s1 = ''.join(['a'] * n)\n\n    s2 = ''.join(['a'] * (z1 + z2 + t)) + ''.join(['b'] * (x1 + x2 + y1 + y2))\n\n    s3 = ''.join(['a'] * t) + ''.join(['b'] * (y1 + y2 + z1 + z2)) + ''.join(['a'] * (x1 + x2))\n\n    s4 = ''.join(['b'] * (t + z2)) + ''.join(['a'] * (z1 + y2)) + ''.join(['b'] * (y1 + x2)) + ''.join(['a'] * x1)\n\n    return [s1, s2, s3, s4]\n\n\n\n\n\ndef __main__():\n\n    fail_output = \"-1\"\n\n    a, b, c, d, e, f = map(int, get_input())\n\n    if not(check_condition(a, b, c, d, e, f)):\n\n        print(fail_output)\n\n        return False\n\n    t = find_t(a, b, c, d, e, f)\n\n    if t < 0:\n\n        print(fail_output)\n\n        return False\n\n    x1, x2, y1, y2, z1, z2 = map(int, find_all(a, b, c, d, e, f, t))\n\n    s1, s2, s3, s4 = map(str, generate_string(x1, x2, y1, y2, z1, z2, t))\n\n    print(str(x1 + x2 + y1 + y2 + z1 + z2 + t) + '\\n')\n\n    print(s1 + '\\n')\n\n    print(s2 + '\\n')\n\n    print(s3 + '\\n')\n\n    print(s4 + '\\n')\n\n\n\n\n\n__main__()\n\n\n\n\n\n# Made By Mostafa_Khaled",
+    "prob_desc_created_at": "1338737400",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math",
+        "matrices"
+    ],
+    "hidden_unit_tests": ""
+}

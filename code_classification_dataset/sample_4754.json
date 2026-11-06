@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n1\\n2\"]",
+    "src_uid": "59e45a82cdafd64e0bf2a199cb08bbb9",
+    "prob_desc_notes": "NoteThe first query asks about the whole array. You can partition it into $$$[2]$$$, $$$[3,10,7]$$$, and $$$[5,14]$$$. The first subrange has product and LCM equal to $$$2$$$. The second has product and LCM equal to $$$210$$$. And the third has product and LCM equal to $$$70$$$. Another possible partitioning is $$$[2,3]$$$, $$$[10,7]$$$, and $$$[5,14]$$$.The second query asks about the range $$$(2,4)$$$. Its product is equal to its LCM, so you don't need to partition it further.The last query asks about the range $$$(3,5)$$$. You can partition it into $$$[10,7]$$$ and $$$[5]$$$.",
+    "prob_desc_description": "This time Baby Ehab will only cut and not stick. He starts with a piece of paper with an array $$$a$$$ of length $$$n$$$ written on it, and then he does the following:  he picks a range $$$(l, r)$$$ and cuts the subsegment $$$a_l, a_{l + 1}, \\ldots, a_r$$$ out, removing the rest of the array.  he then cuts this range into multiple subranges.  to add a number theory spice to it, he requires that the elements of every subrange must have their product equal to their least common multiple (LCM). Formally, he partitions the elements of $$$a_l, a_{l + 1}, \\ldots, a_r$$$ into contiguous subarrays such that the product of every subarray is equal to its LCM. Now, for $$$q$$$ independent ranges $$$(l, r)$$$, tell Baby Ehab the minimum number of subarrays he needs.",
+    "prob_desc_output_spec": "For each query, print its answer on a new line.",
+    "prob_desc_input_spec": "The first line contains $$$2$$$ integers $$$n$$$ and $$$q$$$ ($$$1 \\le n,q \\le 10^5$$$) — the length of the array $$$a$$$ and the number of queries. The next line contains $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, $$$\\ldots$$$, $$$a_n$$$ ($$$1 \\le a_i \\le 10^5$$$) — the elements of the array $$$a$$$. Each of the next $$$q$$$ lines contains $$$2$$$ integers $$$l$$$ and $$$r$$$ ($$$1 \\le l \\le r \\le n$$$) — the endpoints of this query's interval.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_105.jsonl",
+    "code_uid": "82dbe4ddd4b208745168fc79e8d9fc1f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3\\n2 3 10 7 5 14\\n1 6\\n2 4\\n3 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\n\ndef main():\n    N, Q = map(int, input().split())\n    A = list(map(int, input().split()))\n\n    MX = int(1e5)\n    primeFactors = [[] for _ in range(MX + 1)]\n    for i in range(2, MX + 1):\n        if len(primeFactors[i]) > 0:\n            continue\n        for j in range(i, MX + 1, i):\n            primeFactors[j].append(i)\n    \n    MXH = 18\n    nxt = [N for _ in range(MX + 1)]\n    dp = [[N for _ in range(MXH + 1)] for __ in range(N + 1)]\n    for i in range(N - 1, -1, -1):\n        dp[i][0] = dp[i + 1][0]\n        for factor in primeFactors[A[i]]:\n            dp[i][0] = min(dp[i][0], nxt[factor])\n            nxt[factor] = i\n\n    for i in range(1, MXH + 1):\n        for j in range(N):\n            dp[j][i] = dp[dp[j][i - 1]][i - 1]\n\n    for _ in range(Q):\n        l, r = map(int, input().split())\n        l -= 1\n        r -= 1\n        cnt = 1\n        for i in range(MXH, -1, -1):\n            if dp[l][i] <= r:\n                cnt += 1 << i\n                l = dp[l][i]\n\n        print(cnt)\n\nmain()",
+    "prob_desc_created_at": "1619012100",
+    "tags": [
+        "binary search",
+        "data structures",
+        "dp",
+        "graphs",
+        "number theory",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

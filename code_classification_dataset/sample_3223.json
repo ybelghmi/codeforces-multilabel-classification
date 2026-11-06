@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\"]",
+    "src_uid": "86efef40ebbdb42fbcbf2dfba7143433",
+    "prob_desc_notes": "Note Explanation: Friends should send signals 2 times to each other, first time around point $$$A2$$$ and $$$B2$$$ and second time during A's travel from point $$$A3$$$ to $$$A4$$$ while B stays in point $$$B3=B4$$$. ",
+    "prob_desc_description": "Two friends are travelling through Bubble galaxy. They say \"Hello!\" via signals to each other if their distance is smaller or equal than $$$d_1$$$ and    it's the first time they speak to each other or   at some point in time after their last talk their distance was greater than $$$d_2$$$. We need to calculate how many times friends said \"Hello!\" to each other. For $$$N$$$ moments, you'll have an array of points for each friend representing their positions at that moment. A person can stay in the same position between two moments in time, but if a person made a move we assume this movement as movement with constant speed in constant direction.",
+    "prob_desc_output_spec": "Output contains one integer number that represents how many times friends will say \"Hello!\" to each other.",
+    "prob_desc_input_spec": "The first line contains one integer number $$$N$$$ ($$$2 \\leq N \\leq 100\\,000$$$) representing number of moments in which we captured positions for two friends. The second line contains two integer numbers $$$d_1$$$ and $$$d_2 \\ (0 &lt; d_1 &lt; d_2 &lt; 1000)$$$.  The next $$$N$$$ lines contains four integer numbers $$$A_x,A_y,B_x,B_y$$$ ($$$0 \\leq A_x, A_y, B_x, B_y \\leq 1000$$$) representing coordinates of friends A and B in each captured moment.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_048.jsonl",
+    "code_uid": "848e1b3d36261192dd8a4b3162076cee",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 5\\n0 0 0 10\\n5 5 5 6\\n5 0 10 5\\n14 7 10 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\nstdin = iter(stdin)\n\nclass Vector:\n    ''''''\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __sub__(self, other):\n        return Vector(self.x - other.x, self.y - other.y)\n\n    def __add__(self, other):\n        return Vector(self.x + other.x, self.y + other.y)\n\n    def dot(self, vec2):\n        return self.x * vec2.x + self.y * vec2.y\n\n    def cross(self, vec2):\n        return self.x * vec2.y - self.y * vec2.x\n\n    def norm_square(self):\n        return self.dot(self)\n\n    def __str__(self):\n        return str((self.x, self.y))\n\n    __radd__ = __add__\n    __rsub__ = __sub__\n\ndef min_distnace_less_than_d1(ab1: Vector, ab2: Vector, d1: int):\n    ''' '''\n    L = ab2 - ab1\n    proj1 = ab1.dot(L)\n    proj2 = ab2.dot(L)\n    between = (proj1 * proj2 < 0)\n    if between:\n        # altitude is minimum\n        # return altitude < d\n        # return |ab1.cross(L)| / sqrt(L.norm_square()) < d\n        return ab1.cross(L)**2 <= d1**2 * L.norm_square()\n    else:\n        # minimum edge is minimum distnace\n        minSquare = min([ab1.norm_square(), ab2.norm_square()])\n        return minSquare <= d1**2\n\n\nif __name__ == \"__main__\":\n    N = int(next(stdin))\n    d1, d2 = (int(x) for x in next(stdin).split())\n    ABs = []\n    for _ in range(N):\n        Ax, Ay, Bx, By = (int(x) for x in next(stdin).split())\n        ABs.append(Vector(Bx, By) - Vector(Ax, Ay))\n\n    resetState = True\n    count = 0\n\n    for i in range(len(ABs)-1):\n        ab1, ab2 = ABs[i:i+2]\n        if resetState and min_distnace_less_than_d1(ab1, ab2, d1):\n            count += 1\n            resetState = False\n\n        resetState = resetState or (ab2.norm_square() > d2**2)\n\n    print(count)\n",
+    "prob_desc_created_at": "1537612500",
+    "tags": [
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

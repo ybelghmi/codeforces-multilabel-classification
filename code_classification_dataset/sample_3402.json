@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\\nYes\\nNo\"]",
+    "src_uid": "6bd41042c6a442765cd93c73d55f6189",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In this problem, we will deal with binary strings. Each character of a binary string is either a 0 or a 1. We will also deal with substrings; recall that a substring is a contiguous subsequence of a string. We denote the substring of string $$$s$$$ starting from the $$$l$$$-th character and ending with the $$$r$$$-th character as $$$s[l \\dots r]$$$. The characters of each string are numbered from $$$1$$$.We can perform several operations on the strings we consider. Each operation is to choose a substring of our string and replace it with another string. There are two possible types of operations: replace 011 with 110, or replace 110 with 011. For example, if we apply exactly one operation to the string 110011110, it can be transformed into 011011110, 110110110, or 110011011.Binary string $$$a$$$ is considered reachable from binary string $$$b$$$ if there exists a sequence $$$s_1$$$, $$$s_2$$$, ..., $$$s_k$$$ such that $$$s_1 = a$$$, $$$s_k = b$$$, and for every $$$i \\in [1, k - 1]$$$, $$$s_i$$$ can be transformed into $$$s_{i + 1}$$$ using exactly one operation. Note that $$$k$$$ can be equal to $$$1$$$, i. e., every string is reachable from itself.You are given a string $$$t$$$ and $$$q$$$ queries to it. Each query consists of three integers $$$l_1$$$, $$$l_2$$$ and $$$len$$$. To answer each query, you have to determine whether $$$t[l_1 \\dots l_1 + len - 1]$$$ is reachable from $$$t[l_2 \\dots l_2 + len - 1]$$$.",
+    "prob_desc_output_spec": "For each query, print either YES if $$$t[l_1 \\dots l_1 + len - 1]$$$ is reachable from $$$t[l_2 \\dots l_2 + len - 1]$$$, or NO otherwise. You may print each letter in any register.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the length of string $$$t$$$. The second line contains one string $$$t$$$ ($$$|t| = n$$$). Each character of $$$t$$$ is either 0 or 1. The third line contains one integer $$$q$$$ ($$$1 \\le q \\le 2 \\cdot 10^5$$$) — the number of queries. Then $$$q$$$ lines follow, each line represents a query. The $$$i$$$-th line contains three integers $$$l_1$$$, $$$l_2$$$ and $$$len$$$ ($$$1 \\le l_1, l_2 \\le |t|$$$, $$$1 \\le len \\le |t| - \\max(l_1, l_2) + 1$$$) for the $$$i$$$-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_057.jsonl",
+    "code_uid": "6620748f5f350641c425854e90f8d0a8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n11011\\n3\\n1 3 3\\n1 4 2\\n1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\n\nn=int(input())\nt=input().strip()\nq=int(input())\n\nZEROS=[0]*n\nZERO_ONE=[]\nONECOUNT=[0]*n\n\nind=0\ncount=0\nfor i in range(n):\n    ZEROS[i]=ind\n    if t[i]==\"0\":\n        ind+=1\n        ONECOUNT[i]=count%2\n        ZERO_ONE.append(count%2)\n        count=0\n    else:\n        count+=1\n        ONECOUNT[i]=count\n\nZEROS.append(ind)\n    \nS=ZERO_ONE\n\nLEN=len(S)\n\np=2\nimport random\nmod=random.randint(10**8,10**9)*2+1\nmod2=random.randint(10**8,10**9)*2+1\nmod3=random.randint(10**8,10**9)*2+1\nmod4=random.randint(10**8,10**9)*2+1\n\nTABLE=[0]\nTABLE2=[0]\nTABLE3=[0]\nTABLE4=[0]\n\nfor i in range(LEN):\n    TABLE.append(p*TABLE[-1]%mod+S[i]%mod) # テーブルを埋める\n    TABLE2.append(p*TABLE2[-1]%mod2+S[i]%mod2) # テーブルを埋める\n    TABLE3.append(p*TABLE3[-1]%mod3+S[i]%mod2) # テーブルを埋める\n    TABLE4.append(p*TABLE4[-1]%mod4+S[i]%mod4) # テーブルを埋める\n\ndef hash_ij(i,j): # [i,j)のハッシュ値を求める\n    return (TABLE[j]-TABLE[i]*pow(p,j-i,mod))%mod\n\ndef hash_ij2(i,j): # [i,j)のハッシュ値を求める\n    return (TABLE2[j]-TABLE2[i]*pow(p,j-i,mod2))%mod2\n\ndef hash_ij3(i,j): # [i,j)のハッシュ値を求める\n    return (TABLE3[j]-TABLE3[i]*pow(p,j-i,mod3))%mod3\n\ndef hash_ij4(i,j): # [i,j)のハッシュ値を求める\n    return (TABLE4[j]-TABLE4[i]*pow(p,j-i,mod4))%mod4\n\n\ndef zcount(l,LEN):\n    return ZEROS[l+LEN]-ZEROS[l]\n\ndef first_check(l,LEN):\n    if t[l]==\"0\":\n        return 0\n    else:\n        return (ZERO_ONE[ZEROS[l]]-ONECOUNT[l]+1)%2\n\ndef equalcheck(l1,l2,LEN):\n    f1,f2=ZEROS[l1]+1,ZEROS[l2]+1\n    \n    if l1+LEN-1==\"0\":\n        la1=ZEROS[l1+LEN]\n    else:\n        la1=ZEROS[l1+LEN]-1\n\n    if l2+LEN-1==\"0\":\n        la2=ZEROS[l2+LEN]\n    else:\n        la2=ZEROS[l2+LEN]-1\n\n    if hash_ij(f1,la1+1)==hash_ij(f2,la2+1) and hash_ij2(f1,la1+1)==hash_ij2(f2,la2+1) and hash_ij3(f1,la1+1)==hash_ij3(f2,la2+1) and hash_ij4(f1,la1+1)==hash_ij4(f2,la2+1):\n        return \"Yes\"\n    else:\n        return \"No\"\n\nfor queries in range(q):\n    l1,l2,LEN=map(int,input().split())\n    l1-=1\n    l2-=1\n\n    #print(l1,l2,LEN)\n    \n    if zcount(l1,LEN)!=zcount(l2,LEN):\n        print(\"No\")\n        continue\n\n    if zcount(l1,LEN)==0:\n        print(\"Yes\")\n        continue\n\n    if first_check(l1,LEN)!=first_check(l2,LEN):\n        print(\"No\")\n        continue\n    \n    if zcount(l1,LEN)==1:\n        print(\"Yes\")\n        continue   \n\n    print(equalcheck(l1,l2,LEN))\n\n    \n\n    \n    \n",
+    "prob_desc_created_at": "1583068500",
+    "tags": [
+        "data structures",
+        "hashing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

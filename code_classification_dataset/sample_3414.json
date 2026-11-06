@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"0\", \"8\"]",
+    "src_uid": "afd12d95b59b250a0a5af87e5277a3fb",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Arthur has bought a beautiful big table into his new flat. When he came home, Arthur noticed that the new table is unstable.In total the table Arthur bought has n legs, the length of the i-th leg is li.Arthur decided to make the table stable and remove some legs. For each of them Arthur determined number di — the amount of energy that he spends to remove the i-th leg.A table with k legs is assumed to be stable if there are more than half legs of the maximum length. For example, to make a table with 5 legs stable, you need to make sure it has at least three (out of these five) legs of the maximum length. Also, a table with one leg is always stable and a table with two legs is stable if and only if they have the same lengths.Your task is to help Arthur and count the minimum number of energy units Arthur should spend on making the table stable.",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of energy units that Arthur needs to spend in order to make the table stable.",
+    "prob_desc_input_spec": "The first line of the input contains integer n (1 ≤ n ≤ 105) — the initial number of legs in the table Arthur bought. The second line of the input contains a sequence of n integers li (1 ≤ li ≤ 105), where li is equal to the length of the i-th leg of the table. The third line of the input contains a sequence of n integers di (1 ≤ di ≤ 200), where di is the number of energy units that Arthur spends on removing the i-th leg off the table.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_058.jsonl",
+    "code_uid": "61009ee28122dbb2baea3ad2ff513c7d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 5\\n3 2\", \"3\\n2 4 4\\n1 1 1\", \"6\\n2 2 1 1 3 3\\n4 3 5 5 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "rr = lambda: map(int, input().split())\n_, d, res, he = input(), {}, 0, list(zip(rr(), rr()))\nfor h, e in he:\n    f, x = d.get(h, (-1, 0))\n    d[h] = (f + 1, x + e)\nhe.sort(key = lambda x: x[1], reverse=True)\nfor h, (f, x) in d.items():\n    if not f:\n    \tres = max(x, res)\n    \tcontinue\n    for h1, e in he:\n        if h1 < h:\n            x += e\n            f -= 1\n            if not f: break\n    res = max(x, res)\nprint(sum(e for h, e in he) - res)",
+    "prob_desc_created_at": "1435676400",
+    "tags": [
+        "dp",
+        "greedy",
+        "math",
+        "sortings",
+        "data structures",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

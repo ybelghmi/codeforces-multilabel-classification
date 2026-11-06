@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1 2\", \"3\\n1 3 4\"]",
+    "src_uid": "5c64671081f9f5332d0ad57503091a54",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Valera has n counters numbered from 1 to n. Some of them are connected by wires, and each of the counters has a special button.Initially, all the counters contain number 0. When you press a button on a certain counter, the value it has increases by one. Also, the values recorded in all the counters, directly connected to it by a wire, increase by one.Valera and Ignat started having a dispute, the dispute is as follows. Ignat thought of a sequence of n integers a1, a2, ..., an. Valera should choose some set of distinct counters and press buttons on each of them exactly once (on other counters the buttons won't be pressed). If after that there is a counter with the number i, which has value ai, then Valera loses the dispute, otherwise he wins the dispute.Help Valera to determine on which counters he needs to press a button to win the dispute.",
+    "prob_desc_output_spec": "If Valera can't win the dispute print in the first line -1. Otherwise, print in the first line integer k (0 ≤ k ≤ n). In the second line print k distinct space-separated integers — the numbers of the counters, where Valera should push buttons to win the dispute, in arbitrary order. If there exists multiple answers, you are allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and m (1 ≤ n, m ≤ 105), that denote the number of counters Valera has and the number of pairs of counters connected by wires. Each of the following m lines contains two space-separated integers ui and vi (1 ≤ ui, vi ≤ n, ui ≠ vi), that mean that counters with numbers ui and vi are connected by a wire. It is guaranteed that each pair of connected counters occurs exactly once in the input. The last line contains n space-separated integers a1, a2, ..., an (0 ≤ ai ≤ 105), where ai is the value that Ignat choose for the i-th counter.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_018.jsonl",
+    "code_uid": "c8561010c7952d253b787470b827a6a0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5\\n2 3\\n4 1\\n1 5\\n5 3\\n2 1\\n1 1 2 0 2\", \"4 2\\n1 2\\n3 4\\n0 0 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    n, m = map(int, raw_input().split())\n    data = {}\n    for pos in xrange(n):\n        data[pos] = [pos]\n\n    for i in xrange(m):\n        a, b = map(int, raw_input().split())\n        a, b = a - 1, b - 1\n        data[a].append(b)\n        data[b].append(a)\n\n    est = [0 for i in xrange(n)]\n    ar = map(int, raw_input().split())\n\n    results = set()\n    queue = set([i for i, x in enumerate(ar) if x == 0])\n    seen = set()\n\n    while len(queue):\n        pos = queue.pop()\n        seen.add(pos)\n        results.add(pos)\n        for i in data[pos]:\n            est[i] += 1\n            if i in queue:\n                queue.remove(i)\n            if est[i] == ar[i] and i not in seen:\n                queue.add(i)\n\n    for i in xrange(n):\n        if est[i] == ar[i]:\n            print -1\n            return\n\n    print len(results)\n    results = [x + 1 for x in results]\n    print ' '.join(map(str, results))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1352647800",
+    "tags": [
+        "dfs and similar",
+        "greedy",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

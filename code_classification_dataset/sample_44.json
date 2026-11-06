@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\\n5 4 3 2 1\", \"5\\n1 2 3 2 1\"]",
+    "src_uid": "5c63f91eb955cb6c3172cb7c8f78976c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Sereja loves integer sequences very much. He especially likes stairs.Sequence a1, a2, ..., a|a| (|a| is the length of the sequence) is stairs if there is such index i (1 ≤ i ≤ |a|), that the following condition is met: a1 &lt; a2 &lt; ... &lt; ai - 1 &lt; ai &gt; ai + 1 &gt; ... &gt; a|a| - 1 &gt; a|a|.For example, sequences [1, 2, 3, 2] and [4, 2] are stairs and sequence [3, 1, 2] isn't.Sereja has m cards with numbers. He wants to put some cards on the table in a row to get a stair sequence. What maximum number of cards can he put on the table?",
+    "prob_desc_output_spec": "In the first line print the number of cards you can put on the table. In the second line print the resulting stairs.",
+    "prob_desc_input_spec": "The first line contains integer m (1 ≤ m ≤ 105) — the number of Sereja's cards. The second line contains m integers bi (1 ≤ bi ≤ 5000) — the numbers on the Sereja's cards.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_000.jsonl",
+    "code_uid": "4f008967f2b46b33ed92ffaefc8ca6c1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 3 4 5\", \"6\\n1 1 2 2 3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n =input()\narr = map(int,raw_input().split())\nb=[0]*10000\nfor i in arr:\n    b[i]+=1\nm = max(arr)\nans=[]\nfor i in range(10000):\n    if i<m and b[i]!=0:\n        ans.append(i)\n        b[i]-=1\nans.append(m)\nfor i in range(10000,-1,-1):\n    if i<m and b[i]!=0:\n        ans.append(i)\n        b[i]-=1\nprint len(ans)\nfor i in ans:\n    print i,\n",
+    "prob_desc_created_at": "1389540600",
+    "tags": [
+        "implementation",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

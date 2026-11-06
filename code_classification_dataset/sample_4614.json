@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"29\", \"174\", \"235\"]",
+    "src_uid": "7a3108216f400a4f5bb809353ceb18d4",
+    "prob_desc_notes": "NoteIn the first example, you can reverse the subarray $$$[4, 5]$$$. Then $$$a = [2, 3, 2, 3, 1]$$$ and $$$2 \\cdot 1 + 3 \\cdot 3 + 2 \\cdot 2 + 3 \\cdot 4 + 1 \\cdot 2 = 29$$$.In the second example, you don't need to use the reverse operation. $$$13 \\cdot 2 + 37 \\cdot 4 = 174$$$.In the third example, you can reverse the subarray $$$[3, 5]$$$. Then $$$a = [1, 8, 3, 6, 7, 6]$$$ and $$$1 \\cdot 5 + 8 \\cdot 9 + 3 \\cdot 6 + 6 \\cdot 8 + 7 \\cdot 8 + 6 \\cdot 6 = 235$$$.",
+    "prob_desc_description": "You are given two integer arrays $$$a$$$ and $$$b$$$ of length $$$n$$$.You can reverse at most one subarray (continuous subsegment) of the array $$$a$$$. Your task is to reverse such a subarray that the sum $$$\\sum\\limits_{i=1}^n a_i \\cdot b_i$$$ is maximized.",
+    "prob_desc_output_spec": "Print single integer — maximum possible sum after reversing at most one subarray (continuous subsegment) of $$$a$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 5000$$$). The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^7$$$). The third line contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$1 \\le b_i \\le 10^7$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_102.jsonl",
+    "code_uid": "51c27eb0e1d42474c3fb96c6bd874f2e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 3 2 1 3\\n1 3 2 4 2\", \"2\\n13 37\\n2 4\", \"6\\n1 8 7 6 3 6\\n5 9 6 8 8 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from itertools import combinations, accumulate, groupby, count\nfrom sys import stdout, stdin, setrecursionlimit\nfrom collections import *\nfrom random import *\nfrom bisect import *\nfrom string import *\nfrom queue import *\nfrom heapq import *\nfrom math import *\nfrom re import *\n\n\ndef fast(): return stdin.readline()\ndef zzz(): return [int(i) for i in fast().split()]\n\n\nz, zz = input, lambda: list(map(int, z().split()))\nszz, graph, mod, szzz = lambda: sorted(\n    zz()), {}, 10**9 + 7, lambda: sorted(zzz())\n\n\ndef lcd(xnum1, xnum2): return (xnum1 * xnum2 // gcd(xnum1, xnum2))\ndef output(answer): stdout.write(str(answer))\n\n\ndx = [-1, 1, 0, 0, 1, -1, 1, -1]\ndy = [0, 0, 1, -1, 1, -1, -1, 1]\n\n\n###########################---Some Rule For Me To Follow---#################################\n\"\"\"\n    --instants of Reading problem continuously try to understand them.\n\n    --If you Know some , Then you probably don't know him !\n\n\"\"\"\n###########################---START-CODING---###############################################\n\n\nn = int(z())\n\na = zzz()\nb = zzz()\nprimarySum = sum(a[i] * b[i] for i in range(n))\nmxSum = primarySum\n\nfor i in range(n):\n    left, right = i + 1, i - 1\n    currentSum = primarySum\n    while left < n and right >= 0:\n        currentSum -= (a[left] - a[right]) * (b[left] - b[right])\n        mxSum = max(mxSum, currentSum)\n        left += 1\n        right -= 1\n    currentSum = primarySum\n    left, right = i + 1, i\n    while left < n and right >= 0:\n        currentSum -= (a[left] - a[right]) * (b[left] - b[right])\n        mxSum = max(mxSum, currentSum)\n        left += 1\n        right -= 1\nprint(mxSum)\n",
+    "prob_desc_created_at": "1619706900",
+    "tags": [
+        "brute force",
+        "dp",
+        "implementation",
+        "math",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"4\"]",
+    "src_uid": "9b1213d9909d4fc4cffd66b5dc1456da",
+    "prob_desc_notes": "NoteThe first example is explained in the legend.In the second example, there are five substrings that satisfy us: $$$1010$$$, $$$0101$$$, $$$1111$$$, $$$1111$$$.",
+    "prob_desc_description": "Vus the Cossack has two binary strings, that is, strings that consist only of \"0\" and \"1\". We call these strings $$$a$$$ and $$$b$$$. It is known that $$$|b| \\leq |a|$$$, that is, the length of $$$b$$$ is at most the length of $$$a$$$.The Cossack considers every substring of length $$$|b|$$$ in string $$$a$$$. Let's call this substring $$$c$$$. He matches the corresponding characters in $$$b$$$ and $$$c$$$, after which he counts the number of positions where the two strings are different. We call this function $$$f(b, c)$$$.For example, let $$$b = 00110$$$, and $$$c = 11000$$$. In these strings, the first, second, third and fourth positions are different.Vus the Cossack counts the number of such substrings $$$c$$$ such that $$$f(b, c)$$$ is even.For example, let $$$a = 01100010$$$ and $$$b = 00110$$$. $$$a$$$ has four substrings of the length $$$|b|$$$: $$$01100$$$, $$$11000$$$, $$$10001$$$, $$$00010$$$.  $$$f(00110, 01100) = 2$$$; $$$f(00110, 11000) = 4$$$; $$$f(00110, 10001) = 4$$$; $$$f(00110, 00010) = 1$$$. Since in three substrings, $$$f(b, c)$$$ is even, the answer is $$$3$$$.Vus can not find the answer for big strings. That is why he is asking you to help him.",
+    "prob_desc_output_spec": "Print one number — the answer.",
+    "prob_desc_input_spec": "The first line contains a binary string $$$a$$$ ($$$1 \\leq |a| \\leq 10^6$$$) — the first string. The second line contains a binary string $$$b$$$ ($$$1 \\leq |b| \\leq |a|$$$) — the second string.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_024.jsonl",
+    "code_uid": "203d037be4afef780a85dd58bbf0bb5c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"01100010\\n00110\", \"1010111110\\n0110\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a=input()\nb=input()\n\naCount = 0# if a[0]=='1' else 0\n\nfor i in range(0,len(b)):\n  aCount += (1 if a[i]=='1' else 0)\n\nbCount=0\nfor i in range(len(b)):\n  bCount+= 1 if b[i]=='1' else 0\n\nres=0\n#print(ones,bCount)\nfor i in range(0,len(a)-len(b)):\n  #print((ones[i+len(b)-1]-ones[i-1]) %2 , ones[i+len(b)-1],ones[i-1],bCount%2)\n  #print(aCount,bCount)\n  if( aCount %2 == bCount%2):\n    #print(a[i:i+len(b)])\n    res+=1\n  \n  #print(\"::\",a[len(b)+i],a[i],\"index:\",len(b)+i,i)\n  #if coming char ==1 increase count(out of coundary)\n  aCount+=(1 if a[len(b)+i]=='1' else 0)\n  #print(\"after1\",aCount,bCount)\n  #if going  char==1 decrease count\n  aCount-= 1 if  a[i]=='1' else 0\n  #print(1 if  a[i]=='1' else 0)\n  #print(\"after2\",aCount,bCount)\nif( aCount %2 == bCount%2):\n    #print(a[i:i+len(b)])\n    res+=1\n\nprint(res)\n\n\n\n",
+    "prob_desc_created_at": "1561710000",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

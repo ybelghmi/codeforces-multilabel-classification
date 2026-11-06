@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 4 6\\n\\n? 1 1\\n\\n? 1 2\\n\\n? 2 2\\n\\n? 5 5\\n\\n! 5\"]",
+    "src_uid": "3cd1dac814fc53c094cc56dcd14d8ce9",
+    "prob_desc_notes": "NoteIn the first test, the $$$[1, 0, 1, 1, 0, 1]$$$ array is hidden. In this test $$$k=2$$$.",
+    "prob_desc_description": "This is an interactive problem.This is an easy version of the problem. The difference from the hard version is that in the easy version $$$t=1$$$ and the number of queries is limited to $$$20$$$.Polycarp is playing a computer game. In this game, an array consisting of zeros and ones is hidden. Polycarp wins if he guesses the position of the $$$k$$$-th zero from the left $$$t$$$ times.Polycarp can make no more than $$$20$$$ requests of the following type:   ? $$$l$$$ $$$r$$$ — find out the sum of all elements in positions from $$$l$$$ to $$$r$$$ ($$$1 \\le l \\le r \\le n$$$) inclusive. In this (easy version) of the problem, this paragraph doesn't really make sense since $$$t=1$$$ always. To make the game more interesting, each guessed zero turns into one and the game continues on the changed array. More formally, if the position of the $$$k$$$-th zero was $$$x$$$, then after Polycarp guesses this position, the $$$x$$$-th element of the array will be replaced from $$$0$$$ to $$$1$$$. Of course, this feature affects something only for $$$t&gt;1$$$.Help Polycarp win the game.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_083.jsonl",
+    "code_uid": "bff1f5406f2ac5f223a561d366815fa5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 1\\n2\\n\\n2\\n\\n1\\n\\n1\\n\\n0\\n\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import decimal\nimport heapq\nimport math\nimport os\nimport sys\nfrom array import array\nfrom collections import Counter, deque\nfrom io import BytesIO, IOBase\nimport bisect\n\nBUFSIZE = 8192\n\n\nclass FastIO(IOBase):\n    newlines = 0\n\n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = 'x' in file.mode or 'r' not in file.mode\n        self.write = self.buffer.write if self.writable else None\n\n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n\n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b'\\n') + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n\n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n\n\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode('ascii'))\n        self.read = lambda: self.buffer.read().decode('ascii')\n        self.readline = lambda: self.buffer.readline().decode('ascii')\n\n\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip('\\r\\n')\n\n\ndef ints_get(): return map(int, input().strip().split())\n\n\ndef list_get(): return list(map(int, sys.stdin.readline().strip().split()))\n\n\ndef chars_get(): return list(map(str, sys.stdin.readline().strip().split()))\n\n\ndef output(to_be_printed, end=\"\\n\"): sys.stdout.write(str(to_be_printed) + end)\n\n\ndef ipn(): return int(input())\n\n\n# ******************************************************#\n# **************** code starts here ********************#\n# ******************************************************#\n\n\n\ndef main():\n    n, t = ints_get()\n    a, b = 1, n\n    k = ipn()\n    while b > a + 1:\n        # print(a, b)\n        c = (a + b) // 2\n        print('?', 1, c, flush=True)\n        q = ipn()\n        if c - q < k:\n            a = c\n        else:\n            b = c\n    # print(a, b)\n    print('?', 1, a, flush=True)\n    q = ipn()\n    if a - q == k:\n        print('!', a)\n    else:\n        print('!', b)\n    return\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "prob_desc_created_at": "1620225300",
+    "tags": [
+        "binary search",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

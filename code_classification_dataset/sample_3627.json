@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"2\", \"4\"]",
+    "src_uid": "a79f93eb4420b7390309c0802efff895",
+    "prob_desc_notes": "NoteIn the first sample there are 3 ways to make a pipe (the squares of the pipe are marked by characters ' * '):        .*.        .*.        ...       .*#        **#        **#       .*.        ...        .*.",
+    "prob_desc_description": "On a certain meeting of a ruling party \"A\" minister Pavel suggested to improve the sewer system and to create a new pipe in the city.The city is an n × m rectangular squared field. Each square of the field is either empty (then the pipe can go in it), or occupied (the pipe cannot go in such square). Empty squares are denoted by character '.', occupied squares are denoted by character '#'.The pipe must meet the following criteria:  the pipe is a polyline of width 1,  the pipe goes in empty squares,  the pipe starts from the edge of the field, but not from a corner square,  the pipe ends at the edge of the field but not in a corner square,  the pipe has at most 2 turns (90 degrees),  the border squares of the field must share exactly two squares with the pipe,  if the pipe looks like a single segment, then the end points of the pipe must lie on distinct edges of the field,  for each non-border square of the pipe there are exacly two side-adjacent squares that also belong to the pipe,  for each border square of the pipe there is exactly one side-adjacent cell that also belongs to the pipe. Here are some samples of allowed piping routes:            ....#            ....#            .*..#           *****            ****.            .***.           ..#..            ..#*.            ..#*.           #...#            #..*#            #..*#           .....            ...*.            ...*.Here are some samples of forbidden piping routes:            .**.#            *...#            .*.*#           .....            ****.            .*.*.           ..#..            ..#*.            .*#*.           #...#            #..*#            #*.*#           .....            ...*.            .***.In these samples the pipes are represented by characters ' * '.You were asked to write a program that calculates the number of distinct ways to make exactly one pipe in the city. The two ways to make a pipe are considered distinct if they are distinct in at least one square.",
+    "prob_desc_output_spec": "In the first line of the output print a single integer — the number of distinct ways to create a pipe.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n, m (2 ≤ n, m ≤ 2000) — the height and width of Berland map. Each of the next n lines contains m characters — the map of the city.  If the square of the map is marked by character '.', then the square is empty and the pipe can through it.  If the square of the map is marked by character '#', then the square is full and the pipe can't through it.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_074.jsonl",
+    "code_uid": "a021f16d528b045d1f99cafcdb156725",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n...\\n..#\\n...\", \"4 2\\n..\\n..\\n..\\n..\", \"4 5\\n#...#\\n#...#\\n###.#\\n###.#\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = [int(x) for x in input().split()]\na = [[int(c == '.') for c in input()] for i in range(n)]\n\ndef rotate(a):\n    n = len(a)\n    m = len(a[0])\n    b = [[0] * n for i in range(m)]\n    for i in range(n):\n        for j in range(m):\n            b[j][n - 1 - i] = a[i][j]\n    return b\n\ndef calc(a):\n    n = len(a)\n    m = len(a[0])\n    alive = a[0][:]\n    alive[0], alive[m - 1] = 0, 0\n    ans_l, ans_r, ans_u = 0, 0, 0\n    ans_bs = [0] * m\n    for i in range(1, n - 1):\n        s = 0\n        for j in range(1, m - 1):\n            if a[i][j]:\n                if alive[j]:\n                    ans_u += s - alive[j - 1]\n                ans_bs[j] += s\n                s += alive[j]\n            else:\n                s = 0\n                ans_bs[j] = 0\n                alive[j] = 0\n        if a[i][m - 1]:\n            ans_r += s\n        s = 0\n        for j in range(m - 2, 0, -1):\n            if a[i][j]:\n                if alive[j]:\n                    ans_u += s - alive[j + 1]\n                ans_bs[j] += s\n                s += alive[j]\n            else:\n                s = 0\n                ans_bs[j] = 0\n                alive[j] = 0\n        if a[i][0]:\n            ans_l += s\n    ans_u //= 2\n    ans_b = sum(a[n - 1][i] * (ans_bs[i] + alive[i]) for i in range(1, m - 1))\n    return ans_l, ans_r, ans_u, ans_b\nans = 0\nans_l, ans_r, ans_u, ans_b = calc(a)\nans += ans_l + ans_r + ans_u + ans_b\na = rotate(a)\nans_l, _, ans_u, ans_b = calc(a)\nans += ans_l + ans_u + ans_b\na = rotate(a)\nans_l, _, ans_u, _= calc(a)\nans += ans_l + ans_u\na = rotate(a)\n_, _, ans_u, _= calc(a)\nans += ans_u\nprint(ans)\n",
+    "prob_desc_created_at": "1424795400",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "implementation",
+        "binary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

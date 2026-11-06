@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n3\\n-1\"]",
+    "src_uid": "f5bcde6e3008405f61cead4e3f44806e",
+    "prob_desc_notes": "NoteIn the first test case, the subarray $$$[2,3]$$$ has sum of elements $$$5$$$, which isn't divisible by $$$3$$$.In the second test case, the sum of elements of the whole array is $$$6$$$, which isn't divisible by $$$4$$$.In the third test case, all subarrays have an even sum, so the answer is $$$-1$$$.",
+    "prob_desc_description": "Ehab loves number theory, but for some reason he hates the number $$$x$$$. Given an array $$$a$$$, find the length of its longest subarray such that the sum of its elements isn't divisible by $$$x$$$, or determine that such subarray doesn't exist.An array $$$a$$$ is a subarray of an array $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) elements from the beginning and several (possibly, zero or all) elements from the end.",
+    "prob_desc_output_spec": "For each testcase, print the length of the longest subarray whose sum isn't divisible by $$$x$$$. If there's no such subarray, print $$$-1$$$.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ $$$(1 \\le t \\le 5)$$$ — the number of test cases you need to solve. The description of the test cases follows. The first line of each test case contains 2 integers $$$n$$$ and $$$x$$$ ($$$1 \\le n \\le 10^5$$$, $$$1 \\le x \\le 10^4$$$) — the number of elements in the array $$$a$$$ and the number that Ehab hates. The second line contains $$$n$$$ space-separated integers $$$a_1$$$, $$$a_2$$$, $$$\\ldots$$$, $$$a_{n}$$$ ($$$0 \\le a_i \\le 10^4$$$) — the elements of the array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_002.jsonl",
+    "code_uid": "40d387ca3ba9c90847af71ccfdf27a0c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3 3\\n1 2 3\\n3 4\\n1 2 3\\n2 2\\n0 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "ncases = int(input())\n\nfor i in range(ncases):\n    line1 = input().split(' ')\n    line2 = input().split(' ')\n    hate = int(line1[1])\n    arr = []\n    count = 0\n    for ele in line2:\n        ele = int(ele)\n        if (ele%hate == 0):\n            count += 1\n        arr.append(ele)\n    if (count == len(arr)):\n        print(-1)\n    elif (sum(arr)% hate != 0):\n        print (len(arr))\n    else:\n        s = []\n        for j in range(len(arr)):\n            find = arr[j]\n            if (find%hate!= 0):\n                s.append(j)\n                break\n        for k in range(-1,-(len(arr)+1),-1):\n            find = arr[k]\n            if (find%hate != 0):\n                s.append(k)\n                break\n        arr1 = arr[s[0]+1:]\n        arr2 = arr[0:s[1]]\n        print (max(len(arr1),len(arr2)))",
+    "prob_desc_created_at": "1592060700",
+    "tags": [
+        "data structures",
+        "two pointers",
+        "number theory",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

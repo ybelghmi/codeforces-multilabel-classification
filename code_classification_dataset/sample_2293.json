@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 1 3\", \"1 2\", \"1\"]",
+    "src_uid": "cadff0864835854f4f1e0234f2fd3edf",
+    "prob_desc_notes": "NoteIn the first sample the answer may be achieved this way:  Append GCD$$$(1, 2, 3) = 1$$$, remove $$$2$$$.  Append GCD$$$(1, 3) = 1$$$, remove $$$1$$$.  Append GCD$$$(3) = 3$$$, remove $$$3$$$. We get the sequence $$$[1, 1, 3]$$$ as the result.",
+    "prob_desc_description": "Let's call the following process a transformation of a sequence of length $$$n$$$.If the sequence is empty, the process ends. Otherwise, append the greatest common divisor (GCD) of all the elements of the sequence to the result and remove one arbitrary element from the sequence. Thus, when the process ends, we have a sequence of $$$n$$$ integers: the greatest common divisors of all the elements in the sequence before each deletion.You are given an integer sequence $$$1, 2, \\dots, n$$$. Find the lexicographically maximum result of its transformation.A sequence $$$a_1, a_2, \\ldots, a_n$$$ is lexicographically larger than a sequence $$$b_1, b_2, \\ldots, b_n$$$, if there is an index $$$i$$$ such that $$$a_j = b_j$$$ for all $$$j &lt; i$$$, and $$$a_i &gt; b_i$$$.",
+    "prob_desc_output_spec": "Output $$$n$$$ integers  — the lexicographically maximum result of the transformation.",
+    "prob_desc_input_spec": "The first and only line of input contains one integer $$$n$$$ ($$$1\\le n\\le 10^6$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_020.jsonl",
+    "code_uid": "7347168d9576696fc6bb6f222daa672c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\", \"2\", \"1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N = input()\nls = range(1,N+1)\nwhile len(ls) > 3:\n    nls = ls[1::2]\n    for i in xrange(len(ls) - len(nls)):\n        print ls[0],\n    ls = nls\nif len(ls)==3:\n    print ls[0], ls[0], ls[2]\nelif len(ls)==2:\n    print ls[0], ls[1]\nelse:\n    print ls[0]\n",
+    "prob_desc_created_at": "1538750100",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

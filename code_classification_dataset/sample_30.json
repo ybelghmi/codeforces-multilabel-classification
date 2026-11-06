@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4 5\", \"8 10\", \"-1\", \"144 145\", \"2244 2245\"]",
+    "src_uid": "df92643983d6866cfe406f2b36bec17f",
+    "prob_desc_notes": "NoteIllustration for the first sample.",
+    "prob_desc_description": "Katya studies in a fifth grade. Recently her class studied right triangles and the Pythagorean theorem. It appeared, that there are triples of positive integers such that you can construct a right triangle with segments of lengths corresponding to triple. Such triples are called Pythagorean triples.For example, triples (3, 4, 5), (5, 12, 13) and (6, 8, 10) are Pythagorean triples.Here Katya wondered if she can specify the length of some side of right triangle and find any Pythagorean triple corresponding to such length? Note that the side which length is specified can be a cathetus as well as hypotenuse.Katya had no problems with completing this task. Will you do the same?",
+    "prob_desc_output_spec": "Print two integers m and k (1 ≤ m, k ≤ 1018), such that n, m and k form a Pythagorean triple, in the only line. In case if there is no any Pythagorean triple containing integer n, print  - 1 in the only line. If there are many answers, print any of them.",
+    "prob_desc_input_spec": "The only line of the input contains single integer n (1 ≤ n ≤ 109) — the length of some side of a right triangle.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_000.jsonl",
+    "code_uid": "1c88b940dfd382f75b65068001fdff8f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\", \"6\", \"1\", \"17\", \"67\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math,string,itertools,fractions,heapq,collections,re,array,bisect,sys,copy,functools\n# import time,random,resource\n\n# sys.setrecursionlimit(10**6)\ninf = 10**20\neps = 1.0 / 10**10\nmod = 10**9+7\nmod2 = 998244353\ndd = [(-1,0),(0,1),(1,0),(0,-1)]\nddn = [(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1),(-1,-1)]\n\ndef LI(): return list(map(int, sys.stdin.readline().split()))\ndef LLI(): return [list(map(int, l.split())) for l in sys.stdin.readlines()]\ndef LI_(): return [int(x)-1 for x in sys.stdin.readline().split()]\ndef LF(): return [float(x) for x in sys.stdin.readline().split()]\ndef LS(): return sys.stdin.readline().split()\ndef I(): return int(sys.stdin.readline())\ndef F(): return float(sys.stdin.readline())\ndef S(): return input()\ndef pf(s): return print(s, flush=True)\ndef pe(s): return print(str(s), file=sys.stderr)\ndef JA(a, sep): return sep.join(map(str, a))\ndef JAA(a, s, t): return s.join(t.join(map(str, b)) for b in a)\ndef IF(c, t, f): return t if c else f\ndef YES(c): return IF(c, \"YES\", \"NO\")\ndef Yes(c): return IF(c, \"Yes\", \"No\")\n\n\ndef main():\n    t = 1\n\n    rr = []\n    for _ in range(t):\n        n = I()\n\n        k = 1\n        while n % 2 == 0 and n != 4:\n            k *= 2\n            n //= 2\n\n        if n == 1:\n            rr.append(-1)\n        elif n == 4:\n            rr.append(JA([3*k,5*k], \" \"))\n        else:\n            t = n**2 // 2\n            rr.append(JA([t*k,(t+1)*k], \" \"))\n\n    return JA(rr, \"\\n\")\n\n\nprint(main())\n\n\n",
+    "prob_desc_created_at": "1471698300",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

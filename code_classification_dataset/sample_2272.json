@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"4\", \"18\"]",
+    "src_uid": "ec092209aa9f45409e5aa01d7fc784e1",
+    "prob_desc_notes": "NoteExample 1We can play the card $$$2$$$ and draw the card $$$3$$$ in the first operation. After that, we have $$$[0,3,0]$$$ in hands and the cards in the pile are $$$[0,1,2]$$$ from top to bottom.Then, we play the card $$$3$$$ in the second operation. The cards in the pile are $$$[1,2,3]$$$, in which the cards are piled up in increasing order.Example 2Play an empty card and draw the card $$$1$$$, then play $$$1$$$, $$$2$$$, $$$3$$$ in order.",
+    "prob_desc_description": "Nauuo is a girl who loves playing cards.One day she was playing cards but found that the cards were mixed with some empty ones.There are $$$n$$$ cards numbered from $$$1$$$ to $$$n$$$, and they were mixed with another $$$n$$$ empty cards. She piled up the $$$2n$$$ cards and drew $$$n$$$ of them. The $$$n$$$ cards in Nauuo's hands are given. The remaining $$$n$$$ cards in the pile are also given in the order from top to bottom.In one operation she can choose a card in her hands and play it — put it at the bottom of the pile, then draw the top card from the pile.Nauuo wants to make the $$$n$$$ numbered cards piled up in increasing order (the $$$i$$$-th card in the pile from top to bottom is the card $$$i$$$) as quickly as possible. Can you tell her the minimum number of operations?",
+    "prob_desc_output_spec": "The output contains a single integer — the minimum number of operations to make the $$$n$$$ numbered cards piled up in increasing order.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1\\le n\\le 2\\cdot 10^5$$$) — the number of numbered cards. The second line contains $$$n$$$ integers $$$a_1,a_2,\\ldots,a_n$$$ ($$$0\\le a_i\\le n$$$) — the initial cards in Nauuo's hands. $$$0$$$ represents an empty card. The third line contains $$$n$$$ integers $$$b_1,b_2,\\ldots,b_n$$$ ($$$0\\le b_i\\le n$$$) — the initial cards in the pile, given in order from top to bottom. $$$0$$$ represents an empty card. It is guaranteed that each number from $$$1$$$ to $$$n$$$ appears exactly once, either in $$$a_{1..n}$$$ or $$$b_{1..n}$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_019.jsonl",
+    "code_uid": "9d534cd565b6b96e67c3297f7855af7b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0 2 0\\n3 0 1\", \"3\\n0 2 0\\n1 0 3\", \"11\\n0 0 0 5 0 0 0 4 0 0 11\\n9 2 6 0 8 1 7 0 3 0 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys,os,math\nfrom collections import Counter, defaultdict\nimport bisect\nfrom sys import stdin, stdout\nfrom itertools import repeat\n\n\n# n, k = map(int, raw_input().split())\n# da = map(int, raw_input().split())\n# db = map(int, raw_input().split())\n\n\nn = map(int, raw_input().split())[0]\n\nhand = map(int, raw_input().split())\ntile = map(int, raw_input().split())\n\nmp = {}\ndiff = 0\nck = 0\nck1 = -1\na0 = 1\nin1 = 0\nfor idx, i in enumerate(tile):\n    if ck:\n        if i==tile[idx-1]+1:\n            continue\n        else:\n            ck1 = -1\n            break\n    if i==1:\n        ck = 1\n        ck1 = idx\ndiff = -1\nif ck1 != -1:\n    for idx, i in enumerate(tile):\n        if idx == ck1:\n            break\n        if i!=0:\n            diff = max(diff, idx+1 - (i-(n-ck1)))\n    # print diff\n    if diff == -1:\n        print ck1\n        exit(0)\ndiff = 0\nif sum(tile) == 0:\n    print n\n    exit(0)\nfor idx, i in enumerate(tile):\n    if i!=0:\n        diff = max(diff, idx + 1 - (i-1))\n# print diff\nprint diff + n\n",
+    "prob_desc_created_at": "1559909100",
+    "tags": [
+        "binary search",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

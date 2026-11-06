@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"5\"]",
+    "src_uid": "371100da1b044ad500ac4e1c09fa8dcb",
+    "prob_desc_notes": "NoteIn the first test we can sort the children into four cars like this:  the third group (consisting of four children),  the fourth group (consisting of three children),  the fifth group (consisting of three children),  the first and the second group (consisting of one and two children, correspondingly). There are other ways to sort the groups into four cars.",
+    "prob_desc_description": "After the lessons n groups of schoolchildren went outside and decided to visit Polycarpus to celebrate his birthday. We know that the i-th group consists of si friends (1 ≤ si ≤ 4), and they want to go to Polycarpus together. They decided to get there by taxi. Each car can carry at most four passengers. What minimum number of cars will the children need if all members of each group should ride in the same taxi (but one taxi can take more than one group)?",
+    "prob_desc_output_spec": "Print the single number — the minimum number of taxis necessary to drive all children to Polycarpus.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105) — the number of groups of schoolchildren. The second line contains a sequence of integers s1, s2, ..., sn (1 ≤ si ≤ 4). The integers are separated by a space, si is the number of children in the i-th group.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_000.jsonl",
+    "code_uid": "170a32113fdf4ceba02956c7588b62c1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 4 3 3\", \"8\\n2 3 4 4 2 1 3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "input()\ninp = sorted(list(map(int, input().split())))[::-1]\ntaxi = 0\nwhile len(inp) > 0:\n\t#print(inp, taxi)\n\ttaxi += 1\n\ttemp = 4 - inp.pop(0)\n\tif temp == 0:\n\t\tcontinue\n\telse:\n\t\twhile temp > 0 and len(inp) >= 1:\n\t\t\tif temp - inp[-1] >= 0:\n\t\t\t\ttemp -= inp[-1]\n\t\t\t\tinp.pop()\n\t\t\telse:\n\t\t\t\tbreak\nprint(taxi)",
+    "prob_desc_created_at": "1330804800",
+    "tags": [
+        "implementation",
+        "*special",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

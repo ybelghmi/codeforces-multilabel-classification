@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n2\\n0\\n3\\n0\"]",
+    "src_uid": "6aca8c549822adbe96a58aee4b0d4b3f",
+    "prob_desc_notes": "NoteIn the first test case, the array is good already.In the second test case, one of the possible good arrays is $$$[1, 1, \\underline{1}, \\underline{1}]$$$ (replaced elements are underlined).In the third test case, the array is good already.In the fourth test case, one of the possible good arrays is $$$[\\underline{-2.5}, -2, \\underline{-1.5}, -1, \\underline{-0.5}, 0]$$$.",
+    "prob_desc_description": "An array $$$a_1, a_2, \\ldots, a_n$$$ is good if and only if for every subsegment $$$1 \\leq l \\leq r \\leq n$$$, the following holds: $$$a_l + a_{l + 1} + \\ldots + a_r = \\frac{1}{2}(a_l + a_r) \\cdot (r - l + 1)$$$. You are given an array of integers $$$a_1, a_2, \\ldots, a_n$$$. In one operation, you can replace any one element of this array with any real number. Find the minimum number of operations you need to make this array good.",
+    "prob_desc_output_spec": "For each test case, print one integer: the minimum number of elements that you need to replace to make the given array good.",
+    "prob_desc_input_spec": "The first line of input contains one integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$): the number of test cases. Each of the next $$$t$$$ lines contains the description of a test case. In the first line you are given one integer $$$n$$$ ($$$1 \\leq n \\leq 70$$$): the number of integers in the array. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$-100 \\leq a_i \\leq 100$$$): the initial array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_101.jsonl",
+    "code_uid": "5a93e5ab76d0219b38187402fe3c0ab5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n4\\n1 2 3 4\\n4\\n1 1 2 2\\n2\\n0 -1\\n6\\n3 -2 4 -1 -4 0\\n1\\n-100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.buffer.readline \r\n\r\ndef gcd(a, b):\r\n    if a > b:\r\n        a, b = b, a\r\n    if b % a==0:\r\n        return a\r\n    return gcd(b % a, a)\r\n\r\ndef process(A):\r\n    n = len(A)\r\n    if n==1:\r\n        sys.stdout.write('0\\n')\r\n        return\r\n    d = {}\r\n    check = [None for i in range(72**2)]\r\n    for i in range(72):\r\n        i2 = i*(i-1)//2\r\n        check[i2] = i\r\n    for i in range(n):\r\n        for j in range(i):\r\n            num = A[i]-A[j]\r\n            den = (i-j)\r\n            if num==0:\r\n                den = 1\r\n                sign = 1\r\n                g = 1\r\n                start = A[i]\r\n            else:\r\n                if num > 0:\r\n                    sign = 1\r\n                else:\r\n                    sign = -1\r\n                start = den*A[i]-num*i\r\n                g = gcd(abs(num), den)\r\n                num = num//g\r\n                den = den//g\r\n                start = den*A[i]-num*i\r\n           # print(i, j, A[j], A[i], start, num, den)\r\n            if (start, num, den) not in d:\r\n                d[(start, num, den)] = 0\r\n            d[(start, num, den)]+=1\r\n    answer = 0\r\n    for x in d:\r\n        if check[d[x]] is not None:\r\n            answer =  max(answer, check[d[x]])\r\n    sys.stdout.write(f'{n-answer}\\n')\r\n    \r\n    \r\nt = int(input())\r\nfor i in range(t):\r\n    n = int(input())\r\n    A = [int(x) for x in input().split()]\r\n    process(A)",
+    "prob_desc_created_at": "1640792100",
+    "tags": [
+        "brute force",
+        "geometry",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"1 1\\n1 1\\n2 0\\n3 1\\n2 4\\n5 4\", \"4 3\\n2 5\\n2 1\\n2 5\\n1 5\\n4 1\\n1 2\\n3 2\"]",
+    "src_uid": "b021a3c7ae119671c81c51da7cfabdb3",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given $$$n$$$ distinct points on a plane. The coordinates of the $$$i$$$-th point are $$$(x_i, y_i)$$$.For each point $$$i$$$, find the nearest (in terms of Manhattan distance) point with integer coordinates that is not among the given $$$n$$$ points. If there are multiple such points — you can choose any of them.The Manhattan distance between two points $$$(x_1, y_1)$$$ and $$$(x_2, y_2)$$$ is $$$|x_1 - x_2| + |y_1 - y_2|$$$.",
+    "prob_desc_output_spec": "Print $$$n$$$ lines. In the $$$i$$$-th line, print the point with integer coordinates that is not among the given $$$n$$$ points and is the nearest (in terms of Manhattan distance) to the $$$i$$$-th point from the input. Output coordinates should be in range $$$[-10^6; 10^6]$$$. It can be shown that any optimal answer meets these constraints. If there are several answers, you can print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of points in the set. The next $$$n$$$ lines describe points. The $$$i$$$-th of them contains two integers $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le x_i, y_i \\le 2 \\cdot 10^5$$$) — coordinates of the $$$i$$$-th point. It is guaranteed that all points in the input are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_104.jsonl",
+    "code_uid": "3241226f7d89dd9a4757c78b68f8a6c6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n2 2\\n1 2\\n2 1\\n3 2\\n2 3\\n5 5\", \"8\\n4 4\\n2 4\\n2 2\\n2 3\\n1 4\\n4 2\\n1 3\\n3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# def redirect_io():\n#     import pathlib, sys\n#     fname = pathlib.Path(__file__).parent/\"input.txt\"\n#     sys.stdin = open(fname, 'r')\n# redirect_io()\n\nimport sys\ninput = sys.stdin.buffer.readline\n\nfrom collections import deque\n\n# NOTE: Got MLE's originally, space optimal to just keep hashmap (have access to points)\ndef solve(points_id: dict) -> list:\n    # identify surrounding neighborhood\n    dx_ = [1, -1, 0, 0]\n    dy_ = [0, 0, 1, -1]\n    d = deque() # stores (cur_pt, starting_pt), answer for cur_pt is staring_pt\n\n    for x,y in points_id:\n        for i in range(4):\n            dx, dy = dx_[i], dy_[i]\n            if (x+dx, y+dy) in points_id:\n                continue\n            d.append((x+dx, y+dy, x+dx, y+dy)) # these are start_points\n\n    n = len(points_id)\n    ans = [(0,0)] * n\n    # starts out having 4 * len(points)\n    # multi-source bfs\n    while d:\n        cx, cy, sx, sy = d.popleft()\n        \n        # search towards \"surrounding boundary\" towards center\n        # think of water ripples\n        for i in range(4):\n            dx, dy = dx_[i], dy_[i]\n            nx, ny = cx + dx, cy + dy\n            if (nx, ny) not in points_id: # only add points that head towards all_points\n                continue\n            d.append((nx, ny, sx, sy))\n\n            ans[points_id[(nx, ny)]] = (sx, sy)\n            points_id.pop((nx, ny)) # so you cannot revisit an original point multiple times\n\n    return ans \n\npoints_id = {}\nfor i in range(int(input())):\n    x,y = map(int, input().split())\n    points_id[(x,y)] = i\n\nans = solve(points_id)\nans = [f\"{x} {y}\" for x,y in ans]\n\n# ans = [f\"{x} {y}\" for x,y in ans]\nprint('\\n'.join(ans))\n    ",
+    "prob_desc_created_at": "1646922900",
+    "tags": [
+        "binary search",
+        "data structures",
+        "dfs and similar",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

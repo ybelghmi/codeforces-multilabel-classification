@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"*.*.\\n....\\n*.*.\\n....\\n**\\n**\\n**\\n**\\n*.*\\n*.*\\n...\\n.....\\n.**..\\n.....\\n.**..\\n.....\\n....\\n....\\n**..\\n**..\"]",
+    "src_uid": "d8fb3822b983b8a8ffab341aee74f56f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There is a square field of size $$$n \\times n$$$ in which two cells are marked. These cells can be in the same row or column.You are to mark two more cells so that they are the corners of a rectangle with sides parallel to the coordinate axes.For example, if $$$n=4$$$ and a rectangular field looks like this (there are asterisks in the marked cells):$$$$$$ \\begin{matrix} . &amp; . &amp; * &amp; . \\\\ . &amp; . &amp; . &amp; . \\\\ * &amp; . &amp; . &amp; . \\\\ . &amp; . &amp; . &amp; . \\\\ \\end{matrix} $$$$$$Then you can mark two more cells as follows$$$$$$ \\begin{matrix} * &amp; . &amp; * &amp; . \\\\ . &amp; . &amp; . &amp; . \\\\ * &amp; . &amp; * &amp; . \\\\ . &amp; . &amp; . &amp; . \\\\ \\end{matrix} $$$$$$If there are several possible solutions, then print any of them.",
+    "prob_desc_output_spec": "For each test case, output $$$n$$$ rows of $$$n$$$ characters — a field with four asterisks marked corresponding to the statements. If there multiple correct answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 400$$$). Then $$$t$$$ test cases follow. The first row of each test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 400$$$) — the number of rows and columns in the table. The following $$$n$$$ lines each contain $$$n$$$ characters '.' or '*' denoting empty and marked cells, respectively. It is guaranteed that the sums of $$$n$$$ for all test cases do not exceed $$$400$$$. It is guaranteed that there are exactly two asterisks on the field. They can be in the same row/column. It is guaranteed that the solution exists.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_107.jsonl",
+    "code_uid": "e78859d247275f3aae2237b3564e9897",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n4\\n..*.\\n....\\n*...\\n....\\n2\\n*.\\n.*\\n2\\n.*\\n.*\\n3\\n*.*\\n...\\n...\\n5\\n.....\\n..*..\\n.....\\n.*...\\n.....\\n4\\n....\\n....\\n*...\\n*...\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# coding=utf-8\nimport sys, math\r\n#sys.setrecursionlimit(10**6)\r\nINF = float('inf')\r\nmod = 10**9 + 70\r\n#mod = 998244353\r\ninput = lambda: sys.stdin.readline().rstrip()\r\nli = lambda: list(map(int, input().split()))\r\n \r\nt = int(input())\r\noutput = []\r\n \r\ndef taikaku(p1, p2):\r\n    if p1[0] > p2[0] and p1[1] > p2[1]:\r\n        return 1\r\n    elif p1[0] > p2[0] and p2[1] > p1[1]:\r\n        return 1\r\n    return 0\r\n \r\ndef yoko(p1, p2):\r\n    return p1[0] == p2[0]\r\n \r\nfor _ in range(t):\r\n    N = int(input())\r\n    grid = [list(input()) for _ in range(N)]\r\n    P = []\r\n    for h in range(N):\r\n        for w in range(N):\r\n            if grid[h][w] == '*':\r\n                P.append((h, w))\r\n    \r\n    p1 = P[0]; p2 = P[1]\r\n    if taikaku(p1, p2) or taikaku(p2, p1):\r\n        p3 = (p1[0], p2[1])\r\n        p4 = (p2[0], p1[1])\r\n        #print(p3, p4)\r\n    elif yoko(p1, p2):\r\n        h = p1[0]\r\n        if h != 0:\r\n            h -= 1\r\n        else:\r\n            h += 1\r\n        p3 = (h, p1[1])\r\n        p4 = (h, p2[1])\r\n    else:\r\n        w = p1[1]\r\n        if w != 0:\r\n            w -= 1\r\n        else:\r\n            w += 1\r\n        p3 = (p1[0], w)\r\n        p4 = (p2[0], w)\r\n    grid[p3[0]][p3[1]] = '*'\r\n    grid[p4[0]][p4[1]] = '*'\r\n    for i in grid:\r\n        output.append(''.join(i)) \r\nfor a in output:\r\n    print(a)\n  \t\t\t\t \t\t   \t  \t\t\t\t \t\t  \t \t \t\t",
+    "prob_desc_created_at": "1618065300",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

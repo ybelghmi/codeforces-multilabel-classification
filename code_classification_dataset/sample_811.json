@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"665496238\"]",
+    "src_uid": "881c694ecf973da66073e77f38abcae2",
+    "prob_desc_notes": "NoteIn the first example, Vasya will move his chip exactly once. The expected value of the final score is equal to $$$\\frac{1^2 + 2^2+ 1^2}{3} = 2$$$.",
+    "prob_desc_description": "Vasya has got a magic matrix $$$a$$$ of size $$$n \\times m$$$. The rows of the matrix are numbered from $$$1$$$ to $$$n$$$ from top to bottom, the columns are numbered from $$$1$$$ to $$$m$$$ from left to right. Let $$$a_{ij}$$$ be the element in the intersection of the $$$i$$$-th row and the $$$j$$$-th column.Vasya has also got a chip. Initially, the chip is in the intersection of the $$$r$$$-th row and the $$$c$$$-th column (that is, in the element $$$a_{rc}$$$). Vasya performs the following process as long as possible: among all elements of the matrix having their value less than the value of the element with the chip in it, Vasya randomly and equiprobably chooses one element and moves his chip to this element.After moving the chip, he adds to his score the square of the Euclidean distance between these elements (that is, between the element in which the chip is now and the element the chip was moved from). The process ends when there are no elements having their values less than the value of the element with the chip in it.Euclidean distance between matrix elements with coordinates $$$(i_1, j_1)$$$ and $$$(i_2, j_2)$$$ is equal to $$$\\sqrt{(i_1-i_2)^2 + (j_1-j_2)^2}$$$.Calculate the expected value of the Vasya's final score.It can be shown that the answer can be represented as $$$\\frac{P}{Q}$$$, where $$$P$$$ and $$$Q$$$ are coprime integer numbers, and $$$Q \\not\\equiv 0~(mod ~ 998244353)$$$. Print the value $$$P \\cdot Q^{-1}$$$ modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Print the expected value of Vasya's final score in the format described in the problem statement.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ $$$(1 \\le n, m \\le 1\\,000)$$$ — the number of rows and the number of columns in the matrix $$$a$$$. The following $$$n$$$ lines contain description of the matrix $$$a$$$. The $$$i$$$-th line contains $$$m$$$ integers $$$a_{i1}, a_{i2}, \\dots, a_{im} ~ (0 \\le a_{ij} \\le 10^9)$$$. The following line contains two integers $$$r$$$ and $$$c$$$ $$$(1 \\le r \\le n, 1 \\le c \\le m)$$$ — the index of row and the index of column where the chip is now.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_004.jsonl",
+    "code_uid": "bdd767f9de78c27593f4b89431b24790",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 4\\n1 1 2 1\\n1 3\", \"2 3\\n1 5 7\\n2 3 1\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m = map(int,raw_input().split(\" \"))\nmat = [0]*(n*m)\nfor i in range(n):\n    mat[i*m:i*m+m] = map(int,raw_input().split(\" \"))\nr,c = map(int,raw_input().split(\" \"))\n\nidx = range(n*m)\nidx.sort(key = lambda x:mat[x])\nrank = [0]*(n*m)\nfor i in xrange(n*m):\n    rank[idx[i]] = i\n\ndp = [0]*(n*m)\n\nmod = 998244353\ninv = [1]*(n*m)\n\nfor i in xrange(2,n*m):\n    inv[i] = (mod-mod/i)*inv[mod%i] % mod\ni = idx[0]\nx1,y1,x2,y2,s = [0]*2,[0]*2,[0]*2,[0]*2,[0]*2\n\nx1[1] = i/m\ny1[1] = i%m\nx2[1] = (x1[1]*x1[1])\ny2[1] = (y1[1]*y1[1])\ns[1] = 0\nla = -1\nfinal = (r-1)*m+c-1\nfor i in xrange(1,rank[final]+1):\n    j = idx[i]\n    x,y = j/m,j%m\n    if mat[j] == mat[idx[i-1]]:\n        dp[i] =(s[0]*deno+x*x+y*y+deno*(x2[0]+y2[0]-2*x1[0]*x-2*y1[0]*y))%mod if la!=-1 else 0\n    else:\n        deno = inv[i]\n        dp[i] = (s[-1]*deno+x*x+y*y+deno*(x2[-1]+y2[-1]-2*x1[-1]*x-2*y1[-1]*y))%mod\n        x1[0] = x1[1]\n        y1[0] = y1[1]\n        x2[0] = x2[1]\n        y2[0] = y2[1]\n        s[0] = s[1]\n        la = 0\n    x1[-1] = (x1[-1]+x)%mod\n    y1[-1] = (y1[-1]+y)%mod\n    x2[-1] = (x2[-1]+x*x)%mod\n    y2[-1] = (y2[-1]+y*y)%mod\n    s[-1] = (s[-1]+dp[i])%mod\nprint dp[rank[final]]",
+    "prob_desc_created_at": "1537171500",
+    "tags": [
+        "dp",
+        "probabilities",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

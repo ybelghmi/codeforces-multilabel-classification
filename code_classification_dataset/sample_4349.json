@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n1\\n3\\n3\"]",
+    "src_uid": "4f8eac547bbd469a69de2f4aae4a87f0",
+    "prob_desc_notes": "NoteIn the first test case, Mocha can choose the interval $$$[1,2]$$$, then the sequence becomes $$$[ 0, 0]$$$, where the first element is $$$1\\,\\&amp;\\,2$$$, and the second element is $$$2\\,\\&amp;\\,1$$$.In the second test case, Mocha can choose the interval $$$[1,3]$$$, then the sequence becomes $$$[ 1,1,1]$$$, where the first element is $$$1\\,\\&amp;\\,3$$$, the second element is $$$1\\,\\&amp;\\,1$$$, and the third element is $$$3\\,\\&amp;\\,1$$$.",
+    "prob_desc_description": "Mocha is a young girl from high school. She has learned so much interesting knowledge from her teachers, especially her math teacher. Recently, Mocha is learning about binary system and very interested in bitwise operation.This day, Mocha got a sequence $$$a$$$ of length $$$n$$$. In each operation, she can select an arbitrary interval $$$[l, r]$$$ and for all values $$$i$$$ ($$$0\\leq i \\leq r-l$$$), replace $$$a_{l+i}$$$ with $$$a_{l+i} \\,\\&amp;\\, a_{r-i}$$$ at the same time, where $$$\\&amp;$$$ denotes the bitwise AND operation. This operation can be performed any number of times.For example, if $$$n=5$$$, the array is $$$[a_1,a_2,a_3,a_4,a_5]$$$, and Mocha selects the interval $$$[2,5]$$$, then the new array is $$$[a_1,a_2\\,\\&amp;\\, a_5, a_3\\,\\&amp;\\, a_4, a_4\\,\\&amp;\\, a_3, a_5\\,\\&amp;\\, a_2]$$$.Now Mocha wants to minimize the maximum value in the sequence. As her best friend, can you help her to get the answer?",
+    "prob_desc_output_spec": "For each test case, print one integer — the minimal value of the maximum value in the sequence.",
+    "prob_desc_input_spec": "Each test contains multiple test cases.  The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. Each test case consists of two lines. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 100$$$) — the length of the sequence. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\le a_i \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_095.jsonl",
+    "code_uid": "ccee34b56e6d91baebf9d6c0a2d73673",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2\\n1 2\\n3\\n1 1 3\\n4\\n3 11 3 7\\n5\\n11 7 15 3 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n    n=int(input())\r\n    a=list(map(int,input().split()))\r\n    x=a[0]\r\n    for i in range(1,n):\r\n        x=a[i]&x\r\n        if x==0:\r\n            break\r\n    print(x)",
+    "prob_desc_created_at": "1629038100",
+    "tags": [
+        "bitmasks",
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4 3\\n3 4\\n3 3\\n1 5\\n2 4\"]",
+    "src_uid": "81bfbd2436fea5838dace5ddcf330b0b",
+    "prob_desc_notes": "NoteLet's analyze the sample test. The chosen numbers are $$$2$$$ and $$$4$$$. The interactor was given two instructions.For the query $$$(4, 3)$$$, it can return $$$2$$$ or $$$3$$$. Out of the two instructions the second one is chosen, so the interactor returns $$$a^{23}_2=3$$$.For the query $$$(3, 4)$$$, it can return only $$$3$$$.For the query $$$(3, 3)$$$, it can return $$$2$$$ or $$$3$$$. Out of the two instructions the first one is chosen (since in case of equal values, the least number is preferred), so the interactor returns $$$a^{23}_1=2$$$.For the query $$$(1, 5)$$$, it can return $$$1$$$ or $$$3$$$. Out of the two instructions the first one is chosen, so the interactor returns $$$a^{13}_1=1$$$.In the fifth query $$$(2, 4)$$$, the numbers are guessed correctly, the player wins.",
+    "prob_desc_description": "This is an interactive problem.Vasya and Vitya play a game. Vasya thought of two integers $$$a$$$ and $$$b$$$ from $$$1$$$ to $$$n$$$ and Vitya tries to guess them. Each round he tells Vasya two numbers $$$x$$$ and $$$y$$$ from $$$1$$$ to $$$n$$$. If both $$$x=a$$$ and $$$y=b$$$ then Vitya wins. Else Vasya must say one of the three phrases:   $$$x$$$ is less than $$$a$$$;  $$$y$$$ is less than $$$b$$$;  $$$x$$$ is greater than $$$a$$$ or $$$y$$$ is greater than $$$b$$$. Vasya can't lie, but if multiple phrases are true, he may choose any of them. For example, if Vasya thought of numbers $$$2$$$ and $$$4$$$, then he answers with the phrase $$$3$$$ to a query $$$(3, 4)$$$, and he can answer with the phrase $$$1$$$ or phrase $$$3$$$ to a query $$$(1, 5)$$$.Help Vitya win in no more than $$$600$$$ rounds. ",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 10^{18}$$$) — the upper limit of the numbers.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 3000,
+    "file_name": "train_000.jsonl",
+    "code_uid": "02a6e057ec2409ad6a88133296aeddd9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3\\n3\\n2\\n1\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\n\ndef send_request(x, y):\n    print(\"{} {}\".format(x, y))\n    sys.stdout.flush()\n\n    ans = int(input())\n    if ans == 0:\n        sys.exit(0)\n    return ans\n\n\ndef main():\n    n = int(input().strip())\n\n    x = 1\n    y = 1\n    send_request(x, y)\n\n    prev_x_margin = 0\n    prev_y_margin = 0\n    x_margin = 1\n    y_margin = 1\n\n    while True:\n        while True:\n            ans = send_request(\n                min(x + x_margin, n),\n                min(y + y_margin, n)\n            )\n            if ans == 1:\n                prev_x_margin = x_margin\n                x_margin *= 2\n\n            elif ans == 2:\n                prev_y_margin = y_margin\n                y_margin *= 2\n            else:\n                break\n\n        if x_margin == 1 and y_margin == 1:\n            while True:\n                ans = send_request(\n                    min(x + x_margin, n),\n                    min(y + prev_y_margin, n)\n                )\n                if ans == 1:\n                    prev_x_margin = x_margin\n                    x_margin *= 2\n                else:\n                    break\n    \n            while True:\n                ans = send_request(\n                    min(x + prev_x_margin, n),\n                    min(y + y_margin, n))\n                if ans == 2:\n                    prev_y_margin = y_margin\n                    y_margin *= 2\n                else:\n                    break\n\n        x = min(x + prev_x_margin, n)\n        y = min(y + prev_y_margin, n)\n        prev_x_margin = 0\n        prev_y_margin = 0\n\n        x_margin = max(1, x_margin // 2)\n        y_margin = max(1, y_margin // 2)\n\n\nif __name__ == \"__main__\":\n    main()\n    exit(0)\n",
+    "prob_desc_created_at": "1531492500",
+    "tags": [
+        "binary search",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

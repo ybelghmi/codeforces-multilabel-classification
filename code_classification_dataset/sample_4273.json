@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 2 1 \\n1 2 3 4 5 6 \\n1 1 1 2 \\n1 \\n1 1 1 2 1 2 1 1 3\"]",
+    "src_uid": "de2e2e12be4464306beb0217875f66c7",
+    "prob_desc_notes": "NoteFor the first test case, there is no way to partition 'D' or 'DDK' into more than one block with equal ratios of numbers of 'D' and 'K', while you can split 'DD' into 'D' and 'D'.For the second test case, you can split each prefix of length $$$i$$$ into $$$i$$$ blocks 'D'.",
+    "prob_desc_description": "The tycoon of a winery empire in Mondstadt, unmatched in every possible way. A thinker in the Knights of Favonius with an exotic appearance.This time, the brothers are dealing with a strange piece of wood marked with their names. This plank of wood can be represented as a string of $$$n$$$ characters. Each character is either a 'D' or a 'K'. You want to make some number of cuts (possibly $$$0$$$) on this string, partitioning it into several contiguous pieces, each with length at least $$$1$$$. Both brothers act with dignity, so they want to split the wood as evenly as possible. They want to know the maximum number of pieces you can split the wood into such that the ratios of the number of occurrences of 'D' to the number of occurrences of 'K' in each chunk are the same.Kaeya, the curious thinker, is interested in the solution for multiple scenarios. He wants to know the answer for every prefix of the given string. Help him to solve this problem!For a string we define a ratio as $$$a:b$$$ where 'D' appears in it $$$a$$$ times, and 'K' appears $$$b$$$ times. Note that $$$a$$$ or $$$b$$$ can equal $$$0$$$, but not both. Ratios $$$a:b$$$ and $$$c:d$$$ are considered equal if and only if $$$a\\cdot d = b\\cdot c$$$. For example, for the string 'DDD' the ratio will be $$$3:0$$$, for 'DKD' — $$$2:1$$$, for 'DKK' — $$$1:2$$$, and for 'KKKKDD' — $$$2:4$$$. Note that the ratios of the latter two strings are equal to each other, but they are not equal to the ratios of the first two strings.",
+    "prob_desc_output_spec": "For each test case, output $$$n$$$ space separated integers. The $$$i$$$-th of these numbers should equal the answer for the prefix $$$s_{1},s_{2},\\dots,s_{i}$$$.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 1000$$$). Description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$1 \\leq n \\leq 5 \\cdot 10^5$$$) — the length of the wood. The second line of each test case contains a string $$$s$$$ of length $$$n$$$. Every character of $$$s$$$ will be either 'D' or 'K'. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$5 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_094.jsonl",
+    "code_uid": "3cca056c3bfca5bb85bbb07f6cee9124",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3\\nDDK\\n6\\nDDDDDD\\n4\\nDKDK\\n1\\nD\\n9\\nDKDKDDDDK\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import itertools\nfrom bisect import bisect, bisect_left, bisect_right\nfrom collections import Counter, defaultdict, deque\nfrom functools import lru_cache, reduce\nfrom math import *\nfrom random import *\nfrom heapq import *\nfrom sys import stdin, stdout\nimport io\nimport os\nimport string\n\n\ndef write(s='', end='\\n'): stdout.write(s); stdout.write(end)\n\n\n# input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\n\nMOD = 10**9+7\n\n\ndef inp(): return int(input())\n\n\ndef inlt(): return (list(map(int, input().split())))\n\n\ndef floatl(): return (list(map(float, input().split())))\n\n\ndef insr(): s = input(); return (list(s[:len(s)-1]))\n\n\ndef ins(): s = input(); return s\n\n\ndef invr(): return (map(int, input().split()))\n\n\ndef yesno(predicate): print(\"Yes\" if predicate else \"No\")\n\n\ndef add(a, b): return a+b-MOD if a+b > MOD else a+b\n\n\ndef sub(a, b): return a-b+MOD if a-b < 0 else a-b\n\n\ndef read(l, r):\n    if l == r:\n        return -1\n    print(\"? {} {}\".format(l, r))\n    stdout.flush()\n    return inp()\n\n\ndef print_arr(arr):\n    for v in arr:\n        print(v, end=' ')\n    print()\n\n\ndef solve():\n    _ = inp()\n    s = ins()\n    cnt = Counter()\n    ds = ks = 0\n    for c in s:\n        if c == 'D':\n            ds += 1\n        else:\n            ks += 1\n        g = gcd(ds, ks)\n        ratio = ds//g, ks//g\n        cnt[ratio] += 1\n        print(cnt[ratio], end=' ')\n    print()\n\n\n# t = 1\nt = inp()\nfor _ in range(t):\n    solve()\n",
+    "prob_desc_created_at": "1622990100",
+    "tags": [
+        "data structures",
+        "dp",
+        "hashing",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

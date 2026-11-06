@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n1 2 4 11 13\", \"-1\", \"-1\", \"3\\n9 11 17\", \"4\\n2 2 2 2\"]",
+    "src_uid": "3a305e2cc38ffd3dc98f21209e83b68d",
+    "prob_desc_notes": "NoteIn the first example, $$$1 \\times 2 \\times 4 \\times 11 \\times 13 = 1144$$$, which is the largest product that ends with the digit 4. The same set of cards without the number 1 is also a valid answer, as well as a set of 8, 11, and 13 with or without 1 that also has the product of 1144.In the second example, all the numbers on the cards are even and their product cannot end with an odd digit 1.In the third example, the only possible products are 1, 3, 5, 9, 15, and 45, none of which end with the digit 7.In the fourth example, $$$9 \\times 11 \\times 17 = 1683$$$, which ends with the digit 3. In the fifth example, $$$2 \\times 2 \\times 2 \\times 2 = 16$$$, which ends with the digit 6.",
+    "prob_desc_description": "Diana loves playing with numbers. She's got $$$n$$$ cards with positive integer numbers $$$a_i$$$ written on them. She spends her free time multiplying the numbers on the cards. She picks a non-empty subset of the cards and multiplies all the numbers $$$a_i$$$ written on them.Diana is happy when the product of the numbers ends with her favorite digit $$$d$$$. Now she is curious what cards she should pick so that the product of the numbers on them is the largest possible and the last decimal digit of the product is $$$d$$$. Please, help her.",
+    "prob_desc_output_spec": "On the first line, print the number of chosen cards $$$k$$$ ($$$1\\le k\\le n$$$). On the next line, print the numbers written on the chosen cards in any order.  If it is impossible to choose a subset of cards with the product that ends with the digit $$$d$$$, print the single line with $$$-1$$$.",
+    "prob_desc_input_spec": "The first line contains the integers $$$n$$$ and $$$d$$$ ($$$1\\le n\\le 10^5$$$, $$$0\\le d\\le 9$$$). The second line contains $$$n$$$ integers $$$a_i$$$ ($$$1\\le a_i\\le 1000$$$). ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_099.jsonl",
+    "code_uid": "416770810b56faf50d5436b7b20451ec",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"6 4\\n4 11 8 2 1 13\", \"3 1\\n2 4 6\", \"5 7\\n1 3 1 5 3\", \"6 3\\n8 9 4 17 11 5\", \"5 6\\n2 2 2 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "S_133 = [\r\n\t(0, 0, 0),\r\n\t(0, 0, 1),\r\n\t(0, 0, 2),\r\n\t(0, 0, 3),\r\n\t(0, 1, 0),\r\n\t(0, 2, 0),\r\n\t(0, 3, 0),\r\n\r\n\t(1, 0, 0),\r\n\t(1, 0, 1),\r\n\t(1, 0, 2),\r\n\t(1, 0, 3),\r\n\t(1, 1, 0),\r\n\t(1, 2, 0),\r\n\t(1, 3, 0),\r\n]\r\n\r\n\r\ndef pow_mod10(b, p):\r\n\tif p == 0:\r\n\t\treturn 1\r\n\r\n\treturn pow(b, 4 + p % 4, 10)\r\n\r\n\r\ndef solve(a, d):\r\n\tnums_by_units = []\r\n\tfor i in range(10):\r\n\t\tnums_by_units.append([])\r\n\r\n\toverall_p_mod = 1\r\n\todd_prod_mod = 1\r\n\tfor x in a:\r\n\t\tr = x % 10\r\n\t\tnums_by_units[r].append(x)\r\n\t\toverall_p_mod = (overall_p_mod * r) % 10\r\n\t\tif r % 2 == 1 and r != 5:\r\n\t\t\todd_prod_mod = (odd_prod_mod * r) % 10\r\n\r\n\tfor i in range(10):\r\n\t\tnums_by_units[i].sort()\r\n\r\n\tif d == overall_p_mod:\r\n\t\treturn a\r\n\r\n\tif d == 0:\r\n\t\tif d != overall_p_mod:\r\n\t\t\treturn []\r\n\r\n\t\treturn a\r\n\r\n\tif d == 5:\r\n\t\tif len(nums_by_units[5]) == 0:\r\n\t\t\treturn []\r\n\r\n\t\treturn sum([nums_by_units[r] for r in [1, 3, 5, 7, 9]], [])\r\n\r\n\tif d in [1, 3, 7, 9]:\r\n\t\tif all(len(nums_by_units[r]) == 0 for r in [1, 3, 7, 9]):\r\n\t\t\treturn []\r\n\r\n\t\tif d == odd_prod_mod:\r\n\t\t\treturn sum([nums_by_units[r] for r in [1, 3, 7, 9]], [])\r\n\r\n\tf = [0] * 10\r\n\tf[0] = len(nums_by_units[0])\r\n\tf[5] = len(nums_by_units[5])\r\n\r\n\tif d % 2 == 1:\r\n\t\tf[6] = len(nums_by_units[6])\r\n\t\tf428_set = [(len(nums_by_units[4]), len(nums_by_units[2]), len(nums_by_units[8]))]\r\n\telse:\r\n\t\tf[6] = 0\r\n\t\tf428_set = S_133[:]\r\n\r\n\tf937_set = S_133[:]\r\n\r\n\tmin_f = None\r\n\tmin_removed_prod = None\r\n\tp_mod_init = pow_mod10(6, len(nums_by_units[6]) - f[6])\r\n\tI = [4, 2, 8, 9, 3, 7]\r\n\r\n\tfor f[4], f[2], f[8] in f428_set:\r\n\t\tfor f[9], f[3], f[7] in f937_set:\r\n\t\t\tif all(f[i] <= len(nums_by_units[i]) for i in I):\r\n\t\t\t\tp_mod = p_mod_init\r\n\t\t\t\tremoved_prod = 1\r\n\t\t\t\tfor i in I:\r\n\t\t\t\t\tif d % 2 == 0 or i % 2 == 1:\r\n\t\t\t\t\t\tp_mod = (p_mod * pow_mod10(i, len(nums_by_units[i]) - f[i])) % 10\r\n\t\t\t\t\t\tfor j in range(f[i]):\r\n\t\t\t\t\t\t\tremoved_prod *= nums_by_units[i][j]\r\n\r\n\t\t\t\tif p_mod == d and (min_removed_prod is None or min_removed_prod > removed_prod):\r\n\t\t\t\t\tmin_removed_prod = removed_prod\r\n\t\t\t\t\tmin_f = f[:]\r\n\r\n\t\t\tif min_removed_prod == 1:\r\n\t\t\t\tbreak\r\n\r\n\tif min_f:\r\n\t\treturn sum([nums_by_units[i][min_f[i]:] for i in range(10)], [])\r\n\r\n\treturn []\r\n\r\n\r\nif __name__ == \"__main__\":\r\n\tn, d = map(int, input().split())\r\n\ta = [*map(int, input().split())]\r\n\r\n\tans = solve(a, d)\r\n\tif not ans:\r\n\t\tprint(-1)\r\n\telse:\r\n\t\tprint(len(ans))\r\n\t\tprint(*ans)\r\n",
+    "prob_desc_created_at": "1617523500",
+    "tags": [
+        "dp",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

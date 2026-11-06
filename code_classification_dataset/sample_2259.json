@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3000\", \"992\", \"1\"]",
+    "src_uid": "06420ea88312103231a7bbac8a9a62d1",
+    "prob_desc_notes": "NoteIn the first test case, Ciel has 3 cards with same strength. The best strategy is as follows. First she uses one of these 3 cards to attack \"ATK 2000\" card first, this attack destroys that card and Jiro gets 2500 - 2000 = 500 damage. Then she uses the second card to destroy the \"DEF 1700\" card. Jiro doesn't get damage that time. Now Jiro has no cards so she can use the third card to attack and Jiro gets 2500 damage. So the answer is 500 + 2500 = 3000.In the second test case, she should use the \"1001\" card to attack the \"ATK 100\" card, then use the \"101\" card to attack the \"ATK 10\" card. Now Ciel still has cards but she can choose to end her battle phase. The total damage equals (1001 - 100) + (101 - 10) = 992.In the third test case note that she can destroy the \"ATK 0\" card by a card with strength equal to 0, but she can't destroy a \"DEF 0\" card with that card.",
+    "prob_desc_description": "Fox Ciel is playing a card game with her friend Jiro.Jiro has n cards, each one has two attributes: position (Attack or Defense) and strength. Fox Ciel has m cards, each one has these two attributes too. It's known that position of all Ciel's cards is Attack.Now is Ciel's battle phase, Ciel can do the following operation many times:  Choose one of her cards X. This card mustn't be chosen before.  If Jiro has no alive cards at that moment, he gets the damage equal to (X's strength). Otherwise, Ciel needs to choose one Jiro's alive card Y, then:   If Y's position is Attack, then (X's strength)  ≥  (Y's strength) must hold. After this attack, card Y dies, and Jiro gets the damage equal to (X's strength) - (Y's strength).  If Y's position is Defense, then (X's strength)  &gt;  (Y's strength) must hold. After this attack, card Y dies, but Jiro gets no damage.  Ciel can end her battle phase at any moment (so, she can use not all her cards). Help the Fox to calculate the maximal sum of damage Jiro can get.",
+    "prob_desc_output_spec": "Output an integer: the maximal damage Jiro can get.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 100) — the number of cards Jiro and Ciel have. Each of the next n lines contains a string position and an integer strength (0 ≤ strength ≤ 8000) — the position and strength of Jiro's current card. Position is the string \"ATK\" for attack, and the string \"DEF\" for defense. Each of the next m lines contains an integer strength (0 ≤ strength ≤ 8000) — the strength of Ciel's current card.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_019.jsonl",
+    "code_uid": "b3c15d58189facfaea4a6bb535a38319",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\nATK 2000\\nDEF 1700\\n2500\\n2500\\n2500\", \"3 4\\nATK 10\\nATK 100\\nATK 1000\\n1\\n11\\n101\\n1001\", \"2 4\\nDEF 0\\nATK 0\\n0\\n0\\n1\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, input().split())\na, d = [1e9], [1e9]\nfor x in range(n):\n    p, s = input().split()\n    [d, a][p < 'B'].append(int(s))\nv = [int(input()) for y in range(m)]\nfor q in [a, d, v]: q.sort()\ns = sum(v)\ni = j = 0\nfor t in v:\n    if t > d[i]: s, i = s - t, i + 1\n    elif t >= a[j]: s, j = s - a[j], j + 1\nif i + j - n: s = 0\nprint(max(s, sum(max(0, y - x) for x, y in zip(a, v[::-1]))))",
+    "prob_desc_created_at": "1372433400",
+    "tags": [
+        "dp",
+        "flows",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

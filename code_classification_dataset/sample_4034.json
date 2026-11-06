@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n2\\n3\\n2\\n3\"]",
+    "src_uid": "d6790c9b4b2e488768fb4e746ee7ebe0",
+    "prob_desc_notes": "NoteIn the first test case, one of the shortest arrays with $$$\\operatorname{MEX}$$$ $$$1$$$ and $$$\\operatorname{XOR}$$$ $$$1$$$ is $$$[0, 2020, 2021]$$$.In the second test case, one of the shortest arrays with $$$\\operatorname{MEX}$$$ $$$2$$$ and $$$\\operatorname{XOR}$$$ $$$1$$$ is $$$[0, 1]$$$.It can be shown that these arrays are the shortest arrays possible.",
+    "prob_desc_description": "Alice gave Bob two integers $$$a$$$ and $$$b$$$ ($$$a &gt; 0$$$ and $$$b \\ge 0$$$). Being a curious boy, Bob wrote down an array of non-negative integers with $$$\\operatorname{MEX}$$$ value of all elements equal to $$$a$$$ and $$$\\operatorname{XOR}$$$ value of all elements equal to $$$b$$$.What is the shortest possible length of the array Bob wrote?Recall that the $$$\\operatorname{MEX}$$$ (Minimum EXcluded) of an array is the minimum non-negative integer that does not belong to the array and the $$$\\operatorname{XOR}$$$ of an array is the bitwise XOR of all the elements of the array.",
+    "prob_desc_output_spec": "For each test case, output one (positive) integer — the length of the shortest array with $$$\\operatorname{MEX}$$$ $$$a$$$ and $$$\\operatorname{XOR}$$$ $$$b$$$. We can show that such an array always exists.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 5 \\cdot 10^4$$$) — the number of test cases. The description of the test cases follows. The only line of each test case contains two integers $$$a$$$ and $$$b$$$ ($$$1 \\leq a \\leq 3 \\cdot 10^5$$$; $$$0 \\leq b \\leq 3 \\cdot 10^5$$$) — the $$$\\operatorname{MEX}$$$ and $$$\\operatorname{XOR}$$$ of the array, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_089.jsonl",
+    "code_uid": "7ea4778d19f01f4c6ff106be7bf3ec73",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 1\\n2 1\\n2 0\\n1 10000\\n2 10000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#lista=list(map(int,input().split()))\r\n#x=lista[0]\r\n#n=lista[0]\r\nimport math\r\nimport sys\r\nfrom collections import deque\r\n#from sys import stdin, stdout\r\nfrom decimal import *\r\n\r\n#lista=list(map(int,input().split()))\r\n#x=lista[0]\r\n#n=lista[0]\r\n \r\nrasp_final=\"\"\r\n#my_set=set()\r\n#for x in range(1, 100000):\r\n #my_set.add(2*x*x)\r\n #my_set.add(4*x*x)\r\n \r\n#vector_prime=[-1]*21000\r\n#vector_rasp=[0]*21000\r\n\r\n#vector_prime[1]=1\r\n\r\n#vector_rasp[1]=1\r\n\r\ncontor=2\r\n#primes sieve\r\n#for i in range(2,21000):\r\n #if vector_prime[i]==-1:\r\n  #vector_prime[i]=1\r\n  #vector_rasp[contor]=i\r\n  #contor=contor+1\r\n  #for j in range(i+i,21000,i):\r\n  # vector_prime[j]=0\r\n   #print(i,j)\r\n\r\n\r\n  \r\n#suma=0\r\n#vector=list(map(int,input().split()))\r\n#for i in vector:\r\n #suma=suma+i\r\n#luni = {'January':1, 'February':2, 'March':3, 'April':4, 'May':5, 'June':6, 'July':7, 'August':8, 'September':9, 'October':10, 'November':11, 'December':0}\r\n#luni_reverse = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May', 6:'June', 7:'July', 8:'August', 9:'September', 10:'October', 11:'November', 0:'December'} \r\n#alfabet = {'a': 1, 'b': 2,'c': 3,'d': 4,'e': 5,'f': 6,'g': 7,'h': 8,'i': 9,'j': 10,'k': 11,'l': 12,'m': 13,'n': 14,'o': 15,'p': 16,'q': 17,'r': 18,'s': 19,'t': 20,'u': 21,'v': 22,'w': 23,'x': 24,'y': 25,'z': 26}\r\n#alfabet_2={'1':\"a\", '2':\"b\", '3':\"c\", '4':\"d\", '5':\"e\", '6':\"f\", '7':\"g\", '8':\"h\", '9':\"i\", '10':\"j\", '11':\"k\", '12':\"l\", '13':\"m\", '14':\"n\", '15':\"o\", '16':\"p\", '17':\"q\", '18':\"r\", '19':\"s\", '20':\"t\", '21':\"u\", '22':\"v\", '23':\"w\", '24':\"x\", '25':\"y\", '26':\"z\"}\r\n \r\nk=int(input()) \r\n#k=1\r\n \r\ncontor=0 \r\nwhile k>0:\r\n\r\n contor+=1\r\n waiting=deque()\r\n\r\n #n=int(input())\r\n \r\n lista=list(map(int,input().split()))\r\n a=lista[0]\r\n b=lista[1]\r\n \r\n if a==1 and b==0:\r\n  print(1)\r\n elif a==1 and b==1:\r\n   print (3)\r\n elif b==0 and a==2:\r\n   print (3)  \r\n elif a==2 and b==1:\r\n   print (2)  \r\n elif a==1 and b>1:\r\n   print(2)\r\n elif a%2==0:\r\n  if (a//2)%2==0:\r\n   \r\n   if b==a:\r\n    print(a+2)\r\n   elif b==0:\r\n    print(a)\r\n   else:\r\n    print(a+1)\r\n  else:\r\n   \r\n   if b==a+1:\r\n    print(a+2)\r\n   elif b==1:\r\n    print(a)\r\n   else:\r\n    print(a+1)\r\n   \r\n else:\r\n  if ((a-1)//2)%2==0:\r\n   if b==1:\r\n    print(a+2)\r\n   elif a-1==b:\r\n    print(a)\r\n   else:\r\n    print(a+1)\r\n  else:\r\n   if b==a:\r\n    print(a)\r\n   elif b==0:\r\n    print(a+2)\r\n   else:\r\n    print(a+1)\r\n    \r\n   \r\n   \r\n   \r\n \r\n   \r\n  \r\n  \r\n  \r\n k=k-1\r\n#print(rasp_final)",
+    "prob_desc_created_at": "1630852500",
+    "tags": [
+        "bitmasks",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

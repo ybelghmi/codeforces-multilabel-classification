@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"6\"]",
+    "src_uid": "fba0d6cb50c858187f67ac3cac550f0d",
+    "prob_desc_notes": "NoteIn the example, one of the possible Hamiltonian cycles with length 6 is (1, 1) (1, 2) (2, 1) (2, 2). There does not exist any other Hamiltonian cycle with a length greater than 6.The Manhattan distance between two cities (xi, yi) and (xj, yj) is |xi - xj| + |yi - yj|.",
+    "prob_desc_description": "There are n cities on a two dimensional Cartesian plane. The distance between two cities is equal to the Manhattan distance between them (see the Notes for definition). A Hamiltonian cycle of the cities is defined as a permutation of all n cities. The length of this Hamiltonian cycle is defined as the sum of the distances between adjacent cities in the permutation plus the distance between the first and final city in the permutation. Please compute the longest possible length of a Hamiltonian cycle of the given cities.",
+    "prob_desc_output_spec": "A single line denoting the longest possible length of a Hamiltonian cycle of the given cities. You should not output the cycle, only its length. Please, do not write the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains an integer n (3 ≤ n ≤ 105). Then n lines follow, each consisting of two integers xi and yi (0 ≤ xi, yi ≤ 109), denoting the coordinates of a city. All given points will be distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 3100,
+    "file_name": "train_044.jsonl",
+    "code_uid": "a185367ecb5d48f57e758425edc618ca",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 1\\n1 2\\n2 1\\n2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n \nn = int(raw_input())\ncoordinates = []\nxs = []\nys = []\nfor i in range(n):\n  x, y = map(int, raw_input().split())\n  coordinates.append(((x, i), (y, i)))\n  xs.append((x, i))\n  ys.append((y, i))\n \nxs = sorted(xs)\nys = sorted(ys)\n \namt = [[0] * 2 for _ in range(2)]\n \nmedians = 0\n \nfor x, y in coordinates:\n  if n % 2 and x == xs[n/2]:\n    # median\n    medians += 1\n    continue\n  if n % 2 and y == ys[n/2]:\n    # median\n    medians += 1\n    continue\n  amt[x < xs[n/2]][y < ys[n/2]] += 1\n \ndef CalcuHalf(arr):\n  res = 0\n  for a, _ in arr[len(arr)/2:]:\n    res += a\n  for a, _ in arr[:len(arr)/2]:\n    res -= a\n  return res\n \ndef PossibleAll():\n  def CalculateMax(arr):\n    woot = arr + arr\n    woot = sorted(woot)\n    return CalcuHalf(woot)\n  print CalculateMax(xs) + CalculateMax(ys)\n  sys.exit(0)\n \nif amt[0][0] + amt[1][1] == 0 or amt[1][0] + amt[0][1] == 0:\n  PossibleAll()\nif medians == 2:\n  PossibleAll()\nif medians == 0:\n  def Proc(arr):\n    zs = sorted(arr + arr)\n    zs[n-1], zs[n] = zs[n], zs[n-1]\n    return CalcuHalf(zs)\n  print max([Proc(xs) + CalcuHalf(sorted(ys+ys)),\n             Proc(ys) + CalcuHalf(sorted(xs+xs))])\nelse:\n  def Proc(arr):\n    zs = sorted(arr + arr)\n    zs[n-2], zs[n] = zs[n], zs[n-2]\n    az = sorted(arr + arr)\n    az[n-1], az[n+1] = az[n+1], az[n-1]\n    return max([CalcuHalf(zs), CalcuHalf(az)])\n  print max([Proc(xs) + CalcuHalf(sorted(ys+ys)),\n             Proc(ys) + CalcuHalf(sorted(xs+xs))])\n ",
+    "prob_desc_created_at": "1374327000",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

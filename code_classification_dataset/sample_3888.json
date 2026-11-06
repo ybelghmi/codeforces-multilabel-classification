@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n3\\n3\\n3\\n0\\n4\\n4\\n3\"]",
+    "src_uid": "1f46c4ba21e734a1c7de8b2434791f77",
+    "prob_desc_notes": "NoteIn the first case, you can proceed as follows:   use green serum. $$$h = 1 \\cdot 2 = 2$$$  absorb the cosmonaut $$$2$$$. $$$h = 2 + \\lfloor \\frac{1}{2} \\rfloor = 2$$$  use green serum. $$$h = 2 \\cdot 2 = 4$$$  absorb the spaceman $$$1$$$. $$$h = 4 + \\lfloor \\frac{2}{2} \\rfloor = 5$$$  use blue serum. $$$h = 5 \\cdot 3 = 15$$$  absorb the spaceman $$$3$$$. $$$h = 15 + \\lfloor \\frac{8}{2} \\rfloor = 19$$$  absorb the cosmonaut $$$4$$$. $$$h = 19 + \\lfloor \\frac{9}{2} \\rfloor = 23$$$ ",
+    "prob_desc_description": "There are $$$n$$$ astronauts working on some space station. An astronaut with the number $$$i$$$ ($$$1 \\le i \\le n$$$) has power $$$a_i$$$.An evil humanoid has made his way to this space station. The power of this humanoid is equal to $$$h$$$. Also, the humanoid took with him two green serums and one blue serum.In one second , a humanoid can do any of three actions:  to absorb an astronaut with power strictly less humanoid power;  to use green serum, if there is still one left;  to use blue serum, if there is still one left. When an astronaut with power $$$a_i$$$ is absorbed, this astronaut disappears, and power of the humanoid increases by $$$\\lfloor \\frac{a_i}{2} \\rfloor$$$, that is, an integer part of $$$\\frac{a_i}{2}$$$. For example, if a humanoid absorbs an astronaut with power $$$4$$$, its power increases by $$$2$$$, and if a humanoid absorbs an astronaut with power $$$7$$$, its power increases by $$$3$$$.After using the green serum, this serum disappears, and the power of the humanoid doubles, so it increases by $$$2$$$ times.After using the blue serum, this serum disappears, and the power of the humanoid triples, so it increases by $$$3$$$ times.The humanoid is wondering what the maximum number of astronauts he will be able to absorb if he acts optimally.",
+    "prob_desc_output_spec": "For each test case, in a separate line, print the maximum number of astronauts that a humanoid can absorb.",
+    "prob_desc_input_spec": "The first line of each test contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — number of test cases. The first line of each test case contains integers $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — number of astronauts and $$$h$$$ ($$$1 \\le h \\le 10^6$$$) — the initial power of the humanoid. The second line of each test case contains $$$n$$$ integers $$$a_i$$$ ($$$1 \\le a_i \\le 10^8$$$) — powers of astronauts. It is guaranteed that the sum of $$$n$$$ for all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_086.jsonl",
+    "code_uid": "563c1033796f51f2011cf8187e79ff42",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n\\n4 1\\n\\n2 1 8 9\\n\\n3 3\\n\\n6 2 60\\n\\n4 5\\n\\n5 1 100 5\\n\\n3 2\\n\\n38 6 3\\n\\n1 1\\n\\n12\\n\\n4 6\\n\\n12 12 36 100\\n\\n4 1\\n\\n2 1 1 15\\n\\n3 5\\n\\n15 1 13\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\r\n    for _ in range(get_int()):\r\n        num_astronauts, power = get_list_int()\r\n        astronauts = get_list_int()\r\n\r\n        astronauts.sort(reverse=True)\r\n\r\n        print(absorb(astronauts, power, 0, 2, 1))\r\n\r\n\r\ndef absorb(astronauts, power, count, double, triple):\r\n    astronauts = astronauts.copy()\r\n\r\n    while astronauts:\r\n        a = astronauts[-1]\r\n\r\n        if power > a:\r\n            power += a // 2\r\n            count += 1\r\n            astronauts.pop()\r\n        else:\r\n            if not double and not triple:\r\n                return count\r\n\r\n            times_2 = 0\r\n            times_3 = 0\r\n            times_4 = 0\r\n            times_6 = 0\r\n            times_12 = 0\r\n\r\n            if double > 0:\r\n                times_2 = absorb(astronauts, power * 2, count, double - 1, triple)\r\n            if double > 1:\r\n                times_4 = absorb(astronauts, power * 4, count, double - 2, triple)\r\n            if triple > 0:\r\n                times_3 = absorb(astronauts, power * 3, count, double, triple - 1)\r\n            if double > 0 and triple > 0:\r\n                times_6 = absorb(astronauts, power * 6, count, double - 1, triple - 1)\r\n            if double > 1 and triple > 0:\r\n                times_12 = absorb(astronauts, power * 12, count, double - 2, triple - 1)\r\n\r\n            return max(times_2, times_3, times_4, times_6, times_12)\r\n\r\n    return count\r\n\r\n\r\ndef get_int() -> int:\r\n    return int(input())\r\n\r\n\r\ndef get_list_int() -> list[int]:\r\n    return [int(x) for x in input().split(\" \")]\r\n\r\n\r\ndef get_list_str() -> list[str]:\r\n    return input().split(\" \")\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    main()\r\n",
+    "prob_desc_created_at": "1668782100",
+    "tags": [
+        "brute force",
+        "dp",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

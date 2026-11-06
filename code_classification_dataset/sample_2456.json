@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\", \"4\", \"100\"]",
+    "src_uid": "6ffd7ba12fc6afeeeba80a73a8cf7bd1",
+    "prob_desc_notes": "NoteIn the first sample Sereja can pay 5 rubles, for example, if Dima constructs the following array: [1, 2, 1, 2, 2]. There are another optimal arrays for this test.In the third sample Sereja can pay 100 rubles, if Dima constructs the following array: [2].",
+    "prob_desc_description": "Let's call an array consisting of n integer numbers a1, a2, ..., an, beautiful if it has the following property:  consider all pairs of numbers x, y (x ≠ y), such that number x occurs in the array a and number y occurs in the array a;  for each pair x, y must exist some position j (1 ≤ j &lt; n), such that at least one of the two conditions are met, either aj = x, aj + 1 = y, or aj = y, aj + 1 = x. Sereja wants to build a beautiful array a, consisting of n integers. But not everything is so easy, Sereja's friend Dima has m coupons, each contains two integers qi, wi. Coupon i costs wi and allows you to use as many numbers qi as you want when constructing the array a. Values qi are distinct. Sereja has no coupons, so Dima and Sereja have made the following deal. Dima builds some beautiful array a of n elements. After that he takes wi rubles from Sereja for each qi, which occurs in the array a. Sereja believed his friend and agreed to the contract, and now he is wondering, what is the maximum amount of money he can pay.Help Sereja, find the maximum amount of money he can pay to Dima.",
+    "prob_desc_output_spec": "In a single line print maximum amount of money (in rubles) Sereja can pay. Please, do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n ≤ 2·106, 1 ≤ m ≤ 105). Next m lines contain pairs of integers. The i-th line contains numbers qi, wi (1 ≤ qi, wi ≤ 105). It is guaranteed that all qi are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_023.jsonl",
+    "code_uid": "60900c19d2f71169e5ebf50b00bffea3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2\\n1 2\\n2 3\", \"100 3\\n1 2\\n2 1\\n3 1\", \"1 2\\n1 1\\n2 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python\nn, m = map(int, raw_input().split())\nw = []\nfor _ in range(m):\n\t_, wi = map(int, raw_input().split())\n\tw.append(wi)\n\ndef calc(size, r):\n\tl = 1\n\n\twhile l+1 < r:\n\t\tv = (l + r) / 2\n\t\tedges = v * (v-1) / 2\n\t\tif v % 2 == 0:\n\t\t\tedges += v / 2 - 1\n\t\tif edges < size:\n\t\t\tl = v\n\t\telse:\n\t\t\tr = v\n\treturn l\n\nv = calc(n, m+1)\n#print v\n\nprint sum(sorted(w)[::-1][:v])",
+    "prob_desc_created_at": "1385479800",
+    "tags": [
+        "combinatorics",
+        "implementation",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

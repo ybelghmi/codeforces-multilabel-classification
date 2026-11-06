@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"-2\\n-2\\n-5\\n4\\n-1\"]",
+    "src_uid": "7eae40835f6e9580b985d636d5730e2d",
+    "prob_desc_notes": "NoteIn the first query, you need to find the sum of the elements of the array from position $$$1$$$ to position $$$3$$$. The sum is equal to $$$a_1 + a_2 + a_3 = -1 + 2 -3 = -2$$$.In the second query, you need to find the sum of the elements of the array from position $$$2$$$ to position $$$5$$$. The sum is equal to $$$a_2 + a_3 + a_4 + a_5 = 2 -3 + 4 - 5 = -2$$$.In the third query, you need to find the sum of the elements of the array from position $$$5$$$ to position $$$5$$$. The sum is equal to $$$a_5 = -5$$$.In the fourth query, you need to find the sum of the elements of the array from position $$$4$$$ to position $$$4$$$. The sum is equal to $$$a_4 = 4$$$.In the fifth query, you need to find the sum of the elements of the array from position $$$2$$$ to position $$$3$$$. The sum is equal to $$$a_2 + a_3 = 2 - 3 = -1$$$.",
+    "prob_desc_description": "Little girl Margarita is a big fan of competitive programming. She especially loves problems about arrays and queries on them.Recently, she was presented with an array $$$a$$$ of the size of $$$10^9$$$ elements that is filled as follows:   $$$a_1 = -1$$$  $$$a_2 = 2$$$  $$$a_3 = -3$$$  $$$a_4 = 4$$$  $$$a_5 = -5$$$  And so on ... That is, the value of the $$$i$$$-th element of the array $$$a$$$ is calculated using the formula $$$a_i = i \\cdot (-1)^i$$$.She immediately came up with $$$q$$$ queries on this array. Each query is described with two numbers: $$$l$$$ and $$$r$$$. The answer to a query is the sum of all the elements of the array at positions from $$$l$$$ to $$$r$$$ inclusive.Margarita really wants to know the answer to each of the requests. She doesn't want to count all this manually, but unfortunately, she couldn't write the program that solves the problem either. She has turned to you — the best programmer.Help her find the answers!",
+    "prob_desc_output_spec": "Print $$$q$$$ lines, each containing one number — the answer to the query. ",
+    "prob_desc_input_spec": "The first line contains a single integer $$$q$$$ ($$$1 \\le q \\le 10^3$$$) — the number of the queries. Each of the next $$$q$$$ lines contains two integers $$$l$$$ and $$$r$$$ ($$$1 \\le l \\le r \\le 10^9$$$) — the descriptions of the queries.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_024.jsonl",
+    "code_uid": "6a22b44bf3a95bf6e6e58e0ddae3dca1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 3\\n2 5\\n5 5\\n4 4\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import division\nfrom sys import stdin, stdout\n\n\ndef write(x):\n    stdout.write(str(x) + \"\\n\")\n\n\nq = int(stdin.readline())\nfor _ in xrange(q):\n    l, r = map(int, stdin.readline().split())\n    elements = r - l + 1\n    if elements % 2 == 0:\n        res = elements // 2\n        if l % 2 == 0:\n            write(-res)\n        else:\n            write(res)\n    else:\n        res = elements // 2\n        if l % 2 == 0:\n            write(-res + r)\n        else:\n            write(res - r)\n",
+    "prob_desc_created_at": "1543044900",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

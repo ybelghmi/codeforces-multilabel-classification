@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\"]",
+    "src_uid": "f3c26aa520f6bfa6b181ec40bde7ee1b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A tree is a graph with n vertices and exactly n - 1 edges; this graph should meet the following condition: there exists exactly one shortest (by number of edges) path between any pair of its vertices.A subtree of a tree T is a tree with both vertices and edges as subsets of vertices and edges of T.You're given a tree with n vertices. Consider its vertices numbered with integers from 1 to n. Additionally an integer is written on every vertex of this tree. Initially the integer written on the i-th vertex is equal to vi. In one move you can apply the following operation:  Select the subtree of the given tree that includes the vertex with number 1.  Increase (or decrease) by one all the integers which are written on the vertices of that subtree. Calculate the minimum number of moves that is required to make all the integers written on the vertices of the given tree equal to zero.",
+    "prob_desc_output_spec": "Print the minimum number of operations needed to solve the task. Please, do not write the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line of the input contains n (1 ≤ n ≤ 105). Each of the next n - 1 lines contains two integers ai and bi (1 ≤ ai, bi ≤ n; ai ≠ bi) indicating there's an edge between vertices ai and bi. It's guaranteed that the input graph is a tree.  The last line of the input contains a list of n space-separated integers v1, v2, ..., vn (|vi| ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_039.jsonl",
+    "code_uid": "740c09a3634b5e5d1de8f86ab2e22805",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2\\n1 3\\n1 -1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout,setrecursionlimit\nfrom collections import defaultdict,deque,Counter,OrderedDict\nfrom heapq import heappop,heappush\nimport threading\n\nn = int(stdin.readline())\n\ngraph = [set() for x in range(n)]\n\nfor x in range(n-1):\n    a,b = [int(x) for x in stdin.readline().split()]\n    a -= 1\n    b -= 1\n\n    graph[a].add(b)\n    graph[b].add(a)\n\nvals = [int(x) for x in stdin.readline().split()]\n\nbruh = [(0,-1)]\n\nfor x in range(n):\n    num,p = bruh[x]\n    for y in graph[num]:\n        if y != p:\n            bruh.append((y,num))\n\nresult = [-1 for x in range(n)]\n\nfor v,parent in bruh[::-1]:\n    nP = 0\n    nN = 0\n    for x in graph[v]:\n        if x != parent:\n            p,n = result[x]\n            nP = max(nP,p)\n            nN = max(nN, n)\n    nN = max(nN, nP+vals[v])\n    nP = max(nP, nN-vals[v])\n            \n    result[v] = (nP,nN)\n\nng, ps = result[0]\n\nvals[0] += ps - ng\n\nstdout.write(str(ng+ps))\n",
+    "prob_desc_created_at": "1361374200",
+    "tags": [
+        "dp",
+        "dfs and similar",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

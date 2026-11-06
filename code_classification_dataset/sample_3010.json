@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 2\", \"4 2\"]",
+    "src_uid": "2921235fbae32b178e970b31b8eefad5",
+    "prob_desc_notes": "NoteYou can assume that an individual living from $$$b$$$ to $$$d$$$ has been born at the beginning of $$$b$$$ and died at the beginning of $$$d$$$, and therefore living for $$$d$$$ - $$$b$$$ years.",
+    "prob_desc_description": "During one of the space missions, humans have found an evidence of previous life at one of the planets. They were lucky enough to find a book with birth and death years of each individual that had been living at this planet. What's interesting is that these years are in the range $$$(1, 10^9)$$$! Therefore, the planet was named Longlifer.In order to learn more about Longlifer's previous population, scientists need to determine the year with maximum number of individuals that were alive, as well as the number of alive individuals in that year. Your task is to help scientists solve this problem!",
+    "prob_desc_output_spec": "Print two integer numbers separated by blank character, $$$y$$$  — the year with a maximum number of people alive and $$$k$$$  — the number of people alive in year $$$y$$$. In the case of multiple possible solutions, print the solution with minimum year.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the number of people. Each of the following $$$n$$$ lines contain two integers $$$b$$$ and $$$d$$$ ($$$1 \\le b \\lt d \\le 10^9$$$) representing birth and death year (respectively) of each individual.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_038.jsonl",
+    "code_uid": "fb5e415237ca1686da481acfae324b01",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 5\\n2 4\\n5 6\", \"4\\n3 4\\n4 5\\n4 6\\n8 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# Legends Always Come Up with Solution\n# Author: Manvir Singh\n\nimport os\nfrom io import BytesIO, IOBase\nimport sys\nfrom collections import defaultdict,deque,Counter\nfrom bisect import *\nfrom math import sqrt,pi\nimport math\nfrom itertools import permutations\nfrom copy import deepcopy\n\ndef main():\n    from collections import Counter\n    n = int(input())\n    a =set()\n    b=Counter()\n    for i in range(n):\n        x, y = map(int, input().split())\n        a.add(x)\n        a.add(y)\n        b[x]+=1\n        b[y]-=1\n    a=sorted(a)\n    c,ma,y=0,0,0\n    for i in a:\n        c+=b[i]\n        if ma<c:\n            ma=c\n            y=i\n    print(y,ma)\n\n# region fastio\nBUFSIZE = 8192\n\nclass FastIO(IOBase):\n    newlines = 0\n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\n        self.write = self.buffer.write if self.writable else None\n\n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n\n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b\"\\n\") + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n\n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n\n\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\n\n\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\n\nif __name__ == \"__main__\":\n    main()",
+    "prob_desc_created_at": "1601903100",
+    "tags": [
+        "data structures",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

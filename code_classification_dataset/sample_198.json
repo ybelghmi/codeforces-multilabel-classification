@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"99\\n55\\n11115\", \"385\\n360\\n792\\n8360\"]",
+    "src_uid": "b3108315889607dabcd3112bcfe3fb54",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little Petya has a birthday soon. Due this wonderful event, Petya's friends decided to give him sweets. The total number of Petya's friends equals to n.Let us remind you the definition of the greatest common divisor: GCD(a1, ..., ak) = d, where d represents such a maximal positive number that each ai (1 ≤ i ≤ k) is evenly divisible by d. At that, we assume that all ai's are greater than zero.Knowing that Petya is keen on programming, his friends has agreed beforehand that the 1-st friend gives a1 sweets, the 2-nd one gives a2 sweets, ..., the n-th one gives an sweets. At the same time, for any i and j (1 ≤ i, j ≤ n) they want the GCD(ai, aj) not to be equal to 1. However, they also want the following condition to be satisfied: GCD(a1, a2, ..., an) = 1. One more: all the ai should be distinct.Help the friends to choose the suitable numbers a1, ..., an.",
+    "prob_desc_output_spec": "If there is no answer, print \"-1\" without quotes. Otherwise print a set of n distinct positive numbers a1, a2, ..., an. Each line must contain one number. Each number must consist of not more than 100 digits, and must not contain any leading zeros. If there are several solutions to that problem, print any of them. Do not forget, please, that all of the following conditions must be true:  For every i and j (1 ≤ i, j ≤ n): GCD(ai, aj) ≠ 1 GCD(a1, a2, ..., an) = 1 For every i and j (1 ≤ i, j ≤ n, i ≠ j): ai ≠ aj  Please, do not use %lld specificator to read or write 64-bit integers in C++. It is preffered to use cout (also you may use %I64d).",
+    "prob_desc_input_spec": "The first line contains an integer n (2 ≤ n ≤ 50).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_000.jsonl",
+    "code_uid": "7a21e907e5a05a060d05c5e7a9a905a4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\", \"4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\ndef isprime(a):\n    if(a==1 or a==0 or a==2 ):\n        return 0\n    x=2\n    while x*x<=a:\n        if a%x==0:\n            return 0\n        x+=1\n    return 1\n\nprimes=[]\nm=1\ncnt=0\nfor x in range(1,300):\n    if(isprime(x)):\n         primes.append(x)\nn=int(input())\nif(n==2):\n    print(-1)\nelse :\n   for i in range(0,n-1):\n      print(2*primes[i])\n      m=m*primes[i]\n   print(m)\n",
+    "prob_desc_created_at": "1299513600",
+    "tags": [
+        "constructive algorithms",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

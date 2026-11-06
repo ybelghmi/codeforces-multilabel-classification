@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"&lt;\", \"&gt;\", \"=\", \"&gt;\", \"&gt;\"]",
+    "src_uid": "fd63aeefba89bef7d16212a0d9e756cd",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two very long integers a, b (leading zeroes are allowed). You should check what number a or b is greater or determine that they are equal.The input size is very large so don't use the reading of symbols one by one. Instead of that use the reading of a whole line or token.As input/output can reach huge size it is recommended to use fast input/output methods: for example, prefer to use scanf/printf instead of cin/cout in C++, prefer to use BufferedReader/PrintWriter instead of Scanner/System.out in Java. Don't use the function input() in Python2 instead of it use the function raw_input().",
+    "prob_desc_output_spec": "Print the symbol \"&lt;\" if a &lt; b and the symbol \"&gt;\" if a &gt; b. If the numbers are equal print the symbol \"=\".",
+    "prob_desc_input_spec": "The first line contains a non-negative integer a. The second line contains a non-negative integer b. The numbers a, b may contain leading zeroes. Each of them contains no more than 106 digits.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_001.jsonl",
+    "code_uid": "ce0dcff71efaed247f00b7c787a821e2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9\\n10\", \"11\\n10\", \"00012345\\n12345\", \"0123\\n9\", \"0123\\n111\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n\n    a = input()\n    b = input()\n\n    boolean = False\n    index_to_start_a = 0\n    index_to_start_b = 0\n    while index_to_start_a < len(a) and a[index_to_start_a] == \"0\":\n        index_to_start_a += 1\n\n    while index_to_start_b < len(b) and b[index_to_start_b] == \"0\":\n        index_to_start_b += 1\n\n    a = a[index_to_start_a:]\n    b = b[index_to_start_b:]\n\n    length_a = len(a)\n    length_b = len(b)\n    if length_a > length_b:\n        print(\">\")\n    elif length_a < length_b:\n        print(\"<\")\n\n    else:\n        for k in range(length_a):\n            if a[k] > b[k]:\n                print(\">\")\n                boolean = True\n                break\n            if a[k] < b[k]:\n                print(\"<\")\n                boolean = True\n                break\n\n        if not boolean:\n            print(\"=\")\n\n\n\n\n\n\nmain()\n\n\n\n\n",
+    "prob_desc_created_at": "1452524400",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

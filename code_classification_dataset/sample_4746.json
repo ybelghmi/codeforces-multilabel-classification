@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n3 1 \\n3\\n4 5 2 \\n0\"]",
+    "src_uid": "d08e39db62215d7817113aaa384e3f59",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given two integers $$$n$$$ and $$$k$$$. You are asked to choose maximum number of distinct integers from $$$1$$$ to $$$n$$$ so that there is no subset of chosen numbers with sum equal to $$$k$$$.A subset of a set is a set that can be obtained from initial one by removing some (possibly all or none) elements of it.",
+    "prob_desc_output_spec": "For each test case output two lines. In the first line output a single integer $$$m$$$ — the number of chosen integers. In the second line output $$$m$$$ distinct integers from $$$1$$$ to $$$n$$$ — the chosen numbers. If there are multiple answers, print any. You can print the numbers in any order.",
+    "prob_desc_input_spec": "The first line contains the number of test cases $$$T$$$ ($$$1 \\le T \\le 100$$$). Each of the next $$$T$$$ lines contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 1000$$$) — the description of test cases.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_105.jsonl",
+    "code_uid": "26202495f93495c5bd39e09442c55d21",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3 2\\n5 3\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\r\nt=int(input())\r\nfor k in range(t):\r\n\tn,k=map(int,input().split(' '))\r\n\ta=[]\r\n\tfor i in range(k+1,n+1):\r\n\t\ta.append(i)\r\n\tb=[]\r\n\tfor i in range(k-1,0,-1):\r\n\t\tb.append(i)\r\n\tif len(b)>1:\r\n\t\tif len(b)%2==0:\r\n\t\t\tb=b[0:len(b)//2]\r\n\t\telse:\r\n\t\t\tb=b[0:len(b)//2+1]\r\n\tprint(len(a)+len(b))\r\n\tprint(*b,*a)",
+    "prob_desc_created_at": "1615039500",
+    "tags": [
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

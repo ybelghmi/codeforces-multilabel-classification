@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nbacdefghijklmnopqrstuvwxyz\\nYES\\nedocabfghijklmnpqrstuvwxyz\\nNO\\nYES\\nxzytabcdefghijklmnopqrsuvw\\nNO\"]",
+    "src_uid": "8fb62b497b6fb2a5fb4f2669aeb51b73",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Polycarp wants to assemble his own keyboard. Layouts with multiple rows are too complicated for him — his keyboard will consist of only one row, where all $$$26$$$ lowercase Latin letters will be arranged in some order.Polycarp uses the same password $$$s$$$ on all websites where he is registered (it is bad, but he doesn't care). He wants to assemble a keyboard that will allow to type this password very easily. He doesn't like to move his fingers while typing the password, so, for each pair of adjacent characters in $$$s$$$, they should be adjacent on the keyboard. For example, if the password is abacaba, then the layout cabdefghi... is perfect, since characters a and c are adjacent on the keyboard, and a and b are adjacent on the keyboard. It is guaranteed that there are no two adjacent equal characters in $$$s$$$, so, for example, the password cannot be password (two characters s are adjacent).Can you help Polycarp with choosing the perfect layout of the keyboard, if it is possible?",
+    "prob_desc_output_spec": "For each test case, do the following:   if it is impossible to assemble a perfect keyboard, print NO (in upper case, it matters in this problem);  otherwise, print YES (in upper case), and then a string consisting of $$$26$$$ lowercase Latin letters — the perfect layout. Each Latin letter should appear in this string exactly once. If there are multiple answers, print any of them. ",
+    "prob_desc_input_spec": "The first line contains one integer $$$T$$$ ($$$1 \\le T \\le 1000$$$) — the number of test cases. Then $$$T$$$ lines follow, each containing one string $$$s$$$ ($$$1 \\le |s| \\le 200$$$) representing the test case. $$$s$$$ consists of lowercase Latin letters only. There are no two adjacent equal characters in $$$s$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_000.jsonl",
+    "code_uid": "fa64859e390a0c3d39c59b42438b0daf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nababa\\ncodedoca\\nabcda\\nzxzytyz\\nabcdefghijklmnopqrstuvwxyza\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\n    s = input()\n    s1 = s[0]\n    ans = \"YES\"\n    for i in range(len(s)-1):\n        if s[i + 1] not in s1:\n            x = s1.find(s[i])\n            if x == len(s1) - 1:\n                s1 += s[i + 1]\n            elif x == 0:\n                s1 = s[i + 1]+ s1\n            else:\n                ans = \"NO\"\n                break\n        else:\n            x1 = s1.find(s[i+1])\n            x2 = s1.find(s[i])\n            if abs(x2 - x1) > 1:\n                ans = \"NO\"\n                break\n    print(ans)\n    if ans == \"YES\":\n        for i in range(26):\n            if chr(ord('a') + i) not in s1:\n                s1 += chr(ord('a') + i)\n        print(s1)\n",
+    "prob_desc_created_at": "1581518100",
+    "tags": [
+        "implementation",
+        "dfs and similar",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

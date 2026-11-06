@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n5\\n4\\n28010\\n110\"]",
+    "src_uid": "f7cde36c9cd0131478a5e3b990c64084",
+    "prob_desc_notes": "NoteIn the first test case: At time $$$0$$$, the values of the nodes are $$$[1, 1, 1]$$$.  At time $$$1$$$, the values of the nodes are $$$[0, 1, 1]$$$.  At time $$$2$$$, the values of the nodes are $$$[0, 0, 1]$$$.  At time $$$3$$$, the values of the nodes are $$$[0, 0, 0]$$$.So the answer is $$$3$$$. In the second test case:  At time $$$0$$$, the values of the nodes are $$$[1, 0, 0, 0, 0]$$$.  At time $$$1$$$, the values of the nodes are $$$[0, 1, 0, 0, 1]$$$.  At time $$$2$$$, the values of the nodes are $$$[0, 0, 1, 0, 0]$$$.  At time $$$3$$$, the values of the nodes are $$$[0, 0, 0, 1, 0]$$$.  At time $$$4$$$, the values of the nodes are $$$[0, 0, 0, 0, 1]$$$.  At time $$$5$$$, the values of the nodes are $$$[0, 0, 0, 0, 0]$$$.  So the answer is $$$5$$$.In the third test case:The first moment of time when all $$$a_i$$$ become $$$0$$$ is $$$6\\cdot 998244353 + 4$$$.",
+    "prob_desc_description": "Cirno has a DAG (Directed Acyclic Graph) with $$$n$$$ nodes and $$$m$$$ edges. The graph has exactly one node that has no out edges. The $$$i$$$-th node has an integer $$$a_i$$$ on it.Every second the following happens: Let $$$S$$$ be the set of nodes $$$x$$$ that have $$$a_x &gt; 0$$$. For all $$$x \\in S$$$, $$$1$$$ is subtracted from $$$a_x$$$, and then for each node $$$y$$$, such that there is an edge from $$$x$$$ to $$$y$$$, $$$1$$$ is added to $$$a_y$$$.Find the first moment of time when all $$$a_i$$$ become $$$0$$$. Since the answer can be very large, output it modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_output_spec": "For each test case, print an integer in a separate line — the first moment of time when all $$$a_i$$$ become $$$0$$$, modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 1000$$$) — the number of test cases. Description of test cases follows. The first line of each test case contains two integers $$$n, m$$$ ($$$1 \\leq n, m \\leq 1000$$$) — the number of vertices and edges in the graph. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\leq a_i \\leq 10^9$$$) — the integer on vertices. Each line of the following $$$m$$$ lines contains two integers $$$x, y$$$ ($$$1 \\leq x, y \\leq n$$$), represent a directed edge from $$$x$$$ to $$$y$$$. It is guaranteed that the graph is a DAG with no multi-edges, and there is exactly one node that has no out edges. It is guaranteed that both sum of $$$n$$$ and sum of $$$m$$$ over all test cases are less than or equal to $$$10\\,000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_089.jsonl",
+    "code_uid": "dcd64739b98b3f8d94d45f90ba9d653e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n3 2\\n\\n1 1 1\\n\\n1 2\\n\\n2 3\\n\\n5 5\\n\\n1 0 0 0 0\\n\\n1 2\\n\\n2 3\\n\\n3 4\\n\\n4 5\\n\\n1 5\\n\\n10 11\\n\\n998244353 0 0 0 998244353 0 0 0 0 0\\n\\n1 2\\n\\n2 3\\n\\n3 4\\n\\n4 5\\n\\n5 6\\n\\n6 7\\n\\n7 8\\n\\n8 9\\n\\n9 10\\n\\n1 3\\n\\n7 9\\n\\n5 6\\n\\n1293 1145 9961 9961 1919\\n\\n1 2\\n\\n2 3\\n\\n3 4\\n\\n5 4\\n\\n1 4\\n\\n2 4\\n\\n6 9\\n\\n10 10 10 10 10 10\\n\\n1 2\\n\\n1 3\\n\\n2 3\\n\\n4 3\\n\\n6 3\\n\\n3 5\\n\\n6 5\\n\\n6 1\\n\\n6 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\r\nN = 998244353\r\n\r\ndef toposort(graph):\r\n    res, found = [], [0] * len(graph)\r\n    stack = list(range(len(graph)))\r\n    while stack:\r\n        node = stack.pop()\r\n        if node < 0:\r\n            res.append(~node)\r\n        elif not found[node]:\r\n            found[node] = 1\r\n            stack.append(~node)\r\n            stack += graph[node]\r\n\r\n    # cycle check\r\n    for node in res:\r\n        if any(found[nei] for nei in graph[node]):\r\n            return None\r\n        found[node] = 0\r\n\r\n    return res[::-1]\r\n\r\nt = int(stdin.readline())\r\n\r\nfor _ in range(t):\r\n    n, m = [int(x) for x in stdin.readline().split()]\r\n    a = [int(x) for x in stdin.readline().split()]\r\n    in_neighbours = {i:set() for i in range(n)}\r\n    out_neighbours = {i:set() for i in range(n)}\r\n\r\n    for bar in range(m):\r\n        v, w = [int(x)-1 for x in stdin.readline().split()]\r\n        in_neighbours[w].add(v)\r\n        out_neighbours[v].add(w)\r\n\r\n    if max(a) == 0:\r\n        stdout.write('0\\n')\r\n\r\n    else:\r\n        time = 0\r\n\r\n        success = False\r\n        for bar in range(n-1):\r\n            time += 1\r\n            delta = []\r\n            for v in range(n):\r\n                if a[v] == 0:\r\n                    temp = 0\r\n                else:\r\n                    temp = -1\r\n\r\n                for w in in_neighbours[v]:\r\n                    if a[w] > 0:\r\n                        temp += 1\r\n\r\n                delta.append(temp)\r\n\r\n            for v in range(n):\r\n                a[v] += delta[v]\r\n\r\n            if max(a) == 0:\r\n                success = True\r\n                break\r\n\r\n        if success:\r\n            stdout.write(str(time)+'\\n')\r\n\r\n        else:\r\n            stack = toposort(out_neighbours)\r\n            for v in stack:\r\n                for w in out_neighbours[v]:\r\n                    a[w] = (a[w]+a[v])%N\r\n\r\n            stdout.write(str((time+a[v])%N)+'\\n')\r\n",
+    "prob_desc_created_at": "1659276300",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "dp",
+        "graphs",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

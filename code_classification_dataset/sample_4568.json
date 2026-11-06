@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"-1\", \"-1\"]",
+    "src_uid": "b1a59d0c59f3e8fd3bf76de6463c6847",
+    "prob_desc_notes": "NoteIn the first test case, we flip the cards $$$(1, 9)$$$ and $$$(2, 7)$$$. The deck is then ordered $$$(3,10), (5,8), (6,4), (7,2), (9,1)$$$. It is sorted because $$$3&lt;5&lt;6&lt;7&lt;9$$$ and $$$10&gt;8&gt;4&gt;2&gt;1$$$.In the second test case, it is impossible to sort the deck.",
+    "prob_desc_description": "There is a deck of $$$n$$$ cards. The $$$i$$$-th card has a number $$$a_i$$$ on the front and a number $$$b_i$$$ on the back. Every integer between $$$1$$$ and $$$2n$$$ appears exactly once on the cards.A deck is called sorted if the front values are in increasing order and the back values are in decreasing order. That is, if $$$a_i&lt; a_{i+1}$$$ and $$$b_i&gt; b_{i+1}$$$ for all $$$1\\le i&lt;n$$$.To flip a card $$$i$$$ means swapping the values of $$$a_i$$$ and $$$b_i$$$. You must flip some subset of cards (possibly, none), then put all the cards in any order you like. What is the minimum number of cards you must flip in order to sort the deck?",
+    "prob_desc_output_spec": "If it is impossible to sort the deck, output \"-1\". Otherwise, output the minimum number of flips required to sort the deck.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1\\le n\\le 2\\cdot 10^5$$$) — the number of cards. The next $$$n$$$ lines describe the cards. The $$$i$$$-th of these lines contains two integers $$$a_i, b_i$$$ ($$$1\\le a_i, b_i\\le 2n$$$). Every integer between $$$1$$$ and $$$2n$$$ appears exactly once.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_100.jsonl",
+    "code_uid": "ffd5e6fdf0762e2530c81f2ea6656897",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3 10\\n6 4\\n1 9\\n5 8\\n2 7\", \"2\\n1 2\\n3 4\", \"3\\n1 2\\n3 6\\n4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq\r\nN = int(input())\r\ncards=[list(map(lambda x:int(x)-1,input().split())) for _ in range(N)]\r\n\r\nrev_cards=dict()\r\nflipped=dict()\r\ncosts=0\r\nfor a,b in cards:\r\n    ar,br= min(a,b),max(a,b)\r\n    if br<N:\r\n        print(-1)\r\n        exit()\r\n    rev_cards[ar]=br\r\n    if b==br:\r\n        flipped[ar]=False\r\n    else:\r\n        flipped[ar]=True\r\n        costs+=1\r\n\r\n\r\n\r\nsuff_max=[-1]*(N+1)\r\nfor i in reversed(range(N)):\r\n    suff_max[i] = max(suff_max[i+1],rev_cards[i])\r\npre_min=float(\"inf\")\r\n\r\n#def_seq[0]>def_seq[1]になるようにする\r\ncost1=0\r\ncost2=0\r\nans=0\r\n\r\ndef_seq1=[float(\"inf\")]\r\ndef_seq2=[float(\"inf\")]\r\nfor i in range(N):\r\n    pre_min=min(pre_min,rev_cards[i])\r\n\r\n    rev = rev_cards[i]\r\n    if rev<def_seq1[-1]:\r\n        def_seq1.append(rev)\r\n        cost1+=int(flipped[i])\r\n    elif rev<def_seq2[-1]:\r\n        def_seq2.append(rev)\r\n        cost2+=int(flipped[i])\r\n    else:\r\n        print(-1)\r\n        exit()\r\n\r\n    if pre_min>suff_max[i+1]:\r\n        #print(\"i=>\",i)\r\n        #print(def_seq1,def_seq2)\r\n        #print(cost1,cost2)\r\n        s1= len(def_seq1)-1\r\n        s2 = len(def_seq2)-1\r\n        ans += min(cost1+s2-cost2,s1-cost1+cost2)\r\n        cost1=0\r\n        cost2=0\r\n        def_seq1=[float(\"inf\")]\r\n        def_seq2=[float(\"inf\")]\r\n\r\nprint(ans)\r\n\r\n",
+    "prob_desc_created_at": "1617460500",
+    "tags": [
+        "2-sat",
+        "constructive algorithms",
+        "data structures",
+        "greedy",
+        "sortings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

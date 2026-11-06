@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1230\", \"2750685\", \"2189\"]",
+    "src_uid": "c943742fb0720af18058ff0da8a33974",
+    "prob_desc_notes": "NoteFor the first example the answer is just the sum of numbers from $$$l$$$ to $$$r$$$ which equals to $$$\\frac{50 \\cdot 51}{2} - \\frac{9 \\cdot 10}{2} = 1230$$$. This example also explained in the problem statement but for $$$k = 1$$$.For the second example the answer is just the sum of numbers from $$$l$$$ to $$$r$$$ which equals to $$$\\frac{2345 \\cdot 2346}{2} = 2750685$$$.For the third example the answer is $$$101 + 110 + 111 + 112 + 113 + 114 + 115 + 116 + 117 + 118 + 119 + 121 + 122 + 131 + 133 + 141 + 144 + 151 = 2189$$$.",
+    "prob_desc_description": "You are given two integers $$$l$$$ and $$$r$$$ ($$$l \\le r$$$). Your task is to calculate the sum of numbers from $$$l$$$ to $$$r$$$ (including $$$l$$$ and $$$r$$$) such that each number contains at most $$$k$$$ different digits, and print this sum modulo $$$998244353$$$.For example, if $$$k = 1$$$ then you have to calculate all numbers from $$$l$$$ to $$$r$$$ such that each number is formed using only one digit. For $$$l = 10, r = 50$$$ the answer is $$$11 + 22 + 33 + 44 = 110$$$.",
+    "prob_desc_output_spec": "Print one integer — the sum of numbers from $$$l$$$ to $$$r$$$ such that each number contains at most $$$k$$$ different digits, modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The only line of the input contains three integers $$$l$$$, $$$r$$$ and $$$k$$$ ($$$1 \\le l \\le r &lt; 10^{18}, 1 \\le k \\le 10$$$) — the borders of the segment and the maximum number of different digits.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_033.jsonl",
+    "code_uid": "de930c6302e4fe4819684b472e8876c6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 50 2\", \"1 2345 10\", \"101 154 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nMOD = 998244353\n\n\ndef pop_count(x) :\n    ans = 0\n    while (x > 0) :\n        ans = ans + x % 2\n        x = x // 2\n    return ans\n\ndef check(x, k) :\n    mask = 0\n    nx = int(x)\n    while (nx > 0) :\n        mask = mask | (1 << (nx % 10))\n        nx = nx // 10\n    if (pop_count(mask) <= k) :\n        return x\n    return 0\n\npop = []\np10 = []\nf = [[0 for j in range(1 << 10)] for i in range(20)]\nw = [[0 for j in range(1 << 10)] for i in range(20)]\ndef prepare() : \n    p10.append(1)\n    for i in range(20) :\n        p10.append(p10[i] * 10 % MOD)\n    for i in range(1 << 10) :\n        pop.append(pop_count(i))\n    w[0][0] = 1\n    for i in range(1, 20) :\n        for j in range(1 << 10) :\n            for use in range(10) : \n                w[i][j | (1 << use)] = (w[i][j | (1 << use)] + w[i - 1][j]) % MOD\n                f[i][j | (1 << use)] = (f[i][j | (1 << use)] + w[i - 1][j] * use * p10[i - 1] + f[i - 1][j]) % MOD\n\ndef solve(x, k) :\n    sx = [int(d) for d in str(x)] \n    n = len(sx) \n    ans = 0\n    for i in range(1, n) :\n        for use in range(1, 10) :\n            for mask in range(1 << 10) : \n                if (pop[(1 << use) | mask] <= k) :\n                    ans = (ans + f[i - 1][mask] + use * w[i - 1][mask] % MOD * p10[i - 1]) % MOD\n    cmask = 0\n    csum = 0\n    for i in range(n) :\n        cdig = sx[i]\n        for use in range(cdig) : \n            if (i == 0 and use == 0) :\n                continue\n            nmask = cmask | (1 << use)\n            for mask in range(1 << 10) : \n                if (pop[nmask | mask] <= k) :\n                    ans = (ans + f[n - i - 1][mask] + (csum * 10 + use) * w[n - i - 1][mask] % MOD * p10[n - i - 1]) % MOD\n        cmask |= 1 << cdig\n        csum = (10 * csum + cdig) % MOD\n    return ans\n\nprepare()\nl, r, k = map(int, input().split())\nans = (check(r, k) + solve(r, k) - solve(l, k) + MOD) % MOD\nprint(ans)\n    \n",
+    "prob_desc_created_at": "1540478100",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "bitmasks",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

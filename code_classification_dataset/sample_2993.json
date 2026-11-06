@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5 1 6 2 7 3 4\", \"19 1 20 2 21 3 22 4 23 5 24 6 25 7 26 8 27 9 28 10 29 11 30 12 31 13 32 14 33 15 34 16 35 17 36 18\"]",
+    "src_uid": "0a701242ca81029a1791df74dc8ca59b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Consider 2n rows of the seats in a bus. n rows of the seats on the left and n rows of the seats on the right. Each row can be filled by two people. So the total capacity of the bus is 4n.Consider that m (m ≤ 4n) people occupy the seats in the bus. The passengers entering the bus are numbered from 1 to m (in the order of their entering the bus). The pattern of the seat occupation is as below:1-st row left window seat, 1-st row right window seat, 2-nd row left window seat, 2-nd row right window seat, ... , n-th row left window seat, n-th row right window seat.After occupying all the window seats (for m &gt; 2n) the non-window seats are occupied:1-st row left non-window seat, 1-st row right non-window seat, ... , n-th row left non-window seat, n-th row right non-window seat.All the passengers go to a single final destination. In the final destination, the passengers get off in the given order.1-st row left non-window seat, 1-st row left window seat, 1-st row right non-window seat, 1-st row right window seat, ... , n-th row left non-window seat, n-th row left window seat, n-th row right non-window seat, n-th row right window seat.  The seating for n = 9 and m = 36. You are given the values n and m. Output m numbers from 1 to m, the order in which the passengers will get off the bus.",
+    "prob_desc_output_spec": "Print m distinct integers from 1 to m — the order in which the passengers will get off the bus.",
+    "prob_desc_input_spec": "The only line contains two integers, n and m (1 ≤ n ≤ 100, 1 ≤ m ≤ 4n) — the number of pairs of rows and the number of passengers.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_037.jsonl",
+    "code_uid": "1ad5c8622be825343956fdf762e71771",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 7\", \"9 36\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=map(int,raw_input().split())\nbus=[[0,0,0,0]for i in xrange(n)]\nr=0\nfor i in xrange(1,m+1):\n    if bus[r][0]==0:\n        bus[r][0]=i\n    elif bus[r][3]==0:\n        bus[r][3]=i\n        r+=1\n        r%=n\n    elif bus[r][1]==0:\n        bus[r][1]=i\n    else:\n        bus[r][2]=i\n        r+=1\n        r%=n\nfor i in xrange(n):\n    for j in [1,0,2,3]:\n        if bus[i][j]:print bus[i][j],\n",
+    "prob_desc_created_at": "1460127600",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

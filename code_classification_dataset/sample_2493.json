@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"1\", \"0\"]",
+    "src_uid": "d98ecf6c5550e7ec7639fcd1f727fb35",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Calculate the value of the sum: n mod 1 + n mod 2 + n mod 3 + ... + n mod m. As the result can be very large, you should print the value modulo 109 + 7 (the remainder when divided by 109 + 7).The modulo operator a mod b stands for the remainder after dividing a by b. For example 10 mod 3 = 1.",
+    "prob_desc_output_spec": "Print integer s — the value of the required sum modulo 109 + 7.",
+    "prob_desc_input_spec": "The only line contains two integers n, m (1 ≤ n, m ≤ 1013) — the parameters of the sum.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_023.jsonl",
+    "code_uid": "afcf7d0217b0f37d409716fd8e633984",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\", \"4 4\", \"1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m = map(int,raw_input().split(\" \"))\nans = 0\nw = 1000000007\nif m > n:\n\tans += n*(m-n)\n\tm = n\nlast = min(m,n-1)\n\ndef su(s,e,l):\n\treturn (s+e)*l/2\n\nfor i in xrange(2,900000):\n\tq = n/i\n\tif q >= last:\n\t\tcontinue\n\tans += (n%last+n%(q+1))*(last-q)/2\n\tlast = q\n\tans %= w\n\nfor i in xrange(1,last+1):\n\tans += n%i\n\tans %= w\nprint ans%w",
+    "prob_desc_created_at": "1452524400",
+    "tags": [
+        "implementation",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

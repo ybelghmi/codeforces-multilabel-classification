@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1 2\\n2 2\", \"-1\", \"5\\n3 1\\n1 2\\n2 2\\n2 3\\n3 1\", \"-1\"]",
+    "src_uid": "dcb55324681dd1916449570d6bc64e47",
+    "prob_desc_notes": "NoteAssignment a ^= b denotes assignment a = a ^ b, where operation \"^\" is bitwise XOR of two integers.",
+    "prob_desc_description": "There are some tasks which have the following structure: you are given a model, and you can do some operations, you should use these operations to achive the goal. One way to create a new task is to use the same model and same operations, but change the goal.Let's have a try. I have created the following task for Topcoder SRM 557 Div1-Hard: you are given n integers x1, x2, ..., xn. You are allowed to perform the assignments (as many as you want) of the following form xi ^= xj (in the original task i and j must be different, but in this task we allow i to equal j). The goal is to maximize the sum of all xi.Now we just change the goal. You are also given n integers y1, y2, ..., yn. You should make x1, x2, ..., xn exactly equal to y1, y2, ..., yn. In other words, for each i number xi should be equal to yi.",
+    "prob_desc_output_spec": "If there is no solution, output -1. If there is a solution, then in the first line output an integer m (0 ≤ m ≤ 1000000) – the number of assignments you need to perform. Then print m lines, each line should contain two integers i and j (1 ≤ i, j ≤ n), which denote assignment xi ^= xj. If there are multiple solutions you can print any of them. We can prove that under these constraints if there exists a solution then there always exists a solution with no more than 106 operations.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 10000). The second line contains n integers: x1 to xn (0 ≤ xi ≤ 109). The third line contains n integers: y1 to yn (0 ≤ yi ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_081.jsonl",
+    "code_uid": "d37018c83acc201461b7228adcd7ddec",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3 5\\n6 0\", \"5\\n0 0 0 0 0\\n1 2 3 4 5\", \"3\\n4 5 6\\n1 2 3\", \"3\\n1 2 3\\n4 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(raw_input())\nx=map(int,raw_input().split())\ny=map(int,raw_input().split())\n\ncnt=0\nans1=[]\nans2=[]\nbit=dict()\nfor i in range(30,-1,-1):\n    for j in range(0,n):\n        if x[j]&1<<i > 0 and x[j] < 1<<i+1:\n            if i not in bit:\n                bit[i] = j\n            else:\n                x[j] ^= x[bit[i]]\n                ans1.append((j,bit[i]))\ncan = 1\nfor i in range(30,-1,-1):\n    has = 0 \n    for j in range(0,n):\n        if y[j]&1<<i > 0 and y[j] < 1<<i+1:\n            has = 1\n            if i not in bit:\n                can = 0\n            else:\n                if j == bit[i]:\n                    continue\n                elif y[bit[i]]&1<<i == 0:\n                    y[j],y[bit[i]] = y[bit[i]],y[j]\n                    ans2.append((j,bit[i]))\n                    ans2.append((bit[i],j))\n                    ans2.append((j,bit[i]))\n                else:\n                    y[j] ^= y[bit[i]]\n                    ans2.append((j,bit[i]))\n    if not can:\n        break\n    if has:\n        for k in range(i,-1,-1):\n            p1 = x[bit[i]]&1<<k\n            p2 = y[bit[i]]&1<<k\n            if p1 == p2:\n                continue\n            else:\n                if k not in bit:\n                    can = 0;\n                    break\n                else:\n                    x[bit[i]] ^= x[bit[k]]\n                    ans1.append((bit[i],bit[k]))\nif not can:\n    print -1\nelse:\n    for j in range(0,n):\n        if x[j] != y[j]:\n            ans1.append((j,j))\n    print len(ans1)+len(ans2)\n    for j in range(0, len(ans1)):\n        print ans1[j][0]+1,ans1[j][1]+1\n    for j in range(len(ans2)-1, -1, -1):\n        print ans2[j][0]+1,ans2[j][1]+1",
+    "prob_desc_created_at": "1411918500",
+    "tags": [
+        "constructive algorithms",
+        "math",
+        "matrices"
+    ],
+    "hidden_unit_tests": ""
+}

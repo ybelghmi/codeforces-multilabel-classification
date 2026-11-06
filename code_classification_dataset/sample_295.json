@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"11\", \"5\"]",
+    "src_uid": "08d13e3c71040684d5a056bd1b53ef3b",
+    "prob_desc_notes": "NoteIn the first test sample the picture after changing some colors can looks as follows:  .##...##...##...##...##...##.. In the second test sample the picture after changing some colors can looks as follows:  .#.#..#.#. ",
+    "prob_desc_description": "You've got an n × m pixel picture. Each pixel can be white or black. Your task is to change the colors of as few pixels as possible to obtain a barcode picture.A picture is a barcode if the following conditions are fulfilled:   All pixels in each column are of the same color.  The width of each monochrome vertical line is at least x and at most y pixels. In other words, if we group all neighbouring columns of the pixels with equal color, the size of each group can not be less than x or greater than y. ",
+    "prob_desc_output_spec": "In the first line print the minimum number of pixels to repaint. It is guaranteed that the answer exists. ",
+    "prob_desc_input_spec": "The first line contains four space-separated integers n, m, x and y (1 ≤ n, m, x, y ≤ 1000; x ≤ y). Then follow n lines, describing the original image. Each of these lines contains exactly m characters. Character \".\" represents a white pixel and \"#\" represents a black pixel. The picture description doesn't have any other characters besides \".\" and \"#\".",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_001.jsonl",
+    "code_uid": "4d7105f63acdc16cc447a89edcc2b356",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 5 1 2\\n##.#.\\n.###.\\n###..\\n#...#\\n.##.#\\n###..\", \"2 5 1 1\\n#####\\n.....\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nn,m,x,y=map(int,input().split())\ncost=[[0 for i in range(m)] for i in range(2)]\n#one denotes converting to .\n#zero denotes converting # \nfor i in range(n):\n    s=input()\n    for i in range(len(s)):\n        if(s[i]=='#'):\n            cost[1][i]+=1\n        else:\n            cost[0][i]+=1\n\n\nfin=[[math.inf for i in range(m+1)] for i in range(2)]\npre=[[0 for i in range(m+1)] for i in range(2)]\nfin[0][0]=0\nfin[1][0]=0\nfor i in range(1,m+1):\n    if(i==1):\n        pre[0][i]=cost[0][i-1]\n        pre[1][i]=cost[1][i-1]\n    else:\n        pre[0][i]=pre[0][i-1]+cost[0][i-1]\n        pre[1][i]=pre[1][i-1]+cost[1][i-1]\n\nfor i in range(1,m+1):\n    if(i<2*x):\n        fin[0][i]=pre[0][i]\n        fin[1][i]=pre[1][i]\n    \n        \n    else:\n        cont=x\n        \n        while(cont<=y):\n            if(i<=y):\n                fin[0][i]=min(fin[0][i],pre[0][i])\n                fin[1][i]=min(fin[1][i],pre[1][i])\n            if(i-cont<x):\n                break;\n            fin[0][i]=min(fin[0][i],fin[1][i-cont]+pre[0][i]-pre[0][i-cont])\n          \n            fin[1][i]=min(fin[1][i],fin[0][i-cont]+pre[1][i]-pre[1][i-cont])\n            cont+=1    \n            \n\nprint(min(fin[0][-1],fin[1][-1]))\n    \n  \n            \n        \n",
+    "prob_desc_created_at": "1348069500",
+    "tags": [
+        "dp",
+        "matrices"
+    ],
+    "hidden_unit_tests": ""
+}

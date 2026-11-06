@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"3\"]",
+    "src_uid": "9fd8e75cb441dc809b1b2c48c4012c76",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given n points on the straight line — the positions (x-coordinates) of the cities and m points on the same line — the positions (x-coordinates) of the cellular towers. All towers work in the same way — they provide cellular network for all cities, which are located at the distance which is no more than r from this tower.Your task is to find minimal r that each city has been provided by cellular network, i.e. for each city there is at least one cellular tower at the distance which is no more than r.If r = 0 then a tower provides cellular network only for the point where it is located. One tower can provide cellular network for any number of cities, but all these cities must be at the distance which is no more than r from this tower.",
+    "prob_desc_output_spec": "Print minimal r so that each city will be covered by cellular network.",
+    "prob_desc_input_spec": "The first line contains two positive integers n and m (1 ≤ n, m ≤ 105) — the number of cities and the number of cellular towers. The second line contains a sequence of n integers a1, a2, ..., an ( - 109 ≤ ai ≤ 109) — the coordinates of cities. It is allowed that there are any number of cities in the same point. All coordinates ai are given in non-decreasing order. The third line contains a sequence of m integers b1, b2, ..., bm ( - 109 ≤ bj ≤ 109) — the coordinates of cellular towers. It is allowed that there are any number of towers in the same point. All coordinates bj are given in non-decreasing order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_008.jsonl",
+    "code_uid": "add16242aa10db24a6f631b84e38f50d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n-2 2 4\\n-3 0\", \"5 3\\n1 5 10 14 17\\n4 11 15\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import bisect_left\nn, m = map(int, raw_input().split())\na = map(int, raw_input().split())\nb = map(int, raw_input().split())\n\nmin_r = 0\n\nfor el in a:\n    i = bisect_left(b, el)\n    if i == 0:\n        min_r = max(min_r, abs(el - b[0]))\n    elif i == m:\n        min_r = max(min_r, abs(el - b[m-1]))\n    elif i == m - 1:\n        min_r = max(min_r, min(abs(el - b[m - 1]), abs(el - b[m - 2])))\n    else:\n        min_r = max(min_r, min(abs(el - b[i + 1]), abs(el - b[i - 1]), abs(el-b[i])))\n\nprint(min_r)\n\n",
+    "prob_desc_created_at": "1469804400",
+    "tags": [
+        "two pointers",
+        "binary search",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

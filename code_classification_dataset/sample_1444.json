@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 1 3\", \"-1\", \"2 5 1 3 4\"]",
+    "src_uid": "f9c6ef39752d1da779e07c27dff918a9",
+    "prob_desc_notes": "NoteIn the first example, Johnny starts with writing blog number $$$2$$$, there are no already written neighbors yet, so it receives the first topic. Later he writes blog number $$$1$$$, it has reference to the already written second blog, so it receives the second topic. In the end, he writes blog number $$$3$$$, it has references to blogs number $$$1$$$ and $$$2$$$ so it receives the third topic.Second example: There does not exist any permutation fulfilling given conditions.Third example: First Johnny writes blog $$$2$$$, it receives the topic $$$1$$$. Then he writes blog $$$5$$$, it receives the topic $$$1$$$ too because it doesn't have reference to single already written blog $$$2$$$. Then he writes blog number $$$1$$$, it has reference to blog number $$$2$$$ with topic $$$1$$$, so it receives the topic $$$2$$$. Then he writes blog number $$$3$$$ which has reference to blog $$$2$$$, so it receives the topic $$$2$$$. Then he ends with writing blog number $$$4$$$ which has reference to blog $$$5$$$ and receives the topic $$$2$$$.",
+    "prob_desc_description": "Today Johnny wants to increase his contribution. His plan assumes writing $$$n$$$ blogs. One blog covers one topic, but one topic can be covered by many blogs. Moreover, some blogs have references to each other. Each pair of blogs that are connected by a reference has to cover different topics because otherwise, the readers can notice that they are split just for more contribution. Set of blogs and bidirectional references between some pairs of them is called blogs network.There are $$$n$$$ different topics, numbered from $$$1$$$ to $$$n$$$ sorted by Johnny's knowledge. The structure of the blogs network is already prepared. Now Johnny has to write the blogs in some order. He is lazy, so each time before writing a blog, he looks at it's already written neighbors (the blogs referenced to current one) and chooses the topic with the smallest number which is not covered by neighbors. It's easy to see that this strategy will always allow him to choose a topic because there are at most $$$n - 1$$$ neighbors.For example, if already written neighbors of the current blog have topics number $$$1$$$, $$$3$$$, $$$1$$$, $$$5$$$, and $$$2$$$, Johnny will choose the topic number $$$4$$$ for the current blog, because topics number $$$1$$$, $$$2$$$ and $$$3$$$ are already covered by neighbors and topic number $$$4$$$ isn't covered.As a good friend, you have done some research and predicted the best topic for each blog. Can you tell Johnny, in which order he has to write the blogs, so that his strategy produces the topic assignment chosen by you?",
+    "prob_desc_output_spec": "If the solution does not exist, then write $$$-1$$$. Otherwise, output $$$n$$$ distinct integers $$$p_1, p_2, \\ldots, p_n$$$ $$$(1 \\leq p_i \\leq n)$$$, which describe the numbers of blogs in order which Johnny should write them. If there are multiple answers, print any.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ $$$(1 \\leq n \\leq 5 \\cdot 10^5)$$$ and $$$m$$$ $$$(0 \\leq m \\leq 5 \\cdot 10^5)$$$ — the number of blogs and references, respectively. Each of the following $$$m$$$ lines contains two integers $$$a$$$ and $$$b$$$ ($$$a \\neq b$$$; $$$1 \\leq a, b \\leq n$$$), which mean that there is a reference between blogs $$$a$$$ and $$$b$$$. It's guaranteed that the graph doesn't contain multiple edges. The last line contains $$$n$$$ integers $$$t_1, t_2, \\ldots, t_n$$$, $$$i$$$-th of them denotes desired topic number of the $$$i$$$-th blog ($$$1 \\le t_i \\le n$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_009.jsonl",
+    "code_uid": "290a82cd8acafaf3e81dab446a4fb100",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n1 2\\n2 3\\n3 1\\n2 1 3\", \"3 3\\n1 2\\n2 3\\n3 1\\n1 1 1\", \"5 3\\n1 2\\n2 3\\n4 5\\n2 1 2 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "'''import os,io\ninput = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline\nI= lambda: list(map(int,input().split()))'''\nimport os,io\nfrom sys import stdout\ninput = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline\nI=lambda:list(map(int,input().split()))\nn,edge=I()\ngo=[[] for _ in range(n+1)]\nfor _ in range(edge):    \n    a,b=I()\n    go[a].append(b)\n    go[b].append(a)\ns=I()\n\narr=[]\nfor i,x in enumerate(list(s)):\n    i+=1\n    arr.append((x,i))\narr.sort()\n#count=[set() for _ in range(n+1)]\ncount=[0]*(n+1)\ngone=[False]*(n+1)\nans=[]\nfor topic,blog in arr:\n    gone[blog]=True\n    if count[blog]+1!=topic:\n        print(-1)\n        exit()\n    ans.append(blog)\n    for x in go[blog]:\n        if gone[x]==False and count[x] not in (topic-1,topic):\n            print(-1)\n            exit()\n        count[x]=topic\n\nprint(' '.join([str(x) for x in ans]))",
+    "prob_desc_created_at": "1591281300",
+    "tags": [
+        "greedy",
+        "graphs",
+        "constructive algorithms",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

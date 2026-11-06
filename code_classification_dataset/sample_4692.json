@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 5 1 2 5 4 3\\n\\n! 6\\n\\n? 4 1 2 3 4\\n\\n! 5\"]",
+    "src_uid": "c3e2dae2103e745deebb687b8b9ed699",
+    "prob_desc_notes": "NoteIf the answer of the first question were correct, then $$$x$$$ would have been equal to $$$6$$$, but as we can see in the first guess, $$$6$$$ is not the answer.So the answer of the first question is joking. As we know, the answer of at least one of our two questions is correct, since the answer of the first question was joking, the answer of the second question should be correct.So we will understand that $$$x$$$ is not equal to $$$1, 2, 3$$$ or $$$4$$$, and we also knew that $$$x$$$ is not equal to $$$6$$$ either. Hence $$$x$$$ should be equal to $$$5$$$.",
+    "prob_desc_description": "The only difference between this problem and the hard version is the maximum number of questions.This is an interactive problem.There is a hidden integer $$$1 \\le x \\le n$$$ which you have to find. In order to find it you can ask at most $$$\\mathbf{82}$$$ questions.In each question you can choose a non-empty integer set $$$S$$$ and ask if $$$x$$$ belongs to $$$S$$$ or not, after each question, if $$$x$$$ belongs to $$$S$$$, you'll receive \"YES\", otherwise \"NO\".But the problem is that not all answers are necessarily true (some of them are joking), it's just guaranteed that for each two consecutive questions, at least one of them is answered correctly.Additionally to the questions, you can make at most $$$2$$$ guesses for the answer $$$x$$$. Each time you make a guess, if you guess $$$x$$$ correctly, you receive \":)\" and your program should terminate, otherwise you'll receive \":(\".As a part of the joking, we will not fix the value of $$$x$$$ in the beginning. Instead, it can change throughout the interaction as long as all the previous responses are valid as described above.Note that your answer guesses are always answered correctly. If you ask a question before and after a guess, at least one of these two questions is answered correctly, as normal.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The only line of the input contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$), the maximum possible value of $$$x$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_103.jsonl",
+    "code_uid": "321c9579c4ca30b97a21a3f63b020008",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\nNO\\n\\n:(\\n\\nNO\\n\\n:)\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\r\nfrom sys import stdin\r\ninput = stdin.readline\r\n#// - remember to add .strip() when input is a string\r\n\r\n\r\n\r\nimport random\r\nn = int(input())\r\n\r\nhashm = {}\r\n\r\nfor i in range(1,n+1):\r\n\r\n  hashm[str(i)] = None\r\n\r\n\r\nwhile len(hashm) >= 4:\r\n\r\n  a = []\r\n  b = []\r\n  c = []\r\n  d = []\r\n\r\n  cur_len = len(hashm)\r\n  \r\n  for i,j in enumerate(hashm):\r\n\r\n    if i < cur_len//4:\r\n\r\n      a.append(int(j))\r\n\r\n    elif i < cur_len//2:\r\n\r\n      b.append(int(j))\r\n\r\n    elif i < 3*cur_len//4:\r\n\r\n      c.append(int(j))\r\n\r\n    else:\r\n\r\n      d.append(int(j))\r\n\r\n  #print(a,b,c,d)\r\n  ac = a.copy()\r\n  ab = a.copy()\r\n  ac.extend(c)\r\n  ab.extend(b)\r\n  \r\n  print(\"?\",len(ab),*ab, flush=True)\r\n  response1 = input().strip()\r\n  print(\"?\",len(ac),*ac, flush=True)\r\n  response2 = input().strip()\r\n\r\n  l = []\r\n  \r\n  if response1 == \"YES\" and response2 == \"YES\":\r\n\r\n    l = d\r\n\r\n  elif response1 == \"YES\" and response2 == \"NO\":\r\n\r\n    l = c\r\n\r\n  elif response1 == \"NO\" and response2 == \"YES\":\r\n\r\n    l = b\r\n\r\n  elif response1 == \"NO\" and response2 == \"NO\":\r\n\r\n    l = a\r\n\r\n  for i in l:\r\n    hashm.pop(str(i))\r\n\r\n\r\nlis = []\r\n\r\nfor i in hashm:\r\n  lis.append(int(i))\r\n\r\n\r\nif len(lis) <= 2:\r\n\r\n  for i in lis:\r\n\r\n    print(\"!\",i,flush=True)\r\n    response = input().strip()\r\n\r\n    if response == \":)\":\r\n\r\n      break\r\n\r\nelse:\r\n\r\n  \r\n  print(\"?\",1,lis[0],flush = True)\r\n  r1 = input().strip()\r\n  print(\"?\",1,lis[1],flush = True)\r\n  r2 = input().strip()\r\n  print(\"?\",1,lis[1],flush = True)\r\n  r3 = input().strip()\r\n  print(\"?\",1,lis[0],flush = True)\r\n  r4 = input().strip()\r\n\r\n  if r2 == r3 and r2 == \"YES\":\r\n\r\n    print(\"!\",lis[1],flush = True)\r\n    p = input().strip()\r\n\r\n  elif r2 == r3 and r2 == \"NO\":\r\n\r\n    print(\"!\",lis[0],flush = True)\r\n    p = input().strip()\r\n    if p == \":(\":\r\n\r\n      print(\"!\",lis[2],flush = True)\r\n      p = input().strip()\r\n\r\n  elif r1 == r4 and r1 == \"YES\":\r\n\r\n    print(\"!\",lis[0],flush = True)\r\n    p = input().strip()\r\n\r\n  elif r1 == r4 and r1 == \"NO\":\r\n    \r\n    print(\"!\",lis[1],flush = True)\r\n    p = input().strip()\r\n    if p == \":(\":\r\n\r\n      print(\"!\",lis[2],flush = True)\r\n      p = input().strip()\r\n      \r\n  elif r1 == r2 and r3 == r4:\r\n\r\n    print(\"!\",lis[0],flush = True)\r\n    p = input().strip()\r\n    if p == \":(\":\r\n\r\n      print(\"!\",lis[1],flush = True)\r\n      p = input().strip()\r\n\r\n  else:\r\n\r\n    print(\"!\",lis[2],flush = True)\r\n    p = input().strip()",
+    "prob_desc_created_at": "1665844500",
+    "tags": [
+        "binary search",
+        "constructive algorithms",
+        "interactive",
+        "ternary search"
+    ],
+    "hidden_unit_tests": ""
+}

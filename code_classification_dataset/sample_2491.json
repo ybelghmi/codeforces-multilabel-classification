@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"acab\", \"kbub\", \"-1\"]",
+    "src_uid": "0550004c6c7a386b8e7d214e71990572",
+    "prob_desc_notes": "NoteIn the first example s1 is obtained by swapping the second and the fourth character in acab, s2 is obtained by swapping the first and the second character, and to get s3, we swap the third and the fourth character.In the second example s1 is obtained by swapping the third and the fourth character in kbub, s2 — by swapping the second and the fourth, and s3 — by swapping the first and the third.In the third example it's impossible to obtain given strings by aforementioned operations.",
+    "prob_desc_description": "We had a string s consisting of n lowercase Latin letters. We made k copies of this string, thus obtaining k identical strings s1, s2, ..., sk. After that, in each of these strings we swapped exactly two characters (the characters we swapped could be identical, but they had different indices in the string).You are given k strings s1, s2, ..., sk, and you have to restore any string s so that it is possible to obtain these strings by performing aforementioned operations. Note that the total length of the strings you are given doesn't exceed 5000 (that is, k·n ≤ 5000).",
+    "prob_desc_output_spec": "Print any suitable string s, or -1 if such string doesn't exist.",
+    "prob_desc_input_spec": "The first line contains two integers k and n (1 ≤ k ≤ 2500, 2 ≤ n ≤ 5000, k · n ≤ 5000) — the number of strings we obtained, and the length of each of these strings. Next k lines contain the strings s1, s2, ..., sk, each consisting of exactly n lowercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_023.jsonl",
+    "code_uid": "41b2fabd7e13cff643460303e5cf4441",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\nabac\\ncaab\\nacba\", \"3 4\\nkbbu\\nkbub\\nubkb\", \"5 4\\nabcd\\ndcba\\nacbd\\ndbca\\nzzzz\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nk, n = map(int, raw_input().split())\narr = []\ncands = None\n\"\"\"\nfor _ in range(k):\n    s = str(raw_input())\n    assert len(s) == n\n    diffs = set()\n    for i in range(n):\n        for j in range(i+1, n):\n            swapped = list(s)\n            swapped[i], swapped[j] = swapped[j], swapped[i]\n            swapped = \"\".join(swapped)\n            diffs.add(swapped)\n    if cands == None:\n        cands = diffs\n    else:\n        cands = cands.intersection(diffs)\n        if len(cands) == 0:\n            print -1\n            sys.exit(0)\n\"\"\"\niden = {}\nfrom collections import Counter\nfor _ in range(k):\n    s = str(raw_input())\n    arr.append(s)\n    iden[s] = len(set(s)) != len(s)\n\ndef swap(s, i, j):\n    swapped = list(s)\n    swapped[i], swapped[j] = swapped[j], swapped[i]\n    swapped = \"\".join(swapped)\n    return swapped\n\ndef achievable(s, a):\n    idx = [i for i in range(n) if s[i] != a[i]]\n    if len(idx) == 0:\n        return iden[a]\n    if len(idx) != 2:\n        return False\n    i, j = idx[0], idx[1]\n    return a[i] == s[j] and s[i] == a[j]\n\narr.sort()\na, b = arr[0], arr[-1]\n#print a, b\nif a == b:\n    print swap(a, 0, 1)\n    sys.exit(0)\n\nidx = [i for i in range(n) if a[i] != b[i]]\nif len(idx) > 4:\n    print -1\n    sys.exit(0)\nc1 = set()\nif iden[a]:\n    c1.add(a)\nc2 = set()\nif iden[b]:\n    c2.add(b)\nfor i in idx:\n    for j in idx:\n        if i == j:\n            continue\n        c1.add(swap(a, i, j))\n        c2.add(swap(b, i, j))\n\ncands = c1.intersection(c2)\n#print cands\nif len(cands) == 0:\n    print -1\n    sys.exit(0)\n\nfor s in arr:\n    cands2 = [w for w in cands if achievable(w, s)]\n    if len(cands2) == 0:\n        print -1\n        sys.exit(0)\n    cands = cands2\n\n\n\n    \nfor e in cands2:\n    print e\n    sys.exit(0)\n",
+    "prob_desc_created_at": "1513091100",
+    "tags": [
+        "implementation",
+        "hashing",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

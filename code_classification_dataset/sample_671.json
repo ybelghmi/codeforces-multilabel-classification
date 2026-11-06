@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"aaabb\\naabab\\nbaaba\\nbbaaa\\nabb\\nbab\\naaaaabaaaaabaaaaaaaa\"]",
+    "src_uid": "e32f0615541d97a025bc99c3cbf5380e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "For the given integer $$$n$$$ ($$$n &gt; 2$$$) let's write down all the strings of length $$$n$$$ which contain $$$n-2$$$ letters 'a' and two letters 'b' in lexicographical (alphabetical) order.Recall that the string $$$s$$$ of length $$$n$$$ is lexicographically less than string $$$t$$$ of length $$$n$$$, if there exists such $$$i$$$ ($$$1 \\le i \\le n$$$), that $$$s_i &lt; t_i$$$, and for any $$$j$$$ ($$$1 \\le j &lt; i$$$) $$$s_j = t_j$$$. The lexicographic comparison of strings is implemented by the operator &lt; in modern programming languages.For example, if $$$n=5$$$ the strings are (the order does matter):  aaabb  aabab  aabba  abaab  ababa  abbaa  baaab  baaba  babaa  bbaaa It is easy to show that such a list of strings will contain exactly $$$\\frac{n \\cdot (n-1)}{2}$$$ strings.You are given $$$n$$$ ($$$n &gt; 2$$$) and $$$k$$$ ($$$1 \\le k \\le \\frac{n \\cdot (n-1)}{2}$$$). Print the $$$k$$$-th string from the list.",
+    "prob_desc_output_spec": "For each test case print the $$$k$$$-th string from the list of all described above strings of length $$$n$$$. Strings in the list are sorted lexicographically (alphabetically).",
+    "prob_desc_input_spec": "The input contains one or more test cases. The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the test. Then $$$t$$$ test cases follow. Each test case is written on the the separate line containing two integers $$$n$$$ and $$$k$$$ ($$$3 \\le n \\le 10^5, 1 \\le k \\le \\min(2\\cdot10^9, \\frac{n \\cdot (n-1)}{2})$$$. The sum of values $$$n$$$ over all test cases in the test doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_003.jsonl",
+    "code_uid": "ff78c11ac46c3813ce36875ec6cedb13",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n5 1\\n5 2\\n5 8\\n5 10\\n3 1\\n3 2\\n20 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\nfor num in range(t):\n    n, k = map(int, input().split())\n    b1 = n - 2\n    b2 = n - 1\n    if k < 1000:\n        i = 0\n    elif k == (n*(n-1))//2:\n        b1 = 0\n        b2 = 1\n        i = k-1\n    else:\n        i = int((1 + (1 - (4 * -1 * k * 2)) ** (1 / 2)) // 2)\n        b1 = n - i - 1\n        i *= (i - 1) / 2\n\n    while True:\n        #print(f\"iteration: {i}, b1: {b1}, b2: {b2}\")\n        if i == k - 1:\n            most = ['a']*n\n            most[b1] = 'b'\n            most[b2] = 'b'\n            print(''.join(most))\n            break\n        else:\n            i += 1\n        if b2 - b1 == 1:\n            b1 -= 1\n            b2 = n - 1\n        else:\n            b2 -= 1",
+    "prob_desc_created_at": "1585233300",
+    "tags": [
+        "combinatorics",
+        "math",
+        "implementation",
+        "binary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

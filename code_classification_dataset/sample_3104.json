@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"1\", \"-1\"]",
+    "src_uid": "3c5e1f11e6af3821ed8c28f15e429def",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In some country there are exactly n cities and m bidirectional roads connecting the cities. Cities are numbered with integers from 1 to n. If cities a and b are connected by a road, then in an hour you can go along this road either from city a to city b, or from city b to city a. The road network is such that from any city you can get to any other one by moving along the roads.You want to destroy the largest possible number of roads in the country so that the remaining roads would allow you to get from city s1 to city t1 in at most l1 hours and get from city s2 to city t2 in at most l2 hours.Determine what maximum number of roads you need to destroy in order to meet the condition of your plan. If it is impossible to reach the desired result, print -1.",
+    "prob_desc_output_spec": "Print a single number — the answer to the problem. If the it is impossible to meet the conditions, print -1.",
+    "prob_desc_input_spec": "The first line contains two integers n, m (1 ≤ n ≤ 3000, ) — the number of cities and roads in the country, respectively.  Next m lines contain the descriptions of the roads as pairs of integers ai, bi (1 ≤ ai, bi ≤ n, ai ≠ bi). It is guaranteed that the roads that are given in the description can transport you from any city to any other one. It is guaranteed that each pair of cities has at most one road between them. The last two lines contains three integers each, s1, t1, l1 and s2, t2, l2, respectively (1 ≤ si, ti ≤ n, 0 ≤ li ≤ n).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_042.jsonl",
+    "code_uid": "6c3ca46b863c2fac3200e211965bd854",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n1 2\\n2 3\\n3 4\\n4 5\\n1 3 2\\n3 5 2\", \"5 4\\n1 2\\n2 3\\n3 4\\n4 5\\n1 3 2\\n2 4 2\", \"5 4\\n1 2\\n2 3\\n3 4\\n4 5\\n1 3 2\\n3 5 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\nimport sys\n\nmaxn = 3003\nd = [[0] * maxn for i in range(0, maxn)]\nadj = [[] for i in range(0, maxn)]\nmark = [0] * maxn\n\ndef bfs(s) :\n    for i in range(0, maxn) :\n\tmark[i] = False\n    q = deque()\n    q.append(s)\n    d[s][s] = 0\n    mark[s] = True\n    while len(q) > 0 :\n\tv = q[0]\n\tq.popleft()\n\tfor u in adj[v] :\n\t    if not mark[u] :\n\t\tmark[u] = True\n\t\tq.append(u)\n\t\td[s][u] = d[s][v] + 1\n\ndef main() :\n    n, m = map(int, raw_input().split())\n    for i in range(0, m) :\n\tu, v = map(int, raw_input().split())\n\tu -= 1; v -= 1\n\tadj[u].append(v)\n\tadj[v].append(u)\n    for i in range(0, n) :\n\tbfs(i)\n    s1, t1, l1 = map(int, raw_input().split())\n    s2, t2, l2 = map(int, raw_input().split())\n    s1 -= 1; s2 -= 1; t1 -= 1; t2 -= 1\n    if d[s1][t1] > l1 or d[s2][t2] > l2 :\n\tprint -1\n\tsys.exit()\n    ans = d[s1][t1] + d[s2][t2]\n    for i in range(0, n) :\n\tfor j in range(0, n) :\n\t    if d[i][s1] + d[i][j] + d[j][t1] <= l1 and d[i][s2] + d[i][j] + d[j][t2] <= l2 :\n\t\tans = min(ans, d[i][j] + d[i][s1] + d[i][s2] + d[j][t1] + d[j][t2])\n\t    if d[i][s1] + d[i][j] + d[j][t1] <= l1 and d[j][s2] + d[i][j] + d[i][t2] <= l2 :\n\t\tans = min(ans, d[i][j] + d[j][t1] + d[j][s2] + d[i][s1] + d[i][t2])\n    print m - ans\n\t    \nmain()",
+    "prob_desc_created_at": "1431016200",
+    "tags": [
+        "constructive algorithms",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

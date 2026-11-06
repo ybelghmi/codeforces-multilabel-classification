@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3 2 1 0\", \"0 0 0 0 0\"]",
+    "src_uid": "377433947c60edcb55832d4ef2597f90",
+    "prob_desc_notes": "NotePictures with the heaps for the first sample are given below; elements for which the property of the heap is violated are marked with red.     In the second sample all elements are equal, so the property holds for all pairs.",
+    "prob_desc_description": "Andrew skipped lessons on the subject 'Algorithms and Data Structures' for the entire term. When he came to the final test, the teacher decided to give him a difficult task as a punishment.The teacher gave Andrew an array of n numbers a1, ..., an. After that he asked Andrew for each k from 1 to n - 1 to build a k-ary heap on the array and count the number of elements for which the property of the minimum-rooted heap is violated, i.e. the value of an element is less than the value of its parent.Andrew looked up on the Wikipedia that a k-ary heap is a rooted tree with vertices in elements of the array. If the elements of the array are indexed from 1 to n, then the children of element v are elements with indices k(v - 1) + 2, ..., kv + 1 (if some of these elements lie outside the borders of the array, the corresponding children are absent). In any k-ary heap every element except for the first one has exactly one parent; for the element 1 the parent is absent (this element is the root of the heap). Denote p(v) as the number of the parent of the element with the number v. Let's say that for a non-root element v the property of the heap is violated if av &lt; ap(v).Help Andrew cope with the task!",
+    "prob_desc_output_spec": "in a single line print n - 1 integers, separate the consecutive numbers with a single space — the number of elements for which the property of the k-ary heap is violated, for k = 1, 2, ..., n - 1.",
+    "prob_desc_input_spec": "The first line contains a single integer n (2 ≤ n ≤ 2·105). The second line contains n space-separated integers a1, ..., an ( - 109 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_013.jsonl",
+    "code_uid": "0a1311f664e93f97ad970bcc4d124e9f",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 5 4 3 2\", \"6\\n2 2 2 2 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\ndef myargsort(a):\n    b = list(zip(a, range(0, len(a))))\n    b.sort()\n    r = [pr[1] for pr in b]\n    return r\n\nfin = sys.stdin\nn = int(fin.readline())\na = [int(number) for number in fin.readline().split()]\np = myargsort(a)\np.reverse()\nj = 0\naib = [0] * (n + 1)\n\ndef ultb(x):\n    return -(x ^ (-x)) // 2\n\ndef add(p, a, aib, n):\n    while p <= n:\n        aib[p] += a\n        p += ultb(p)\ndef suma(p, aib):\n    r = 0\n    while p > 0:\n        r += aib[p]\n        p -= ultb(p)\n    return r\n\nfor i in range(0, n):\n    add(i + 1, 1, aib, n)\nr = [0] * (n + 1)\nfor i in range(0, n):\n    if i > 0 and a[i - 1] > a[i]:\n        r[1] += 1\n    while j < n and a[p[j]] == a[p[i]]:\n        add(p[j] + 1, -1, aib, n)\n        j += 1\n    k = 2\n    while k < n and p[i] * k + 1 < n:\n        dr = min(n, p[i] * k + k + 1)\n        st = p[i] * k + 2\n        r[k] += suma(dr, aib) - suma(st - 1, aib)\n        k += 1\nprint(*r[1:n])\n",
+    "prob_desc_created_at": "1430064000",
+    "tags": [
+        "data structures",
+        "sortings",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

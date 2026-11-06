@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"First\\nSecond\\nSecond\\nFirst\"]",
+    "src_uid": "5f5b320c7f314bd06c0d2a9eb311de6c",
+    "prob_desc_notes": "NoteIn the first sample, the first player should go to (11,10). Then, after a single move of the second player to (1,10), he will take 10 modulo 1 and win.In the second sample the first player has two moves to (1,10) and (21,10). After both moves the second player can win.In the third sample, the first player has no moves.In the fourth sample, the first player wins in one move, taking 30 modulo 10.",
+    "prob_desc_description": "In some country live wizards. They love playing with numbers. The blackboard has two numbers written on it — a and b. The order of the numbers is not important. Let's consider a ≤ b for the sake of definiteness. The players can cast one of the two spells in turns:  Replace b with b - ak. Number k can be chosen by the player, considering the limitations that k &gt; 0 and b - ak ≥ 0. Number k is chosen independently each time an active player casts a spell.  Replace b with b mod a. If a &gt; b, similar moves are possible.If at least one of the numbers equals zero, a player can't make a move, because taking a remainder modulo zero is considered somewhat uncivilized, and it is far too boring to subtract a zero. The player who cannot make a move, loses.To perform well in the magic totalizator, you need to learn to quickly determine which player wins, if both wizards play optimally: the one that moves first or the one that moves second.",
+    "prob_desc_output_spec": "For any of the t input sets print \"First\" (without the quotes) if the player who moves first wins. Print \"Second\" (without the quotes) if the player who moves second wins. Print the answers to different data sets on different lines in the order in which they are given in the input. ",
+    "prob_desc_input_spec": "The first line contains a single integer t — the number of input data sets (1 ≤ t ≤ 104). Each of the next t lines contains two integers a, b (0 ≤ a, b ≤ 1018). The numbers are separated by a space. Please do not use the %lld specificator to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specificator.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_029.jsonl",
+    "code_uid": "7fdb0cb83d1f664f866c7230fe3ddb25",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n10 21\\n31 10\\n0 1\\n10 30\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom math import *\n\ndef win(a,b):\n    if (a==0):\n        return False\n    if (b==0):\n        return False\n    if (not win(b%a,a)):\n        return True\n    ans=b//a\n    ans%=a+1\n    ans%=2\n    if (ans%2==1):\n        return False\n    else:\n        return True\n\ntry:\n    fi = open(\"input.txt\", \"r\")\n    fo = open(\"output.txt\", \"w\")\nexcept:\n    fi = sys.stdin\n    fo = sys.stdout\n\ntests=int(fi.readline())\nfor test in range(tests):\n    a,b=map(int,fi.readline().split())\n    if (win(min(a,b),max(a,b))):\n        fo.write(\"First\\n\")\n    else:\n        fo.write(\"Second\\n\")",
+    "prob_desc_created_at": "1332860400",
+    "tags": [
+        "games",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

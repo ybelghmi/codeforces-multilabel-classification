@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"6\", \"1\", \"-1\", \"-1\", \"382480067\"]",
+    "src_uid": "eddb90c1f26d9c44544617aeff56c782",
+    "prob_desc_notes": "NoteIn the first sample, we have $$$f_4 = f_3^2 \\cdot f_2^3 \\cdot f_1^5$$$. Therefore, applying $$$f_3 = 4$$$, we have $$$f_4 = 16$$$. Note that there can be multiple answers.In the third sample, applying $$$f_7 = 1$$$ makes $$$f_{23333} = 1$$$.In the fourth sample, no such $$$f_1$$$ makes $$$f_{88888} = 66666$$$. Therefore, we output $$$-1$$$ instead.",
+    "prob_desc_description": "Lunar New Year is approaching, and Bob received a gift from his friend recently — a recursive sequence! He loves this sequence very much and wants to play with it.Let $$$f_1, f_2, \\ldots, f_i, \\ldots$$$ be an infinite sequence of positive integers. Bob knows that for $$$i &gt; k$$$, $$$f_i$$$ can be obtained by the following recursive equation:$$$$$$f_i = \\left(f_{i - 1} ^ {b_1} \\cdot f_{i - 2} ^ {b_2} \\cdot \\cdots \\cdot f_{i - k} ^ {b_k}\\right) \\bmod p,$$$$$$which in short is$$$$$$f_i = \\left(\\prod_{j = 1}^{k} f_{i - j}^{b_j}\\right) \\bmod p,$$$$$$where $$$p = 998\\,244\\,353$$$ (a widely-used prime), $$$b_1, b_2, \\ldots, b_k$$$ are known integer constants, and $$$x \\bmod y$$$ denotes the remainder of $$$x$$$ divided by $$$y$$$.Bob lost the values of $$$f_1, f_2, \\ldots, f_k$$$, which is extremely troublesome – these are the basis of the sequence! Luckily, Bob remembers the first $$$k - 1$$$ elements of the sequence: $$$f_1 = f_2 = \\ldots = f_{k - 1} = 1$$$ and the $$$n$$$-th element: $$$f_n = m$$$. Please find any possible value of $$$f_k$$$. If no solution exists, just tell Bob that it is impossible to recover his favorite sequence, regardless of Bob's sadness.",
+    "prob_desc_output_spec": "Output a possible value of $$$f_k$$$, where $$$f_k$$$ is a positive integer satisfying $$$1 \\leq f_k &lt; p$$$. If there are multiple answers, print any of them. If no such $$$f_k$$$ makes $$$f_n = m$$$, output $$$-1$$$ instead. It is easy to show that if there are some possible values of $$$f_k$$$, there must be at least one satisfying $$$1 \\leq f_k &lt; p$$$.",
+    "prob_desc_input_spec": "The first line contains a positive integer $$$k$$$ ($$$1 \\leq k \\leq 100$$$), denoting the length of the sequence $$$b_1, b_2, \\ldots, b_k$$$. The second line contains $$$k$$$ positive integers $$$b_1, b_2, \\ldots, b_k$$$ ($$$1 \\leq b_i &lt; p$$$). The third line contains two positive integers $$$n$$$ and $$$m$$$ ($$$k &lt; n \\leq 10^9$$$, $$$1 \\leq m &lt; p$$$), which implies $$$f_n = m$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_025.jsonl",
+    "code_uid": "90200b59525549a2e2838114e4aea5e4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 3 5\\n4 16\", \"5\\n4 7 1 5 6\\n7 14187219\", \"8\\n2 3 5 6 1 7 9 10\\n23333 1\", \"1\\n2\\n88888 66666\", \"3\\n998244352 998244352 998244352\\n4 2\", \"10\\n283 463 213 777 346 201 463 283 102 999\\n2333333 6263423\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import division\nfrom sys import stdin, stdout\nfrom math import sqrt, ceil\n\npow(1, 2, 3)\n\n\ndef write(x):\n    stdout.write(str(x) + \"\\n\")\n\n\ndef mmul(a, b, p):\n    assert len(a[0]) == len(b)\n\n    n = len(a)\n    m = len(a[0])\n    k = len(b[0])\n\n    res = [[0] * k for _ in xrange(n)]\n    for r in xrange(n):\n        for c in xrange(k):\n            sum = 0\n            for i in xrange(m):\n                sum = (sum + a[r][i] * b[i][c]) % p\n            res[r][c] = sum\n    return res\n\n\ndef mpow(a, x, p):\n    if x == 1:\n        return a\n    if x % 2 == 1:\n        return mmul(mpow(a, x - 1, p), a, p)\n    else:\n        res = mpow(a, x // 2, p)\n        return mmul(res, res, p)\n\n\ndef xgcd(b, a):\n    x0, x1, y0, y1 = 1, 0, 0, 1\n    while a != 0:\n        q, b, a = b // a, a, b % a\n        x0, x1 = x1, x0 - q * x1\n        y0, y1 = y1, y0 - q * y1\n    return b, x0, y0\n\n\ndef solve(a, c, m):\n    res, x0, y0 = xgcd(a, m)\n    if c % res != 0:\n        return -1\n    a //= res\n    c //= res\n    m //= res\n    res, x0, y0 = xgcd(a, m)\n    assert res == 1\n    return (x0 * c) % m\n\n\ndef shanks(alpha, beta, p):\n    t = int(ceil(sqrt(p)))\n    small = {beta: 0}\n    b = beta\n    for i in range(1, t + 1):\n        b = (b * alpha) % p\n        small[b] = i\n    for i in range(0, p, t):\n        temp = pow(alpha, i, p)\n        if temp in small:\n            return (i - small[temp]) % (p - 1)\n    assert False\n\n\nk = int(stdin.readline())\nb = map(int, stdin.readline().split())\nn, m = map(int, stdin.readline().split())\np = 998244353\n\nh_n = shanks(3, m, p)\n\ntrans = [b] + [[0] * k for _ in xrange(k - 1)]\nfor i in xrange(k - 1):\n    trans[i + 1][i] = 1\ntrans = mpow(trans, n - k, p - 1)\nc = trans[0][0]\n\nh_k = solve(c, h_n, p - 1)\n\nif h_k == -1:\n    print -1\nelse:\n    print pow(3, h_k, p)\n",
+    "prob_desc_created_at": "1548938100",
+    "tags": [
+        "number theory",
+        "math",
+        "matrices"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\\n2\\n3\\n5\\n1\\n0\\n3\\n5\\n2\\n0\"]",
+    "src_uid": "7374246c559fb7b507b0edeea6ed0c5d",
+    "prob_desc_notes": "NoteIn the first test case, the program can run $$$5$$$ times as follows: $$$\\text{iloveslim} \\to \\text{ilovslim} \\to \\text{iloslim} \\to \\text{ilslim} \\to \\text{islim} \\to \\text{slim}$$$In the second test case, the program can run $$$2$$$ times as follows: $$$\\text{joobeel} \\to \\text{oel} \\to \\text{el}$$$In the third test case, the program can run $$$3$$$ times as follows: $$$\\text{basiozi} \\to \\text{bioi} \\to \\text{ii} \\to \\text{i}$$$.In the fourth test case, the program can run $$$5$$$ times as follows: $$$\\text{khater} \\to \\text{khatr} \\to \\text{khar} \\to \\text{khr} \\to \\text{kr} \\to \\text{r}$$$In the fifth test case, the program can run only once as follows: $$$\\text{abobeih} \\to \\text{h}$$$In the sixth test case, the program cannot run as none of the characters in the password is a special character.",
+    "prob_desc_description": "Hosssam decided to sneak into Hemose's room while he is sleeping and change his laptop's password. He already knows the password, which is a string $$$s$$$ of length $$$n$$$. He also knows that there are $$$k$$$ special letters of the alphabet: $$$c_1,c_2,\\ldots, c_k$$$.Hosssam made a program that can do the following.  The program considers the current password $$$s$$$ of some length $$$m$$$.  Then it finds all positions $$$i$$$ ($$$1\\le i&lt;m$$$) such that $$$s_{i+1}$$$ is one of the $$$k$$$ special letters.  Then it deletes all of those positions from the password $$$s$$$ even if $$$s_{i}$$$ is a special character. If there are no positions to delete, then the program displays an error message which has a very loud sound. For example, suppose the string $$$s$$$ is \"abcdef\" and the special characters are 'b' and 'd'. If he runs the program once, the positions $$$1$$$ and $$$3$$$ will be deleted as they come before special characters, so the password becomes \"bdef\". If he runs the program again, it deletes position $$$1$$$, and the password becomes \"def\". If he is wise, he won't run it a third time.Hosssam wants to know how many times he can run the program on Hemose's laptop without waking him up from the sound of the error message. Can you help him?",
+    "prob_desc_output_spec": "For each test case, print the maximum number of times Hosssam can run the program without displaying the error message, on a new line.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^5$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of each test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$) — the initial length of the password. The next line contains a string $$$s$$$ consisting of $$$n$$$ lowercase English letters — the initial password. The next line contains an integer $$$k$$$ ($$$1 \\le k \\le 26$$$), followed by $$$k$$$ distinct lowercase letters $$$c_1,c_2,\\ldots,c_k$$$ — the special letters. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2\\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_100.jsonl",
+    "code_uid": "021e8104e716bb52211ca06d687161a6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n\\n9\\n\\niloveslim\\n\\n1 s\\n\\n7\\n\\njoobeel\\n\\n2 o e\\n\\n7\\n\\nbasiozi\\n\\n2 s i\\n\\n6\\n\\nkhater\\n\\n1 r\\n\\n7\\n\\nabobeih\\n\\n6 a b e h i o\\n\\n5\\n\\nzondl\\n\\n5 a b c e f\\n\\n6\\n\\nshoman\\n\\n2 a h\\n\\n7\\n\\nshetwey\\n\\n2 h y\\n\\n5\\n\\nsamez\\n\\n1 m\\n\\n6\\n\\nmouraz\\n\\n1 m\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\n\r\nt = int(sys.stdin.readline())\r\nfor _ in range(t):\r\n    n = int(sys.stdin.readline())\r\n    s = sys.stdin.readline().strip().lower()\r\n    a = sys.stdin.readline().strip().lower().split()\r\n    k = int(a[0])\r\n\r\n    d = [0]*256\r\n    for i in range(1, k+1):\r\n        d[ord(a[i])] = 1\r\n\r\n    parts = 0\r\n    maxlen = 0\r\n    curlen = 0\r\n    grps = []\r\n    for i in range(len(s)):\r\n        v = d[ord(s[i])]\r\n        if i == 0:\r\n            v = 0\r\n        if v > 0:\r\n            if curlen > 0:\r\n                parts += 1\r\n            if curlen > maxlen:\r\n                maxlen = curlen\r\n            grps.append(curlen)\r\n            curlen = 0\r\n        else:\r\n            curlen += 1\r\n\r\n    # print(grps)\r\n    cnt = 0\r\n    for i in range(len(grps)):\r\n        if i > 0:\r\n            if grps[i] == maxlen:\r\n                cnt += 1\r\n\r\n    res = 0\r\n    if parts == 1:\r\n        res = max(maxlen,1)\r\n    elif parts > 1:\r\n        if cnt >= 1:\r\n            res = maxlen + 1\r\n        else:\r\n            res = max(maxlen,1)\r\n\r\n    print(res)\r\n\r\n",
+    "prob_desc_created_at": "1651847700",
+    "tags": [
+        "brute force",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

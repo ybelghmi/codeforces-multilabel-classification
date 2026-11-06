@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"16\", \"18\"]",
+    "src_uid": "e52ec2fa5bcf5d2027d57b0694b4e15a",
+    "prob_desc_notes": "NoteIn the first example it is possible to connect $$$1$$$ to $$$2$$$ using special offer $$$2$$$, and then $$$1$$$ to $$$3$$$ without using any offers.In next two examples the optimal answer may be achieved without using special offers.",
+    "prob_desc_description": "You are given an undirected graph consisting of $$$n$$$ vertices. A number is written on each vertex; the number on vertex $$$i$$$ is $$$a_i$$$. Initially there are no edges in the graph.You may add some edges to this graph, but you have to pay for them. The cost of adding an edge between vertices $$$x$$$ and $$$y$$$ is $$$a_x + a_y$$$ coins. There are also $$$m$$$ special offers, each of them is denoted by three numbers $$$x$$$, $$$y$$$ and $$$w$$$, and means that you can add an edge connecting vertices $$$x$$$ and $$$y$$$ and pay $$$w$$$ coins for it. You don't have to use special offers: if there is a pair of vertices $$$x$$$ and $$$y$$$ that has a special offer associated with it, you still may connect these two vertices paying $$$a_x + a_y$$$ coins for it.What is the minimum number of coins you have to spend to make the graph connected? Recall that a graph is connected if it's possible to get from any vertex to any other vertex using only the edges belonging to this graph.",
+    "prob_desc_output_spec": "Print one integer — the minimum number of coins you have to pay to make the graph connected.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$, $$$0 \\le m \\le 2 \\cdot 10^5$$$) — the number of vertices in the graph and the number of special offers, respectively. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^{12}$$$) — the numbers written on the vertices. Then $$$m$$$ lines follow, each containing three integers $$$x$$$, $$$y$$$ and $$$w$$$ ($$$1 \\le x, y \\le n$$$, $$$1 \\le w \\le 10^{12}$$$, $$$x \\ne y$$$) denoting a special offer: you may add an edge connecting vertex $$$x$$$ and vertex $$$y$$$, and this edge will cost $$$w$$$ coins.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_000.jsonl",
+    "code_uid": "d045b0ecd6aaad78a2574780f55d22a1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 3 3\\n2 3 5\\n2 1 1\", \"4 0\\n1 3 3 7\", \"5 4\\n1 2 3 4 5\\n1 2 8\\n1 3 10\\n1 4 7\\n1 5 15\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def read_nums():\n    return [int(x) for x in input().split()]\n\n\nclass UnionFind:\n    def __init__(self, size):\n        self._parents = list(range(size))\n\n        # number of elements rooted at i\n        self._sizes = [1 for _ in range(size)]\n\n    def _root(self, a):\n        while a != self._parents[a]:\n            self._parents[a] = self._parents[self._parents[a]]\n            a = self._parents[a]\n        return a\n\n    def find(self, a, b):\n        return self._root(a) == self._root(b)\n\n    def union(self, a, b):\n        a, b = self._root(a), self._root(b)\n\n        if self._sizes[a] < self._sizes[b]:\n            self._parents[a] = b\n            self._sizes[b] += self._sizes[a]\n        else:\n            self._parents[b] = a\n            self._sizes[a] += self._sizes[b]\n\n\ndef count_result(num_vertex, edges):\n    uf = UnionFind(num_vertex)\n    res = 0\n    for start, end, cost in edges:\n        if uf.find(start, end):\n            continue\n        else:\n            uf.union(start, end)\n            res += cost\n    return res\n\n\ndef main():\n    n, m = read_nums()\n    vertex_nums = read_nums()\n    edges = []\n    for i in range(m):\n        nums = read_nums()\n        nums[0] -= 1\n        nums[1] -= 1\n        edges.append(nums)\n\n    min_index = min([x for x in zip(vertex_nums, range(n))], key=lambda x: x[0])[1]\n    for i in range(n):\n        if i != min_index:\n            edges.append((min_index, i, vertex_nums[min_index] + vertex_nums[i]))\n    edges = sorted(edges, key=lambda x: x[2])\n    print(count_result(n, edges))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1545921300",
+    "tags": [
+        "dsu",
+        "greedy",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2 3\", \"1 3\"]",
+    "src_uid": "e54f8aff8ede309bd591cb9fbd565d1f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Tavas is a cheerleader in the new sports competition named \"Pashmaks\".  This competition consists of two part: swimming and then running. People will immediately start running R meters after they finished swimming exactly S meters. A winner is a such person that nobody else finishes running before him/her (there may be more than one winner).Before the match starts, Tavas knows that there are n competitors registered for the match. Also, he knows that i-th person's swimming speed is si meters per second and his/her running speed is ri meters per second. Unfortunately, he doesn't know the values of R and S, but he knows that they are real numbers greater than 0.As a cheerleader, Tavas wants to know who to cheer up. So, he wants to know all people that might win. We consider a competitor might win if and only if there are some values of R and S such that with these values, (s)he will be a winner.Tavas isn't really familiar with programming, so he asked you to help him.",
+    "prob_desc_output_spec": "In the first and the only line of output, print a sequence of numbers of possible winners in increasing order.",
+    "prob_desc_input_spec": "The first line of input contains a single integer n (1 ≤ n ≤ 2 × 105). The next n lines contain the details of competitors. i-th line contains two integers si and ri (1 ≤ si, ri ≤ 104).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_001.jsonl",
+    "code_uid": "359fb4560b4295ccec3833b61cc4659d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 3\\n2 2\\n3 1\", \"3\\n1 2\\n1 1\\n2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from itertools import imap\nimport sys\nn = input()\n\n\ndef parseints(s, n):\n    r, i, x = [0] * n, 0, 0\n    for c in imap(ord, s):\n        if c == 32:\n            r[i], i, x = x, i + 1, 0\n        else:\n            x = x * 10 + c - 48\n    return r\n\nz = parseints(sys.stdin.read().replace('\\n', ' '), n * 2)\n# p = zip(z[::2], z[1::2], range(1, n))\np = zip(z[::2], z[1::2])\n\n\ndef convex_hull(points):\n    # points = list(set(points))\n    # points.sort(reverse=True)\n\n    if len(points) <= 1:\n        return points\n\n    pindex = range(len(points))\n    pkey = [x * 10001 + y for x, y in points]\n    pindex.sort(key=lambda i: pkey[i], reverse=True)\n\n\n    def cross(o, a, b):\n        ax, ay = a\n        bx, by = b\n        ox, oy = o\n        return (oy * (ox * (ay * bx - ax * by) +\n                      ax * bx * (by - ay)) -\n                ox * ay * by * (bx - ax))\n    # def cross(o, a, b):\n    #     return (o[1] * (o[0] * (a[1] * b[0] - a[0] * b[1]) +\n    #                     a[0] * b[0] * (b[1] - a[1])) -\n    #             o[0] * a[1] * b[1] * (b[0] - a[0]))\n\n    lower = []\n    for pi in pindex:\n        p = points[pi]\n        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) < 0:\n            lower.pop()\n        if not lower or lower[-1][1] < p[1]:\n            lower.append(p)\n\n    return lower\n\npdic = {}\nfor i, x in enumerate(p, 1):\n    pdic.setdefault(x, []).append(i)\n\nch = convex_hull(p)\nres = []\nfor x in ch:\n    res.extend(pdic[x])\n\nres.sort()\nprint ' '.join(map(str, res))\n",
+    "prob_desc_created_at": "1429029300",
+    "tags": [
+        "geometry",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n8 10 8\", \"NO\"]",
+    "src_uid": "15aa3adb14c17023f71eec11e1c32efe",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Xenia has a set of weights and pan scales. Each weight has an integer weight from 1 to 10 kilos. Xenia is going to play with scales and weights a little. For this, she puts weights on the scalepans, one by one. The first weight goes on the left scalepan, the second weight goes on the right scalepan, the third one goes on the left scalepan, the fourth one goes on the right scalepan and so on. Xenia wants to put the total of m weights on the scalepans.Simply putting weights on the scales is not interesting, so Xenia has set some rules. First, she does not put on the scales two consecutive weights of the same weight. That is, the weight that goes i-th should be different from the (i + 1)-th weight for any i (1 ≤ i &lt; m). Second, every time Xenia puts a weight on some scalepan, she wants this scalepan to outweigh the other one. That is, the sum of the weights on the corresponding scalepan must be strictly greater than the sum on the other pan.You are given all types of weights available for Xenia. You can assume that the girl has an infinite number of weights of each specified type. Your task is to help Xenia lay m weights on ​​the scales or to say that it can't be done.",
+    "prob_desc_output_spec": "In the first line print \"YES\", if there is a way to put m weights on the scales by all rules. Otherwise, print in the first line \"NO\". If you can put m weights on the scales, then print in the next line m integers — the weights' weights in the order you put them on the scales. If there are multiple solutions, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains a string consisting of exactly ten zeroes and ones: the i-th (i ≥ 1) character in the line equals \"1\" if Xenia has i kilo weights, otherwise the character equals \"0\". The second line contains integer m (1 ≤ m ≤ 1000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_001.jsonl",
+    "code_uid": "a7578778b2b485fe53759e7fdf156656",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"0000000101\\n3\", \"1000000000\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def solve(a, b, m, M, weights, last, solution):\n  # print(a,b,m,M,weights, solution)\n  if (a-b > 10):\n    return False\n  if m == M:\n    print(\"YES\")\n    print(*solution)\n    return True\n  for w in weights:\n    if w != last and b+w > a:\n      solution[m] = w\n      if (solve(b+w, a, m+1, M, weights, w, solution)):\n        return True\n  return False\n\nimport sys\nsys.setrecursionlimit(1500)\n\nw = input()\nm = int(input())\nweights = []\nfor i in range(1, 11):\n  if w[i-1] == '1':\n    weights.append(i)\nweights.sort(reverse=True)\nsolution = [0 for x in range(0,m)]\n\nif not solve(0, 0, 0, m, weights, -1, solution):\n  print(\"NO\")\n    \n\n    \n",
+    "prob_desc_created_at": "1377531000",
+    "tags": [
+        "dp",
+        "greedy",
+        "graphs",
+        "constructive algorithms",
+        "shortest paths",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4747\", \"47\"]",
+    "src_uid": "77b5f83cdadf4b0743618a46b646a849",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Petya loves lucky numbers. Everybody knows that positive integers are lucky if their decimal representation doesn't contain digits other than 4 and 7. For example, numbers 47, 744, 4 are lucky and 5, 17, 467 are not.Lucky number is super lucky if it's decimal representation contains equal amount of digits 4 and 7. For example, numbers 47, 7744, 474477 are super lucky and 4, 744, 467 are not.One day Petya came across a positive integer n. Help him to find the least super lucky number which is not less than n.",
+    "prob_desc_output_spec": "Output the least super lucky number that is more than or equal to n.",
+    "prob_desc_input_spec": "The only line contains a positive integer n (1 ≤ n ≤ 10100000). This number doesn't have leading zeroes.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_053.jsonl",
+    "code_uid": "9dfd12ae4253d16bc7e106912c7e9441",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4500\", \"47\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "b=input()\na=[int(i) for i in b]\nl=len(a)\nflag=0\ns=0\nf=0\nif l%2==1:\n    flag=1\n\nelse:\n    for i in range(l):\n        if a[i]>7:\n            flag=1\n            if(s==l//2 or s==i+1):\n                break\n            for j in range(i,-1,-1):\n                if a[j]==4:\n                    a[j]=7\n                    f-=1\n                    s+=1\n                    flag=0\n                    i=j\n                    break\n            break\n\n        elif a[i]==7:\n            s+=1\n\n        elif a[i]>4:\n            a[i]=7\n            s+=1\n            if s<=l//2:\n                break\n\n        elif a[i]==4:\n            f+=1\n\n        else:\n            a[i]=4\n            f+=1\n            if f<=l//2:\n                break\n\n        if s>l//2:\n            flag=1\n            for j in range(i-1,-1,-1):\n                f-=1\n                if a[j]==7:\n                    f+=1\n                    if a[j-1]==4:\n                        a[j-1]=7\n                        f-=1\n                        s+=1\n                        flag=0\n                        i=j-1\n                        break\n                    s-=1\n            break\n\n        elif f>l//2:\n            a[i]=7\n            s+=1\n            f-=1\n            break\n\n\nif flag:\n    for i in range(l//2+1):\n        print(4,end='')\n    for i in range(l//2+1):\n        print(7,end='')\n\nelse:\n    for j in range(i+1):\n        print(a[j],end='')\n    for j in range(i+1,l):\n        if f<l//2:\n            print(4,end='')\n            f+=1\n        else:\n            print(7,end='') \n",
+    "prob_desc_created_at": "1310137200",
+    "tags": [
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

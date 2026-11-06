@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n1 2\", \"4\\n1 4\\n1 4\\n1 3\\n2 4\", \"3\\n1 5\\n2 5\\n1 4\"]",
+    "src_uid": "b1706815238eb940060231848e43ffa8",
+    "prob_desc_notes": "NoteIn the first example, when one swap elements on positions $$$1$$$ and $$$2$$$, the array becomes sorted.In the second example, pay attention that there is no need to minimize number of swaps.In the third example, after swapping elements on positions $$$1$$$ and $$$5$$$ the array becomes: $$$[4, 5, 3, 1, 2, 6]$$$. After swapping elements on positions $$$2$$$ and $$$5$$$ the array becomes $$$[4, 2, 3, 1, 5, 6]$$$ and finally after swapping elements on positions $$$1$$$ and $$$4$$$ the array becomes sorted: $$$[1, 2, 3, 4, 5, 6]$$$.",
+    "prob_desc_description": "You are given a permutation $$$p$$$ of integers from $$$1$$$ to $$$n$$$, where $$$n$$$ is an even number. Your goal is to sort the permutation. To do so, you can perform zero or more operations of the following type:   take two indices $$$i$$$ and $$$j$$$ such that $$$2 \\cdot |i - j| \\geq n$$$ and swap $$$p_i$$$ and $$$p_j$$$. There is no need to minimize the number of operations, however you should use no more than $$$5 \\cdot n$$$ operations. One can show that it is always possible to do that.",
+    "prob_desc_output_spec": "On the first line print $$$m$$$ ($$$0 \\le m \\le 5 \\cdot n$$$) — the number of swaps to perform. Each of the following $$$m$$$ lines should contain integers $$$a_i, b_i$$$ ($$$1 \\le a_i, b_i \\le n$$$, $$$|a_i - b_i| \\ge \\frac{n}{2}$$$) — the indices that should be swapped in the corresponding swap. Note that there is no need to minimize the number of operations. We can show that an answer always exists.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\leq n \\leq 3 \\cdot 10^5$$$, $$$n$$$ is even) — the length of the permutation.  The second line contains $$$n$$$ distinct integers $$$p_1, p_2, \\ldots, p_n$$$ ($$$1 \\le p_i \\le n$$$) — the given permutation.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_025.jsonl",
+    "code_uid": "1a234c3524ef1547c575d7bf4ef0cf48",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2 1\", \"4\\n3 4 1 2\", \"6\\n2 5 3 1 4 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# from bisect import bisect_left\nimport sys\n\n# (n) = (int(x) for x in input().split())\nn = int(input())\na = [int(_) - 1 for _ in sys.stdin.readline().split()]\n\nb = [0 for _ in a]\nfor id, v in enumerate(a):\n    b[v] = id\n\nans = []\nfor i in range(n):\n    pos = b[i]\n    target = i\n    old_v = a[target]\n    if pos == target:\n        continue\n\n    # do swap\n    b[old_v] = pos\n    b[i] = i\n    a[target] = i\n    a[pos] = old_v\n\n\n    if (abs(pos - target) * 2 >= n):\n        ans.append((pos, target))\n        continue\n    elif max(pos, target) < n // 2:\n        helper = n - 1\n        ans.append((pos, helper))\n        ans.append((target, helper))\n        ans.append((pos, helper))\n    elif min(pos, target) >= n // 2:\n        helper = 0\n        ans.append((pos, helper))\n        ans.append((target, helper))\n        ans.append((pos, helper))\n    else:\n        L = 0\n        R = n - 1\n        if pos > target:\n            (pos, target) = (target, pos)\n        ans.append((pos, R))\n        ans.append((L, R))\n        ans.append((L, target))\n        ans.append((L, R))\n        ans.append((pos, R))\n\nprint(len(ans))\nfor i in ans:\n    print(i[0] + 1, i[1] + 1)",
+    "prob_desc_created_at": "1559399700",
+    "tags": [
+        "constructive algorithms",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

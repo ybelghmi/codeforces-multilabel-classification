@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\"]",
+    "src_uid": "db1c28e9ac6251353fbad8730f4705ea",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a rooted tree with n vertices. In each leaf vertex there's a single integer — the number of apples in this vertex. The weight of a subtree is the sum of all numbers in this subtree leaves. For instance, the weight of a subtree that corresponds to some leaf is the number written in the leaf.A tree is balanced if for every vertex v of the tree all its subtrees, corresponding to the children of vertex v, are of equal weight. Count the minimum number of apples that you need to remove from the tree (specifically, from some of its leaves) in order to make the tree balanced. Notice that you can always achieve the goal by just removing all apples.",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of apples to remove in order to make the tree balanced. Please, do not write the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the sin, cout streams cin, cout or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains integer n (2 ≤ n ≤ 105), showing the number of vertices in the tree. The next line contains n integers a1, a2, ..., an (0 ≤ ai ≤ 108), ai is the number of apples in the vertex number i. The number of apples in non-leaf vertices is guaranteed to be zero.  Then follow n - 1 lines, describing the tree edges. Each line contains a pair of integers xi, yi (1 ≤ xi, yi ≤ n, xi ≠ yi) — the vertices connected by an edge.  The vertices are indexed from 1 to n. Vertex 1 is the root.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_038.jsonl",
+    "code_uid": "45da84cab5cefd8816c9b1be2ee2db11",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n0 0 12 13 5 6\\n1 2\\n1 3\\n1 4\\n2 5\\n2 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a\n\ndef lcm(a, b):\n    return a // gcd(a, b) * b\n\ndef cal((f1, k1), (f2, k2)):\n    if f1 > f2:\n        f1, k1, f2, k2 = f2, k2, f1, k1\n    A = (f1 - f2) % k2\n    B = 0\n    x1 = 0\n    k11 = k1 % k2\n    k1x1 = 0\n    while B != A and k1x1 <= f1:\n        if B < A:\n            dx1 = (A - B) // k11\n        else:\n            dx1 = (A + k2 - B) // k11\n        dx1 = max(dx1, 1)\n        B = (B + k11 * dx1) % k2\n        x1 += dx1\n        k1x1 += k1 * dx1\n    f = f1 - k1x1\n    if f <= 0:\n        return (0, 1)\n    k = lcm(k1, k2)\n    return (f, k)\n\ndef cals(fks):\n    fk0 = None\n    for fk in fks:\n        if fk0 is None:\n            fk0 = fk\n        else:\n            # print fk, fk0\n            fk0 = cal(fk0, fk)\n        if fk0[0] == 0:\n            return fk0\n    return fk0\n\ndef solve():\n    n = int(raw_input())\n    a = map(int, raw_input().split())\n    chs = [[] for i in xrange(n)]\n    for i in xrange(n-1):\n        u, v = map(int, raw_input().split())\n        u, v = u - 1, v - 1\n        chs[u].append(v)\n        chs[v].append(u)\n\n    p = []\n    stk = [0]\n    vis = {0}\n    chs1 = [[] for i in xrange(n)]\n    while stk:\n        u = stk.pop()\n        p.append(u)\n        for v in chs[u]:\n            if not v in vis:\n                stk.append(v)\n                chs1[u].append(v)\n                vis.add(v)\n    chs = chs1\n    p.reverse()\n\n    ws = [0] * n\n    for u in p:\n        ws[u] = a[u] + sum(ws[v] for v in chs[u])\n\n    fks = [None] * n\n    for u in p:\n        if not chs[u]:\n            fks[u] = (a[u], 1)\n        else:\n            f, k = cals(fks[v] for v in chs[u])\n            nc = len(chs[u])\n            fks[u] = (a[u] + f * nc, k * nc)\n    # print chs\n    # print zip(a, fks)\n    return ws[0] - fks[0][0]\n\nprint solve()\n",
+    "prob_desc_created_at": "1380295800",
+    "tags": [
+        "number theory",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

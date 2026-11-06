@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 1 2\", \"1 2 3 4 5\", \"-1\"]",
+    "src_uid": "b6ac7c30b7efdc7206dbbad5cfb86db7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "An array of integers $$$p_1, p_2, \\dots, p_n$$$ is called a permutation if it contains each number from $$$1$$$ to $$$n$$$ exactly once. For example, the following arrays are permutations: $$$[3, 1, 2]$$$, $$$[1]$$$, $$$[1, 2, 3, 4, 5]$$$ and $$$[4, 3, 1, 2]$$$. The following arrays are not permutations: $$$[2]$$$, $$$[1, 1]$$$, $$$[2, 3, 4]$$$.Polycarp invented a really cool permutation $$$p_1, p_2, \\dots, p_n$$$ of length $$$n$$$. It is very disappointing, but he forgot this permutation. He only remembers the array $$$q_1, q_2, \\dots, q_{n-1}$$$ of length $$$n-1$$$, where $$$q_i=p_{i+1}-p_i$$$.Given $$$n$$$ and $$$q=q_1, q_2, \\dots, q_{n-1}$$$, help Polycarp restore the invented permutation.",
+    "prob_desc_output_spec": "Print the integer -1 if there is no such permutation of length $$$n$$$ which corresponds to the given array $$$q$$$. Otherwise, if it exists, print $$$p_1, p_2, \\dots, p_n$$$. Print any such permutation if there are many of them.",
+    "prob_desc_input_spec": "The first line contains the integer $$$n$$$ ($$$2 \\le n \\le 2\\cdot10^5$$$) — the length of the permutation to restore. The second line contains $$$n-1$$$ integers $$$q_1, q_2, \\dots, q_{n-1}$$$ ($$$-n &lt; q_i &lt; n$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_007.jsonl",
+    "code_uid": "2f8007615f4baaa94a2db4d97e49f366",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n-2 1\", \"5\\n1 1 1 1\", \"4\\n-1 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\nq=list(map(int,input().split()))\nfor i in range(1,n-1):\n    q[i]+=q[i-1]\nmi=min(q)\nif (n-1)==len(set(q)):\n    if mi>0:\n        f=1\n    elif mi<0:\n        f=abs(mi)+1\n    else:\n        print(-1)\n        exit(0)\nelse:\n    print(-1)\n    exit(0)    \n\nd=dict()\nif f<=n:\n    d[f]=1\nelse:\n    print(-1)\n    exit(0)\nfor i in range(n-1):\n    q[i]+=f\n    try:\n        if d[q[i]]==1:\n            print(-1)\n            exit(0)\n    except KeyError:\n        if q[i] <= n: \n            d[q[i]]=1\n        else:\n            print(-1)\n            exit(0)\nprint(f,end=\" \")\nfor i in q:\n    print(i,end=\" \")\nprint()\n\n",
+    "prob_desc_created_at": "1553006100",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

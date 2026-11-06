@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"3\", \"-1\"]",
+    "src_uid": "3967727db1225c4b6072d9f18e0dce00",
+    "prob_desc_notes": "NoteIn the first example the ship should perform the following sequence of moves: \"RRRRU\". Then its coordinates will change accordingly: $$$(0, 0)$$$ $$$\\rightarrow$$$ $$$(1, 1)$$$ $$$\\rightarrow$$$ $$$(2, 2)$$$ $$$\\rightarrow$$$ $$$(3, 3)$$$ $$$\\rightarrow$$$ $$$(4, 4)$$$ $$$\\rightarrow$$$ $$$(4, 6)$$$.In the second example the ship should perform the following sequence of moves: \"DD\" (the third day it should stay in place). Then its coordinates will change accordingly: $$$(0, 3)$$$ $$$\\rightarrow$$$ $$$(0, 3)$$$ $$$\\rightarrow$$$ $$$(0, 1)$$$ $$$\\rightarrow$$$ $$$(0, 0)$$$.In the third example the ship can never reach the point $$$(0, 1)$$$.",
+    "prob_desc_description": "You a captain of a ship. Initially you are standing in a point $$$(x_1, y_1)$$$ (obviously, all positions in the sea can be described by cartesian plane) and you want to travel to a point $$$(x_2, y_2)$$$. You know the weather forecast — the string $$$s$$$ of length $$$n$$$, consisting only of letters U, D, L and R. The letter corresponds to a direction of wind. Moreover, the forecast is periodic, e.g. the first day wind blows to the side $$$s_1$$$, the second day — $$$s_2$$$, the $$$n$$$-th day — $$$s_n$$$ and $$$(n+1)$$$-th day — $$$s_1$$$ again and so on. Ship coordinates change the following way:  if wind blows the direction U, then the ship moves from $$$(x, y)$$$ to $$$(x, y + 1)$$$;  if wind blows the direction D, then the ship moves from $$$(x, y)$$$ to $$$(x, y - 1)$$$;  if wind blows the direction L, then the ship moves from $$$(x, y)$$$ to $$$(x - 1, y)$$$;  if wind blows the direction R, then the ship moves from $$$(x, y)$$$ to $$$(x + 1, y)$$$. The ship can also either go one of the four directions or stay in place each day. If it goes then it's exactly 1 unit of distance. Transpositions of the ship and the wind add up. If the ship stays in place, then only the direction of wind counts. For example, if wind blows the direction U and the ship moves the direction L, then from point $$$(x, y)$$$ it will move to the point $$$(x - 1, y + 1)$$$, and if it goes the direction U, then it will move to the point $$$(x, y + 2)$$$.You task is to determine the minimal number of days required for the ship to reach the point $$$(x_2, y_2)$$$.",
+    "prob_desc_output_spec": "The only line should contain the minimal number of days required for the ship to reach the point $$$(x_2, y_2)$$$. If it's impossible then print \"-1\".",
+    "prob_desc_input_spec": "The first line contains two integers $$$x_1, y_1$$$ ($$$0 \\le x_1, y_1 \\le 10^9$$$) — the initial coordinates of the ship. The second line contains two integers $$$x_2, y_2$$$ ($$$0 \\le x_2, y_2 \\le 10^9$$$) — the coordinates of the destination point. It is guaranteed that the initial coordinates and destination point coordinates are different. The third line contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the length of the string $$$s$$$. The fourth line contains the string $$$s$$$ itself, consisting only of letters U, D, L and R.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_029.jsonl",
+    "code_uid": "1870854acbfe89da13b677e500bb003a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"0 0\\n4 6\\n3\\nUUU\", \"0 3\\n0 0\\n3\\nUDD\", \"0 0\\n0 1\\n1\\nL\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nfrom collections import Counter, defaultdict\nfrom itertools import permutations, combinations\nraw_input = stdin.readline\npr = stdout.write\n\n\ndef in_arr():\n    return map(int,raw_input().split())\n\n\ndef pr_num(n):\n    stdout.write(str(n)+'\\n')\n\n\ndef pr_arr(arr):\n    for i in arr:\n        stdout.write(str(i)+' ')\n    stdout.write('\\n')\n\n\nrange = xrange # not for python 3.0+\n\n\n# main code\n\n\ndef check(n,x1,y1,x2,y2,dp,mid):\n    mid-=1\n    xnew=x1+(dp[-1][0]*(mid/n))+dp[mid%n][0]\n    ynew=y1+(dp[-1][1]*(mid/n))+dp[mid%n][1]\n    val=int(abs(xnew-x2)+abs(ynew-y2))\n    if val<=mid+1:\n        return 1\n    return 0\nx1,y1=in_arr()\nx2,y2=in_arr()\nn=input()\ns=raw_input().strip()\ndp=[[0,0] for i in range(n)]\nx,y=0,0\nfor i in range(n):\n    if s[i]=='U':\n        y+=1\n    elif s[i]=='D':\n        y-=1\n    elif s[i]=='L':\n        x-=1\n    else:\n        x+=1\n    dp[i][0]=x\n    dp[i][1]=y\nl=1\nr=10**15\nans=-1\nwhile l<=r:\n    mid=(l+r)/2\n    if check(n,x1,y1,x2,y2,dp,mid):\n        ans=mid\n        r=mid-1\n    else:\n        l=mid+1\npr_num(ans)\n    \n",
+    "prob_desc_created_at": "1550504400",
+    "tags": [
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

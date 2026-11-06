@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"ababacd\", \"-1\"]",
+    "src_uid": "2f659be28674a81f58f5c587b6a0f465",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little penguin Polo adores strings. But most of all he adores strings of length n.One day he wanted to find a string that meets the following conditions:  The string consists of n lowercase English letters (that is, the string's length equals n), exactly k of these letters are distinct.  No two neighbouring letters of a string coincide; that is, if we represent a string as s = s1s2... sn, then the following inequality holds, si ≠ si + 1(1 ≤ i &lt; n).  Among all strings that meet points 1 and 2, the required string is lexicographically smallest. Help him find such string or state that such string doesn't exist.String x = x1x2... xp is lexicographically less than string y = y1y2... yq, if either p &lt; q and x1 = y1, x2 = y2, ... , xp = yp, or there is such number r (r &lt; p, r &lt; q), that x1 = y1, x2 = y2, ... , xr = yr and xr + 1 &lt; yr + 1. The characters of the strings are compared by their ASCII codes.",
+    "prob_desc_output_spec": "In a single line print the required string. If there isn't such string, print \"-1\" (without the quotes).",
+    "prob_desc_input_spec": "A single line contains two positive integers n and k (1 ≤ n ≤ 106, 1 ≤ k ≤ 26) — the string's length and the number of distinct letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_003.jsonl",
+    "code_uid": "7585f4e083b71299157f92028a02bf4b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 4\", \"4 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k = map(int,input().split())\nletras = []\ns = []\nfor i in range(97,k+97):\n    letras.append(chr(i))\ncont = 2\nfor i in range(0,n):\n    if i>= n-k+2:\n        s.append(letras[cont])\n        cont+=1\n    elif i%2==0:\n        s.append(letras[0])\n    elif i%2!=0 and k!=1:\n        s.append(letras[1])\n\nif k>n or (k == 1 and n>1) :\n    print(\"-1\")\nelse:\n    print(\"\".join(s))",
+    "prob_desc_created_at": "1364916600",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"2\"]",
+    "src_uid": "32f245fa1a2d99bfabd30b558687ca5f",
+    "prob_desc_notes": "NoteIn the first test case, Emuskald can replant the first plant to the right of the last plant, so the answer is 1.In the second test case, the species are already in the correct order, so no replanting is needed.",
+    "prob_desc_description": "Emuskald is an avid horticulturist and owns the world's longest greenhouse — it is effectively infinite in length.Over the years Emuskald has cultivated n plants in his greenhouse, of m different plant species numbered from 1 to m. His greenhouse is very narrow and can be viewed as an infinite line, with each plant occupying a single point on that line.Emuskald has discovered that each species thrives at a different temperature, so he wants to arrange m - 1 borders that would divide the greenhouse into m sections numbered from 1 to m from left to right with each section housing a single species. He is free to place the borders, but in the end all of the i-th species plants must reside in i-th section from the left.Of course, it is not always possible to place the borders in such way, so Emuskald needs to replant some of his plants. He can remove each plant from its position and place it anywhere in the greenhouse (at any real coordinate) with no plant already in it. Since replanting is a lot of stress for the plants, help Emuskald find the minimum number of plants he has to replant to be able to place the borders.",
+    "prob_desc_output_spec": "Output a single integer — the minimum number of plants to be replanted.",
+    "prob_desc_input_spec": "The first line of input contains two space-separated integers n and m (1 ≤ n, m ≤ 5000, n ≥ m), the number of plants and the number of different species. Each of the following n lines contain two space-separated numbers: one integer number si (1 ≤ si ≤ m), and one real number xi (0 ≤ xi ≤ 109), the species and position of the i-th plant. Each xi will contain no more than 6 digits after the decimal point. It is guaranteed that all xi are different; there is at least one plant of each species; the plants are given in order \"from left to the right\", that is in the ascending order of their xi coordinates (xi &lt; xi + 1, 1 ≤ i &lt; n).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_029.jsonl",
+    "code_uid": "772240b97a1457566789fcd5b48bb457",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n2 1\\n1 2.0\\n1 3.100\", \"3 3\\n1 5.0\\n2 5.5\\n3 6.0\", \"6 3\\n1 14.284235\\n2 17.921382\\n1 20.328172\\n3 20.842331\\n1 25.790145\\n1 27.204125\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "numbers, types = map(int, input().split())\n\nposition = [0] * (numbers)\nbinary_search_array = [1] * (numbers)\n\nfor i in range(numbers):\n    position[i] = int(input().split()[0])\n\nmax_length = int(0)\n\nfor i in range(numbers):\n    low = int(0)\n    high = int(max_length)\n\n    while (low < high):\n        mid = int((low + high) / 2)\n        if (binary_search_array[mid] <= position[i]):\n            low = mid + 1\n        else:\n            high = mid\n\n    binary_search_array[low] = position[i]\n    if (low == max_length):\n        max_length += 1\n\n\nprint(numbers - max_length)\n",
+    "prob_desc_created_at": "1359732600",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

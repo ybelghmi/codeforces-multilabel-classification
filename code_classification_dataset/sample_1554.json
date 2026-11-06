@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"1\", \"0\"]",
+    "src_uid": "6a3d6919435e5ba63bb95cd387a11b06",
+    "prob_desc_notes": "NoteIn the first sample, the four ways are to:   Make everyone love each other  Make 1 and 2 love each other, and 3 hate 1 and 2 (symmetrically, we get 3 ways from this). In the second sample, the only possible solution is to make 1 and 3 love each other and 2 and 4 hate each other.",
+    "prob_desc_description": "There are many anime that are about \"love triangles\": Alice loves Bob, and Charlie loves Bob as well, but Alice hates Charlie. You are thinking about an anime which has n characters. The characters are labeled from 1 to n. Every pair of two characters can either mutually love each other or mutually hate each other (there is no neutral state).You hate love triangles (A-B are in love and B-C are in love, but A-C hate each other), and you also hate it when nobody is in love. So, considering any three characters, you will be happy if exactly one pair is in love (A and B love each other, and C hates both A and B), or if all three pairs are in love (A loves B, B loves C, C loves A).You are given a list of m known relationships in the anime. You know for sure that certain pairs love each other, and certain pairs hate each other. You're wondering how many ways you can fill in the remaining relationships so you are happy with every triangle. Two ways are considered different if two characters are in love in one way but hate each other in the other. Print this count modulo 1 000 000 007.",
+    "prob_desc_output_spec": "Print a single integer equal to the number of ways to fill in the remaining pairs so that you are happy with every triangle modulo 1 000 000 007. ",
+    "prob_desc_input_spec": "The first line of input will contain two integers n, m (3 ≤ n ≤ 100 000, 0 ≤ m ≤ 100 000). The next m lines will contain the description of the known relationships. The i-th line will contain three integers ai, bi, ci. If ci is 1, then ai and bi are in love, otherwise, they hate each other (1 ≤ ai, bi ≤ n, ai ≠ bi, ). Each pair of people will be described no more than once.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_010.jsonl",
+    "code_uid": "a2d4687aa2a2cf8406e82f48a03cccda",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 0\", \"4 4\\n1 2 1\\n2 3 1\\n3 4 0\\n4 1 0\", \"4 4\\n1 2 1\\n2 3 1\\n3 4 0\\n4 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class DSU(object):\n    def __init__(self, n):\n        self.father = list(range(n))\n        self.size = n\n\n    def union(self, x, s):\n        x = self.find(x)\n        s = self.find(s)\n        if x == s:\n            return\n        self.father[s] = x\n        self.size -= 1\n\n    def find(self, x):\n        xf = self.father[x]\n        if xf != x:\n            self.father[x] = self.find(xf)\n        return self.father[x]\n\n\ndef is_invalid(a, b, ds):\n    return ds.find(a) == ds.find(b)\n\n\nn, k = map(int, input().split())\nds = DSU(n * 2)\nfor i in range(k):\n    first, second, color = map(int, input().split())\n    first -= 1\n    second -= 1\n    if color == 0:\n        if is_invalid(first, second, ds):\n            print(0)\n            exit()\n        ds.union(first, second + n)\n        ds.union(first + n, second)\n    else:\n        if is_invalid(first, second + n, ds):\n            print(0)\n            exit()\n        ds.union(first, second)\n        ds.union(first + n, second + n)\n\nsum = 1\nfor i in range(ds.size // 2 - 1):\n    sum = (sum * 2) % (10 ** 9 + 7)\nprint(sum)\n",
+    "prob_desc_created_at": "1435163400",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

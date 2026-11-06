@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\"]",
+    "src_uid": "8b2d29c3686bb2d58cdd08e73073d461",
+    "prob_desc_notes": "NoteThe two sample test cases correspond to the two mazes in the picture.",
+    "prob_desc_description": "You are given a circular maze such as the ones shown in the figures.    Determine if it can be solved, i.e., if there is a path which goes from the center to the outside of the maze which does not touch any wall. The maze is described by $$$n$$$ walls. Each wall can be either circular or straight.   Circular walls are described by a radius $$$r$$$, the distance from the center, and two angles $$$\\theta_1, \\theta_2$$$ describing the beginning and the end of the wall in the clockwise direction. Notice that swapping the two angles changes the wall.  Straight walls are described by an angle $$$\\theta$$$, the direction of the wall, and two radii $$$r_1 &lt; r_2$$$ describing the beginning and the end of the wall. Angles are measured in degrees; the angle $$$0$$$ corresponds to the upward pointing direction; and angles increase clockwise (hence the east direction corresponds to the angle $$$90$$$).",
+    "prob_desc_output_spec": "For each test case, print YES if the maze can be solved and NO otherwise. ",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains an integer $$$t$$$ ($$$1\\le t\\le 20$$$) — the number of test cases. The descriptions of the $$$t$$$ test cases follow. The first line of each test case contains an integer $$$n$$$ ($$$1 \\leq n \\leq 5000$$$) — the number of walls.  Each of the following $$$n$$$ lines each contains a character (C for circular, and S for straight) and three integers:    either $$$r, \\theta_1, \\theta_2$$$ ($$$1 \\leq r \\leq 20$$$ and $$$0 \\leq \\theta_1,\\theta_2 &lt; 360$$$ with $$$\\theta_1 \\neq \\theta_2$$$) if the wall is circular,  or $$$r_1$$$, $$$r_2$$$ and $$$\\theta$$$ ($$$1 \\leq r_1 &lt; r_2 \\leq 20$$$ and $$$0 \\leq \\theta &lt; 360$$$) if the wall is straight.  It is guaranteed that circular walls do not overlap (but two circular walls may intersect at one or two points), and that straight walls do not overlap (but two straight walls may intersect at one point). However, circular and straight walls can intersect arbitrarily.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": -1,
+    "file_name": "train_085.jsonl",
+    "code_uid": "e74eb510a755d424ecea4722ba6270ad",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n5\\nC 1 180 90\\nC 5 250 230\\nC 10 150 140\\nC 20 185 180\\nS 1 20 180\\n6\\nC 1 180 90\\nC 5 250 230\\nC 10 150 140\\nC 20 185 180\\nS 1 20 180\\nS 5 10 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\n\r\ninput = sys.stdin.readline\r\n\r\n\r\n############ ---- Input Functions ---- ############\r\ndef inp():\r\n    return (int(input()))\r\n\r\n\r\ndef inlt():\r\n    return (list(map(int, input().split())))\r\n\r\n\r\ndef insr():\r\n    s = input()\r\n    return (list(s[:len(s) - 1]))\r\n\r\n\r\ndef inst():\r\n    s = input()\r\n    return s[:len(s) - 1]\r\n\r\n\r\ndef invr():\r\n    return (map(int, input().split()))\r\n\r\n\r\nt = inp()\r\n\r\ndr = [1, 0, -1, 0]\r\ndth = [0, 1, 0, -1]\r\n\r\n\r\ndef solve():\r\n    n = inp()\r\n    m = [[True for j in range(720)] for i in range(40)]\r\n    nvis = [[True for j in range(720)] for i in range(40)]\r\n    for _ in range(n):\r\n        cmd = inst().split()\r\n        if cmd[0] == 'C':\r\n            r = (int(cmd[1]) - 1) * 2 + 1\r\n            th1 = (int(cmd[2]) * 2) % 720\r\n            th2 = (int(cmd[3]) * 2) % 720\r\n            while th1 != th2:\r\n                m[r][th1] = False\r\n                th1 = (th1 + 1) % 720\r\n            m[r][th1] = False\r\n        if cmd[0] == 'S':\r\n            r1 = (int(cmd[1]) - 1) * 2 + 1\r\n            r2 = (int(cmd[2]) - 1) * 2 + 1\r\n            th = int(cmd[3]) * 2\r\n            while r1 != r2:\r\n                m[r1][th] = False\r\n                r1 = r1 + 1\r\n            m[r1][th] = False\r\n    q = [(0, 0)]\r\n    while len(q) > 0:\r\n        pt = q.pop()\r\n        for i in range(4):\r\n            npt = (pt[0] + dr[i], (pt[1] + dth[i]) % 720)\r\n            if npt[0] >= 0 and npt[0] < 40 and m[npt[0]][npt[1]] and nvis[\r\n                    npt[0]][npt[1]]:\r\n                q.append(npt)\r\n                nvis[npt[0]][npt[1]] = False\r\n    for i in range(720):\r\n        if nvis[39][i] == False:\r\n            print('YES')\r\n            return\r\n    print(\"NO\")\r\n\r\n\r\nfor _ in range(t):\r\n    solve()",
+    "prob_desc_created_at": "1650798300",
+    "tags": [
+        "brute force",
+        "dfs and similar",
+        "graphs",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

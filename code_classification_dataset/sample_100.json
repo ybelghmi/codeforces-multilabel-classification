@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n5000 9\\n1\\n7 \\n4\\n800 70 6 9000 \\n1\\n10000 \\n1\\n10\"]",
+    "src_uid": "cd2519f4a7888b2c292f05c64a9db13a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A positive (strictly greater than zero) integer is called round if it is of the form d00...0. In other words, a positive integer is round if all its digits except the leftmost (most significant) are equal to zero. In particular, all numbers from $$$1$$$ to $$$9$$$ (inclusive) are round.For example, the following numbers are round: $$$4000$$$, $$$1$$$, $$$9$$$, $$$800$$$, $$$90$$$. The following numbers are not round: $$$110$$$, $$$707$$$, $$$222$$$, $$$1001$$$.You are given a positive integer $$$n$$$ ($$$1 \\le n \\le 10^4$$$). Represent the number $$$n$$$ as a sum of round numbers using the minimum number of summands (addends). In other words, you need to represent the given number $$$n$$$ as a sum of the least number of terms, each of which is a round number.",
+    "prob_desc_output_spec": "Print $$$t$$$ answers to the test cases. Each answer must begin with an integer $$$k$$$ — the minimum number of summands. Next, $$$k$$$ terms must follow, each of which is a round number, and their sum is $$$n$$$. The terms can be printed in any order. If there are several answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the input. Then $$$t$$$ test cases follow. Each test case is a line containing an integer $$$n$$$ ($$$1 \\le n \\le 10^4$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_000.jsonl",
+    "code_uid": "52a2313fac7f87cb6696ab7b8e4dc447",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n5009\\n7\\n9876\\n10000\\n10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\nfor i in range(t):\n    canPrintLength = True\n    summends = []\n    num = int(input())\n    if num in range(1,11):\n        print(1)\n        print(num)\n    else:\n        a = 10\n        g = str(num)\n        length = len(g)\n        while num!=0:\n            rem = num%a\n            if rem !=0:\n                summends.append(rem)\n                a*=10\n                num-=rem\n            else: \n                a*=10\n                pass\n        if canPrintLength==True: \n            print(str(len(summends)))\n        print(*summends)",
+    "prob_desc_created_at": "1590154500",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3.5 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n-1\\n2\\n3\\n4\\n8\\n1\\n1\\n-1\"]",
+    "src_uid": "a3df5d51538658e8c9356f9e848debcf",
+    "prob_desc_notes": "NoteFor the first test case:For the first query, Timur can eat any candy, and he will reach the desired quantity.For the second query, Timur can reach a quantity of at least $$$10$$$ by eating the $$$7$$$-th and the $$$8$$$-th candies, thus consuming a quantity of sugar equal to $$$14$$$.For the third query, there is no possible answer.For the fourth query, Timur can reach a quantity of at least $$$14$$$ by eating the $$$7$$$-th and the $$$8$$$-th candies, thus consuming a quantity of sugar equal to $$$14$$$.For the second test case:For the only query of the second test case, we can choose the third candy from which Timur receives exactly $$$3$$$ sugar. It's also possible to obtain the same answer by choosing the fourth candy.",
+    "prob_desc_description": "Timur has $$$n$$$ candies. The $$$i$$$-th candy has a quantity of sugar equal to $$$a_i$$$. So, by eating the $$$i$$$-th candy, Timur consumes a quantity of sugar equal to $$$a_i$$$.Timur will ask you $$$q$$$ queries regarding his candies. For the $$$j$$$-th query you have to answer what is the minimum number of candies he needs to eat in order to reach a quantity of sugar greater than or equal to $$$x_j$$$ or print -1 if it's not possible to obtain such a quantity. In other words, you should print the minimum possible $$$k$$$ such that after eating $$$k$$$ candies, Timur consumes a quantity of sugar of at least $$$x_j$$$ or say that no possible $$$k$$$ exists.Note that he can't eat the same candy twice and queries are independent of each other (Timur can use the same candy in different queries).",
+    "prob_desc_output_spec": "For each test case output $$$q$$$ lines. For the $$$j$$$-th line output the number of candies Timur needs to eat in order to reach a quantity of sugar greater than or equal to $$$x_j$$$ or print -1 if it's not possible to obtain such a quantity.",
+    "prob_desc_input_spec": "The first line of input contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 1000$$$)  — the number of test cases. The description of test cases follows. The first line contains $$$2$$$ integers $$$n$$$ and $$$q$$$ ($$$1 \\leq n, q \\leq 1.5\\cdot10^5$$$) — the number of candies Timur has and the number of queries you have to print an answer for respectively. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\leq a_i \\leq 10^4$$$) — the quantity of sugar in each of the candies respectively. Then $$$q$$$ lines follow.  Each of the next $$$q$$$ lines contains a single integer $$$x_j$$$ ($$$1 \\leq x_j \\leq 2 \\cdot 10^9$$$) – the quantity Timur wants to reach for the given query. It is guaranteed that the sum of $$$n$$$ and the sum of $$$q$$$ over all test cases do not exceed $$$1.5 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_106.jsonl",
+    "code_uid": "91fd55099f27ff62d902c2fbfaa3fbc0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n8 7\\n\\n4 3 3 1 1 4 5 9\\n\\n1\\n\\n10\\n\\n50\\n\\n14\\n\\n15\\n\\n22\\n\\n30\\n\\n4 1\\n\\n1 2 3 4\\n\\n3\\n\\n1 2\\n\\n5\\n\\n4\\n\\n6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for o in range(int(input())):\r\n  \r\n    n,q=map(int,input().split())\r\n    cand=list(map(int,input().split()))\r\n    \r\n    a=[]\r\n    for i in range(q):\r\n        t=int(input())\r\n        a.append(t)\r\n    cand.sort(reverse=True)\r\n    \r\n    b=[]\r\n    su=0\r\n    for j in range(n):\r\n        su+=cand[j]\r\n        b.append(su)\r\n    \r\n    for i in range(q):\r\n        if a[i]>b[-1]:\r\n            print(-1)\r\n        elif a[i]==b[-1]:\r\n            print(n)\r\n        else:\r\n            w=0\r\n            if len(b)==1:\r\n                print(1)\r\n                w=1\r\n            \r\n            else:\r\n                low=0\r\n                high=n-1\r\n                mid=0\r\n                while (low+1!=high):\r\n                    mid=(low+high)//2\r\n                    if b[mid]>a[i]:\r\n                        high=mid\r\n                    elif b[mid]<a[i]:\r\n                        low=mid\r\n                    else:\r\n                        print(mid+1)\r\n                        w=1\r\n                        break\r\n                \r\n                if w==0:        \r\n                    if a[i]<=b[low]:\r\n                        print(high)\r\n                    else:\r\n                        print(high+1)\r\n        \r\n        \r\n            ",
+    "prob_desc_created_at": "1652193900",
+    "tags": [
+        "binary search",
+        "greedy",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

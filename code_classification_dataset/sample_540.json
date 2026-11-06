@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"12\", \"1\", \"16\"]",
+    "src_uid": "11fabde93815c1805369bbbc5a40e2d8",
+    "prob_desc_notes": "NoteIn the first sample the profitable strategy is to buy two tickets of the first type (for the first bus), one ticket of the second type (for the second bus) and one ticket of the third type (for all trolleys). It totals to (2·1) + 3 + 7 = 12 burles.In the second sample the profitable strategy is to buy one ticket of the fourth type.In the third sample the profitable strategy is to buy two tickets of the third type: for all buses and for all trolleys.",
+    "prob_desc_description": "Vasya often uses public transport. The transport in the city is of two types: trolleys and buses. The city has n buses and m trolleys, the buses are numbered by integers from 1 to n, the trolleys are numbered by integers from 1 to m.Public transport is not free. There are 4 types of tickets:   A ticket for one ride on some bus or trolley. It costs c1 burles;  A ticket for an unlimited number of rides on some bus or on some trolley. It costs c2 burles;  A ticket for an unlimited number of rides on all buses or all trolleys. It costs c3 burles;  A ticket for an unlimited number of rides on all buses and trolleys. It costs c4 burles. Vasya knows for sure the number of rides he is going to make and the transport he is going to use. He asked you for help to find the minimum sum of burles he will have to spend on the tickets.",
+    "prob_desc_output_spec": "Print a single number — the minimum sum of burles Vasya will have to spend on the tickets.",
+    "prob_desc_input_spec": "The first line contains four integers c1, c2, c3, c4 (1 ≤ c1, c2, c3, c4 ≤ 1000) — the costs of the tickets. The second line contains two integers n and m (1 ≤ n, m ≤ 1000) — the number of buses and trolleys Vasya is going to use. The third line contains n integers ai (0 ≤ ai ≤ 1000) — the number of times Vasya is going to use the bus number i. The fourth line contains m integers bi (0 ≤ bi ≤ 1000) — the number of times Vasya is going to use the trolley number i.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_002.jsonl",
+    "code_uid": "7a3d6d394b539c65e2c4c40f011c2c39",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 3 7 19\\n2 3\\n2 5\\n4 4 4\", \"4 3 2 1\\n1 3\\n798\\n1 2 3\", \"100 100 8 100\\n3 5\\n7 94 12\\n100 1 47 0 42\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "c1, c2, c3, c4 = map(int, input().split())\nn, m = map(int, input().split())\nlst1 = list(map(int, input().split()))\nlst2 = list(map(int, input().split()))\nbuss = 0\nfor i in lst1:\n    buss += min(c1 * i, c2)\nbuss = min(buss, c3)\n\ntr = 0\nfor i in lst2:\n    tr += min(c1 * i, c2)\ntr = min(tr, c3)\n\nprint(min(c4, buss + tr))\n",
+    "prob_desc_created_at": "1381678200",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n1 3\", \"4\\n1 2 4 5\"]",
+    "src_uid": "8cf8590d1f3668b768702c7eb0ee8249",
+    "prob_desc_notes": "NoteIn the first example, Gennady first treats the teeth of the first child who will cry with volume 4. The confidences of the remaining children will get equal to  - 2, 1, 3, 1, respectively. Thus, the second child also cries at the volume of 1 and run to the exit. The confidence of the remaining children will be equal to 0, 2, 0. Then the third child will go to the office, and cry with volume 5. The other children won't bear this, and with a loud cry they will run to the exit.In the second sample, first the first child goes into the office, he will cry with volume 4. The confidence of the remaining children will be equal to 5,  - 1, 6, 8. Thus, the third child will cry with the volume of 1 and run to the exit. The confidence of the remaining children will be equal to 5, 5, 7. After that, the second child goes to the office and cry with the volume of 5. The confidences of the remaining children will be equal to 0, 3. Then the fourth child will go into the office and cry with the volume of 2. Because of this the confidence of the fifth child will be 1, and he will go into the office last.",
+    "prob_desc_description": "Gennady is one of the best child dentists in Berland. Today n children got an appointment with him, they lined up in front of his office.All children love to cry loudly at the reception at the dentist. We enumerate the children with integers from 1 to n in the order they go in the line. Every child is associated with the value of his cofidence pi. The children take turns one after another to come into the office; each time the child that is the first in the line goes to the doctor.While Gennady treats the teeth of the i-th child, the child is crying with the volume of vi. At that the confidence of the first child in the line is reduced by the amount of vi, the second one — by value vi - 1, and so on. The children in the queue after the vi-th child almost do not hear the crying, so their confidence remains unchanged.If at any point in time the confidence of the j-th child is less than zero, he begins to cry with the volume of dj and leaves the line, running towards the exit, without going to the doctor's office. At this the confidence of all the children after the j-th one in the line is reduced by the amount of dj.All these events occur immediately one after the other in some order. Some cries may lead to other cries, causing a chain reaction. Once in the hallway it is quiet, the child, who is first in the line, goes into the doctor's office.Help Gennady the Dentist to determine the numbers of kids, whose teeth he will cure. Print their numbers in the chronological order.",
+    "prob_desc_output_spec": "In the first line print number k — the number of children whose teeth Gennady will cure. In the second line print k integers — the numbers of the children who will make it to the end of the line in the increasing order.",
+    "prob_desc_input_spec": "The first line of the input contains a positive integer n (1 ≤ n ≤ 4000) — the number of kids in the line.  Next n lines contain three integers each vi, di, pi (1 ≤ vi, di, pi ≤ 106) — the volume of the cry in the doctor's office, the volume of the cry in the hall and the confidence of the i-th child.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_036.jsonl",
+    "code_uid": "0a6d8681b3be1c3351d2436779842c37",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n4 2 2\\n4 1 2\\n5 2 4\\n3 3 5\\n5 1 2\", \"5\\n4 5 1\\n5 3 9\\n4 1 2\\n2 1 8\\n4 1 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    n = int(input())\n    p = [0 for i in range(n)]\n    d = [0 for i in range(n)]\n    v = [0 for i in range(n)]\n    used = [False for i in range(n)]\n    ans = []\n    for i in range(n):\n        v[i], d[i], p[i] = map(int, input().split())\n    for i in range(n):\n        cry = 0\n        if not used[i]:\n            ans.append(i + 1)\n            k = i\n            for j in range(i + 1, n):\n                if not used[j]:\n                    k += 1\n                if not used[j] and p[j] - cry - max(v[i] - k + i + 1, 0) < 0:\n                    used[j] = True\n                    cry += d[j]\n                p[j] = p[j] - cry - max(v[i] - k + i + 1, 0)\n                if used[j] and p[j] < 0:\n                    p[j] += d[j]\n    print(len(ans))\n    print(' '.join(str(i) for i in ans))\n\nmain()",
+    "prob_desc_created_at": "1444641000",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

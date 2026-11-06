@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"4\", \"1\"]",
+    "src_uid": "f35c042f23747988f65c5b5e8d5ddacd",
+    "prob_desc_notes": "NotePlease note that if for two distinct strings t1 and t2 values ρ(s, t1) и ρ(s, t2) are maximum among all possible t, then both strings must be taken into account in the answer even if one of them can be obtained by a circular shift of another one.In the first sample, there is ρ(\"C\", \"C\") = 1, for the remaining strings t of length 1 the value of ρ(s, t) is 0.In the second sample, ρ(\"AG\", \"AG\") = ρ(\"AG\", \"GA\") = ρ(\"AG\", \"AA\") = ρ(\"AG\", \"GG\") = 4.In the third sample, ρ(\"TTT\", \"TTT\") = 27",
+    "prob_desc_description": "Vasya became interested in bioinformatics. He's going to write an article about similar cyclic DNA sequences, so he invented a new method for determining the similarity of cyclic sequences.Let's assume that strings s and t have the same length n, then the function h(s, t) is defined as the number of positions in which the respective symbols of s and t are the same. Function h(s, t) can be used to define the function of Vasya distance ρ(s, t):  where  is obtained from string s, by applying left circular shift i times. For example, ρ(\"AGC\", \"CGT\") =  h(\"AGC\", \"CGT\") + h(\"AGC\", \"GTC\") + h(\"AGC\", \"TCG\") +  h(\"GCA\", \"CGT\") + h(\"GCA\", \"GTC\") + h(\"GCA\", \"TCG\") +  h(\"CAG\", \"CGT\") + h(\"CAG\", \"GTC\") + h(\"CAG\", \"TCG\") =  1 + 1 + 0 + 0 + 1 + 1 + 1 + 0 + 1 = 6Vasya found a string s of length n on the Internet. Now he wants to count how many strings t there are such that the Vasya distance from the string s attains maximum possible value. Formally speaking, t must satisfy the equation: .Vasya could not try all possible strings to find an answer, so he needs your help. As the answer may be very large, count the number of such strings modulo 109 + 7.",
+    "prob_desc_output_spec": "Print a single number — the answer modulo 109 + 7.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 105). The second line of the input contains a single string of length n, consisting of characters \"ACGT\".",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_021.jsonl",
+    "code_uid": "44dc37bc597d0a67112ceaa589d35da8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\nC\", \"2\\nAG\", \"3\\nTTT\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a=int(input())\nb=input().lower()\nka=b.count('a')\nkb=b.count('c')\nkt=b.count('t')\nkg=b.count('g')\nans=0\nif ka>=kb and ka>=kt and ka>=kg:\n    km=ka\nelse:\n    if kb>=ka and kb>=kt and kb>=kg:\n        km=kb\n    else:\n        if kt>=ka and kt>=kb and kt>=kg:\n            km=kt\n        else:\n            km=kg\nif ka==km:\n    ans+=1\nif kb==km:\n    ans+=1\nif kt==km:\n    ans+=1\nif kg==km:\n    ans+=1\nif ans==1 or a==1:\n    print('1')\nelse:\n    print(str((ans**a)%(10**9+7)))",
+    "prob_desc_created_at": "1425279600",
+    "tags": [
+        "math",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

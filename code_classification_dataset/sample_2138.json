@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12\\n2 5 2\", \"35\\n5 5 5\"]",
+    "src_uid": "eeb1c2699f82717950f2baa42325f215",
+    "prob_desc_notes": "NoteIn the first test the optimal strategy is to increase the second skill to its maximum, and increase the two others by 1.In the second test one should increase all skills to maximum.",
+    "prob_desc_description": "Lesha plays the recently published new version of the legendary game hacknet. In this version character skill mechanism was introduced. Now, each player character has exactly n skills. Each skill is represented by a non-negative integer ai — the current skill level. All skills have the same maximum level A.Along with the skills, global ranking of all players was added. Players are ranked according to the so-called Force. The Force of a player is the sum of the following values:  The number of skills that a character has perfected (i.e., such that ai = A), multiplied by coefficient cf. The minimum skill level among all skills (min ai), multiplied by coefficient cm. Now Lesha has m hacknetian currency units, which he is willing to spend. Each currency unit can increase the current level of any skill by 1 (if it's not equal to A yet). Help him spend his money in order to achieve the maximum possible value of the Force.",
+    "prob_desc_output_spec": "On the first line print the maximum value of the Force that the character can achieve using no more than m currency units. On the second line print n integers a'i (ai ≤ a'i ≤ A), skill levels which one must achieve in order to reach the specified value of the Force, while using no more than m currency units. Numbers should be separated by spaces.",
+    "prob_desc_input_spec": "The first line of the input contains five space-separated integers n, A, cf, cm and m (1 ≤ n ≤ 100 000, 1 ≤ A ≤ 109, 0 ≤ cf, cm ≤ 1000, 0 ≤ m ≤ 1015). The second line contains exactly n integers ai (0 ≤ ai ≤ A), separated by spaces, — the current levels of skills.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_017.jsonl",
+    "code_uid": "606f3691ae823c43a49f19eb61e03d1b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 5 10 1 5\\n1 3 1\", \"3 5 10 1 339\\n1 3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import bisect as bs\nimport heapq as hq\n\n\ndef force(cf, cm, f, m):\n    return f*cf + m*cm\n\n\n# def perfect(sa, amax, m):\n#     p = 0\n#     while sa[-p-1] == amax:\n#         p += 1\n#     while sa[p] + m >= amax:\n#         for _ in range(amax-sa[-p-1]):\n#             yield p\n#         m -= amax-sa[-p-1]\n#         p += 1\n#     for _ in range(m+1):\n#         yield p\n# \n# \n# def improve(sa, amax, m):\n#     am = sa[0]\n#     i = 1\n#     while i < len(a) and sa[i] == am:\n#         i += 1\n#     while i <= m:\n#         for _ in range(i):\n#             yield am\n#         am += 1\n#         m -= i\n#         while i < len(a) and sa[i] == am:\n#             i += 1\n#     for _ in range(m+1):\n#         yield am\n\ndef mtable(sa):\n    mt = [0]*len(sa)\n    for i in range(1, len(sa)):\n        mt[i] = mt[i-1] + i*(sa[i]-sa[i-1])\n    return mt\n\n\ndef maxm(sa, mt, f, k):\n    i = bs.bisect_right(mt, k, hi=len(sa)-f)\n    return sa[i-1] + (k-mt[i-1])//i\n\n\ndef optimize(a, amax, cf, cm, k):\n    if sum(a) + k >= len(a)*amax:\n        return len(a)*cf + amax*cm, len(a), amax\n\n    sa = sorted(a)\n    f = 0\n    while sa[-f-1] == amax:\n        f += 1\n    mt = mtable(sa)\n\n    of = f\n    om = maxm(sa, mt, f, k)\n    o = force(cf, cm, of, om)\n\n    while k >= amax - sa[-f-1]:\n        k -= amax - sa[-f-1]\n        f += 1\n        m = maxm(sa, mt, f, k)\n        t = force(cf, cm, f, m)\n        if t > o:\n            of, om, o = f, m, t\n\n    return o, of, om\n\n#     sa = sorted(a)\n#     fs = list(perfect(sa, amax, m))\n#     ms = list(improve(sa, amax, m))\n#     of, om = max(zip(fs, reversed(ms)), key=lambda fm: force(fm[0], fm[1]))\n#     return force(of, om), of, om \n\n\ndef apply(a, amax, of, om):\n    # Ensure all values are at least om\n    a_ = [max(om, ai) for ai in a]\n\n    # Increase top p values to amax\n    h = [(-a[i], i) for i in range(len(a))]\n    hq.heapify(h)\n    for _ in range(of):\n        _, i = hq.heappop(h)\n        a_[i] = amax\n\n    return a_\n\n\ndef best_force(a, amax, cf, cm, m):\n    t, of, om = optimize(a, amax, cf, cm, m)\n    if of == len(a):\n        return t, [amax]*len(a)\n    else:\n        return t, apply(a, amax, of, om)\n    \n\n\nif __name__ == '__main__':\n    n, amax, cf, cm, k = map(int, input().split())\n    a = list(map(int, input().split()))\n    assert len(a) == n\n    t, o = best_force(a, amax, cf, cm, k)\n    print(t)\n    print(' '.join(map(str, o)))\n",
+    "prob_desc_created_at": "1452789300",
+    "tags": [
+        "dp",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

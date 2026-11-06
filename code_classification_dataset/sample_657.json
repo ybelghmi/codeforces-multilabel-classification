@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\"]",
+    "src_uid": "8a3e8a5db6d7d668ffea0f59e2639e87",
+    "prob_desc_notes": "NoteAlice can make two transactions in a following way:0. 13 7 6 (initial state)1. 6 7 6 5 (create new address and transfer from first public address 5 satoshies)2. 6 4 6 5 1 (create new address and transfer from second address 1 satoshi)Since cost per transaction is 2 satoshies, total fee is 4.",
+    "prob_desc_description": "After finding and moving to the new planet that supports human life, discussions started on which currency should be used. After long negotiations, Bitcoin was ultimately chosen as the universal currency.These were the great news for Alice, whose grandfather got into Bitcoin mining in 2013, and accumulated a lot of them throughout the years. Unfortunately, when paying something in bitcoin everyone can see how many bitcoins you have in your public address wallet. This worried Alice, so she decided to split her bitcoins among multiple different addresses, so that every address has at most $$$x$$$ satoshi (1 bitcoin = $$$10^8$$$ satoshi). She can create new public address wallets for free and is willing to pay $$$f$$$ fee in satoshi per transaction to ensure acceptable speed of transfer. The fee is deducted from the address the transaction was sent from. Tell Alice how much total fee in satoshi she will need to pay to achieve her goal.",
+    "prob_desc_output_spec": "Output one integer number representing total fee in satoshi Alice will need to pay to achieve her goal.",
+    "prob_desc_input_spec": "First line contains number $$$N$$$ ($$$1 \\leq N \\leq 200\\,000$$$) representing total number of public addresses Alice has. Next line contains $$$N$$$ integer numbers $$$a_i$$$ ($$$1 \\leq a_i \\leq 10^9$$$) separated by a single space, representing how many satoshi Alice has in her public addresses. Last line contains two numbers $$$x$$$, $$$f$$$ ($$$1 \\leq f &lt; x \\leq 10^9$$$) representing maximum number of satoshies Alice can have in one address, as well as fee in satoshies she is willing to pay per transaction. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_003.jsonl",
+    "code_uid": "bfdaadf6b9195cadf7d5f980e3cbcc13",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n13 7 6\\n6 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin,stdout\nfrom math import gcd,sqrt\nfrom collections import deque\ninput=stdin.readline\nR=lambda:map(int,input().split())\nI=lambda:int(input())\nS=lambda:input().rstrip('\\n')\nL=lambda:list(R())\nP=lambda x:stdout.write(x)\nhg=lambda x,y:((y+x-1)//x)*x\npw=lambda x:1 if x==1 else 1+pw(x//2)\nchk=lambda x:chk(x//2) if not x%2 else True if x==1 else False\nN=10**6+7\ndef fee(p):return (p//(x+f))*f+max(0,min(1,p%(x+f)-x))*f\nn=I()\na=L()\nx,f=R()\nans=0\nfor i in a:\n\tif i>x:ans+=fee(i)\nprint(ans)",
+    "prob_desc_created_at": "1537612500",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

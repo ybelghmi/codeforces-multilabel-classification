@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n1\"]",
+    "src_uid": "3dd1f595a5b80b351aeb3996f427ff3b",
+    "prob_desc_notes": "NoteConsider first example:In first query after first operation p = 3, after second operation p = 5.In next two queries p is greater than n after the first operation.",
+    "prob_desc_description": "a is an array of n positive integers, all of which are not greater than n.You have to process q queries to this array. Each query is represented by two numbers p and k. Several operations are performed in each query; each operation changes p to p + ap + k. There operations are applied until p becomes greater than n. The answer to the query is the number of performed operations.",
+    "prob_desc_output_spec": "Print q integers, ith integer must be equal to the answer to ith query.",
+    "prob_desc_input_spec": "The first line contains one integer n (1 ≤ n ≤ 100000). The second line contains n integers — elements of a (1 ≤ ai ≤ n for each i from 1 to n). The third line containts one integer q (1 ≤ q ≤ 100000). Then q lines follow. Each line contains the values of p and k for corresponding query (1 ≤ p, k ≤ n).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_037.jsonl",
+    "code_uid": "29be7f6dff3838331be059f51c3e28bc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1 1\\n3\\n1 1\\n2 1\\n3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import division, print_function\nimport bisect\nimport math\nimport itertools\nimport sys\nfrom atexit import register\n\nif sys.version_info[0] < 3:\n    from io import BytesIO as stream\nelse:\n    from io import StringIO as stream\n\n\nif sys.version_info[0] < 3:\n    class dict(dict):\n        \"\"\"dict() -> new empty dictionary\"\"\"\n        def items(self):\n            \"\"\"D.items() -> a set-like object providing a view on D's items\"\"\"\n            return dict.iteritems(self)\n\n        def keys(self):\n            \"\"\"D.keys() -> a set-like object providing a view on D's keys\"\"\"\n            return dict.iterkeys(self)\n\n        def values(self):\n            \"\"\"D.values() -> an object providing a view on D's values\"\"\"\n            return dict.itervalues(self)\n\n    input = raw_input\n    range = xrange\n\n    filter = itertools.ifilter\n    map = itertools.imap\n    zip = itertools.izip\n\n\ndef sync_with_stdio(sync=True):\n    \"\"\"Set whether the standard Python streams are allowed to buffer their I/O.\n\n    Args:\n        sync (bool, optional): The new synchronization setting.\n\n    \"\"\"\n    global input, flush\n\n    if sync:\n        flush = sys.stdout.flush\n    else:\n        sys.stdin = stream(sys.stdin.read())\n        input = lambda: sys.stdin.readline().rstrip('\\r\\n')\n\n        sys.stdout = stream()\n        register(lambda: sys.__stdout__.write(sys.stdout.getvalue()))\n\ndef main():\n    n=int(input())\n    l1=list(map(int,input().split()))\n    q=int(input())\n    ans=[[-1]*(int(n**0.5) +1) for _ in range(0,n)]\n    for p in range(n,0,-1):\n        for k in range(int(n**0.5),0,-1):\n            if ans[p-1][k]==-1:\n                if p+k+l1[p-1] > n:\n                    ans[p-1][k]=1\n                else :\n                    ans[p-1][k]=1+ans[p-1+k+l1[p-1]][k]\n    for i in range(q):\n        p,k=map(int,input().split())\n        if k<=int(n**0.5):\n            print(ans[p-1][k])\n        else :\n            steps=1\n            while p+l1[p-1]+k<=n:\n                p=l1[p-1]+p+k\n                steps+=1\n            print(steps)\n    \n\nif __name__ == '__main__':\n    sync_with_stdio(False)\n    main()",
+    "prob_desc_created_at": "1492266900",
+    "tags": [
+        "dp",
+        "data structures",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

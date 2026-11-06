@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7\"]",
+    "src_uid": "33112c5af6e9cfd752ad6ded49b54d78",
+    "prob_desc_notes": null,
+    "prob_desc_description": "For the given sequence with n different elements find the number of increasing subsequences with k + 1 elements. It is guaranteed that the answer is not greater than 8·1018.",
+    "prob_desc_output_spec": "Print one integer — the answer to the problem.",
+    "prob_desc_input_spec": "First line contain two integer values n and k (1 ≤ n ≤ 105, 0 ≤ k ≤ 10) — the length of sequence and the number of elements in increasing subsequences. Next n lines contains one integer ai (1 ≤ ai ≤ n) each — elements of sequence. All values ai are different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_039.jsonl",
+    "code_uid": "79dbd27910a8a92c43e20068204f82b4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2\\n1\\n2\\n3\\n5\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python2\n\"\"\"\nThis file is part of https://github.com/cheran-senthil/PyRival\nCopyright 2019 Cheran Senthilkumar <hello@cheran.io>\n\n\"\"\"\nfrom __future__ import division, print_function\n\nimport math\nimport itertools\nimport operator as op\nimport os\nimport sys\nfrom atexit import register\nfrom io import BytesIO\n\nrange = xrange\n\nfilter = itertools.ifilter\nmap = itertools.imap\nzip = itertools.izip\n\nsys.stdin = BytesIO(os.read(0, os.fstat(0).st_size))\nsys.stdout = BytesIO()\nregister(lambda: os.write(1, sys.stdout.getvalue()))\n\ninput = lambda: sys.stdin.readline().rstrip('\\r\\n')\n\n\nclass FenwickTree:\n    def __init__(self, n):\n        self.s = [0] * n\n\n    def update(self, pos, dif):\n        while pos < len(self.s):\n            self.s[pos] += dif\n            pos |= pos + 1\n\n    def query(self, pos):\n        res = 0\n        while pos > 0:\n            res += self.s[pos - 1]\n            pos &= pos - 1\n        return res\n\n    def lower_bound(self, val):\n        if val <= 0:\n            return -1\n\n        pos = 0\n\n        pw = 1 << len(self.s).bit_length()\n        while pw != 0:\n            if pw + pos <= len(self.s):\n                if self.s[pos + pw - 1] < val:\n                    pos += pw\n                    val -= self.s[pos - 1]\n            pw >>= 1\n\n        return pos\n\n\ndef main():\n    n, k = map(int, input().split())\n    a = [int(input()) for _ in range(n)]\n\n    pref_trees = [FenwickTree(n + 1) for _ in range(k + 1)]\n\n    res = [1] * n\n    for i, ai in enumerate(a):\n        pref_trees[0].update(ai, 1)\n        for j in range(1, k + 1):\n            res[i] = pref_trees[j - 1].query(ai)\n            pref_trees[j].update(ai, res[i])\n\n    print(sum(res))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1447264800",
+    "tags": [
+        "data structures",
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

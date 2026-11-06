@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"3\"]",
+    "src_uid": "6a30aba523cadc6ef8dc6b51cee9fa9c",
+    "prob_desc_notes": "NoteConsider the first test sample. The graph's G edges are: 0 → 1, 1 → 2, 0 → 2. We can choose the set of vertexes [0] as the maximum antichain. We cannot choose an antichain of larger size.",
+    "prob_desc_description": "You have a directed acyclic graph G, consisting of n vertexes, numbered from 0 to n - 1. The graph contains n edges numbered from 0 to n - 1. An edge with number i connects vertexes i and (i + 1) mod n, and it can be directed in either direction (from i to (i + 1) mod n, or vise versa).Operation x mod y means taking the remainder after dividing number x by number y.Let's call two vertexes u and v in graph G comparable if the graph contains a path either from u to v or from v to u. We'll assume that an antichain is a set of vertexes of graph G, where any two distinct vertexes are not comparable. The size of an antichain is the number of vertexes in the corresponding set. An antichain is maximum if the graph doesn't have antichains of a larger size.Your task is to find the size of the maximum antichain in graph G.",
+    "prob_desc_output_spec": "Print a single integer — the size of the maximum antichain of graph G.",
+    "prob_desc_input_spec": "The first line contains the sequence of characters s0s1... sn - 1 (2 ≤ n ≤ 106), consisting of numbers zero and one. The length of the line (number n) corresponds to the number of vertexes and edges in graph G. If character si (i ≥ 0) equals 0, then the edge between vertexes i and (i + 1) mod n is directed from the i-th vertex to the (i + 1) mod n-th one, otherwise — to the opposite point. It is guaranteed that the given graph is acyclic.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_037.jsonl",
+    "code_uid": "c9233c2a021bf462928bcc5c48d66c00",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"001\", \"110010\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import division\n\ndef solve(s):\n    n = len(s)\n    c = s[0]\n    lc = 0\n    chains = []\n    for i in xrange(n):\n        if s[i] == c:\n            lc += 1\n        else:\n            chains.append(lc)\n            lc = 1\n            c = s[i]\n    if s[0] == s[-1]: \n        chains[0] += lc\n    else:\n        chains.append(lc)\n    if len(chains) == 1:\n        return 1\n    #print chains\n    twos = []\n    threes = 0\n    tc = 0\n    for c in chains:\n        if c == 1:\n            tc += 1\n        else:\n            threes += 1\n            if tc != 0:\n                twos.append(tc)\n            tc = 0\n    if chains[0] >= 2 or not twos:\n        twos.append(tc)\n    else:\n        twos[0] += tc\n    return threes + sum(t // 2 for t in twos)\n        \ns = raw_input()\nprint solve(s)\n",
+    "prob_desc_created_at": "1381419000",
+    "tags": [
+        "dp",
+        "graph matchings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

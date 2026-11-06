@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2 3\", \"2 6\", \"-1\"]",
+    "src_uid": "eba76d0491f88ac8d8450e457610b067",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given positive integer number n. You should create such strictly increasing sequence of k positive numbers a1, a2, ..., ak, that their sum is equal to n and greatest common divisor is maximal.Greatest common divisor of sequence is maximum of such numbers that every element of sequence is divisible by them.If there is no possible sequence then output -1.",
+    "prob_desc_output_spec": "If the answer exists then output k numbers — resulting sequence. Otherwise output -1. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line consists of two numbers n and k (1 ≤ n, k ≤ 1010).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_004.jsonl",
+    "code_uid": "c34323ca47130ab761d999430febecd3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3\", \"8 2\", \"5 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n \nn, k = map(int, input().split())\nAns = []\n\nif n < (k+1)*k//2:\n    print(-1)\nelse:\n    d = n\n    nd = 1\n    for i in range(int(math.sqrt(n)), 1, -1):\n        if n%i == 0:\n            if i > nd and n//i >=(k+1)*k//2:\n                nd = i\n            if n//i > nd and i >=(k+1)*k//2:\n                nd = n//i\n\n    d = n//nd\n    for x in range(1, k):\n        Ans.append(nd*x)\n        d -= x\n    Ans.append(d*nd)\n        \n     \n    if len(Ans) !=  0:\n        print(*Ans)\n    else:\n        print(-1)\n",
+    "prob_desc_created_at": "1493391900",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

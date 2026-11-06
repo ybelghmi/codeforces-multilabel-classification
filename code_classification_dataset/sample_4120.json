@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 0000\\n\\n? 1110\\n\\n? 1111\\n\\n? 1101\\n\\n! 7\"]",
+    "src_uid": "003b7257b35416ec93f189cb29e458e6",
+    "prob_desc_notes": "NoteHere is the graph of the example, satisfying $$$l_i=i$$$.  ",
+    "prob_desc_description": "As for the technology in the outside world, it is really too advanced for Gensokyo to even look up to.—Yasaka Kanako, Symposium of Post-mysticismThis is an interactive problem.Under the direct supervision of Kanako and the Moriya Shrine, the railway system of Gensokyo is finally finished. GSKR (Gensokyo Railways) consists of $$$n$$$ stations with $$$m$$$ bidirectional tracks connecting them. The $$$i$$$-th track has length $$$l_i$$$ ($$$1\\le l_i\\le 10^6$$$). Due to budget limits, the railway system may not be connected, though there may be more than one track between two stations.The value of a railway system is defined as the total length of its all tracks. The maximum (or minimum) capacity of a railway system is defined as the maximum (or minimum) value among all of the currently functional system's full spanning forest.In brief, full spanning forest of a graph is a spanning forest with the same connectivity as the given graph.Kanako has a simulator only able to process no more than $$$2m$$$ queries. The input of the simulator is a string $$$s$$$ of length $$$m$$$, consisting of characters 0 and/or 1. The simulator will assume the $$$i$$$-th track functional if $$$s_i=$$$ 1. The device will then tell Kanako the maximum capacity of the system in the simulated state.Kanako wants to know the the minimum capacity of the system with all tracks functional with the help of the simulator.The structure of the railway system is fixed in advance. In other words, the interactor is not adaptive.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first and only line of input contains two integers $$$n,m$$$ ($$$2 \\leq n \\leq 200$$$, $$$1\\le m \\le 500$$$) — the number of stations and tracks.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_091.jsonl",
+    "code_uid": "d95e7973957489e08018b96a05bdbdb4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\n\\n0\\n\\n5\\n\\n9\\n\\n7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def ask(ii):\r\n    aa = [0]*m\r\n    for i in ii: aa[i] = 1\r\n    print(\"? \", *aa, sep=\"\", flush=True)\r\n    return int(input())\r\n\r\nn, m = map(int, input().split())\r\nll = []\r\nfor i in range(m):\r\n    ll.append(ask([i]))\r\n\r\nil = sorted(enumerate(ll), key=lambda x: x[1])\r\nans = il[0][1]\r\nii = [il[0][0]]\r\nfor i, l in il[1:]:\r\n    ii.append(i)\r\n    r = ask(ii)\r\n    if l == r-ans:\r\n        ans = r\r\n    else:\r\n        ii.pop()\r\n\r\nprint(\"!\", ans, flush=True)\r\n",
+    "prob_desc_created_at": "1654266900",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "dsu",
+        "graphs",
+        "greedy",
+        "interactive",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

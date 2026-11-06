@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"1\"]",
+    "src_uid": "0d212ea4fc9f03fdd682289fca9b517e",
+    "prob_desc_notes": "NoteIn the first test case, there are two good partitions $$$13+5$$$ and $$$1+3+5$$$.In the second test case, there is one good partition $$$1+0+0+0+0$$$.",
+    "prob_desc_description": "Vasya owns three big integers — $$$a, l, r$$$. Let's define a partition of $$$x$$$ such a sequence of strings $$$s_1, s_2, \\dots, s_k$$$ that $$$s_1 + s_2 + \\dots + s_k = x$$$, where $$$+$$$ is a concatanation of strings. $$$s_i$$$ is the $$$i$$$-th element of the partition. For example, number $$$12345$$$ has the following partitions: [\"1\", \"2\", \"3\", \"4\", \"5\"], [\"123\", \"4\", \"5\"], [\"1\", \"2345\"], [\"12345\"] and lots of others.Let's call some partition of $$$a$$$ beautiful if each of its elements contains no leading zeros.Vasya want to know the number of beautiful partitions of number $$$a$$$, which has each of $$$s_i$$$ satisfy the condition $$$l \\le s_i \\le r$$$. Note that the comparison is the integer comparison, not the string one.Help Vasya to count the amount of partitions of number $$$a$$$ such that they match all the given requirements. The result can be rather big, so print it modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Print a single integer — the amount of partitions of number $$$a$$$ such that they match all the given requirements modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$a~(1 \\le a \\le 10^{1000000})$$$. The second line contains a single integer $$$l~(0 \\le l \\le 10^{1000000})$$$. The third line contains a single integer $$$r~(0 \\le r \\le 10^{1000000})$$$. It is guaranteed that $$$l \\le r$$$. It is also guaranteed that numbers $$$a, l, r$$$ contain no leading zeros.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_000.jsonl",
+    "code_uid": "8fa49b400f05cc20ce305f47184cd1c2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"135\\n1\\n15\", \"10000\\n0\\n9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def kmp(pat,text,t):\n    s=pat+\"?\"+text;\n    #z[i] es el tamaño del prefijo mas largo de, formado por una subcadena s[i:...]\n    z=[0 for i in range(len(s))]\n    L=0;R=0;n=len(s);\n    for i in range(1,len(s)):\n        if i>R:\n            L=R=i\n            while R<n and s[R-L]==s[R]:\n                R+=1\n            z[i]=R-L\n            R-=1\n        elif z[i-L]+i<=R:\n            z[i]=z[i-L]\n        else:\n            L=i\n            while R<n and s[R-L]==s[R]:\n                R+=1\n            z[i]=R-L\n            R-=1\n    for i in range(len(pat)+1,len(z)):\n        dp[t][i-(len(pat)+1)]=z[i]%len(pat)\nfrom sys import stdin\nmod=998244353\na=stdin.readline().strip()\nl=stdin.readline().strip()\nr=stdin.readline().strip()\nx=len(l)\ny=len(r)\nn=len(a)\ndp=[[0 for i in range(len(a))]for j in range(2)]\nans=[0 for i in range(len(a)+1)]\nans[-1]=1\nkmp(l,a,0)\nkmp(r,a,1)\nauxl=x-1\nauxr=y-1\nacum=[0 for i in range(n+2)]\nacum[n]=1\nfor i in range(n-1,-1,-1):\n    if a[i]==\"0\":\n        if l[0]==\"0\":\n            ans[i]=ans[i+1]\n        acum[i]=(acum[i+1]+ans[i])%mod\n        continue\n    if auxl>=n:\n        acum[i]=(acum[i+1]+ans[i])%mod\n        continue\n    if auxl!=auxr:\n        if (auxl+i)<n and a[dp[0][i]+i]>=l[dp[0][i]]:\n            ans[i]=(ans[i]+ans[i+auxl+1])%mod\n        if (auxr+i)<n and a[dp[1][i]+i]<=r[dp[1][i]]:\n            ans[i]=(ans[i]+ans[i+auxr+1])%mod\n    else:\n        if (auxl+i)<n and a[dp[0][i]+i]>=l[dp[0][i]] and a[dp[1][i]+i]<=r[dp[1][i]]:\n            ans[i]=(ans[i]+ans[i+auxl+1])%mod\n    lim1=auxl+i+2\n    lim2=min(auxr+i+1,n+1)\n    if lim1<lim2:\n        ans[i]=(ans[i]+acum[lim1]-acum[lim2])%mod\n    acum[i]=(acum[i+1]+ans[i])%mod\nprint(ans[0]%mod)\n",
+    "prob_desc_created_at": "1537454700",
+    "tags": [
+        "dp",
+        "hashing",
+        "data structures",
+        "binary search",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

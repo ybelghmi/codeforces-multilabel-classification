@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"-1\", \"agoeuioaeiruuimaeoieauoweouoiaouimae\"]",
+    "src_uid": "933167c31c0f53a43e840cc6cf153f8d",
+    "prob_desc_notes": "NoteIn the second example, the word \"agoeuioaeiruuimaeoieauoweouoiaouimae\" can be arranged into the following $$$6 \\times 6$$$ grid:  It is easy to verify that every row and every column contain all the vowels.",
+    "prob_desc_description": "Tom loves vowels, and he likes long words with many vowels. His favorite words are vowelly words. We say a word of length $$$k$$$ is vowelly if there are positive integers $$$n$$$ and $$$m$$$ such that $$$n\\cdot m = k$$$ and when the word is written by using $$$n$$$ rows and $$$m$$$ columns (the first row is filled first, then the second and so on, with each row filled from left to right), every vowel of the English alphabet appears at least once in every row and every column.You are given an integer $$$k$$$ and you must either print a vowelly word of length $$$k$$$ or print $$$-1$$$ if no such word exists.In this problem the vowels of the English alphabet are 'a', 'e', 'i', 'o' ,'u'.",
+    "prob_desc_output_spec": "The output must consist of a single line, consisting of a vowelly word of length $$$k$$$ consisting of lowercase English letters if it exists or $$$-1$$$ if it does not. If there are multiple possible words, you may output any of them.",
+    "prob_desc_input_spec": "Input consists of a single line containing the integer $$$k$$$ ($$$1\\leq k \\leq 10^4$$$) — the required length.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_012.jsonl",
+    "code_uid": "fea280964eadf21f18fea9fa820218d4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\", \"36\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "k = input()\nv = [\"a\", \"e\", \"i\", \"o\", \"u\"]\nn = m = None\nfor i in xrange(5, int(k**0.5) + 1):\n\tif k % i == 0:\n\t\tn = i\n\t\tm = k / i\n\t\tbreak\nif not n:\n\tprint -1\nelse:\n\tans = []\n\trow = v * (n/5) + v[:n%5]\n\tfor i in xrange(m):\n\t\tans.extend(row[i:] + row[:i])\n\tprint \"\".join(ans)",
+    "prob_desc_created_at": "1558105500",
+    "tags": [
+        "constructive algorithms",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

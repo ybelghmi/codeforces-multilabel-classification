@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"? 2 1 5\\n? 1 2\\n? 2 1 2\\n? 1 1\\n? 1 3\\n? 1 4\\n? 2 4 5\\n! guess\"]",
+    "src_uid": "34429ced756d3df2def51727bdbd0ff4",
+    "prob_desc_notes": "NoteLet's analyze the example of interaction.The string chosen by the jury is guess, so initially the jury sends one integer $$$5$$$.  the first query is ? 2 1 5, which means \"count the number of different characters among $$$s_1, s_2, \\dots, s_5$$$\". The answer to it is $$$4$$$.  the second query is ? 1 2, which means \"tell which character is $$$s_2$$$\". The answer to it is u.  the third query is ? 2 1 2, which means \"count the number of different characters among $$$s_1$$$ and $$$s_2$$$\". The answer to it is $$$2$$$.  the fourth query is ? 1 1, which means \"tell which character is $$$s_1$$$\". The answer to it is g.  the fifth query is ? 1 3, which means \"tell which character is $$$s_3$$$\". The answer to it is e.  the sixth query is ? 1 4, which means \"tell which character is $$$s_4$$$\". The answer to it is s.  the seventh query is ? 2 4 5, which means \"count the number of different characters among $$$s_4$$$ and $$$s_5$$$\". The answer to it is $$$1$$$, so it's possible to deduce that $$$s_4$$$ is the same as $$$s_5$$$.In the end, the answer is submitted as ! guess, and it is deduced correctly.",
+    "prob_desc_description": "This is an interactive problem. Remember to flush your output while communicating with the testing program. You may use fflush(stdout) in C++, system.out.flush() in Java, stdout.flush() in Python or flush(output) in Pascal to flush the output. If you use some other programming language, consult its documentation. You may also refer to the guide on interactive problems: https://codeforces.com/blog/entry/45307.The jury has chosen a string $$$s$$$ consisting of $$$n$$$ characters; each character of $$$s$$$ is a lowercase Latin letter. Your task is to guess this string; initially, you know only its length.You may ask queries of two types:  $$$1$$$ $$$i$$$ — the query of the first type, where $$$i$$$ is an integer from $$$1$$$ to $$$n$$$. In response to this query, the jury will tell you the character $$$s_i$$$;  $$$2$$$ $$$l$$$ $$$r$$$ — the query of the second type, where $$$l$$$ and $$$r$$$ are integers such that $$$1 \\le l \\le r \\le n$$$. In response to this query, the jury will tell you the number of different characters among $$$s_l, s_{l+1}, \\dots, s_r$$$. You are allowed to ask no more than $$$26$$$ queries of the first type, and no more than $$$6000$$$ queries of the second type. Your task is to restore the string $$$s$$$.For each test in this problem, the string $$$s$$$ is fixed beforehand, and will be the same for every submission.",
+    "prob_desc_output_spec": "To give the answer, print one line ! s with a line break in the end, where $$$s$$$ should be the string picked by the jury. After that, your program should flush the output and terminate gracefully.",
+    "prob_desc_input_spec": "Initially, the jury program sends one integer $$$n$$$ on a separate line — the size of $$$s$$$ ($$$1 \\le n \\le 1000$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_083.jsonl",
+    "code_uid": "79a197ee15df549fb4f7cfa12266adce",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n4\\nu\\n2\\ng\\ne\\ns\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\r\ninput = stdin.readline\r\n\r\ninp = lambda : list(map(int,input().split()))\r\n\r\ndef query1(i):\r\n\r\n    print('?' , 1 , i , flush = True)\r\n    return input().strip()\r\n\r\ndef query2(l , r):\r\n\r\n    print('?' , 2 , l , r , flush = True)\r\n    return int(input())\r\n\r\n\r\ndef answer():\r\n\r\n    left , right = [] , []\r\n\r\n    j = 0\r\n    for i in range(n - 1):\r\n\r\n        if(query2(i + 1 , i + 2) != 1):\r\n            left.append(j)\r\n            right.append(i)\r\n\r\n            j = i + 1\r\n\r\n    left.append(j)\r\n    right.append(n - 1)\r\n\r\n    ans = []\r\n    ch = query1(1)\r\n    for i in range(left[0] , right[0] + 1):\r\n        ans.append(ch)\r\n\r\n    pos = [[0 , ch]]\r\n    for i in range(1 , len(left)):\r\n\r\n        l , h = 0 , len(pos) - 1\r\n\r\n        what = left[i]\r\n        while(l <= h):\r\n\r\n            mid = (l + h)//2\r\n\r\n            if(query2(pos[mid][0] + 1 , right[i] + 1) != len(pos) - mid + 1):\r\n                what = pos[mid][0]\r\n                ch = pos[mid][1]\r\n                l = mid + 1\r\n            else:\r\n                h = mid - 1\r\n\r\n        if(what == left[i]):\r\n\r\n            ch = query1(what + 1)\r\n            pos.append([what , ch])\r\n            for j in range(left[i] , right[i] + 1):\r\n                ans.append(ch)\r\n\r\n        else:\r\n\r\n            pos.remove([what , ch])\r\n            pos.append([left[i] , ch])\r\n\r\n            for j in range(left[i] , right[i] + 1):\r\n                ans.append(ch)\r\n\r\n        pos.sort()\r\n\r\n    return ''.join(ans)\r\n\r\n\r\n\r\nfor T in range(1):\r\n\r\n    n = int(input())\r\n    \r\n    print('!' , answer() , flush = True)",
+    "prob_desc_created_at": "1655044500",
+    "tags": [
+        "binary search",
+        "constructive algorithms",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

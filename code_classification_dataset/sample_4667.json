@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2021\\n181111\\n34533\\n724542\\n999999999\\n12345678\"]",
+    "src_uid": "3ef53ad23ec56344f68546096c6c3308",
+    "prob_desc_notes": null,
+    "prob_desc_description": "It is a complicated version of problem F1. The difference between them is the constraints (F1: $$$k \\le 2$$$, F2: $$$k \\le 10$$$).You are given an integer $$$n$$$. Find the minimum integer $$$x$$$ such that $$$x \\ge n$$$ and the number $$$x$$$ is $$$k$$$-beautiful.A number is called $$$k$$$-beautiful if its decimal representation having no leading zeroes contains no more than $$$k$$$ different digits. E.g. if $$$k = 2$$$, the numbers $$$3434443$$$, $$$55550$$$, $$$777$$$ and $$$21$$$ are $$$k$$$-beautiful whereas the numbers $$$120$$$, $$$445435$$$ and $$$998244353$$$ are not.",
+    "prob_desc_output_spec": "For each test case output on a separate line $$$x$$$ — the minimum $$$k$$$-beautiful integer such that $$$x \\ge n$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case consists of one line containing two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 10^9$$$, $$$1 \\le k \\le 10$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_103.jsonl",
+    "code_uid": "5bac41bdd0d2f2db062746bf9d802acb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n2021 3\\n177890 2\\n34512 3\\n724533 4\\n998244353 1\\n12345678 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#for p in [(x, 5) for x in range(344660200, 344660300)]:\nfor _ in range(int(input())):\n    #n, k = p[0], p[1]\n    #n = str(n)\n    n, k = input().split()\n    k = int(k)\n    a = []\n    ans = 0\n    it = False\n    for i in range(len(n)):\n        if it:\n            if k:\n                ans = ans * 10\n            else:\n                ans = ans * 10 + min(a)\n            continue\n        #if n[i] == max(n[i:]) or k > 1 or k > 0 and n[i] in a or a and max(a) >= int(max(n[i:])):\n        j = i\n        while j < len(n):\n            if n[j] > n[i]:\n                j += 1\n                break\n            j += 1\n        j -= 1\n        kk = j\n        while kk < len(n):\n            if n[kk] < n[j]:\n                kk += 1\n                break\n            kk += 1\n        kk -= 1\n        if n[i] == max(n[i:]) or k > 1 or (k > 0 and (int(n[i]) in a)) or a and max(a) >= int(max(n[j:kk + 1])) or i == len(n) - 1 or a and min([int(n[x]) for x in range(i + 1, j + 1)]) < max(a) or min([int(n[x]) for x in range(i + 1, j + 1)]) < int(n[i]):\n            d = int(n[i])\n        else:\n            d = int(n[i]) + 1\n        if d not in a and k:\n            k -= 1\n            a.append(d)\n            a.sort()\n            ans = ans * 10 + d\n        else:\n            for x in a:\n                if x >= d:\n                    ans = ans * 10 + x\n                    break\n        if ans % 10 > int(n[i]):\n            it = True\n    print(ans)\n",
+    "prob_desc_created_at": "1629297300",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "constructive algorithms",
+        "dfs and similar",
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

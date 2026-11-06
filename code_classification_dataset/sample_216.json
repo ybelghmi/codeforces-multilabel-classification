@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 7 42\", \"7 8 56\"]",
+    "src_uid": "f60ea0f2caaec16894e84ba87f90c061",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Vladik and Chloe decided to determine who of them is better at math. Vladik claimed that for any positive integer n he can represent fraction  as a sum of three distinct positive fractions in form .Help Vladik with that, i.e for a given n find three distinct positive integers x, y and z such that . Because Chloe can't check Vladik's answer if the numbers are large, he asks you to print numbers not exceeding 109.If there is no such answer, print -1.",
+    "prob_desc_output_spec": "If the answer exists, print 3 distinct numbers x, y and z (1 ≤ x, y, z ≤ 109, x ≠ y, x ≠ z, y ≠ z). Otherwise print -1. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The single line contains single integer n (1 ≤ n ≤ 104).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "c895b235e69dc87b0dc8de74ca386d10",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\", \"7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\nif n==1: print \"-1\"\nelif n==2: print \"2 3 6\"\nelse:\n    isAnswered = False\n    x = (n+1)/2\n    while x*2 < 3*n:\n        c = x*2-n\n        d = x*n\n        y = x + 1\n        while True:\n            if (2*x*y-n*x-n*y) <= 0:\n                y += 1\n                break\n            if (n*x*y) % (2*x*y-n*x-n*y) == 0:\n                z = (n*x*y) / (2*x*y-n*x-n*y)\n                print \"%d %d %d\" % (x,y,z)\n                isAnswered = True\n                break\n            y += 1\n        x += 1\n        if isAnswered: break",
+    "prob_desc_created_at": "1481726100",
+    "tags": [
+        "constructive algorithms",
+        "number theory",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

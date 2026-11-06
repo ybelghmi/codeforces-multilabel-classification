@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n230\", \"0\", \"2\\n185 230\"]",
+    "src_uid": "333790c28eb02ad568a2406d5b2fafa6",
+    "prob_desc_notes": "NoteIn the first sample it is impossible to initially measure the distance of 230 centimeters. For that it is enough to add a 20 centimeter mark or a 230 centimeter mark.In the second sample you already can use the ruler to measure the distances of 185 and 230 centimeters, so you don't have to add new marks.In the third sample the ruler only contains the initial and the final marks. We will need to add two marks to be able to test the children's skills.",
+    "prob_desc_description": "Valery is a PE teacher at a school in Berland. Soon the students are going to take a test in long jumps, and Valery has lost his favorite ruler! However, there is no reason for disappointment, as Valery has found another ruler, its length is l centimeters. The ruler already has n marks, with which he can make measurements. We assume that the marks are numbered from 1 to n in the order they appear from the beginning of the ruler to its end. The first point coincides with the beginning of the ruler and represents the origin. The last mark coincides with the end of the ruler, at distance l from the origin. This ruler can be repesented by an increasing sequence a1, a2, ..., an, where ai denotes the distance of the i-th mark from the origin (a1 = 0, an = l).Valery believes that with a ruler he can measure the distance of d centimeters, if there is a pair of integers i and j (1 ≤ i ≤ j ≤ n), such that the distance between the i-th and the j-th mark is exactly equal to d (in other words, aj - ai = d). Under the rules, the girls should be able to jump at least x centimeters, and the boys should be able to jump at least y (x &lt; y) centimeters. To test the children's abilities, Valery needs a ruler to measure each of the distances x and y. Your task is to determine what is the minimum number of additional marks you need to add on the ruler so that they can be used to measure the distances x and y. Valery can add the marks at any integer non-negative distance from the origin not exceeding the length of the ruler.",
+    "prob_desc_output_spec": "In the first line print a single non-negative integer v — the minimum number of marks that you need to add on the ruler. In the second line print v space-separated integers p1, p2, ..., pv (0 ≤ pi ≤ l). Number pi means that the i-th mark should be at the distance of pi centimeters from the origin. Print the marks in any order. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains four positive space-separated integers n, l, x, y (2 ≤ n ≤ 105, 2 ≤ l ≤ 109, 1 ≤ x &lt; y ≤ l) — the number of marks, the length of the ruler and the jump norms for girls and boys, correspondingly. The second line contains a sequence of n integers a1, a2, ..., an (0 = a1 &lt; a2 &lt; ... &lt; an = l), where ai shows the distance from the i-th mark to the origin.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_013.jsonl",
+    "code_uid": "7bd5e24fdfbf02e441dff38733b66ef8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 250 185 230\\n0 185 250\", \"4 250 185 230\\n0 20 185 250\", \"2 300 185 230\\n0 300\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\n\nclass LongJumps():\n    def __init__(self, n, l, x, y, a):\n        self.n, self.l, self.x, self.y, self.a = n,l,x,y,a\n\n    def get_markers(self):\n        st = defaultdict(set)\n        req_pts = [self.x,self.y]\n        exist_check = defaultdict(bool)\n        value_check = defaultdict(bool)\n        for v in self.a:\n            exist_check[v] = True\n\n        for v in self.a:\n            for i in range(len(req_pts)):\n                if v - req_pts[i] >= 0:\n                    st[v - req_pts[i]].add(i)\n                    if exist_check[v - req_pts[i]]:\n                        value_check[i] = True\n                if v + req_pts[i] <= l:\n                    st[v+req_pts[i]].add(i)\n                    if exist_check[v + req_pts[i]]:\n                        value_check[i] = True\n\n        if value_check[0] and value_check[1]:\n            print(0)\n            return\n\n        sol_status = 2\n        status1_marker = None\n        for v in st:\n            if len(st[v]) == 2:\n                sol_status = 1\n                status1_marker = v\n            elif len(st[v]) == 1:\n                if exist_check[v]:\n                    sol_status = 1\n                    status1_marker = req_pts[1-st[v].pop()]\n        \n        if sol_status == 1:\n            print(1)\n            print(status1_marker)\n            return\n        else:\n            print(2)\n            print(x, y)\n\nn, l, x, y = list(map(int,input().strip(' ').split(' ')))\na = list(map(int,input().strip(' ').split(' ')))\nlj = LongJumps(n,l,x,y,a)\nlj.get_markers()",
+    "prob_desc_created_at": "1413709200",
+    "tags": [
+        "binary search",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

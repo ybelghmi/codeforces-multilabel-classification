@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n.#.#\\n#.#.\\nNO\\nYES\\n....#\\n...#.\\n..#..\\n.#...\\n#....\\nYES\\n#..\\n.#.\\n#.#\\n...\"]",
+    "src_uid": "2bd60c4d46c9af426f1a700c8749cdde",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Monocarp is playing Minecraft and wants to build a wall of cacti. He wants to build it on a field of sand of the size of $$$n \\times m$$$ cells. Initially, there are cacti in some cells of the field. Note that, in Minecraft, cacti cannot grow on cells adjacent to each other by side — and the initial field meets this restriction. Monocarp can plant new cacti (they must also fulfil the aforementioned condition). He can't chop down any of the cacti that are already growing on the field — he doesn't have an axe, and the cacti are too prickly for his hands.Monocarp believes that the wall is complete if there is no path from the top row of the field to the bottom row, such that:   each two consecutive cells in the path are adjacent by side;  no cell belonging to the path contains a cactus. Your task is to plant the minimum number of cacti to build a wall (or to report that this is impossible).",
+    "prob_desc_output_spec": "For each test case, print NO in the first line if it is impossible to build a cactus wall without breaking the rules. Otherwise, print YES in the first line, then print $$$n$$$ lines of $$$m$$$ characters each — the field itself, where the $$$j$$$-th character of the $$$i$$$-th line is equal to '#', if there is a cactus on the intersection of the $$$i$$$-th row and the $$$j$$$-th column, otherwise it is '.'. If there are multiple optimal answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^3$$$) — number of test cases. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n, m \\le 2 \\cdot 10^5$$$; $$$n \\times m \\le 4 \\cdot 10^5$$$) — the number of rows and columns, respectively. Then $$$n$$$ rows follow, $$$i$$$-th row contains a string $$$s_i$$$ of length $$$m$$$, where $$$s_{i, j}$$$ is '#', if a cactus grows at the intersection of the $$$i$$$-th row and the $$$j$$$-th column. Otherwise, $$$s_{i, j}$$$ is '.'. The sum of $$$n \\times m$$$ over all test cases does not exceed $$$4 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_090.jsonl",
+    "code_uid": "9befd4b760b1741faf21aaf7ff4c7aa9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n2 4\\n\\n.#..\\n\\n..#.\\n\\n3 3\\n\\n#.#\\n\\n...\\n\\n.#.\\n\\n5 5\\n\\n.....\\n\\n.....\\n\\n.....\\n\\n.....\\n\\n.....\\n\\n4 3\\n\\n#..\\n\\n.#.\\n\\n#.#\\n\\n...\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, os, io\r\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\r\n\r\ndef f(u, v):\r\n    return u * m + v\r\n\r\ndef g(u):\r\n    return u // m, u % m\r\n\r\ndef bfs():\r\n    dist = [inf] * l\r\n    q, q0 = [], []\r\n    k, k0 = 0, 0\r\n    for i in range(0, l, m):\r\n        if not ng[i]:\r\n            dist[i] = s[i]\r\n            if not dist[i]:\r\n                q.append(i)\r\n            else:\r\n                q0.append(i)\r\n    parent = [-1] * l\r\n    for d in range(l + 1):\r\n        while len(q) ^ k:\r\n            u = q[k]\r\n            i, j = g(u)\r\n            for di, dj in v2:\r\n                ni, nj = i + di, j + dj\r\n                if not 0 <= ni < n or not 0 <= nj < m:\r\n                    continue\r\n                v = f(ni, nj)\r\n                if ng[v] or dist[v] ^ inf:\r\n                    continue\r\n                dist[v] = d + s[v]\r\n                parent[v] = u\r\n                if not s[v]:\r\n                    q.append(v)\r\n                else:\r\n                    q0.append(v)\r\n            k += 1\r\n        q, q0 = q0, q\r\n        k, k0 = k0, k\r\n    return dist, parent\r\n\r\nt = int(input())\r\nans = []\r\nv = [(1, 0), (0, 1), (-1, 0), (0, -1)]\r\nv2 = [(1, 1), (1, -1), (-1, 1), (-1, -1)]\r\ninf = pow(10, 9) + 1\r\nfor _ in range(t):\r\n    n, m = map(int, input().split())\r\n    l = n * m\r\n    s = []\r\n    ng = [0] * l\r\n    for i in range(n):\r\n        s0 = list(input().rstrip())\r\n        for j in range(m):\r\n            if s0[j] & 1:\r\n                for di, dj in v:\r\n                    ni, nj = i + di, j + dj\r\n                    if not 0 <= ni < n or not 0 <= nj < m:\r\n                        continue\r\n                    ng[f(ni, nj)] = 1\r\n        for j in s0:\r\n            s.append((j & 1) ^ 1)\r\n    dist, parent = bfs()\r\n    mi = inf\r\n    for i in range(m - 1, l, m):\r\n        if mi > dist[i]:\r\n            mi, u = dist[i], i\r\n    if mi == inf:\r\n        ans0 = \"NO\"\r\n        ans.append(ans0)\r\n        continue\r\n    s[u] = 0\r\n    while not parent[u] == -1:\r\n        u = parent[u]\r\n        s[u] = 0\r\n    ans0 = \"YES\"\r\n    ans.append(ans0)\r\n    for i in range(n):\r\n        ans0 = [\".\" if s[j] else \"#\" for j in range(i * m, (i + 1) * m)]\r\n        ans.append(\"\".join(ans0))\r\nsys.stdout.write(\"\\n\".join(ans))",
+    "prob_desc_created_at": "1666276500",
+    "tags": [
+        "constructive algorithms",
+        "dfs and similar",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

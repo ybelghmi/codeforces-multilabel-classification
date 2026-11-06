@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"10\", \"0\", \"21\"]",
+    "src_uid": "fc892e4aac2d60e53f377a582f5ba7d3",
+    "prob_desc_notes": "NoteIn the first sample 4 = 2 + 2, a = 2 is the only possibility.In the second sample 11 = 10 + 1, a = 10 — the only valid solution. Note, that a = 01 is incorrect, because a can't have leading zeroes.It's easy to check that there is no suitable a in the third sample.In the fourth sample 33 = 30 + 3 = 12 + 21, so there are three possibilities for a: a = 30, a = 12, a = 21. Any of these is considered to be correct answer.",
+    "prob_desc_description": "Vitya is studying in the third grade. During the last math lesson all the pupils wrote on arithmetic quiz. Vitya is a clever boy, so he managed to finish all the tasks pretty fast and Oksana Fillipovna gave him a new one, that is much harder.Let's denote a flip operation of an integer as follows: number is considered in decimal notation and then reverted. If there are any leading zeroes afterwards, they are thrown away. For example, if we flip 123 the result is the integer 321, but flipping 130 we obtain 31, and by flipping 31 we come to 13.Oksana Fillipovna picked some number a without leading zeroes, and flipped it to get number ar. Then she summed a and ar, and told Vitya the resulting value n. His goal is to find any valid a.As Oksana Fillipovna picked some small integers as a and ar, Vitya managed to find the answer pretty fast and became interested in finding some general algorithm to deal with this problem. Now, he wants you to write the program that for given n finds any a without leading zeroes, such that a + ar = n or determine that such a doesn't exist.",
+    "prob_desc_output_spec": "If there is no such positive integer a without leading zeroes that a + ar = n then print 0. Otherwise, print any valid a. If there are many possible answers, you are allowed to pick any.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 10100 000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_032.jsonl",
+    "code_uid": "3ea1b6a92fd7fdfa64caf867b5e25d93",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\", \"11\", \"5\", \"33\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/python3\n\ndef can(s, n):\n    if n == 0:\n        return \"\"\n    \n    cs = list(map(int, s))\n    was_over = [False for i in range(n)]\n    ans = [0 for i in range(n)]\n    i, j = 0, n - 1\n    last = int(n == len(cs) - 1)\n    while i < j:\n        need_a = last * 10 + cs[i]\n        need_b = last * 10 + cs[j]\n        if last == 1 and cs[i] == 9 and cs[j] == 0:\n            need_a = 9\n            need_b = 10\n        if abs(need_a - need_b) > 1:\n            return \"\"\n        if need_a == need_b + 1:\n            return \"\"\n        if need_a == need_b == 19:\n            return \"\"\n\n        if need_a >= 10:\n            ans[j] = 9\n            ans[i] = need_a - 9\n        else:\n            ans[j] = need_a\n            ans[i] = 0\n\n        if need_a >= 10 or was_over[i]:\n            cs[i + 1] = (cs[i + 1] - 1) % 10\n            if cs[i + 1] == 9:\n                was_over[i + 1] = True\n            \n        last = (need_b == need_a + 1)\n        \n        i += 1\n        j -= 1\n\n    if i == j:\n        need = last * 10 + cs[i]\n        if need % 2 != 0:\n            return \"\"\n        ans[i] = need // 2\n\n    if int(\"\".join(map(str, ans))) + int(\"\".join(map(str, reversed(ans)))) != int(\"\".join(map(str, reversed(s)))):\n        return \"\"\n        \n    return \"\".join(map(str, reversed(ans)))\n\n\ns = \"\".join(reversed(input()))\nif s[0] != '0':\n    t = can(s, len(s))\n    if t != \"\":\n        print(t)\n        exit(0)\nif s[-1] == '1':\n    t = can(s, len(s) - 1)\n    if t != \"\":\n        print(t)\n        exit(0)\n\nprint(0)\n    \n",
+    "prob_desc_created_at": "1454835900",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

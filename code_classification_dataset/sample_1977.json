@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12\", \"98\"]",
+    "src_uid": "9642368dc4ffe2fc6fe6438c7406c1bd",
+    "prob_desc_notes": "NoteIn the first sample the answer includes integers 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33, 44. ",
+    "prob_desc_description": "The Little Elephant very much loves sums on intervals.This time he has a pair of integers l and r (l ≤ r). The Little Elephant has to find the number of such integers x (l ≤ x ≤ r), that the first digit of integer x equals the last one (in decimal notation). For example, such numbers as 101, 477474 or 9 will be included in the answer and 47, 253 or 1020 will not.Help him and count the number of described numbers x for a given pair l and r.",
+    "prob_desc_output_spec": "On a single line print a single integer — the answer to the problem.",
+    "prob_desc_input_spec": "The single line contains a pair of integers l and r (1 ≤ l ≤ r ≤ 1018) — the boundaries of the interval. Please, do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use cin, cout streams or the %I64d specifier.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_015.jsonl",
+    "code_uid": "85ac3b7f3b319875b55f0949110fd340",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 47\", \"47 1024\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def f(n):\n    mx = len(str(n))\n    ans = 0\n    for i in range(1, mx):\n        for j in range(1, 10):\n            if i == 1:\n                ans += 1\n            else:\n                ans +=  (10 ** (i - 2))\n    for j in range(1, 10):\n        if mx == 1:\n            if j <= n:\n                ans += 1\n            else:\n                break\n            continue\n        if int(str(j) + '0' * (mx - 2) + str(j)) > n:\n            break\n        if int(str(j) + '9' * (mx - 2) + str(j)) <= n:\n            ans +=  (10 ** (mx - 2))\n        else:\n            val = int(str(n)[1:-1]) + 1\n            if str(n)[-1] < str(n)[0]:\n                val -= 1\n            ans += val\n            break\n    return ans\n\n\nL, R = map(int, input().split())\nprint(f(R) - f(L - 1))\n",
+    "prob_desc_created_at": "1342020600",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "math",
+        "binary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

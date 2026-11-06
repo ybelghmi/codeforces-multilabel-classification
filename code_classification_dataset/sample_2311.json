@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n1\\n3\", \"1\\n3\\n6\\n10\\n16\\n24\\n40\"]",
+    "src_uid": "c7e49c643dd8738f273c0d24e56c505f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Smart Beaver from ABBYY began to develop a new educational game for children. The rules of the game are fairly simple and are described below.The playing field is a sequence of n non-negative integers ai numbered from 1 to n. The goal of the game is to make numbers a1, a2, ..., ak (i.e. some prefix of the sequence) equal to zero for some fixed k (k &lt; n), and this should be done in the smallest possible number of moves.One move is choosing an integer i (1 ≤ i ≤ n) such that ai &gt; 0 and an integer t (t ≥ 0) such that i + 2t ≤ n. After the values of i and t have been selected, the value of ai is decreased by 1, and the value of ai + 2t is increased by 1. For example, let n = 4 and a = (1, 0, 1, 2), then it is possible to make move i = 3, t = 0 and get a = (1, 0, 0, 3) or to make move i = 1, t = 1 and get a = (0, 0, 2, 2) (the only possible other move is i = 1, t = 0).You are given n and the initial sequence ai. The task is to calculate the minimum number of moves needed to make the first k elements of the original sequence equal to zero for each possible k (1 ≤ k &lt; n).",
+    "prob_desc_output_spec": "Print exactly n - 1 lines: the k-th output line must contain the minimum number of moves needed to make the first k elements of the original sequence ai equal to zero. Please do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams, or the %I64d specifier.",
+    "prob_desc_input_spec": "The first input line contains a single integer n. The second line contains n integers ai (0 ≤ ai ≤ 104), separated by single spaces. The input limitations for getting 20 points are:    1 ≤ n ≤ 300  The input limitations for getting 50 points are:    1 ≤ n ≤ 2000  The input limitations for getting 100 points are:    1 ≤ n ≤ 105 ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_020.jsonl",
+    "code_uid": "32b0fcb784f48259afacd4f36909db95",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 0 1 2\", \"8\\n1 2 3 4 5 6 7 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nn = int(input())\nl = list(map(int, input().split()))\ncount = 0\nfor i in range(n - 1):\n    p = i  + 2 ** math.floor(math.log2(n-(i+1)))\n    count += l[i]\n    l[p] += l[i]\n    print(count)",
+    "prob_desc_created_at": "1335614400",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

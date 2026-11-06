@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 3\\n3 5\\n5 4\\n3 2\\n2 1\\n3\\n2 4\\n3 7\"]",
+    "src_uid": "4f2c2d67c1a84bf449959b06789bb3a7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are n cities and m two-way roads in Berland, each road connects two cities. It is known that there is no more than one road connecting each pair of cities, and there is no road which connects the city with itself. It is possible that there is no way to get from one city to some other city using only these roads.The road minister decided to make a reform in Berland and to orient all roads in the country, i.e. to make each road one-way. The minister wants to maximize the number of cities, for which the number of roads that begins in the city equals to the number of roads that ends in it.",
+    "prob_desc_output_spec": "For each testset print the maximum number of such cities that the number of roads that begins in the city, is equal to the number of roads that ends in it. In the next m lines print oriented roads. First print the number of the city where the road begins and then the number of the city where the road ends. If there are several answers, print any of them. It is allowed to print roads in each test in arbitrary order. Each road should be printed exactly once. ",
+    "prob_desc_input_spec": "The first line contains a positive integer t (1 ≤ t ≤ 200) — the number of testsets in the input. Each of the testsets is given in the following way. The first line contains two integers n and m (1 ≤ n ≤ 200, 0 ≤ m ≤ n·(n - 1) / 2) — the number of cities and the number of roads in Berland.  The next m lines contain the description of roads in Berland. Each line contains two integers u and v (1 ≤ u, v ≤ n) — the cities the corresponding road connects. It's guaranteed that there are no self-loops and multiple roads. It is possible that there is no way along roads between a pair of cities. It is guaranteed that the total number of cities in all testset of input data doesn't exceed 200. Pay attention that for hacks, you can only use tests consisting of one testset, so t should be equal to one.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_022.jsonl",
+    "code_uid": "c0b82ff3423cffa685c7741e1c184ca4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n5 5\\n2 1\\n4 5\\n2 3\\n1 3\\n3 5\\n7 2\\n3 7\\n4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict, Counter\nT = int(input())\nfor _ in range(T):\n    global lst\n    N, M = map(int, input().split())\n    visit = set()\n    oddNodes = []\n    directed = []\n\n    G = defaultdict(list)\n    oriG = defaultdict(list)\n\n    Gra = [[0] * (N+1) for _ in range(N+1)]\n    deg = [0] * (N+1)\n    for k in range(M):\n        u, v = map(int, input().split())\n        Gra[u][v] += 1\n        Gra[v][u] += 1\n        deg[u] += 1\n        deg[v] += 1\n        # G[u].append(v)\n        # G[v].append(u)\n        # oriG[u].append(v)\n        # oriG[v].append(u)\n    ans = 0\n    for i in range(1, N+1):\n        if deg[i] % 2 == 0:\n            ans += 1\n        else:\n            oddNodes.append(i)\n\n    for i in range(0, len(oddNodes), 2):\n        # G[oddNodes[i]].append(oddNodes[i+1])\n        # G[oddNodes[i+1]].append(oddNodes[i])\n        Gra[oddNodes[i]][oddNodes[i+1]] += 1\n        Gra[oddNodes[i+1]][oddNodes[i]] += 1\n        deg[oddNodes[i]] += 1\n        deg[oddNodes[i+1]] += 1\n\n    def eulerPath(u):\n        stk = [u]\n        while stk:\n            u = stk.pop()\n            for i in range(1, N+1):\n                if Gra[u][i]:\n                    Gra[u][i] -= 1\n                    Gra[i][u] -= 1\n                    directed.append((u, i))\n                    stk.append(i)\n                    break\n\n    for i in range(1, N+1):\n        eulerPath(i)\n\n    for i in range(0, len(oddNodes), 2):\n        # G[oddNodes[i]].append(oddNodes[i+1])\n        # G[oddNodes[i+1]].append(oddNodes[i])\n        Gra[oddNodes[i]][oddNodes[i+1]] += 1\n        Gra[oddNodes[i+1]][oddNodes[i]] += 1\n\n    # for i in oddNodes:\n\n\n    print(ans)\n    for u, v in directed:\n        if Gra[u][v] != 0:\n            Gra[u][v] -= 1\n            Gra[v][u] -= 1\n        else:\n            print(str(u) + \" \" + str(v))\n",
+    "prob_desc_created_at": "1475494500",
+    "tags": [
+        "greedy",
+        "graphs",
+        "constructive algorithms",
+        "flows",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

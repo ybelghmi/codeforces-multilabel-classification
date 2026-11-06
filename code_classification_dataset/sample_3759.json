@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n3\\n3\\n10\"]",
+    "src_uid": "ac4aac095e71cbfaf8b79262d4038095",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array $$$a$$$ of $$$n$$$ integers. Count the number of pairs of indices $$$(i, j)$$$ such that $$$i &lt; j$$$ and $$$a_j - a_i = j - i$$$.",
+    "prob_desc_output_spec": "For each test case output the number of pairs of indices $$$(i, j)$$$ such that $$$i &lt; j$$$ and $$$a_j - a_i = j - i$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$). Then $$$t$$$ test cases follow. The first line of each test case contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$). The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le n$$$) — array $$$a$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_083.jsonl",
+    "code_uid": "23d1f492d2cabafd0e351f6929d223bb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n6\\n3 5 1 4 6 6\\n3\\n1 2 3\\n4\\n1 3 3 4\\n6\\n1 6 3 4 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "LENGHT = 4*10**3\r\nPRIME_NUMB = 99999989\r\nPRIME_NUMB2 = 999999937\r\nfrom enum import Enum, auto\r\nimport random\r\nimport time\r\n\r\nclass Situation(Enum):\r\n    EMPTY = auto\r\n    DELETED = auto\r\n    FILLED = auto\r\n\r\nclass HashTable():\r\n    def __init__(self , lenght = LENGHT):\r\n        self.lenght = lenght\r\n        self.table = [[] for _ in range(lenght)]\r\n\r\n    def __hash(self, value):\r\n        return (value % PRIME_NUMB) % self.lenght\r\n    def __hash2(self, value):\r\n        return (value % PRIME_NUMB2) % self.lenght\r\n    def __insert_linearProbe(self, value , i = 0):\r\n        pos = (self.__hash(value) + i) % self.lenght\r\n        if len(self.table[pos]) != 0 :\r\n            if self.table[pos][0] == value :\r\n                self.table[pos].append(value)\r\n            elif self.table[pos][0] == Situation.DELETED :\r\n                self.table[pos][0] = value\r\n            else:\r\n                self.__insert_linearProbe(value , i+1)\r\n        else:\r\n            self.table[pos].append(value)\r\n    def __insert_squareProbe(self, value , i =0):\r\n        c1 = 5\r\n        c2 = 7\r\n        pos = (self.__hash(value) + c2*i**2 + c1*i) % self.lenght\r\n        if len(self.table[pos]) != 0 :\r\n            if self.table[pos][0] == value :\r\n                self.table[pos].append(value)\r\n            elif self.table[pos][0] == Situation.DELETED :\r\n                self.table[pos][0] = value\r\n            else:\r\n                self.__insert_squareProbe(value , i+1)\r\n        else:\r\n            self.table[pos].append(value)\r\n    def __insert_binaryHash(self, value , i = 0):\r\n        pos = (self.__hash(value) + i*self.__hash2(value)) % self.lenght\r\n        if len(self.table[pos]) != 0 :\r\n            if self.table[pos][0] == value :\r\n                self.table[pos].append(value)\r\n            elif self.table[pos][0] == Situation.DELETED :\r\n                self.table[pos][0] = value\r\n            else:\r\n                self.__insert_binaryHash(value , i+1)\r\n        else:\r\n            self.table[pos].append(value)\r\n    def __delete_linearProbe(self, value, i= 0):\r\n        pos = (self.__hash(value) + i) % self.lenght\r\n        v = 0\r\n        while v < self.lenght:\r\n            if len(self.table[pos]) != 0:\r\n                if self.table[pos][0] == Situation.DELETED:\r\n                    continue\r\n                if self.table[pos][0] == value:\r\n                    self.table[pos].remove(value)\r\n                    if len(self.table[pos]) == 0:\r\n                        self.table[pos].append(Situation.DELETED)\r\n                    break\r\n            v = v + 1\r\n        raise Exception(\"this value was not inserted\")\r\n    def insert(self , value):\r\n        self.__insert_linearProbe(value)\r\n    \r\n    def delete(self, value):\r\n        self.__delete_linearProbe(value)\r\n# t1 = time.time()\r\n# v = [random.randint(1 , 2*10**5) for _ in range(100000)]\r\n# t = HashTable(v)\r\n# print(t.table)\r\n# t2 = time.time()\r\n# print(f'time : {t2 - t1}')\r\ntestCases = int(input())\r\nfor i in range(testCases):\r\n    cases = 0\r\n    n = int(input())\r\n    temp = input().split()\r\n    # print(temp)\r\n    values = [int(temp[i]) - i for i in range(n)]\r\n    # print(values)\r\n    t = HashTable(5*n)\r\n    for i in range(n):\r\n        t.insert(values[i])\r\n    for i in range(len(t.table)):\r\n        cases += (len(t.table[i]) - 1)*(len(t.table[i]))/2\r\n    print(int(cases))\r\n    # print(t.table)\r\n    # print(t.table)",
+    "prob_desc_created_at": "1620225300",
+    "tags": [
+        "data structures",
+        "hashing",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"10\", \"53\"]",
+    "src_uid": "0c5bc07dec8d8e0201695ad3edc05877",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Jzzhu have n non-negative integers a1, a2, ..., an. We will call a sequence of indexes i1, i2, ..., ik (1 ≤ i1 &lt; i2 &lt; ... &lt; ik ≤ n) a group of size k. Jzzhu wonders, how many groups exists such that ai1 &amp; ai2 &amp; ... &amp; aik = 0 (1 ≤ k ≤ n)? Help him and print this number modulo 1000000007 (109 + 7). Operation x &amp; y denotes bitwise AND operation of two numbers.",
+    "prob_desc_output_spec": "Output a single integer representing the number of required groups modulo 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 106). The second line contains n integers a1, a2, ..., an (0 ≤ ai ≤ 106).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_019.jsonl",
+    "code_uid": "f7951a706c95f1912b2070438b00827d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 3 3\", \"4\\n0 1 2 3\", \"6\\n5 2 0 5 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n#!/usr/bin/env python3\n\nmod=1000000007;\n\ncnt=[0]*(1<<21)\np2=[0]*(1<<21)\n\n\nn=int(sys.stdin.readline())\t\na=[int(x) for x in sys.stdin.readline().split()]\n\nfor i in a:\n\tcnt[i]+=1\n\nfor i in range(20):\n\tfor j in range(1<<20):\n\t\tif (j&(1<<i))==0:\n\t\t\tcnt[j]+=cnt[j|(1<<i)]\n\nans=0\np2[0]=1\nfor i in range(1,1<<20):\n\tp2[i]=(p2[i-1]*2)%mod\n\nfor i in range(1<<20):\n\tif bin(i).count(\"1\")&1:\n\t\tans=(ans-p2[cnt[i]]+mod)%mod\n\telse:\n\t\tans=(ans+p2[cnt[i]]+mod)%mod\n\n\nsys.stdout.write(str(ans))\nsys.stdout.write('\\n')\n",
+    "prob_desc_created_at": "1405774800",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "bitmasks"
+    ],
+    "hidden_unit_tests": ""
+}

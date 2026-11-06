@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n6\\n9\\n10\\n20\"]",
+    "src_uid": "a00e2e79a3914ee11202a799c9bc01e7",
+    "prob_desc_notes": "NoteFor first query: n = 6, f = 2. Possible partitions are [1, 5] and [5, 1].For second query: n = 7, f = 2. Possible partitions are [1, 6] and [2, 5] and [3, 4] and [4, 3] and [5, 3] and [6, 1]. So in total there are 6 possible ways of partitioning.",
+    "prob_desc_description": "Today is Devu's birthday. For celebrating the occasion, he bought n sweets from the nearby market. He has invited his f friends. He would like to distribute the sweets among them. As he is a nice guy and the occasion is great, he doesn't want any friend to be sad, so he would ensure to give at least one sweet to each friend. He wants to celebrate it in a unique style, so he would like to ensure following condition for the distribution of sweets. Assume that he has distributed n sweets to his friends such that ith friend is given ai sweets. He wants to make sure that there should not be any positive integer x &gt; 1, which divides every ai.Please find the number of ways he can distribute sweets to his friends in the required way. Note that the order of distribution is important, for example [1, 2] and [2, 1] are distinct distributions. As the answer could be very large, output answer modulo 1000000007 (109 + 7).To make the problem more interesting, you are given q queries. Each query contains an n, f pair. For each query please output the required number of ways modulo 1000000007 (109 + 7).",
+    "prob_desc_output_spec": "For each query, output a single integer in a line corresponding to the answer of each query.",
+    "prob_desc_input_spec": "The first line contains an integer q representing the number of queries (1 ≤ q ≤ 105). Each of the next q lines contains two space space-separated integers n, f (1 ≤ f ≤ n ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_042.jsonl",
+    "code_uid": "8b5f7945551a610f438d17246fb5e461",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n6 2\\n7 2\\n6 3\\n6 4\\n7 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import itertools\nimport functools\nimport operator\n\nN = 100001\nP = 10**9 + 7\n\nfact = [1]\nfor i in range(1, N):\n\tfact.append(fact[-1] * i % P)\n\ninv = [0, 1]\nfor i in range(2, N):\n\tinv.append(P - P // i * inv[P % i] % P)\ninv_fact = [1]\nfor i in range(1, N):\n\tinv_fact.append(inv_fact[-1] * inv[i] % P)\n\nleast_div = [-1] * N\nprimes = []\n\nfor p in range(2, N):\n\tif least_div[p] == -1:\n\t\tprimes.append(p)\n\t\tleast_div[p] = p\n\tldiv = least_div[p]\n\tfor mult in primes:\n\t\tmark = mult * p\n\t\tif (mult > ldiv) or (mark >= N):\n\t\t\tbreak\n\t\tleast_div[mark] = mult\n\nt = int(input())\n\ndef powerset(iterable):\n    s = list(iterable)\n    return itertools.chain.from_iterable(itertools.combinations(s, r) for r in range(len(s) + 1))\n\nmemo_factor = dict()\n\ndef factor(n):\n\tif n in memo_factor:\n\t\treturn memo_factor[n]\n\tret = []\n\twhile n != 1:\n\t\ttmp = least_div[n]\n\t\tif not(ret and ret[-1] == tmp):\n\t\t\tret.append(tmp)\n\t\tn //= tmp\n\tmemo_factor[n] = ret\n\treturn ret\n\n@functools.lru_cache(maxsize = None)\ndef solve(n, k):\n\tdivs = factor(n)\n\t# print(divs)\n\tret = 0\n\tfor subset in powerset(divs):\n\t\tdiv = functools.reduce(operator.mul, subset, 1)\n\t\t# print(div, f(n // div, k))\n\t\tif n // div >= k:\n\t\t\ttmp = fact[n // div - 1] * inv_fact[n // div - k] % P * inv_fact[k - 1] % P\n\t\t\tret += (-1 if len(subset) % 2 == 1 else 1) * tmp\n\t\t\tret %= P\n\treturn ret\n\nfor _ in range(t):\n\tn, k = map(int, input().split())\n\tprint(solve(n, k))\n",
+    "prob_desc_created_at": "1401895800",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

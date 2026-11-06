@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"1\"]",
+    "src_uid": "c547e32f114546638973e0f0dd16d1a4",
+    "prob_desc_notes": "NoteIn the first sample any pair (i, j) will do, so the answer is 3.In the second sample only pair (1, 2) will do.",
+    "prob_desc_description": "Dima got into number sequences. Now he's got sequence a1, a2, ..., an, consisting of n positive integers. Also, Dima has got a function f(x), which can be defined with the following recurrence:  f(0) = 0;  f(2·x) = f(x);  f(2·x + 1) = f(x) + 1. Dima wonders, how many pairs of indexes (i, j) (1 ≤ i &lt; j ≤ n) are there, such that f(ai) = f(aj). Help him, count the number of such pairs. ",
+    "prob_desc_output_spec": "In a single line print the answer to the problem. Please, don't use the %lld specifier to read or write 64-bit integers in C++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105). The second line contains n positive integers a1, a2, ..., an (1 ≤ ai ≤ 109). The numbers in the lines are separated by single spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_039.jsonl",
+    "code_uid": "895a477819d71788a14add9a33757af1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 4\", \"3\\n5 3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def f(x):\n\treturn str(bin(x)).count('1')\n\nn = int(input())\na = list(map(int, input().split()))\n\nans = [f(x) for x in a]\n# print(ans)\t\ns = set(ans)\ncounts = {x:ans.count(x) for x in s}\n# print(counts)\ncount = 0\n\nfor item in counts:\n\tcount += (counts[item]*(counts[item]-1))//2\n\nprint(count)\t\t\t",
+    "prob_desc_created_at": "1360769400",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12\", \"15\", \"11\"]",
+    "src_uid": "e2db09803d87362c67763ef71e8b7f47",
+    "prob_desc_notes": "NoteIn the first sample the best strategy is to start painting using color 4. Then the squares will be painted in the following colors (from left to right): 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5.In the second sample Vika can start to paint using any color.In the third sample Vika should start painting using color number 5.",
+    "prob_desc_description": "Vika has n jars with paints of distinct colors. All the jars are numbered from 1 to n and the i-th jar contains ai liters of paint of color i.Vika also has an infinitely long rectangular piece of paper of width 1, consisting of squares of size 1 × 1. Squares are numbered 1, 2, 3 and so on. Vika decided that she will start painting squares one by one from left to right, starting from the square number 1 and some arbitrary color. If the square was painted in color x, then the next square will be painted in color x + 1. In case of x = n, next square is painted in color 1. If there is no more paint of the color Vika wants to use now, then she stops.Square is always painted in only one color, and it takes exactly 1 liter of paint. Your task is to calculate the maximum number of squares that might be painted, if Vika chooses right color to paint the first square.",
+    "prob_desc_output_spec": "The only line of the output should contain a single integer — the maximum number of squares that Vika can paint if she follows the rules described above.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 200 000) — the number of jars with colors Vika has. The second line of the input contains a sequence of integers a1, a2, ..., an (1 ≤ ai ≤ 109), where ai is equal to the number of liters of paint in the i-th jar, i.e. the number of liters of color i that Vika has.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_000.jsonl",
+    "code_uid": "6b24080f3af74a9342670954d8306887",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 4 2 3 3\", \"3\\n5 5 5\", \"6\\n10 10 10 1 10 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\na = [int(i) for i in raw_input().split(\" \")]\n\nfirstminpos = 0\nlastminpos = 0\nfor i in xrange(1, n):\n    if a[i] < a[firstminpos]:\n        firstminpos = i\n        lastminpos = i\n    elif a[i] == a[lastminpos]:\n        lastminpos = i\n\nminel = a[firstminpos]\n\nfor i in xrange(n):\n    a[i] -= minel\n\nlongestrunlen = 0\nrunlen = 0\nfor i in xrange(n):\n    if a[i]:\n        runlen += 1\n        longestrunlen = max(longestrunlen, runlen)\n    else:\n        runlen = 0\n\nif runlen > 0:\n    for i in xrange(n):\n        if a[i]:\n            runlen += 1\n            longestrunlen = max(longestrunlen, runlen)\n        else:\n            break\n\nprint n * minel + longestrunlen\n",
+    "prob_desc_created_at": "1451215200",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

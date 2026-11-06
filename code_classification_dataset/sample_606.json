@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0 0\", \"2 3\", \"5 9\"]",
+    "src_uid": "fb77c9339250f206e7188b951902a221",
+    "prob_desc_notes": "NoteIn the second sample we have unused identifiers of rounds 1, 6, 7. The minimum number of rounds Sereja could have missed equals to 2. In this case, the round with the identifier 1 will be a usual Div2 round and the round with identifier 6 will be synchronous with the Div1 round. The maximum number of rounds equals 3. In this case all unused identifiers belong to usual Div2 rounds.",
+    "prob_desc_description": "Sereja is a coder and he likes to take part in Codesorfes rounds. However, Uzhland doesn't have good internet connection, so Sereja sometimes skips rounds.Codesorfes has rounds of two types: Div1 (for advanced coders) and Div2 (for beginner coders). Two rounds, Div1 and Div2, can go simultaneously, (Div1 round cannot be held without Div2) in all other cases the rounds don't overlap in time. Each round has a unique identifier — a positive integer. The rounds are sequentially (without gaps) numbered with identifiers by the starting time of the round. The identifiers of rounds that are run simultaneously are different by one, also the identifier of the Div1 round is always greater.Sereja is a beginner coder, so he can take part only in rounds of Div2 type. At the moment he is taking part in a Div2 round, its identifier equals to x. Sereja remembers very well that he has taken part in exactly k rounds before this round. Also, he remembers all identifiers of the rounds he has taken part in and all identifiers of the rounds that went simultaneously with them. Sereja doesn't remember anything about the rounds he missed.Sereja is wondering: what minimum and what maximum number of Div2 rounds could he have missed? Help him find these two numbers.",
+    "prob_desc_output_spec": "Print in a single line two integers — the minimum and the maximum number of rounds that Sereja could have missed.",
+    "prob_desc_input_spec": "The first line contains two integers: x (1 ≤ x ≤ 4000) — the round Sereja is taking part in today, and k (0 ≤ k &lt; 4000) — the number of rounds he took part in. Next k lines contain the descriptions of the rounds that Sereja took part in before. If Sereja took part in one of two simultaneous rounds, the corresponding line looks like: \"1 num2 num1\" (where num2 is the identifier of this Div2 round, num1 is the identifier of the Div1 round). It is guaranteed that num1 - num2 = 1. If Sereja took part in a usual Div2 round, then the corresponding line looks like: \"2 num\" (where num is the identifier of this Div2 round). It is guaranteed that the identifiers of all given rounds are less than x.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_003.jsonl",
+    "code_uid": "ab8c4fbaf8e1c8b05cac98ca706e74e7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n2 1\\n2 2\", \"9 3\\n1 2 3\\n2 8\\n1 4 5\", \"10 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "x,k=list(map(int,input().split()))\nr=[]\nfor i in range(k):\n    l=list(map(int,input().split()))\n    for i in l[1:]:\n        r.append(i)\nr.sort()\nf=[]\nj=0\nfor i in range(1,x):\n    if j<=len(r)-1:\n        if i==r[j]:\n            j=j+1\n        else:\n            f.append(i)\n    else:\n        f.append(i)\nm1,m2=0,len(f)\ni=0\nwhile i<len(f):\n    if i+1<=len(f)-1 and f[i+1]-f[i]==1:\n        i=i+2\n        m1=m1+1\n    else:\n        m1=m1+1\n        i=i+1\nprint(m1,m2)",
+    "prob_desc_created_at": "1394465400",
+    "tags": [
+        "implementation",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

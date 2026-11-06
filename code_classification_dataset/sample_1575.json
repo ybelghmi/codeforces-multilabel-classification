@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 0 0\\n? 10 1\\n! 1\\n? 0 0\\n? 3 4\\n? 2 5\\n! 2\\n? 2 4\\n? 2 5\\n? 3 10\\n? 9 1\\n! 3\"]",
+    "src_uid": "eab8e5ac203d9f10c893ea35d249fe84",
+    "prob_desc_notes": "NoteIn the first test, you should play $$$3$$$ games with Petya's numbers $$$1$$$, $$$2$$$ and $$$3$$$.In the first game, Petya will answer \"x\" (without quotes) to any question, because $$$(x \\bmod 1) = 0$$$ for any integer $$$x$$$. In the second game, if you will ask pair $$$(0, 0)$$$, the answer will be \"x\" (without quotes), because $$$(0 \\bmod 2) \\geq (0 \\bmod 2)$$$. But if you will ask pair $$$(2, 5)$$$, the answer will be \"y\" (without quotes), because $$$(2 \\bmod 2) &lt; (5 \\bmod 2)$$$, because $$$(2 \\bmod 2) = 0$$$ and $$$(5 \\bmod 2) = 1$$$.",
+    "prob_desc_description": "This is an interactive problem.Vasya and Petya are going to play the following game: Petya has some positive integer number $$$a$$$. After that Vasya should guess this number using the following questions. He can say a pair of non-negative integer numbers $$$(x, y)$$$. Petya will answer him:   \"x\", if $$$(x \\bmod a) \\geq (y \\bmod a)$$$.  \"y\", if $$$(x \\bmod a) &lt; (y \\bmod a)$$$. We define $$$(x \\bmod a)$$$ as a remainder of division $$$x$$$ by $$$a$$$.Vasya should guess the number $$$a$$$ using no more, than 60 questions.It's guaranteed that Petya has a number, that satisfies the inequality $$$1 \\leq a \\leq 10^9$$$.Help Vasya playing this game and write a program, that will guess the number $$$a$$$.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_010.jsonl",
+    "code_uid": "bd1b141da7da481011b7fda3428ec4f3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"start\\nx\\nx\\nstart\\nx\\nx\\ny\\nstart\\nx\\nx\\ny\\ny\\nend\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\ndef solve(x, y):\n    global aaa\n    if x%aaa>=y%aaa: return \"x\"\n    else: return \"y\"\n\nwhile True:\n    cnt = 0\n    op=input()\n    if op==\"end\": break\n    \n    left,right=1,2\n    while True:\n        cnt += 1\n        print(\"?\", left, right)\n        sys.stdout.flush()\n        # result=solve(left, right)\n        # print(result)\n        result = input()\n\n        if result==\"x\": break\n        else:\n            left*=2\n            right*=2\n\n\n    while left<right:\n        mid = (left+right)//2\n        cnt += 1\n        print(\"?\", left-1, mid)\n        sys.stdout.flush()\n        # result=solve(left-1, mid)\n        # print(result)\n        result = input()\n\n        if result==\"x\":\n            right=mid\n        else:\n            left=mid+1\n\n    print(\"!\", left)\n    sys.stdout.flush()",
+    "prob_desc_created_at": "1548167700",
+    "tags": [
+        "binary search",
+        "interactive",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

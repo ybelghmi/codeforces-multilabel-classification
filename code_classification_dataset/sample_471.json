@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"2\"]",
+    "src_uid": "af7ea4f28920d79e1ec63833e5c84559",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Today s kilometer long auto race takes place in Berland. The track is represented by a straight line as long as s kilometers. There are n cars taking part in the race, all of them start simultaneously at the very beginning of the track. For every car is known its behavior — the system of segments on each of which the speed of the car is constant. The j-th segment of the i-th car is pair (vi, j, ti, j), where vi, j is the car's speed on the whole segment in kilometers per hour and ti, j is for how many hours the car had been driving at that speed. The segments are given in the order in which they are \"being driven on\" by the cars.Your task is to find out how many times during the race some car managed to have a lead over another car. A lead is considered a situation when one car appears in front of another car. It is known, that all the leads happen instantly, i. e. there are no such time segment of positive length, during which some two cars drive \"together\". At one moment of time on one and the same point several leads may appear. In this case all of them should be taken individually. Meetings of cars at the start and finish are not considered to be counted as leads.",
+    "prob_desc_output_spec": "Print the single number — the number of times some car managed to take the lead over another car during the race.",
+    "prob_desc_input_spec": "The first line contains two integers n and s (2 ≤ n ≤ 100, 1 ≤ s ≤ 106) — the number of cars and the length of the track in kilometers. Then follow n lines — the description of the system of segments for each car. Every description starts with integer k (1 ≤ k ≤ 100) — the number of segments in the system. Then k space-separated pairs of integers are written. Each pair is the speed and time of the segment. These integers are positive and don't exceed 1000. It is guaranteed, that the sum of lengths of all segments (in kilometers) for each car equals to s; and all the leads happen instantly.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_002.jsonl",
+    "code_uid": "35e77e260ab3b00a15ec7bccfc5b3904",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 33\\n2 5 1 2 14\\n1 3 11\", \"2 33\\n2 1 3 10 3\\n1 11 3\", \"5 33\\n2 1 3 3 10\\n1 11 3\\n2 5 3 3 6\\n2 3 1 10 3\\n2 6 3 3 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def foo():\n\tn, s0 = map(int, raw_input().split())\n\td = []\n\tv = []\n\tt = []\n\tfor i in range(1, n + 1):\n\t\ta = map(int, raw_input().split())\n\t\td.append(a[0])\n\t\tv0 = []\n\t\tt0 = []\n\t\tfor j in range(1, 2 * a[0], 2):\n\t\t\tv0.append(a[j])\n\t\t\tt0.append(0)\n\t\t\tt0[-1] = t0[-2] + a[j + 1] if len(t0) >= 2 else a[j + 1]\n\t\tv.append(v0)\n\t\tt.append(t0)\n\tans = 0\n\tfor i in range(n):\n\t\tfor j in range(i + 1, n):\n\t\t\tp1, p2, s1, s2, t0, pre = [0, 0, 0, 0, 0, -1]\n\t\t\twhile p1 < d[i] and p2 < d[j]:\n\t\t\t\tif t[i][p1] < t[j][p2]:\n\t\t\t\t\ts1 += (t[i][p1] - t0) * v[i][p1]\n\t\t\t\t\ts2 += (t[i][p1] - t0) * v[j][p2]\n\t\t\t\t\tt0 = t[i][p1]\n\t\t\t\t\tp1 += 1\n\t\t\t\telif t[i][p1] > t[j][p2]:\n\t\t\t\t\ts1 += (t[j][p2] - t0) * v[i][p1]\n\t\t\t\t\ts2 += (t[j][p2] - t0) * v[j][p2]\n\t\t\t\t\tt0 = t[j][p2]\n\t\t\t\t\tp2 += 1\n\t\t\t\telse:\n\t\t\t\t\ts1 += (t[i][p1] - t0) * v[i][p1]\n\t\t\t\t\ts2 += (t[i][p1] - t0) * v[j][p2]\n\t\t\t\t\tt0 = t[i][p1]\n\t\t\t\t\tp1 += 1\n\t\t\t\t\tp2 += 1\n\t\t\t\tif s1 > s2:\n\t\t\t\t\tif pre == j: ans += 1\n\t\t\t\t\tpre = i\n\t\t\t\tif s1 < s2:\n\t\t\t\t\tif pre == i: ans += 1\n\t\t\t\t\tpre = j\n\treturn ans\n\nprint foo()\n\t\t\t\n",
+    "prob_desc_created_at": "1291046400",
+    "tags": [
+        "two pointers",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"303\", \"25\", \"60\"]",
+    "src_uid": "39dbd405be19c5a56c2b97b28e0edf06",
+    "prob_desc_notes": "NoteNote to the first sample test. 3 + 5 * (7 + 8) * 4 = 303.Note to the second sample test. (2 + 3) * 5 = 25.Note to the third sample test. (3 * 4) * 5 = 60 (also many other variants are valid, for instance, (3) * 4 * 5 = 60).",
+    "prob_desc_description": "Vanya is doing his maths homework. He has an expression of form , where x1, x2, ..., xn are digits from 1 to 9, and sign  represents either a plus '+' or the multiplication sign '*'. Vanya needs to add one pair of brackets in this expression so that to maximize the value of the resulting expression.",
+    "prob_desc_output_spec": "In the first line print the maximum possible value of an expression.",
+    "prob_desc_input_spec": "The first line contains expression s (1 ≤ |s| ≤ 5001, |s| is odd), its odd positions only contain digits from 1 to 9, and even positions only contain signs  +  and  * .  The number of signs  *  doesn't exceed 15.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_005.jsonl",
+    "code_uid": "4a4c14e78ddbf5f4e4ad1ee279e57229",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3+5*7+8*4\", \"2+3*5\", \"3*4*5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = raw_input()\nans = 0\na = [-1]\nfor i in xrange(len(n)):\n    if n[i]=='*':a.append(i)\na.append(len(n))\nfor i in a:\n    for j in a:\n        if j>i:\n            ans = max(ans,eval(n[:i+1]+'('+n[i+1:j]+')'+n[j:]))\nans = max(ans,eval(n))\nprint ans",
+    "prob_desc_created_at": "1434645000",
+    "tags": [
+        "dp",
+        "greedy",
+        "implementation",
+        "expression parsing",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

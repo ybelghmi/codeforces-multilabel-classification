@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"56\"]",
+    "src_uid": "a6ca373007dc86193721b52bf35f5af8",
+    "prob_desc_notes": "NoteThe following explanation assumes $$$b = [2, 1]$$$ and $$$c=[2, 3, 4]$$$ (as in the sample).Examples of arrays $$$a$$$ that are not good:   $$$a = [3, 2, 3]$$$ is not good because $$$a_1 &gt; c_1$$$;  $$$a = [0, -1, 3]$$$ is not good because $$$a_2 &lt; 0$$$. One possible good array $$$a$$$ is $$$[0, 2, 4]$$$. We can show that no operation has any effect on this array, so $$$F(a, b) = a_1 = 0$$$.Another possible good array $$$a$$$ is $$$[0, 1, 4]$$$. In a single operation with $$$i = 1$$$, we set $$$a_1 = \\min(\\frac{0+1-2}{2}, 0)$$$ and $$$a_2 = \\max(\\frac{0+1+2}{2}, 1)$$$. So, after a single operation with $$$i = 1$$$, $$$a$$$ becomes equal to $$$[-\\frac{1}{2}, \\frac{3}{2}, 4]$$$. We can show that no operation has any effect on this array, so $$$F(a, b) = -\\frac{1}{2}$$$.",
+    "prob_desc_description": "This is the easy version of the problem. The only difference is that in this version $$$q = 1$$$. You can make hacks only if both versions of the problem are solved.There is a process that takes place on arrays $$$a$$$ and $$$b$$$ of length $$$n$$$ and length $$$n-1$$$ respectively. The process is an infinite sequence of operations. Each operation is as follows:   First, choose a random integer $$$i$$$ ($$$1 \\le i \\le n-1$$$).  Then, simultaneously set $$$a_i = \\min\\left(a_i, \\frac{a_i+a_{i+1}-b_i}{2}\\right)$$$ and $$$a_{i+1} = \\max\\left(a_{i+1}, \\frac{a_i+a_{i+1}+b_i}{2}\\right)$$$ without any rounding (so values may become non-integer).  See notes for an example of an operation.It can be proven that array $$$a$$$ converges, i. e. for each $$$i$$$ there exists a limit $$$a_i$$$ converges to. Let function $$$F(a, b)$$$ return the value $$$a_1$$$ converges to after a process on $$$a$$$ and $$$b$$$.You are given array $$$b$$$, but not array $$$a$$$. However, you are given a third array $$$c$$$. Array $$$a$$$ is good if it contains only integers and satisfies $$$0 \\leq a_i \\leq c_i$$$ for $$$1 \\leq i \\leq n$$$.Your task is to count the number of good arrays $$$a$$$ where $$$F(a, b) \\geq x$$$ for $$$q$$$ values of $$$x$$$. Since the number of arrays can be very large, print it modulo $$$10^9+7$$$.",
+    "prob_desc_output_spec": "Output $$$q$$$ integers, where the $$$i$$$-th integer is the answer to the $$$i$$$-th query, i. e. the number of good arrays $$$a$$$ where $$$F(a, b) \\geq x_i$$$ modulo $$$10^9+7$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 100$$$). The second line contains $$$n$$$ integers $$$c_1, c_2 \\ldots, c_n$$$ ($$$0 \\le c_i \\le 100$$$). The third line contains $$$n-1$$$ integers $$$b_1, b_2, \\ldots, b_{n-1}$$$ ($$$0 \\le b_i \\le 100$$$). The fourth line contains a single integer $$$q$$$ ($$$q=1$$$). The fifth line contains $$$q$$$ space separated integers $$$x_1, x_2, \\ldots, x_q$$$ ($$$-10^5 \\le x_i \\le 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_092.jsonl",
+    "code_uid": "ed9a76a4f4822e2bab009c9afaae44c4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 3 4\\n2 1\\n1\\n-1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def putin():\r\n    return map(int, input().split())\r\n\r\n\r\ndef sol():\r\n    n = int(input())\r\n    C = list(putin())\r\n    B = list(putin())\r\n    q = int(input())\r\n    x = int(input())\r\n    min_arr = [x]\r\n    min_part_sums = [x]\r\n    part_sums = [C[0]]\r\n    for i in range(1, n):\r\n        part_sums.append(part_sums[-1] + C[i])\r\n    for elem in B:\r\n        min_arr.append(min_arr[-1] + elem)\r\n        min_part_sums.append(min_arr[-1] + min_part_sums[-1])\r\n    for i in range(n):\r\n        if min_part_sums[i] > part_sums[i]:\r\n            return 0\r\n    if min_part_sums[0] > C[0]:\r\n        return 0\r\n    answer = [1] * (part_sums[0] - max(0, min_part_sums[0]) + 1)\r\n    for k in range(1, n):\r\n        new_answer = [0] * (part_sums[k] - max(0, min_part_sums[k]) + 1)\r\n        cnt = 1\r\n        window = answer[-1]\r\n        new_answer[-1] = window\r\n        while cnt <= len(new_answer) - 1:\r\n            cnt += 1\r\n            if cnt <= len(answer):\r\n                window += answer[-cnt]\r\n            if C[k] + 1 < cnt:\r\n                window -= answer[C[k] + 1 - cnt]\r\n            new_answer[-cnt] = window\r\n        answer = new_answer.copy()\r\n    m = 10 ** 9 + 7\r\n    return sum(answer) % m\r\n\r\n\r\nprint(sol())",
+    "prob_desc_created_at": "1624635300",
+    "tags": [
+        "dp",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

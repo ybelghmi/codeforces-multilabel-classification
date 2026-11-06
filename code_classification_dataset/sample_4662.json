@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\\n-1\\n-1\\n-1\\n4\\n1\\n-1\"]",
+    "src_uid": "07597a8d08b59d4f8f82369bb5d74a49",
+    "prob_desc_notes": "NoteIn the first test case, there's a desired circle of $$$8$$$ people. The person with the number $$$6$$$ will look at the person with the number $$$2$$$ and the person with the number $$$8$$$ will look at the person with the number $$$4$$$.In the second test case, there's no circle meeting the conditions. If the person with the number $$$2$$$ is looking at the person with the number $$$3$$$, the circle consists of $$$2$$$ people because these persons are neighbors. But, in this case, they must have the numbers $$$1$$$ and $$$2$$$, but it doesn't meet the problem's conditions.In the third test case, the only circle with the persons with the numbers $$$2$$$ and $$$4$$$ looking at each other consists of $$$4$$$ people. Therefore, the person with the number $$$10$$$ doesn't occur in the circle.",
+    "prob_desc_description": "Some number of people (this number is even) have stood in a circle. The people stand in the circle evenly. They are numbered clockwise starting from a person with the number $$$1$$$. Each person is looking through the circle's center at the opposite person.    A sample of a circle of $$$6$$$ persons. The orange arrows indicate who is looking at whom. You don't know the exact number of people standing in the circle (but this number is even, no doubt). It is known that the person with the number $$$a$$$ is looking at the person with the number $$$b$$$ (and vice versa, of course). What is the number associated with a person being looked at by the person with the number $$$c$$$? If, for the specified $$$a$$$, $$$b$$$, and $$$c$$$, no such circle exists, output -1.",
+    "prob_desc_output_spec": "For each test case output in a separate line a single integer $$$d$$$ — the number of the person being looked at by the person with the number $$$c$$$ in a circle such that the person with the number $$$a$$$ is looking at the person with the number $$$b$$$. If there are multiple solutions, print any of them. Output $$$-1$$$ if there's no circle meeting the given conditions.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case consists of one line containing three distinct integers $$$a$$$, $$$b$$$, $$$c$$$ ($$$1 \\le a,b,c \\le 10^8$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_103.jsonl",
+    "code_uid": "994ed22a5a5cbb17090838f6abe68981",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n6 2 4\\n2 3 1\\n2 4 10\\n5 3 4\\n1 3 2\\n2 5 4\\n4 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\r\nqwe=[]\r\n\r\nfor i in range(t):\r\n    qwe.append(list(map(int,input().split())))\r\n\r\nfor j in range(t):\r\n    a = qwe[j][0]\r\n    b = qwe[j][1]\r\n    c = qwe[j][2]\r\n    if a > b:\r\n        a, b = b, a\r\n    h = b - a\r\n    f = 2 * h    \r\n\r\n    if (f < b) or (c > f):\r\n        d = -1\r\n    else:\r\n        if (c + h) > f:\r\n            d = c - h\r\n        else:\r\n            d = c + h\r\n\r\n    print(d)\n# Sun Sep 12 2021 19:26:22 GMT+0300 (Москва, стандартное время)\n",
+    "prob_desc_created_at": "1629297300",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

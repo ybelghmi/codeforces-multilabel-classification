@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12\", \"1\", \"0\"]",
+    "src_uid": "02932480c858536191eb24f4ea923029",
+    "prob_desc_notes": "NoteIn the second example, the line consists of ten participants from the same city. Nine of them will form a team. At the end, only one participant will stay in the line.",
+    "prob_desc_description": "This time the Berland Team Olympiad in Informatics is held in a remote city that can only be reached by one small bus. Bus has n passenger seats, seat i can be occupied only by a participant from the city ai.Today the bus has completed m trips, each time bringing n participants. The participants were then aligned in one line in the order they arrived, with people from the same bus standing in the order of their seats (i. e. if we write down the cities where the participants came from, we get the sequence a1, a2, ..., an repeated m times).After that some teams were formed, each consisting of k participants form the same city standing next to each other in the line. Once formed, teams left the line. The teams were formed until there were no k neighboring participants from the same city.Help the organizers determine how many participants have left in the line after that process ended. We can prove that answer doesn't depend on the order in which teams were selected.",
+    "prob_desc_output_spec": "Output the number of remaining participants in the line.",
+    "prob_desc_input_spec": "The first line contains three integers n, k and m (1 ≤ n ≤ 105, 2 ≤ k ≤ 109, 1 ≤ m ≤ 109). The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 105), where ai is the number of city, person from which must take seat i in the bus. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_077.jsonl",
+    "code_uid": "e2aeed350ad5af175ce4ca5bae13987b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2 5\\n1 2 3 1\", \"1 9 10\\n1\", \"3 2 10\\n1 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    _, k, m = [int(x) for x in input().split()]\n    a = []\n    last = (\"-1\", 0)\n    a.append(last)\n    for ai in input().split():\n        if last[0] == ai:\n            last = (ai, last[1]+1)\n            a[-1] = last\n        else:\n            last = (ai, 1)\n            a.append(last)\n\n        if last[1] == k:\n            a.pop()\n            last = a[-1]\n    a.pop(0)\n\n    s1 = 0\n    while len(a) > 0 and a[0][0] == a[-1][0]:\n        if len(a) == 1:\n            s = a[0][1] * m\n            r1 = s % k\n            if r1 == 0:\n                print(s1 % k)\n            else:\n                print(r1 + s1)\n            return\n        join = a[0][1] + a[-1][1]\n\n        if join < k:\n            break\n        elif join % k == 0:\n            s1 += join\n            a.pop()\n            a.pop(0)\n        else:\n            s1 += (join // k) * k\n            a[0] = (a[0][0], join % k)\n            a.pop()\n            break\n\n    s = 0\n    for ai in a:\n        s += ai[1]\n\n    print(s*m + s1)\n\n\nif __name__ == \"__main__\":\n    main()",
+    "prob_desc_created_at": "1509029100",
+    "tags": [
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

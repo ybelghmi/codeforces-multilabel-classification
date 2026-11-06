@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"7\\n6\\n1000\\n5\"]",
+    "src_uid": "ee8ca9b2c6104d1ff9ba1fc39e9df277",
+    "prob_desc_notes": "NoteThe first test case is explained in the statement.In the second test case, the maximum score can be achieved by choosing $$$i = 1$$$.In the third test case, the maximum score can be achieved by choosing $$$i = 2$$$.In the fourth test case, the maximum score can be achieved by choosing $$$i = 1$$$.",
+    "prob_desc_description": "Polycarp found under the Christmas tree an array $$$a$$$ of $$$n$$$ elements and instructions for playing with it:   At first, choose index $$$i$$$ ($$$1 \\leq i \\leq n$$$) — starting position in the array. Put the chip at the index $$$i$$$ (on the value $$$a_i$$$).  While $$$i \\leq n$$$, add $$$a_i$$$ to your score and move the chip $$$a_i$$$ positions to the right (i.e. replace $$$i$$$ with $$$i + a_i$$$).  If $$$i &gt; n$$$, then Polycarp ends the game. For example, if $$$n = 5$$$ and $$$a = [7, 3, 1, 2, 3]$$$, then the following game options are possible:   Polycarp chooses $$$i = 1$$$. Game process: $$$i = 1 \\overset{+7}{\\longrightarrow} 8$$$. The score of the game is: $$$a_1 = 7$$$.  Polycarp chooses $$$i = 2$$$. Game process: $$$i = 2 \\overset{+3}{\\longrightarrow} 5 \\overset{+3}{\\longrightarrow} 8$$$. The score of the game is: $$$a_2 + a_5 = 6$$$.  Polycarp chooses $$$i = 3$$$. Game process: $$$i = 3 \\overset{+1}{\\longrightarrow} 4 \\overset{+2}{\\longrightarrow} 6$$$. The score of the game is: $$$a_3 + a_4 = 3$$$.  Polycarp chooses $$$i = 4$$$. Game process: $$$i = 4 \\overset{+2}{\\longrightarrow} 6$$$. The score of the game is: $$$a_4 = 2$$$.  Polycarp chooses $$$i = 5$$$. Game process: $$$i = 5 \\overset{+3}{\\longrightarrow} 8$$$. The score of the game is: $$$a_5 = 3$$$. Help Polycarp to find out the maximum score he can get if he chooses the starting index in an optimal way.",
+    "prob_desc_output_spec": "For each test case, output on a separate line one number — the maximum score that Polycarp can get by playing the game on the corresponding array according to the instruction from the statement. Note that Polycarp chooses any starting position from $$$1$$$ to $$$n$$$ in such a way as to maximize his result.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of each test case contains one integer $$$n$$$ ($$$1 \\leq n \\leq 2 \\cdot 10^5$$$) — the length of the array $$$a$$$. The next line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\leq a_i \\leq 10^9$$$) — elements of the array $$$a$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_090.jsonl",
+    "code_uid": "46f0e18c29c4fe33381add15b7217029",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n5\\n7 3 1 2 3\\n3\\n2 1 4\\n6\\n2 1000 2 3 995 1\\n5\\n1 1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nif __name__ == '__main__':\n    t = int(input())\n    for _ in range(t):\n        n = int(input())\n        nums = list(map(int, input().split()))\n        result, max_found = [], -float('inf')\n        for x in nums:\n            result.append(x)\n            max_found = max(max_found, x) \n        parent = {i:i for i in range(len(nums))}\n        for i in range(len(nums)):\n            next_idx = i + nums[i]\n            while next_idx < len(nums) and parent[next_idx] == next_idx:\n                result[i] += nums[next_idx]\n                parent[next_idx] = i\n                next_idx = next_idx + nums[next_idx]\n            max_found = max(max_found, result[i])\n\n        print(max_found)\n",
+    "prob_desc_created_at": "1609770900",
+    "tags": [
+        "dp",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

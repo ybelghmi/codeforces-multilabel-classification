@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\\n1\\n-1\\n6\\n10\\n17\"]",
+    "src_uid": "6f0d3a7971ffc2571838ecd8bf14238d",
+    "prob_desc_notes": "NoteTest case $$$1$$$: $$$n=1$$$, $$$m=1$$$, and initially you are standing in $$$(1, 1)$$$ so $$$0$$$ move is required to reach $$$(n, m) = (1, 1)$$$.Test case $$$2$$$: you should go down to reach $$$(2, 1)$$$.Test case $$$3$$$: it is impossible to reach $$$(1, 3)$$$ without moving right two consecutive times, or without leaving the grid.Test case $$$4$$$: an optimal moving sequence could be: $$$(1, 1) \\to (1, 2) \\to (2, 2) \\to (2, 1) \\to (3, 1) \\to (3, 2) \\to (4, 2)$$$. It can be proved that this is the optimal solution. So the answer is $$$6$$$.",
+    "prob_desc_description": "You are given a grid with $$$n$$$ rows and $$$m$$$ columns. Rows and columns are numbered from $$$1$$$ to $$$n$$$, and from $$$1$$$ to $$$m$$$. The intersection of the $$$a$$$-th row and $$$b$$$-th column is denoted by $$$(a, b)$$$. Initially, you are standing in the top left corner $$$(1, 1)$$$. Your goal is to reach the bottom right corner $$$(n, m)$$$.You can move in four directions from $$$(a, b)$$$: up to $$$(a-1, b)$$$, down to $$$(a+1, b)$$$, left to $$$(a, b-1)$$$ or right to $$$(a, b+1)$$$.You cannot move in the same direction in two consecutive moves, and you cannot leave the grid. What is the minimum number of moves to reach $$$(n, m)$$$?",
+    "prob_desc_output_spec": "For each test case, print a single integer: $$$-1$$$ if it is impossible to reach $$$(n, m)$$$ under the given conditions, otherwise the minimum number of moves.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^3$$$) — the number of the test cases. The description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 10^9$$$) — the size of the grid.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_084.jsonl",
+    "code_uid": "96a0dcca545ceb8d9ee70d5712325dc3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\n1 1\\n\\n2 1\\n\\n1 3\\n\\n4 2\\n\\n4 6\\n\\n10 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "test = int(input())\r\nsteps = 0\r\nans = []\r\nfor tests in range(test):\r\n    n, m = map(int, input().split())\r\n    if (n== 1 and m > 2) or (m == 1 and n > 2):\r\n        steps = -1\r\n        ans.append(steps)\r\n    if n == m == 1:\r\n        steps = 0\r\n        ans.append(steps)\r\n    if (m>=n) and n!=1:\r\n        if (m+n)%2 == 0:\r\n            steps = 2*((n-1) + (m-n))\r\n            ans.append(steps)\r\n        if (m+n)% 2 != 0:\r\n            steps = 2*((n-1) + (m-n)) - 1\r\n            ans.append(steps)\r\n    if n>m and m!=1:\r\n        if (m+n)%2 == 0:\r\n            steps = 2*((m-1) + (n-m))\r\n            ans.append(steps)\r\n        if (m+n)% 2 != 0:\r\n            steps = 2*((m-1) + (n-m)) - 1\r\n            ans.append(steps)\r\n    if (n==2 and m==1) or (m==2 and n==1):\r\n        steps = 1\r\n        ans.append(steps)\r\nprint(*ans, sep = \"\\n\")            \r\n\r\n    \r\n\r\n",
+    "prob_desc_created_at": "1650378900",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

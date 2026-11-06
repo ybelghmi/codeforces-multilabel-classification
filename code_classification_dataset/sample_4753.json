@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\"]",
+    "src_uid": "4004c77b77076bf450cbe751e025a71f",
+    "prob_desc_notes": "NoteIn the first sample, he can remove the first $$$2$$$ elements, $$$0$$$ and $$$2$$$, and replace them by $$$0 \\oplus 2=2$$$. The array will be $$$[2,2]$$$, so all the elements are equal.In the second sample, there's no way to make all the elements equal.",
+    "prob_desc_description": "Baby Ehab is known for his love for a certain operation. He has an array $$$a$$$ of length $$$n$$$, and he decided to keep doing the following operation on it:   he picks $$$2$$$ adjacent elements; he then removes them and places a single integer in their place: their bitwise XOR. Note that the length of the array decreases by one. Now he asks you if he can make all elements of the array equal. Since babies like to make your life harder, he requires that you leave at least $$$2$$$ elements remaining.",
+    "prob_desc_output_spec": "If Baby Ehab can make all elements equal while leaving at least $$$2$$$ elements standing, print \"YES\". Otherwise, print \"NO\".",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 15$$$) — the number of test cases you need to solve. The first line of each test case contains an integers $$$n$$$ ($$$2 \\le n \\le 2000$$$) — the number of elements in the array $$$a$$$. The second line contains $$$n$$$ space-separated integers $$$a_1$$$, $$$a_2$$$, $$$\\ldots$$$, $$$a_{n}$$$ ($$$0 \\le a_i &lt; 2^{30}$$$) — the elements of the array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_105.jsonl",
+    "code_uid": "12435d7f10acc05aac6571d88d00a4ba",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3\\n0 2 2\\n4\\n2 3 1 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\n\r\nfor i in range(t):\r\n    \r\n    n = int(input())\r\n    a = ([int(i) for i in input().split()])\r\n    xor_arr = 0\r\n    for ele in a:\r\n        xor_arr = xor_arr ^ ele\r\n    \r\n    if xor_arr == 0 :\r\n        print(\"YES\")\r\n        \r\n    else:\r\n        count = 0\r\n        xor = 0\r\n        for ele in a:\r\n            xor = xor ^ ele\r\n\r\n            if xor == xor_arr:\r\n                count += 1\r\n                xor = 0\r\n\r\n        if count >= 2 and xor == 0:\r\n            print(\"YES\")\r\n\r\n        else:\r\n            print(\"NO\")",
+    "prob_desc_created_at": "1619012100",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\"]",
+    "src_uid": "6253f6217c58a66573b1ddc6962c372c",
+    "prob_desc_notes": "NoteOne of the possible ways to eat 4 candies is to eat them in the order: 1, 5, 3, 2. Let's assume the following scenario:  Initially, the height of Om Nom's jump equals 3. He can reach candies 1 and 2. Let's assume that he eats candy 1. As the mass of this candy equals 4, the height of his jump will rise to 3 + 4 = 7.  Now Om Nom can reach candies 2 and 5. Let's assume that he eats candy 5. Then the height of his jump will be 7 + 5 = 12.  At this moment, Om Nom can reach two candies, 2 and 3. He won't eat candy 2 as its type matches the type of the previously eaten candy. Om Nom eats candy 3, the height of his jump is 12 + 3 = 15.  Om Nom eats candy 2, the height of his jump is 15 + 1 = 16. He cannot reach candy 4. ",
+    "prob_desc_description": "The hero of the Cut the Rope game is a little monster named Om Nom. He loves candies. And what a coincidence! He also is the hero of today's problem.  One day, Om Nom visited his friend Evan. Evan has n candies of two types (fruit drops and caramel drops), the i-th candy hangs at the height of hi centimeters above the floor of the house, its mass is mi. Om Nom wants to eat as many candies as possible. At the beginning Om Nom can make at most x centimeter high jumps. When Om Nom eats a candy of mass y, he gets stronger and the height of his jump increases by y centimeters.What maximum number of candies can Om Nom eat if he never eats two candies of the same type in a row (Om Nom finds it too boring)?",
+    "prob_desc_output_spec": "Print a single integer — the maximum number of candies Om Nom can eat.",
+    "prob_desc_input_spec": "The first line contains two integers, n and x (1 ≤ n, x ≤ 2000) — the number of sweets Evan has and the initial height of Om Nom's jump.  Each of the following n lines contains three integers ti, hi, mi (0 ≤ ti ≤ 1; 1 ≤ hi, mi ≤ 2000) — the type, height and the mass of the i-th candy. If number ti equals 0, then the current candy is a caramel drop, otherwise it is a fruit drop.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_037.jsonl",
+    "code_uid": "40ec85a234bf5c1145d4539362eb90d1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n0 2 4\\n1 3 1\\n0 8 3\\n0 20 10\\n1 5 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nn, x = (int(x) for x in input().split())\n\ncs = []\nfor i in range(n):\n    cs.append([int(x) for x in input().split()])\n    if cs[-1][0] > 0:\n        cs[-1][0] = 1\n\ndef try_eat(t0):\n    h0 = x\n    used = set()\n    while True:\n        m0 = 0\n        i0 = -1\n        for i, (t, h, m) in enumerate(cs):\n            if t != t0 and h <= h0 and m > m0 and i not in used:\n                m0 = m\n                i0 = i\n        if i0 == -1:\n            break\n\n        used.add(i0)\n        h0 += cs[i0][2]\n        t0 = 1 - t0\n\n    return len(used)\n\nprint(max(try_eat(0), try_eat(1)))",
+    "prob_desc_created_at": "1402673400",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

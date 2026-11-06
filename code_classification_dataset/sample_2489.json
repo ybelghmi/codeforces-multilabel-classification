@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 3\\n1 2\\n1 1\\n2 3\\n2 2\\n2 1\\n3 3\\n3 2\\n3 1\"]",
+    "src_uid": "14a56443e48c52c118788bd5c0031b0c",
+    "prob_desc_notes": "NoteJust for clarity. Horizontal rotating is like a mirroring of the matrix. For matrix:QWER      REWQ ASDF  -&gt;  FDSAZXCV      VCXZ",
+    "prob_desc_description": "Inna and Dima decided to surprise Sereja. They brought a really huge candy matrix, it's big even for Sereja! Let's number the rows of the giant matrix from 1 to n from top to bottom and the columns — from 1 to m, from left to right. We'll represent the cell on the intersection of the i-th row and j-th column as (i, j). Just as is expected, some cells of the giant candy matrix contain candies. Overall the matrix has p candies: the k-th candy is at cell (xk, yk).The time moved closer to dinner and Inna was already going to eat p of her favourite sweets from the matrix, when suddenly Sereja (for the reason he didn't share with anyone) rotated the matrix x times clockwise by 90 degrees. Then he performed the horizontal rotate of the matrix y times. And then he rotated the matrix z times counterclockwise by 90 degrees. The figure below shows how the rotates of the matrix looks like.  Inna got really upset, but Duma suddenly understood two things: the candies didn't get damaged and he remembered which cells contained Inna's favourite sweets before Sereja's strange actions. Help guys to find the new coordinates in the candy matrix after the transformation Sereja made!",
+    "prob_desc_output_spec": "For each of the p candies, print on a single line its space-separated new coordinates.",
+    "prob_desc_input_spec": "The first line of the input contains fix integers n, m, x, y, z, p (1 ≤ n, m ≤ 109; 0 ≤ x, y, z ≤ 109; 1 ≤ p ≤ 105). Each of the following p lines contains two integers xk, yk (1 ≤ xk ≤ n; 1 ≤ yk ≤ m) — the initial coordinates of the k-th candy. Two candies can lie on the same cell.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_023.jsonl",
+    "code_uid": "47306be00d2d3c3742831a409b52e605",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3 3 1 1 9\\n1 1\\n1 2\\n1 3\\n2 1\\n2 2\\n2 3\\n3 1\\n3 2\\n3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a=raw_input().split()\nn=int(a[0])\nm=int(a[1])\nx=int(a[2])\ny=int(a[3])\nz=int(a[4])\np=int(a[5])\nlis=[]\nfor i in range(p):\n    b=raw_input().split()\n    c=int(b[0])\n    d=int(b[1])\n    lis.append((c,d))\ndef flip(lis,y,p,m):\n    for i in range(y%2):\n        for k in range(p):\n            lis[k]=(lis[k][0],m+1-lis[k][1])\ndef ro(lis,rot,p,n,m):\n    if rot==1:\n        for k in range(p):\n            lis[k]=(lis[k][1],n+1-lis[k][0])\n    if rot==2:\n        for k in range(p):\n            lis[k]=(n+1-lis[k][0],m+1-lis[k][1])\n    if rot==3:\n        for k in range(p):\n            lis[k]=(m+1-lis[k][1],lis[k][0])\nro(lis,x%4,p,n,m)\nif x%2==1:\n    n,m=m,n\nflip(lis,y,p,m)\nro(lis,(0-z)%4,p,n,m)\nfor i in lis:\n    print i[0], i[1]",
+    "prob_desc_created_at": "1394033400",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

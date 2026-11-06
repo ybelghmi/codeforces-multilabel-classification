@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "85f43628bec7e9b709273c34b894df6b",
+    "prob_desc_notes": "NoteIn the first sample, the first grid path is the one described in the statement. Moreover, the following sequence of moves will get both marbles to the end: NNESWWSWSW.In the second sample, no sequence of moves can get both marbles to the end.",
+    "prob_desc_description": "In the spirit of the holidays, Saitama has given Genos two grid paths of length n (a weird gift even by Saitama's standards). A grid path is an ordered sequence of neighbouring squares in an infinite grid. Two squares are neighbouring if they share a side.One example of a grid path is (0, 0) → (0, 1) → (0, 2) → (1, 2) → (1, 1) → (0, 1) → ( - 1, 1). Note that squares in this sequence might be repeated, i.e. path has self intersections.Movement within a grid path is restricted to adjacent squares within the sequence. That is, from the i-th square, one can only move to the (i - 1)-th or (i + 1)-th squares of this path. Note that there is only a single valid move from the first and last squares of a grid path. Also note, that even if there is some j-th square of the path that coincides with the i-th square, only moves to (i - 1)-th and (i + 1)-th squares are available. For example, from the second square in the above sequence, one can only move to either the first or third squares.To ensure that movement is not ambiguous, the two grid paths will not have an alternating sequence of three squares. For example, a contiguous subsequence (0, 0) → (0, 1) → (0, 0) cannot occur in a valid grid path.One marble is placed on the first square of each grid path. Genos wants to get both marbles to the last square of each grid path. However, there is a catch. Whenever he moves one marble, the other marble will copy its movement if possible. For instance, if one marble moves east, then the other marble will try and move east as well. By try, we mean if moving east is a valid move, then the marble will move east.Moving north increases the second coordinate by 1, while moving south decreases it by 1. Similarly, moving east increases first coordinate by 1, while moving west decreases it.Given these two valid grid paths, Genos wants to know if it is possible to move both marbles to the ends of their respective paths. That is, if it is possible to move the marbles such that both marbles rest on the last square of their respective paths.",
+    "prob_desc_output_spec": "Print \"YES\" (without quotes) if it is possible for both marbles to be at the end position at the same time. Print \"NO\" (without quotes) otherwise. In both cases, the answer is case-insensitive.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (2 ≤ n ≤ 1 000 000) — the length of the paths. The second line of the input contains a string consisting of n - 1 characters (each of which is either 'N', 'E', 'S', or 'W') — the first grid path. The characters can be thought of as the sequence of moves needed to traverse the grid path. For example, the example path in the problem statement can be expressed by the string \"NNESWW\". The third line of the input contains a string of n - 1 characters (each of which is either 'N', 'E', 'S', or 'W') — the second grid path.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_018.jsonl",
+    "code_uid": "67d5f23dd3cfe4f2fd68096edc0f1d0c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\nNNESWW\\nSWSWSW\", \"3\\nNN\\nSS\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from time import time\n\n\nopposite = {\n    'N': 'S',\n    'S': 'N',\n    'E': 'W',\n    'W': 'E'\n}\notr = str.maketrans(opposite)\n\nbits = {\n    'N': 0,\n    'S': 1,\n    'E': 2,\n    'W': 3,\n}\n\nQ = 4294967291\n\n\ndef combine(h, v, q):\n    return (h<<2 | v) % q\n\n\ndef combinel(h, v, q, s):\n    return (v*s + h) % q\n\n\ndef flip(s):\n    return ''.join(reversed(s.translate(otr)))\n\n\ndef solvable(p1, p2):\n    h1 = 0\n    h2 = 0\n    s = 1\n    for i in reversed(range(len(p1))):\n        n1 = bits[p1[i]]\n        n2 = bits[opposite[p2[i]]]\n        h1 = combine(h1, n1, Q)\n        h2 = combinel(h2, n2, Q, s)\n        if h1 == h2 and p1[i:] == flip(p2[i:]):\n            return False\n        s = (s<<2) % Q\n    return True\n\n\nif __name__ == '__main__':\n    n = int(input())\n    p1 = input()\n    p2 = input()\n    print('YES' if solvable(p1, p2) else 'NO')\n",
+    "prob_desc_created_at": "1450888500",
+    "tags": [
+        "hashing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

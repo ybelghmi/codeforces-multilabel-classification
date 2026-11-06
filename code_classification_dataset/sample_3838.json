@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 2 2\\n? 5 5\\n? 4 7\\n? 1 5\\n! 2 3 4 5\"]",
+    "src_uid": "7d72a14dd0429e5f8ad9b75c1e35f1e7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This is an interactive problem!As part of your contribution in the Great Bubble War, you have been tasked with finding the newly built enemy fortress. The world you live in is a giant $$$10^9 \\times 10^9$$$ grid, with squares having both coordinates between $$$1$$$ and $$$10^9$$$. You know that the enemy base has the shape of a rectangle, with the sides parallel to the sides of the grid. The people of your world are extremely scared of being at the edge of the world, so you know that the base doesn't contain any of the squares on the edges of the grid (the $$$x$$$ or $$$y$$$ coordinate being $$$1$$$ or $$$10^9$$$). To help you locate the base, you have been given a device that you can place in any square of the grid, and it will tell you the manhattan distance to the closest square of the base. The manhattan distance from square $$$(a, b)$$$ to square $$$(p, q)$$$ is calculated as $$$|a−p|+|b−q|$$$. If you try to place the device inside the enemy base, you will be captured by the enemy. Because of this, you need to make sure to never place the device inside the enemy base. Unfortunately, the device is powered by a battery and you can't recharge it. This means that you can use the device at most $$$40$$$ times. ",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The input contains the answers to your queries. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_085.jsonl",
+    "code_uid": "c5b9c0e78622270eeec9dd7222e37ae3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n1\\n2\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdout\r\nfrom math import ceil, floor\r\nendv = 1000000000\r\nprint(\"? 1 1\")\r\nstdout.flush()\r\ndstart = int(input())\r\n\r\nprint((\"? 1000000000 1000000000\"))\r\nstdout.flush()\r\ndend = int(input())\r\n\r\nstart, end = 1, min(endv, dstart)\r\n\r\nwhile start < end:\r\n    midx = int(ceil((start + end) / 2))\r\n    print(f\"? {midx} 1\")\r\n    stdout.flush()\r\n    test = int(input())\r\n    stdout.flush()\r\n    if test > dstart + 1 - midx:\r\n        end = midx - 1\r\n    else:\r\n        start = midx\r\n\r\nindstart = (start, dstart + 2 - start)\r\n\r\nstart = max(endv - dend, indstart[0])\r\nif endv - dend > indstart[1]:\r\n    end = endv\r\nelse:\r\n    end = endv - (dend - (endv - indstart[1]))\r\n\r\nwhile start < end:\r\n    midx = int(floor((start+end)/2))\r\n    print(f\"? {midx} {endv}\")\r\n    stdout.flush()\r\n    test = int(input())\r\n    stdout.flush()\r\n    if test > dend + midx - endv:\r\n        start = midx + 1\r\n    else:\r\n        end = midx\r\n\r\nindend = (end, endv - (dend - (endv - end)))\r\n\r\nprint(f\"! {indstart[0]} {indstart[1]} {indend[0]} {indend[1]}\")\r\n\r\n\r\n",
+    "prob_desc_created_at": "1633770300",
+    "tags": [
+        "binary search",
+        "geometry",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,32 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"4\"]",
+    "src_uid": "d17d2fcfb088bf51e9c1f3fce4133a94",
+    "prob_desc_notes": "NoteIn the first sample, we can choose $$$X = 3$$$.In the second sample, we can choose $$$X = 5$$$.",
+    "prob_desc_description": "Today, as a friendship gift, Bakry gave Badawy $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ and challenged him to choose an integer $$$X$$$ such that the value $$$\\underset{1 \\leq i \\leq n}{\\max} (a_i \\oplus X)$$$ is minimum possible, where $$$\\oplus$$$ denotes the bitwise XOR operation.As always, Badawy is too lazy, so you decided to help him and find the minimum possible value of $$$\\underset{1 \\leq i \\leq n}{\\max} (a_i \\oplus X)$$$.",
+    "prob_desc_output_spec": "Print one integer — the minimum possible value of $$$\\underset{1 \\leq i \\leq n}{\\max} (a_i \\oplus X)$$$.",
+    "prob_desc_input_spec": "The first line contains integer $$$n$$$ ($$$1\\le n \\le 10^5$$$). The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 2^{30}-1$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_012.jsonl",
+    "code_uid": "a66c042093eb5581f3d89fd2f361f199",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\", \"2\\n1 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nlst=[int(ele) for ele in input().split()]\n\n\nmaxn=max(lst)\n\nn=len(bin(maxn)[2:])\nnewlst=[\"0\"*(n-len(bin(ele)[2:]))+bin(ele)[2:] for ele in lst]\n\ndef catchEvil(lstrino,loc):\n    count0,count1=[],[]\n    for ele in lstrino:\n        if ele[n-1-loc]=='1':\n            count1.append(ele)\n        else:\n            count0.append(ele)\n    if len(count0)==0:\n        if loc==0:\n            return 0\n        else:\n            return catchEvil(lstrino,loc-1)\n    elif len(count1)==0:\n        if loc==0:\n            return 0\n        else:\n            return catchEvil(lstrino,loc-1)\n    else:\n        if loc==0:\n            return 1\n        else:\n            return min(catchEvil(count1,loc-1),catchEvil(count0,loc-1))+(1<<loc)\n\n\nif  n==0:\n    print(0)\nelse:\n    print(int(catchEvil(newlst,n-1)))  \n    \n",
+    "prob_desc_created_at": "1578665100",
+    "tags": [
+        "dp",
+        "greedy",
+        "bitmasks",
+        "divide and conquer",
+        "brute force",
+        "dfs and similar",
+        "trees",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

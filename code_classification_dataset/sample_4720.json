@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n2\\n3 4\\n1 2\\n0\"]",
+    "src_uid": "10f3f4ae348fd4d28c371d8bf570d4c2",
+    "prob_desc_notes": "NoteIn the second test case, $$$a$$$ changes like this:  Select indices $$$3$$$ and $$$4$$$. $$$a_3 + a_4 = 3$$$ is odd, so do $$$a_4 := a_3$$$. $$$a = [1, 1000000000, 3, 3, 5]$$$ now.  Select indices $$$1$$$ and $$$2$$$. $$$a_1 + a_2 = 1000000001$$$ is odd, so do $$$a_2 := a_1$$$. $$$a = [1, 1, 3, 3, 5]$$$ now, and it is non-decreasing. In the first and third test cases, $$$a$$$ is already non-decreasing.",
+    "prob_desc_description": "You are given an array $$$a$$$ with $$$n$$$ non-negative integers. You can apply the following operation on it.   Choose two indices $$$l$$$ and $$$r$$$ ($$$1 \\le l &lt; r \\le n$$$).  If $$$a_l + a_r$$$ is odd, do $$$a_r := a_l$$$. If $$$a_l + a_r$$$ is even, do $$$a_l := a_r$$$. Find any sequence of at most $$$n$$$ operations that makes $$$a$$$ non-decreasing. It can be proven that it is always possible. Note that you do not have to minimize the number of operations.An array $$$a_1, a_2, \\ldots, a_n$$$ is non-decreasing if and only if $$$a_1 \\le a_2 \\le \\ldots \\le a_n$$$.",
+    "prob_desc_output_spec": "For each test case, print one integer $$$m$$$ ($$$0 \\le m \\le n$$$), the number of operations, in the first line. Then print $$$m$$$ lines. Each line must contain two integers $$$l_i, r_i$$$, which are the indices you chose in the $$$i$$$-th operation ($$$1 \\le l_i &lt; r_i \\le n$$$). If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^5$$$) — the number of test cases. Each test case consists of two lines. The first line of each test case contains one integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the length of the array. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\le a_i \\le 10^9$$$)  — the array itself. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_104.jsonl",
+    "code_uid": "0559312ee9ba999c66cd70513e2d13c4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n2\\n\\n7 8\\n\\n5\\n\\n1 1000000000 3 0 5\\n\\n1\\n\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\r\nimport sys\r\nfrom collections import deque,OrderedDict,defaultdict\r\nimport heapq\r\nfrom collections import Counter\r\ndef inp(): return sys.stdin.readline().rstrip()\r\ndef mpp(): return map(int,inp().split())\r\ndef lis(): return list(mpp())\r\ndef yn(n):\r\n    if n:\r\n        return \"YES\"\r\n    else:\r\n        return \"NO\"\r\ndef cd(s):\r\n    return ord(s)-ord('a')+1\r\ndef fn(arr,n):\r\n    moves=[]\r\n    if arr[0]%2==1:\r\n        odd=-1\r\n        for i in range(n-1,-1,-1):\r\n            if arr[i]%2==1:\r\n                odd=i\r\n                break\r\n        if odd!=-1:\r\n            for i in range(n):\r\n                if arr[i]%2==1 and i!=odd and arr[i]!=arr[odd]:\r\n                    arr[i]=arr[odd]\r\n                    moves.append([i+1,odd+1])\r\n                elif odd==i:\r\n                    break\r\n    else:\r\n        even=-1\r\n        #print(arr)\r\n        for i in range(n-1,-1,-1):\r\n            if arr[i]%2==0:\r\n                even=i\r\n                break\r\n        if even!=-1:\r\n            for i in range(n):\r\n                if arr[i]%2==0 and i!=even:\r\n                    arr[i]=arr[even]\r\n                    moves.append([i+1,even+1])\r\n                elif even==i:\r\n                    break\r\n    #print(arr)\r\n    ls=arr[0]\r\n    for i in range(1,n):\r\n        if arr[i]!=ls:\r\n            arr[i]=ls\r\n            moves.append([1,i+1])\r\n    print(len(moves))\r\n    k=len(moves)\r\n\r\n    for i in moves:\r\n        print(*i)\r\n    #print(arr)\r\n    return\r\n\r\n\r\n\r\n\r\ndef main():\r\n    t=int(inp())\r\n    for _ in range(t):\r\n        n=int(inp())\r\n        arr=lis()\r\n        fn(arr,n)\r\n\r\nif __name__==\"__main__\":\r\n    main()",
+    "prob_desc_created_at": "1663598100",
+    "tags": [
+        "constructive algorithms",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"1\\n2\", \"-1\\n-1\\n-1\"]",
+    "src_uid": "0c2550b2df0849a62969edf5b73e0ac5",
+    "prob_desc_notes": "Note12 = 4 + 4 + 4 = 4 + 8 = 6 + 6 = 12, but the first splitting has the maximum possible number of summands.8 = 4 + 4, 6 can't be split into several composite summands.1, 2, 3 are less than any composite number, so they do not have valid splittings.",
+    "prob_desc_description": "You are given several queries. In the i-th query you are given a single positive integer ni. You are to represent ni as a sum of maximum possible number of composite summands and print this maximum number, or print -1, if there are no such splittings.An integer greater than 1 is composite, if it is not prime, i.e. if it has positive divisors not equal to 1 and the integer itself.",
+    "prob_desc_output_spec": "For each query print the maximum possible number of summands in a valid splitting to composite summands, or -1, if there are no such splittings.",
+    "prob_desc_input_spec": "The first line contains single integer q (1 ≤ q ≤ 105) — the number of queries. q lines follow. The (i + 1)-th line contains single integer ni (1 ≤ ni ≤ 109) — the i-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_001.jsonl",
+    "code_uid": "6880fca2fa038169c64afba50294461a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n12\", \"2\\n6\\n8\", \"3\\n1\\n2\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "dp = [-1, -1, -1, 1, -1, 1, -1, 2, 1, 2, -1, 3, 2, 3, 2, 4, 3, 4, 3, 5, 4, 5, 4, 6, 5, 6, 5, 7, 6, 7, 6, 8, 7, 8, 7, 9, 8, 9, 8, 10, 9, 10, 9, 11, 10, 11, 10, 12, 11, 12, 11, 13, 12, 13, 12, 14, 13, 14, 13, 15, 14, 15, 14, 16, 15, 16, 15, 17, 16, 17, 16, 18, 17, 18, 17, 19, 18, 19, 18, 20, 19, 20, 19, 21, 20, 21, 20, 22, 21, 22, 21, 23, 22, 23, 22, 24, 23, 24, 23]\n\n\ndef main():\n    n = int(input())\n    if n < len(dp):\n        print(dp[n - 1])\n        return\n    res = (n - len(dp)) // 4\n    n -= ((n - len(dp)) // 4) * 4\n    while n >= len(dp):\n        n -= 4\n        res += 1\n    res += dp[n - 1]\n    print(res)\n    return\n\nq = int(input())\nfor i in range(q):\n    main()",
+    "prob_desc_created_at": "1508054700",
+    "tags": [
+        "dp",
+        "number theory",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

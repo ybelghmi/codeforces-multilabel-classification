@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"Second\\n\\n1 3\", \"First\\n2 1 2 1\"]",
+    "src_uid": "cf28ab7f4c20b6b914c2c58951319b14",
+    "prob_desc_notes": "NoteIn the first sample, $$$n = 2$$$, and you decide to play as Second. The judge chooses the pairs $$$(1, 2)$$$ and $$$(3, 4)$$$, and you reply with the numbers $$$1$$$ and $$$3$$$. This is a valid choice since it contains exactly one number from each pair, and the sum $$$1 + 3 = 4$$$ is divisible by $$$4$$$.In the second sample, $$$n = 2$$$ again, and you play as First. You choose the pairs $$$(2, 4)$$$ and $$$(1, 3)$$$. The judge fails to choose a number from each pair such that their sum is divisible by $$$4$$$, so the answer is correct.Note that the sample tests are just for illustration of the interaction protocol, and don't necessarily correspond to the behavior of the real interactor.",
+    "prob_desc_description": "This is an interactive problem.Consider a fixed positive integer $$$n$$$. Two players, First and Second play a game as follows:  First considers the $$$2n$$$ numbers $$$1, 2, \\dots, 2n$$$, and partitions them as he wants into $$$n$$$ disjoint pairs. Then, Second chooses exactly one element from each of the pairs that First created (he chooses elements he wants). To determine the winner of the game, we compute the sum of the numbers chosen by Second. If the sum of all these numbers is a multiple of $$$2n$$$, then Second wins. Otherwise, First wins.You are given the integer $$$n$$$. Your task is to decide which player you wish to play as and win the game.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_036.jsonl",
+    "code_uid": "e725eb86f705e187468966b3dfb434ee",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n1 1 2 2\\n\\n0\", \"2\\n\\n\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\nimport random\n\nn=int(input())\n\nif n%2==0:\n    print(\"First\",flush=True)\n    ANS=[0]*(2*n)\n    for i in range(2*n):\n        ANS[i]=i%n+1\n\n    print(*ANS,flush=True)\n    END=int(input())\n    sys.exit()\n\nelse:\n    print(\"Second\",flush=True)\n    A=[0]+list(map(int,input().split()))\n\n    C=[[] for i in range(n+1)]\n\n    for i in range(1,2*n+1):\n        C[A[i]].append(i)\n\n    def rev(x):\n        if x<=n:\n            return x+n\n        else:\n            return x-n\n\n    def calc():\n        USE=[-1]*(2*n+1)\n        Q=[]\n\n        for i in range(1,n+1):\n            if USE[i]==-1 and USE[i+n]==-1:\n                Q.append(random.choice([i,i+n]))\n\n            while Q:\n                #print(Q)\n                x=Q.pop()\n                USE[x]=1\n                USE[rev(x)]=0\n\n                #print(USE)\n\n                for to in C[A[rev(x)]]:\n                    #print(to)\n                    if USE[to]==-1:\n                        USE[to]=1\n                        Q.append(to)\n\n                #print(Q)\n\n                for to in C[A[x]]:\n                    if USE[to]==-1:\n                        USE[to]=0\n                        Q.append(rev(to))\n\n                #print(Q)\n\n        S=0\n        #print(USE)\n        ANS=[]\n        for i in range(1,2*n+1):\n            if USE[i]==1:\n                S+=i\n                ANS.append(i)\n\n        if S%(2*n)==0:\n            return ANS\n        else:\n            return -1\n\n    while True:\n        x=random.randint(1,2*n)\n        #print(x)\n        k=calc()\n\n        if k!=-1:\n            break\n\n    print(*k,flush=True)\n    END=int(input())\n    sys.exit()\n    \n            \n\n    \n        \n\n        \n    \n    \n",
+    "prob_desc_created_at": "1599402900",
+    "tags": [
+        "constructive algorithms",
+        "number theory",
+        "math",
+        "interactive",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

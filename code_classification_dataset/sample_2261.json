@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6 2\", \"0 1\"]",
+    "src_uid": "91c3af92731cd7d406674598c0dcbbbc",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This is yet another problem dealing with regular bracket sequences.We should remind you that a bracket sequence is called regular, if by inserting «+» and «1» into it we can get a correct mathematical expression. For example, sequences «(())()», «()» and «(()(()))» are regular, while «)(», «(()» and «(()))(» are not. You are given a string of «(» and «)» characters. You are to find its longest substring that is a regular bracket sequence. You are to find the number of such substrings as well.",
+    "prob_desc_output_spec": "Print the length of the longest substring that is a regular bracket sequence, and the number of such substrings. If there are no such substrings, write the only line containing \"0 1\".",
+    "prob_desc_input_spec": "The first line of the input file contains a non-empty string, consisting of «(» and «)» characters. Its length does not exceed 106.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_019.jsonl",
+    "code_uid": "d388222e448b2e918b109ea56eaf37fb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\")((())))(()())\", \"))(\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s = input()\nans = dict()\n\nstack = [-1]\nres = 0\nfor i in range(len(s)):\n    c = s[i]\n    if c == ')' and stack[-1] != -1 and s[stack[-1]] == '(':\n        stack.pop()\n        ans[i-stack[-1]] = ans.get(i-stack[-1],0)+1\n        res = max(i-stack[-1], res)\n    else:\n        stack.append(i)\n\nif res not in ans.keys():\n    print('0 1')\nelse:\n    print(\" \".join([str(res),str(ans[res])]))\n",
+    "prob_desc_created_at": "1269100800",
+    "tags": [
+        "dp",
+        "greedy",
+        "constructive algorithms",
+        "sortings",
+        "data structures",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

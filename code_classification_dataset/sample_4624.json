@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n3 1 2\\n4\\n6 4 7 2 3 5 1\"]",
+    "src_uid": "89687dcbf37fc776b508252ddac8e8d4",
+    "prob_desc_notes": "NoteIn the first test case, two valid assignments exist: $$$[3, 1, 2]$$$ and $$$[2, 3, 1]$$$. The former assignment fulfills two wishes, while the latter assignment fulfills only one. Therefore, $$$k = 2$$$, and the only correct answer is $$$[3, 1, 2]$$$.",
+    "prob_desc_description": "Every December, VK traditionally holds an event for its employees named \"Secret Santa\". Here's how it happens.$$$n$$$ employees numbered from $$$1$$$ to $$$n$$$ take part in the event. Each employee $$$i$$$ is assigned a different employee $$$b_i$$$, to which employee $$$i$$$ has to make a new year gift. Each employee is assigned to exactly one other employee, and nobody is assigned to themselves (but two employees may be assigned to each other). Formally, all $$$b_i$$$ must be distinct integers between $$$1$$$ and $$$n$$$, and for any $$$i$$$, $$$b_i \\ne i$$$ must hold.The assignment is usually generated randomly. This year, as an experiment, all event participants have been asked who they wish to make a gift to. Each employee $$$i$$$ has said that they wish to make a gift to employee $$$a_i$$$.Find a valid assignment $$$b$$$ that maximizes the number of fulfilled wishes of the employees.",
+    "prob_desc_output_spec": "For each test case, print two lines. In the first line, print a single integer $$$k$$$ ($$$0 \\le k \\le n$$$) — the number of fulfilled wishes in your assignment. In the second line, print $$$n$$$ distinct integers $$$b_1, b_2, \\ldots, b_n$$$ ($$$1 \\le b_i \\le n$$$; $$$b_i \\ne i$$$) — the numbers of employees assigned to employees $$$1, 2, \\ldots, n$$$. $$$k$$$ must be equal to the number of values of $$$i$$$ such that $$$a_i = b_i$$$, and must be as large as possible. If there are multiple answers, print any.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10^5$$$). Description of the test cases follows. Each test case consists of two lines. The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the number of participants of the event. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le n$$$; $$$a_i \\ne i$$$) — wishes of the employees in order from $$$1$$$ to $$$n$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_102.jsonl",
+    "code_uid": "d87fb4a084e8ead14db06d2dd4c0fba8",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3\\n2 1 2\\n7\\n6 4 6 2 4 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\r\n\r\ndef first(U):\r\n    if len(U) == 0:\r\n        return None\r\n\r\n    it = iter(U)\r\n    return next(it)\r\n\r\ndef solve(A):\r\n    N = len(A)\r\n\r\n    for i in range(N):\r\n        A[i] -= 1\r\n\r\n    r = 0\r\n    B = [None] * N\r\n    U = {}\r\n    empty = []\r\n    for i in range(N):\r\n        if A[i] not in U:\r\n            B[i] = A[i]\r\n            U[A[i]] = i\r\n            r += 1\r\n        else:\r\n            empty.append(i)\r\n\r\n    if len(empty) == 1:\r\n        e = empty[0]\r\n        if e not in U:\r\n            B[e] = A[e]\r\n            B[U[A[e]]] = e\r\n        else:\r\n            for z in range(N):\r\n                if z not in U:\r\n                    B[e] = z\r\n                    break\r\n    elif len(empty) > 1:\r\n        src = empty\r\n        src.sort(lambda x: 0 if x not in U else 1)\r\n\r\n        dst = []\r\n        G = {i for i in range(N) if i not in U}\r\n        for s in src:\r\n            if s not in U:\r\n                dst.append(s)\r\n                G.discard(s)\r\n        dst.extend(G)\r\n\r\n        size = len(src)\r\n        for i in range(size):\r\n            B[src[i]] = dst[(i + 1) % size]\r\n                        \r\n\r\n    print(r)\r\n    print(\" \".join(str(e + 1) for e in B))\r\n\r\nT = int(input())\r\nfor _ in range(T):\r\n    n = int(input())\r\n    A = [int(e) for e in input().split(' ')]\r\n\r\n    solve(A)",
+    "prob_desc_created_at": "1626532500",
+    "tags": [
+        "graphs",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

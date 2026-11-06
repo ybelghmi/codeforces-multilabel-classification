@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n21\\n121\\n212\"]",
+    "src_uid": "1a5f266b49aadbeef59e19bcf5524a57",
+    "prob_desc_notes": "NoteThe only numbers with the sum of digits equal to $$$2$$$ without zeros are $$$2$$$ and $$$11$$$. But the last one has two ones in a row, so it's not valid. That's why the answer is $$$2$$$.The only numbers with the sum of digits equal to $$$3$$$ without zeros are $$$111$$$, $$$12$$$, $$$21$$$, and $$$3$$$. The first one has $$$2$$$ ones in a row, so it's not valid. So the maximum valid number is $$$21$$$.The only numbers with the sum of digits equals to $$$4$$$ without zeros are $$$1111$$$, $$$211$$$, $$$121$$$, $$$112$$$, $$$13$$$, $$$31$$$, $$$22$$$, and $$$4$$$. Numbers $$$1111$$$, $$$211$$$, $$$112$$$, $$$22$$$ aren't valid, because they have some identical digits in a row. So the maximum valid number is $$$121$$$.",
+    "prob_desc_description": "Madoka finally found the administrator password for her computer. Her father is a well-known popularizer of mathematics, so the password is the answer to the following problem.Find the maximum decimal number without zeroes and with no equal digits in a row, such that the sum of its digits is $$$n$$$.Madoka is too tired of math to solve it herself, so help her to solve this problem!",
+    "prob_desc_output_spec": "For each test case print the maximum number you can obtain.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Description of the test cases follows. The only line of each test case contains an integer $$$n$$$ ($$$1 \\le n \\le 1000$$$) — the required sum of the digits.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_096.jsonl",
+    "code_uid": "bceffa82c363e842171628c41d2a1582",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1\\n2\\n3\\n4\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import inf\r\nfrom collections import *\r\nimport math, os, sys, heapq, bisect, random\r\nfrom functools import lru_cache\r\nfrom itertools import *\r\ndef inp(): return sys.stdin.readline().rstrip(\"\\r\\n\")\r\ndef out(var): sys.stdout.write(str(var))  # for fast output, always take string\r\ndef inpu(): return int(inp())\r\ndef lis(): return list(map(int, inp().split()))\r\ndef stringlis(): return list(map(str, inp().split()))\r\ndef sep(): return map(int, inp().split())\r\ndef strsep(): return map(str, inp().split())\r\ndef fsep(): return map(float, inp().split())\r\nM,M1=1000000007,998244353\r\n\r\ndef main():\r\n    how_much_noob_I_am = 1\r\n    how_much_noob_I_am = inpu()\r\n    for i in range(how_much_noob_I_am):\r\n        n = inpu()\r\n        ans=\"1\"\r\n        p=1\r\n        while(p<n):\r\n            if ans[-1]==\"1\":\r\n                ans+=\"2\"\r\n                p+=2\r\n            else:\r\n                ans+=\"1\"\r\n                p+=1\r\n        ans2=\"2\"\r\n        p2=2\r\n        while(p2<n):\r\n            if ans2[-1]==\"1\":\r\n                ans2+=\"2\"\r\n                p2+=2\r\n            else:\r\n                ans2+=\"1\"\r\n                p2+=1\r\n        if p==n and p2==n:\r\n            print(max(int(ans),int(ans2)))\r\n            continue\r\n        if p==n:\r\n            print(ans)\r\n        else:\r\n            print(ans2)\r\nif __name__ == '__main__':\r\n    main()\r\n",
+    "prob_desc_created_at": "1647009300",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

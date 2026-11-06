@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nYES\\nNO\"]",
+    "src_uid": "eea15ff7e939bfcc7002cacbc8a1a3a5",
+    "prob_desc_notes": "NoteThe first test case was explained in the statement.The answer to the second test case is NO, since a 1 in a cell ($$$1, 1$$$) flying out of any cannon would continue its flight further.",
+    "prob_desc_description": "Polygon is not only the best platform for developing problems but also a square matrix with side $$$n$$$, initially filled with the character 0.On the polygon, military training was held. The soldiers placed a cannon above each cell in the first row and a cannon to the left of each cell in the first column. Thus, exactly $$$2n$$$ cannons were placed.    Initial polygon for $$$n=4$$$. Cannons shoot character 1. At any moment of time, no more than one cannon is shooting. When a 1 flies out of a cannon, it flies forward (in the direction of the shot) until it collides with a polygon border or another 1. After that, it takes the cell in which it was before the collision and remains there. Take a look at the examples for better understanding.More formally:   if a cannon stands in the row $$$i$$$, to the left of the first column, and shoots with a 1, then the 1 starts its flight from the cell ($$$i, 1$$$) and ends in some cell ($$$i, j$$$);  if a cannon stands in the column $$$j$$$, above the first row, and shoots with a 1, then the 1 starts its flight from the cell ($$$1, j$$$) and ends in some cell ($$$i, j$$$). For example, consider the following sequence of shots:   1. Shoot the cannon in the row $$$2$$$.                         2. Shoot the cannon in the row $$$2$$$.                         3. Shoot the cannon in column $$$3$$$. You have a report from the military training on your desk. This report is a square matrix with side length $$$n$$$ consisting of 0 and 1. You wonder if the training actually happened. In other words, is there a sequence of shots such that, after the training, you get the given matrix?Each cannon can make an arbitrary number of shots. Before the training, each cell of the polygon contains 0.",
+    "prob_desc_output_spec": "For each test case print:   YES if there is a sequence of shots leading to a given matrix;  NO if such a sequence does not exist.  The letters in the words YES and NO can be printed in any case.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case starts with a line containing an integer $$$n$$$ ($$$1 \\le n \\le 50$$$) — the size of the polygon. This is followed by $$$n$$$ lines of length $$$n$$$, consisting of 0 and 1 — the polygon matrix after the training. The total area of the matrices in all test cases in one test does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_002.jsonl",
+    "code_uid": "134d8be64008fe6aadcf84c23931e120",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n4\\n0010\\n0011\\n0000\\n0000\\n2\\n10\\n01\\n2\\n00\\n00\\n4\\n0101\\n1111\\n0101\\n0111\\n4\\n0100\\n1110\\n0101\\n0111\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "T = input()\n\nfor _ in xrange(T):\n    N = input()\n    ll = []\n\n    for _ in xrange(N):\n        ll.append(raw_input())\n\n    oc = 0\n    for i in xrange(N-1, -1, -1):\n        for j in xrange(N-1, -1, -1):\n            if ll[i][j] == \"1\":\n                oc += 1\n\n    seen = set()\n    for i in xrange(N-1, -1, -1):\n        for j in xrange(N-1, -1, -1):\n            if ll[i][j] == \"0\":\n                break\n\n            if ll[i][j] == \"1\" and (i, j) not in seen:\n                q = [(i, j)]\n                seen.add((i, j))\n\n                while len(q) > 0:\n                    x, y = q.pop(-1)\n\n                    if x > 0 and ll[x-1][y] == \"1\" and (x-1, y) not in seen:\n                        q.append((x-1, y))\n                        seen.add((x-1, y))\n\n                    if y > 0 and ll[x][y-1] == \"1\" and (x,y-1) not in seen:\n                        q.append((x, y-1))\n                        seen.add((x, y-1))\n\n\n    for j in xrange(N-1, -1, -1):\n        for i in xrange(N-1, -1, -1):\n            if ll[i][j] == \"0\":\n                break\n\n            if ll[i][j] == \"1\" and (i, j) not in seen:\n                q = [(i, j)]\n                seen.add((i, j))\n\n                while len(q) > 0:\n                    x, y = q.pop(-1)\n\n                    if x > 0 and ll[x-1][y] == \"1\" and (x-1, y) not in seen:\n                        q.append((x-1, y))\n                        seen.add((x-1, y))\n\n                    if y > 0 and ll[x][y-1] == \"1\" and (x,y-1) not in seen:\n                        q.append((x, y-1))\n                        seen.add((x, y-1))\n\n    if oc != len(seen):\n        print \"NO\"\n    else:\n        print \"YES\"",
+    "prob_desc_created_at": "1590327300",
+    "tags": [
+        "dp",
+        "implementation",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

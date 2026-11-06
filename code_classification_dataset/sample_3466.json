@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\", \"No\", \"Yes\"]",
+    "src_uid": "bedb98780a71d7027798d14aa5f1f100",
+    "prob_desc_notes": "NoteThe picture below illustrates one of the possible trees for the first example.  The picture below illustrates one of the possible trees for the third example.  ",
+    "prob_desc_description": "Dima the hamster enjoys nibbling different things: cages, sticks, bad problemsetters and even trees!Recently he found a binary search tree and instinctively nibbled all of its edges, hence messing up the vertices. Dima knows that if Andrew, who has been thoroughly assembling the tree for a long time, comes home and sees his creation demolished, he'll get extremely upset. To not let that happen, Dima has to recover the binary search tree. Luckily, he noticed that any two vertices connected by a direct edge had their greatest common divisor value exceed $$$1$$$.Help Dima construct such a binary search tree or determine that it's impossible. The definition and properties of a binary search tree can be found here.",
+    "prob_desc_output_spec": "If it is possible to reassemble the binary search tree, such that the greatest common divisor of any two vertices connected by the edge is greater than $$$1$$$, print \"Yes\" (quotes for clarity). Otherwise, print \"No\" (quotes for clarity).",
+    "prob_desc_input_spec": "The first line contains the number of vertices $$$n$$$ ($$$2 \\le n \\le 700$$$). The second line features $$$n$$$ distinct integers $$$a_i$$$ ($$$2 \\le a_i \\le 10^9$$$) — the values of vertices in ascending order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_061.jsonl",
+    "code_uid": "c3d37b01356f6d8acc95dce16f758cde",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n3 6 9 18 36 108\", \"2\\n7 17\", \"9\\n4 8 10 12 15 18 33 44 81\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom math import gcd\nn=int(stdin.readline())\na=[int(x) for x in stdin.readline().split()]\nc = []\nld=[]\nrd=[]\n\n\ndef check(l, r, e):\n    if r == l: return c[l][e] > 0\n    if e < l and ld[l][r-l] != 0:\n        return ld[l][r-l] == 1\n    elif e > r and rd[l][r-l] != 0:\n        return rd[l][r-l] == 1\n    for i in range(l, r+1):\n        if c[i][e]>0:\n            if i==l or check(l, i-1, i):\n                if i==r or check(i+1, r, i):\n                    if e < l:\n                        ld[l][r-l] = 1\n                    else:\n                        rd[l][r-l] = 1\n                    return True\n    if e < l:\n        ld[l][r - l] = -1\n    else:\n        rd[l][r - l] = -1\n    return False\n\n\nfor i in range(n):\n    c.append([0]*n)\n    ld.append([0]*n)\n    rd.append([0] * n)\nfor i in range(n):\n    for j in range(i+1,n):\n        if gcd(a[i],a[j]) > 1:\n            c[i][j] = c[j][i] = 1\nans=False\nfor i in range(n):\n    if i == 0 or check(0, i - 1, i):\n        if i == n-1 or check(i + 1, n-1, i):\n            ans = True\n            break\nif ans:\n    print(\"Yes\")\nelse:\n    print(\"No\")\n\n\n",
+    "prob_desc_created_at": "1534685700",
+    "tags": [
+        "dp",
+        "number theory",
+        "math",
+        "trees",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

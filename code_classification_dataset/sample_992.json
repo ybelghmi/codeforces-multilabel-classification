@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"-120\\n12\\n0\\n945\"]",
+    "src_uid": "a3a64c3c7e9349d6e663c2d8113d2676",
+    "prob_desc_notes": "NoteIn the first test case, choosing $$$a_1,a_2,a_3,a_4,a_5$$$ is a best choice: $$$(-1)\\cdot (-2) \\cdot (-3)\\cdot (-4)\\cdot (-5)=-120$$$.In the second test case, choosing $$$a_1,a_2,a_3,a_5,a_6$$$ is a best choice: $$$(-1)\\cdot (-2) \\cdot (-3)\\cdot 2\\cdot (-1)=12$$$.In the third test case, choosing $$$a_1,a_2,a_3,a_4,a_5$$$ is a best choice: $$$(-1)\\cdot 0\\cdot 0\\cdot 0\\cdot (-1)=0$$$.In the fourth test case, choosing $$$a_1,a_2,a_3,a_4,a_6$$$ is a best choice: $$$(-9)\\cdot (-7) \\cdot (-5)\\cdot (-3)\\cdot 1=945$$$.",
+    "prob_desc_description": "You are given an array of integers $$$a_1,a_2,\\ldots,a_n$$$. Find the maximum possible value of $$$a_ia_ja_ka_la_t$$$ among all five indices $$$(i, j, k, l, t)$$$ ($$$i&lt;j&lt;k&lt;l&lt;t$$$).",
+    "prob_desc_output_spec": "For each test case, print one integer — the answer to the problem.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains an integer $$$t$$$ ($$$1\\le t\\le 2 \\cdot 10^4$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$5\\le n\\le 10^5$$$) — the size of the array. The second line of each test case contains $$$n$$$ integers $$$a_1,a_2,\\ldots,a_n$$$ ($$$-3\\times 10^3\\le a_i\\le 3\\times 10^3$$$) — given array. It's guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2\\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_005.jsonl",
+    "code_uid": "ba05fbd4dd9e2594fe97cc8825db17c0",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n5\\n-1 -2 -3 -4 -5\\n6\\n-1 -2 -3 1 2 -1\\n6\\n-1 0 0 0 -1 -1\\n6\\n-9 -7 -5 -3 -2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "l=[]\nfor _ in range(int(input())):\n    N=int(input())\n    a=list(map(int,input().split()))\n    a.sort()\n    n=0\n    p=0\n    z=0\n    for i in range(N):\n        if a[i]<0:\n            n=n+1\n        elif a[i]==0:\n            z=z+1\n        else:\n            p=p+1\n    if N-z<5 and z!=0:\n        l.append(0)\n    elif p==0 and z!=0:\n        l.append(0)\n    elif p==0:\n        l.append(a[-1]*a[-5]*a[-2]*a[-3]*a[-4])\n    else:\n        if p==1:\n            l.append(a[-1]*a[0]*a[1]*a[2]*a[3])\n        elif p==2:\n            l.append(a[-1] * a[0] * a[1] * a[2] * a[3])\n        elif p==3:\n            l.append(max(a[-1] * a[0] * a[1] * a[2] * a[3],a[-1] * a[0] * a[1] * a[-3] * a[-2]))\n        elif p==4:\n            l.append(max(a[-1] * a[0] * a[1] * a[2] * a[3],a[-1] * a[0] * a[1] * a[-3] * a[-2]))\n        elif p>=5:\n            l.append(max(a[-1] * a[0] * a[1] * a[2] * a[3],a[-1] * a[0] * a[1] * a[-3] * a[-2],a[-1]*a[-2]*a[-3]*a[-4]*a[-5]))\nfor i in l:\n    print(i)",
+    "prob_desc_created_at": "1599918300",
+    "tags": [
+        "dp",
+        "greedy",
+        "implementation",
+        "sortings",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

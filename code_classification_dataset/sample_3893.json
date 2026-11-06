@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"11\\n0\\n13\\n60\\n58\"]",
+    "src_uid": "9fcc55a137b5ff021fdc8e1e867ce856",
+    "prob_desc_notes": "NoteIn the first test case, one possible strategy is as follows:   Buy a good key for $$$5$$$ coins, and open chest $$$1$$$, receiving $$$10$$$ coins. Your current balance is $$$0 + 10 - 5 = 5$$$ coins.  Buy a good key for $$$5$$$ coins, and open chest $$$2$$$, receiving $$$10$$$ coins. Your current balance is $$$5 + 10 - 5 = 10$$$ coins.  Use a bad key and open chest $$$3$$$. As a result of using a bad key, the number of coins in chest $$$3$$$ becomes $$$\\left\\lfloor \\frac{3}{2} \\right\\rfloor = 1$$$, and the number of coins in chest $$$4$$$ becomes $$$\\left\\lfloor \\frac{1}{2} \\right\\rfloor = 0$$$. Your current balance is $$$10 + 1 = 11$$$.  Use a bad key and open chest $$$4$$$. As a result of using a bad key, the number of coins in chest $$$4$$$ becomes $$$\\left\\lfloor \\frac{0}{2} \\right\\rfloor = 0$$$. Your current balance is $$$11 + 0 = 11$$$.  At the end of the process, you have $$$11$$$ coins, which can be proven to be maximal.",
+    "prob_desc_description": "There are $$$n$$$ chests. The $$$i$$$-th chest contains $$$a_i$$$ coins. You need to open all $$$n$$$ chests in order from chest $$$1$$$ to chest $$$n$$$.There are two types of keys you can use to open a chest:   a good key, which costs $$$k$$$ coins to use;  a bad key, which does not cost any coins, but will halve all the coins in each unopened chest, including the chest it is about to open. The halving operation will round down to the nearest integer for each chest halved. In other words using a bad key to open chest $$$i$$$ will do $$$a_i = \\lfloor{\\frac{a_i}{2}\\rfloor}$$$, $$$a_{i+1} = \\lfloor\\frac{a_{i+1}}{2}\\rfloor, \\dots, a_n = \\lfloor \\frac{a_n}{2}\\rfloor$$$;  any key (both good and bad) breaks after a usage, that is, it is a one-time use. You need to use in total $$$n$$$ keys, one for each chest. Initially, you have no coins and no keys. If you want to use a good key, then you need to buy it.During the process, you are allowed to go into debt; for example, if you have $$$1$$$ coin, you are allowed to buy a good key worth $$$k=3$$$ coins, and your balance will become $$$-2$$$ coins.Find the maximum number of coins you can have after opening all $$$n$$$ chests in order from chest $$$1$$$ to chest $$$n$$$.",
+    "prob_desc_output_spec": "For each test case output a single integer  — the maximum number of coins you can obtain after opening the chests in order from chest $$$1$$$ to chest $$$n$$$. Please note, that the answer for some test cases won't fit into 32-bit integer type, so you should use at least 64-bit integer type in your programming language (like long long for C++).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. The first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\leq n \\leq 10^5$$$; $$$0 \\leq k \\leq 10^9$$$) — the number of chests and the cost of a good key respectively. The second line of each test case contains $$$n$$$ integers $$$a_i$$$ ($$$0 \\leq a_i \\leq 10^9$$$)  — the amount of coins in each chest. The sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_086.jsonl",
+    "code_uid": "7a3f8606cd2126032a9416cac5e3ef54",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n4 5\\n\\n10 10 3 1\\n\\n1 2\\n\\n1\\n\\n3 12\\n\\n10 10 29\\n\\n12 51\\n\\n5 74 89 45 18 69 67 67 11 96 23 59\\n\\n2 57\\n\\n85 60\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nfrom array import array\r\n\r\ninput = lambda: sys.stdin.buffer.readline().decode().strip()\r\ninp = lambda dtype: [dtype(x) for x in input().split()]\r\nfor _ in range(int(input())):\r\n    n, k = inp(int)\r\n    a = array('i', inp(int))\r\n    dp = [array('q', [-10 ** 18] * 30) for _ in range(2)]\r\n    dp[1][0] = 0\r\n\r\n    for i in range(n):\r\n        dp[i & 1][0] = dp[(i - 1) & 1][0] + a[i] - k\r\n\r\n        for j in range(1, min(29, i + 1) + 1):\r\n            cur = a[i] // (1 << j)\r\n            dp[i & 1][j] = max(dp[(i - 1) & 1][j] + cur - k, dp[(i - 1) & 1][j - 1] + cur)\r\n\r\n        if i + 1 >= 29:\r\n            dp[i & 1][-1] = max(dp[i & 1][-1], dp[(i - 1) & 1][-1])\r\n    print(max(dp[(n - 1) & 1]))\r\n",
+    "prob_desc_created_at": "1657636500",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "dp",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

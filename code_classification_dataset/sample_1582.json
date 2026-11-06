@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n0\\n23\\n16\"]",
+    "src_uid": "22f90afe503267ff2c832430d3ffb3b4",
+    "prob_desc_notes": "NoteIn the first test case, one optimal solution is aaaaaa.In the second test case, the given word itself is $$$k$$$-complete.",
+    "prob_desc_description": "Word $$$s$$$ of length $$$n$$$ is called $$$k$$$-complete if   $$$s$$$ is a palindrome, i.e. $$$s_i=s_{n+1-i}$$$ for all $$$1 \\le i \\le n$$$;  $$$s$$$ has a period of $$$k$$$, i.e. $$$s_i=s_{k+i}$$$ for all $$$1 \\le i \\le n-k$$$. For example, \"abaaba\" is a $$$3$$$-complete word, while \"abccba\" is not.Bob is given a word $$$s$$$ of length $$$n$$$ consisting of only lowercase Latin letters and an integer $$$k$$$, such that $$$n$$$ is divisible by $$$k$$$. He wants to convert $$$s$$$ to any $$$k$$$-complete word.To do this Bob can choose some $$$i$$$ ($$$1 \\le i \\le n$$$) and replace the letter at position $$$i$$$ with some other lowercase Latin letter.So now Bob wants to know the minimum number of letters he has to replace to convert $$$s$$$ to any $$$k$$$-complete word.Note that Bob can do zero changes if the word $$$s$$$ is already $$$k$$$-complete.You are required to answer $$$t$$$ test cases independently.",
+    "prob_desc_output_spec": "For each test case, output one integer, representing the minimum number of characters he has to replace to convert $$$s$$$ to any $$$k$$$-complete word.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t\\le 10^5$$$) — the number of test cases. The first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k &lt; n \\le 2 \\cdot 10^5$$$, $$$n$$$ is divisible by $$$k$$$). The second line of each test case contains a word $$$s$$$ of length $$$n$$$. It is guaranteed that word $$$s$$$ only contains lowercase Latin letters. And it is guaranteed that the sum of $$$n$$$ over all test cases will not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_010.jsonl",
+    "code_uid": "2eccc0db4241a5b1e0eb43a69e41e85e",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n6 2\\nabaaba\\n6 3\\nabaaba\\n36 9\\nhippopotomonstrosesquippedaliophobia\\n21 7\\nwudixiaoxingxingheclp\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\nt = int(stdin.readline())\nfor _ in range(t):\n\tn, k = map(int, stdin.readline().split())\n\ts = stdin.readline()\n\tcnt = [[0 for i in range(26)] for j in range((k + 1) // 2)]\n\tfor i in range(n):\n\t\tcnt[min(i % k, k - i % k - 1)][ord(s[i]) - ord('a')] += 1\n\tans = 0\n\tfor i in range(k // 2):\n\t\tans += 2 * n // k - max(cnt[i])\n\tif k % 2 == 1:\n\t\tans += n // k - max(cnt[k // 2])\n\tprint(ans)",
+    "prob_desc_created_at": "1585661700",
+    "tags": [
+        "greedy",
+        "dsu",
+        "implementation",
+        "dfs and similar",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

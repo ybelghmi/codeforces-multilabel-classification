@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"0\", \"0\"]",
+    "src_uid": "139febdb9c01bf0e6598fdf65a1a522c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Programmers working on a large project have just received a task to write exactly m lines of code. There are n programmers working on a project, the i-th of them makes exactly ai bugs in every line of code that he writes. Let's call a sequence of non-negative integers v1, v2, ..., vn a plan, if v1 + v2 + ... + vn = m. The programmers follow the plan like that: in the beginning the first programmer writes the first v1 lines of the given task, then the second programmer writes v2 more lines of the given task, and so on. In the end, the last programmer writes the remaining lines of the code. Let's call a plan good, if all the written lines of the task contain at most b bugs in total.Your task is to determine how many distinct good plans are there. As the number of plans can be large, print the remainder of this number modulo given positive integer mod.",
+    "prob_desc_output_spec": "Print a single integer — the answer to the problem modulo mod.",
+    "prob_desc_input_spec": "The first line contains four integers n, m, b, mod (1 ≤ n, m ≤ 500, 0 ≤ b ≤ 500; 1 ≤ mod ≤ 109 + 7) — the number of programmers, the number of lines of code in the task, the maximum total number of bugs respectively and the modulo you should use when printing the answer. The next line contains n space-separated integers a1, a2, ..., an (0 ≤ ai ≤ 500) — the number of bugs per line for each programmer.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_027.jsonl",
+    "code_uid": "76fcfefffc31b2bc6b66e2db4ba3c04a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3 3 100\\n1 1 1\", \"3 6 5 1000000007\\n1 2 3\", \"3 5 6 11\\n1 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\"\"\"\n________        _____________              ______\n___  __ \\____  ____  __ \\__(_)__   _______ ___  /\n__  /_/ /_  / / /_  /_/ /_  /__ | / /  __ `/_  /\n_  ____/_  /_/ /_  _, _/_  / __ |/ // /_/ /_  /\n/_/     _\\__, / /_/ |_| /_/  _____/ \\__,_/ /_/\n        /____/\n\nhttps://github.com/Cheran-Senthil/PyRival\nCopyright (c) 2018 Cheran Senthilkumar\n\"\"\"\nfrom __future__ import division, print_function\n\nimport cmath\nimport itertools\nimport math\nimport operator as op\nimport sys\nfrom atexit import register\nfrom bisect import bisect_left, bisect_right\n\n# import random\n# from collections import Counter, MutableSequence, defaultdict, deque\n# from copy import deepcopy\n# from decimal import Decimal\n# from difflib import SequenceMatcher\n# from heapq import heappop, heappush\n\nif sys.version_info[0] < 3:\n    from io import BytesIO as stream\n    # from fractions import Fraction\n    # from fractions import gcd\n    # from cPickle import dumps\n    # from Queue import PriorityQueue, Queue\nelse:\n    from io import StringIO as stream\n    # from functools import reduce\n    # from fractions import Fraction\n    # from math import gcd\n    # from pickle import dumps\n    # from queue import PriorityQueue, Queue\n\n\nif sys.version_info[0] < 3:\n    class dict(dict):\n        def items(self):\n            return dict.iteritems(self)\n\n        def keys(self):\n            return dict.iterkeys(self)\n\n        def values(self):\n            return dict.itervalues(self)\n\n    input = raw_input\n    range = xrange\n\n    filter = itertools.ifilter\n    map = itertools.imap\n    zip = itertools.izip\n\n\ndef sync_with_stdio(sync=True):\n    \"\"\"\n    Sets whether the standard Python streams are allowed to buffer their I/O.\n\n    Parameters\n    ----------\n    sync : bool, optional\n        The new synchronization setting. Default is True.\n    \"\"\"\n    global input, flush\n\n    if sync:\n        flush = sys.stdout.flush\n    else:\n        sys.stdin = stream(sys.stdin.read())\n        input = lambda: sys.stdin.readline().rstrip('\\r\\n')\n\n        sys.stdout = stream()\n        register(lambda: sys.__stdout__.write(sys.stdout.getvalue()))\n\n\ndef main():\n    n, m, b, mod = map(int, input().split(' '))\n    a = list(map(int, input().split(' ')))\n    dp = [[0] * (b + 1) if i > 0 else [1] * (b + 1) for i in range(m + 1)]\n\n    for i in range(n):\n        for j in range(1, m + 1):\n            for k in range(a[i], b + 1):\n                dp[j][k] = (dp[j - 1][k - a[i]] + dp[j][k]) % mod\n\n    print(dp[m][b])\n\n\nif __name__ == '__main__':\n    sys.setrecursionlimit(10000)\n    sync_with_stdio(False)\n    main()\n",
+    "prob_desc_created_at": "1431016200",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

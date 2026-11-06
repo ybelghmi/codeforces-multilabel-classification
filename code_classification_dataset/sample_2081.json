@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n3\\n2\\n3\"]",
+    "src_uid": "254cb444b9bdfa5e177adad23b7e814a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Petya is preparing for his birthday. He decided that there would be $$$n$$$ different dishes on the dinner table, numbered from $$$1$$$ to $$$n$$$. Since Petya doesn't like to cook, he wants to order these dishes in restaurants.Unfortunately, all dishes are prepared in different restaurants and therefore Petya needs to pick up his orders from $$$n$$$ different places. To speed up this process, he wants to order courier delivery at some restaurants. Thus, for each dish, there are two options for Petya how he can get it:  the dish will be delivered by a courier from the restaurant $$$i$$$, in this case the courier will arrive in $$$a_i$$$ minutes,  Petya goes to the restaurant $$$i$$$ on his own and picks up the dish, he will spend $$$b_i$$$ minutes on this. Each restaurant has its own couriers and they start delivering the order at the moment Petya leaves the house. In other words, all couriers work in parallel. Petya must visit all restaurants in which he has not chosen delivery, he does this consistently.For example, if Petya wants to order $$$n = 4$$$ dishes and $$$a = [3, 7, 4, 5]$$$, and $$$b = [2, 1, 2, 4]$$$, then he can order delivery from the first and the fourth restaurant, and go to the second and third on your own. Then the courier of the first restaurant will bring the order in $$$3$$$ minutes, the courier of the fourth restaurant will bring the order in $$$5$$$ minutes, and Petya will pick up the remaining dishes in $$$1 + 2 = 3$$$ minutes. Thus, in $$$5$$$ minutes all the dishes will be at Petya's house.Find the minimum time after which all the dishes can be at Petya's home.",
+    "prob_desc_output_spec": "For each test case output one integer — the minimum time after which all dishes can be at Petya's home.",
+    "prob_desc_input_spec": "The first line contains one positive integer $$$t$$$ ($$$1 \\le t \\le 2 \\cdot 10^5$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case begins with a line containing one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of dishes that Petya wants to order. The second line of each test case contains $$$n$$$ integers $$$a_1 \\ldots a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — the time of courier delivery of the dish with the number $$$i$$$. The third line of each test case contains $$$n$$$ integers $$$b_1 \\ldots b_n$$$ ($$$1 \\le b_i \\le 10^9$$$) — the time during which Petya will pick up the dish with the number $$$i$$$. The sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_016.jsonl",
+    "code_uid": "aeaf971750560667d914efd0e54f30b2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4\\n3 7 4 5\\n2 1 2 4\\n4\\n1 2 3 4\\n3 3 3 3\\n2\\n1 2\\n10 10\\n2\\n10 10\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ndef get_ints(): return map(int, sys.stdin.readline().strip().split())\n \nfor _ in range(int(input())):\n   \n   \n \n\tn=get_ints()\n\ta=list(get_ints())\n\tb=list(get_ints())\n\tif n==1:\n\t\tprint(min(a[-1],b[-1]))\n\t\tcontinue\n\tsuffixsum=[]\n\tnew=[]\n\tfor i in range(len(a)):\n\t\tnew.append((a[i],b[i]))\n\tnew.sort()\n\tsuffix=[]\n\tsum1=0\n\tfor i in range(len(new)-1,-1,-1):\n\t\tsum1+=new[i][-1]\n\t\tsuffix.append(sum1)\n\tsuffix.reverse()\n \n\tdef binary(low,high):\n\t\tmid=(low+high)//2\n\t\tif low>high:\n\t\t\treturn mid\n\t\t\n\t\ttry:\n\t\t\tif new[mid][0]<suffix[mid+1]:\n\t\t\t\treturn binary(mid+1,high)\n\t\t\telse:\n\t\t\t\tif low==mid:\n\t\t\t\t\treturn mid\n\t\t\t\treturn binary(low,mid)\n\t\texcept:\n\t\t\treturn mid\n\tx=binary(0,len(new)-1)\n\t\n\ttry:\n\t\tans=min(new[x][0],suffix[x])\n\texcept:\n\t\tans=new[x][0]\n\tprint(ans)",
+    "prob_desc_created_at": "1604327700",
+    "tags": [
+        "binary search",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Bicarp\", \"Bicarp\", \"Bicarp\", \"Monocarp\"]",
+    "src_uid": "028882706ed58b61b4672fc3e76852c4",
+    "prob_desc_notes": "NoteSince there is no question mark in the ticket in the first example, the winner is determined before the game even starts, and it is Bicarp.In the second example, Bicarp also wins. After Monocarp chooses an erased digit and replaces it with a new one, Bicap can choose another position with an erased digit and replace it with the same digit, so the ticket is happy.",
+    "prob_desc_description": "Monocarp and Bicarp live in Berland, where every bus ticket consists of $$$n$$$ digits ($$$n$$$ is an even number). During the evening walk Monocarp and Bicarp found a ticket where some of the digits have been erased. The number of digits that have been erased is even.Monocarp and Bicarp have decided to play a game with this ticket. Monocarp hates happy tickets, while Bicarp collects them. A ticket is considered happy if the sum of the first $$$\\frac{n}{2}$$$ digits of this ticket is equal to the sum of the last $$$\\frac{n}{2}$$$ digits.Monocarp and Bicarp take turns (and Monocarp performs the first of them). During each turn, the current player must replace any erased digit with any digit from $$$0$$$ to $$$9$$$. The game ends when there are no erased digits in the ticket.If the ticket is happy after all erased digits are replaced with decimal digits, then Bicarp wins. Otherwise, Monocarp wins. You have to determine who will win if both players play optimally.",
+    "prob_desc_output_spec": "If Monocarp wins, print \"Monocarp\" (without quotes). Otherwise print \"Bicarp\" (without quotes).",
+    "prob_desc_input_spec": "The first line contains one even integer $$$n$$$ $$$(2 \\le n \\le 2 \\cdot 10^{5})$$$ — the number of digits in the ticket. The second line contains a string of $$$n$$$ digits and \"?\" characters — the ticket which Monocarp and Bicarp have found. If the $$$i$$$-th character is \"?\", then the $$$i$$$-th digit is erased. Note that there may be leading zeroes. The number of \"?\" characters is even.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_004.jsonl",
+    "code_uid": "3bafa2be1a5dbf477c24e2809102146e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n0523\", \"2\\n??\", \"8\\n?054??0?\", \"6\\n???00?\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nword = input()\ntot = 0\nfor i in range(n):\n    if word[i] == '?':\n        inc = 9\n    else:\n        inc = 2 * int(word[i])\n    tot += (2 * (i < n//2) - 1) * inc\nprint([\"Monocarp\", \"Bicarp\"][tot == 0])",
+    "prob_desc_created_at": "1568543700",
+    "tags": [
+        "greedy",
+        "games",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

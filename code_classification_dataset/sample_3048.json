@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"1\", \"8\", \"0\"]",
+    "src_uid": "e5b0e43beaca9baf428afec6ce454c50",
+    "prob_desc_notes": "NoteIn the first sample, there are two ways to get a nice sequence with one swap:   Swap t2 = 8 with t4 = 7.  Swap t1 = 2 with t5 = 7. In the second sample, there is only one way — Limak should swap t1 = 200 with t4 = 50.",
+    "prob_desc_description": "The life goes up and down, just like nice sequences. Sequence t1, t2, ..., tn is called nice if the following two conditions are satisfied:   ti &lt; ti + 1 for each odd i &lt; n;  ti &gt; ti + 1 for each even i &lt; n. For example, sequences (2, 8), (1, 5, 1) and (2, 5, 1, 100, 99, 120) are nice, while (1, 1), (1, 2, 3) and (2, 5, 3, 2) are not.Bear Limak has a sequence of positive integers t1, t2, ..., tn. This sequence is not nice now and Limak wants to fix it by a single swap. He is going to choose two indices i &lt; j and swap elements ti and tj in order to get a nice sequence. Count the number of ways to do so. Two ways are considered different if indices of elements chosen for a swap are different.",
+    "prob_desc_output_spec": "Print the number of ways to swap two elements exactly once in order to get a nice sequence.",
+    "prob_desc_input_spec": "The first line of the input contains one integer n (2 ≤ n ≤ 150 000) — the length of the sequence. The second line contains n integers t1, t2, ..., tn (1 ≤ ti ≤ 150 000) — the initial sequence. It's guaranteed that the given sequence is not nice.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_040.jsonl",
+    "code_uid": "28c425443ff50c7030759782e64b2539",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 8 4 7 7\", \"4\\n200 150 100 50\", \"10\\n3 2 1 4 1 4 1 4 1 4\", \"9\\n1 2 3 4 5 6 7 8 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    n, l = int(input()), list(map(int, input().split()))\n    if not (n & 1):\n        l.append(0)\n    l.append(150001)\n    a, b, fails, res = 0, 150001, [], 0\n    for i, c in enumerate(l, -1):\n        if i & 1:\n            if a >= b or b <= c:\n                if len(fails) > 5:\n                    print(0)\n                    return\n                fails.append(i)\n        else:\n            if a <= b or b >= c:\n                if len(fails) > 5:\n                    print(0)\n                    return\n                fails.append(i)\n        a, b = b, c\n    ff = fails + [0]\n    for i in fails:\n        a = l[i]\n        for j in range(n):\n            l[i], l[j], ff[-1] = l[j], a, j\n            if (all((l[b - 1] < l[b] > l[b + 1]) if b & 1 else\n                    (l[b - 1] > l[b] < l[b + 1]) for b in ff)):\n                res += 1 if j in fails else 2\n            l[j] = l[i]\n        l[i] = a\n    print(res // 2)\n\nmain()",
+    "prob_desc_created_at": "1458376500",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

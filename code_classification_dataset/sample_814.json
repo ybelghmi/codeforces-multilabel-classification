@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\", \"No\", \"Yes\"]",
+    "src_uid": "69edc72ec29d4dd56751b281085c3591",
+    "prob_desc_notes": "NoteThe first example:The second example:It is not a spruce, because the non-leaf vertex 1 has only 2 leaf children.The third example:",
+    "prob_desc_description": "Consider a rooted tree. A rooted tree has one special vertex called the root. All edges are directed from the root. Vertex u is called a child of vertex v and vertex v is called a parent of vertex u if there exists a directed edge from v to u. A vertex is called a leaf if it doesn't have children and has a parent.Let's call a rooted tree a spruce if its every non-leaf vertex has at least 3 leaf children. You are given a rooted tree, check whether it's a spruce.The definition of a rooted tree can be found here.",
+    "prob_desc_output_spec": "Print \"Yes\" if the tree is a spruce and \"No\" otherwise.",
+    "prob_desc_input_spec": "The first line contains one integer n — the number of vertices in the tree (3 ≤ n ≤ 1 000). Each of the next n - 1 lines contains one integer pi (1 ≤ i ≤ n - 1) — the index of the parent of the i + 1-th vertex (1 ≤ pi ≤ i). Vertex 1 is the root. It's guaranteed that the root has at least 2 children.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_004.jsonl",
+    "code_uid": "bb997e3fc91e795280644a6ec10ead40",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1\\n1\\n1\", \"7\\n1\\n1\\n1\\n2\\n2\\n2\", \"8\\n1\\n1\\n1\\n1\\n3\\n3\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# cook your dish here\nfrom sys import stdin,stdout\nfrom collections import Counter\nfrom itertools import permutations\nimport bisect\nimport math\nI=lambda: map(int,stdin.readline().split())\nI1=lambda: stdin.readline()\n#(a/b)%m =((a%m)*pow(b,m-2)%m)%m\n\nn=int(I1())\nl=[]\nfor _ in range(n-1):\n    x=int(I1())\n    l.append(x)\n    \ns=list(set(l))\n#print(l)\nfor x in s:\n    c=0\n    for i in range(n-1):\n        if x==l[i]:\n            if i+2 not in s:\n                c+=1 \n    if c<3:\n        print(\"No\")\n        exit()\nprint(\"Yes\")\n                \n            \n",
+    "prob_desc_created_at": "1515422700",
+    "tags": [
+        "implementation",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

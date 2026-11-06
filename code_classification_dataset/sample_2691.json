@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\"]",
+    "src_uid": "5ea0351ac9f949dedae1928bfb7ebffa",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Let's introduce the designation , where x is a string, n is a positive integer and operation \" + \" is the string concatenation operation. For example, [abc, 2] = abcabc.We'll say that string s can be obtained from string t, if we can remove some characters from string t and obtain string s. For example, strings ab and aсba can be obtained from string xacbac, and strings bx and aaa cannot be obtained from it.Sereja has two strings, w = [a, b] and q = [c, d]. He wants to find such maximum integer p (p &gt; 0), that [q, p] can be obtained from string w.",
+    "prob_desc_output_spec": "In a single line print an integer — the largest number p. If the required value of p doesn't exist, print 0.",
+    "prob_desc_input_spec": "The first line contains two integers b, d (1 ≤ b, d ≤ 107). The second line contains string a. The third line contains string c. The given strings are not empty and consist of lowercase English letters. Their lengths do not exceed 100.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_028.jsonl",
+    "code_uid": "9a74738784a0838c806bfede442df63f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 3\\nabab\\nbab\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\n\nfrom itertools import repeat,chain\nfrom fractions import gcd\n\ndef eternal(c,d, n = None):\n\n\n    while True:\n\n        yield chain.from_iterable(repeat(c,d))\n\n\n\n        \n\n\ndef cyclic_array(arr):\n\n    n = len(arr)\n    def cyclar(i):\n\n        return arr[i % n]\n\n    return cyclar\ndef find_repeat(enum,q_r_gen, a_n):\n\n    ac_count =0\n    a_count = 0\n    remainders ={}\n    tempq=''\n    tempa = ''\n    for q,q_r in enumerate(q_r_gen):\n\n        tempq=''\n        for c_c in q_r:\n            tempq= tempq +c_c\n            for a_count,a_c in enum:\n                if a_c == c_c:\n                    tempa = tempa +a_c\n                    ac_count+=1\n                    break\n            #print len(tempa),len(tempq)\n        if (a_count % a_n) in remainders:\n\n            #print tempq[:20],tempa[:20]\n            break\n        else:\n\n            remainders[(a_count % a_n)]=(a_count,q)\n\n    repeat_length = a_count - remainders[a_count % a_n][0]\n    q_count = q-remainders[a_count % a_n][1]\n\n    return remainders[a_count % a_n][0],repeat_length,q_count\n    \n\n\n    \ndef main(a,b,c,d):\n  \n\n    \n    #print a, c\n\n\n    a_r = chain.from_iterable(repeat(a,b))\n\n    #print \"\".join(chain.from_iterable(repeat(a,b)))\n\n\n    enum =enumerate(a_r)\n\n    q_r_gen = eternal(c,d)\n\n    i = 0\n    flag = True\n\n\n    if len(a) > len(c)*d:\n        multiplier =1\n        start,repeat_length,q_count = find_repeat(enum,q_r_gen, len(a))\n\n    else:\n        multiplier =((len(c)*d)//len(a))+1\n        #print \"Multi\",multiplier\n        enum2 = enumerate(chain.from_iterable(repeat(a*multiplier,b//multiplier)))\n        start,repeat_length,q_count =find_repeat(enum2,q_r_gen, multiplier*len(a))\n        \n    if repeat_length >0:\n        advance_n = (((len(a)*multiplier)*(b//multiplier))//repeat_length)-1\n        advance = repeat_length * advance_n\n\n        sofar = q_count * advance_n\n    else:\n        advance_n =0\n        advance = 0\n        sofar = 0\n\n    #print advance_n,advance, repeat_length, len(a)*b, sofar , len(c)*d\n        \n    ca = cyclic_array(a)\n\n    ra = iter(range(advance,len(a)*b))\n\n    ac_count =0\n    for q_r in q_r_gen:\n        for i,c_c in enumerate(q_r):\n\n            flag = False\n            for a_count in ra:\n                #print a_count\n\n                if ca(a_count) == c_c:\n                    ac_count+=1\n                    flag = True\n                    break\n                \n        if not flag:\n            break\n\n    \n    print sofar + (ac_count // (len(c)*d))\n\n\n    \nif __name__ == \"__main__\":\n    b,d = [int(s) for s in (raw_input()).split()]\n\n    a = raw_input()\n\n    c = raw_input()\n\n    aset = set(a)\n    cset = set(c)\n\n    if cset.difference(aset):\n        print 0\n\n    elif a == c:\n\n        print b // d\n        \n    else:\n        \n        main(a,b,c,d)\n    ",
+    "prob_desc_created_at": "1370619000",
+    "tags": [
+        "binary search",
+        "dfs and similar",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

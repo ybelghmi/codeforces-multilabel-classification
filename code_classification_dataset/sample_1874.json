@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 3 6 \\n1\\n2 4 \\n0\\n2 30 6 3 15 5 10 \\n0\"]",
+    "src_uid": "406f8f662d2013d87b36dacca663bef5",
+    "prob_desc_notes": "NoteIn the first test case $$$6$$$ has three divisors, which are greater than $$$1$$$: $$$2, 3, 6$$$. Regardless of the initial order, numbers $$$2$$$ and $$$3$$$ are adjacent, so it's needed to place their least common multiple between them. After that the circle becomes $$$2, 6, 3, 6$$$, and every two adjacent numbers are not coprime.In the second test case $$$4$$$ has two divisors greater than $$$1$$$: $$$2, 4$$$, and they are not coprime, so any initial order is correct, and it's not needed to place any least common multiples.In the third test case all divisors of $$$30$$$ greater than $$$1$$$ can be placed in some order so that there are no two adjacent numbers that are coprime.",
+    "prob_desc_description": "An agent called Cypher is decrypting a message, that contains a composite number $$$n$$$. All divisors of $$$n$$$, which are greater than $$$1$$$, are placed in a circle. Cypher can choose the initial order of numbers in the circle.In one move Cypher can choose two adjacent numbers in a circle and insert their least common multiple between them. He can do that move as many times as needed.A message is decrypted, if every two adjacent numbers are not coprime. Note that for such constraints it's always possible to decrypt the message.Find the minimal number of moves that Cypher should do to decrypt the message, and show the initial order of numbers in the circle for that.",
+    "prob_desc_output_spec": "For each test case in the first line output the initial order of divisors, which are greater than $$$1$$$, in the circle. In the second line output, the minimal number of moves needed to decrypt the message. If there are different possible orders with a correct answer, print any of them.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ $$$(1 \\le t \\le 100)$$$ — the number of test cases. Next $$$t$$$ lines describe each test case. In a single line of each test case description, there is a single composite number $$$n$$$ $$$(4 \\le n \\le 10^9)$$$ — the number from the message. It's guaranteed that the total number of divisors of $$$n$$$ for all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_014.jsonl",
+    "code_uid": "6cf9fb3ad5068af8600c2de91c801dc2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n6\\n4\\n30\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, math\nreader = (line.rstrip() for line in sys.stdin)\ninput = reader.__next__\n\ndef getInts():\n    return [int(s) for s in input().split()]\n\ndef getInt():\n    return int(input())\n\ndef getStrs():\n    return [s for s in input().split()]\n\ndef getStr():\n    return input()\n\ndef listStr():\n    return list(input())\n\nfrom functools import reduce\n\ndef factors(n):    \n    return set(reduce(list.__add__, \n                ([i, n//i] for i in range(1, int(n**0.5) + 1) if n % i == 0)))\n\ndef prime_factors(n):\n    factors = []\n    num = 0\n    while n % 2 == 0:\n        num += 1\n        n //= 2\n    if num:\n        factors.append((2,num))\n    i = 3\n    while n > 1 and i*i <= n:\n        num = 0\n        while n % i == 0:\n            num += 1\n            n //= i\n        if num:\n            factors.append((i,num))\n        i += 2\n    if n > 2:\n        factors.append((n,1))\n    return factors\n\ndef solve():\n    N = getInt()\n    facs = prime_factors(N)\n    if len(facs) == 2 and facs[0][1] == 1 and facs[1][1] == 1:\n        print(facs[0][0],facs[1][0],facs[0][0]*facs[1][0])\n        print(1)\n        return\n    prime_facs = [f[0] for f in facs]\n    facs2 = factors(N)\n    facs2.remove(1)\n    for p in prime_facs:\n        facs2.remove(p)\n    #facs2 = sorted(list(facs2))\n    #first we need to make sure all requirements are satisfied, then we add in later elements\n    to_add = []\n    lenP = len(prime_facs)\n    \n    if lenP > 2:\n        for j in range(lenP):\n            y = prime_facs[j]*prime_facs[(j+1)%lenP]\n            to_add.append(y)\n            facs2.remove(y)\n        ans = []\n        for j in range(lenP):\n            ans.append(prime_facs[j])\n            ans.append(to_add[j])\n    elif lenP == 1:\n        ans = [prime_facs[0]]\n    else:\n        p0, p1 = prime_facs\n        facs2.remove(p0*p1)\n        facs2.remove(N)\n        ans = [p0,N,p1,p0*p1]\n    for ff in facs2:\n        for p in prime_facs:\n            if ff % p == 0:\n                prime = p\n                break\n        x = ans.index(prime)\n        ans.insert(x+1,ff)\n    assert(len(ans)==len(factors(N))-1)\n    print(*ans)\n    print(0)\n    return\n    \nT = getInt()    \nfor t in range(T):\n    solve()\n    \n",
+    "prob_desc_created_at": "1600526100",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

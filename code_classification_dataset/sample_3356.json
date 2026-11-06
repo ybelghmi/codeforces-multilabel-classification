@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"9\", \"1\", \"3\"]",
+    "src_uid": "6efdd38a0c12601a28b70936857a7224",
+    "prob_desc_notes": null,
+    "prob_desc_description": "King of Berland Berl IV has recently died. Hail Berl V! As a sign of the highest achievements of the deceased king the new king decided to build a mausoleum with Berl IV's body on the main square of the capital.The mausoleum will be constructed from 2n blocks, each of them has the shape of a cuboid. Each block has the bottom base of a 1 × 1 meter square. Among the blocks, exactly two of them have the height of one meter, exactly two have the height of two meters, ..., exactly two have the height of n meters.The blocks are arranged in a row without spacing one after the other. Of course, not every arrangement of blocks has the form of a mausoleum. In order to make the given arrangement in the form of the mausoleum, it is necessary that when you pass along the mausoleum, from one end to the other, the heights of the blocks first were non-decreasing (i.e., increasing or remained the same), and then — non-increasing (decrease or remained unchanged). It is possible that any of these two areas will be omitted. For example, the following sequences of block height meet this requirement:  [1, 2, 2, 3, 4, 4, 3, 1];  [1, 1];  [2, 2, 1, 1];  [1, 2, 3, 3, 2, 1]. Suddenly, k more requirements appeared. Each of the requirements has the form: \"h[xi] signi h[yi]\", where h[t] is the height of the t-th block, and a signi is one of the five possible signs: '=' (equals), '&lt;' (less than), '&gt;' (more than), '&lt;=' (less than or equals), '&gt;=' (more than or equals). Thus, each of the k additional requirements is given by a pair of indexes xi, yi (1 ≤ xi, yi ≤ 2n) and sign signi.Find the number of possible ways to rearrange the blocks so that both the requirement about the shape of the mausoleum (see paragraph 3) and the k additional requirements were met.",
+    "prob_desc_output_spec": "Print the sought number of ways.",
+    "prob_desc_input_spec": "The first line of the input contains integers n and k (1 ≤ n ≤ 35, 0 ≤ k ≤ 100) — the number of pairs of blocks and the number of additional requirements. Next k lines contain listed additional requirements, one per line in the format \"xi signi yi\" (1 ≤ xi, yi ≤ 2n), and the sign is on of the list of the five possible signs.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_054.jsonl",
+    "code_uid": "eb1eb513abd901c850bac781981ad68f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 0\", \"3 1\\n2 &gt; 3\", \"4 1\\n3 = 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def check(l, r, a, b):\n    if a < 0 or b >= 2 * N:\n        return 0\n    def val(p):\n        if p in [a, b]: return '0'\n        if l <= p and p < r: return '1'\n        return '-1'\n    for i in range(K):\n        x, y = val(A[i]), val(C[i])\n        if A[i] in [a, b] or C[i] in [a, b]:\n            if not eval(x + B[i] + y):\n                return 0\n    return 1\n\nN, K = map(int, input().split())\ntmp = [input().split() for i in range(K)]\ntry: A, B, C = zip(*tmp)\nexcept: A, B, C = [], [], []\nA = [int(x) - 1 for x in A]\nB = ['==' if x is '=' else x for x in B]\nC = [int(x) - 1 for x in C]\n\ndp = []\nfor i in range(N + 1):\n    dp.append([0] * (2 * N + 1))\n\ndp[N][0] = 1\nfor i in range(N, 0, -1):\n    for j in range(0, 2 * (N - i) + 3):\n        d, k = 0, j + 2 * i - 2\n        if check(j, k, j - 2, j - 1): d += dp[i][j - 2]\n        if check(j, k, j - 1, k): d += dp[i][j - 1]\n        if check(j, k, k, k + 1): d += dp[i][j]\n        dp[i - 1][j] = d\n\nprint(sum(dp[0]) // 3)\n",
+    "prob_desc_created_at": "1438790400",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

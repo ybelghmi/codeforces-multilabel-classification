@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"-1\", \"4\", \"0\"]",
+    "src_uid": "711896281f4beff55a8826771eeccb81",
+    "prob_desc_notes": "NoteIn the first example you can remove the edge between vertices $$$1$$$ and $$$4$$$. The graph after that will have two connected components with two vertices in each.In the second example you can't remove edges in such a way that all components have even number of vertices, so the answer is $$$-1$$$.",
+    "prob_desc_description": "You're given a tree with $$$n$$$ vertices.Your task is to determine the maximum possible number of edges that can be removed in such a way that all the remaining connected components will have even size.",
+    "prob_desc_output_spec": "Output a single integer $$$k$$$ — the maximum number of edges that can be removed to leave all connected components with even size, or $$$-1$$$ if it is impossible to remove edges in order to satisfy this property.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) denoting the size of the tree.  The next $$$n - 1$$$ lines contain two integers $$$u$$$, $$$v$$$ ($$$1 \\le u, v \\le n$$$) each, describing the vertices connected by the $$$i$$$-th edge. It's guaranteed that the given edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "1d5ebd75fad9e6a655ac56befe4cd765",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 4\\n4 1\\n3 1\", \"3\\n1 2\\n1 3\", \"10\\n7 1\\n8 4\\n8 10\\n4 7\\n6 5\\n9 3\\n3 5\\n2 10\\n2 5\", \"2\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\nf=[(1,-1)]\ndef bfs(x):\n    dist=[-1]*(n+2)\n    dist[x]=0\n    q=deque()\n    q.append(x)\n    while q:\n        t=q.popleft()\n        for i in dp[t]:\n           # print i,\"i\",dist[t],t\n            if dist[i]==-1:\n                q.append(i)\n                f.append((i,t))\n                dist[i]=dist[t]+1\n\n    m=max(dist)\n    #print dist\n    #return dist.index(m),m\nn=input()\ndist=[0]*(n+2)\ndp=[]\nm=n-1\nfor i in range(0,m+2):\n    dp.append([])\nfor _ in range(0,m):\n    a,b=map(int,raw_input().split())\n    dp[a].append(b)\n    dp[b].append(a)\n#print dp\nbfs(1)\nans=0\nfor i in dist:\n    if i!=0 and i%2==0:\n        ans=ans+1\nif n%2==1:\n    print -1\nelse:\n   # print ans-1\n    f.reverse()\n    dp2=[1]*(n+2)\n    for i in f:\n        child=i[0]\n        parent=i[1]\n        if parent!=-1:\n            dp2[parent]=dp2[parent]+dp2[child]\n    s=0\n    for i in dp2:\n        if i%2==0:\n            s=s+1\n    print s-1\n\n",
+    "prob_desc_created_at": "1526574900",
+    "tags": [
+        "dp",
+        "greedy",
+        "graphs",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

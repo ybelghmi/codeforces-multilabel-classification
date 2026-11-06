@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \\n0 0 9 4 5 3 0 0 0 0 0 0 0 0 9 0 0 3 1 0 0 0 0 0 0 0 \\n2 1 1 2 9 2 2 2 5 2 2 2 1 1 5 4 11 8 2 7 5 1 10 1 5 2\"]",
+    "src_uid": "51ea912b40b07c1ba097292ffd0cec18",
+    "prob_desc_notes": "NoteThe first test case is described in the problem statement. Wrong tries are \"a\", \"abc\" and the final try is \"abca\". The number of times you press 'a' is $$$4$$$, 'b' is $$$2$$$ and 'c' is $$$2$$$.In the second test case, there are five wrong tries: \"co\", \"codeforc\", \"cod\", \"co\", \"codeforce\" and the final try is \"codeforces\". The number of times you press 'c' is $$$9$$$, 'd' is $$$4$$$, 'e' is $$$5$$$, 'f' is $$$3$$$, 'o' is $$$9$$$, 'r' is $$$3$$$ and 's' is $$$1$$$.",
+    "prob_desc_description": "You want to perform the combo on your opponent in one popular fighting game. The combo is the string $$$s$$$ consisting of $$$n$$$ lowercase Latin letters. To perform the combo, you have to press all buttons in the order they appear in $$$s$$$. I.e. if $$$s=$$$\"abca\" then you have to press 'a', then 'b', 'c' and 'a' again.You know that you will spend $$$m$$$ wrong tries to perform the combo and during the $$$i$$$-th try you will make a mistake right after $$$p_i$$$-th button ($$$1 \\le p_i &lt; n$$$) (i.e. you will press first $$$p_i$$$ buttons right and start performing the combo from the beginning). It is guaranteed that during the $$$m+1$$$-th try you press all buttons right and finally perform the combo.I.e. if $$$s=$$$\"abca\", $$$m=2$$$ and $$$p = [1, 3]$$$ then the sequence of pressed buttons will be 'a' (here you're making a mistake and start performing the combo from the beginning), 'a', 'b', 'c', (here you're making a mistake and start performing the combo from the beginning), 'a' (note that at this point you will not perform the combo because of the mistake), 'b', 'c', 'a'.Your task is to calculate for each button (letter) the number of times you'll press it.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print the answer — $$$26$$$ integers: the number of times you press the button 'a', the number of times you press the button 'b', $$$\\dots$$$, the number of times you press the button 'z'.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$, $$$1 \\le m \\le 2 \\cdot 10^5$$$) — the length of $$$s$$$ and the number of tries correspondingly. The second line of each test case contains the string $$$s$$$ consisting of $$$n$$$ lowercase Latin letters. The third line of each test case contains $$$m$$$ integers $$$p_1, p_2, \\dots, p_m$$$ ($$$1 \\le p_i &lt; n$$$) — the number of characters pressed right during the $$$i$$$-th try. It is guaranteed that the sum of $$$n$$$ and the sum of $$$m$$$ both does not exceed $$$2 \\cdot 10^5$$$ ($$$\\sum n \\le 2 \\cdot 10^5$$$, $$$\\sum m \\le 2 \\cdot 10^5$$$). It is guaranteed that the answer for each letter does not exceed $$$2 \\cdot 10^9$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_006.jsonl",
+    "code_uid": "8ac4e48bbc1bf74243cf7f629fbb062b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4 2\\nabca\\n1 3\\n10 5\\ncodeforces\\n2 8 3 2 9\\n26 10\\nqwertyuioplkjhgfdsazxcvbnm\\n20 10 1 2 3 5 10 5 9 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "letters = [chr(97+i) for i in range(26)]\nfor _ in range(int(input())):\n    n, m = (int(x) for x in input().split())\n    s = input()\n    p = sorted([int(x) for x in input().split()]) + [len(s)]\n    ans = [0]*26\n    cnt = [0]*26\n    from_id = 0\n    for val in p:\n        for i, l in enumerate(letters):\n            cnt[i] += s[from_id:val].count(l)\n            ans[i] += cnt[i]\n        from_id = val\n    print(' '.join([str(x) for x in ans]))",
+    "prob_desc_created_at": "1582554900",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"LDL\", \"NO\", \"WLLLLLWWWWWWWWLWLWDW\"]",
+    "src_uid": "1321013edb706b2e3f3946979c4a5916",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Each evening Roma plays online poker on his favourite website. The rules of poker on this website are a bit strange: there are always two players in a hand, there are no bets, and the winner takes 1 virtual bourle from the loser.Last evening Roma started to play poker. He decided to spend no more than k virtual bourles — he will stop immediately if the number of his loses exceeds the number of his wins by k. Also Roma will leave the game if he wins enough money for the evening, i.e. if the number of wins exceeds the number of loses by k.Next morning Roma found a piece of paper with a sequence on it representing his results. Roma doesn't remember the results exactly, and some characters in the sequence are written in a way such that it's impossible to recognize this character, so Roma can't recall whether he won k bourles or he lost.The sequence written by Roma is a string s consisting of characters W (Roma won the corresponding hand), L (Roma lost), D (draw) and ? (unknown result). Roma wants to restore any valid sequence by changing all ? characters to W, L or D. The sequence is called valid if all these conditions are met:   In the end the absolute difference between the number of wins and loses is equal to k;  There is no hand such that the absolute difference before this hand was equal to k. Help Roma to restore any such sequence.",
+    "prob_desc_output_spec": "If there is no valid sequence that can be obtained from s by replacing all ? characters by W, L or D, print NO. Otherwise print this sequence. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains two numbers n (the length of Roma's sequence) and k (1 ≤ n, k ≤ 1000). The second line contains the sequence s consisting of characters W, L, D and ?. There are exactly n characters in this sequence.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_023.jsonl",
+    "code_uid": "e1bd8a077099a2545813381fb0a9eb67",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\nL??\", \"3 1\\nW??\", \"20 5\\n?LLLLLWWWWW?????????\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = [int(i) for i in input().split()]\ns = input()\ndp = [[False] * 2100 for i in range(1001)]\n\ndp[0][0] = True\n\nfor i in range(n):\n    l = -k + 1\n    r = k\n    if i == n - 1:\n        l -= 1\n        r += 1\n    for b in range(l, r):\n        if s[i] == 'L':\n            dp[i + 1][b] = dp[i][b + 1]\n        elif s[i] == 'W':\n            dp[i + 1][b] = dp[i][b - 1]\n        elif s[i] == 'D':\n            dp[i + 1][b] = dp[i][b]\n        else:\n            dp[i + 1][b] = dp[i][b + 1] or dp[i][b - 1] or dp[i][b]\n\nans = []\ni = n\nb = -1\n\nif dp[i][k]:\n    b = k\nelif dp[i][-k]:\n    b = -k\n\nif b == -1:\n    print(\"NO\")\nelse:\n    while i > 0:\n        \n        if (s[i - 1] == 'L' or s[i - 1] == '?') and dp[i][b] == dp[i - 1][b + 1]:\n            ans.append('L')\n            b += 1\n        elif (s[i - 1] == 'W' or s[i - 1] == '?') and dp[i][b] == dp[i - 1][b - 1]:\n            ans.append('W')\n            b -= 1\n        else:\n            ans.append('D')\n        i -= 1\n    for j in reversed(ans):\n        print(j, end='')\n            \n\n\n\n  \n",
+    "prob_desc_created_at": "1493391900",
+    "tags": [
+        "dp",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nabc\", \"NO\", \"YES\\nxxxxxxy\"]",
+    "src_uid": "64700ca85ef3b7408d7d7ad1132f8f81",
+    "prob_desc_notes": "NoteIn the first sample any of the six possible strings will do: \"abc\", \"acb\", \"bac\", \"bca\", \"cab\" or \"cba\".In the second sample no letter permutation will satisfy the condition at p = 2 (s2 = s4).In the third test any string where character \"y\" doesn't occupy positions 2, 3, 4, 6 will be valid.",
+    "prob_desc_description": "You are given a string s, consisting of small Latin letters. Let's denote the length of the string as |s|. The characters in the string are numbered starting from 1. Your task is to find out if it is possible to rearrange characters in string s so that for any prime number p ≤ |s| and for any integer i ranging from 1 to |s| / p (inclusive) the following condition was fulfilled sp = sp × i. If the answer is positive, find one way to rearrange the characters.",
+    "prob_desc_output_spec": "If it is possible to rearrange the characters in the string so that the above-mentioned conditions were fulfilled, then print in the first line \"YES\" (without the quotes) and print on the second line one of the possible resulting strings. If such permutation is impossible to perform, then print the single string \"NO\".",
+    "prob_desc_input_spec": "The only line contains the initial string s, consisting of small Latin letters (1 ≤ |s| ≤ 1000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_066.jsonl",
+    "code_uid": "9d64aede4bd7e0e878d70f4f09ab1eae",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"abc\", \"abcd\", \"xxxyxxx\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\n\ndef is_prime(x):\n    if x < 2:\n        return 0\n    for i in range(2, x):\n        if x % i == 0:\n            return False\n    return True\n\ndef proc(s):\n    n = len(s)\n    same = set()\n    for p in range(2,n+1):\n        if not is_prime(p):\n            continue\n        if p * 2 > n:\n            continue\n        for i in range(2, n//p+1):\n            same.add(p*i)\n        same.add(p)\n    \n    counter = Counter(s)\n    ch, count = counter.most_common(1)[0]\n\n    if count < len(same):\n        print(\"NO\")\n        return\n\n    same = [x-1 for x in same]\n    w = [x for x in s]\n    for i in same:\n        if w[i] == ch:\n            continue\n        for j in range(n):\n            if j not in same and w[j] == ch:\n                tmp = w[j]\n                w[j] = w[i]\n                w[i] = tmp\n                break\n\n    print(\"YES\")\n    print(''.join(w))\n\ns = input()\nproc(s)\n",
+    "prob_desc_created_at": "1320333000",
+    "tags": [
+        "greedy",
+        "constructive algorithms",
+        "number theory",
+        "dsu",
+        "sortings",
+        "dfs and similar",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

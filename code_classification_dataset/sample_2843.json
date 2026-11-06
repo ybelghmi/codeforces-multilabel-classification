@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Possible\\n2 5\\n3 2\\n5 1\\n3 4\\n4 1\\n5 4\", \"Impossible\"]",
+    "src_uid": "0ab1b97a8d2e0290cda31a3918ff86a4",
+    "prob_desc_notes": "NoteHere is the representation of the graph from the first example: ",
+    "prob_desc_description": "Let's call an undirected graph $$$G = (V, E)$$$ relatively prime if and only if for each edge $$$(v, u) \\in E$$$  $$$GCD(v, u) = 1$$$ (the greatest common divisor of $$$v$$$ and $$$u$$$ is $$$1$$$). If there is no edge between some pair of vertices $$$v$$$ and $$$u$$$ then the value of $$$GCD(v, u)$$$ doesn't matter. The vertices are numbered from $$$1$$$ to $$$|V|$$$.Construct a relatively prime graph with $$$n$$$ vertices and $$$m$$$ edges such that it is connected and it contains neither self-loops nor multiple edges.If there exists no valid graph with the given number of vertices and edges then output \"Impossible\".If there are multiple answers then print any of them.",
+    "prob_desc_output_spec": "If there exists no valid graph with the given number of vertices and edges then output \"Impossible\". Otherwise print the answer in the following format: The first line should contain the word \"Possible\". The $$$i$$$-th of the next $$$m$$$ lines should contain the $$$i$$$-th edge $$$(v_i, u_i)$$$ of the resulting graph ($$$1 \\le v_i, u_i \\le n, v_i \\neq u_i$$$). For each pair $$$(v, u)$$$ there can be no more pairs $$$(v, u)$$$ or $$$(u, v)$$$. The vertices are numbered from $$$1$$$ to $$$n$$$. If there are multiple answers then print any of them.",
+    "prob_desc_input_spec": "The only line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 10^5$$$) — the number of vertices and the number of edges.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_033.jsonl",
+    "code_uid": "d94c78419ebd391bac0ed3c02eea2a5f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 6\", \"6 12\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import gcd\nn, m = map(int, input().split())\na = []\nfor i in range(1, n):\n    for j in range(i+1, n+1):\n        if gcd(i, j) == 1:\n            a.append([i, j])\n        if len(a) == m:\n            break\n    if len(a) == m:\n        break\nif m < n-1 or len(a) != m:\n    print(\"Impossible\")\nelse:\n    print(\"Possible\")\n    for x in a:\n        print(x[0], x[1])",
+    "prob_desc_created_at": "1531578900",
+    "tags": [
+        "greedy",
+        "graphs",
+        "constructive algorithms",
+        "math",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

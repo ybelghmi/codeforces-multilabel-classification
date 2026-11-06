@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"5\"]",
+    "src_uid": "bc1e2d9dba07b2ac6b0a118bdbdd063b",
+    "prob_desc_notes": "NoteIn the first sample test, the optimal solution is to divide the second chemical volume by two, and multiply the third chemical volume by two to make all the volumes equal 4.In the second sample test, the optimal solution is to divide the first chemical volume by two, and divide the second and the third chemical volumes by two twice to make all the volumes equal 1.",
+    "prob_desc_description": "Amr loves Chemistry, and specially doing experiments. He is preparing for a new interesting experiment.Amr has n different types of chemicals. Each chemical i has an initial volume of ai liters. For this experiment, Amr has to mix all the chemicals together, but all the chemicals volumes must be equal first. So his task is to make all the chemicals volumes equal.To do this, Amr can do two different kind of operations.   Choose some chemical i and double its current volume so the new volume will be 2ai  Choose some chemical i and divide its volume by two (integer division) so the new volume will be  Suppose that each chemical is contained in a vessel of infinite volume. Now Amr wonders what is the minimum number of operations required to make all the chemicals volumes equal?",
+    "prob_desc_output_spec": "Output one integer the minimum number of operations required to make all the chemicals volumes equal.",
+    "prob_desc_input_spec": "The first line contains one number n (1 ≤ n ≤ 105), the number of chemicals. The second line contains n space separated integers ai (1 ≤ ai ≤ 105), representing the initial volume of the i-th chemical in liters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_015.jsonl",
+    "code_uid": "18e205aef950064cb982cc96b64c37f2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4 8 2\", \"3\\n3 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\ns = list(map(int, input().split()))\n\nl = [bin(i)[2:] for i in s]\nlength = [len(i) for i in l]\nmaxLen = max(length)\nminLen = min(length)\n\nloc = 0\nflag = False\nfor j in range(minLen):\n    for i in range(n):\n        if l[i][j] != l[0][j]:\n            flag = True\n            break    \n    if flag:\n        break\n    loc += 1    \nresult = sum(length) - loc * n\nbest = result\nchange = n*[-1]\nfor j in range(loc, maxLen):\n    for i in range(n):\n        if j >= length[i] or l[i][j] == '1':\n            change[i] = 1\n    result += sum(change)      \n    if result > best:\n        break\n    best = result\nprint(best)",
+    "prob_desc_created_at": "1436886600",
+    "tags": [
+        "greedy",
+        "graphs",
+        "math",
+        "shortest paths",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

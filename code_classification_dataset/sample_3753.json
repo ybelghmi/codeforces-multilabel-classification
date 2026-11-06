@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\n10\\n420\\n9969128\"]",
+    "src_uid": "a24aac9152417527d43b9b422e3d2303",
+    "prob_desc_notes": "NoteIn the first test case, $$$4 \\bmod 4 = 8 \\bmod 4 = 0$$$.In the second test case, $$$10 \\bmod 4 = 2 \\bmod 10 = 2$$$.In the third test case, $$$420 \\bmod 420 = 420 \\bmod 420 = 0$$$.",
+    "prob_desc_description": "YouKn0wWho has two even integers $$$x$$$ and $$$y$$$. Help him to find an integer $$$n$$$ such that $$$1 \\le n \\le 2 \\cdot 10^{18}$$$ and $$$n \\bmod x = y \\bmod n$$$. Here, $$$a \\bmod b$$$ denotes the remainder of $$$a$$$ after division by $$$b$$$. If there are multiple such integers, output any. It can be shown that such an integer always exists under the given constraints.",
+    "prob_desc_output_spec": "For each test case, print a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^{18}$$$) that satisfies the condition mentioned in the statement. If there are multiple such integers, output any. It can be shown that such an integer always exists under the given constraints.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^5$$$)  — the number of test cases. The first and only line of each test case contains two integers $$$x$$$ and $$$y$$$ ($$$2 \\le x, y \\le 10^9$$$, both are even).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_083.jsonl",
+    "code_uid": "cbf2879d49a74d458942c14af7d8f3e7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n4 8\\n4 2\\n420 420\\n69420 42068\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\r\nimport sys\r\nfrom io import BytesIO, IOBase\r\n \r\nBUFSIZE = 8192\r\n \r\n \r\nclass FastIO(IOBase):\r\n    newlines = 0\r\n \r\n    def __init__(self, file):\r\n        self._fd = file.fileno()\r\n        self.buffer = BytesIO()\r\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\r\n        self.write = self.buffer.write if self.writable else None\r\n \r\n    def read(self):\r\n        while True:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            if not b:\r\n                break\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines = 0\r\n        return self.buffer.read()\r\n \r\n    def readline(self):\r\n        while self.newlines == 0:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            self.newlines = b.count(b\"\\n\") + (not b)\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines -= 1\r\n        return self.buffer.readline()\r\n \r\n    def flush(self):\r\n        if self.writable:\r\n            os.write(self._fd, self.buffer.getvalue())\r\n            self.buffer.truncate(0), self.buffer.seek(0)\r\n \r\n \r\nclass IOWrapper(IOBase):\r\n    def __init__(self, file):\r\n        self.buffer = FastIO(file)\r\n        self.flush = self.buffer.flush\r\n        self.writable = self.buffer.writable\r\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\r\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\r\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\r\n \r\n \r\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\r\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\r\nfrom collections import defaultdict,deque\r\nfrom math import ceil,floor,sqrt,log2,gcd,pi\r\nfrom heapq import heappush,heappop\r\nfrom bisect import bisect_left,bisect\r\nfrom functools import reduce\r\nfrom copy import deepcopy\r\nfrom itertools import permutations\r\n# from itertools import zip\r\nimport sys\r\nabc='abcdefghijklmnopqrstuvwxyz'\r\nABC=\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"\r\n\r\nfor _ in range(int(input())):\r\n    a,b=map(int,input().split())\r\n    if a>b:\r\n        print(a+b)\r\n    else:\r\n        print(b-((b%a)//2))\r\n            \r\n    ",
+    "prob_desc_created_at": "1635604500",
+    "tags": [
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

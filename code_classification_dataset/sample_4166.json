@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"02599\\n9\\n01\\n111334567888999\"]",
+    "src_uid": "906b319e41f716e734cf04b34678aa58",
+    "prob_desc_notes": "NoteIn the first test case:   Delete $$$8$$$ and insert $$$9$$$ at the end of the notation. The resulting notation is $$$04299$$$.  Delete $$$4$$$ and insert $$$5$$$ in the $$$3$$$-rd position of the notation. The resulting notation is $$$02599$$$. Nothing needs to be done in the second and third test cases.",
+    "prob_desc_description": "You have a string $$$s$$$ consisting of digits from $$$0$$$ to $$$9$$$ inclusive. You can perform the following operation any (possibly zero) number of times:   You can choose a position $$$i$$$ and delete a digit $$$d$$$ on the $$$i$$$-th position. Then insert the digit $$$\\min{(d + 1, 9)}$$$ on any position (at the beginning, at the end or in between any two adjacent digits). What is the lexicographically smallest string you can get by performing these operations?A string $$$a$$$ is lexicographically smaller than a string $$$b$$$ of the same length if and only if the following holds:   in the first position where $$$a$$$ and $$$b$$$ differ, the string $$$a$$$ has a smaller digit than the corresponding digit in $$$b$$$. ",
+    "prob_desc_output_spec": "Print a single string — the minimum string that is possible to obtain.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then the test cases follow. Each test case consists of a single line that contains one string $$$s$$$ ($$$1 \\le |s| \\le 2 \\cdot 10^5$$$) — the string consisting of digits. Please note that $$$s$$$ is just a string consisting of digits, so leading zeros are allowed. It is guaranteed that the sum of lengths of $$$s$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_091.jsonl",
+    "code_uid": "79226c4f769480a2dfa9fad84fd66c16",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n04829\\n\\n9\\n\\n01\\n\\n314752277691991\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n    S = (input())\r\n    m = S[-1]\r\n    ans = []\r\n    for i in reversed(S):\r\n        m = min(i, m)\r\n        if i == m:\r\n            ans.append(i)\r\n        else:\r\n            ans.append(str(min(int(i)+1, 9)))\r\n    print(''.join(sorted(ans)))",
+    "prob_desc_created_at": "1664116500",
+    "tags": [
+        "data structures",
+        "greedy",
+        "math",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

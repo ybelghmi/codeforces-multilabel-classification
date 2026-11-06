@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "16a1c5dbe8549313bae6bca630047502",
+    "prob_desc_notes": "NoteThe first sample is shown on the following picture:  In the second sample it is impossible to reach Igor's office using less that 4 turns, thus there exists no path using no more than 2 turns. The path using exactly 4 turns is shown on this picture:  ",
+    "prob_desc_description": "Woken up by the alarm clock Igor the financial analyst hurried up to the work. He ate his breakfast and sat in his car. Sadly, when he opened his GPS navigator, he found that some of the roads in Bankopolis, the city where he lives, are closed due to road works. Moreover, Igor has some problems with the steering wheel, so he can make no more than two turns on his way to his office in bank.Bankopolis looks like a grid of n rows and m columns. Igor should find a way from his home to the bank that has no more than two turns and doesn't contain cells with road works, or determine that it is impossible and he should work from home. A turn is a change in movement direction. Igor's car can only move to the left, to the right, upwards and downwards. Initially Igor can choose any direction. Igor is still sleepy, so you should help him.",
+    "prob_desc_output_spec": "In the only line print \"YES\" if there is a path between Igor's home and Igor's office with no more than two turns, and \"NO\" otherwise.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 1000) — the number of rows and the number of columns in the grid. Each of the next n lines contains m characters denoting the corresponding row of the grid. The following characters can occur:    \".\" — an empty cell;  \"*\" — a cell with road works;  \"S\" — the cell where Igor's home is located;  \"T\" — the cell where Igor's office is located.  It is guaranteed that \"S\" and \"T\" appear exactly once each.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_010.jsonl",
+    "code_uid": "29be230384cdd1cb1f6c32390c7be17a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5\\n..S..\\n****.\\nT....\\n****.\\n.....\", \"5 5\\nS....\\n****.\\n.....\\n.****\\n..T..\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=map(int,raw_input().split())\nN=range(n)\nM=range(m)\nD=(0,1,2,3)\ng=[raw_input() for _ in range(n)]\nI=1<<20\nv=[[[I]*4 for _ in M] for _ in N]\nq=[]\nfor i in N:\n  for j in M:\n    if 'S'==g[i][j]:\n      for d in D:\n        q+=[(i,j,d)]\n        v[i][j][d]=0\n    if 'T'==g[i][j]:\n      x,y=i,j\ndr=[-1,0,1,0]\ndc=[0,1,0,-1]\nwhile q:\n  i,j,k=q.pop()\n  for d in D:\n    a,b=i+dr[d],j+dc[d]\n    if 0<=a<n and 0<=b<m and g[a][b]!='*':\n      l=v[i][j][k]+(k!=d)\n      if l<v[a][b][d]:\n        v[a][b][d]=l\n        if v[a][b][d]<3:\n          if a==x and b==y:\n            print 'YES'\n            exit(0)\n          else:\n            q+=[(a,b,d)]\nprint 'NO'\n",
+    "prob_desc_created_at": "1492965900",
+    "tags": [
+        "graphs",
+        "implementation",
+        "dfs and similar",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

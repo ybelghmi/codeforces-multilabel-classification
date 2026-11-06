@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"36\", \"1728\"]",
+    "src_uid": "9a5bd9f937da55c3d26d5ecde6e50280",
+    "prob_desc_notes": "NoteIn the first sample n = 2·3 = 6. The divisors of 6 are 1, 2, 3 and 6, their product is equal to 1·2·3·6 = 36.In the second sample 2·3·2 = 12. The divisors of 12 are 1, 2, 3, 4, 6 and 12. 1·2·3·4·6·12 = 1728.",
+    "prob_desc_description": "Ayrat has number n, represented as it's prime factorization pi of size m, i.e. n = p1·p2·...·pm. Ayrat got secret information that that the product of all divisors of n taken modulo 109 + 7 is the password to the secret data base. Now he wants to calculate this value.",
+    "prob_desc_output_spec": "Print one integer — the product of all divisors of n modulo 109 + 7.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer m (1 ≤ m ≤ 200 000) — the number of primes in factorization of n.  The second line contains m primes numbers pi (2 ≤ pi ≤ 200 000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_020.jsonl",
+    "code_uid": "ad569439ed16862257ace1348c875c40",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2 3\", \"3\\n2 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\nfrom operator import __mul__\nmod = 10 ** 9 + 7\n\n\n\n\nn = input()\np = map(int, raw_input().split())\np = Counter(p)\n\nprod = 1\nexp = 1\nperfsq=1\nfl=0\n\nfor x,a in p.items():\n    if(a%2==1):\n        fl=1\n\n\nif(fl):\n    for x,a in p.items():\n        exp*=(a+1)\n        prod *= pow(x,(a),mod)\n        prod%=mod\n    print pow(prod,exp/2,mod)\n\n\nelse:\n    for x,a in p.items():\n        exp*=(a+1)\n        prod *= pow(x,a/2,mod)\n        prod%=mod\n\n    print pow(prod,exp,mod)\n\n\n\n\n\n",
+    "prob_desc_created_at": "1452261900",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

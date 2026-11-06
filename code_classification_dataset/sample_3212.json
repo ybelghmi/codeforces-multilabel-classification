@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"120\", \"200065\"]",
+    "src_uid": "96a3f9d559a40050095de2f5f70b147f",
+    "prob_desc_notes": "NoteIn the first sample the organizers will use only one bus to travel through the first region. However, the temperature in the bus will equal 30 + 10 = 40 degrees and each of 10 schoolchildren will ask for compensation. Only one bus will transport the group through the second region too, but the temperature inside won't exceed the limit. Overall, the organizers will spend 100 + 10 + 10 = 120 rubles.",
+    "prob_desc_description": "The official capital and the cultural capital of Berland are connected by a single road running through n regions. Each region has a unique climate, so the i-th (1 ≤ i ≤ n) region has a stable temperature of ti degrees in summer.This summer a group of m schoolchildren wants to get from the official capital to the cultural capital to visit museums and sights. The trip organizers transport the children between the cities in buses, but sometimes it is very hot. Specifically, if the bus is driving through the i-th region and has k schoolchildren, then the temperature inside the bus is ti + k degrees.Of course, nobody likes it when the bus is hot. So, when the bus drives through the i-th region, if it has more than Ti degrees inside, each of the schoolchild in the bus demands compensation for the uncomfortable conditions. The compensation is as large as xi rubles and it is charged in each region where the temperature in the bus exceeds the limit.To save money, the organizers of the trip may arbitrarily add or remove extra buses in the beginning of the trip, and between regions (of course, they need at least one bus to pass any region). The organizers can also arbitrarily sort the children into buses, however, each of buses in the i-th region will cost the organizers costi rubles. Please note that sorting children into buses takes no money.Your task is to find the minimum number of rubles, which the organizers will have to spend to transport all schoolchildren.",
+    "prob_desc_output_spec": "Print the only integer — the minimum number of roubles the organizers will have to spend to transport all schoolchildren. Please, do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first input line contains two integers n and m (1 ≤ n ≤ 105; 1 ≤ m ≤ 106) — the number of regions on the way and the number of schoolchildren in the group, correspondingly. Next n lines contain four integers each: the i-th line contains ti, Ti, xi and costi (1 ≤ ti, Ti, xi, costi ≤ 106). The numbers in the lines are separated by single spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_046.jsonl",
+    "code_uid": "e1f951ecc956cca85d38aac5613c3cdf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 10\\n30 35 1 100\\n20 35 10 10\", \"3 100\\n10 30 1000 1\\n5 10 1000 3\\n10 40 1000 100000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=map(int,raw_input().split())\nob=[map(int,raw_input().split()) for i in xrange(n)]\nrs=0\nfor t,T,x,c in ob:\n    if t+m<=T:\n        nn=c\n    elif t>=T:\n        nn=c+x*m  \n    else:\n        f=c+x*m\n        ma=T-t\n        s=((m+ma-1)/ma)*c        \n        nn=min(f,s)\n    rs+=nn\nprint rs        \n     \n",
+    "prob_desc_created_at": "1344267000",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

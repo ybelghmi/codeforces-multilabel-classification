@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4.5 seconds",
+    "prob_desc_sample_outputs": "[\"42\", \"53\", \"955085064\"]",
+    "src_uid": "4cd53d6024ed6655130b836561902822",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a rooted tree consisting of $$$n$$$ vertices numbered from $$$1$$$ to $$$n$$$. The root of the tree is the vertex $$$1$$$.You have to color all vertices of the tree into $$$n$$$ colors (also numbered from $$$1$$$ to $$$n$$$) so that there is exactly one vertex for each color. Let $$$c_i$$$ be the color of vertex $$$i$$$, and $$$p_i$$$ be the parent of vertex $$$i$$$ in the rooted tree. The coloring is considered beautiful if there is no vertex $$$k$$$ ($$$k &gt; 1$$$) such that $$$c_k = c_{p_k} - 1$$$, i. e. no vertex such that its color is less than the color of its parent by exactly $$$1$$$.Calculate the number of beautiful colorings, and print it modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Print one integer — the number of beautiful colorings, taken modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$2 \\le n \\le 250000$$$) — the number of vertices in the tree. Then $$$n-1$$$ lines follow, the $$$i$$$-th line contains two integers $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le x_i, y_i \\le n$$$; $$$x_i \\ne y_i$$$) denoting an edge between the vertex $$$x_i$$$ and the vertex $$$y_i$$$. These edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_090.jsonl",
+    "code_uid": "394fff863d9a8387fc9d7761a649a925",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2\\n3 2\\n4 2\\n2 5\", \"5\\n1 2\\n2 3\\n3 4\\n4 5\", \"20\\n20 19\\n20 4\\n12 4\\n5 8\\n1 2\\n20 7\\n3 10\\n7 18\\n11 8\\n9 10\\n17 10\\n1 15\\n11 16\\n14 11\\n18 10\\n10 1\\n14 2\\n13 17\\n20 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\r\nfrom heapq import heapify,heappush,heappop\r\nimport sys\r\nraw_input=sys.stdin.readline\r\n\r\nM=998244353\r\nrv,rt=[],[0,1]\r\ndef dft(a):\r\n\tn=len(a)\r\n\tif len(rv) != n:\r\n\t\tk=(n.bit_length()-1)-1\r\n\t\trv.extend([0]*(n-len(rv)))\r\n\t\tfor i in range(n): rv[i]=(rv[i>>1]>>1)|((i&1)<<k)\r\n\tfor i in range(n):\r\n\t\tif rv[i]<i: a[i],a[rv[i]]=a[rv[i]],a[i]\r\n\tif len(rt)<n:\r\n\t\tk=len(rt).bit_length()-1\r\n\t\trt.extend([0]*(n-len(rt)))\r\n\t\twhile ((1<<k)<n):\r\n\t\t\te=pow(3,(M-1)>>(k+1),M)\r\n\t\t\tfor i in range(1<<(k-1),1<<k):\r\n\t\t\t\trt[2*i]=rt[i]\r\n\t\t\t\trt[2*i+1]=(rt[i]*e)%M\r\n\t\t\tk+=1\r\n\tk=1\r\n\twhile k<n:\r\n\t\ti=0\r\n\t\twhile i<n:\r\n\t\t\tfor j in range(k):\r\n\t\t\t\tu=a[i+j]\r\n\t\t\t\tv=(a[i+j+k]*rt[k+j])%M\r\n\t\t\t\ta[i+j]=(u+v)%M\r\n\t\t\t\ta[i+j+k]=(u-v)%M\r\n\t\t\ti+=2*k\r\n\t\tk *= 2\r\n\r\ndef idft(a):\r\n\tn=len(a)\r\n\ta[1:]=a[1:][::-1]\r\n\tdft(a)\r\n\tinv=pow(n,M-2,M)\r\n\tfor i in range(n):\r\n\t\ta[i]=(a[i]*inv)%M\r\n\r\ndef convmod(a,b):\r\n\tsz,tot=1,len(a)+len(b)-1\r\n\twhile sz<tot: sz *= 2\r\n\ta.extend([0]*(sz-len(a)))\r\n\tb.extend([0]*(sz-len(b)))\r\n\tdft(a), dft(b)\r\n\tfor i in range(sz): a[i]=(a[i]*b[i])%M\r\n\tidft(a)\r\n\treturn a[:tot]\r\n\r\ndef nCr(n,k):\r\n    return (fact[n]*inv_fact[n-k]%M)*inv_fact[k]%M\r\n\r\nn=int(input())\r\nfact,inv,inv_fact=[[1]*2 for _ in range(3)]\r\nwhile len(inv) <= n:\r\n    fact.append(fact[-1]*len(inv)%M)\r\n    inv.append(inv[M%len(inv)]*(M-M//len(inv))%M)\r\n    inv_fact.append(inv_fact[-1]*inv[-1]%M)\r\nadj=[[] for _ in range(n)]\r\nfor _ in range(n-1):\r\n    x,y=list(map(int,input().strip().split()))\r\n    x,y=x-1,y-1\r\n    adj[x].append(y)\r\n    adj[y].append(x)\r\ncnt=Counter()\r\nfor i in range(n):\r\n    if len(adj[i])-(i>0): cnt[len(adj[i])-(i>0)]+=1\r\nmin_heap=[(1,[1])]\r\nfor d,k in cnt.items():\r\n    poly_d_k=[0]*(k+1)\r\n    pw=1\r\n    for i in range(k+1):\r\n        poly_d_k[i]=(nCr(k,i)*pw)%M\r\n        pw=(pw*d)%M\r\n    min_heap.append((len(poly_d_k),poly_d_k))\r\nheapify(min_heap)\r\nwhile len(min_heap)>1:\r\n    _,p1=heappop(min_heap)\r\n    _,p2=heappop(min_heap)\r\n    new_p=convmod(p1,p2)\r\n    heappush(min_heap,(len(new_p),new_p))\r\np=min_heap[0][1]\r\nresult,sign=0,1\r\nfor i in range(len(p)):\r\n    result=(result+sign*p[i]*fact[n-i])%M\r\n    sign*=-1\r\nprint(result)",
+    "prob_desc_created_at": "1638369300",
+    "tags": [
+        "combinatorics",
+        "divide and conquer",
+        "fft"
+    ],
+    "hidden_unit_tests": ""
+}

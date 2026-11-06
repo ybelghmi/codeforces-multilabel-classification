@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"0\", \"-3\"]",
+    "src_uid": "d740f4ee1b18eeb74dfb253125c52762",
+    "prob_desc_notes": "NoteIn the first example, the game could have gone as follows:   A removes $$$5$$$ from B's list.  B removes $$$4$$$ from A's list.  A takes his $$$1$$$.  B takes his $$$1$$$. Hence, A's score is $$$1$$$, B's score is $$$1$$$ and difference is $$$0$$$.There is also another optimal way of playing:  A removes $$$5$$$ from B's list.  B removes $$$4$$$ from A's list.  A removes $$$1$$$ from B's list.  B removes $$$1$$$ from A's list. The difference in the scores is still $$$0$$$.In the second example, irrespective of the moves the players make, they will end up with the same number of numbers added to their score, so the difference will be $$$0$$$.",
+    "prob_desc_description": "Two players A and B have a list of $$$n$$$ integers each. They both want to maximize the subtraction between their score and their opponent's score. In one turn, a player can either add to his score any element from his list (assuming his list is not empty), the element is removed from the list afterward. Or remove an element from his opponent's list (assuming his opponent's list is not empty).Note, that in case there are equal elements in the list only one of them will be affected in the operations above. For example, if there are elements $$$\\{1, 2, 2, 3\\}$$$ in a list and you decided to choose $$$2$$$ for the next turn, only a single instance of $$$2$$$ will be deleted (and added to the score, if necessary). The player A starts the game and the game stops when both lists are empty. Find the difference between A's score and B's score at the end of the game, if both of the players are playing optimally.Optimal play between two players means that both players choose the best possible strategy to achieve the best possible outcome for themselves. In this problem, it means that each player, each time makes a move, which maximizes the final difference between his score and his opponent's score, knowing that the opponent is doing the same.",
+    "prob_desc_output_spec": "Output the difference between A's score and B's score ($$$A-B$$$) if both of them are playing optimally.",
+    "prob_desc_input_spec": "The first line of input contains an integer $$$n$$$ ($$$1 \\le n \\le 100\\,000$$$) — the sizes of the list. The second line contains $$$n$$$ integers $$$a_i$$$ ($$$1 \\le a_i \\le 10^6$$$), describing the list of the player A, who starts the game. The third line contains $$$n$$$ integers $$$b_i$$$ ($$$1 \\le b_i \\le 10^6$$$), describing the list of the player B.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_003.jsonl",
+    "code_uid": "cc49f441e413aef3baf82c1c9ffec502",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 4\\n5 1\", \"3\\n100 100 100\\n100 100 100\", \"2\\n2 1\\n5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nti = lambda : stdin.readline().strip()\nma = lambda fxn, ti : map(fxn, ti.split())\nol = lambda arr : stdout.write(' '.join(str(i) for i in arr) + '\\n')\nos = lambda i : stdout.write(str(i) + '\\n')\nolws = lambda arr : stdout.write(''.join(str(i) for i in arr) + '\\n')\nimport math\nimport copy\n\n\n\n\nn = int(ti())\na = ma(int, ti())\nb = ma(int, ti())\n\n\na.sort(reverse=True)\nb.sort(reverse=True)\nascore = 0\nbscore = 0\n\n\nap = 0\nbp = 0\n\n\ni = 0\nadone = False\nbdone = False\n\n# print a\n# print b\nwhile not adone or not bdone:\n\t# print ap, bp\n\tif i % 2 == 0:\n\t\tif adone:\n\t\t\tbp += 1\n\t\telse:\n\t\t\tif bdone:\n\t\t\t\tascore += a[ap]\n\t\t\t\tap += 1\n\t\t\telse:\n\t\t\t\tif a[ap] >= b[bp]:\n\t\t\t\t\tascore += a[ap]\n\t\t\t\t\tap += 1\n\t\t\t\telse:\n\t\t\t\t\tbp += 1\n\n\telse:\n\t\tif bdone:\n\t\t\tap += 1\n\t\telse:\n\t\t\tif adone:\n\t\t\t\tbscore += b[bp]\n\t\t\t\tbp += 1\n\t\t\telse:\n\t\t\t\tif b[bp] >= a[ap]:\n\t\t\t\t\tbscore += b[bp]\n\t\t\t\t\tbp += 1\n\t\t\t\telse:\n\t\t\t\t\tap += 1\n\n\n\tif ap == n:\n\t\tadone = True\n\tif bp == n:\n\t\tbdone = True\n\n\ti += 1\n\nos(ascore - bscore)",
+    "prob_desc_created_at": "1536248100",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

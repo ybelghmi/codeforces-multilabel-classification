@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\\nNO\\nYES\"]",
+    "src_uid": "a4e605859608d0c730ecbbee9ffc92d7",
+    "prob_desc_notes": "NoteThe subgraph on vertices $$$1,2,3,4,5,6$$$ is shown below.  ",
+    "prob_desc_description": "There is a new attraction in Singapore Zoo: The Infinite Zoo.The Infinite Zoo can be represented by a graph with an infinite number of vertices labeled $$$1,2,3,\\ldots$$$. There is a directed edge from vertex $$$u$$$ to vertex $$$u+v$$$ if and only if $$$u\\&amp;v=v$$$, where $$$\\&amp;$$$ denotes the bitwise AND operation. There are no other edges in the graph.Zookeeper has $$$q$$$ queries. In the $$$i$$$-th query she will ask you if she can travel from vertex $$$u_i$$$ to vertex $$$v_i$$$ by going through directed edges.",
+    "prob_desc_output_spec": "For the $$$i$$$-th of the $$$q$$$ queries, output \"YES\" in a single line if Zookeeper can travel from vertex $$$u_i$$$ to vertex $$$v_i$$$. Otherwise, output \"NO\". You can print your answer in any case. For example, if the answer is \"YES\", then the output \"Yes\" or \"yeS\" will also be considered as correct answer.",
+    "prob_desc_input_spec": "The first line contains an integer $$$q$$$ ($$$1 \\leq q \\leq 10^5$$$) — the number of queries. The $$$i$$$-th of the next $$$q$$$ lines will contain two integers $$$u_i$$$, $$$v_i$$$ ($$$1 \\leq u_i, v_i &lt; 2^{30}$$$) — a query made by Zookeeper.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_095.jsonl",
+    "code_uid": "79204639e2c70a0dad8b6893ad05cbb7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 4\\n3 6\\n1 6\\n6 2\\n5 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\r\nfrom collections import deque\r\nfrom sys import stdin, stdout, setrecursionlimit\r\nfrom string import ascii_letters\r\nfrom decimal import *\r\nletters = ascii_letters[:26]\r\nfrom collections import defaultdict\r\n#from functools import reduce\r\ninput = stdin.readline\r\n#print = stdout.write\r\n \r\n \r\nfor _ in range(int(input())):\r\n    a, b = map(lambda x : (list(str(bin(int(x)))[2:])[::-1], int(x)), input().split())\r\n    cnt = 0\r\n    can = True\r\n    if a[1] > b[1]:\r\n        can = False\r\n    a = a[0]\r\n    b = b[0]\r\n    la = len(a)\r\n    lb = len(b)\r\n    for i in range(lb):\r\n        if i < la and a[i] == '1':\r\n            cnt += 1\r\n        if i < lb and b[i] == '1':\r\n            if cnt == 0:\r\n                can = False\r\n            else:\r\n                cnt -= 1\r\n    for i in range(lb, la):\r\n        if a[i] == '1':\r\n            can = False\r\n    print('YES' if can else 'NO')\r\n",
+    "prob_desc_created_at": "1614519300",
+    "tags": [
+        "bitmasks",
+        "constructive algorithms",
+        "dp",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

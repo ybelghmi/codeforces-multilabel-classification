@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1111\", \"01010\", \"1011011\"]",
+    "src_uid": "7e8baa4fb780f11e66bb2b7078e34c04",
+    "prob_desc_notes": "NoteIn the first test, it's easy to see, that the only unique substring of string $$$s = $$$\"1111\" is all string $$$s$$$, which has length $$$4$$$.In the second test a string $$$s = $$$\"01010\" has minimal unique substring $$$t =$$$\"101\", which has length $$$3$$$.In the third test a string $$$s = $$$\"1011011\" has minimal unique substring $$$t =$$$\"110\", which has length $$$3$$$.",
+    "prob_desc_description": "Let $$$s$$$ be some string consisting of symbols \"0\" or \"1\". Let's call a string $$$t$$$ a substring of string $$$s$$$, if there exists such number $$$1 \\leq l \\leq |s| - |t| + 1$$$ that $$$t = s_l s_{l+1} \\ldots s_{l + |t| - 1}$$$. Let's call a substring $$$t$$$ of string $$$s$$$ unique, if there exist only one such $$$l$$$. For example, let $$$s = $$$\"1010111\". A string $$$t = $$$\"010\" is an unique substring of $$$s$$$, because $$$l = 2$$$ is the only one suitable number. But, for example $$$t = $$$\"10\" isn't a unique substring of $$$s$$$, because $$$l = 1$$$ and $$$l = 3$$$ are suitable. And for example $$$t =$$$\"00\" at all isn't a substring of $$$s$$$, because there is no suitable $$$l$$$.Today Vasya solved the following problem at the informatics lesson: given a string consisting of symbols \"0\" and \"1\", the task is to find the length of its minimal unique substring. He has written a solution to this problem and wants to test it. He is asking you to help him.You are given $$$2$$$ positive integers $$$n$$$ and $$$k$$$, such that $$$(n \\bmod 2) = (k \\bmod 2)$$$, where $$$(x \\bmod 2)$$$ is operation of taking remainder of $$$x$$$ by dividing on $$$2$$$. Find any string $$$s$$$ consisting of $$$n$$$ symbols \"0\" or \"1\", such that the length of its minimal unique substring is equal to $$$k$$$.",
+    "prob_desc_output_spec": "Print a string $$$s$$$ of length $$$n$$$, consisting of symbols \"0\" and \"1\". Minimal length of the unique substring of $$$s$$$ should be equal to $$$k$$$. You can find any suitable string. It is guaranteed, that there exists at least one such string.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$, separated by spaces ($$$1 \\leq k \\leq n \\leq 100\\,000$$$, $$$(k \\bmod 2) = (n \\bmod 2)$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_003.jsonl",
+    "code_uid": "825b99735298852deeb5725b991d0dfd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4\", \"5 3\", \"7 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N, K = map(int, input().split())\nif N == K:\n    print(\"0\"*N)\nelif K == 1:\n    print(\"0\"*(N-1) + \"1\")\nelif K == 3:\n    print(\"1\" + \"0\"*(N-4) + \"101\")\nelse:\n    res = [\"0\"]*N\n    for i in range(0, N, N//2-K//2+1):\n        res[i] = \"1\"\n    print(''.join(res))",
+    "prob_desc_created_at": "1557671700",
+    "tags": [
+        "greedy",
+        "constructive algorithms",
+        "math",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

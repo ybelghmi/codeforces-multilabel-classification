@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10012\\n9\"]",
+    "src_uid": "6db42771fdd582578194c7b69a4ef575",
+    "prob_desc_notes": "NoteThe first testcase of the example is already explained in the statement.In the second testcase, there is only one possible reduction: the first and the second digits.",
+    "prob_desc_description": "You are given a decimal representation of an integer $$$x$$$ without leading zeros.You have to perform the following reduction on it exactly once: take two neighboring digits in $$$x$$$ and replace them with their sum without leading zeros (if the sum is $$$0$$$, it's represented as a single $$$0$$$).For example, if $$$x = 10057$$$, the possible reductions are:   choose the first and the second digits $$$1$$$ and $$$0$$$, replace them with $$$1+0=1$$$; the result is $$$1057$$$;  choose the second and the third digits $$$0$$$ and $$$0$$$, replace them with $$$0+0=0$$$; the result is also $$$1057$$$;  choose the third and the fourth digits $$$0$$$ and $$$5$$$, replace them with $$$0+5=5$$$; the result is still $$$1057$$$;  choose the fourth and the fifth digits $$$5$$$ and $$$7$$$, replace them with $$$5+7=12$$$; the result is $$$10012$$$. What's the largest number that can be obtained?",
+    "prob_desc_output_spec": "For each testcase, print a single integer — the largest number that can be obtained after the reduction is applied exactly once. The number should not contain leading zeros.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. Each testcase consists of a single integer $$$x$$$ ($$$10 \\le x &lt; 10^{200000}$$$). $$$x$$$ doesn't contain leading zeros. The total length of the decimal representations of $$$x$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_087.jsonl",
+    "code_uid": "b2b7c626f5b48e117c1a75dda2c04e9d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n10057\\n90\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "'''\r\n# Submitted By Ala3rjMo7@gmail.com\r\nDon't Copy This Code, Try To Solve It By Yourself\r\n'''\r\n# Problem Name = \"Minor Reduction\"\r\n# Class: B\r\n \r\ndef Solve():\r\n    lst=[]\r\n    for t in range(int(input())):\r\n        n=input()[::-1]\r\n        lst.append(n)\r\n    for num in lst:\r\n        e=True\r\n        \r\n        for i in range(len(num)-1):\r\n            z=int(num[i])+int(num[i+1])\r\n            if z > 9:\r\n                e=False\r\n                break\r\n        z=str(z)[::-1]\r\n        if e:\r\n            num=num[::-1]\r\n            print(str(int(num[0])+int(num[1]))+num[2:])\r\n        else:\r\n            ans=(num[:i]+z+num[i+2:])[::-1]\r\n            print(ans)\r\n \r\nif __name__ == \"__main__\":\r\n    Solve()",
+    "prob_desc_created_at": "1642343700",
+    "tags": [
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

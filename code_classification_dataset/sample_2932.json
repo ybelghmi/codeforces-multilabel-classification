@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0.2000000000\", \"0.5000000000\"]",
+    "src_uid": "b779946fe86b1a2a4449bc85ff887367",
+    "prob_desc_notes": "NoteIn the first sample matrix B is In the second sample matrix B is ",
+    "prob_desc_description": "The determinant of a matrix 2 × 2 is defined as follows:A matrix is called degenerate if its determinant is equal to zero. The norm ||A|| of a matrix A is defined as a maximum of absolute values of its elements.You are given a matrix . Consider any degenerate matrix B such that norm ||A - B|| is minimum possible. Determine ||A - B||.",
+    "prob_desc_output_spec": "Output a single real number, the minimum possible value of ||A - B||. Your answer is considered to be correct if its absolute or relative error does not exceed 10 - 9.",
+    "prob_desc_input_spec": "The first line contains two integers a and b (|a|, |b| ≤ 109), the elements of the first row of matrix A.  The second line contains two integers c and d (|c|, |d| ≤ 109) the elements of the second row of matrix A.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_035.jsonl",
+    "code_uid": "dc8403adc103fef533d0d3a57861d6cf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 2\\n3 4\", \"1 0\\n0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from decimal import *\nimport sys\ngetcontext().prec = 22\na,b = map(int,sys.stdin.readline().split())\nc, d = map(int,sys.stdin.readline().split())\na = Decimal(a)\nb = Decimal(b)\nc = Decimal(c)\nd = Decimal(d)\nl = Decimal(0)\nr = Decimal(1000000001)\neps = Decimal(0.00000000001)\nbinn = Decimal(2)\nwhile(r - l >= eps):\n    mid = (l + r) / binn\n    as1 = (a - mid) * (d - mid);\n    as2 = (a - mid) * (d + mid);\n    as3 = (a + mid) * (d - mid);\n    as4 = (a + mid) * (d + mid);\n    mx1 = max(as1, max(as2, max(as3, as4)));\n    mn1 = min(as1, min(as2, min(as3, as4)));\n    as1 = (b - mid) * (c - mid);\n    as2 = (b - mid) * (c + mid);\n    as3 = (b + mid) * (c - mid);\n    as4 = (b + mid) * (c + mid);\n    mx2 = max(as1, max(as2, max(as3, as4)));\n    mn2 = min(as1, min(as2, min(as3, as4)));\n    if (mx1 < mn2 or mn1 > mx2):\n        l = mid\n    else :\n        r = mid\nprint Decimal(l)",
+    "prob_desc_created_at": "1433595600",
+    "tags": [
+        "binary search",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

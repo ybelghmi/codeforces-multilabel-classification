@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"1\"]",
+    "src_uid": "97f03ede9f5e9108b0b0f2d4b418a540",
+    "prob_desc_notes": "NoteSpecial subsegments in the first example are $$$[1, 5]$$$ and $$$[1, 3]$$$.The only special subsegment in the second example is $$$[1, 3]$$$.",
+    "prob_desc_description": "You are given a permutation $$$p$$$ of $$$n$$$ integers $$$1$$$, $$$2$$$, ..., $$$n$$$ (a permutation is an array where each element from $$$1$$$ to $$$n$$$ occurs exactly once).Let's call some subsegment $$$p[l, r]$$$ of this permutation special if $$$p_l + p_r = \\max \\limits_{i = l}^{r} p_i$$$. Please calculate the number of special subsegments.",
+    "prob_desc_output_spec": "Print the number of special subsegments of the given permutation.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$3 \\le n \\le 2 \\cdot 10^5$$$). The second line contains $$$n$$$ integers $$$p_1$$$, $$$p_2$$$, ..., $$$p_n$$$ ($$$1 \\le p_i \\le n$$$). All these integers are pairwise distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_039.jsonl",
+    "code_uid": "fd07f861bfad619010e5b515bffcc548",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3 4 1 5 2\", \"3\\n1 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\na=[int(x) for x in input().split()]\ndef Count_Segment(a,n):\n\tans=0\n\tupto=[0]*(n+1)\n\tfor i in range(1,n-1):\n\t\tif a[i]>a[i-1] and a[i]>a[i+1]:\n\t\t\tcurr=a[i]\n\t\t\tj=i-1\n\t\t\twhile j>=0 and a[j]<curr:\n\t\t\t\tupto[a[j]]=curr\n\t\t\t\tj-=1\n \n\t\t\tj=i+1\n\t\t\twhile j<n and a[j]<curr:\n\t\t\t\tif upto[curr-a[j]]==curr:\n\t\t\t\t\tans+=1\n\t\t\t\tj+=1\n \n\treturn ans\n \nprint(Count_Segment(a,n))\n        \n           \n       \n",
+    "prob_desc_created_at": "1556721300",
+    "tags": [
+        "data structures",
+        "two pointers",
+        "dsu",
+        "divide and conquer"
+    ],
+    "hidden_unit_tests": ""
+}

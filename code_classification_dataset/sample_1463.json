@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES 2\\n2\\n1 2\\n2 3\", \"YES 2\\n4\\n1 2\\n3 2\\n4 2\\n5 2\", \"NO\"]",
+    "src_uid": "69ee6170d9f1480647d1a3fed4d1f77b",
+    "prob_desc_notes": "NoteHere are the graphs for the first two example cases. Both have diameter of $$$2$$$.  $$$d_1 = 1 \\le a_1 = 2$$$$$$d_2 = 2 \\le a_2 = 2$$$$$$d_3 = 1 \\le a_3 = 2$$$   $$$d_1 = 1 \\le a_1 = 1$$$$$$d_2 = 4 \\le a_2 = 4$$$$$$d_3 = 1 \\le a_3 = 1$$$$$$d_4 = 1 \\le a_4 = 1$$$ ",
+    "prob_desc_description": "Graph constructive problems are back! This time the graph you are asked to build should match the following properties.The graph is connected if and only if there exists a path between every pair of vertices.The diameter (aka \"longest shortest path\") of a connected undirected graph is the maximum number of edges in the shortest path between any pair of its vertices.The degree of a vertex is the number of edges incident to it.Given a sequence of $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ construct a connected undirected graph of $$$n$$$ vertices such that:  the graph contains no self-loops and no multiple edges;  the degree $$$d_i$$$ of the $$$i$$$-th vertex doesn't exceed $$$a_i$$$ (i.e. $$$d_i \\le a_i$$$);  the diameter of the graph is maximum possible. Output the resulting graph or report that no solution exists.",
+    "prob_desc_output_spec": "Print \"NO\" if no graph can be constructed under the given conditions. Otherwise print \"YES\" and the diameter of the resulting graph in the first line. The second line should contain a single integer $$$m$$$ — the number of edges in the resulting graph. The $$$i$$$-th of the next $$$m$$$ lines should contain two integers $$$v_i, u_i$$$ ($$$1 \\le v_i, u_i \\le n$$$, $$$v_i \\neq u_i$$$) — the description of the $$$i$$$-th edge. The graph should contain no multiple edges — for each pair $$$(x, y)$$$ you output, you should output no more pairs $$$(x, y)$$$ or $$$(y, x)$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$3 \\le n \\le 500$$$) — the number of vertices in the graph. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le n - 1$$$) — the upper limits to vertex degrees.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_009.jsonl",
+    "code_uid": "b5bc1656bdb063e417cabb09569185cc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 2 2\", \"5\\n1 4 1 1 1\", \"3\\n1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a = [] \nn = 0 \nOnes = [] \n\n\ndef solution ():\n    s = 0 \n    for item in a : \n        s = s + item \n    \n    if s < 2*(n-1) :\n        print(\"NO\")\n        return\n    \n    for i in range(n):\n        if a[i] == 1 :\n            a[i] = 0 \n            Ones.append(i)\n\n    t = len(Ones)\n    d = (n-t) - 1 + min(2,t) \n    print(\"YES \" + str(d) + \"\\n\" + str(n-1) )\n\n    l = -1 \n    if len(Ones) != 0 :\n        l = Ones[len(Ones)-1]\n        Ones.remove(l)\n\n    for i in range (n):\n        if a[i] > 1 :\n            if l !=-1:\n                a[l] = a[l] -1 \n                a[i] = a[i] -1 \n                print (str (l+1) + \" \" + str(i+1))\n            l=i\n    \n    i = n-1\n    while i >=0 :\n        while len(Ones) > 0 and a[i] > 0 :\n            a[i] = a[i] -1 \n            u = Ones[len(Ones)-1]\n            print(str(i+1) + \" \" + str (u +1) )\n            Ones.remove(u)\n        i = i -1 \n\n\n\nif __name__ == \"__main__\":\n    line = int(input())\n    n = int(line)\n\n    line = str(input()).split()\n    for i in range (n):\n        a.append(int(line[i])) \n        \n\n    solution() \n    \n        ",
+    "prob_desc_created_at": "1543415700",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n31\\n6\\n7\"]",
+    "src_uid": "7fca54a73076ddfeb30b921b9e341f26",
+    "prob_desc_notes": "NoteIn the first example, you can perform the following operations to obtain the array $$$[1, 0, 2]$$$:1. choose $$$i = 1, j = 2$$$, change $$$a_1 = 1$$$ and $$$a_2 = 2$$$, it's valid since $$$1 | 3 = 1 | 2$$$. The array becomes $$$[1, 2, 2]$$$.2. choose $$$i = 2, j = 3$$$, change $$$a_2 = 0$$$ and $$$a_3 = 2$$$, it's valid since $$$2 | 2 = 0 | 2$$$. The array becomes $$$[1, 0, 2]$$$.We can prove that the minimum sum is $$$1 + 0 + 2 = 3$$$In the second example, We don't need any operations.",
+    "prob_desc_description": "You are given an array $$$a$$$ of size $$$n$$$.You can perform the following operation on the array:   Choose two different integers $$$i, j$$$ $$$(1 \\leq i &lt; j \\leq n$$$), replace $$$a_i$$$ with $$$x$$$ and $$$a_j$$$ with $$$y$$$. In order not to break the array, $$$a_i | a_j = x | y$$$ must be held, where $$$|$$$ denotes the bitwise OR operation. Notice that $$$x$$$ and $$$y$$$ are non-negative integers. Please output the minimum sum of the array you can get after using the operation above any number of times.",
+    "prob_desc_output_spec": "For each test case, print one number in a line — the minimum possible sum of the array.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ $$$(1 \\leq t \\leq 1000)$$$. Description of the test cases follows. The first line of each test case contains an integer $$$n$$$ $$$(2 \\leq n \\leq 100)$$$ — the size of array $$$a$$$. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots ,a_n$$$ $$$(0 \\leq a_i &lt; 2^{30})$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_108.jsonl",
+    "code_uid": "44413be3924e46b934cebfd967a0b482",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3\\n1 3 2\\n5\\n1 2 4 8 16\\n2\\n6 6\\n3\\n3 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import functools as ft\r\ndef highestPowerof2(x):\r\n    # check for the set bits\r\n    x |= x >> 1\r\n    x |= x >> 2\r\n    x |= x >> 4\r\n    x |= x >> 8\r\n    x |= x >> 16\r\n    return x ^ (x >> 1)\r\nfor _ in range(int(input())):\r\n l=int(input())\r\n lr=list (map(int,input().split()))\r\n k=ft.reduce(lambda x,y:x|y,lr)\r\n print(k)",
+    "prob_desc_created_at": "1645367700",
+    "tags": [
+        "bitmasks",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

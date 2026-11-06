@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\", \"1\\n2 4\", \"5\\n5 2\\n2 3\\n3 4\\n4 7\\n6 8\"]",
+    "src_uid": "e3d2b67a62ac431718071ae20f3794aa",
+    "prob_desc_notes": "NoteIn the first example, we cannot add any edge.In the second example, the initial forests are as follows.We can add an edge $$$(2, 4)$$$.",
+    "prob_desc_description": "This is the easy version of the problem. The only difference between the two versions is the constraint on $$$n$$$. You can make hacks only if all versions of the problem are solved.A forest is an undirected graph without cycles (not necessarily connected).Mocha and Diana are friends in Zhijiang, both of them have a forest with nodes numbered from $$$1$$$ to $$$n$$$, and they would like to add edges to their forests such that:   After adding edges, both of their graphs are still forests.  They add the same edges. That is, if an edge $$$(u, v)$$$ is added to Mocha's forest, then an edge $$$(u, v)$$$ is added to Diana's forest, and vice versa. Mocha and Diana want to know the maximum number of edges they can add, and which edges to add.",
+    "prob_desc_output_spec": "The first line contains only one integer $$$h$$$, the maximum number of edges Mocha and Diana can add (in each forest). Each of the next $$$h$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u, v \\le n$$$, $$$u \\neq v$$$) — the edge you add each time. If there are multiple correct answers, you can print any one of them.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$m_1$$$ and $$$m_2$$$ ($$$1 \\le n \\le 1000$$$, $$$0 \\le m_1, m_2 &lt; n$$$) — the number of nodes and the number of initial edges in Mocha's forest and Diana's forest. Each of the next $$$m_1$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u, v \\le n$$$, $$$u \\neq v$$$) — the edges in Mocha's forest. Each of the next $$$m_2$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u, v \\le n$$$, $$$u \\neq v$$$) — the edges in Diana's forest.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_095.jsonl",
+    "code_uid": "89860a978629d51e3b8010aaf204c476",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 2\\n1 2\\n2 3\\n1 2\\n1 3\", \"5 3 2\\n5 4\\n2 1\\n4 3\\n4 3\\n1 4\", \"8 1 2\\n1 7\\n2 6\\n1 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def find(p, a):\n\n    if seq[p][a] == -1:\n        return a\n    else:\n        return find(p, seq[p][a])\n\n\nn, m1, m2 = map(int, input().split())\n\nseq = [[-1 for i in range(n)] for i in range(2)]\n\nfor i in range(m1):\n    a, b = map(int, input().split())\n    s1 = find(0, a-1)\n    s2 = find(0, b-1)\n    seq[0][s2] = s1\n\nfor i in range(m2):\n    a, b = map(int, input().split())\n\n    s1 = find(1, a-1)\n    s2 = find(1, b-1)\n    seq[1][s2] = s1\n\nans = 0\nsol = []\nfor i in range(n):\n    s11 = find(0, i)\n    s21 = find(1, i)\n    for j in range(i+1, n):\n\n        s12 = find(0, j)\n        s22 = find(1, j)\n\n        if s11 != s12 and s21 != s22:\n            ans += 1\n            seq[0][s12] = s11\n            seq[1][s22] = s21\n\n            sol.append((i+1, j+1))\n\nprint(ans)\nfor i in range(ans):\n    print(sol[i][0], sol[i][1])\n",
+    "prob_desc_created_at": "1629038100",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "dsu",
+        "graphs",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

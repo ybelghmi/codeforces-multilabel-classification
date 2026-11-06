@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n19\\n17\\n3\"]",
+    "src_uid": "f9f82c16e4024a207bc7ad80af10c0fe",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There is a grid, consisting of $$$2$$$ rows and $$$m$$$ columns. The rows are numbered from $$$1$$$ to $$$2$$$ from top to bottom. The columns are numbered from $$$1$$$ to $$$m$$$ from left to right.The robot starts in a cell $$$(1, 1)$$$. In one second, it can perform either of two actions:   move into a cell adjacent by a side: up, right, down or left;  remain in the same cell. The robot is not allowed to move outside the grid.Initially, all cells, except for the cell $$$(1, 1)$$$, are locked. Each cell $$$(i, j)$$$ contains a value $$$a_{i,j}$$$ — the moment that this cell gets unlocked. The robot can only move into a cell $$$(i, j)$$$ if at least $$$a_{i,j}$$$ seconds have passed before the move.The robot should visit all cells without entering any cell twice or more (cell $$$(1, 1)$$$ is considered entered at the start). It can finish in any cell.What is the fastest the robot can achieve that?",
+    "prob_desc_output_spec": "For each testcase, print a single integer — the minimum amount of seconds that the robot can take to visit all cells without entering any cell twice or more.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. The first line of each testcase contains a single integer $$$m$$$ ($$$2 \\le m \\le 2 \\cdot 10^5$$$) — the number of columns of the grid. The $$$i$$$-th of the next $$$2$$$ lines contains $$$m$$$ integers $$$a_{i,1}, a_{i,2}, \\dots, a_{i,m}$$$ ($$$0 \\le a_{i,j} \\le 10^9$$$) — the moment of time each cell gets unlocked. $$$a_{1,1} = 0$$$. If $$$a_{i,j} = 0$$$, then cell $$$(i, j)$$$ is unlocked from the start. The sum of $$$m$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_109.jsonl",
+    "code_uid": "d652cab0752f32ec007eff44f8358156",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n3\\n\\n0 0 1\\n\\n4 3 2\\n\\n5\\n\\n0 4 8 12 16\\n\\n2 6 10 14 18\\n\\n4\\n\\n0 10 10 10\\n\\n10 10 10 10\\n\\n2\\n\\n0 0\\n\\n0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\n\r\ninput = sys.stdin.readline\r\n\r\n\r\ndef helper2(arr, f, curr):\r\n    if f % 2:\r\n        vals2 = arr[0][f:]\r\n        vals2 = vals2[::-1]\r\n        vals = arr[1][f + 1:] + vals2\r\n    else:\r\n        vals2 = arr[1][f:]\r\n        vals2 = vals2[::-1]\r\n        vals = arr[0][f + 1:] + vals2\r\n\r\n    update = False\r\n    for i in range(len(vals)):\r\n        if curr < vals[i]:\r\n            update = True\r\n        curr = max(curr, vals[i]) + 1\r\n    return update, curr\r\n\r\n\r\ndef helper(idx, arr, greedy):\r\n    f = idx[0]\r\n    curr = greedy[f]\r\n    update, curr = helper2(arr, f, curr)\r\n    if not update:\r\n        return curr\r\n    else:\r\n        lo, hi = 0, len(idx)-1\r\n        while lo < hi:\r\n            mid = (lo + hi + 1)//2\r\n            curr = greedy[idx[mid]]\r\n            f = idx[mid]\r\n            update, curr = helper2(arr, f, curr)\r\n            if update:\r\n                lo = mid\r\n            else:\r\n                hi = mid - 1\r\n\r\n        f = idx[lo]\r\n        curr = greedy[f]\r\n        update, curr = helper2(arr, f, curr)\r\n        if f + 1 < len(greedy):\r\n            f2 = f + 1\r\n            curr2 = greedy[f2]\r\n            update, curr2 = helper2(arr, f2, curr2)\r\n        else:\r\n            curr2 = curr\r\n        return min(curr, curr2)\r\n\r\n\r\ndef solve():\r\n    m = int(input())\r\n    arr = [list(map(int, input().split())) for _ in range(2)]\r\n    greedy = [0]*m\r\n    even, odd = [], []\r\n    for i in range(m-1):\r\n        if i % 2:\r\n            greedy[i+1] = max(max(arr[0][i] + 1, greedy[i]+1) + 1, arr[0][i+1] + 1)\r\n            odd.append(i)\r\n        else:\r\n            greedy[i+1] = max(max(arr[1][i] + 1, greedy[i]+1) + 1, arr[1][i+1] + 1)\r\n            even.append(i)\r\n    if (m-1) % 2:\r\n        odd.append(m-1)\r\n    else:\r\n        even.append(m-1)\r\n    return min(helper(even, arr, greedy), helper(odd, arr, greedy))\r\n\r\n\r\nfor _ in range(int(input())):\r\n    print(solve())",
+    "prob_desc_created_at": "1659623700",
+    "tags": [
+        "data structures",
+        "dp",
+        "greedy",
+        "implementation",
+        "ternary search"
+    ],
+    "hidden_unit_tests": ""
+}

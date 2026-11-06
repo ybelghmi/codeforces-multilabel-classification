@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 9 15\", \"11 14 20 27 31\"]",
+    "src_uid": "c047040426e736e9085395ed9666135f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Iahub and Iahubina went to a date at a luxury restaurant. Everything went fine until paying for the food. Instead of money, the waiter wants Iahub to write a Hungry sequence consisting of n integers. A sequence a1, a2, ..., an, consisting of n integers, is Hungry if and only if:   Its elements are in increasing order. That is an inequality ai &lt; aj holds for any two indices i, j (i &lt; j).  For any two indices i and j (i &lt; j), aj must not be divisible by ai. Iahub is in trouble, so he asks you for help. Find a Hungry sequence with n elements.",
+    "prob_desc_output_spec": "Output a line that contains n space-separated integers a1 a2, ..., an (1 ≤ ai ≤ 107), representing a possible Hungry sequence. Note, that each ai must not be greater than 10000000 (107) and less than 1. If there are multiple solutions you can output any one.",
+    "prob_desc_input_spec": "The input contains a single integer: n (1 ≤ n ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_002.jsonl",
+    "code_uid": "ee9812557f344ad714c7db3a612d66f2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\", \"5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def sos(n):\n    lst=[]\n    prime = [True for i in range(n+1)]\n    p=2\n    while(p * p <= n):\n\n        if (prime[p] == True):\n\n            for i in range(p * 2, n+1, p):\n                prime[i] = False\n        p+=1\n    lis =[]\n    for p in range(2, n):\n        if prime[p]:\n            lst.append(str(p))\n    return lst\nlstp=sos(1500002)\n\nn=input()\nprint \" \".join(lstp[0:n])",
+    "prob_desc_created_at": "1372941000",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\", \"NO\", \"YES\"]",
+    "src_uid": "b08ba52eb4c36b75dacf56dad6c2e670",
+    "prob_desc_notes": "NoteIn example 1, you can draw two crosses. The picture below shows what they look like.In example 2, the board contains 16 cells with '#', but each cross contains 5. Since 16 is not a multiple of 5, so it's impossible to cover all.",
+    "prob_desc_description": "Fox Ciel has a board with n rows and n columns. So, the board consists of n × n cells. Each cell contains either a symbol '.', or a symbol '#'.A cross on the board is a connected set of exactly five cells of the board that looks like a cross. The picture below shows how it looks.Ciel wants to draw several (may be zero) crosses on the board. Each cross must cover exactly five cells with symbols '#', and any cell with symbol '#' must belong to some cross. No two crosses can share a cell.Please, tell Ciel if she can draw the crosses in the described way.",
+    "prob_desc_output_spec": "Output a single line with \"YES\" if Ciel can draw the crosses in the described way. Otherwise output a single line with \"NO\".",
+    "prob_desc_input_spec": "The first line contains an integer n (3 ≤ n ≤ 100) — the size of the board. Each of the next n lines describes one row of the board. The i-th line describes the i-th row of the board and consists of n characters. Each character is either a symbol '.', or a symbol '#'.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_004.jsonl",
+    "code_uid": "15212ea920b37e7a64a8ec09a7811a96",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n.#...\\n####.\\n.####\\n...#.\\n.....\", \"4\\n####\\n####\\n####\\n####\", \"6\\n.#....\\n####..\\n.####.\\n.#.##.\\n######\\n.#..#.\", \"6\\n.#..#.\\n######\\n.####.\\n.####.\\n######\\n.#..#.\", \"3\\n...\\n...\\n...\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def cross(i, j, v, n):\n\tv[i*n+j] = '.'\n\tif v[(i+1)*n+j] == '#':\n\t\tv[(i+1)*n+j] = '.'\n\t\tif v[(i+2)*n+j] == '#':\n\t\t\tv[(i+2)*n+j] = '.'\n\t\t\tif v[(i+1)*n+j+1] == '#':\n\t\t\t\tv[(i+1)*n+j+1] = '.'\n\t\t\t\tif v[(i+1)*n+j-1] == '#':\n\t\t\t\t\tv[(i+1)*n+j-1] = '.'\n\t\t\t\t\treturn True\n\t\t\t\telse:\n\t\t\t\t\treturn False\n\t\t\telse:\n\t\t\t\treturn False\n\t\telse:\n\t\t\treturn False\n\telse:\n\t\treturn False\n\n\nn = int(input())\nv = ['.'] * n * n\nans = True\n\nfor i in range(n):\n\ts = input()\n\tfor j in range(n):\n\t\tv[i*n+j] = s[j]\n\nfor i in range(n):\n\tif ans:\n\t\tfor j in range(n):\n\t\t\tif v[i*n+j] == '#':\n\t\t\t\tif j == 0 or j == (n - 1) or i > (n - 3):\n\t\t\t\t\tans = False\n\t\t\t\t\tbreak\n\t\t\t\telse:\n\t\t\t\t\tans = cross(i, j, v, n)\n\telse:\n\t\tbreak\n\nif ans:\n\tprint('YES')\nelse:\n\tprint('NO')",
+    "prob_desc_created_at": "1391442000",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

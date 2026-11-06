@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n1 2 3 4 5\\n2\\n2 2\\n1\\n3 11\\n3\\n3 1 1 1\"]",
+    "src_uid": "4d0b2fe22b4870b15d63e9fb778bcb7b",
+    "prob_desc_notes": "NoteIn the first test case, the graph is already connected.In the second test case, we can increment $$$0$$$ twice and end up with the array $$$[2,2]$$$. Since $$$2 \\&amp; 2 = 2 &gt; 0$$$, the graph is connected. It can be shown that one operation is not enough.In the third test case, we can decrement $$$12$$$ once and we end up with an array $$$[3,11]$$$. $$$3 \\&amp; 11 = 3 &gt; 0$$$ hence the graph is connected. One operation has to be done since the graph is not connected at the beginning.",
+    "prob_desc_description": "Bit Lightyear, to the ANDfinity and beyond!After graduating from computer sciences, Vlad has been awarded an array $$$a_1,a_2,\\ldots,a_n$$$ of $$$n$$$ non-negative integers. As it is natural, he wanted to construct a graph consisting of $$$n$$$ vertices, numbered $$$1, 2,\\ldots, n$$$. He decided to add an edge between $$$i$$$ and $$$j$$$ if and only if $$$a_i \\&amp; a_j &gt; 0$$$, where $$$\\&amp;$$$ denotes the bitwise AND operation.Vlad also wants the graph to be connected, which might not be the case initially. In order to satisfy that, he can do the following two types of operations on the array:  Choose some element $$$a_i$$$ and increment it by $$$1$$$.  Choose some element $$$a_i$$$ and decrement it by $$$1$$$ (possible only if $$$a_i &gt; 0$$$). It can be proven that there exists a finite sequence of operations such that the graph will be connected. So, can you please help Vlad find the minimum possible number of operations to do that and also provide the way how to do that?",
+    "prob_desc_output_spec": "For each test case, print a single integer $$$m$$$ in the first line — the minimum number of operations. In the second line print the array after a valid sequence of operations that have been done such that the graph from the task becomes connected.  If there are multiple solutions, output any.",
+    "prob_desc_input_spec": "There are several test cases in the input data. The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 1000$$$) — the number of test cases. This is followed by the test cases description. The first line of each test case contains an integer $$$n$$$ ($$$2\\leq n \\leq 2000$$$).  The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0\\leq a_i &lt; 2^{30}$$$) — the elements of the array. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_096.jsonl",
+    "code_uid": "e8cf0e97abc4c680abd130f3f84b3031",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n5\\n1 2 3 4 5\\n2\\n0 2\\n2\\n3 12\\n4\\n3 0 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\r\n\r\ndef connected(n, arr):\r\n    g = [[] for i in range(n)]\r\n    for k in range(30):\r\n        ind = []\r\n        for i, a in enumerate(arr):\r\n            if a&(1<<k):\r\n                ind.append(i)\r\n        if len(ind) > 1:\r\n            a = ind.pop()\r\n            for i in ind:\r\n                g[i].append(a)\r\n                g[a].append(i)\r\n    v = [0]*n\r\n    v[0] = 1\r\n    q = deque()\r\n    q.append(0)\r\n    while q:\r\n        x = q.popleft()\r\n        for y in g[x]:\r\n            if v[y] == 0:\r\n                v[y] = 1\r\n                q.append(y)\r\n    return 0 not in v\r\n\r\n\r\ndef solve():\r\n    n = int(input())\r\n    arr = list(map(int, input().split()))\r\n    ans = 0\r\n    for i, a in enumerate(arr):\r\n        if a == 0:\r\n            ans += 1\r\n            arr[i] = 1\r\n    if connected(n, arr):\r\n        print(ans)\r\n        print(*arr)\r\n        return\r\n    for i in range(n):\r\n        for j in (-1, 1):\r\n            arr1 = arr[:]\r\n            arr1[i] += j\r\n            if connected(n, arr1):\r\n                print(ans+1)\r\n                print(*arr1)\r\n                return\r\n    m = max(a&-a for a in arr)\r\n    L = []\r\n    for i, a in enumerate(arr):\r\n        if a&-a == m:\r\n            L.append(i)\r\n    arr[L[0]] -= 1\r\n    arr[L[1]] += 1\r\n    print(ans+2)\r\n    print(*arr)\r\n\r\n\r\nimport sys\r\ninput = lambda: sys.stdin.readline().rstrip()\r\nt = int(input())\r\nfor i in range(t):\r\n    solve()\r\n",
+    "prob_desc_created_at": "1654878900",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "constructive algorithms",
+        "dfs and similar",
+        "dsu",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

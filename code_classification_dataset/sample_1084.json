@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"010\", \"010\", \"0000000\", \"0011001100001011101000\"]",
+    "src_uid": "a3c844e3ee6c9596f1ec9ab46c6ea872",
+    "prob_desc_notes": "NoteIn the first example:  For the substrings of the length $$$1$$$ the length of the longest non-decreasing subsequnce is $$$1$$$;  For $$$l = 1, r = 2$$$ the longest non-decreasing subsequnce of the substring $$$s_{1}s_{2}$$$ is $$$11$$$ and the longest non-decreasing subsequnce of the substring $$$t_{1}t_{2}$$$ is $$$01$$$;  For $$$l = 1, r = 3$$$ the longest non-decreasing subsequnce of the substring $$$s_{1}s_{3}$$$ is $$$11$$$ and the longest non-decreasing subsequnce of the substring $$$t_{1}t_{3}$$$ is $$$00$$$;  For $$$l = 2, r = 3$$$ the longest non-decreasing subsequnce of the substring $$$s_{2}s_{3}$$$ is $$$1$$$ and the longest non-decreasing subsequnce of the substring $$$t_{2}t_{3}$$$ is $$$1$$$; The second example is similar to the first one.",
+    "prob_desc_description": "The only difference between easy and hard versions is the length of the string. You can hack this problem if you solve it. But you can hack the previous problem only if you solve both problems.Kirk has a binary string $$$s$$$ (a string which consists of zeroes and ones) of length $$$n$$$ and he is asking you to find a binary string $$$t$$$ of the same length which satisfies the following conditions: For any $$$l$$$ and $$$r$$$ ($$$1 \\leq l \\leq r \\leq n$$$) the length of the longest non-decreasing subsequence of the substring $$$s_{l}s_{l+1} \\ldots s_{r}$$$ is equal to the length of the longest non-decreasing subsequence of the substring $$$t_{l}t_{l+1} \\ldots t_{r}$$$; The number of zeroes in $$$t$$$ is the maximum possible.A non-decreasing subsequence of a string $$$p$$$ is a sequence of indices $$$i_1, i_2, \\ldots, i_k$$$ such that $$$i_1 &lt; i_2 &lt; \\ldots &lt; i_k$$$ and $$$p_{i_1} \\leq p_{i_2} \\leq \\ldots \\leq p_{i_k}$$$. The length of the subsequence is $$$k$$$.If there are multiple substrings which satisfy the conditions, output any.",
+    "prob_desc_output_spec": "Output a binary string which satisfied the above conditions. If there are many such strings, output any of them.",
+    "prob_desc_input_spec": "The first line contains a binary string of length not more than $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_006.jsonl",
+    "code_uid": "1f4190a2a2f7dd0fd8eb8a41ba3d4591",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"110\", \"010\", \"0001111\", \"0111001100111011101000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "data = [int(i) for i in input()]\nn = len(data)\nminval = [0]* n\nminval[-1] = 2 * data[-1] - 1  \n\nfor i in range(n-2, -1, -1):\n    if data[i] == 1:\n        minval[i] = min(1, minval[i+1] + 1)\n    else:\n        minval[i] = min(-1, minval[i+1] - 1)\n\nans = [i for i in data]\nfor i in range(n-1, -1, -1):\n    if minval[i] == 1:\n        ans[i] = 0\nans2 = [str(i) for i in ans]\n\nprint(\"\".join(ans2))\n# print(minval)",
+    "prob_desc_created_at": "1566311700",
+    "tags": [
+        "data structures",
+        "greedy",
+        "math",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

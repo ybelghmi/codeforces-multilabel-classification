@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"-1\", \"2 1\", \"2 1 4 3\"]",
+    "src_uid": "204ba74195a384c59fb1357bdd71e16c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A permutation is a sequence of integers p1, p2, ..., pn, consisting of n distinct positive integers, each of them doesn't exceed n. Let's denote the i-th element of permutation p as pi. We'll call number n the size of permutation p1, p2, ..., pn.Nickolas adores permutations. He likes some permutations more than the others. He calls such permutations perfect. A perfect permutation is such permutation p that for any i (1 ≤ i ≤ n) (n is the permutation size) the following equations hold ppi = i and pi ≠ i. Nickolas asks you to print any perfect permutation of size n for the given n.",
+    "prob_desc_output_spec": "If a perfect permutation of size n doesn't exist, print a single integer -1. Otherwise print n distinct integers from 1 to n, p1, p2, ..., pn — permutation p, that is perfect. Separate printed numbers by whitespaces.",
+    "prob_desc_input_spec": "A single line contains a single integer n (1 ≤ n ≤ 100) — the permutation size.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_005.jsonl",
+    "code_uid": "740a2db6ab0dc489cc5f948c06921542",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\", \"2\", \"4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import bisect\nfrom collections import defaultdict\nfrom collections import deque\nimport math\nimport re\nimport sys\nimport itertools\n\ndef ni():\n    return int(raw_input())\n\ndef nis():\n    return map(int, raw_input().split())\n\ndef si():\n    return raw_input()\n\ndef sis():\n    return raw_input().split()\n\ndef spaced(a):\n    return ' '.join(map(str, a))\n\nn = ni()\n\nif n % 2:\n    print -1\nelse:\n    a = range(1, n + 1)\n    for i in range(0, n - 1, 2):\n        a[i], a[i + 1] = a[i + 1], a[i]\n\n    print spaced(a)\n",
+    "prob_desc_created_at": "1349969400",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6 -3\"]",
+    "src_uid": "a01e1c545542c1641eca556439f0692e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A line on the plane is described by an equation Ax + By + C = 0. You are to find any point on this line, whose coordinates are integer numbers from  - 5·1018 to 5·1018 inclusive, or to find out that such points do not exist.",
+    "prob_desc_output_spec": "If the required point exists, output its coordinates, otherwise output -1.",
+    "prob_desc_input_spec": "The first line contains three integers A, B and C ( - 2·109 ≤ A, B, C ≤ 2·109) — corresponding coefficients of the line equation. It is guaranteed that A2 + B2 &gt; 0.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_002.jsonl",
+    "code_uid": "917234d6fbbb0ad6d14506948dfd7760",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 5 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def extgcd(a, b):\n\tif b == 0:\n\t\treturn 1, 0, a\n\tx, y, g = extgcd(b, a % b)\n\treturn y, x - y * (a // b), g\n\na, b, c = map(int, raw_input().split())\nx, y, g = extgcd(a, b)\nif c % g != 0:\n\tprint -1\nelse:\n\tt = c // g\n\tprint -x * t, -y * t\n",
+    "prob_desc_created_at": "1270136700",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

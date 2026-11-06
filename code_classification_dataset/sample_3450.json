@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"2\"]",
+    "src_uid": "ad2c4d07da081505fa251ba8c27028b1",
+    "prob_desc_notes": "NoteIn the first example there are two ways:    xxo          xoo    xox          ooo    oxx          oox",
+    "prob_desc_description": "Toastman came up with a very complicated task. He gives it to Appleman, but Appleman doesn't know how to solve it. Can you help him?Given a n × n checkerboard. Each cell of the board has either character 'x', or character 'o', or nothing. How many ways to fill all the empty cells with 'x' or 'o' (each cell must contain only one character in the end) are there, such that for each cell the number of adjacent cells with 'o' will be even? Find the number of ways modulo 1000000007 (109 + 7). Two cells of the board are adjacent if they share a side.",
+    "prob_desc_output_spec": "Print a single integer — the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains two integers n, k (1 ≤ n, k ≤ 105) — the size of the board, and the number of cells that has characters initially.  Then k lines follows. The i-th line contains two integers and a character: ai, bi, ci (1 ≤ ai, bi ≤ n; ci is either 'o' or 'x'). This line means: there is a character ci in the cell that is located on the intersection of the ai-th row and bi-th column. All the given cells are distinct. Consider that the rows are numbered from 1 to n from top to bottom. Analogically, the columns are numbered from 1 to n from left to right.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_060.jsonl",
+    "code_uid": "df038c5e145652e0ae1f133373c0ef04",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 1 x\\n2 2 o\", \"4 3\\n2 4 x\\n3 4 x\\n3 2 x\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\ndef main():\n    n, k = map(int, stdin.readline().split())\n    par = [range(n+10), range(n+10)]\n    def find(i, x):\n        if par[i][x] == x:\n            return x\n        else:\n            par[i][x] = find(i, par[i][x])\n            return par[i][x]\n    def unite(i, x, y):\n        x, y = find(i, x), find(i, y)\n        par[i][x] = y\n    mod = 1000000007\n    m = (n + 1) / 2\n    for _ in xrange(k):\n        l = stdin.readline().split()\n        r, c, b = int(l[0]) - 1, int(l[1]) - 1, int(l[2] == 'o')\n        p = (r + c) % 2\n        if r > m:\n            r, c = n - 1 - r, n - 1 - c\n        L, R = c - r, c + r\n        if L < 0:\n            L = -L\n        if R >= n:\n            R = 2 * (n - 1) - R\n        unite(p, L+b, R+2)\n        unite(p, L+1-b, R+3)\n    c = 0\n    for p in [0, 1]:\n        for i in xrange([m, n-m][p]+1):\n            L, R = p+i+i, p+i+i+1\n            l, r = find(p, L), find(p, R)\n            if l == r:\n                print 0\n                return\n            if l == L:\n                c += 1\n    print pow(2, c - 2, mod)\nmain()",
+    "prob_desc_created_at": "1409061600",
+    "tags": [
+        "dsu",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

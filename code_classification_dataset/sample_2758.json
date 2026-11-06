@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "88f0065bc0c3a661e325920fff483e83",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The closing ceremony of Squanch Code Cup is held in the big hall with n × m seats, arranged in n rows, m seats in a row. Each seat has two coordinates (x, y) (1 ≤ x ≤ n, 1 ≤ y ≤ m). There are two queues of people waiting to enter the hall: k people are standing at (0, 0) and n·m - k people are standing at (0, m + 1). Each person should have a ticket for a specific seat. If person p at (x, y) has ticket for seat (xp, yp) then he should walk |x - xp| + |y - yp| to get to his seat.Each person has a stamina — the maximum distance, that the person agrees to walk. You should find out if this is possible to distribute all n·m tickets in such a way that each person has enough stamina to get to their seat.",
+    "prob_desc_output_spec": "If it is possible to distribute tickets between people in the described manner print \"YES\", otherwise print \"NO\".",
+    "prob_desc_input_spec": "The first line of input contains two integers n and m (1 ≤ n·m ≤ 104) — the size of the hall. The second line contains several integers. The first integer k (0 ≤ k ≤ n·m) — the number of people at (0, 0). The following k integers indicate stamina of each person there. The third line also contains several integers. The first integer l (l = n·m - k) — the number of people at (0, m + 1). The following l integers indicate stamina of each person there. The stamina of the person is a positive integer less that or equal to n + m.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_030.jsonl",
+    "code_uid": "405c1f2319b720a8aef959f2dbf46406",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n3 3 3 2\\n1 3\", \"2 2\\n3 2 3 3\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import bisect\nn,m = map(int,raw_input().split())\np1 = list(map(int,raw_input().split()))\np2 = list(map(int,raw_input().split()))\n#print n,m\n#print p1,p2\ns1 = sorted(p1[1:])\ns2 = sorted(p2[1:])\n#print s1\ndef f(n,m,s1,s2):\n    for i in xrange(n,0,-1):\n        for j in xrange(1,m+1):\n            iter1 = bisect.bisect_left(s1,i+j)\n            iter2 = bisect.bisect_left(s2,i+m+1-j)\n            #print iter1,iter2,len(s1),len(s2)\n            if iter1 < len(s1):\n                del s1[iter1]\n            elif iter2 < len(s2):\n                del s2[iter2]\n            else:\n                print \"NO\"\n                return 0\n    print \"YES\"\n    return 0\nf(n,m,s1,s2)",
+    "prob_desc_created_at": "1474196700",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

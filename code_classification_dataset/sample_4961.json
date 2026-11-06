@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"NO\\nYES\\nNO\\nNO\"]",
+    "src_uid": "4af59df1bc56ca8eb5913c2e57905922",
+    "prob_desc_notes": "NoteIn the first test case, there is no possible way to paint the sequence. For example, if you paint the sequence this way: $$$[\\myblue{1},\\myblue{2},\\myred{3}]$$$ (where $$$3$$$ is painted red, $$$1$$$ and $$$2$$$ are painted blue) then $$$\\text{Count}(\\RED)=1 &lt; \\text{Count}(\\BLUE)=2$$$, but $$$\\text{Sum}(\\RED)=3 \\ngtr \\text{Sum}(\\BLUE)=3$$$. So, this is not a possible way to paint the sequence.In the second test case, a possible way to paint the sequence is described in the statement. We can see that $$$\\text{Sum}(\\RED)=6 &gt; \\text{Sum}(\\BLUE)=5$$$ and $$$\\text{Count}(\\RED)=1 &lt; \\text{Count}(\\BLUE)=2$$$.In the third test case, there is no possible way to paint the sequence. For example, if you paint the sequence this way: $$$[\\myred{3},\\myred{5},\\myblue{4}, \\myblue{2}]$$$ (where $$$3$$$ and $$$5$$$ are painted red, $$$4$$$ and $$$2$$$ are painted blue) then $$$\\text{Sum}(\\RED) = 8 &gt; \\text{Sum}(\\BLUE) = 6$$$ but $$$\\text{Count}(\\RED) = 2 \\nless \\text{Count}(\\BLUE) = 2$$$. So, this is not a possible way to paint the sequence.In the fourth test case, it can be proven that there is no possible way to paint the sequence satisfying sum and count constraints.",
+    "prob_desc_description": "$$$ \\def\\myred#1{\\color{red}{\\underline{\\bf{#1}}}} \\def\\myblue#1{\\color{blue}{\\overline{\\bf{#1}}}} $$$ $$$\\def\\RED{\\myred{Red}} \\def\\BLUE{\\myblue{Blue}}$$$You are given a sequence of $$$n$$$ non-negative integers $$$a_1, a_2, \\ldots, a_n$$$. Initially, all the elements of the sequence are unpainted. You can paint each number $$$\\RED$$$ or $$$\\BLUE$$$ (but not both), or leave it unpainted. For a color $$$c$$$, $$$\\text{Count}(c)$$$ is the number of elements in the sequence painted with that color and $$$\\text{Sum}(c)$$$ is the sum of the elements in the sequence painted with that color.For example, if the given sequence is $$$[2, 8, 6, 3, 1]$$$ and it is painted this way: $$$[\\myblue{2}, 8, \\myred{6}, \\myblue{3}, 1]$$$ (where $$$6$$$ is painted red, $$$2$$$ and $$$3$$$ are painted blue, $$$1$$$ and $$$8$$$ are unpainted) then $$$\\text{Sum}(\\RED)=6$$$, $$$\\text{Sum}(\\BLUE)=2+3=5$$$, $$$\\text{Count}(\\RED)=1$$$, and $$$\\text{Count}(\\BLUE)=2$$$.Determine if it is possible to paint the sequence so that $$$\\text{Sum}(\\RED) &gt; \\text{Sum}(\\BLUE)$$$ and $$$\\text{Count}(\\RED) &lt; \\text{Count}(\\BLUE)$$$.",
+    "prob_desc_output_spec": "For each test case, print YES if it is possible to paint the given sequence satisfying the above requirements, and NO otherwise. You can output YES and NO in any case (for example, strings yEs, yes, Yes and YES will be recognized as a positive response).",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 1000$$$). Description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$3\\le n\\le 2\\cdot 10^5$$$) — the length of the given sequence.  The second line of each test case contains $$$n$$$ integers $$$a_1,a_2,\\ldots,a_n$$$ ($$$0\\le a_i\\le 10^9$$$) — the given sequence. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2\\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_110.jsonl",
+    "code_uid": "7485aeccdb9dfe41b6afd01c1d179563",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3\\n1 2 3\\n5\\n2 8 6 3 1\\n4\\n3 5 4 2\\n5\\n1000000000 1000000000 1000000000 1000000000 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\r\n    cases = read_cases()\r\n    results = process_cases(cases)\r\n\r\n    for r in results:\r\n        print(r)\r\n\r\n\r\ndef read_cases():\r\n    num_cases = int(input())\r\n    cases = []\r\n    for i in range(0, num_cases):\r\n        input()\r\n        case_string = input()\r\n        case_el_strings = case_string.split(' ')\r\n\r\n        case_array = list(map(int, case_el_strings))\r\n        case_array.sort()\r\n        cases.append(case_array)\r\n    return cases\r\n\r\n\r\ndef process_cases(cases):\r\n    return list(map(process_case, cases))\r\n\r\n\r\ndef process_case(case) -> str:\r\n    output = \"no\"\r\n\r\n    indent = 1 if len(case) % 2 == 0 else 0  # ok\r\n    red_sum = case[len(case) - 1]\r\n    blue_sum = sum(case[0:len(case) - 1 - indent])\r\n    # print('blue_sum', blue_sum)\r\n    # print('red_sum', red_sum)\r\n    if red_sum > blue_sum:\r\n        return \"yes\"\r\n    for j in range(len(case) - 2, int(len(case) / 2), -1):\r\n        blue_sum -= case[j - indent]\r\n        red_sum += case[j]\r\n        # print(\"blue el\", case[j - 1], j)\r\n        # print(\"red el\", case[j], j + 1)\r\n        # print('blue_sum', blue_sum)\r\n        # print('red_sum', red_sum)\r\n        if red_sum > blue_sum:\r\n            output = \"yes\"\r\n            break\r\n    return output\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    main()\r\n",
+    "prob_desc_created_at": "1646408100",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "greedy",
+        "sortings",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

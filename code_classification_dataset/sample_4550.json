@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n-1\\n4\\n2\"]",
+    "src_uid": "85ad953161bb8841eed7c47a66381688",
+    "prob_desc_notes": "NoteFor the first test, the only possible sequence of operations which minimizes the number of operations is:   Choose $$$i=2$$$, $$$x=5$$$. Perform $$$a_2 := a_2 \\bmod 5 = 2$$$. For the second test, it is impossible to obtain a permutation of integers from $$$1$$$ to $$$n$$$.",
+    "prob_desc_description": "Paprika loves permutations. She has an array $$$a_1, a_2, \\dots, a_n$$$. She wants to make the array a permutation of integers $$$1$$$ to $$$n$$$.In order to achieve this goal, she can perform operations on the array. In each operation she can choose two integers $$$i$$$ ($$$1 \\le i \\le n$$$) and $$$x$$$ ($$$x &gt; 0$$$), then perform $$$a_i := a_i \\bmod x$$$ (that is, replace $$$a_i$$$ by the remainder of $$$a_i$$$ divided by $$$x$$$). In different operations, the chosen $$$i$$$ and $$$x$$$ can be different.Determine the minimum number of operations needed to make the array a permutation of integers $$$1$$$ to $$$n$$$. If it is impossible, output $$$-1$$$.A permutation is an array consisting of $$$n$$$ distinct integers from $$$1$$$ to $$$n$$$ in arbitrary order. For example, $$$[2,3,1,5,4]$$$ is a permutation, but $$$[1,2,2]$$$ is not a permutation ($$$2$$$ appears twice in the array) and $$$[1,3,4]$$$ is also not a permutation ($$$n=3$$$ but there is $$$4$$$ in the array).",
+    "prob_desc_output_spec": "For each test case, output the minimum number of operations needed to make the array a permutation of integers $$$1$$$ to $$$n$$$, or $$$-1$$$ if it is impossible.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$). The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$. ($$$1 \\le a_i \\le 10^9$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_100.jsonl",
+    "code_uid": "7b7a51cfb363a7a36084a011fe23cadd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2\\n1 7\\n3\\n1 5 4\\n4\\n12345678 87654321 20211218 23571113\\n9\\n1 2 3 4 18 19 5 6 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninpu = sys.stdin.buffer.readline\r\nprin = sys.stdout.write\r\nfor _ in range(int(inpu())) :\r\n    n = int(inpu())\r\n    a = list(map(int, inpu().split()))\r\n    a.sort()\r\n    ind = n\r\n    idd = [0]*(n + 1)\r\n    b = []\r\n    for i in range(n) :\r\n        if a[i] > n :\r\n            ind = i\r\n            break\r\n        elif idd[a[i]] == 1:\r\n            b.append(a[i])\r\n        else:\r\n            idd[a[i]] = 1\r\n    count = 0\r\n    c = b + a[ind :]\r\n    ind = 0\r\n    for j in range(1, n + 1) :\r\n        if idd[j] == 0:\r\n            if c[ind] > 2*j :\r\n                count += 1\r\n                ind += 1\r\n            else :\r\n                prin(\"-1\\n\")\r\n                break\r\n    else :\r\n        prin(str(count) + '\\n')",
+    "prob_desc_created_at": "1639661700",
+    "tags": [
+        "binary search",
+        "greedy",
+        "math",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

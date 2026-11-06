@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"1\", \"2\", \"-1\"]",
+    "src_uid": "dabeb9852332f6a6e730acab7fe61a5c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "  One morning the Cereal Guy found out that all his cereal flakes were gone. He found a note instead of them. It turned out that his smart roommate hid the flakes in one of n boxes. The boxes stand in one row, they are numbered from 1 to n from the left to the right. The roommate left hints like \"Hidden to the left of the i-th box\" (\"To the left of i\"), \"Hidden to the right of the i-th box\" (\"To the right of i\"). Such hints mean that there are no flakes in the i-th box as well. The Cereal Guy wants to know the minimal number of boxes he necessarily needs to check to find the flakes considering all the hints. Or he wants to find out that the hints are contradictory and the roommate lied to him, that is, no box has the flakes.",
+    "prob_desc_output_spec": "The answer should contain exactly one integer — the number of boxes that should necessarily be checked or \"-1\" if the hints are contradictory.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n ≤ 1000, 0 ≤ m ≤ 1000) which represent the number of boxes and the number of hints correspondingly. Next m lines contain hints like \"To the left of i\" and \"To the right of i\", where i is integer (1 ≤ i ≤ n). The hints may coincide.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_021.jsonl",
+    "code_uid": "2c2de738e37b87a4ea07df5cd54ea6cf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 1\\nTo the left of 2\", \"3 2\\nTo the right of 1\\nTo the right of 2\", \"3 1\\nTo the left of 3\", \"3 2\\nTo the left of 2\\nTo the right of 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import pdb\nimport sys\n\nfile = sys.stdin\n#file = open(\"test\", \"r\")\n\nn, m = map(int, file.readline().rstrip().split())\nstart = 1\nend = n\nis_illegal = False\nfor _ in range(m):\n    p = file.readline().rstrip().split()\n    direction = p[2]\n    index = int(p[4])\n    if direction == \"right\":\n        if index >= end: \n            is_illegal = True\n        else:\n            if start < index + 1:\n                start = index + 1\n    else:\n        if index <= start:\n            is_illegal = True\n        else:\n            if end > index - 1:\n                end = index - 1\n\nif is_illegal:\n    print \"-1\"\nelse:\n    print end - start + 1\n",
+    "prob_desc_created_at": "1298131200",
+    "tags": [
+        "two pointers",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"NO\"]",
+    "src_uid": "600b322b10cbde66ad8ffba5dc7d84e6",
+    "prob_desc_notes": "NoteThe graph corresponding to the first example:The graph corresponding to the second example:The graph corresponding to the third example:",
+    "prob_desc_description": "As the name of the task implies, you are asked to do some work with segments and trees.Recall that a tree is a connected undirected graph such that there is exactly one simple path between every pair of its vertices.You are given $$$n$$$ segments $$$[l_1, r_1], [l_2, r_2], \\dots, [l_n, r_n]$$$, $$$l_i &lt; r_i$$$ for every $$$i$$$. It is guaranteed that all segments' endpoints are integers, and all endpoints are unique — there is no pair of segments such that they start in the same point, end in the same point or one starts in the same point the other one ends.Let's generate a graph with $$$n$$$ vertices from these segments. Vertices $$$v$$$ and $$$u$$$ are connected by an edge if and only if segments $$$[l_v, r_v]$$$ and $$$[l_u, r_u]$$$ intersect and neither of it lies fully inside the other one.For example, pairs $$$([1, 3], [2, 4])$$$ and $$$([5, 10], [3, 7])$$$ will induce the edges but pairs $$$([1, 2], [3, 4])$$$ and $$$([5, 7], [3, 10])$$$ will not.Determine if the resulting graph is a tree or not.",
+    "prob_desc_output_spec": "Print \"YES\" if the resulting graph is a tree and \"NO\" otherwise.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 5 \\cdot 10^5$$$) — the number of segments. The $$$i$$$-th of the next $$$n$$$ lines contain the description of the $$$i$$$-th segment — two integers $$$l_i$$$ and $$$r_i$$$ ($$$1 \\le l_i &lt; r_i \\le 2n$$$). It is guaranteed that all segments borders are pairwise distinct. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_053.jsonl",
+    "code_uid": "e7c658c57be950068a07962ba23666b5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n9 12\\n2 11\\n1 3\\n6 10\\n5 7\\n4 8\", \"5\\n1 3\\n2 4\\n5 9\\n6 8\\n7 10\", \"5\\n5 8\\n3 6\\n2 9\\n7 10\\n1 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n \ninp = [int(x) for x in sys.stdin.read().split()]; ii = 0\n \nn = inp[ii]; ii += 1\nA = [0]*(2 * n)\nL = []\nR = []\nfor i in range(n):\n    l = inp[ii] - 1; ii += 1\n    r = inp[ii] - 1; ii += 1\n    L.append(l)\n    R.append(r)\n    A[l] = i\n    A[r] = ~i\n \n \nclass segtree:\n    def __init__(self, n):\n        m = 1\n        while m < n: m *= 2\n        self.m = m\n        self.data = [0]*(2 * m)\n \n    def add(self, i):\n        i += self.m\n        while i:\n            self.data[i] += 1\n            i >>= 1\n \n    def finder(self, l, r):\n        m = self.m\n        data = self.data\n        l += m\n        r += m\n        cand = []\n        while l < r:\n            if l & 1:\n                if data[l]:\n                    cand.append(l)\n                l += 1\n            if r & 1:\n                r -= 1\n                if data[r]:\n                    cand.append(r)\n            l >>= 1\n            r >>= 1\n        \n        ans = []\n        for i in cand:\n            while i < m and data[i]:\n                if data[2 * i]:\n                    cand.append(2 * i)\n                i = 2 * i + 1\n            if data[i]:\n                ans.append(i - m)\n        return ans\n \ncoupl = [[] for _ in range(n)]\nseg = segtree(2 * n)\n \nedges = 0\nfor j in range(2 * n):\n    i = A[j]\n    if i >= 0:\n        for r_ind in seg.finder(j, R[i]):\n            node = ~A[r_ind]\n            coupl[i].append(node)\n            coupl[node].append(i)\n            edges += 1\n            if edges == n:\n                print 'NO'\n                sys.exit()\n        seg.add(R[i])\n \nif edges != n - 1:\n    print 'NO'\n    sys.exit()\n \n \nfound = [0]*n\nfound[0] = 1\nbfs = [0]\nfor node in bfs:\n    for nei in coupl[node]:\n        if not found[nei]:\n            found[nei] = 1\n            bfs.append(nei)\nif all(found):\n    print 'YES'\nelse:\n    print 'NO'\n ",
+    "prob_desc_created_at": "1576766100",
+    "tags": [
+        "data structures",
+        "dsu",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

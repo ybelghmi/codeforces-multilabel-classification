@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Vivek\\nAshish\\nVivek\\nAshish\"]",
+    "src_uid": "3ccc98190189b0c8e58a96dd5ad1245d",
+    "prob_desc_notes": "NoteFor the first case: One possible scenario could be: Ashish claims cell $$$(1, 1)$$$, Vivek then claims cell $$$(2, 2)$$$. Ashish can neither claim cell $$$(1, 2)$$$, nor cell $$$(2, 1)$$$ as cells $$$(1, 1)$$$ and $$$(2, 2)$$$ are already claimed. Thus Ashish loses. It can be shown that no matter what Ashish plays in this case, Vivek will win. For the second case: Ashish claims cell $$$(1, 1)$$$, the only cell that can be claimed in the first move. After that Vivek has no moves left.For the third case: Ashish cannot make a move, so Vivek wins.For the fourth case: If Ashish claims cell $$$(2, 3)$$$, Vivek will have no moves left.",
+    "prob_desc_description": "Ashish and Vivek play a game on a matrix consisting of $$$n$$$ rows and $$$m$$$ columns, where they take turns claiming cells. Unclaimed cells are represented by $$$0$$$, while claimed cells are represented by $$$1$$$. The initial state of the matrix is given. There can be some claimed cells in the initial state.In each turn, a player must claim a cell. A cell may be claimed if it is unclaimed and does not share a row or column with any other already claimed cells. When a player is unable to make a move, he loses and the game ends.If Ashish and Vivek take turns to move and Ashish goes first, determine the winner of the game if both of them are playing optimally.Optimal play between two players means that both players choose the best possible strategy to achieve the best possible outcome for themselves.",
+    "prob_desc_output_spec": "For each test case if Ashish wins the game print \"Ashish\" otherwise print \"Vivek\" (without quotes).",
+    "prob_desc_input_spec": "The first line consists of a single integer $$$t$$$ $$$(1 \\le t \\le 50)$$$ — the number of test cases. The description of the test cases follows. The first line of each test case consists of two space-separated integers $$$n$$$, $$$m$$$ $$$(1 \\le n, m \\le 50)$$$ — the number of rows and columns in the matrix. The following $$$n$$$ lines consist of $$$m$$$ integers each, the $$$j$$$-th integer on the $$$i$$$-th line denoting $$$a_{i,j}$$$ $$$(a_{i,j} \\in \\{0, 1\\})$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_004.jsonl",
+    "code_uid": "348d406e087873dab5e55ffc0182bc74",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 2\\n0 0\\n0 0\\n2 2\\n0 0\\n0 1\\n2 3\\n1 0 1\\n1 1 0\\n3 3\\n1 0 0\\n0 0 0\\n1 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\n    n,m=map(int,input().split())\n    mat=[]\n    r=[0]*n\n    for i in range(n):\n        a=list(map(int,input().split()))\n        if 1 in a:\n            r[i]=1\n        mat.append(a)\n    #print(mat[0][1])\n    c=[0]*m\n    for i in range(m):\n        for j in range(n):\n            if mat[j][i]==1:\n                c[i]=1\n                break\n    #print(r,c)\n    count=0\n    rd=0\n    cd=0\n    for i in r:\n        if i==1:\n            #print(r[i])\n            rd+=1\n    for i in c:\n        if i==1:\n            cd+=1\n    #print(rd,cd)\n    rd=n-rd\n    cd=m-cd\n    ma=min(rd,cd)\n    if(ma%2):\n        print('Ashish')\n    else:\n        print('Vivek')\n    '''if(rd>cd):\n        ma=n-rd\n        if(ma%2):\n            print('Ashish')\n        else:\n            print('Vivek')\n    else:\n        ma=m-cd\n        if(ma%2):\n            print('Ashish')\n        else:\n            print('Vivek')'''\n",
+    "prob_desc_created_at": "1591540500",
+    "tags": [
+        "implementation",
+        "greedy",
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

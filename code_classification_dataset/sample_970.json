@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "0.5 second",
+    "prob_desc_sample_outputs": "[\"a@a,a@a\", \"No solution\", \"No solution\"]",
+    "src_uid": "71b4674e91e0bc5521c416cfc570a090",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Email address in Berland is a string of the form A@B, where A and B are arbitrary strings consisting of small Latin letters. Bob is a system administrator in «Bersoft» company. He keeps a list of email addresses of the company's staff. This list is as a large string, where all addresses are written in arbitrary order, separated by commas. The same address can be written more than once.Suddenly, because of unknown reasons, all commas in Bob's list disappeared. Now Bob has a string, where all addresses are written one after another without any separators, and there is impossible to determine, where the boundaries between addresses are. Unfortunately, on the same day his chief asked him to bring the initial list of addresses. Now Bob wants to disjoin addresses in some valid way. Help him to do that.",
+    "prob_desc_output_spec": "If there is no list of the valid (according to the Berland rules) email addresses such that after removing all commas it coincides with the given string, output No solution. In the other case, output the list. The same address can be written in this list more than once. If there are several solutions, output any of them.",
+    "prob_desc_input_spec": "The first line contains the list of addresses without separators. The length of this string is between 1 and 200, inclusive. The string consists only from small Latin letters and characters «@».",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_005.jsonl",
+    "code_uid": "21461df770b0c62aabc8ca7ecd96f87e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"a@aa@a\", \"a@a@a\", \"@aa@a\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, re\n\ns = raw_input().strip()\nmatch = re.match('^(\\w+@\\w+)+$', s)\nif not match:\n    print('No solution')\n    sys.exit()\n\nprevious = 0\nlast_at = None\nresult = []\nfor pos, ch in enumerate(s):\n    if ch == '@':\n        result.append(s[previous:pos + 2])\n        previous = pos + 2\n        last_at = pos\nresult[-1] += s[last_at + 2:]\n\nprint(','.join(result))\n",
+    "prob_desc_created_at": "1285599600",
+    "tags": [
+        "implementation",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

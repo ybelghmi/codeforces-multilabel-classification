@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n1\", \"3\\n1 3 4\", \"4\\n1 4 5 6\", \"7\\n1 2 4 5 6 7 9\"]",
+    "src_uid": "81f7807397635c9ce01f9100e68cb420",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Let's call a set of positive integers $$$a_1, a_2, \\dots, a_k$$$ quadratic if the product of the factorials of its elements is a square of an integer, i. e. $$$\\prod\\limits_{i=1}^{k} a_i! = m^2$$$, for some integer $$$m$$$.You are given a positive integer $$$n$$$.Your task is to find a quadratic subset of a set $$$1, 2, \\dots, n$$$ of maximum size. If there are multiple answers, print any of them.",
+    "prob_desc_output_spec": "In the first line, print a single integer — the size of the maximum subset. In the second line, print the subset itself in an arbitrary order.",
+    "prob_desc_input_spec": "A single line contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^6$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2900,
+    "file_name": "train_085.jsonl",
+    "code_uid": "174b1d60eff3d63cd65d55d4091e1504",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\", \"4\", \"7\", \"9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def is_square(n):\r\n    return int(n ** 0.5) ** 2 == n\r\n\r\ndef solve(n):\r\n    if n <= 3:\r\n        return range(2, n+1)\r\n\r\n    k = n >> 1\r\n    if n % 4 == 0:\r\n        return [k]\r\n    if n % 4 == 1:\r\n        return [k, n]\r\n    if n % 4 == 2:\r\n        if is_square(n + 2):\r\n            return [k + 1]\r\n        if is_square(2 * k * (k - 1)):\r\n            return [k - 2]\r\n        return [2, k]\r\n    if n % 4 == 3:\r\n        if is_square(n + 1):\r\n            return [k + 1, n]\r\n        if is_square(2 * k * (k - 1)):\r\n            return [k - 2, n]\r\n        if is_square(n * (k - 1)):\r\n            return [k - 2, n - 2]\r\n        return [2, k, n]\r\n    \r\nN = int(input())\r\nans = solve(N)\r\noutput = [x for x in range(1, N+1) if x not in ans]\r\nprint(len(output))\r\nprint(\" \".join(map(str, output)))\r\n",
+    "prob_desc_created_at": "1640615700",
+    "tags": [
+        "constructive algorithms",
+        "hashing",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

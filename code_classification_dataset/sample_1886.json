@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"0\", \"6\"]",
+    "src_uid": "7d1e8769a6b1d5c6680ab530d19e7fa4",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The prison of your city has n prisoners. As the prison can't accommodate all of them, the city mayor has decided to transfer c of the prisoners to a prison located in another city.For this reason, he made the n prisoners to stand in a line, with a number written on their chests. The number is the severity of the crime he/she has committed. The greater the number, the more severe his/her crime was.Then, the mayor told you to choose the c prisoners, who will be transferred to the other prison. He also imposed two conditions. They are,  The chosen c prisoners has to form a contiguous segment of prisoners.  Any of the chosen prisoner's crime level should not be greater then t. Because, that will make the prisoner a severe criminal and the mayor doesn't want to take the risk of his running away during the transfer. Find the number of ways you can choose the c prisoners.",
+    "prob_desc_output_spec": "Print a single integer — the number of ways you can choose the c prisoners.",
+    "prob_desc_input_spec": "The first line of input will contain three space separated integers n (1 ≤ n ≤ 2·105), t (0 ≤ t ≤ 109) and c (1 ≤ c ≤ n). The next line will contain n space separated integers, the ith integer is the severity ith prisoner's crime. The value of crime severities will be non-negative and will not exceed 109. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_014.jsonl",
+    "code_uid": "fb88f7494754a1caffec6742b7f2c3b8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3 3\\n2 3 1 1\", \"1 1 1\\n2\", \"11 4 2\\n2 2 0 7 3 2 2 4 9 1 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "__author__ = 'cecilia'\n\nc=raw_input().split()\na=raw_input().split()\nc=map(int,c)\na=map(int,a)\nb=[]\nd=[]\nfor i in range(c[0]):\n    if a[i]>c[1]:\n        b.append(i)\nb.append(c[0])\nd.append(b[0])\nfor i in range(1,len(b)):\n    e=b[i]-b[i-1]-1\n    if e>=c[2]:\n        e = e-(c[2]-1)\n        if e>=0:\n            d.append(e)\nd[0]=d[0]-(c[2]-1)\nif d[0]<0:\n    d[0]=0\nf=sum(d)\n\nprint f",
+    "prob_desc_created_at": "1399044600",
+    "tags": [
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

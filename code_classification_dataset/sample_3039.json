@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"12\", \"9\", \"4\", \"4\", \"3\"]",
+    "src_uid": "c9c65223b8575676647fe943f8dff25a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You have to restore the wall. The wall consists of $$$N$$$ pillars of bricks, the height of the $$$i$$$-th pillar is initially equal to $$$h_{i}$$$, the height is measured in number of bricks. After the restoration all the $$$N$$$ pillars should have equal heights.You are allowed the following operations: put a brick on top of one pillar, the cost of this operation is $$$A$$$; remove a brick from the top of one non-empty pillar, the cost of this operation is $$$R$$$; move a brick from the top of one non-empty pillar to the top of another pillar, the cost of this operation is $$$M$$$.You cannot create additional pillars or ignore some of pre-existing pillars even if their height becomes $$$0$$$.What is the minimal total cost of restoration, in other words, what is the minimal total cost to make all the pillars of equal height?",
+    "prob_desc_output_spec": "Print one integer — the minimal cost of restoration.",
+    "prob_desc_input_spec": "The first line of input contains four integers $$$N$$$, $$$A$$$, $$$R$$$, $$$M$$$ ($$$1 \\le N \\le 10^{5}$$$, $$$0 \\le A, R, M \\le 10^{4}$$$) — the number of pillars and the costs of operations. The second line contains $$$N$$$ integers $$$h_{i}$$$ ($$$0 \\le h_{i} \\le 10^{9}$$$) — initial heights of pillars.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_039.jsonl",
+    "code_uid": "138a8320d475768651c6b25222c1b33e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1 100 100\\n1 3 8\", \"3 100 1 100\\n1 3 8\", \"3 100 100 1\\n1 3 8\", \"5 1 2 4\\n5 5 3 6 5\", \"5 1 2 2\\n5 5 3 6 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# https://codeforces.com/contest/1355/problem/E\n\nimport bisect\n\ndef func(val):\n    cost = 0\n    toAdd,toRemove = 0,0\n    lessEqual = bisect.bisect_right(arr,val)\n    greater = n - lessEqual\n\n    toAdd = (lessEqual * val) - dp[lessEqual]\n    toRemove = (total - dp[lessEqual]) - (greater * val)\n    if toRemove >= toAdd:\n        confirmRemove = toRemove - toAdd\n        toRemove = toAdd\n        cost += (confirmRemove * R)\n        cost += min(toAdd * A + R * toRemove, toAdd * M)\n    else:\n        confirmAdd = toAdd - toRemove\n        cost += (confirmAdd * A)\n        toAdd = toRemove\n        cost += min(toAdd * A + R * toRemove, toAdd * M)\n    return cost\n\nn, A, R, M = map(int, input().split())\narr = sorted([int(x) for x in input().split()])\ndp = [0]\nfor item in arr:\n    dp.append(dp[-1]+item)\ntotal = sum(arr)\nans = R * total\navg = total//n\nheightsToCheck = arr + [avg,avg+1]\n\ncost = min([func(h) for h in heightsToCheck])\n\nprint(min(ans,cost))",
+    "prob_desc_created_at": "1589628900",
+    "tags": [
+        "greedy",
+        "math",
+        "sortings",
+        "binary search",
+        "ternary search"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"01011010\\n-1\\n0\\n-1\\n0110\\n-1\\n111\\n1001\\n0101010\"]",
+    "src_uid": "001ac8bce4e44e9266a13eb27760906c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a string $$$s$$$ consisting of the characters '0', '1', and '?'. You need to replace all the characters with '?' in the string $$$s$$$ by '0' or '1' so that the string becomes a palindrome and has exactly $$$a$$$ characters '0' and exactly $$$b$$$ characters '1'. Note that each of the characters '?' is replaced independently from the others.A string $$$t$$$ of length $$$n$$$ is called a palindrome if the equality $$$t[i] = t[n-i+1]$$$ is true for all $$$i$$$ ($$$1 \\le i \\le n$$$).For example, if $$$s=$$$\"01?????0\", $$$a=4$$$ and $$$b=4$$$, then you can replace the characters '?' in the following ways:   \"01011010\";  \"01100110\". For the given string $$$s$$$ and the numbers $$$a$$$ and $$$b$$$, replace all the characters with '?' in the string $$$s$$$ by '0' or '1' so that the string becomes a palindrome and has exactly $$$a$$$ characters '0' and exactly $$$b$$$ characters '1'.",
+    "prob_desc_output_spec": "For each test case, output:    \"-1\", if you can't replace all the characters '?' in the string $$$s$$$ by '0' or '1' so that the string becomes a palindrome and that it contains exactly $$$a$$$ characters '0' and exactly $$$b$$$ characters '1';  the string that is obtained as a result of the replacement, otherwise.  If there are several suitable ways to replace characters, you can output any.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$). Then $$$t$$$ test cases follow. The first line of each test case contains two integers $$$a$$$ and $$$b$$$ ($$$0 \\le a, b \\le 2 \\cdot 10^5$$$, $$$a + b \\ge 1$$$). The second line of each test case contains the string $$$s$$$ of length $$$a+b$$$, consisting of the characters '0', '1', and '?'. It is guaranteed that the sum of the string lengths of $$$s$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_107.jsonl",
+    "code_uid": "879336aa38cc58c4e9ad3a317fa4f4f7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9\\n4 4\\n01?????0\\n3 3\\n??????\\n1 0\\n?\\n2 2\\n0101\\n2 2\\n01?0\\n0 1\\n0\\n0 3\\n1?1\\n2 2\\n?00?\\n4 3\\n??010?0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n    a,b=[int(x) for x in input().split()]\r\n    s=[x for x in input()]\r\n    needa=a-s.count('0')\r\n    needb=b-s.count('1')\r\n    n=(a+b)\r\n    done=True\r\n    direct=False\r\n    a=a-s.count('0')\r\n    b=b-s.count('1')\r\n\r\n    for i in range(n):\r\n        if s[i]!='?':\r\n            if s[n-1-i]=='?':\r\n                s[n-1-i]=s[i]\r\n                if s[i]=='0':\r\n                    a-=1\r\n\r\n                if s[i]=='1':\r\n                    b-=1\r\n\r\n            elif s[i]!=s[n-1-i]:\r\n                direct=True\r\n                print(-1)\r\n                break\r\n\r\n    if direct:\r\n        continue\r\n\r\n    if n%2!=0:\r\n        if s[n//2]=='?':\r\n            if a%2!=0:\r\n                s[n//2]='0'\r\n                a-=1\r\n\r\n            elif b%2!=0:\r\n                s[n//2]='1'\r\n                b-=1\r\n\r\n            else:\r\n                print(-1)\r\n                continue\r\n\r\n\r\n    for i in range(n):\r\n        if s[i]=='?':\r\n            if a>1:\r\n                s[i]='0'\r\n                s[n-1-i]='0'\r\n                a-=2\r\n\r\n            elif b>1:\r\n                s[i]='1'\r\n                s[n-1-i]='1'\r\n                b-=2\r\n\r\n\r\n    if s != s[::-1]:\r\n        print(-1)\r\n        continue\r\n\r\n    if a!=0 or b!=0:\r\n        print(-1)\r\n        continue\r\n\r\n    else:\r\n        for i in s:\r\n            print(i,end=\"\")\r\n        print()\r\n        \r\n\r\n   \r\n    ",
+    "prob_desc_created_at": "1618065300",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\"]",
+    "src_uid": "52769cd7b3b0d63a7259a5d0754c4803",
+    "prob_desc_notes": "NoteIn the first test case, one possible order is to have the third, fifth, and sixth person on the back row and the second, first, and fourth on the front row. The heights of the people will look like this. Back$$$9$$$$$$12$$$$$$16$$$Front$$$3$$$$$$1$$$$$$10$$$ It works because   $$$h_3-h_2 = 9-3 \\geq 6$$$,    $$$h_5-h_1 = 12-1\\geq 6$$$, and    $$$h_6-h_4 = 16-10\\geq 6$$$. In the second test case, it can be shown there is no way to order people in a way that satisfies the condition.In the third test case, the only way to arrange people to satisfy the condition is to have the first person on the back row and the second person on the front row.",
+    "prob_desc_description": "Mark is asked to take a group photo of $$$2n$$$ people. The $$$i$$$-th person has height $$$h_i$$$ units.To do so, he ordered these people into two rows, the front row and the back row, each consisting of $$$n$$$ people. However, to ensure that everyone is seen properly, the $$$j$$$-th person of the back row must be at least $$$x$$$ units taller than the $$$j$$$-th person of the front row for each $$$j$$$ between $$$1$$$ and $$$n$$$, inclusive.Help Mark determine if this is possible.",
+    "prob_desc_output_spec": "For each test case, print a single line containing \"YES\" if Mark could arrange people satisfying his condition and \"NO\" otherwise. You may print each letter in any case (for example, YES, Yes, yes, yEs will all be recognized as positive answers).",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1\\leq t\\leq 100$$$) — the number of test cases. Each test case consists of two lines. The first line of each test case contains two positive integers $$$n$$$ and $$$x$$$ ($$$1\\leq n\\leq 100$$$, $$$1\\leq x\\leq 10^3$$$) — the number of people in each row and the minimum difference Mark wants. The second line of each test case contains $$$2n$$$ positive integers $$$h_1,h_2,\\ldots,h_{2n}$$$ ($$$1\\leq h_i\\leq 10^3$$$) — the height of each person in units. Note that the sum of $$$n$$$ over all test cases is not bounded.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_100.jsonl",
+    "code_uid": "cb03e289b4a4b48f6d2589d2c8b5464d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n3 6\\n\\n1 3 9 10 12 16\\n\\n3 1\\n\\n2 5 2 2 2 5\\n\\n1 2\\n\\n8 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "cnt_t = int(input())\r\nfor t in range(cnt_t):\r\n    n, x = map(int, input().split())\r\n    a = list(map(int, input().split()))\r\n    \r\n    a.sort()\r\n    ans = \"YES\"\r\n    for i in range(n):\r\n        if a[i + n] - a[i] < x:\r\n            ans = \"NO\"\r\n            break\r\n    \r\n    print(ans)",
+    "prob_desc_created_at": "1657892100",
+    "tags": [
+        "greedy",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

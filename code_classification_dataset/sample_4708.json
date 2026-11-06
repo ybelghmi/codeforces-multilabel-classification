@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"31\\n1999999998\"]",
+    "src_uid": "71e6ceb75852f4cd437bbf0478e37dc4",
+    "prob_desc_notes": "NoteIn the first test case, it's optimal to connect four pairs of computers:   computer $$$1$$$ from the first row with computer $$$2$$$ from the second row: cost $$$|1 - 4| = 3$$$;  computer $$$3$$$ from the first row with computer $$$2$$$ from the second row: cost $$$|1 - 4| = 3$$$;  computer $$$2$$$ from the first row with computer $$$1$$$ from the second row: cost $$$|10 - 20| = 10$$$;  computer $$$2$$$ from the first row with computer $$$3$$$ from the second row: cost $$$|10 - 25| = 15$$$;  In total, $$$3 + 3 + 10 + 15 = 31$$$.In the second test case, it's optimal to connect $$$1$$$ from the first row with $$$1$$$ from the second row, and $$$4$$$ from the first row with $$$4$$$ from the second row.",
+    "prob_desc_description": "There is a classroom with two rows of computers. There are $$$n$$$ computers in each row and each computer has its own grade. Computers in the first row has grades $$$a_1, a_2, \\dots, a_n$$$ and in the second row — $$$b_1, b_2, \\dots, b_n$$$.Initially, all pairs of neighboring computers in each row are connected by wire (pairs $$$(i, i + 1)$$$ for all $$$1 \\le i &lt; n$$$), so two rows form two independent computer networks.Your task is to combine them in one common network by connecting one or more pairs of computers from different rows. Connecting the $$$i$$$-th computer from the first row and the $$$j$$$-th computer from the second row costs $$$|a_i - b_j|$$$.You can connect one computer to several other computers, but you need to provide at least a basic fault tolerance: you need to connect computers in such a way that the network stays connected, despite one of its computer failing. In other words, if one computer is broken (no matter which one), the network won't split in two or more parts.That is the minimum total cost to make a fault-tolerant network?",
+    "prob_desc_output_spec": "For each test case, print a single integer — the minimum total cost to make a fault-tolerant network.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Next $$$t$$$ cases follow. The first line of each test case contains the single integer $$$n$$$ ($$$3 \\le n \\le 2 \\cdot 10^5$$$) — the number of computers in each row. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — the grades of computers in the first row. The third line contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$1 \\le b_i \\le 10^9$$$) — the grades of computers in the second row. It's guaranteed that the total sum of $$$n$$$ doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_104.jsonl",
+    "code_uid": "d1ce3a73163b7cc2f67a2536aea191a7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n3\\n\\n1 10 1\\n\\n20 4 25\\n\\n4\\n\\n1 1 1 1\\n\\n1000000000 1000000000 1000000000 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def find(A,N,k,c):\n\tnum = float('inf')\n\tfor i in range(c,N-c):\n\t\tnum = min(num,abs(A[i]-k))\n\treturn num\nfor p in range(int(input())):\n\tN = int(input())\n\tA = list(map(int,input().split()))\n\tB = list(map(int,input().split()))\n\t# if p==393:\n\t# \tprint(\"|\".join([str(x) for x in A])+\"|\"+\"|\".join([str(x) for x in B]))\n\tans = min(find(A,N,B[0],1)+find(A,N,B[-1],1)+find(B,N,A[0],1)+find(B,N,A[-1],1),abs(A[0]-B[-1])+abs(A[-1]-B[0]),abs(A[0]-B[0])+abs(A[-1]-B[-1]))\n\tl = []\n\tfor x in [A[0],A[-1]]:\n\t\tl.append(abs(x-B[0])+abs(x-B[-1]))\n\tfor x in [B[0],B[-1]]:\n\t\tl.append(abs(x-A[0])+abs(x-A[-1]))\n\n\tl[0] += find(B,N,A[-1],0)\n\tl[1] += find(B,N,A[0],0)\n\n\tl[2] += find(A,N,B[-1],0)\n\tl[3] += find(A,N,B[0],0)\n\tl.append(abs(A[0]-B[0]))\n\tl.append(abs(A[-1]-B[-1]))\n\tl.append(abs(A[0]-B[-1]))\n\tl.append(abs(A[-1]-B[0]))\n\tl[4] += find(B,N,A[-1],1)+find(A,N,B[-1],1)\n\tl[5] += find(B,N,A[0],1)+find(A,N,B[0],1)\n\tl[6] += find(B,N,A[-1],1)+find(A,N,B[0],1)\n\tl[7] += find(B,N,A[0],1)+find(A,N,B[-1],1)\n\n\n\n\tprint(min(ans,min(l)))\n",
+    "prob_desc_created_at": "1646922900",
+    "tags": [
+        "brute force",
+        "data structures",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

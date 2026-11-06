@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n1 2 1\", \"NO\", \"YES\\n2 2 1\\n3 3 1\\n4 4 1\\n5 5 1\"]",
+    "src_uid": "3372948de45ea0867e8cc44dff3d635f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Petya sometimes has to water his field. To water the field, Petya needs a tank with exactly V ml of water.Petya has got N tanks, i-th of them initially containing ai ml of water. The tanks are really large, any of them can contain any amount of water (no matter how large this amount is).Also Petya has got a scoop that can contain up to K ml of water (initially the scoop is empty). This scoop can be used to get some water from some tank, and after that pour it all into some tank (it is impossible to get water from multiple tanks without pouring it, or leave some water in the scoop when pouring it). When Petya tries to get some water from a tank, he gets min(v, K) water, where v is the current volume of water in the tank.Is it possible to obtain a tank with exactly V ml of water using these operations? If it is possible, print a sequence of operations that allows to do it. If there are multiple ways to obtain needed amount of water in some tank, print any of them.",
+    "prob_desc_output_spec": "If it is impossible to obtain a tank with exactly V ml of water, print NO.  Otherwise print YES in the first line, and beginning from the second line, print the sequence of operations in the following format:  Each line has to contain 3 numbers denoting a compressed operation: \"cnt x y\" (1 ≤ cnt ≤ 109, 1 ≤ x, y ≤ N), where x is the index of the tank where we get water, y is the index of the tank where we pour water, and cnt is the number of times we transfer water from tank x to tank y.  The number of these lines must not exceed N + 5.",
+    "prob_desc_input_spec": "The first line contains 3 integers: N (2 ≤ N ≤ 5000), K (1 ≤ K ≤ 5000), and V (0 ≤ V ≤ 109) — the number of tanks, the maximum volume of water the scoop can contain, and the required amount of water in some tank, respectively. The second line contains N integers ai (0 ≤ ai ≤ 105), where ai is initial volume of water in i-th tank.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_064.jsonl",
+    "code_uid": "8becefb3f79b52bae9c71af7a67a317a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3 5\\n2 3\", \"2 3 4\\n2 3\", \"5 2 0\\n1 3 5 7 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = raw_input\nrange = xrange\n\nn,K,V = [int(x) for x in input().split()]\n    \n\n\n\nA = [int(x) for x in input().split()]\nAcop = A[:]\n\nif (V%K)==0:\n    asum = sum(A)\n    if asum>=V:\n        print 'YES'\n        for i in range(1,n):\n            A[0] += A[i]\n            count = (A[i]+K-1)//K\n            if count>0:\n                print count,i+1,1\n            A[i] = 0\n        if V!=0:\n            print V//K,1,2\n        sys.exit()\n    else:\n        print 'NO'\n        sys.exit()\n\n\n\nB = [a%K for a in A]\ntake = [0]*n\n\n\nBIG = 5001\nfound = [-1]*BIG\nfound[0] = -2\nprev = [-1]*BIG\nprev[0] = -2\nused = [False]*BIG\n\nfor i in range(n):\n    b = B[i]\n    for j in range(BIG-1):\n        if found[j]!=-1 and not used[j]:\n            ind = (b+j)%K\n            if found[ind]==-1:\n                found[ind] = i\n                prev[ind] = j\n                used[ind] = True\n    for j in range(BIG):\n        used[j]=False\n\nif found[V%K]==-1:\n    print 'NO'\n    sys.exit()\ntanks = []\nind = V%K\nwhile prev[ind]!=-2:\n    tanks.append(found[ind])\n    ind = prev[ind]\n\nmaster = tanks[0]\ntanks = set(tanks)\nfor i in range(n):\n    if i not in tanks:\n        other = i\n        break\nelse:\n    other = -1\noutp = []\nfor i in range(n):\n    if i==master or i==other:\n        continue\n    if i in tanks:\n        A[master] += A[i]\n        count = (A[i]+K-1)//K\n        if count>0:\n            outp.append(\" \".join([str(count),str(i+1),str(master+1)]))\n        take[i] += count\n        A[i] = 0\n    else:\n        A[other] += A[i]\n        count = (A[i]+K-1)//K\n        take[i] += count\n        if count > 0:\n            outp.append(\" \".join([str(count),str(i+1),str(other+1)]))\n        A[i] = 0\nif other==-1:\n    for i in range(n):\n        if i!=master:\n            other=i\n            break\n\nif A[master]+A[other]<V:\n    print 'NO'\n    \n    sys.exit()\nelif A[master]+A[other]==V:\n    print 'YES'\n    for s in outp:\n        print s\n    count = (A[other]+K-1)//K\n    if count>0:\n        print count,other+1,master+1\n    sys.exit()\nelse:\n    count = A[other]//K\n    if count>0:\n        A[master] += K*(count)\n        A[other]%=K\n        outp.append(\" \".join([str(count),str(other+1),str(master+1)]))\n    if A[master]>V:\n        count = (A[master]-V)//K\n        if count>0:\n            outp.append(\" \".join([str(count),str(master+1),str(other+1)]))\n        A[master]-=count*K\n        A[other]+=count*K\n    if A[master]==V:\n\n        print 'YES'\n        for s in outp:\n            print s\n    else:\n        print 'NO'\n\n",
+    "prob_desc_created_at": "1517582100",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

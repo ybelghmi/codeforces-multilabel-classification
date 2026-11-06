@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"4\", \"0\"]",
+    "src_uid": "0fbc306d919d7ffc3cb02239cb9c2ab0",
+    "prob_desc_notes": "NoteIn the first sample Alexey needs three operations to cope with the task: open the second letter, move to the third one, move to the fourth one.In the second sample the action plan: open the first letter, move to the second letter, return to the list, open the fifth letter.In the third sample all letters are already read.",
+    "prob_desc_description": "Over time, Alexey's mail box got littered with too many letters. Some of them are read, while others are unread.Alexey's mail program can either show a list of all letters or show the content of a single letter. As soon as the program shows the content of an unread letter, it becomes read letter (if the program shows the content of a read letter nothing happens). In one click he can do any of the following operations: Move from the list of letters to the content of any single letter. Return to the list of letters from single letter viewing mode. In single letter viewing mode, move to the next or to the previous letter in the list. You cannot move from the first letter to the previous one or from the last letter to the next one.The program cannot delete the letters from the list or rearrange them.Alexey wants to read all the unread letters and go watch football. Now he is viewing the list of all letters and for each letter he can see if it is read or unread. What minimum number of operations does Alexey need to perform to read all unread letters?",
+    "prob_desc_output_spec": "Print a single number — the minimum number of operations needed to make all the letters read.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 1000) — the number of letters in the mailbox. The second line contains n space-separated integers (zeros and ones) — the state of the letter list. The i-th number equals either 1, if the i-th number is unread, or 0, if the i-th letter is read.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_013.jsonl",
+    "code_uid": "5f0696f1dd01cc9be828c51db0d6c317",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n0 1 0 1 0\", \"5\\n1 1 0 0 1\", \"2\\n0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#1 unread\n#0 readed\ndef minimum_steps(total, letter):\n\tindex=-1\n\tret=0\n\twhile True:\n\t\tif index+1==total:\n\t\t\tbreak\n\t\telse:\n\t\t\tindex+=1\n\t\tif index==0:\n\t\t\tif letter[0]=='0':\n\t\t\t\tcontinue\n\t\t\telse:\n\t\t\t\tret=1\n\t\telse:\n\t\t\tif letter[index]=='0' and letter[index-1]==letter[index]:\n\t\t\t\tcontinue\n\t\t\telse:\n\t\t\t\tret+=1\n\t\t\n\tif letter[total-1]=='0' and ret!=0:\n\t\tret-=1\n\treturn ret\ntotal=int(raw_input())\nletter=raw_input().split()\nprint minimum_steps(total, letter)\n",
+    "prob_desc_created_at": "1410103800",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

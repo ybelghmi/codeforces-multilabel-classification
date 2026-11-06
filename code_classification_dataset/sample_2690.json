@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 3 2 3 3\", \"3 3 3 3 3\"]",
+    "src_uid": "59154ca15716f0c1c91a37d34c5bbf1d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Valera loves to participate in competitions. Especially in programming contests. Today he has participated in the contest with his team, consisting of n students (including Valera). This contest was an individual competition, so each student in the team solved problems individually.After the contest was over, Valera was interested in results. He found out that:  each student in the team scored at least l points and at most r points;  in total, all members of the team scored exactly sall points;  the total score of the k members of the team who scored the most points is equal to exactly sk; more formally, if a1, a2, ..., an is the sequence of points earned by the team of students in the non-increasing order (a1 ≥ a2 ≥ ... ≥ an), then sk = a1 + a2 + ... + ak. However, Valera did not find out exactly how many points each of n students scored. Valera asked you to recover any distribution of scores between the students of the team, such that all the conditions above are met.",
+    "prob_desc_output_spec": "Print exactly n integers a1, a2, ..., an — the number of points each student scored. If there are multiple solutions, you can print any of them. You can print the distribution of points in any order. ",
+    "prob_desc_input_spec": "The first line of the input contains exactly six integers n, k, l, r, sall, sk (1 ≤ n, k, l, r ≤ 1000; l ≤ r; k ≤ n; 1 ≤ sk ≤ sall ≤ 106). It's guaranteed that the input is such that the answer exists.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_028.jsonl",
+    "code_uid": "a5c13a7a7b0f9cbcabb58aa0b6151e77",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3 1 3 13 9\", \"5 3 1 3 15 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k,l,r,sa,sk=map(int,raw_input().split())\nar=[]\nfor i in xrange(n):\n    ar.append(0)\nwhile sk>0:\n    i=0\n    while i<k:\n        if sk>0:\n            ar[i]+=1\n            sk-=1\n            i+=1\n        else:\n            break\nsa-=sum(ar)\nwhile sa>0:\n    i=k\n    while i<n:\n        if sa>0:\n            ar[i]+=1\n            sa-=1\n            i+=1\n        else:\n            break\nfor i in ar:\n    print i,",
+    "prob_desc_created_at": "1385739000",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

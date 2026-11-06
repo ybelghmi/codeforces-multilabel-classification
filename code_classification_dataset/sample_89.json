@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\\nNo\\nNo\\nYes\\nNo\\nYes\"]",
+    "src_uid": "0f960d19e576b7421a7c7a7166a884ea",
+    "prob_desc_notes": "NoteIn the first test case, let's consider the order $$$\\{1, 2, 2\\}$$$ of types of guests. Then:  The first guest eats a chocolate cookie. After that, there are $$$2$$$ vanilla cookies and $$$1$$$ chocolate cookie.  The second guest eats a chocolate cookie. After that, there are $$$2$$$ vanilla cookies and $$$0$$$ chocolate cookies.  The last guest selects a chocolate cookie, but there are no chocolate cookies. So, the guest gets angry. So, this order can't be chosen by Anna.Let's consider the order $$$\\{2, 2, 1\\}$$$ of types of guests. Then:  The first guest eats a vanilla cookie. After that, there is $$$1$$$ vanilla cookie and $$$2$$$ chocolate cookies.  The second guest eats a vanilla cookie. After that, there are $$$0$$$ vanilla cookies and $$$2$$$ chocolate cookies.  The last guest eats a chocolate cookie. After that, there are $$$0$$$ vanilla cookies and $$$1$$$ chocolate cookie. So, the answer to this test case is \"Yes\".In the fifth test case, it is illustrated, that the number of cookies ($$$a + b$$$) can be equal to zero, but the number of guests ($$$n + m$$$) can't be equal to zero.In the sixth test case, be careful about the overflow of $$$32$$$-bit integer type.",
+    "prob_desc_description": "Anna is a girl so brave that she is loved by everyone in the city and citizens love her cookies. She is planning to hold a party with cookies. Now she has $$$a$$$ vanilla cookies and $$$b$$$ chocolate cookies for the party.She invited $$$n$$$ guests of the first type and $$$m$$$ guests of the second type to the party. They will come to the party in some order. After coming to the party, each guest will choose the type of cookie (vanilla or chocolate) to eat. There is a difference in the way how they choose that type:If there are $$$v$$$ vanilla cookies and $$$c$$$ chocolate cookies at the moment, when the guest comes, then  if the guest of the first type: if $$$v&gt;c$$$ the guest selects a vanilla cookie. Otherwise, the guest selects a chocolate cookie.  if the guest of the second type: if $$$v&gt;c$$$ the guest selects a chocolate cookie. Otherwise, the guest selects a vanilla cookie. After that:  If there is at least one cookie of the selected type, the guest eats one.  Otherwise (there are no cookies of the selected type), the guest gets angry and returns to home. Anna wants to know if there exists some order of guests, such that no one guest gets angry. Your task is to answer her question.",
+    "prob_desc_output_spec": "For each test case, print the answer in one line. If there exists at least one valid order, print \"Yes\". Otherwise, print \"No\". You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Next $$$t$$$ lines contain descriptions of test cases. For each test case, the only line contains four integers $$$a$$$, $$$b$$$, $$$n$$$, $$$m$$$ ($$$0 \\le a,b,n,m \\le 10^{18}, n+m \\neq 0$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_000.jsonl",
+    "code_uid": "e48daaec34f873ef69951a7092df49f5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n2 2 1 2\\n0 100 0 1\\n12 13 25 1\\n27 83 14 25\\n0 0 1 0\\n1000000000000000000 1000000000000000000 1000000000000000000 1000000000000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nFAST_IO = 1\nif FAST_IO:\n    import io, sys, atexit\n    rr = iter(sys.stdin.read().splitlines()).next\n    sys.stdout = _OUTPUT_BUFFER = io.BytesIO()\n\n    @atexit.register\n    def write():\n        sys.__stdout__.write(_OUTPUT_BUFFER.getvalue())\nelse:\n    rr = raw_input\nrri = lambda: int(rr())\nrrm = lambda: map(int, rr().split())\nrrmm = lambda n: [rrm() for _ in xrange(n)]\nrrd = lambda: map(float, rr().split())\n\n\ndef solve(a,b,c,d):\n    if (a+b)<(c+d):\n        print(\"No\")\n    else:\n        if min(a,b)<d:\n            print(\"No\")\n        else:\n            print(\"Yes\")\nt = rri()\nfor _ in range(t):\n    a, b, c, d = rrm()\n    solve(a,b,c,d)\n    \n    \n\"\"\"\n4\n3\n1\n28\n510049495001\n\"\"\"",
+    "prob_desc_created_at": "1593610500",
+    "tags": [
+        "implementation",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

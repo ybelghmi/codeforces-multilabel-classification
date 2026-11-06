@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\", \"Yes\", \"No\", \"Yes\"]",
+    "src_uid": "dd7a7a4e5feb50ab6abb93d90c559c2b",
+    "prob_desc_notes": "NoteThe first two examples are illustrated below. Both images become the same as their respective original ones after a clockwise rotation of $$$120$$$ degrees around the center.  ",
+    "prob_desc_description": "Inaka has a disc, the circumference of which is $$$n$$$ units. The circumference is equally divided by $$$n$$$ points numbered clockwise from $$$1$$$ to $$$n$$$, such that points $$$i$$$ and $$$i + 1$$$ ($$$1 \\leq i &lt; n$$$) are adjacent, and so are points $$$n$$$ and $$$1$$$.There are $$$m$$$ straight segments on the disc, the endpoints of which are all among the aforementioned $$$n$$$ points.Inaka wants to know if her image is rotationally symmetrical, i.e. if there is an integer $$$k$$$ ($$$1 \\leq k &lt; n$$$), such that if all segments are rotated clockwise around the center of the circle by $$$k$$$ units, the new image will be the same as the original one.",
+    "prob_desc_output_spec": "Output one line — \"Yes\" if the image is rotationally symmetrical, and \"No\" otherwise (both excluding quotation marks). You can output each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line contains two space-separated integers $$$n$$$ and $$$m$$$ ($$$2 \\leq n \\leq 100\\,000$$$, $$$1 \\leq m \\leq 200\\,000$$$) — the number of points and the number of segments, respectively. The $$$i$$$-th of the following $$$m$$$ lines contains two space-separated integers $$$a_i$$$ and $$$b_i$$$ ($$$1 \\leq a_i, b_i \\leq n$$$, $$$a_i \\neq b_i$$$) that describe a segment connecting points $$$a_i$$$ and $$$b_i$$$. It is guaranteed that no segments coincide.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_000.jsonl",
+    "code_uid": "4e9a51db0b8c7d9c014d2b26920281a6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"12 6\\n1 3\\n3 7\\n5 7\\n7 11\\n9 11\\n11 3\", \"9 6\\n4 5\\n5 6\\n7 8\\n8 9\\n1 2\\n2 3\", \"10 3\\n1 2\\n3 2\\n7 2\", \"10 2\\n1 6\\n2 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = [int(i) for i in input().split()]\ns = {tuple(sorted([int(i) - 1 for i in input().split()])) for i in range(m)}\nfor i in range(1, n):\n    if n % i == 0 and all((n // i) % j for j in range(2, min(n // i, int((n // i) ** 0.5) + 2))):\n        if {tuple(sorted([(t[0] + i) % n, (t[1] + i) % n])) for t in s} == s:\n            print(\"Yes\")\n            break\nelse:\n    print(\"No\")\n",
+    "prob_desc_created_at": "1556989500",
+    "tags": [
+        "implementation",
+        "hashing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

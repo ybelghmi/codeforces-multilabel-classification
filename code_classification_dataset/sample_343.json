@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"4\"]",
+    "src_uid": "f5f163198fbde6a5c15c50733cfd9176",
+    "prob_desc_notes": "NoteIn the first example, suitable pairs are $$$(3, 1)$$$ and $$$(2, 2)$$$.In the second example, any pair is suitable, namely $$$(1, 1), (1, 2), (2, 1), (2, 2)$$$.",
+    "prob_desc_description": "A bracket sequence is a string containing only characters \"(\" and \")\".A regular bracket sequence is a bracket sequence that can be transformed into a correct arithmetic expression by inserting characters \"1\" and \"+\" between the original characters of the sequence. For example, bracket sequences \"()()\", \"(())\" are regular (the resulting expressions are: \"(1)+(1)\", \"((1+1)+1)\"), and \")(\" and \"(\" are not.You are given $$$n$$$ bracket sequences $$$s_1, s_2, \\dots , s_n$$$. Calculate the number of pairs $$$i, j \\, (1 \\le i, j \\le n)$$$ such that the bracket sequence $$$s_i + s_j$$$ is a regular bracket sequence. Operation $$$+$$$ means concatenation i.e. \"()(\" + \")()\" = \"()()()\".If $$$s_i + s_j$$$ and $$$s_j + s_i$$$ are regular bracket sequences and $$$i \\ne j$$$, then both pairs $$$(i, j)$$$ and $$$(j, i)$$$ must be counted in the answer. Also, if $$$s_i + s_i$$$ is a regular bracket sequence, the pair $$$(i, i)$$$ must be counted in the answer.",
+    "prob_desc_output_spec": "In the single line print a single integer — the number of pairs $$$i, j \\, (1 \\le i, j \\le n)$$$ such that the bracket sequence $$$s_i + s_j$$$ is a regular bracket sequence.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n \\, (1 \\le n \\le 3 \\cdot 10^5)$$$ — the number of bracket sequences. The following $$$n$$$ lines contain bracket sequences — non-empty strings consisting only of characters \"(\" and \")\". The sum of lengths of all bracket sequences does not exceed $$$3 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "77560fb599eadefcde76d01a7b33ba6a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n)\\n()\\n(\", \"2\\n()\\n()\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport io\n\nstream_enable = 0\n\ninpstream = \"\"\"\n9\n(()\n((())\n(\n)\n(()()(()())))\n)\n)(()(\n)())(\n)()(\n\"\"\"\n\nif stream_enable:\n    sys.stdin = io.StringIO(inpstream)\n    input()\n\ndef inpmap():\n    return list(map(int, input().split()))\n\nn = int(input())\narr = []\nfor i in range(n):\n    x = input()\n    a = 0\n    s = False\n    for y in x:\n        if y == '(':\n            a += 1\n        else:\n            a -= 1\n        if a < 0:\n            s = True\n    if s and a >= 0:\n        continue\n    a = 0\n    s = False\n    for y in x[::-1]:\n        if y == '(':\n            a += 1\n        else:\n            a -= 1\n        if a > 0:\n            s = True\n    if s and a <= 0:\n        continue\n    arr.append(a)\n\n    # arr.append(x.count('(') - x.count(')'))\ns = 0\n# print(arr)\n# for x in set(arr):\nst = set(arr)\nfor x in st:\n    if x > 0:\n        continue\n    elif x == 0:\n        s += arr.count(x) ** 2\n    else:\n        s += arr.count(x) * arr.count(-x)\nprint(s)\n",
+    "prob_desc_created_at": "1528625100",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

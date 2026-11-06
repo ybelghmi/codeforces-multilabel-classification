@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"30\", \"12\"]",
+    "src_uid": "a8e56ad4de6f0eecbe5521226c0335ab",
+    "prob_desc_notes": "NoteIn the first sample case, we can take i = j = k = 5, thus making the answer as 1·5 + 2·5 + 3·5 = 30.In second sample case, selecting i = j = 1 and k = 5 gives the answer 12.",
+    "prob_desc_description": "Professor Dumbledore is helping Harry destroy the Horcruxes. He went to Gaunt Shack as he suspected a Horcrux to be present there. He saw Marvolo Gaunt's Ring and identified it as a Horcrux. Although he destroyed it, he is still affected by its curse. Professor Snape is helping Dumbledore remove the curse. For this, he wants to give Dumbledore exactly x drops of the potion he made. Value of x is calculated as maximum of p·ai + q·aj + r·ak for given p, q, r and array a1, a2, ... an such that 1 ≤ i ≤ j ≤ k ≤ n. Help Snape find the value of x. Do note that the value of x may be negative.",
+    "prob_desc_output_spec": "Output a single integer the maximum value of p·ai + q·aj + r·ak that can be obtained provided 1 ≤ i ≤ j ≤ k ≤ n.",
+    "prob_desc_input_spec": "First line of input contains 4 integers n, p, q, r ( - 109 ≤ p, q, r ≤ 109, 1 ≤ n ≤ 105). Next line of input contains n space separated integers a1, a2, ... an ( - 109 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_012.jsonl",
+    "code_uid": "e8438235acad2b42ec97c8794551557a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 1 2 3\\n1 2 3 4 5\", \"5 1 2 -3\\n-1 -2 -3 -4 -5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "R=lambda:map(int,raw_input().split())\nn,p,q,r=R()\nv=sorted((p,q,r))\na=R()\nb=a[:]\nb[0]*=p\nfor i in range(1,n):\n    b[i]=max(a[i]*p,b[i-1])\nc=a[:]\nc[0]=a[0]*q+b[0]\nfor i in range(1,n):\n    c[i]=max(b[i]+a[i]*q,c[i-1])\nb[0]=a[0]*r+c[0]\nfor i in range(1,n):\n    b[i]=max(c[i]+a[i]*r,b[i-1])\nprint b[-1]",
+    "prob_desc_created_at": "1506263700",
+    "tags": [
+        "dp",
+        "data structures",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

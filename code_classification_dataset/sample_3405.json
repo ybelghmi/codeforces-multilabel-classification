@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"1\"]",
+    "src_uid": "5103855e1c2b0b0b8d429f5e466ec268",
+    "prob_desc_notes": "NoteFor the first test the required matrices are: 011101110011110101In the second test the required matrix is already fully given, so the answer is 1.",
+    "prob_desc_description": "An n × n square matrix is special, if:  it is binary, that is, each cell contains either a 0, or a 1;  the number of ones in each row and column equals 2. You are given n and the first m rows of the matrix. Print the number of special n × n matrices, such that the first m rows coincide with the given ones.As the required value can be rather large, print the remainder after dividing the value by the given number mod.",
+    "prob_desc_output_spec": "Print the remainder after dividing the required value by number mod.",
+    "prob_desc_input_spec": "The first line of the input contains three integers n, m, mod (2 ≤ n ≤ 500, 0 ≤ m ≤ n, 2 ≤ mod ≤ 109). Then m lines follow, each of them contains n characters — the first rows of the required special matrices. Each of these lines contains exactly two characters '1', the rest characters are '0'. Each column of the given m × n table contains at most two numbers one.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_057.jsonl",
+    "code_uid": "3201086511f3350bb58b28470379cdb8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1 1000\\n011\", \"4 4 100500\\n0110\\n1010\\n0101\\n1001\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m,mod=map(int,raw_input().split())\ncol=[2]*n\nfor _ in range(m):\n    s=raw_input()\n    for i in range(n):\n        if s[i]=='1':\n            col[i]-=1\nr2=r1=0\nfor i in col:\n    if i==2:\n        r2+=1\n    elif i==1:\n        r1+=1\ndp=[[-1 for i in range(n+1)] for j in range(n+1)]\ndp[r2][r1]=1\n#f(i,j)=f(i+2,j-2)*(i+2)*(i+1)/2+f(i+1,j)*(i+1)*j+f(i,j+2)*(j+2)*(j+1)/2\ndef f(i,j):\n    if dp[i][j]!=-1:\n        return dp[i][j]\n    ans=0\n    if j>=2 and i+2<=n:\n        ans+=f(i+2,j-2)*(i+2)*(i+1)/2\n    if i+1<=n:\n        ans+=f(i+1,j)*(i+1)*j\n    if j+2<=n:\n        ans+=f(i,j+2)*(j+2)*(j+1)/2\n    ans%=mod\n    dp[i][j]=ans\n    return ans\nprint f(0,0)",
+    "prob_desc_created_at": "1416238500",
+    "tags": [
+        "dp",
+        "combinatorics"
+    ],
+    "hidden_unit_tests": ""
+}

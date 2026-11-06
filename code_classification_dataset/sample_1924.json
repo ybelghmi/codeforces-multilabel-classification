@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n4\\n0\\n8\", \"3\\n1\\n1\\n5\"]",
+    "src_uid": "7a647a5f10cdcd2b54a1927107edea4f",
+    "prob_desc_notes": "NoteIn the first example:  g(33) = 9 as g(33) = g(3 × 3) = g(9) = 9  g(47) = g(48) = g(60) = g(61) = 6  There are no such integers between 47 and 55.  g(4) = g(14) = g(22) = g(27) = g(39) = g(40) = g(41) = g(58) = 4 ",
+    "prob_desc_description": "Let us define two functions f and g on positive integer numbers.   You need to process Q queries. In each query, you will be given three integers l, r and k. You need to print the number of integers x between l and r inclusive, such that g(x) = k. ",
+    "prob_desc_output_spec": "For each query, print a single line containing the answer for that query.",
+    "prob_desc_input_spec": "The first line of the input contains an integer Q (1 ≤ Q ≤ 2 × 105) representing the number of queries.  Q lines follow, each of which contains 3 integers l, r and k (1 ≤ l ≤ r ≤ 106, 1 ≤ k ≤ 9).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_014.jsonl",
+    "code_uid": "09f3e6d98028a92c219a3191d327bc23",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n22 73 9\\n45 64 6\\n47 55 7\\n2 62 4\", \"4\\n82 94 6\\n56 67 4\\n28 59 9\\n39 74 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# stdin.readline()\n# int(stdin.readline())\n# stdout.write()\n# raw_input()\n# map(int,raw_input().split())\n# map(int,stdin.readline().split())\nq=[-1]*(pow(10,6)+1)\ndef f(x):\n    if q[x]!=-1:\n        return q[x]\n    x=str(x)\n    if len(x)==1:\n        return int(x)\n    x=map(int,list(x))\n    t=1\n    for i in x:\n        if i!=0:\n            t*=i\n    return f(t)\ndef main():\n    an = \"\"\n    t=pow(10,6)+1\n    for i in xrange(t):\n        q[i]=f(i)\n    d=[[0]*t for i in xrange(10)]\n    for i in xrange(10):\n        for j in xrange(1,t):\n            d[i][j]=d[i][j-1]\n            if q[j]==i:\n                d[i][j]+=1\n    n=int(stdin.readline())\n    z=[0]*n\n    for _ in xrange(n):\n        l,r,k=map(int,stdin.readline().split())\n        z[_]=d[k][r]-d[k][l-1]\n    stdout.write(\"\\n\".join(map(str,z)))\nif __name__ == \"__main__\":\n    from sys import stdin, stdout\n    main()",
+    "prob_desc_created_at": "1518705300",
+    "tags": [
+        "data structures",
+        "binary search",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

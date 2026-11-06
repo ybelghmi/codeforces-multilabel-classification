@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"22 1\", \"3 2\"]",
+    "src_uid": "0a9ee8cbfa9888caef39b024563b7dcd",
+    "prob_desc_notes": "NoteConsider the first sample.  Initially Kay and Gerda have 7 packs of ice cream.  Carrier brings 5 more, so now they have 12 packs.  A kid asks for 10 packs and receives them. There are only 2 packs remaining.  Another kid asks for 20 packs. Kay and Gerda do not have them, so the kid goes away distressed.  Carrier bring 40 packs, now Kay and Gerda have 42 packs.  Kid asks for 20 packs and receives them. There are 22 packs remaining. ",
+    "prob_desc_description": "After their adventure with the magic mirror Kay and Gerda have returned home and sometimes give free ice cream to kids in the summer.At the start of the day they have x ice cream packs. Since the ice cream is free, people start standing in the queue before Kay and Gerda's house even in the night. Each person in the queue wants either to take several ice cream packs for himself and his friends or to give several ice cream packs to Kay and Gerda (carriers that bring ice cream have to stand in the same queue).If a carrier with d ice cream packs comes to the house, then Kay and Gerda take all his packs. If a child who wants to take d ice cream packs comes to the house, then Kay and Gerda will give him d packs if they have enough ice cream, otherwise the child will get no ice cream at all and will leave in distress.Kay wants to find the amount of ice cream they will have after all people will leave from the queue, and Gerda wants to find the number of distressed kids.",
+    "prob_desc_output_spec": "Print two space-separated integers — number of ice cream packs left after all operations, and number of kids that left the house in distress.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and x (1 ≤ n ≤ 1000, 0 ≤ x ≤ 109). Each of the next n lines contains a character '+' or '-', and an integer di, separated by a space (1 ≤ di ≤ 109). Record \"+ di\" in i-th line means that a carrier with di ice cream packs occupies i-th place from the start of the queue, and record \"- di\" means that a child who wants to take di packs stands in i-th place.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_004.jsonl",
+    "code_uid": "0aa52979eca88788def7742629409498",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 7\\n+ 5\\n- 10\\n- 20\\n+ 40\\n- 20\", \"5 17\\n- 16\\n- 2\\n- 98\\n+ 100\\n- 98\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# int(input())\n# [int(s) for s in input().split()]\n# input()\n\n\ndef solve():\n    n, x = [int(s) for s in input().split()]\n    ans = 0\n    for i in range(n):\n        s = input().split()\n        if s[0] == \"+\":\n            x += int(s[1])\n        else:\n            if x >= int(s[1]):\n                x -= int(s[1])\n            else:\n                ans += 1\n    print(x, ans)\n\n\nif __name__ == \"__main__\":\n    solve()",
+    "prob_desc_created_at": "1466699700",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

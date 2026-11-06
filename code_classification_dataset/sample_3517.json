@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\n0 1 1\", \"YES\\n0 1 1 3 3\", \"NO\"]",
+    "src_uid": "2354852d9cc911ac4a307dee5b75d6fc",
+    "prob_desc_notes": "NoteIn the first example case one can have a construction with 3 people, where 1 person has 2 parents.In the second example case one can use the following construction:   Only person 1 is imbalanced, because one of their parents has 1 ancestor in total, and the other parent has 3 ancestors. ",
+    "prob_desc_description": "Ivan is fond of genealogy. Currently he is studying a particular genealogical structure, which consists of some people. In this structure every person has either both parents specified, or none. Additionally, each person has exactly one child, except for one special person, who does not have any children. The people in this structure are conveniently numbered from $$$1$$$ to $$$n$$$, and $$$s_i$$$ denotes the child of the person $$$i$$$ (and $$$s_i = 0$$$ for exactly one person who does not have any children).We say that $$$a$$$ is an ancestor of $$$b$$$ if either $$$a = b$$$, or $$$a$$$ has a child, who is an ancestor of $$$b$$$. That is $$$a$$$ is an ancestor for $$$a$$$, $$$s_a$$$, $$$s_{s_a}$$$, etc.We say that person $$$i$$$ is imbalanced in case this person has both parents specified, and the total number of ancestors of one of the parents is at least double the other. Ivan counted the number of imbalanced people in the structure, and got $$$k$$$ people in total. However, he is not sure whether he computed it correctly, and would like to check if there is at least one construction with $$$n$$$ people that have $$$k$$$ imbalanced people in total. Please help him to find one such construction, or determine if it does not exist.",
+    "prob_desc_output_spec": "If there are no constructions with $$$n$$$ people and $$$k$$$ imbalanced people, output NO. Otherwise output YES on the first line, and then $$$n$$$ integers $$$s_1, s_2, \\ldots, s_n$$$ ($$$0 \\leq s_i \\leq n$$$), which describes the construction and specify the child of each node (or 0, if the person does not have any children).",
+    "prob_desc_input_spec": "The input contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\leq n \\leq 100\\,000$$$, $$$0 \\leq k \\leq n$$$), the total number of people and the number of imbalanced people.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_065.jsonl",
+    "code_uid": "a139305188c4f2aa7b001886cf4cf79c",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 0\", \"5 1\", \"3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from heapq import *\nimport sys\n\nint1 = lambda x: int(x) - 1\np2D = lambda x: print(*x, sep=\"\\n\")\ndef II(): return int(sys.stdin.readline())\ndef MI(): return map(int, sys.stdin.readline().split())\ndef LI(): return list(map(int, sys.stdin.readline().split()))\ndef LLI(rows_number): return [LI() for _ in range(rows_number)]\ndef SI(): return sys.stdin.readline()[:-1]\n\ndef ng():\n    print(\"NO\")\n    exit()\n\nn, k = MI()\nif (n,k)==(1,0):\n    print(\"YES\")\n    print(0)\n    exit()\n\nans = [0] * n\npopcnt = lambda x: bin(x).count(\"1\")\n\nif n & 1 == 0 or n < 2 * k + 3 or (popcnt(n + 1) > 1 and k == 0): ng()\n\nu = 0\nif popcnt(n + 1 - 2 * (k - 1)) == 1:\n    for v in range(1, 4): ans[v] = v // 2+1\n    k -= 1\n    if n - 4 < 2 * k + 3 or k==0 or n<11: ng()\n    ans[4] = 1\n    u = 4\n#print(n, k, u, ans)\n\nfor _ in range(k - 1):\n    ans[u + 1] = ans[u + 2] = u+1\n    u += 2\n#print(n, k, u, ans)\n\nfor v in range(1,n-u):ans[v+u]=(v-1)//2+u+1\n\nprint(\"YES\")\nprint(*ans)\n",
+    "prob_desc_created_at": "1595149200",
+    "tags": [
+        "dp",
+        "constructive algorithms",
+        "math",
+        "divide and conquer",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

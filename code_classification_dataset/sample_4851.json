@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n25\\n26\\n27\\n649\\n650\"]",
+    "src_uid": "2e3006d663a3c7ad3781aba1e37be3ca",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Berland language consists of words having exactly two letters. Moreover, the first letter of a word is different from the second letter. Any combination of two different Berland letters (which, by the way, are the same as the lowercase letters of Latin alphabet) is a correct word in Berland language.The Berland dictionary contains all words of this language. The words are listed in a way they are usually ordered in dictionaries. Formally, word $$$a$$$ comes earlier than word $$$b$$$ in the dictionary if one of the following conditions hold:  the first letter of $$$a$$$ is less than the first letter of $$$b$$$;  the first letters of $$$a$$$ and $$$b$$$ are the same, and the second letter of $$$a$$$ is less than the second letter of $$$b$$$. So, the dictionary looks like that:  Word $$$1$$$: ab  Word $$$2$$$: ac  ...  Word $$$25$$$: az  Word $$$26$$$: ba  Word $$$27$$$: bc  ...  Word $$$649$$$: zx  Word $$$650$$$: zy You are given a word $$$s$$$ from the Berland language. Your task is to find its index in the dictionary.",
+    "prob_desc_output_spec": "For each test case, print one integer — the index of the word $$$s$$$ in the dictionary.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 650$$$) — the number of test cases. Each test case consists of one line containing $$$s$$$ — a string consisting of exactly two different lowercase Latin letters (i. e. a correct word of the Berland language).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_107.jsonl",
+    "code_uid": "74c29a63fdbf6d8dd61daee63c626541",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n\\nab\\n\\nac\\n\\naz\\n\\nba\\n\\nbc\\n\\nzx\\n\\nzy\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\r\n\r\nli = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']\r\ndi = {}\r\ny = 1\r\n\r\nfor i in li:\r\n    for j in li:\r\n        if i != j:\r\n            di[i+j]=y\r\n            y += 1\r\n\r\nfor i in range(n):\r\n    print(di[input()])\r\n",
+    "prob_desc_created_at": "1651502100",
+    "tags": [
+        "combinatorics",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

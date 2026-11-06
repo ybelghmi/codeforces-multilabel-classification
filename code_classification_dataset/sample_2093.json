@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n-1\\n9\"]",
+    "src_uid": "6551be8f4000da2288bf835169662aa2",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Well, here is another math class task. In mathematics, GCD is the greatest common divisor, and it's an easy task to calculate the GCD between two positive integers.A common divisor for two positive numbers is a number which both numbers are divisible by.But your teacher wants to give you a harder task, in this task you have to find the greatest common divisor d between two integers a and b that is in a given range from low to high (inclusive), i.e. low ≤ d ≤ high. It is possible that there is no common divisor in the given range.You will be given the two integers a and b, then n queries. Each query is a range from low to high and you have to answer each query.",
+    "prob_desc_output_spec": "Print n lines. The i-th of them should contain the result of the i-th query in the input. If there is no common divisor in the given range for any query, you should print -1 as a result for this query.",
+    "prob_desc_input_spec": "The first line contains two integers a and b, the two integers as described above (1 ≤ a, b ≤ 109). The second line contains one integer n, the number of queries (1 ≤ n ≤ 104). Then n lines follow, each line contains one query consisting of two integers, low and high (1 ≤ low ≤ high ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_017.jsonl",
+    "code_uid": "ead01fbc1a1435a906d5b382815e5ef0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9 27\\n3\\n1 5\\n10 11\\n9 11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a, b = map(int, input().split())\nimport math\ng = math.gcd(a, b)\nlis = [i for i in range(1, int(math.sqrt(g)) + 1) if g%i == 0]\nfor i in lis[::-1]: lis.append(g//i)\nn = int(input())\nfor _ in range(n):\n    a, b = map(int , input().split())\n    import bisect\n    x = bisect.bisect(lis, b) - 1\n    if lis[x] < a: print(-1)\n    else: print(lis[x])\n        ",
+    "prob_desc_created_at": "1302706800",
+    "tags": [
+        "binary search",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"2\", \"6\"]",
+    "src_uid": "6477fdad8455f57555f93c021995bb4d",
+    "prob_desc_notes": "NoteIn the first example Arkady can choose the subsegment $$$[2, 2, 1, 1]$$$ or the subsegment $$$[1, 1, 2, 2]$$$ with length $$$4$$$.In the second example there is no way but to choose one of the subsegments $$$[2, 1]$$$ or $$$[1, 2]$$$ with length $$$2$$$.In the third example Arkady's best choice is the subsegment $$$[1, 1, 1, 2, 2, 2]$$$.",
+    "prob_desc_description": "Arkady invited Anna for a dinner to a sushi restaurant. The restaurant is a bit unusual: it offers $$$n$$$ pieces of sushi aligned in a row, and a customer has to choose a continuous subsegment of these sushi to buy.The pieces of sushi are of two types: either with tuna or with eel. Let's denote the type of the $$$i$$$-th from the left sushi as $$$t_i$$$, where $$$t_i = 1$$$ means it is with tuna, and $$$t_i = 2$$$ means it is with eel.Arkady does not like tuna, Anna does not like eel. Arkady wants to choose such a continuous subsegment of sushi that it has equal number of sushi of each type and each half of the subsegment has only sushi of one type. For example, subsegment $$$[2, 2, 2, 1, 1, 1]$$$ is valid, but subsegment $$$[1, 2, 1, 2, 1, 2]$$$ is not, because both halves contain both types of sushi.Find the length of the longest continuous subsegment of sushi Arkady can buy.",
+    "prob_desc_output_spec": "Print a single integer — the maximum length of a valid continuous segment.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 100\\,000$$$) — the number of pieces of sushi. The second line contains $$$n$$$ integers $$$t_1$$$, $$$t_2$$$, ..., $$$t_n$$$ ($$$t_i = 1$$$, denoting a sushi with tuna or $$$t_i = 2$$$, denoting a sushi with eel), representing the types of sushi from left to right. It is guaranteed that there is at least one piece of sushi of each type. Note that it means that there is at least one valid continuous segment.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_016.jsonl",
+    "code_uid": "7b4218c38148d300c46752a73f9a2ea7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n2 2 2 1 1 2 2\", \"6\\n1 2 1 2 1 2\", \"9\\n2 2 1 1 1 2 2 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\na=[int(x) for x in input().split()]\nc1=0\nc2=0\nans=[]\nf=[a[0],1]\nans.append(f)\nj=0\ni=1\nanswer=0\nwhile(i<n):\n    if(a[i]==a[i-1]):\n        ans[j][1]+=1\n    else:\n        j+=1\n        ans.append([a[i],1])\n    i+=1\nfor i in range(1,len(ans)):\n    res=2*min(ans[i-1][1],ans[i][1])\n    if(res>answer):\n        answer=res\nprint(answer)\n",
+    "prob_desc_created_at": "1552035900",
+    "tags": [
+        "binary search",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

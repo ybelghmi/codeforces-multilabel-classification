@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "10 seconds",
+    "prob_desc_sample_outputs": "[\"92\", \"21\", \"10\", \"124\", \"15706243380\"]",
+    "src_uid": "d0f886a563cfc960fb4839df91f27815",
+    "prob_desc_notes": null,
+    "prob_desc_description": "For a sequence of strings $$$[t_1, t_2, \\dots, t_m]$$$, let's define the function $$$f([t_1, t_2, \\dots, t_m])$$$ as the number of different strings (including the empty string) that are subsequences of at least one string $$$t_i$$$. $$$f([]) = 0$$$ (i. e. the number of such strings for an empty sequence is $$$0$$$).You are given a sequence of strings $$$[s_1, s_2, \\dots, s_n]$$$. Every string in this sequence consists of lowercase Latin letters and is sorted (i. e., each string begins with several (maybe zero) characters a, then several (maybe zero) characters b, ..., ends with several (maybe zero) characters z).For each of $$$2^n$$$ subsequences of $$$[s_1, s_2, \\dots, s_n]$$$, calculate the value of the function $$$f$$$ modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Since printing up to $$$2^{23}$$$ integers would be really slow, you should do the following: For each of the $$$2^n$$$ subsequences (which we denote as $$$[s_{i_1}, s_{i_2}, \\dots, s_{i_k}]$$$), calculate $$$f([s_{i_1}, s_{i_2}, \\dots, s_{i_k}])$$$, take it modulo $$$998244353$$$, then multiply it by $$$k \\cdot (i_1 + i_2 + \\dots + i_k)$$$. Print the XOR of all $$$2^n$$$ integers you get. The indices $$$i_1, i_2, \\dots, i_k$$$ in the description of each subsequences are $$$1$$$-indexed (i. e. are from $$$1$$$ to $$$n$$$).",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 23$$$) — the number of strings. Then $$$n$$$ lines follow. The $$$i$$$-th line contains the string $$$s_i$$$ ($$$1 \\le |s_i| \\le 2 \\cdot 10^4$$$), consisting of lowercase Latin letters. Each string $$$s_i$$$ is sorted.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_095.jsonl",
+    "code_uid": "c753c6849ef66b377a24c39f725d3200",
+    "prob_desc_memory_limit": "1024 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\na\\nb\\nc\", \"2\\naa\\na\", \"2\\na\\na\", \"2\\nabcd\\naabb\", \"3\\nddd\\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\naaaaaaaabbbbbbbbbbbcccccccccccciiiiiiiiiiiiiiiiiiiiiiooooooooooqqqqqqqqqqqqqqqqqqvvvvvzzzzzzzzzzzz\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import __pypy__\n\nMOD = 998244353\n\nN = int(input())\n\nCTS = []\nfor _ in range(N):\n    cc = [0] * 26\n    for c in input():\n        cc[ord(c) - ord('a')] += 1\n    CTS.append(cc)\n\n#S = [input() for _ in range(N)]\n\nres = 0\n\n\"\"\"\ndef match_all(l) -> int:\n    C = Counter()\n    for c in ascii_lowercase:\n        for v in l:\n            if c in C:\n                C[c] = min(C[c], v[c])\n            else:\n                C[c] = v[c]\n\n    ans = 1\n    for v in C.values():\n        ans *= (v+1)\n        ans %= MOD\n    return ans\n\"\"\"\n\nM = 2 ** N\nF = [0] * M\n\nfrom typing import List\n\ndef f(bs: int, i: int, bitcnt: int, C: List[int]):\n    if i == N: return\n\n    f(bs, i+1, bitcnt, C)\n\n    NC = list(CTS[i])\n    ans = 1\n    for c in range(26):\n        NC[c] = min(NC[c], C[c])\n        ans = ans * (NC[c] + 1) % MOD\n\n    bs |= 1 << i\n    F[bs] = (-1) ** bitcnt * ans % MOD\n    f(bs, i+1, bitcnt+1, NC)\n\n\nf(0, 0, 0, [MOD] * 26)\n\nif False:\n    CNTR = [[MOD] * 26]\n    __pypy__.resizelist_hint(CNTR, M)\n    #VALS = [(0, 0)]\n    __pypy__.resizelist_hint(F, M)\n    for bs in range(1, 2 ** N):\n        first = -1\n        bitcnt = 0\n        for i in range(N):\n            if bs & (1 << i):\n                bitcnt += 1\n                if first == -1:\n                    first = i\n        #else:\n        #    assert False\n\n        i = first\n        pbs = bs ^ (1 << i)\n        #pbits, pk = VALS[pbs]\n\n        cc = list(CTS[i])\n        PC = CNTR[pbs]\n\n        ans = 1\n        for c in range(26):\n            cc[c] = min(cc[c], PC[c])\n            ans = ans * (cc[c] + 1) % MOD\n\n        F.append((-1) ** (bitcnt+1) * ans % MOD)\n        CNTR.append(cc)\n        #VALS.append((pbits + 1, pk + (i+1)))\n        #print(bin(bs), C, ans, VALS[-1])\n\n        \"\"\"\n        L = []\n        for i, v in enumerate(S):\n            if bs & (1 << i):\n                L.append(Counter(v))\n\n        #BCNT.append(len(L))\n        F.append((-1) ** (len(L) + 1) * match_all(L))\n        \"\"\"\n\nDP = F\n\nfor b in range(N):\n    for i in range(2 ** N):\n        if i & (1 << b): DP[i] = (DP[i] + DP[i ^ (1 << b)]) % MOD\n\n\nfor bs in range(1, 2 ** N):\n    #setbits, k = VALS[bs]\n    k = 0\n    setbits = 0\n    for i in range(N):\n        if bs & (1 << i):\n            k += i+1\n            setbits += 1\n\n    k *= setbits\n\n    \"\"\"\n    ans = 1\n    for sub in submasks(bs):\n        bitcnt = BCNT[sub]\n        ans = (ans + F[sub]) % MOD\n    \"\"\"\n\n    fin = DP[bs]\n    #print(bin(bs), fin)\n    res ^= fin * k\n\nprint(res)\n",
+    "prob_desc_created_at": "1639841700",
+    "tags": [
+        "bitmasks",
+        "combinatorics",
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

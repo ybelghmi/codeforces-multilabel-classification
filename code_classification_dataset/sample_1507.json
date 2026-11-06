@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n0\\n4\\n5\\n5\\n5\\n7\"]",
+    "src_uid": "98a8fc06e8265bbf9c16ee3c7b9d0223",
+    "prob_desc_notes": "NoteIn the first test case of the example, Denis can feed the first visitor with dumplings, give the second a portion of cranberry juice, and give the third visitor a portion of cranberry juice and a pancake with a condensed milk.In the second test case of the example, the restaurant Denis is not very promising: he can serve no customers.In the third test case of the example, Denise can serve four visitors. The first guest will receive a full lunch of dumplings, a portion of cranberry juice and a pancake with condensed milk. The second visitor will get only dumplings. The third guest will receive a pancake with condensed milk, and the fourth guest will receive a pancake and a portion of dumplings. Please note that Denis hasn't used all of the prepared products, but is unable to serve more visitors.",
+    "prob_desc_description": "Tired of boring office work, Denis decided to open a fast food restaurant.On the first day he made $$$a$$$ portions of dumplings, $$$b$$$ portions of cranberry juice and $$$c$$$ pancakes with condensed milk.The peculiarity of Denis's restaurant is the procedure of ordering food. For each visitor Denis himself chooses a set of dishes that this visitor will receive. When doing so, Denis is guided by the following rules:  every visitor should receive at least one dish (dumplings, cranberry juice, pancakes with condensed milk are all considered to be dishes);  each visitor should receive no more than one portion of dumplings, no more than one portion of cranberry juice and no more than one pancake with condensed milk;  all visitors should receive different sets of dishes. What is the maximum number of visitors Denis can feed?",
+    "prob_desc_output_spec": "For each test case print a single integer — the maximum number of visitors Denis can feed.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 500$$$) — the number of test cases to solve. Each of the remaining $$$t$$$ lines contains integers $$$a$$$, $$$b$$$ and $$$c$$$ ($$$0 \\leq a, b, c \\leq 10$$$) — the number of portions of dumplings, the number of portions of cranberry juice and the number of condensed milk pancakes Denis made.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_009.jsonl",
+    "code_uid": "87d66dade477a04e2951752b6b580aa6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n1 2 1\\n0 0 0\\n9 1 7\\n2 2 3\\n2 3 2\\n3 2 2\\n4 4 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nrows = []\nfor i in range(n):\n    row = input().split(\" \")\n    row = [int(row[x]) for x in range(3)]\n    row.sort(reverse=True)\n    rows.append(row)\n\nfor i in range(n):\n    y = 0\n    for j in range(3):\n        if (int(rows[i][j])>0):\n            y = y+1\n            rows[i][j] = int(rows[i][j])-1\n    \n    for j in range(3):\n        for k in range(3):\n            if (j<k):\n                if (int(rows[i][j])>0 and int(rows[i][k])>0):\n                    y = y+1\n                    rows[i][j] = int(rows[i][j])-1\n                    rows[i][k] = int(rows[i][k])-1\n\n    if (int(rows[i][0])>0 and int(rows[i][1])>0 and int(rows[i][2])>0):\n        y = y+1\n\n    print(y)\n            \n\n    \n\n\n",
+    "prob_desc_created_at": "1582448700",
+    "tags": [
+        "implementation",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

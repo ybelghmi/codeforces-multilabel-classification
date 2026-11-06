@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"8\"]",
+    "src_uid": "cf5650c13ce0404d2df10fa3196d7923",
+    "prob_desc_notes": "NoteIn the first example Ivan can skip any of two lessons during the first day, so he spends 1 hour during the first day and 4 hours during the second day.In the second example Ivan can't skip any lessons, so he spends 4 hours every day.",
+    "prob_desc_description": "Ivan is a student at Berland State University (BSU). There are n days in Berland week, and each of these days Ivan might have some classes at the university.There are m working hours during each Berland day, and each lesson at the university lasts exactly one hour. If at some day Ivan's first lesson is during i-th hour, and last lesson is during j-th hour, then he spends j - i + 1 hours in the university during this day. If there are no lessons during some day, then Ivan stays at home and therefore spends 0 hours in the university.Ivan doesn't like to spend a lot of time in the university, so he has decided to skip some lessons. He cannot skip more than k lessons during the week. After deciding which lessons he should skip and which he should attend, every day Ivan will enter the university right before the start of the first lesson he does not skip, and leave it after the end of the last lesson he decides to attend. If Ivan skips all lessons during some day, he doesn't go to the university that day at all.Given n, m, k and Ivan's timetable, can you determine the minimum number of hours he has to spend in the university during one week, if he cannot skip more than k lessons?",
+    "prob_desc_output_spec": "Print the minimum number of hours Ivan has to spend in the university during the week if he skips not more than k lessons.",
+    "prob_desc_input_spec": "The first line contains three integers n, m and k (1 ≤ n, m ≤ 500, 0 ≤ k ≤ 500) — the number of days in the Berland week, the number of working hours during each day, and the number of lessons Ivan can skip, respectively. Then n lines follow, i-th line containing a binary string of m characters. If j-th character in i-th line is 1, then Ivan has a lesson on i-th day during j-th hour (if it is 0, there is no such lesson).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_062.jsonl",
+    "code_uid": "ee3823b40b03a3e880ac88b1fe9dc173",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 5 1\\n01001\\n10110\", \"2 5 0\\n01001\\n10110\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m, k = map(int, raw_input().split())\n\na = [[] for i in xrange(n)]\nfor i in xrange(n):\n    s = raw_input()\n    for j in xrange(m):\n        if s[j] == '1': a[i].append(j)\n\nw = [([0] * (k + 1)) for i in xrange(n)]\nfor i in xrange(n):\n    if len(a[i]) == 0: continue\n    for j in xrange(k + 1):\n        if len(a[i]) > j:\n            w[i][j] = a[i][-1] - a[i][0] + 1\n        else:\n            w[i][j] = 0\n            continue\n        for x in xrange(j + 1):\n            y = len(a[i]) - 1 - (j - x)\n            if y >= x:\n                t = a[i][y] - a[i][x] + 1\n                w[i][j] = min(w[i][j], t)\n\ndp = [[n * m for j in xrange(k + 1)] for i in xrange(n)]\nfor j in xrange(k + 1):\n    dp[0][j] = w[0][j]\n\nfor i in xrange(1, n):\n    for j in xrange(k + 1):\n        for l in xrange(j + 1):\n            dp[i][j] = min(dp[i][j], w[i][l] + dp[i - 1][j - l])\n\nprint dp[-1][-1]\n",
+    "prob_desc_created_at": "1520348700",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

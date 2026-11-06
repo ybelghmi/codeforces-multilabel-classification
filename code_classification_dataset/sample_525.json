@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n2\\n0\\n1\"]",
+    "src_uid": "db9cec57d8ed5e914818ce9b439eb0f9",
+    "prob_desc_notes": "NoteIn the first example you can just erase the whole string.In the second example you can first erase the brackets on positions $$$1$$$ and $$$2$$$: \"[]()\", then \"()\" is left. After that you can erase it whole. You could erase the whole string from the beginning but you would get one move instead of two.In the third example you can first erase the brackets on positions $$$1$$$ and $$$3$$$: \"([)]\". They form an RBS \"()\". Then \"[]\" is left, so you can erase it whole.In the fourth example there is no subsequence that is an RBS, so you can't perform a move at all.In the fifth example you can erase the brackets on positions $$$2$$$ and $$$4$$$: \")[(]\" and get \")(\" as a result. You can erase nothing from it.",
+    "prob_desc_description": "You are given a string $$$s$$$, consisting of brackets of two types: '(', ')', '[' and ']'.A string is called a regular bracket sequence (RBS) if it's of one of the following types:   empty string;  '(' + RBS + ')';  '[' + RBS + ']';  RBS + RBS. where plus is a concatenation of two strings.In one move you can choose a non-empty subsequence of the string $$$s$$$ (not necessarily consecutive) that is an RBS, remove it from the string and concatenate the remaining parts without changing the order.What is the maximum number of moves you can perform?",
+    "prob_desc_output_spec": "For each testcase print a single integer — the maximum number of moves you can perform on a given string $$$s$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of testcases. Each of the next $$$t$$$ lines contains a non-empty string, consisting only of characters '(', ')', '[' and ']'. The total length of the strings over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_002.jsonl",
+    "code_uid": "37d6904909bfd9f04202d93faa8fdf54",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n()\\n[]()\\n([)]\\n)]([\\n)[(]\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n\ndef solve(st):\n    a, b, ans = 0, 0, 0\n\n    for it in st:\n        if it == '(':\n            a+=1\n        elif it == ')':\n            if a>0:\n                a-=1\n                ans += 1\n        elif it == '[':\n            b+=1\n        else:\n            if b>0:\n                b-=1\n                ans += 1\n    return ans\n\nfor case in range(int(input())):\n    st = input()\n    ans = solve(st)\n\n    print(ans)\n",
+    "prob_desc_created_at": "1605796500",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

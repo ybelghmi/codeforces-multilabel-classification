@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"2\"]",
+    "src_uid": "30ad5bdc019fcd8a4e642c90decca58f",
+    "prob_desc_notes": "NoteIn the first sample, the optimal order is: 10, 20, 30, 40, 50.In the second sample, the optimal order is: 100, 200, 100, 200.",
+    "prob_desc_description": "There are n pictures delivered for the new exhibition. The i-th painting has beauty ai. We know that a visitor becomes happy every time he passes from a painting to a more beautiful one.We are allowed to arranged pictures in any order. What is the maximum possible number of times the visitor may become happy while passing all pictures from first to last? In other words, we are allowed to rearrange elements of a in any order. What is the maximum possible number of indices i (1 ≤ i ≤ n - 1), such that ai + 1 &gt; ai.",
+    "prob_desc_output_spec": "Print one integer — the maximum possible number of neighbouring pairs, such that ai + 1 &gt; ai, after the optimal rearrangement.",
+    "prob_desc_input_spec": "The first line of the input contains integer n (1 ≤ n ≤ 1000) — the number of painting. The second line contains the sequence a1, a2, ..., an (1 ≤ ai ≤ 1000), where ai means the beauty of the i-th painting.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "b427571449a1d1950958afd67ac6c716",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n20 30 10 50 40\", \"4\\n200 100 100 200\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\n\n\npics = sorted(list(map(lambda x: int(x), input().split())))\n\njoy = 0\n\n\nlast = pics[0]\n\na=0\nfor i in range(0, len(pics)):\n\ttemp = 1\n\tfor j in range(0, len(pics)):\n\t\tif i!=j and pics[i]==pics[j]:\n\t\t\ttemp+=1\n\n\ta=max(a,temp)\n\n\n\n\n#print()\nprint(len(pics)-a)",
+    "prob_desc_created_at": "1457342700",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

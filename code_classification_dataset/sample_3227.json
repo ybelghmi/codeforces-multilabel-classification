@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"1\"]",
+    "src_uid": "5e4defe52832cc0d36e7ea5d9f86f895",
+    "prob_desc_notes": "NoteIn the first sample, cows 1, 4, 5, and 6 can show their hands. In the second sample, only cow 3 can show her hand.",
+    "prob_desc_description": "There are n cows playing poker at a table. For the current betting phase, each player's status is either \"ALLIN\", \"IN\", or \"FOLDED\", and does not change throughout the phase. To increase the suspense, a player whose current status is not \"FOLDED\" may show his/her hand to the table. However, so as not to affect any betting decisions, he/she may only do so if all other players have a status of either \"ALLIN\" or \"FOLDED\". The player's own status may be either \"ALLIN\" or \"IN\".Find the number of cows that can currently show their hands without affecting any betting decisions.",
+    "prob_desc_output_spec": "The first line should contain a single integer denoting the number of players that can currently show their hands.",
+    "prob_desc_input_spec": "The first line contains a single integer, n (2 ≤ n ≤ 2·105). The second line contains n characters, each either \"A\", \"I\", or \"F\". The i-th character is \"A\" if the i-th player's status is \"ALLIN\", \"I\" if the i-th player's status is \"IN\", or \"F\" if the i-th player's status is \"FOLDED\".",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_048.jsonl",
+    "code_uid": "e34c2a3b218a5fbe5c67249006a2fb93",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\nAFFAAA\", \"3\\nAFI\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def raw():\n    return raw_input().strip()\n\n\ndef ints():\n    return map(int, raw().split())\n\nn = ints()[0]\ns = raw()\nr = 0\nip = []\nii = False\n\nfor i in xrange(n):\n    if s[i] == 'I':\n        ip.append(s[i])\n        ii = True\n\nis_len = len(ip)\n\nfor i in xrange(n):\n    p = s[i]\n    if p != 'F':\n        if p == 'A':\n            if ii is False:\n                r += 1\n        if p == 'I':\n            if is_len == 1:\n                r += 1\n\nprint r\n",
+    "prob_desc_created_at": "1363534200",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

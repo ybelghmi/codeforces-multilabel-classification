@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2 2\\n4 6\\n12 12\\n-1 -1\\n-1 -1\"]",
+    "src_uid": "84c60293d487e2c2ecee38a2fcf63b10",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This is an easy version of the problem. The only difference between an easy and a hard version is the constraints on $$$a$$$, $$$b$$$, $$$c$$$ and $$$d$$$.You are given $$$4$$$ positive integers $$$a$$$, $$$b$$$, $$$c$$$, $$$d$$$ with $$$a &lt; c$$$ and $$$b &lt; d$$$. Find any pair of numbers $$$x$$$ and $$$y$$$ that satisfies the following conditions: $$$a &lt; x \\leq c$$$, $$$b &lt; y \\leq d$$$, $$$x \\cdot y$$$ is divisible by $$$a \\cdot b$$$.Note that required $$$x$$$ and $$$y$$$ may not exist.",
+    "prob_desc_output_spec": "For each test case print a pair of numbers $$$a &lt; x \\leq c$$$ and $$$b &lt; y \\leq d$$$ such that $$$x \\cdot y$$$ is divisible by $$$a \\cdot b$$$. If there are multiple answers, print any of them. If there is no such pair of numbers, then print -1 -1.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ $$$(1 \\leq t \\leq 10$$$), the number of test cases. The descriptions of the test cases follow. The only line of each test case contains four integers $$$a$$$, $$$b$$$, $$$c$$$ and $$$d$$$ ($$$1 \\leq a &lt; c \\leq 10^5$$$, $$$1 \\leq b &lt; d \\leq 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_094.jsonl",
+    "code_uid": "49b2aa5b9d3351cc1d3b60a10f9996eb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n1 1 2 2\\n\\n3 4 5 7\\n\\n8 9 15 18\\n\\n12 21 14 24\\n\\n36 60 48 66\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# a<c and b<d\r\n# a<x≤c and  b<y≤d\r\n# xy is divisible by ab.\r\nimport math\r\ndef find_div(a,b,c,d):\r\n    start = time()\r\n    if a==b==1 or (c*d)/(a*b) == (c*d)//(a*b):\r\n        return c, d\r\n    if a*2<=c and b*2<=d:\r\n        return 2*a, 2*b\r\n    if c*d < 2*a*b:\r\n        return -1,-1\r\n    else: # executes if cd > 2ab\r\n        s =[]\r\n        if a<b:\r\n            s.append(a)\r\n            s.append(b)\r\n        else:\r\n            s.append(b)\r\n            s.append(a)\r\n        if c<1000 and d<1000:\r\n            for x in range(a+1, c+1):\r\n                for y in range(b+1, d+1):\r\n                    if (x*y) % (a*b) == 0:\r\n                        return x, y\r\n        else:\r\n            if a==1 and b==1:\r\n                return 2, 2\r\n            if a==1 and b<=c and b+1<=d:\r\n                return b, b+1\r\n            if b==1 and a<=d and a+1<=c:\r\n                return a+1, a\r\n            for i in range(2, (c*d)//(a*b)+1):\r\n                if time() - start > 3.9:\r\n                    return -1,-1\r\n                if i*a*b <= c*d:\r\n                    num = i*a*b\r\n                    if a<b:    \r\n                        for j in range(num//d, num//b+1):\r\n                            if num % j == 0:\r\n                                if b<num//j<=d and a<j<=c:\r\n                                    return j, num//j\r\n                    else:\r\n                        for j in range(num//c, num//a+1):\r\n                            if num % j == 0:\r\n                                if a<num//j<=c and b<j<=d:\r\n                                    return num//j, j\r\n    return -1,-1\r\n\r\nfrom time import time\r\ntests = int(input())\r\nd = tests*[4*[0]]\r\nresults = []\r\nfor i in range(tests): # iterates through each test\r\n    case = [int(x) for x in input().strip().split()]\r\n    #st = time()\r\n    if case in d:\r\n        x, y = results[d.index(case)][0], results[d.index(case)][1]\r\n    else:\r\n        d[i]=case\r\n        x, y = find_div(d[i][0],d[i][1],d[i][2],d[i][3])\r\n    results.append([x, y])\r\n    print(x, y)\r\n    #print(time()-st)",
+    "prob_desc_created_at": "1665930900",
+    "tags": [
+        "brute force",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

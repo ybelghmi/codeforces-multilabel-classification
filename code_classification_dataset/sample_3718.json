@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"4\"]",
+    "src_uid": "521ca95b463e535a5456019ae3291137",
+    "prob_desc_notes": "NoteTwo puzzles are considered distinct if there is a pair of cells that contain one domino in one puzzle and do not contain it in the other one.",
+    "prob_desc_description": "Xenia likes puzzles very much. She is especially fond of the puzzles that consist of domino pieces. Look at the picture that shows one of such puzzles.  A puzzle is a 3 × n table with forbidden cells (black squares) containing dominoes (colored rectangles on the picture). A puzzle is called correct if it meets the following conditions:  each domino occupies exactly two non-forbidden cells of the table;  no two dominoes occupy the same table cell;  exactly one non-forbidden cell of the table is unoccupied by any domino (it is marked by a circle in the picture). To solve the puzzle, you need multiple steps to transport an empty cell from the starting position to some specified position. A move is transporting a domino to the empty cell, provided that the puzzle stays correct. The horizontal dominoes can be moved only horizontally, and vertical dominoes can be moved only vertically. You can't rotate dominoes. The picture shows a probable move.Xenia has a 3 × n table with forbidden cells and a cell marked with a circle. Also, Xenia has very many identical dominoes. Now Xenia is wondering, how many distinct correct puzzles she can make if she puts dominoes on the existing table. Also, Xenia wants the circle-marked cell to be empty in the resulting puzzle. The puzzle must contain at least one move.Help Xenia, count the described number of puzzles. As the described number can be rather large, print the remainder after dividing it by 1000000007 (109 + 7).",
+    "prob_desc_output_spec": "Print a single number — the answer to the problem modulo 1000000007 (109 + 7).",
+    "prob_desc_input_spec": "The first line contains integer n (3 ≤ n ≤ 104) — the puzzle's size. Each of the following three lines contains n characters — the description of the table. The j-th character of the i-th line equals \"X\" if the corresponding cell is forbidden; it equals \".\", if the corresponding cell is non-forbidden and \"O\", if the corresponding cell is marked with a circle. It is guaranteed that exactly one cell in the table is marked with a circle. It is guaranteed that all cells of a given table having at least one common point with the marked cell is non-forbidden.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_082.jsonl",
+    "code_uid": "7090aad642aabd15c351b6e03f5572d5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n....X\\n.O...\\n...X.\", \"5\\n.....\\n.O...\\n.....\", \"3\\n...\\n...\\n..O\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    l = int(raw_input())\n    m = [raw_input().strip() for _ in range(3)]\n    dp = [1] * 1 + [0] * 15\n    mod = 10 ** 9 + 7\n    y = [1, 2, 4]\n    for i, col in enumerate(zip(*m)):\n        ndp = [0] * 16\n        r = sum([q for c, q in zip(col, y) if c != '.'])\n        for j in xrange(16):\n            if r & j: continue\n            t = r + j\n            if i < l - 1:\n                for k in xrange(3):\n                    if m[k][i+1] == 'O' and y[k] & j:\n                        t |= 8\n            s = 0\n            if i > 0:\n                for k in xrange(3):\n                    if m[k][i-1] == 'O':\n                        s = y[k]\n            xt = t ^ 7\n            if xt & s: xt |= 8\n            ndp[xt] += dp[j]\n            if ndp[xt] > mod:\n                ndp[xt] -= mod\n            for k in [0, 2]:\n                u = 7 ^ y[k]\n                if u & t: continue\n                xt = t ^ 7 ^ u\n                if xt & s or col[k] == 'O':\n                    xt |= 8\n                ndp[xt] += dp[j]\n                if ndp[xt] > mod:\n                    ndp[xt] -= mod\n        dp = ndp\n    print dp[8]\nmain()\n",
+    "prob_desc_created_at": "1378540800",
+    "tags": [
+        "dp",
+        "bitmasks",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

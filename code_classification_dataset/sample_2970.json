@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 1 2 1 1 2 3 2 2 3 1\", \"-1\"]",
+    "src_uid": "aba3bb100e2d3d30dc4b00818f190bff",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Greatest Secret Ever consists of n words, indexed by positive integers from 1 to n. The secret needs dividing between k Keepers (let's index them by positive integers from 1 to k), the i-th Keeper gets a non-empty set of words with numbers from the set Ui = (ui, 1, ui, 2, ..., ui, |Ui|). Here and below we'll presuppose that the set elements are written in the increasing order.We'll say that the secret is safe if the following conditions are hold:  for any two indexes i, j (1 ≤ i &lt; j ≤ k) the intersection of sets Ui and Uj is an empty set;  the union of sets U1, U2, ..., Uk is set (1, 2, ..., n);  in each set Ui, its elements ui, 1, ui, 2, ..., ui, |Ui| do not form an arithmetic progression (in particular, |Ui| ≥ 3 should hold). Let us remind you that the elements of set (u1, u2, ..., us) form an arithmetic progression if there is such number d, that for all i (1 ≤ i &lt; s) fulfills ui + d = ui + 1. For example, the elements of sets (5), (1, 10) and (1, 5, 9) form arithmetic progressions and the elements of sets (1, 2, 4) and (3, 6, 8) don't.Your task is to find any partition of the set of words into subsets U1, U2, ..., Uk so that the secret is safe. Otherwise indicate that there's no such partition.",
+    "prob_desc_output_spec": "If there is no way to keep the secret safe, print a single integer \"-1\" (without the quotes). Otherwise, print n integers, the i-th of them representing the number of the Keeper who's got the i-th word of the secret. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The input consists of a single line which contains two integers n and k (2 ≤ k ≤ n ≤ 106) — the number of words in the secret and the number of the Keepers. The numbers are separated by a single space.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_037.jsonl",
+    "code_uid": "35551548ea4d17cbce7103b2608ed17b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"11 3\", \"5 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, raw_input().split())\nif k * 3 > n:\n\tprint -1\nelse:\n\ta = []\n\tfor i in range(k):\n\t\ta.append(i + 1)\n\tmid = (k + 1) // 2\n\ta.remove(mid)\n\ta.append(mid)\n\twhile True:\n\t\tif len(a) >= n:\n\t\t\tbreak\n\t\tfor i in range(k):\n\t\t\ta.append(i + 1)\n\t\tfor i in reversed(range(k)):\n\t\t\ta.append(i + 1)\n\ta = a[: n]\n\tfor i in a:\n\t\tprint i,\n\n",
+    "prob_desc_created_at": "1360596600",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

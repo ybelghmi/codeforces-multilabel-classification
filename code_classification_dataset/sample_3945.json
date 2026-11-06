@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 4 3\\n4 1 2\\n300000000 300000000 300000000\\n999999998 1 1\\n1 2 2\"]",
+    "src_uid": "e0ec0cd81d2ec632ef89d207d80fa8a3",
+    "prob_desc_notes": "NoteThe subsequence of the array $$$a$$$ is a sequence that can be obtained from $$$a$$$ by removing zero or more of its elements.Two subsequences are considered different if index sets of elements included in them are different. That is, the values of the elements don't matter in the comparison of subsequences. In particular, any array of length $$$3$$$ has exactly $$$7$$$ different non-empty subsequences.",
+    "prob_desc_description": "Polycarp had an array $$$a$$$ of $$$3$$$ positive integers. He wrote out the sums of all non-empty subsequences of this array, sorted them in non-decreasing order, and got an array $$$b$$$ of $$$7$$$ integers.For example, if $$$a = \\{1, 4, 3\\}$$$, then Polycarp wrote out $$$1$$$, $$$4$$$, $$$3$$$, $$$1 + 4 = 5$$$, $$$1 + 3 = 4$$$, $$$4 + 3 = 7$$$, $$$1 + 4 + 3 = 8$$$. After sorting, he got an array $$$b = \\{1, 3, 4, 4, 5, 7, 8\\}.$$$Unfortunately, Polycarp lost the array $$$a$$$. He only has the array $$$b$$$ left. Help him to restore the array $$$a$$$.",
+    "prob_desc_output_spec": "For each test case, print $$$3$$$ integers — $$$a_1$$$, $$$a_2$$$ and $$$a_3$$$. If there can be several answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 5000$$$) — the number of test cases. Each test case consists of one line which contains $$$7$$$ integers $$$b_1, b_2, \\dots, b_7$$$ ($$$1 \\le b_i \\le 10^9$$$; $$$b_i \\le b_{i+1}$$$).  Additional constraint on the input: there exists at least one array $$$a$$$ which yields this array $$$b$$$ as described in the statement.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_087.jsonl",
+    "code_uid": "6190165bc56a36f783638350f49bcc01",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 3 4 4 5 7 8\\n1 2 3 4 5 6 7\\n300000000 300000000 300000000 600000000 600000000 600000000 900000000\\n1 1 2 999999998 999999999 999999999 1000000000\\n1 2 2 3 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\n\r\n############ ---- Input Functions ---- ############\r\ndef inp():\r\n    return(int(input()))\r\ndef inlt():\r\n    return(list(map(int,input().split())))\r\ndef insr():\r\n    s = input()\r\n    return(list(s[:len(s) - 1]))\r\ndef invr():\r\n    return(map(int,input().split()))\r\n\r\n\r\n\r\noutp = []\r\nx = inp()\r\nfor i in range(x):\r\n    lis = inlt()\r\n\r\n    a = lis[0]\r\n    b = lis[1]\r\n    if lis[2] == a+b:\r\n        output = [a,b,lis[3]]\r\n    else:\r\n        output = [a,b,lis[2]]\r\n    outp.append(output)\r\n\r\nfor out in outp:\r\n    print(out[0],out[1],out[2])\r\n",
+    "prob_desc_created_at": "1639492500",
+    "tags": [
+        "math",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

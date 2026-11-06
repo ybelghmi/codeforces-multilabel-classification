@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "0.5 second",
+    "prob_desc_sample_outputs": "[\"1\"]",
+    "src_uid": "e8650146b582d036a607353dbc888b2c",
+    "prob_desc_notes": "NoteAll the three mice will choose the first piece of cheese. Second and third mice will eat this piece. The first one will remain hungry, because it was running towards the same piece, but it was late. The second piece of cheese will remain uneaten.",
+    "prob_desc_description": "Modern researches has shown that a flock of hungry mice searching for a piece of cheese acts as follows: if there are several pieces of cheese then each mouse chooses the closest one. After that all mice start moving towards the chosen piece of cheese. When a mouse or several mice achieve the destination point and there is still a piece of cheese in it, they eat it and become well-fed. Each mice that reaches this point after that remains hungry. Moving speeds of all mice are equal.If there are several ways to choose closest pieces then mice will choose it in a way that would minimize the number of hungry mice. To check this theory scientists decided to conduct an experiment. They located N mice and M pieces of cheese on a cartesian plane where all mice are located on the line y = Y0 and all pieces of cheese — on another line y = Y1. To check the results of the experiment the scientists need a program which simulates the behavior of a flock of hungry mice.Write a program that computes the minimal number of mice which will remain hungry, i.e. without cheese.",
+    "prob_desc_output_spec": "The only line of output should contain one number — the minimal number of mice which will remain without cheese.",
+    "prob_desc_input_spec": "The first line of the input contains four integer numbers N (1 ≤ N ≤ 105), M (0 ≤ M ≤ 105), Y0 (0 ≤ Y0 ≤ 107), Y1 (0 ≤ Y1 ≤ 107, Y0 ≠ Y1). The second line contains a strictly increasing sequence of N numbers — x coordinates of mice. Third line contains a strictly increasing sequence of M numbers — x coordinates of cheese. All coordinates are integers and do not exceed 107 by absolute value.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_019.jsonl",
+    "code_uid": "a627fc27c819db3e2a926c997b4b91fc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 0 2\\n0 1 3\\n2 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "f = lambda : map(int,raw_input().split())\nn,m,x,y=f()\nv = [0]*m\nt = [0]*m\na = f()\nb = f()\ni = 0\n\nfor x in a:\n    while i<m-1 and abs(b[i]-x)>abs(b[i+1]-x):\n\t\ti+=1\n\n    w = abs(b[i]-x)\n    if i<m-1 and w==abs(b[i+1]-x):\n        if not v[i]: \n            v[i]=1\n            t[i]=w\n        else: \n            if t[i]==w: v[i]+=1\n            else:\n                t[i+1]=w\n                v[i+1]=1\n    else:\n        if v[i]: \n            if t[i]<w: continue\n            if t[i]==w:\n                v[i]+=1\n                continue\n        v[i]=1\n        t[i]=w\n\nprint n-sum(v)",
+    "prob_desc_created_at": "1302609600",
+    "tags": [
+        "two pointers",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

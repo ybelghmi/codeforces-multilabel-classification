@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7\", \"11\", \"104\"]",
+    "src_uid": "cb0f4d4f021ab96221e19a5344b9814e",
+    "prob_desc_notes": "NoteIn the first example, the function values ​​will be as follows:   $$$f(1, 1)=1$$$ (there is only a vertex with the number $$$2$$$, which forms one component)  $$$f(1, 2)=1$$$ (there are vertices $$$1$$$ and $$$2$$$ that form one component)  $$$f(1, 3)=1$$$ (all vertices remain, one component is obtained)  $$$f(2, 2)=1$$$ (only vertex number $$$1$$$)  $$$f(2, 3)=2$$$ (there are vertices $$$1$$$ and $$$3$$$ that form two components)  $$$f(3, 3)=1$$$ (only vertex $$$3$$$)  Totally out $$$7$$$.In the second example, the function values ​​will be as follows:   $$$f(1, 1)=1$$$  $$$f(1, 2)=1$$$  $$$f(1, 3)=1$$$  $$$f(1, 4)=1$$$  $$$f(2, 2)=1$$$  $$$f(2, 3)=2$$$  $$$f(2, 4)=2$$$  $$$f(3, 3)=1$$$  $$$f(3, 4)=1$$$  $$$f(4, 4)=0$$$ (there is no vertex left, so the number of components is $$$0$$$)  Totally out $$$11$$$.",
+    "prob_desc_description": "The Kingdom of Kremland is a tree (a connected undirected graph without cycles) consisting of $$$n$$$ vertices. Each vertex $$$i$$$ has its own value $$$a_i$$$. All vertices are connected in series by edges. Formally, for every $$$1 \\leq i &lt; n$$$ there is an edge between the vertices of $$$i$$$ and $$$i+1$$$.Denote the function $$$f(l, r)$$$, which takes two integers $$$l$$$ and $$$r$$$ ($$$l \\leq r$$$):    We leave in the tree only vertices whose values ​​range from $$$l$$$ to $$$r$$$.    The value of the function will be the number of connected components in the new graph. Your task is to calculate the following sum: $$$$$$\\sum_{l=1}^{n} \\sum_{r=l}^{n} f(l, r) $$$$$$",
+    "prob_desc_output_spec": "Print one number — the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 10^5$$$) — the number of vertices in the tree. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\leq a_i \\leq n$$$) — the values of the vertices.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_055.jsonl",
+    "code_uid": "9c6a4b452931fe520721687589e845ef",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 1 3\", \"4\\n2 1 1 3\", \"10\\n1 5 2 5 5 3 10 6 5 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# 計算該點 左邊不包但包自己的區間數\nn = int(input())\nnums = list(map(int,input().split()))\n\n# count the first one\nans = nums[0] * (n - nums[0] + 1)\n\nfor i in range(1,n):\n    if nums[i] > nums[i-1]:\n        ans += (nums[i] - nums[i-1]) * (n - nums[i] + 1)\n    elif nums[i] < nums[i-1]:\n        ans += (nums[i-1] - nums[i]) * nums[i]\nprint(ans)\n",
+    "prob_desc_created_at": "1555601700",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "data structures",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"1\"]",
+    "src_uid": "b063660572a78f25525656332a1782a8",
+    "prob_desc_notes": "NoteIn the first example, you may match point $$$1$$$ with point $$$2$$$ ($$$|3 - 1| \\ge 2$$$), and point $$$3$$$ with point $$$4$$$ ($$$|7 - 3| \\ge 2$$$).In the second example, you may match point $$$1$$$ with point $$$3$$$ ($$$|5 - 10| \\ge 5$$$).",
+    "prob_desc_description": "You are given a set of points $$$x_1$$$, $$$x_2$$$, ..., $$$x_n$$$ on the number line.Two points $$$i$$$ and $$$j$$$ can be matched with each other if the following conditions hold:  neither $$$i$$$ nor $$$j$$$ is matched with any other point;  $$$|x_i - x_j| \\ge z$$$. What is the maximum number of pairs of points you can match with each other?",
+    "prob_desc_output_spec": "Print one integer — the maximum number of pairs of points you can match with each other.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$z$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$, $$$1 \\le z \\le 10^9$$$) — the number of points and the constraint on the distance between matched points, respectively. The second line contains $$$n$$$ integers $$$x_1$$$, $$$x_2$$$, ..., $$$x_n$$$ ($$$1 \\le x_i \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_031.jsonl",
+    "code_uid": "81ace750c277e4edfc901e8a6954bc61",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n1 3 3 7\", \"5 5\\n10 9 5 8 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nreadline = sys.stdin.buffer.readline\nread = sys.stdin.read\nns = lambda: readline().rstrip()\nni = lambda: int(readline().rstrip())\nnm = lambda: map(int, readline().split())\nnl = lambda: list(map(int, readline().split()))\nprn = lambda x: print(*x, sep='\\n')\n\ndef solve():\n    n, z = nm()\n    a = sorted(nm())\n    ok, ng = 0, n//2 + 1\n    while ng - ok > 1:\n        mid = (ok + ng)//2\n        p = a[:mid]\n        q = a[-mid:]\n        for y, x in zip(q, p):\n            if y - x < z:\n                ng = mid\n                break\n        else:\n            ok = mid\n    print(ok)\n    return\n\nsolve()\n\n# T = ni()\n# for _ in range(T):\n#     solve()\n",
+    "prob_desc_created_at": "1556721300",
+    "tags": [
+        "greedy",
+        "two pointers",
+        "sortings",
+        "binary search",
+        "ternary search"
+    ],
+    "hidden_unit_tests": ""
+}

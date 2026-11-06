@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"GBGBGB\", \"BGBGBB\"]",
+    "src_uid": "5392996bd06bf52b48fe30b64493f8f5",
+    "prob_desc_notes": "NoteIn the first sample another possible answer is BGBGBG. In the second sample answer BBGBGB is also optimal.",
+    "prob_desc_description": "There are n boys and m girls studying in the class. They should stand in a line so that boys and girls alternated there as much as possible. Let's assume that positions in the line are indexed from left to right by numbers from 1 to n + m. Then the number of integers i (1 ≤ i &lt; n + m) such that positions with indexes i and i + 1 contain children of different genders (position i has a girl and position i + 1 has a boy or vice versa) must be as large as possible. Help the children and tell them how to form the line.",
+    "prob_desc_output_spec": "Print a line of n + m characters. Print on the i-th position of the line character \"B\", if the i-th position of your arrangement should have a boy and \"G\", if it should have a girl.  Of course, the number of characters \"B\" should equal n and the number of characters \"G\" should equal m. If there are multiple optimal solutions, print any of them.",
+    "prob_desc_input_spec": "The single line of the input contains two integers n and m (1 ≤ n, m ≤ 100), separated by a space.",
+    "prob_desc_output_to": "output.txt",
+    "prob_desc_input_from": "input.txt",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_004.jsonl",
+    "code_uid": "b1636cc34bb6054c191ba03934ebd95b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\", \"4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "b, g=map(int,open('input.txt').read().split())\n\nh=''\ndone=0\nif b>g:\n   h+='B'\n   b-=1\n   done=1\nelse:\n   h+='G'\n   g-=1\n\nwhile b!=0 or g!=0:\n   if done==1:\n      if g>0:\n         h+='G'\n         g-=1\n         done=0\n      else:\n         h+='B'\n         b-=1\n   else:\n      if b>0:\n         h+='B'\n         b-=1\n         done=1\n      else:\n         h+='G'\n         g-=1\n\nopen('output.txt','w').write(h)                           ",
+    "prob_desc_created_at": "1354960800",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

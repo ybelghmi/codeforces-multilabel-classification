@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"0\"]",
+    "src_uid": "39232c03c033da238c5d1e20e9595d6d",
+    "prob_desc_notes": "NoteIn the first sample, Arseniy can repaint the first and the third socks to the second color.In the second sample, there is no need to change any colors.",
+    "prob_desc_description": "Arseniy is already grown-up and independent. His mother decided to leave him alone for m days and left on a vacation. She have prepared a lot of food, left some money and washed all Arseniy's clothes. Ten minutes before her leave she realized that it would be also useful to prepare instruction of which particular clothes to wear on each of the days she will be absent. Arseniy's family is a bit weird so all the clothes is enumerated. For example, each of Arseniy's n socks is assigned a unique integer from 1 to n. Thus, the only thing his mother had to do was to write down two integers li and ri for each of the days — the indices of socks to wear on the day i (obviously, li stands for the left foot and ri for the right). Each sock is painted in one of k colors.When mother already left Arseniy noticed that according to instruction he would wear the socks of different colors on some days. Of course, that is a terrible mistake cause by a rush. Arseniy is a smart boy, and, by some magical coincidence, he posses k jars with the paint — one for each of k colors.Arseniy wants to repaint some of the socks in such a way, that for each of m days he can follow the mother's instructions and wear the socks of the same color. As he is going to be very busy these days he will have no time to change the colors of any socks so he has to finalize the colors now.The new computer game Bota-3 was just realised and Arseniy can't wait to play it. What is the minimum number of socks that need their color to be changed in order to make it possible to follow mother's instructions and wear the socks of the same color during each of m days.",
+    "prob_desc_output_spec": "Print one integer — the minimum number of socks that should have their colors changed in order to be able to obey the instructions and not make people laugh from watching the socks of different colors.",
+    "prob_desc_input_spec": "The first line of input contains three integers n, m and k (2 ≤ n ≤ 200 000, 0 ≤ m ≤ 200 000, 1 ≤ k ≤ 200 000) — the number of socks, the number of days and the number of available colors respectively. The second line contain n integers c1, c2, ..., cn (1 ≤ ci ≤ k) — current colors of Arseniy's socks. Each of the following m lines contains two integers li and ri (1 ≤ li, ri ≤ n, li ≠ ri) — indices of socks which Arseniy should wear during the i-th day.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_034.jsonl",
+    "code_uid": "43a765f39fb1f75feab69cfd80a27cb1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 3\\n1 2 3\\n1 2\\n2 3\", \"3 2 2\\n1 1 2\\n1 2\\n2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def dfs(v, visited, edges, colors):\n    st = [v]\n    visited.add(v)\n    comp = []\n    cols = dict()\n    while st:\n        ver = st.pop()\n        comp.append(colors[ver])\n        if ver in edges:\n            for i in edges[ver]:\n                if i not in visited:\n                    st.append(i)\n                    visited.add(i)\n    for i in comp:\n        if i not in cols:\n            cols[i] = 1\n        else:\n            cols[i] += 1\n    max_c = 0\n    for i in cols:\n        if cols[i] > max_c:\n            max_c = cols[i]\n    return len(comp) - max_c\n\n\n\nn, m, k = [int(x) for x in input().split()]\ncolors = {i + 1 : int(x) for i, x in enumerate(input().split())}\nedges = dict()\nfor i in range(m):\n    v1, v2 = [int(x) for x in input().split()]\n    if v1 in edges:\n        edges[v1].append(v2)\n    else:\n        edges[v1] = [v2]\n    if v2 in edges:\n        edges[v2].append(v1)\n    else:\n        edges[v2] = [v1]\n\nvisited = set()\nanswer = 0\nfor i in range(1, n + 1):\n    if i not in visited:\n        answer += dfs(i, visited, edges, colors)\n\n\nprint(answer)\n",
+    "prob_desc_created_at": "1476611100",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "greedy",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

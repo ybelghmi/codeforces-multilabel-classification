@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n5\\n4\\n0\"]",
+    "src_uid": "d154c3df1947f52ec370c6ad2771eb47",
+    "prob_desc_notes": "NoteIn the first query of the sample one needs to perform two breaks:  to split 2 × 2 bar into two pieces of 2 × 1 (cost is 22 = 4),  to split the resulting 2 × 1 into two 1 × 1 pieces (cost is 12 = 1). In the second query of the sample one wants to eat 3 unit squares. One can use exactly the same strategy as in the first query of the sample.",
+    "prob_desc_description": "You have a rectangular chocolate bar consisting of n × m single squares. You want to eat exactly k squares, so you may need to break the chocolate bar. In one move you can break any single rectangular piece of chocolate in two rectangular pieces. You can break only by lines between squares: horizontally or vertically. The cost of breaking is equal to square of the break length.For example, if you have a chocolate bar consisting of 2 × 3 unit squares then you can break it horizontally and get two 1 × 3 pieces (the cost of such breaking is 32 = 9), or you can break it vertically in two ways and get two pieces: 2 × 1 and 2 × 2 (the cost of such breaking is 22 = 4).For several given values n, m and k find the minimum total cost of breaking. You can eat exactly k squares of chocolate if after all operations of breaking there is a set of rectangular pieces of chocolate with the total size equal to k squares. The remaining n·m - k squares are not necessarily form a single rectangular piece.",
+    "prob_desc_output_spec": "For each n, m and k print the minimum total cost needed to break the chocolate bar, in order to make it possible to eat exactly k squares.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer t (1 ≤ t ≤ 40910) — the number of values n, m and k to process. Each of the next t lines contains three integers n, m and k (1 ≤ n, m ≤ 30, 1 ≤ k ≤ min(n·m, 50)) — the dimensions of the chocolate bar and the number of squares you want to eat respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_018.jsonl",
+    "code_uid": "aab1933dd59b0859620a5196c38d593e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 2 1\\n2 2 3\\n2 2 2\\n2 2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "d = [0] * 49011\n\ndef g(n, m, k):\n    t = 1e9\n    for i in range(1, m // 2 + 1):\n        for j in range(k + 1):\n            t = min(t, f(n, m - i, k - j) + f(n, i, j))\n    return n * n + t\n\ndef f(n, m, k):\n    if n > m: n, m = m, n\n    k = min(k, n * m - k)\n    if k == 0: return 0\n    if k < 0: return 1e9\n    q = n + 31 * m + 961 * k\n    if d[q] == 0: d[q] = min(g(n, m, k), g(m, n, k))\n    return d[q]\n\nfor q in range(int(input())):\n    n, m, k = map(int, input().split())\n    print(f(n, m, k))",
+    "prob_desc_created_at": "1447426800",
+    "tags": [
+        "dp",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

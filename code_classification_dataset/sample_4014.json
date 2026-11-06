@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "7 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"0\", \"721234447\"]",
+    "src_uid": "fcf5e6320d9cac0f39b3ef503f1b1002",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A subarray of array $$$a$$$ from index $$$l$$$ to the index $$$r$$$ is the array $$$[a_l, a_{l+1}, \\dots, a_{r}]$$$. The number of occurrences of the array $$$b$$$ in the array $$$a$$$ is the number of subarrays of $$$a$$$ such that they are equal to $$$b$$$.You are given $$$n$$$ arrays $$$A_1, A_2, \\dots, A_n$$$; the elements of these arrays are integers from $$$1$$$ to $$$k$$$. You have to build an array $$$a$$$ consisting of $$$m$$$ integers from $$$1$$$ to $$$k$$$ in such a way that, for every given subarray $$$A_i$$$, the number of occurrences of $$$A_i$$$ in the array $$$a$$$ is not less than the number of occurrences of each non-empty subarray of $$$A_i$$$ in $$$a$$$. Note that if $$$A_i$$$ doesn't occur in $$$a$$$, and no subarray of $$$A_i$$$ occurs in $$$a$$$, this condition is still met for $$$A_i$$$.Your task is to calculate the number of different arrays $$$a$$$ you can build, and print it modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Print one integer — the number of different arrays $$$a$$$ you can build, taken modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$m$$$ and $$$k$$$ ($$$1 \\le n, m, k \\le 3 \\cdot 10^5$$$) — the number of the given arrays, the desired length of the array $$$a$$$, and the upper bound on the values in the arrays. Then $$$n$$$ lines follow. The $$$i$$$-th line represents the array $$$A_i$$$. The first integer in the $$$i$$$-th line is $$$c_i$$$ ($$$1 \\le c_i \\le m$$$) — the number of elements in $$$A_i$$$; then, $$$c_i$$$ integers from $$$1$$$ to $$$k$$$ follow — the elements of the array $$$A_i$$$. Additional constraint on the input: $$$\\sum\\limits_{i=1}^n c_i \\le 3 \\cdot 10^5$$$; i. e., the number of elements in the given arrays in total does not exceed $$$3 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_088.jsonl",
+    "code_uid": "a8f23434ab95938d5fc470852f98adc8",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2 4 3\\n2 1 2\\n1 3\", \"2 4 3\\n2 1 2\\n3 3 2 1\", \"1 42 1337\\n2 13 31\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\n\r\nn,m,k = map(int, input().split())\r\nnex = [-1] * k\r\nprev = [-1] * k\r\nbad = [0] * k\r\n\r\nfor _ in range(n):\r\n    l = list(map(int, input().split()))\r\n    nn = l.pop(0)\r\n    tg = True\r\n    for i in range(nn - 1):\r\n        u, v = l[i] - 1, l[i+1] - 1\r\n        tg = tg and (prev[v] == -1 or prev[v] == u)\r\n        prev[v] = u\r\n        tg = tg and (nex[u] == -1 or nex[u] == v)\r\n        nex[u] = v\r\n    if not tg:\r\n        for v in l:\r\n            bad[v - 1] = 1\r\n\r\nMOD = 998244353\r\nb = 500\r\nct = [0] * b\r\not = []\r\ndp = [1]\r\n\r\nfor i in range(k):\r\n    ib = False\r\n    curr = i\r\n    val = 0\r\n    if prev[i] == -1:\r\n        while curr != -1:\r\n            ib = ib or bad[curr]\r\n            if ib:\r\n                break\r\n            curr = nex[curr]\r\n            val += 1\r\n        if not ib:\r\n            if val < b:\r\n                ct[val] += 1\r\n            else:\r\n                    ot.append(val)\r\n            \r\nfor i in range(1, m + 1):\r\n    curr = 0\r\n    for j in range(1, b):\r\n        if j <= i:\r\n            curr += (ct[j] * dp[i - j])\r\n            curr %= MOD\r\n    for j in ot:\r\n        if j <= i:\r\n            curr += dp[i - j]\r\n    curr %= MOD\r\n    dp.append(curr)\r\n    \r\nprint(dp[m])",
+    "prob_desc_created_at": "1632148500",
+    "tags": [
+        "combinatorics",
+        "dfs and similar",
+        "dp",
+        "dsu",
+        "fft",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"13\\n2\\n-1\\n-1\"]",
+    "src_uid": "432411e161af5ef14803e946e2f7fbc3",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This problem is a complicated version of D1, but it has significant differences, so read the whole statement.Polycarp has an array of $$$n$$$ ($$$n$$$ is even) integers $$$a_1, a_2, \\dots, a_n$$$. Polycarp conceived of a positive integer $$$k$$$. After that, Polycarp began performing the following operations on the array: take an index $$$i$$$ ($$$1 \\le i \\le n$$$) and reduce the number $$$a_i$$$ by $$$k$$$.After Polycarp performed some (possibly zero) number of such operations, it turned out that at least half of the numbers in the array became the same. Find the maximum $$$k$$$ at which such a situation is possible, or print $$$-1$$$ if such a number can be arbitrarily large.",
+    "prob_desc_output_spec": "For each test case output on a separate line an integer $$$k$$$ ($$$k \\ge 1$$$) — the maximum possible number that Polycarp used in operations on the array, or $$$-1$$$, if such a number can be arbitrarily large.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case consists of two lines. The first line contains an even integer $$$n$$$ ($$$4 \\le n \\le 40$$$) ($$$n$$$ is even). The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots a_n$$$ ($$$-10^6 \\le a_i \\le 10^6$$$). It is guaranteed that the sum of all $$$n$$$ specified in the given test cases does not exceed $$$100$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_093.jsonl",
+    "code_uid": "8c3d1bdd0a4efd3901afe0af1a016871",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n6\\n48 13 22 -15 16 35\\n8\\n-1 0 1 -1 0 1 -1 0\\n4\\n100 -1000 -1000 -1000\\n4\\n1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\r\n\r\n\r\ndef read_nums():\r\n    return [int(x) for x in input().split()]\r\n\r\n\r\ndef get_all_divisors(num):\r\n    res = set()\r\n    i = 1\r\n    while i <= int(num**0.5) + 1:\r\n        if num % i == 0:\r\n            res.add(i)\r\n            res.add(num // i)\r\n        i += 1\r\n    return res\r\n\r\n\r\ndef find_max_k(n, target, counter):\r\n    diffs = Counter()\r\n    for num, count in counter.items():\r\n        diff = num - target\r\n        if diff >= 0:\r\n            diffs[diff] += count\r\n\r\n    divisor_counter = Counter()\r\n    for num, count in diffs.items():\r\n        if num == 0:\r\n            continue\r\n        divisors = get_all_divisors(num)\r\n        for div in divisors:\r\n            divisor_counter[div] += count\r\n\r\n    num_zeros = diffs[0]\r\n\r\n    candidates = []\r\n    for divisor, count in divisor_counter.items():\r\n        if count + num_zeros >= n // 2:\r\n            candidates.append(divisor)\r\n\r\n    return max(candidates) if len(candidates) > 0 else 1\r\n\r\n\r\ndef get_maximum_k(n, nums):\r\n    counter = Counter(nums)\r\n    if max(counter.values()) >= len(nums) // 2:\r\n        return -1\r\n\r\n    vals = [find_max_k(n, target, counter) for target in counter]\r\n    if -1 in vals:\r\n        return -1\r\n    return max(vals)\r\n\r\n    #\r\n    # for k in range(max(nums) - min(nums), 0, -1):\r\n    #     remainders = Counter()\r\n    #     for num, count in counter.items():\r\n    #         remainders[num % k] += count\r\n    #\r\n    #     if max(remainders.values()) >= len(nums) // 2:\r\n    #         return k\r\n\r\n\r\ndef solve():\r\n    n, = read_nums()\r\n    nums = read_nums()\r\n\r\n    k = get_maximum_k(n, nums)\r\n    print(k)\r\n\r\n\r\ndef main():\r\n    t, = read_nums()\r\n    for _ in range(t):\r\n        solve()\r\n\r\n\r\nif __name__ == '__main__':\r\n    main()\r\n",
+    "prob_desc_created_at": "1634135700",
+    "tags": [
+        "brute force",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

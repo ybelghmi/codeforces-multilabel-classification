@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"16\"]",
+    "src_uid": "0fbac68f497fe189ee088c13d0488cce",
+    "prob_desc_notes": "NoteIn the sample case the better way is to use the secret technique at the beginning of the third minute. Then the number of theorems Mishka will be able to write down will be equal to 16.",
+    "prob_desc_description": "Your friend Mishka and you attend a calculus lecture. Lecture lasts n minutes. Lecturer tells ai theorems during the i-th minute.Mishka is really interested in calculus, though it is so hard to stay awake for all the time of lecture. You are given an array t of Mishka's behavior. If Mishka is asleep during the i-th minute of the lecture then ti will be equal to 0, otherwise it will be equal to 1. When Mishka is awake he writes down all the theorems he is being told — ai during the i-th minute. Otherwise he writes nothing.You know some secret technique to keep Mishka awake for k minutes straight. However you can use it only once. You can start using it at the beginning of any minute between 1 and n - k + 1. If you use it on some minute i then Mishka will be awake during minutes j such that  and will write down all the theorems lecturer tells.You task is to calculate the maximum number of theorems Mishka will be able to write down if you use your technique only once to wake him up.",
+    "prob_desc_output_spec": "Print only one integer — the maximum number of theorems Mishka will be able to write down if you use your technique only once to wake him up.",
+    "prob_desc_input_spec": "The first line of the input contains two integer numbers n and k (1 ≤ k ≤ n ≤ 105) — the duration of the lecture in minutes and the number of minutes you can keep Mishka awake. The second line of the input contains n integer numbers a1, a2, ... an (1 ≤ ai ≤ 104) — the number of theorems lecturer tells during the i-th minute. The third line of the input contains n integer numbers t1, t2, ... tn (0 ≤ ti ≤ 1) — type of Mishka's behavior at the i-th minute of the lecture.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_000.jsonl",
+    "code_uid": "8cec0b3530ae2b8739ffa20bcde38d6e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3\\n1 3 5 2 5 4\\n1 1 0 1 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k=map(int,input().split())\nl=list(map(int,input().split()))\ns=list(map(int,input().split()))\nsum1=0\ndic={}\nfor i in range(n):\n    if s[i]!=0:\n        sum1=sum1+l[i]\n    else:\n        dic[i]=l[i]\n#print('sum1',sum1)\n#print(dic)\nif len(dic)!=0:\n    l2=list(dic.values())\n    s2=list(dic.keys())\n    m=len(l2)\n    sum2=l2[0]\n    strt=0\n    end=1\n    max=0\n    #print(l2)\n    #print(s2)\n    while strt<m and end<m:\n        if s2[end]-s2[strt]<=k-1:\n            sum2=sum2+l2[end]\n            end=end+1\n            #print('end',end)\n        else:\n            if sum2>max:\n                max=sum2\n\n            #print('strt',strt)\n            sum2=sum2-l2[strt]\n            strt=strt+1\n\n\n        #print('sum',sum2)\n    #print(sum1)\n    if sum2>max:\n        max=sum2\n    print(sum1+max)\nelse:\n    print(sum1)\n",
+    "prob_desc_created_at": "1522850700",
+    "tags": [
+        "dp",
+        "two pointers",
+        "implementation",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

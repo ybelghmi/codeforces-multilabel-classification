@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"2.000000000000\", \"1.400000000000\"]",
+    "src_uid": "f13f27a131b9315ebbb8688e2f43ddde",
+    "prob_desc_notes": "NoteIn the first sample, all friends can gather at the point 5 within 2 seconds. In order to achieve this, the first friend should go south all the time at his maximum speed, while the second and the third friends should go north at their maximum speeds.",
+    "prob_desc_description": "The main road in Bytecity is a straight line from south to north. Conveniently, there are coordinates measured in meters from the southernmost building in north direction.At some points on the road there are n friends, and i-th of them is standing at the point xi meters and can move with any speed no greater than vi meters per second in any of the two directions along the road: south or north.You are to compute the minimum time needed to gather all the n friends at some point on the road. Note that the point they meet at doesn't need to have integer coordinate. ",
+    "prob_desc_output_spec": "Print the minimum time (in seconds) needed for all the n friends to meet at some point on the road.  Your answer will be considered correct, if its absolute or relative error isn't greater than 10 - 6. Formally, let your answer be a, while jury's answer be b. Your answer will be considered correct if  holds.",
+    "prob_desc_input_spec": "The first line contains single integer n (2 ≤ n ≤ 60 000) — the number of friends. The second line contains n integers x1, x2, ..., xn (1 ≤ xi ≤ 109) — the current coordinates of the friends, in meters. The third line contains n integers v1, v2, ..., vn (1 ≤ vi ≤ 109) — the maximum speeds of the friends, in meters per second.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_024.jsonl",
+    "code_uid": "3659bb229af434e9a6a0db63a6017f76",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n7 1 3\\n1 2 1\", \"4\\n5 10 3 2\\n2 3 2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nxs = list(map(int, input().split()))\nvs = list(map(int, input().split()))\n\nl = 0\nr = max(xs) - min(xs) + 1\nfor i in range(50):\n    m = (r + l) / 2\n    lev = 0\n    prav = 1000000000\n    for j in range(n):\n        prav = min(prav, xs[j] + vs[j] * m)\n        lev = max(lev, xs[j] - vs[j] * m)\n        if prav < lev:\n            break\n    if prav < lev:\n        l = m\n    else:\n        r = m\nprint((l + r) / 2)",
+    "prob_desc_created_at": "1488705300",
+    "tags": [
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

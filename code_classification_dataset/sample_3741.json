@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n2\\n3\\n5\\n5\"]",
+    "src_uid": "2724bff6614e8cc02c07924771bd2920",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a board of size $$$2 \\times n$$$ ($$$2$$$ rows, $$$n$$$ columns). Some cells of the board contain chips. The chip is represented as '*', and an empty space is represented as '.'. It is guaranteed that there is at least one chip on the board.In one move, you can choose any chip and move it to any adjacent (by side) cell of the board (if this cell is inside the board). It means that if the chip is in the first row, you can move it left, right or down (but it shouldn't leave the board). Same, if the chip is in the second row, you can move it left, right or up.If the chip moves to the cell with another chip, the chip in the destination cell disappears (i. e. our chip captures it).Your task is to calculate the minimum number of moves required to leave exactly one chip on the board.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print one integer — the minimum number of moves required to leave exactly one chip on the board.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 2 \\cdot 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of the test case contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the length of the board. The second line of the test case contains the string $$$s_1$$$ consisting of $$$n$$$ characters '*' (chip) and/or '.' (empty cell). The third line of the test case contains the string $$$s_2$$$ consisting of $$$n$$$ characters '*' (chip) and/or '.' (empty cell). Additional constraints on the input:   in each test case, there is at least one chip on a board;  the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$ ($$$\\sum n \\le 2 \\cdot 10^5$$$). ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_083.jsonl",
+    "code_uid": "6582836db95cca80c4b7694aae0c58eb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n1\\n\\n*\\n\\n.\\n\\n2\\n\\n.*\\n\\n**\\n\\n3\\n\\n*.*\\n\\n.*.\\n\\n4\\n\\n**.*\\n\\n**..\\n\\n5\\n\\n**...\\n\\n...**\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nfrom array import array\r\n\r\ninput = lambda: sys.stdin.buffer.readline().decode().strip()\r\ninp_2d = lambda dtype, n: [dtype(input()) for _ in range(n)]\r\n\r\nfor _ in range(int(input())):\r\n    n = int(input())\r\n    a = inp_2d(str, 2)\r\n    ans = [[array('i', [0] * n) for _ in range(2)] for _ in range(4)]\r\n    dp0 = [array('i', [-1] * (n + 2)) for _ in range(2)]\r\n    ans, be, en = 10 ** 9, 0, n - 1\r\n\r\n    for j in range(n - 1, -1, -1):\r\n        for i in range(2):\r\n            if a[i][j] == '*':\r\n                dp0[i][j] = a[i ^ 1][j] == '*'\r\n                dp0[i ^ 1][j] = 1\r\n                be = j + 1\r\n\r\n    for j in range(n):\r\n        for i in range(2):\r\n            if a[i][j] == '*':\r\n                en = j - 1\r\n\r\n    for j in range(be, n):\r\n        dp0[0][j] = dp0[0][j - 1] + 1 + (a[1][j] == '*')\r\n        dp0[1][j] = dp0[1][j - 1] + (a[0][j] == '*') + 1\r\n        dp0[0][j] = min(dp0[0][j], dp0[1][j] - (a[0][j] == '*') + 1)\r\n        dp0[1][j] = min(dp0[1][j], dp0[0][j] - (a[1][j] == '*') + 1)\r\n\r\n    print(min(dp0[0][en + 1], dp0[1][en + 1]))\r\n",
+    "prob_desc_created_at": "1652452500",
+    "tags": [
+        "bitmasks",
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

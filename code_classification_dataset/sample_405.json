@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"4\", \"0\"]",
+    "src_uid": "4ee194d8dc1d25eb8b186603ee71125e",
+    "prob_desc_notes": "NoteIn the first example, a possible way to achieve an optimal answer is to pick square with index $$$2$$$ as the starting square and then play as follows:  $$$[5, 2, 2, 1]$$$  $$$[5, 5, 5, 1]$$$  $$$[1, 1, 1, 1]$$$ In the second example, a possible way to achieve an optimal answer is to pick square with index $$$5$$$ as the starting square and then perform recoloring into colors $$$2, 3, 5, 4$$$ in that order.In the third example, the line already consists of one color only.",
+    "prob_desc_description": "You are given a line of $$$n$$$ colored squares in a row, numbered from $$$1$$$ to $$$n$$$ from left to right. The $$$i$$$-th square initially has the color $$$c_i$$$.Let's say, that two squares $$$i$$$ and $$$j$$$ belong to the same connected component if $$$c_i = c_j$$$, and $$$c_i = c_k$$$ for all $$$k$$$ satisfying $$$i &lt; k &lt; j$$$. In other words, all squares on the segment from $$$i$$$ to $$$j$$$ should have the same color.For example, the line $$$[3, 3, 3]$$$ has $$$1$$$ connected component, while the line $$$[5, 2, 4, 4]$$$ has $$$3$$$ connected components.The game \"flood fill\" is played on the given line as follows:   At the start of the game you pick any starting square (this is not counted as a turn).  Then, in each game turn, change the color of the connected component containing the starting square to any other color. Find the minimum number of turns needed for the entire line to be changed into a single color.",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of the turns needed.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 5000$$$) — the number of squares. The second line contains integers $$$c_1, c_2, \\ldots, c_n$$$ ($$$1 \\le c_i \\le 5000$$$) — the initial colors of the squares.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_002.jsonl",
+    "code_uid": "da412fc88c107ed6fc24e6f74371f8d0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n5 2 2 1\", \"8\\n4 5 2 2 1 3 5 5\", \"1\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\ncs = map(int, raw_input().split(' '))\n\n# remove consecutive dupes\nds = []\nfor c in cs:\n\tif len(ds)==0:\n\t\tds.append(c)\n\telif ds[-1] != c:\n\t\tds.append(c)\ncs = ds\nn = len(cs)\n\ndef memoize(f):\n\ttable = {}\n\tdef g(*args):\n\t\tif args in table:\n\t\t\treturn table[args]\n\t\telse:\n\t\t\tvalue = table[args] = f(*args)\n\t\t\treturn value\n\treturn g\n\ndef expand_interval(a,b):\n\t'''[a,b] is a subinterval of [0,n).\n\treturns an interval containing [a,b] and all points to the left of a with the same color as a and all points to the right of b with the same color as b.'''\n\tif a < 0:\n\t\ta = 0\n\tif b >= n:\n\t\tb = n-1\n\twhile a > 0 and cs[a-1] == cs[a]:\n\t\ta -= 1\n\twhile b < n-1 and cs[b+1] == cs[b]:\n\t\tb += 1\n\treturn (a,b)\n\ncache = [[-1 for b in range(n)] for a in range(n)]\n\n#@memoize\ndef dp(a,b):\n\t''' returns least number of flood fills remaining, assuming the interval [a,b] has already been colored with the same color. '''\n\ta,b = expand_interval(a,b)\n\tif cache[a][b] != -1:\n\t\treturn cache[a][b]\n\tleft = expand_interval(a-1,b)\n\tright = expand_interval(a,b+1)\n\tboth = expand_interval(a-1,b+1)\n\tif a == 0 and b == n-1:\n\t\tcache[a][b] = 0\n\telif a == 0:\n\t\tcache[a][b] = 1 + dp(*right)\n\telif b == n-1:\n\t\tcache[a][b] = 1 + dp(*left)\n\telse:\n\t\tif cs[a-1] == cs[b+1]:\n\t\t\tcache[a][b] = 1 + dp(*both)\n\t\telse:\n\t\t\tcache[a][b] = 1 + min( dp(*left), dp(*right) ) # <- double recursion!\n\treturn cache[a][b]\n\n# calculate the longest intervals first so we can avoid the double recursion in dp()\nfor length in range(n,0,-1):\n\tfor a in range(n-length):\n\t\tdp(*expand_interval(a,a+length))\n\nprint min([dp(a,a) for a in range(n)])",
+    "prob_desc_created_at": "1549807500",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

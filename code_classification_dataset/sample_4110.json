@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\n14\\n26\\n48\"]",
+    "src_uid": "8775da9b78d8236c4606d150df450952",
+    "prob_desc_notes": "NoteIn the second test case:   The best partition for the subsegment $$$[2, 0, 1]$$$: $$$[2], [0, 1]$$$. The cost of this partition equals to $$$2 + \\operatorname{mex}(\\{2\\}) + \\operatorname{mex}(\\{0, 1\\}) = 2 + 0 + 2 = 4$$$.  The best partition for the subsegment $$$[2, 0]$$$: $$$[2], [0]$$$. The cost of this partition equals to $$$2 + \\operatorname{mex}(\\{2\\}) + \\operatorname{mex}(\\{0\\}) = 2 + 0 + 1 = 3$$$  The best partition for the subsegment $$$[2]$$$: $$$[2]$$$. The cost of this partition equals to $$$1 + \\operatorname{mex}(\\{2\\}) = 1 + 0 = 1$$$.  The best partition for the subsegment $$$[0, 1]$$$: $$$[0, 1]$$$. The cost of this partition equals to $$$1 + \\operatorname{mex}(\\{0, 1\\}) = 1 + 2 = 3$$$.  The best partition for the subsegment $$$[0]$$$: $$$[0]$$$. The cost of this partition equals to $$$1 + \\operatorname{mex}(\\{0\\}) = 1 + 1 = 2$$$.  The best partition for the subsegment $$$[1]$$$: $$$[1]$$$. The cost of this partition equals to $$$1 + \\operatorname{mex}(\\{1\\}) = 1 + 0 = 1$$$. The sum of values over all subsegments equals to $$$4 + 3 + 1 + 3 + 2 + 1 = 14$$$.",
+    "prob_desc_description": "Let there be an array $$$b_1, b_2, \\ldots, b_k$$$. Let there be a partition of this array into segments $$$[l_1; r_1], [l_2; r_2], \\ldots, [l_c; r_c]$$$, where $$$l_1 = 1$$$, $$$r_c = k$$$, and for any $$$2 \\leq i \\leq c$$$ holds that $$$r_{i-1} + 1 = l_i$$$. In other words, each element of the array belongs to exactly one segment.Let's define the cost of a partition as $$$$$$c + \\sum_{i = 1}^{c} \\operatorname{mex}(\\{b_{l_i}, b_{l_i + 1}, \\ldots, b_{r_i}\\}),$$$$$$ where $$$\\operatorname{mex}$$$ of a set of numbers $$$S$$$ is the smallest non-negative integer that does not occur in the set $$$S$$$. In other words, the cost of a partition is the number of segments plus the sum of MEX over all segments. Let's define the value of an array $$$b_1, b_2, \\ldots, b_k$$$ as the maximum possible cost over all partitions of this array.You are given an array $$$a$$$ of size $$$n$$$. Find the sum of values of all its subsegments.An array $$$x$$$ is a subsegment of an array $$$y$$$ if $$$x$$$ can be obtained from $$$y$$$ by deletion of several (possibly, zero or all) elements from the beginning and several (possibly, zero or all) elements from the end.",
+    "prob_desc_output_spec": "For each test case print a single integer — the answer to the problem.",
+    "prob_desc_input_spec": "The input contains several test cases. The first line contains one integer $$$t$$$ ($$$1 \\leq t \\leq 30$$$) — the number of test cases. The first line for each test case contains one integer $$$n$$$ ($$$1 \\leq n \\leq 100$$$) — the length of the array. The second line contains a sequence of integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\leq a_i \\leq 10^9$$$) — the array elements. It is guaranteed that the sum of the values $$$n$$$ over all test cases does not exceed $$$100$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_090.jsonl",
+    "code_uid": "9068b9ec11a55bab8da6fbd3cfb2372d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2\\n1 2\\n3\\n2 0 1\\n4\\n2 0 5 1\\n5\\n0 1 1 0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\r\ndef max(array):\r\n    count = 0\r\n    for i in array:\r\n        if i==0:\r\n            count +=2\r\n        else:\r\n            count +=1\r\n    return count\r\n\r\n\r\nfor line in [*open(0)][2::2]:\r\n    array = list(map(int,line.split()))\r\n    maximum = 0\r\n    for i in range(len(array)):\r\n        for j in range(i +1,len(array)+1):\r\n            maximum += max(array[i:j])\r\n    print(maximum)",
+    "prob_desc_created_at": "1644676500",
+    "tags": [
+        "brute force",
+        "dp",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

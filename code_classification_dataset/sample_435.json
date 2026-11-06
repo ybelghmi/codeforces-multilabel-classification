@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1-3,6\", \"1-3\", \"10,20,30\"]",
+    "src_uid": "3969ba3e3eb55a896663d2c5a5bc4a84",
+    "prob_desc_notes": null,
+    "prob_desc_description": "«Bersoft» company is working on a new version of its most popular text editor — Bord 2010. Bord, like many other text editors, should be able to print out multipage documents. A user keys a sequence of the document page numbers that he wants to print out (separates them with a comma, without spaces).Your task is to write a part of the program, responsible for «standardization» of this sequence. Your program gets the sequence, keyed by the user, as input. The program should output this sequence in format l1-r1,l2-r2,...,lk-rk, where ri + 1 &lt; li + 1 for all i from 1 to k - 1, and li ≤ ri. The new sequence should contain all the page numbers, keyed by the user, and nothing else. If some page number appears in the input sequence several times, its appearances, starting from the second one, should be ignored. If for some element i from the new sequence li = ri, this element should be output as li, and not as «li - li».For example, sequence 1,2,3,1,1,2,6,6,2 should be output as 1-3,6.",
+    "prob_desc_output_spec": "Output the sequence in the required format.",
+    "prob_desc_input_spec": "The only line contains the sequence, keyed by the user. The sequence contains at least one and at most 100 positive integer numbers. It's guaranteed, that this sequence consists of positive integer numbers, not exceeding 1000, separated with a comma, doesn't contain any other characters, apart from digits and commas, can't end with a comma, and the numbers don't contain leading zeroes. Also it doesn't start with a comma or contain more than one comma in a row.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_002.jsonl",
+    "code_uid": "fae3026ac6742bdd7582c5651dca3f3e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1,2,3,1,1,2,6,6,2\", \"3,2,1\", \"30,20,10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "inp = raw_input()\n#inp = '996,999,998,984,989,1000,996,993,1000,983,992,999,999,1000,979,992,987,1000,996,1000,1000,989,981,996,995,999,999,989,999,1000'\nnum_list = sorted(set(map(int, inp.split(','))))\n\n#print num_list\n\nresult = []\n\nfinish = True\nfor elem in num_list:\n    if finish:\n        start = elem\n        end = elem\n        finish = False\n    elif elem == end + 1:\n        end = elem\n    elif start == end:\n        result.append('%s' % start)\n        #print 'st:%s' % start\n        start = elem\n        end = elem\n    else:\n        result.append('%s-%s' % (start, end))\n        #print 'st:%s %s' % (start, end)\n        start = elem\n        end = elem\n        \nif start == end:\n    result.append('%s' % start)\nelse:\n    result.append('%s-%s' % (start, end))\n\nprint ','.join(result)\n    ",
+    "prob_desc_created_at": "1286802000",
+    "tags": [
+        "implementation",
+        "sortings",
+        "expression parsing",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

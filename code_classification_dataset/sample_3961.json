@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "6 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"2\", \"14\", \"1\", \"120\"]",
+    "src_uid": "96fe0cd25dc0f6a76ebeb43834bae8de",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a tree, consisting of $$$n$$$ vertices. Each edge has an integer value written on it.Let $$$f(v, u)$$$ be the number of values that appear exactly once on the edges of a simple path between vertices $$$v$$$ and $$$u$$$.Calculate the sum of $$$f(v, u)$$$ over all pairs of vertices $$$v$$$ and $$$u$$$ such that $$$1 \\le v &lt; u \\le n$$$.",
+    "prob_desc_output_spec": "Print a single integer — the sum of $$$f(v, u)$$$ over all pairs of vertices $$$v$$$ and $$$u$$$ such that $$$v &lt; u$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 5 \\cdot 10^5$$$) — the number of vertices in the tree. Each of the next $$$n-1$$$ lines contains three integers $$$v, u$$$ and $$$x$$$ ($$$1 \\le v, u, x \\le n$$$) — the description of an edge: the vertices it connects and the value written on it. The given edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_087.jsonl",
+    "code_uid": "7c70d412cc7c61bc0c1692ea9b7c66d8",
+    "prob_desc_memory_limit": "1024 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 1\\n1 3 2\", \"3\\n1 2 2\\n1 3 2\", \"5\\n1 4 4\\n1 2 3\\n3 4 4\\n4 5 5\", \"2\\n2 1 1\", \"10\\n10 2 3\\n3 8 8\\n4 8 9\\n5 8 5\\n3 10 7\\n7 8 2\\n5 6 6\\n9 3 4\\n1 6 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "input = __import__('sys').stdin.readline\r\n\r\n\r\nn = int(input())\r\n\r\nadj = [[] for _ in range(n)]\r\nfor _ in range(n-1):\r\n    u, v, x = map(lambda x: int(x)-1, input().split())\r\n    adj[u].append((v, x))\r\n    adj[v].append((u, x))\r\n\r\n\r\nTRAVERSE = 0\r\nUPDATE_DP = 1\r\n\r\nprev_node_stack = [[0] for _ in range(n)]\r\nprev_node = [0]*n\r\nsz = [1]*n\r\ndp_root = [0]*n\r\ndp_remove = [0]*n\r\n\r\nstack = [(TRAVERSE, (0, -1, 0))]\r\nwhile len(stack) > 0:\r\n    state, param = stack.pop()\r\n    if state == TRAVERSE:\r\n        u, par, i = param\r\n        if i < len(adj[u]) and adj[u][i][0] == par:\r\n            i += 1\r\n        if i < len(adj[u]):\r\n            v, x = adj[u][i]\r\n            stack.append((TRAVERSE, (u, par, i+1)))\r\n            stack.append((UPDATE_DP, (v, u, x)))\r\n            stack.append((TRAVERSE, (v, u, 0)))\r\n            prev_node_stack[x].append(v)\r\n\r\n    if state == UPDATE_DP:\r\n        v, u, x = param\r\n        prev_node_stack[x].pop()\r\n        sz[u] += sz[v]\r\n        prev_node[v] = prev_node_stack[x][-1]\r\n        if prev_node[v] == 0:\r\n            dp_root[x] += sz[v]\r\n        else:\r\n            dp_remove[prev_node[v]] += sz[v]\r\n\r\n\r\n# print('prev_node', prev_node)\r\n# print('dp_root', dp_root)\r\n# print('dp_remove', dp_remove)\r\n\r\nans = sum((sz[v] - dp_remove[v]) * (sz[prev_node[v]] - (dp_root[x] if prev_node[v] == 0 else dp_remove[prev_node[v]]))\r\n    for u in range(n) for v, x in adj[u] if sz[u] > sz[v])\r\nprint(ans)\r\n",
+    "prob_desc_created_at": "1653316500",
+    "tags": [
+        "data structures",
+        "dfs and similar",
+        "divide and conquer",
+        "dp",
+        "dsu",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

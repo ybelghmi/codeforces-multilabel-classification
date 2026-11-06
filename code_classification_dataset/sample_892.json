@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 3 6 10 15\", \"7 8 13 21\"]",
+    "src_uid": "43f4ea06d8b8b0b6b6795a3d526c5a2d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A well-known art union called \"Kalevich is Alive!\" manufactures objects d'art (pictures). The union consists of n painters who decided to organize their work as follows.Each painter uses only the color that was assigned to him. The colors are distinct for all painters. Let's assume that the first painter uses color 1, the second one uses color 2, and so on. Each picture will contain all these n colors. Adding the j-th color to the i-th picture takes the j-th painter tij units of time.Order is important everywhere, so the painters' work is ordered by the following rules:  Each picture is first painted by the first painter, then by the second one, and so on. That is, after the j-th painter finishes working on the picture, it must go to the (j + 1)-th painter (if j &lt; n);  each painter works on the pictures in some order: first, he paints the first picture, then he paints the second picture and so on;  each painter can simultaneously work on at most one picture. However, the painters don't need any time to have a rest;  as soon as the j-th painter finishes his part of working on the picture, the picture immediately becomes available to the next painter. Given that the painters start working at time 0, find for each picture the time when it is ready for sale.",
+    "prob_desc_output_spec": "Print the sequence of m integers r1, r2, ..., rm, where ri is the moment when the n-th painter stopped working on the i-th picture.",
+    "prob_desc_input_spec": "The first line of the input contains integers m, n (1 ≤ m ≤ 50000, 1 ≤ n ≤ 5), where m is the number of pictures and n is the number of painters. Then follow the descriptions of the pictures, one per line. Each line contains n integers ti1, ti2, ..., tin (1 ≤ tij ≤ 1000), where tij is the time the j-th painter needs to work on the i-th picture.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_004.jsonl",
+    "code_uid": "ec87e45c8aa2823b97e9144f72ecfa70",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 1\\n1\\n2\\n3\\n4\\n5\", \"4 2\\n2 5\\n3 1\\n5 3\\n10 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom math import *\n\ndef minp():\n\treturn sys.stdin.readline().strip()\n\ndef mint():\n\treturn int(minp())\n\ndef mints():\n\treturn map(int, minp().split())\n\nm,n = mints()\na = [0]*n\nfor i in range(m):\n\tz = list(mints())\n\ta[0] += z[0]\n\tfor j in range(1,n):\n\t\ta[j] = max(a[j-1], a[j]) + z[j]\n\tprint(a[-1], end=' ')\n",
+    "prob_desc_created_at": "1397376000",
+    "tags": [
+        "dp",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

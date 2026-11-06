@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n25.5000000000\\n10.0000000000 4.5000000000 0.0000000000\", \"NO\", \"YES\\n0.0000000000\\n1.0000000000 2.0000000000 3.0000000000\"]",
+    "src_uid": "6e2a8aa58ed8cd308cb482e4c24cbbbb",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Brothers Fred and George Weasley once got into the sporting goods store and opened a box of Quidditch balls. After long and painful experiments they found out that the Golden Snitch is not enchanted at all. It is simply a programmed device. It always moves along the same trajectory, which is a polyline with vertices at the points (x0, y0, z0), (x1, y1, z1), ..., (xn, yn, zn). At the beginning of the game the snitch is positioned at the point (x0, y0, z0), and then moves along the polyline at the constant speed vs. The twins have not yet found out how the snitch behaves then. Nevertheless, they hope that the retrieved information will help Harry Potter and his team in the upcoming match against Slytherin. Harry Potter learned that at the beginning the game he will be at the point (Px, Py, Pz) and his super fast Nimbus 2011 broom allows him to move at the constant speed vp in any direction or remain idle. vp is not less than the speed of the snitch vs. Harry Potter, of course, wants to catch the snitch as soon as possible. Or, if catching the snitch while it is moving along the polyline is impossible, he wants to hurry the Weasley brothers with their experiments. Harry Potter catches the snitch at the time when they are at the same point. Help Harry.",
+    "prob_desc_output_spec": "If Harry Potter can catch the snitch while it is moving along the polyline (including the end (xn, yn, zn)), print \"YES\" in the first line (without the quotes). Print in the second line t, which is the earliest moment of time, when Harry will be able to catch the snitch. On the third line print three numbers X, Y, Z, the coordinates of the point at which this happens. The absolute or relative error in the answer should not exceed 10 - 6. If Harry is not able to catch the snitch during its moving along the described polyline, print \"NO\".",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 10000). The following n + 1 lines contain the coordinates xi, yi, zi, separated by single spaces. The coordinates of any two consecutive points do not coincide. The next line contains the velocities vp and vs, the last line contains Px, Py, Pz, separated by single spaces. All the numbers in the input are integers, their absolute value does not exceed 104. The speeds are strictly positive. It is guaranteed that vs ≤ vp.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_060.jsonl",
+    "code_uid": "87d9b7abd9713d16eff012c23009e499",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n0 0 0\\n0 10 0\\n10 10 0\\n10 0 0\\n0 0 0\\n1 1\\n5 5 25\", \"4\\n0 0 0\\n0 10 0\\n10 10 0\\n10 0 0\\n0 0 0\\n1 1\\n5 5 50\", \"1\\n1 2 3\\n4 5 6\\n20 10\\n1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math,sys\neps = 1e-8\nn = input()\nal = [map(int,raw_input().split()) for i in xrange(n+1)]\nvp,vs = map(int,raw_input().split())\npx,py,pz = p0 = map(int,raw_input().split())\nal = [(x-px,y-py,z-pz) for x,y,z in al]\n\nd3=lambda x,y,z:x*x+y*y+z*z\nt0,ts = 0,0\nrt = None\n        \nfor i in range(n):\n    c = [y-x for x,y in zip(al[i],al[i+1])]\n    ll = d3(*c)\n    l = ll**0.5\n    ts+=l\n    te = ts/vs\n    v = [vs*x for x in c]\n    s = [l*x-a*t0 for x,a in zip(al[i],v)]\n    a = d3(*v)-vp*vp*ll\n    b = 2*sum(x*i for x,i in zip(s,v))\n    c = d3(*s)\n    d = b*b-4*a*c\n    fa = abs(a)<eps\n    f = lambda t: (t0-eps<t<te+eps)\n    if fa:\n        if abs(b)>eps and f(-c/b):\n            rt = -c/b\n            break\n    elif d>-eps:\n        if d<eps: d=0\n        a*=2.0\n        d**=0.5\n        tl = [t for t in ((-b+d)/a,(-b-d)/a) if f(t)]\n        if tl:\n            rt = min(tl)\n            break\n    t0 = te\nif rt is None: print \"NO\"\nelse:\n    print \"YES\"\n    print \"%.9f\"%rt\n    print \" \".join([\"%.9f\"%((x+a*rt)/l+p) for x,a,p in zip(s,v,p0)])\n",
+    "prob_desc_created_at": "1299340800",
+    "tags": [
+        "binary search",
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

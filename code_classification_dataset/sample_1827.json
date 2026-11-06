@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"&gt; 25\\n\\n&gt; 15\\n\\n? 1\\n\\n? 2\\n\\n? 3\\n\\n? 4\\n\\n! 9 5\"]",
+    "src_uid": "36619f520ea5a523a94347ffd3dc2c70",
+    "prob_desc_notes": "NoteNote that the example interaction contains extra empty lines so that it's easier to read. The real interaction doesn't contain any empty lines and you shouldn't print any extra empty lines as well.The list in the example test is $$$[14, 24, 9, 19]$$$.",
+    "prob_desc_description": "This is an interactive problem!An arithmetic progression or arithmetic sequence is a sequence of integers such that the subtraction of element with its previous element ($$$x_i - x_{i - 1}$$$, where $$$i \\ge 2$$$) is constant — such difference is called a common difference of the sequence.That is, an arithmetic progression is a sequence of form $$$x_i = x_1 + (i - 1) d$$$, where $$$d$$$ is a common difference of the sequence.There is a secret list of $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$.It is guaranteed that all elements $$$a_1, a_2, \\ldots, a_n$$$ are between $$$0$$$ and $$$10^9$$$, inclusive.This list is special: if sorted in increasing order, it will form an arithmetic progression with positive common difference ($$$d &gt; 0$$$). For example, the list $$$[14, 24, 9, 19]$$$ satisfies this requirement, after sorting it makes a list $$$[9, 14, 19, 24]$$$, which can be produced as $$$x_n = 9 + 5 \\cdot (n - 1)$$$.Also you are also given a device, which has a quite discharged battery, thus you can only use it to perform at most $$$60$$$ queries of following two types: Given a value $$$i$$$ ($$$1 \\le i \\le n$$$), the device will show the value of the $$$a_i$$$. Given a value $$$x$$$ ($$$0 \\le x \\le 10^9$$$), the device will return $$$1$$$ if an element with a value strictly greater than $$$x$$$ exists, and it will return $$$0$$$ otherwise.Your can use this special device for at most $$$60$$$ queries. Could you please find out the smallest element and the common difference of the sequence? That is, values $$$x_1$$$ and $$$d$$$ in the definition of the arithmetic progression. Note that the array $$$a$$$ is not sorted.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_013.jsonl",
+    "code_uid": "4023ddebd43f29b8818cc4f2e948b70f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n0\\n\\n1\\n\\n14\\n\\n24\\n\\n9\\n\\n19\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import division\nfrom random import sample\nfrom sys import stdin, stdout\nfrom fractions import gcd\n\n\ndef write(x):\n    stdout.write(str(x) + \"\\n\")\n    stdout.flush()\n\n\ndef get():\n    rec = stdin.readline()\n    if \"-1\" in rec:\n        [][0]\n    return rec\n\n\nn = int(get())\n\nqueries = 0\nlow = 0\nhigh = 10 ** 9\nwhile low + 1 != high:\n    mid = (low + high) // 2\n    write(\"> {}\".format(mid))\n    queries += 1\n    if \"1\" in get():\n        low = mid\n    else:\n        high = mid\ntop = high\n\ndiv = 0\nfor i in sample(xrange(1, n+1), min(60 - queries, n)):\n    write(\"? {}\".format(i))\n    dist = top - int(get())\n    div = gcd(div, dist)\n\nwrite(\"! {} {}\".format(top - div * (n - 1), div))\n",
+    "prob_desc_created_at": "1549807500",
+    "tags": [
+        "binary search",
+        "number theory",
+        "probabilities",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"6\"]",
+    "src_uid": "86d5da999415fa75b3ee754a2a28605c",
+    "prob_desc_notes": "NoteIn the first sample you should decrease the first number by one and then increase the second number by one. The resulting permutation is (2, 1).In the second sample you need 6 moves to build permutation (1, 3, 2).",
+    "prob_desc_description": "Permutation p is an ordered set of integers p1,  p2,  ...,  pn, consisting of n distinct positive integers, each of them doesn't exceed n. We'll denote the i-th element of permutation p as pi. We'll call number n the size or the length of permutation p1,  p2,  ...,  pn.You have a sequence of integers a1, a2, ..., an. In one move, you are allowed to decrease or increase any number by one. Count the minimum number of moves, needed to build a permutation from this sequence.",
+    "prob_desc_output_spec": "Print a single number — the minimum number of moves. Please, do not use the %lld specifier to read or write 64-bit integers in C++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 3·105) — the size of the sought permutation. The second line contains n integers a1, a2, ..., an ( - 109 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_011.jsonl",
+    "code_uid": "5632846399d26e8c2f1da1ac54977f3e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3 0\", \"3\\n-1 -1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "'''\n      ___           ___                         ___                       ___           ___                         ___\n     /\\__\\         /\\  \\         _____         /\\  \\                     /\\  \\         /\\  \\                       /\\__\\\n    /:/ _/_        \\:\\  \\       /::\\  \\        \\:\\  \\       ___         /::\\  \\       |::\\  \\         ___         /:/ _/_\n   /:/ /\\  \\        \\:\\  \\     /:/\\:\\  \\        \\:\\  \\     /\\__\\       /:/\\:\\__\\      |:|:\\  \\       /\\__\\       /:/ /\\  \\\n  /:/ /::\\  \\   ___  \\:\\  \\   /:/  \\:\\__\\   ___ /::\\  \\   /:/__/      /:/ /:/  /    __|:|\\:\\  \\     /:/  /      /:/ /::\\  \\\n /:/_/:/\\:\\__\\ /\\  \\  \\:\\__\\ /:/__/ \\:|__| /\\  /:/\\:\\__\\ /::\\  \\     /:/_/:/__/___ /::::|_\\:\\__\\   /:/__/      /:/_/:/\\:\\__\\\n \\:\\/:/ /:/  / \\:\\  \\ /:/  / \\:\\  \\ /:/  / \\:\\/:/  \\/__/ \\/\\:\\  \\__  \\:\\/:::::/  / \\:\\~~\\  \\/__/  /::\\  \\      \\:\\/:/ /:/  /\n  \\::/ /:/  /   \\:\\  /:/  /   \\:\\  /:/  /   \\::/__/       ~~\\:\\/\\__\\  \\::/~~/~~~~   \\:\\  \\       /:/\\:\\  \\      \\::/ /:/  /\n   \\/_/:/  /     \\:\\/:/  /     \\:\\/:/  /     \\:\\  \\          \\::/  /   \\:\\~~\\        \\:\\  \\      \\/__\\:\\  \\      \\/_/:/  /\n     /:/  /       \\::/  /       \\::/  /       \\:\\__\\         /:/  /     \\:\\__\\        \\:\\__\\          \\:\\__\\       /:/  /\n     \\/__/         \\/__/         \\/__/         \\/__/         \\/__/       \\/__/         \\/__/           \\/__/       \\/__/\n\n'''\n\"\"\"\n░░██▄░░░░░░░░░░░▄██\n░▄▀░█▄░░░░░░░░▄█░░█░\n░█░▄░█▄░░░░░░▄█░▄░█░\n░█░██████████████▄█░\n░█████▀▀████▀▀█████░\n▄█▀█▀░░░████░░░▀▀███\n██░░▀████▀▀████▀░░██\n██░░░░█▀░░░░▀█░░░░██\n███▄░░░░░░░░░░░░▄███\n░▀███▄░░████░░▄███▀░\n░░░▀██▄░▀██▀░▄██▀░░░\n░░░░░░▀██████▀░░░░░░\n░░░░░░░░░░░░░░░░░░░░\n\"\"\"\nimport sys\nimport math\nimport collections\nimport operator as op\nfrom collections import deque\nfrom math import gcd, inf, sqrt, pi, cos, sin, ceil, log2\nfrom bisect import bisect_right, bisect_left\n\n# sys.stdin = open('input.txt', 'r')\n# sys.stdout = open('output.txt', 'w')\n\nfrom functools import reduce\nfrom sys import stdin, stdout, setrecursionlimit\nsetrecursionlimit(2**20)\n\n\ndef factorial(n):\n    if n == 0:\n        return 1\n    return (n * factorial(n - 1))\n\n\ndef ncr(n, r):\n    r = min(r, n - r)\n    numer = reduce(op.mul, range(n, n - r, -1), 1)\n    denom = reduce(op.mul, range(1, r + 1), 1)\n    return numer // denom  # or / in Python 2\n\n\ndef prime_factors(n):\n    i = 2\n    factors = []\n    while i * i <= n:\n        if n % i:\n            i += 1\n        else:\n            n //= i\n            factors.append(i)\n    if n > 1:\n        factors.append(n)\n    return (list(factors))\n\n\ndef sumDigits(no):\n    return 0 if no == 0 else int(no % 10) + sumDigits(int(no / 10))\n\nMOD = 1000000007\nPMOD = 998244353\nN = 10**5\nT = 1\n# T = int(stdin.readline())\nfor _ in range(T):\n    # n, k = list(map(int, stdin.readline().rstrip().split()))\n    n = int(stdin.readline())\n    a = list(map(int, stdin.readline().rstrip().split()))\n    # b = list(map(int, stdin.readline().rstrip().split()))\n    # s = list(stdin.readline().strip('\\n'))\n    # t = str(stdin.readline().strip('\\n'))\n    # x = int(stdin.readline())\n    # s = list(map(int, stdin.readline().rstrip().split()))\n    a.sort()\n    ans = 0\n    for i in range(1, n + 1):\n        ans += abs(i - a[i - 1])\n    print(ans)\n",
+    "prob_desc_created_at": "1363879800",
+    "tags": [
+        "implementation",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

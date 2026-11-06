@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12\", \"2\", \"2\"]",
+    "src_uid": "7e6a2329633ee283e3327413114901d1",
+    "prob_desc_notes": "NoteOne of possible bicolorings in sample $$$1$$$:  ",
+    "prob_desc_description": "You are given a grid, consisting of $$$2$$$ rows and $$$n$$$ columns. Each cell of this grid should be colored either black or white.Two cells are considered neighbours if they have a common border and share the same color. Two cells $$$A$$$ and $$$B$$$ belong to the same component if they are neighbours, or if there is a neighbour of $$$A$$$ that belongs to the same component with $$$B$$$.Let's call some bicoloring beautiful if it has exactly $$$k$$$ components.Count the number of beautiful bicolorings. The number can be big enough, so print the answer modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Print a single integer — the number of beautiful bicolorings modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The only line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 1000$$$, $$$1 \\le k \\le 2n$$$) — the number of columns in a grid and the number of components required.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_019.jsonl",
+    "code_uid": "979f42634385289d48893f23aa3ba929",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\", \"4 1\", \"1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k = map(int,input().split())\nmod = 998244353\ndp = [[[0,0]for j in range(2*n+1)] for i in range(n)]\ndp[0][0][0] = dp[0][1][1] = 1\nfor i in range(1,n):\n  for j in range(2*n-1):\n    dp[i][j][0] +=  (dp[i-1][j][0] + dp[i-1][j][1] + dp[i-1][j][1]) %mod\n    dp[i][j+1][0] += dp[i-1][j][0] % mod\n    dp[i][j+1][1] += (dp[i-1][j][0] + dp[i-1][j][0])%mod\n    dp[i][j][1] += dp[i-1][j][1] %mod\n    dp[i][j+2][1] += dp[i-1][j][1] %mod\nprint(sum(dp[n-1][k-1])*2%mod)",
+    "prob_desc_created_at": "1537454700",
+    "tags": [
+        "dp",
+        "bitmasks"
+    ],
+    "hidden_unit_tests": ""
+}

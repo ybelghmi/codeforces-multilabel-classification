@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n5 4 7 2 \\n3 6 1 8\", \"NO\"]",
+    "src_uid": "6e67ca1033b98118b5065779e59a1c98",
+    "prob_desc_notes": "NoteIn the first test case the matrix initially looks like this:1 2 3 45 6 7 8It's easy to see that there are no two students that are adjacent in both matrices.In the second test case there are only two possible seatings and in both of them students with numbers 1 and 2 are neighbors.",
+    "prob_desc_description": "Students went into a class to write a test and sat in some way. The teacher thought: \"Probably they sat in this order to copy works of each other. I need to rearrange them in such a way that students that were neighbors are not neighbors in a new seating.\"The class can be represented as a matrix with n rows and m columns with a student in each cell. Two students are neighbors if cells in which they sit have a common side.Let's enumerate students from 1 to n·m in order of rows. So a student who initially sits in the cell in row i and column j has a number (i - 1)·m + j. You have to find a matrix with n rows and m columns in which all numbers from 1 to n·m appear exactly once and adjacent numbers in the original matrix are not adjacent in it, or determine that there is no such matrix.",
+    "prob_desc_output_spec": "If there is no such matrix, output \"NO\" (without quotes).  Otherwise in the first line output \"YES\" (without quotes), and in the next n lines output m integers which form the required matrix.",
+    "prob_desc_input_spec": "The only line contains two integers n and m (1 ≤ n, m ≤ 105; n·m ≤ 105) — the number of rows and the number of columns in the required matrix.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_050.jsonl",
+    "code_uid": "1482470b63e52f79c0c262b06c2f9f77",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 4\", \"2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import random\nn, m = map(int, input().split())\nif n < 4 and m < 4 and not((n == 1 and m == 1) or (m == 3 and n == 3)): print(\"NO\"); quit()\npedy = [list() for i in range(n * m + 1)]\nfor i in range(n * m):\n    if i % m != 0: pedy[i+1].append(i)\n    if i % m != m - 1: pedy[i + 1].append(i + 2)\n    if i >= m: pedy[i + 1].append(i - m + 1)\n    if i < (n - 1) * m: pedy[i + 1].append(i + m + 1)\nArr = [x for x in range(1, n*m + 1)]; Arr = Arr[::2] + Arr[1::2]; pp = 0; s = \"\"\nwhile (not pp):\n    pp = 1;\n    for i in range(n):\n        for j in range(m):\n            if (i + 1 != n and Arr[i * m + m + j] in pedy[Arr[i * m + j]]) or (j + 1 != m and Arr[i * m + 1 + j] in pedy[Arr[i * m + j]]):\n                pp = 0; break\n        if not pp: break\n    if not pp: random.shuffle(Arr)\nprint(\"YES\")\nfor i in range(n):\n    for j in range(m):\n        s += str(Arr[i  * m + j]) + \" \"\n    print(s); s = \"\"\n",
+    "prob_desc_created_at": "1514037900",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

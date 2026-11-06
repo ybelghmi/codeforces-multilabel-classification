@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"4\", \"1\", \"6\"]",
+    "src_uid": "9a7e6c494ff7d161c92632569a6ecbef",
+    "prob_desc_notes": "NoteIn the first test, you can move each robber to the right three times. After that there will be one robber in the coordinates $$$(3, 0)$$$.The configuration of the robbers is safe, because the only searchlight can't see the robber, because it is in the coordinates $$$(2, 3)$$$ and $$$3 &gt; 2$$$.In the second test, you can move each robber to the right two times and two times up. After that robbers will be in the coordinates $$$(3, 8)$$$, $$$(8, 3)$$$.It's easy the see that the configuration of the robbers is safe.It can be proved that you can't reach a safe configuration using no more than $$$3$$$ moves.",
+    "prob_desc_description": "There are $$$n$$$ robbers at coordinates $$$(a_1, b_1)$$$, $$$(a_2, b_2)$$$, ..., $$$(a_n, b_n)$$$ and $$$m$$$ searchlight at coordinates $$$(c_1, d_1)$$$, $$$(c_2, d_2)$$$, ..., $$$(c_m, d_m)$$$. In one move you can move each robber to the right (increase $$$a_i$$$ of each robber by one) or move each robber up (increase $$$b_i$$$ of each robber by one). Note that you should either increase all $$$a_i$$$ or all $$$b_i$$$, you can't increase $$$a_i$$$ for some points and $$$b_i$$$ for some other points.Searchlight $$$j$$$ can see a robber $$$i$$$ if $$$a_i \\leq c_j$$$ and $$$b_i \\leq d_j$$$. A configuration of robbers is safe if no searchlight can see a robber (i.e. if there is no pair $$$i,j$$$ such that searchlight $$$j$$$ can see a robber $$$i$$$).What is the minimum number of moves you need to perform to reach a safe configuration?",
+    "prob_desc_output_spec": "Print one integer: the minimum number of moves you need to perform to reach a safe configuration.",
+    "prob_desc_input_spec": "The first line of input contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\leq n, m \\leq 2000$$$): the number of robbers and the number of searchlight. Each of the next $$$n$$$ lines contains two integers $$$a_i$$$, $$$b_i$$$ ($$$0 \\leq a_i, b_i \\leq 10^6$$$), coordinates of robbers. Each of the next $$$m$$$ lines contains two integers $$$c_i$$$, $$$d_i$$$ ($$$0 \\leq c_i, d_i \\leq 10^6$$$), coordinates of searchlights.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_021.jsonl",
+    "code_uid": "1c7224df75bc580451d4e687f78616a9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\\n0 0\\n2 3\", \"2 3\\n1 6\\n6 1\\n10 1\\n1 10\\n7 7\", \"1 2\\n0 0\\n0 0\\n0 0\", \"7 3\\n0 8\\n3 8\\n2 7\\n0 10\\n5 5\\n7 0\\n3 5\\n6 6\\n3 11\\n11 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=map(int,raw_input().split())\nmxc=0\nmxd=0\nk=[-1 for i in range(10**6+3)]\nl=[]\ns=[]\nfor i in range(n):\n    a=map(int,raw_input().split())\n    l.append(a)\nfor i in range(m):\n    c,d=map(int,raw_input().split())\n    k[c]=max(k[c],d)\n    s.append([c,d])\ns.sort()\nans=[0 for i in range(10**6+3)]\nfor i in range(len(k)-2,-1,-1):\n    k[i]=max(k[i],k[i+1])\nfor i in range(n):\n    ans[0]=max(ans[0],k[l[i][0]]-l[i][1]+1)\n    for j in range(m-1):\n        if s[j][0]<l[i][0]:\n            continue\n        else:\n            if s[j][1]<l[i][1]:\n                continue\n            if s[j][0]!=l[i][0]:\n                tt=s[j][0]-1\n                ans[tt-l[i][0]]=max(ans[tt-l[i][0]],k[tt]-l[i][1]+1)\n                ans[s[j][0]-l[i][0]]=max(ans[s[j][0]-l[i][0]],k[s[j][0]]-l[i][1]+1)\n            sd=s[j+1][0]-1\n            ans[sd-l[i][0]]=max(ans[sd-l[i][0]],k[sd]-l[i][1]+1)\n    sd=s[-1][0]\n    ans[sd-l[i][0]]=max(ans[sd-l[i][0]],k[sd]-l[i][1]+1)\nmain=10000000000\nfor i in range(len(ans)-2,-1,-1):\n    ans[i]=max(ans[i],ans[i+1])\n    main=min(main,i+ans[i])\nprint main\n\n\n",
+    "prob_desc_created_at": "1601476500",
+    "tags": [
+        "dp",
+        "two pointers",
+        "implementation",
+        "sortings",
+        "data structures",
+        "binary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

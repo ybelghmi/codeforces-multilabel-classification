@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"22 3\"]",
+    "src_uid": "ad50e2946470fa8e02eb70d8cef161c5",
+    "prob_desc_notes": "NoteConsider 6 possible routes:  [2, 3, 5]: total distance traveled: |2 – 0| + |3 – 2| + |5 – 3| = 5;  [2, 5, 3]: |2 – 0| + |5 – 2| + |3 – 5| = 7;  [3, 2, 5]: |3 – 0| + |2 – 3| + |5 – 2| = 7;  [3, 5, 2]: |3 – 0| + |5 – 3| + |2 – 5| = 8;  [5, 2, 3]: |5 – 0| + |2 – 5| + |3 – 2| = 9;  [5, 3, 2]: |5 – 0| + |3 – 5| + |2 – 3| = 8. The average travel distance is  =  = .",
+    "prob_desc_description": "Iahub is a big fan of tourists. He wants to become a tourist himself, so he planned a trip. There are n destinations on a straight road that Iahub wants to visit. Iahub starts the excursion from kilometer 0. The n destinations are described by a non-negative integers sequence a1, a2, ..., an. The number ak represents that the kth destination is at distance ak kilometers from the starting point. No two destinations are located in the same place. Iahub wants to visit each destination only once. Note that, crossing through a destination is not considered visiting, unless Iahub explicitly wants to visit it at that point. Also, after Iahub visits his last destination, he doesn't come back to kilometer 0, as he stops his trip at the last destination. The distance between destination located at kilometer x and next destination, located at kilometer y, is |x - y| kilometers. We call a \"route\" an order of visiting the destinations. Iahub can visit destinations in any order he wants, as long as he visits all n destinations and he doesn't visit a destination more than once. Iahub starts writing out on a paper all possible routes and for each of them, he notes the total distance he would walk. He's interested in the average number of kilometers he would walk by choosing a route. As he got bored of writing out all the routes, he asks you to help him.",
+    "prob_desc_output_spec": "Output two integers — the numerator and denominator of a fraction which is equal to the wanted average number. The fraction must be irreducible.",
+    "prob_desc_input_spec": "The first line contains integer n (2 ≤ n ≤ 105). Next line contains n distinct integers a1, a2, ..., an (1 ≤ ai ≤ 107).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_055.jsonl",
+    "code_uid": "60e6912a6b1e4ff90a09b9ba3868af8d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 3 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n#sys.stdin = open('in.txt', 'r')\n\ndef gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\nn = input()\na = map(int, raw_input().split())\na.sort()\ns = [0 for i in xrange(n+1)]\nfor i in xrange(n):\n    s[i+1] += s[i] + a[i]\n\nt = s[n]\nfor i in xrange(2, n):\n    t += a[i-1] * (i - 1) - s[i-1]\n    t += s[n] - s[i] - a[i-1] * (n - i)\nt += s[n] - s[1] - a[0] * (n - 1)\nt += a[n-1] * (n - 1) - s[n-1]\ng = gcd(t, n)\nprint t/g, n/g\n",
+    "prob_desc_created_at": "1377876600",
+    "tags": [
+        "combinatorics",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

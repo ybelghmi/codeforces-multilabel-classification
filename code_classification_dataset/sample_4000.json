@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"7\\n8\\n0\"]",
+    "src_uid": "f3ee3a0de5ddf3cf15ef02fb62a2768e",
+    "prob_desc_notes": "NoteThe paths for the testcases are shown on the following pictures. Alice's path is depicted in red and Bob's path is depicted in blue.  ",
+    "prob_desc_description": "Alice and Bob are playing a game on a matrix, consisting of $$$2$$$ rows and $$$m$$$ columns. The cell in the $$$i$$$-th row in the $$$j$$$-th column contains $$$a_{i, j}$$$ coins in it.Initially, both Alice and Bob are standing in a cell $$$(1, 1)$$$. They are going to perform a sequence of moves to reach a cell $$$(2, m)$$$.The possible moves are:   Move right — from some cell $$$(x, y)$$$ to $$$(x, y + 1)$$$;  Move down — from some cell $$$(x, y)$$$ to $$$(x + 1, y)$$$. First, Alice makes all her moves until she reaches $$$(2, m)$$$. She collects the coins in all cells she visit (including the starting cell).When Alice finishes, Bob starts his journey. He also performs the moves to reach $$$(2, m)$$$ and collects the coins in all cells that he visited, but Alice didn't.The score of the game is the total number of coins Bob collects.Alice wants to minimize the score. Bob wants to maximize the score. What will the score of the game be if both players play optimally?",
+    "prob_desc_output_spec": "For each testcase print a single integer — the score of the game if both players play optimally.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. Then the descriptions of $$$t$$$ testcases follow. The first line of the testcase contains a single integer $$$m$$$ ($$$1 \\le m \\le 10^5$$$) — the number of columns of the matrix. The $$$i$$$-th of the next $$$2$$$ lines contain $$$m$$$ integers $$$a_{i,1}, a_{i,2}, \\dots, a_{i,m}$$$ ($$$1 \\le a_{i,j} \\le 10^4$$$) — the number of coins in the cell in the $$$i$$$-th row in the $$$j$$$-th column of the matrix. The sum of $$$m$$$ over all testcases doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_088.jsonl",
+    "code_uid": "1b0a62364fba8ca4cca58b59e10fe7c7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3\\n1 3 7\\n3 5 1\\n3\\n1 3 9\\n3 5 1\\n1\\n4\\n7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for _ in range(int(input())):\r\n    m = int(input())\r\n    f_row = list(map(int, input().split()))\r\n    s_row = list(map(int, input().split()))\r\n    fsumarr = []\r\n    ssumarr = [0]\r\n    prev = 0\r\n    for val in (f_row):\r\n        x = val+prev\r\n        fsumarr.append(x)\r\n        prev = x\r\n    prev = 0\r\n    for val in (s_row):\r\n        x = val+prev\r\n        ssumarr.append(x)\r\n        prev = x\r\n    fsum = sum(f_row)\r\n    ssum = sum(s_row)\r\n    bob = float(\"inf\")\r\n    for i in range(m):\r\n        a_f = fsumarr[i]\r\n        a_s = ssum - ssumarr[i]\r\n        x = max(fsum-a_f, ssum-a_s)\r\n        bob = min(bob, x)\r\n    print(bob)",
+    "prob_desc_created_at": "1627655700",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "dp",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

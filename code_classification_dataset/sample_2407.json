@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"1\", \"5\", \"7\", \"13\"]",
+    "src_uid": "3f6e5f6d9a35c6c9e71a7eeab4acf199",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Cereal Guy's friend Serial Guy likes to watch soap operas. An episode is about to start, and he hasn't washed his plate yet. But he decided to at least put in under the tap to be filled with water. The plate can be represented by a parallelepiped k × n × m, that is, it has k layers (the first layer is the upper one), each of which is a rectangle n × m with empty squares ('.') and obstacles ('#'). The water can only be present in the empty squares. The tap is positioned above the square (x, y) of the first layer, it is guaranteed that this square is empty. Every minute a cubical unit of water falls into the plate. Find out in how many minutes the Serial Guy should unglue himself from the soap opera and turn the water off for it not to overfill the plate. That is, you should find the moment of time when the plate is absolutely full and is going to be overfilled in the next moment.Note: the water fills all the area within reach (see sample 4). Water flows in each of the 6 directions, through faces of 1 × 1 × 1 cubes.",
+    "prob_desc_output_spec": "The answer should contain a single number, showing in how many minutes the plate will be filled.",
+    "prob_desc_input_spec": "The first line contains three numbers k, n, m (1 ≤ k, n, m ≤ 10) which are the sizes of the plate. Then follow k rectangles consisting of n lines each containing m characters '.' or '#', which represents the \"layers\" of the plate in the order from the top to the bottom. The rectangles are separated by empty lines (see the samples). The last line contains x and y (1 ≤ x ≤ n, 1 ≤ y ≤ m) which are the tap's coordinates. x is the number of the line and y is the number of the column. Lines of each layer are numbered from left to right by the integers from 1 to n, columns of each layer are numbered from top to bottom by the integers from 1 to m.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_022.jsonl",
+    "code_uid": "97ad39d926dfb61986fb1945af52a289",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1 1\\n\\n.\\n\\n1 1\", \"2 1 1\\n\\n.\\n\\n#\\n\\n1 1\", \"2 2 2\\n\\n.#\\n##\\n\\n..\\n..\\n\\n1 1\", \"3 2 2\\n\\n#.\\n##\\n\\n#.\\n.#\\n\\n..\\n..\\n\\n1 2\", \"3 3 3\\n\\n.#.\\n###\\n##.\\n\\n.##\\n###\\n##.\\n\\n...\\n...\\n...\\n\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N = 13\nd = [-N,N,-1,1,-N*N,N*N]\nk,n,m = map(int,raw_input().split())\nraw_input()\na=set([])\nfor z in xrange(k):\n    a.update(((z*N+y)*N+x for x in range(n) for y,c in enumerate(raw_input()) if c=='.'))\n    raw_input()\nx,y = map(int,raw_input().split())\ns = x-1+y*N-N\nq=[s]\na.remove(s)\nfor x in q:    \n    for e in d:\n        if e+x in a:\n            a.remove(e+x)\n            q.append(e+x)\n            \nprint len(q)",
+    "prob_desc_created_at": "1298131200",
+    "tags": [
+        "dsu",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

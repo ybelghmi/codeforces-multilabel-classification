@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"1 1\"]",
+    "src_uid": "26fe98904d68cf23c5d24aa85dd92120",
+    "prob_desc_notes": "NoteFirst sample: answer is 1, because $$$gcd(1, 2) = 1$$$.Second sample: there are subsets of $$$S$$$ with sizes $$$2, 3$$$ with imperfection equal to 1. For example, $$$\\{2,3\\}$$$ and $$$\\{1, 2, 3\\}$$$.",
+    "prob_desc_description": "Kate has a set $$$S$$$ of $$$n$$$ integers $$$\\{1, \\dots, n\\} $$$. She thinks that imperfection of a subset $$$M \\subseteq S$$$ is equal to the maximum of $$$gcd(a, b)$$$ over all pairs $$$(a, b)$$$ such that both $$$a$$$ and $$$b$$$ are in $$$M$$$ and $$$a \\neq b$$$. Kate is a very neat girl and for each $$$k \\in \\{2, \\dots, n\\}$$$ she wants to find a subset that has the smallest imperfection among all subsets in $$$S$$$ of size $$$k$$$. There can be more than one subset with the smallest imperfection and the same size, but you don't need to worry about it. Kate wants to find all the subsets herself, but she needs your help to find the smallest possible imperfection for each size $$$k$$$, will name it $$$I_k$$$. Please, help Kate to find $$$I_2$$$, $$$I_3$$$, ..., $$$I_n$$$.",
+    "prob_desc_output_spec": "Output contains only one line that includes $$$n - 1$$$ integers: $$$I_2$$$, $$$I_3$$$, ..., $$$I_n$$$.",
+    "prob_desc_input_spec": "The first and only line in the input consists of only one integer $$$n$$$ ($$$2\\le n \\le 5 \\cdot 10^5$$$)  — the size of the given set $$$S$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_007.jsonl",
+    "code_uid": "cb97b6af1fde01aeda29a0724a947e20",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\", \"3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def get_primes(n):\n    res = [2]\n    arr = [True] * ((n - 1) // 2)\n    i = 0\n    for i in range(len(arr)):\n        if arr[i]:\n            a = i * 2 + 3\n            res.append(a)\n            for ii in range(i + a, len(arr), a):\n                arr[ii] = False\n    \n    return res\n \nif __name__ == \"__main__\":\n    n = int(input())\n    primes = get_primes(n)\n    res = [\"1\"] * min(n - 1, len(primes))\n    left = n - 1 - len(res)\n    ii = 2\n    while left > 0:\n        for a in primes:\n            if ii * a <= n:\n                res.append(str(ii))\n                left -= 1\n            else:\n                break\n            if ii % a == 0 or left == 0:\n                break\n        ii += 1\n    print(\" \".join(res))\n            ",
+    "prob_desc_created_at": "1586356500",
+    "tags": [
+        "greedy",
+        "two pointers",
+        "number theory",
+        "math",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

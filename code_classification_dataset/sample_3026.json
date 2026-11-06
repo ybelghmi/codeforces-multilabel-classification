@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n00\\n10\", \"YES\\n010\\n0000\", \"NO\"]",
+    "src_uid": "b1c5de6d5f1ee1eec5200b1918603931",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a binary matrix $$$a$$$ of size $$$n \\times m$$$. A binary matrix is a matrix where each element is either $$$0$$$ or $$$1$$$.You may perform some (possibly zero) operations with this matrix. During each operation you can inverse the row of this matrix or a column of this matrix. Formally, inverting a row is changing all values in this row to the opposite ($$$0$$$ to $$$1$$$, $$$1$$$ to $$$0$$$). Inverting a column is changing all values in this column to the opposite.Your task is to sort the initial matrix by some sequence of such operations. The matrix is considered sorted if the array $$$[a_{1, 1}, a_{1, 2}, \\dots, a_{1, m}, a_{2, 1}, a_{2, 2}, \\dots, a_{2, m}, \\dots, a_{n, m - 1}, a_{n, m}]$$$ is sorted in non-descending order.",
+    "prob_desc_output_spec": "If it is impossible to obtain a sorted matrix, print \"NO\" in the first line. Otherwise print \"YES\" in the first line. In the second line print a string $$$r$$$ of length $$$n$$$. The $$$i$$$-th character $$$r_i$$$ of this string should be '1' if the $$$i$$$-th row of the matrix is inverted and '0' otherwise. In the third line print a string $$$c$$$ of length $$$m$$$. The $$$j$$$-th character $$$c_j$$$ of this string should be '1' if the $$$j$$$-th column of the matrix is inverted and '0' otherwise. If there are multiple answers, you can print any.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 200$$$) — the number of rows and the number of columns in the matrix. The next $$$n$$$ lines contain $$$m$$$ integers each. The $$$j$$$-th element in the $$$i$$$-th line is $$$a_{i, j}$$$ ($$$0 \\le a_{i, j} \\le 1$$$) — the element of $$$a$$$ at position $$$(i, j)$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_039.jsonl",
+    "code_uid": "3e9c9def4d3b1b9ab5a21590805b81d7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n1 1\\n0 1\", \"3 4\\n0 0 0 1\\n0 0 0 0\\n1 1 1 1\", \"3 3\\n0 0 0\\n1 0 1\\n1 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "rint = lambda: int(input())\nrmint = lambda: map(int, input().split())\nrlist = lambda: list(rmint())\n\nn, m = rmint()\na = []\nfor i in range(n): a.append(rlist())\nax = []\nfor i in range(n): ax.append(0)\nay = []\nfor i in range(m): ay.append(0)\n\n\ndef inv(x,y): a[x][y] = 1 - a[x][y]\ndef invx(x):\n    for y in range(m): inv(x,y)\n    ax[x] = 1 - ax[x]\ndef invy(y):\n    for x in range(n): inv(x,y)\n    ay[y] = 1 - ay[y]\ndef ex():\n    print(\"YES\")\n    for i in ax: print(i,end='')\n    print()\n    for i in ay: print(i,end='')\n    exit(0)\n\nif(n == 1):\n    ay = a[0]\n    ex()\ndef D(x,v):\n    for y in range(m):\n        if a[x][y] != v: invy(y)\n    fx = -1; fy = -1\n    for i in range(n):\n        for j in range(m-1):\n            if a[i][j] != a[i][j+1]:\n                fx = i\n                fy = j\n    if fx < 0:\n        for i in range(n):\n            if a[i][0]: invx(i)\n    else:\n        if a[fx][fy] > a[fx][fy+1]: invx(fx)\n        for i in range(fx):\n            if a[i][0]: invx(i)\n        for i in range(fx+1,n):\n            if not a[i][0]: invx(i)\n    srt = 1\n    for i in range(n):\n        for j in range(m):\n            if i+1 == n and j+1 == m: break\n            t = i*m + j + 1\n            x = t // m\n            y = t % m\n            if a[x][y] < a[i][j]: srt = 0\n    if srt: ex()\nD(0, 0)\nD(n-1, 1)\nprint(\"NO\")\n    \n",
+    "prob_desc_created_at": "1556289300",
+    "tags": [
+        "constructive algorithms",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

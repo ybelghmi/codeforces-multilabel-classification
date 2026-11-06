@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6\"]",
+    "src_uid": "414d1f0cef26fbbf4ede8eac32a1dd48",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are playing another computer game, and now you have to slay $$$n$$$ monsters. These monsters are standing in a circle, numbered clockwise from $$$1$$$ to $$$n$$$. Initially, the $$$i$$$-th monster has $$$a_i$$$ health.You may shoot the monsters to kill them. Each shot requires exactly one bullet and decreases the health of the targeted monster by $$$1$$$ (deals $$$1$$$ damage to it). Furthermore, when the health of some monster $$$i$$$ becomes $$$0$$$ or less than $$$0$$$, it dies and explodes, dealing $$$b_i$$$ damage to the next monster (monster $$$i + 1$$$, if $$$i &lt; n$$$, or monster $$$1$$$, if $$$i = n$$$). If the next monster is already dead, then nothing happens. If the explosion kills the next monster, it explodes too, damaging the monster after it and possibly triggering another explosion, and so on.You have to calculate the minimum number of bullets you have to fire to kill all $$$n$$$ monsters in the circle.",
+    "prob_desc_output_spec": "For each test case, print one integer — the minimum number of bullets you have to fire to kill all of the monsters.",
+    "prob_desc_input_spec": "The first line contains one integer $$$T$$$ ($$$1 \\le T \\le 150000$$$) — the number of test cases. Then the test cases follow, each test case begins with a line containing one integer $$$n$$$ ($$$2 \\le n \\le 300000$$$) — the number of monsters. Then $$$n$$$ lines follow, each containing two integers $$$a_i$$$ and $$$b_i$$$ ($$$1 \\le a_i, b_i \\le 10^{12}$$$) — the parameters of the $$$i$$$-th monster in the circle. It is guaranteed that the total number of monsters in all test cases does not exceed $$$300000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_001.jsonl",
+    "code_uid": "72cd6ae417f3e5a3c274175c5e1ad52e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n3\\n7 15\\n2 14\\n5 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.buffer.readline\nT = int(input())\nfor _ in range(T):\n    n = int(input())\n    a,b = [],[]\n    for i in range(n):\n        x,y = map(int,input().split())\n        a.append(x)\n        b.append(y)\n    for i in range(n):\n        b[i] = min(a[(i+1)%n],b[i])\n    b[-1] = min(a[0],b[-1])\n    print(sum(a)-sum(b)+min(b))\n        \n        \n",
+    "prob_desc_created_at": "1586529300",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

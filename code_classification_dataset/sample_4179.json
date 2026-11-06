@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"14 4 4 15\"]",
+    "src_uid": "5c844c0dc0eb718aea7b2446e90ce250",
+    "prob_desc_notes": "NoteLet's consider each $$$a_i$$$:   $$$a_1 = 19$$$. You can, firstly, increase it by one to get $$$20$$$ and then multiply it by two $$$13$$$ times. You'll get $$$0$$$ in $$$1 + 13 = 14$$$ steps.  $$$a_2 = 32764$$$. You can increase it by one $$$4$$$ times: $$$32764 \\rightarrow 32765 \\rightarrow 32766 \\rightarrow 32767 \\rightarrow 0$$$.  $$$a_3 = 10240$$$. You can multiply it by two $$$4$$$ times: $$$10240 \\rightarrow 20480 \\rightarrow 8192 \\rightarrow 16384 \\rightarrow 0$$$.  $$$a_4 = 49$$$. You can multiply it by two $$$15$$$ times. ",
+    "prob_desc_description": "Suppose you have an integer $$$v$$$. In one operation, you can:   either set $$$v = (v + 1) \\bmod 32768$$$  or set $$$v = (2 \\cdot v) \\bmod 32768$$$. You are given $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$. What is the minimum number of operations you need to make each $$$a_i$$$ equal to $$$0$$$?",
+    "prob_desc_output_spec": "Print $$$n$$$ integers. The $$$i$$$-th integer should be equal to the minimum number of operations required to make $$$a_i$$$ equal to $$$0$$$.",
+    "prob_desc_input_spec": "The first line contains the single integer $$$n$$$ ($$$1 \\le n \\le 32768$$$) — the number of integers. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i &lt; 32768$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_092.jsonl",
+    "code_uid": "66531e10d663c9c0bfaa64eb98415e11",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n19 32764 10240 49\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import ceil, log\r\n\r\nres =[]\r\nint(input())\r\nl = list(map(int, input().split()) )\r\nc = 32768\r\n\r\n\r\ndef nexp(i, max):\r\n    exp = ceil(log(i, 2))\r\n    if 2**exp -i < 15 and 2**exp -i + 15 - exp < 15:\r\n        return 2**exp -i + 15 - exp\r\n\r\n    else:\r\n        tmp = i\r\n        steps=0\r\n        if i%2 !=0:\r\n                i+=1\r\n                steps+=1\r\n            \r\n        while i % c != 0:\r\n            if steps > max:\r\n                return max +1\r\n            i*=2\r\n            steps +=1\r\n        return steps\r\n\r\ndef minsteps(i):\r\n    exp = ceil(log(i, 2))\r\n\r\n    if i==0:\r\n        return 0\r\n    else:\r\n        steps = 15\r\n\r\n        for j in range(15):\r\n            tmp = j+i\r\n            c =0\r\n            while tmp%2==0:\r\n                tmp /= 2\r\n                c+=1\r\n\r\n            steps = min(steps, j+ 15-c)\r\n\r\n        return steps\r\n\r\ns =''\r\nfor i in l:\r\n    if i ==0:\r\n        s+=\"0 \"#print(\"0\",end=\" \")\r\n    else:\r\n        steps=minsteps(i)\r\n        s+= str(steps)+ \" \"\r\n\r\nprint(s)\r\n\r\n\r\n\r\n\r\n",
+    "prob_desc_created_at": "1649514900",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "dfs and similar",
+        "dp",
+        "graphs",
+        "greedy",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 5 1 1\", \"-1\"]",
+    "src_uid": "4a674b93475abb341780241c8e821a62",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Anton goes to school, his favorite lessons are arraystudying. He usually solves all the tasks pretty fast, but this time the teacher gave him a complicated one: given two arrays b and c of length n, find array a, such that:where a and b means bitwise AND, while a or b means bitwise OR.Usually Anton is good in arraystudying, but this problem is too hard, so Anton asks you to help.",
+    "prob_desc_output_spec": "If there is no solution, print  - 1. Otherwise, the only line of the output should contain n non-negative integers ai — elements of the array a. If there are multiple possible solutions, you may print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains a single integers n (1 ≤ n ≤ 200 000) — the size of arrays b and c. The second line contains n integers bi (0 ≤ bi ≤ 109) — elements of the array b. Third line contains n integers ci (0 ≤ ci ≤ 109) — elements of the array c.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_014.jsonl",
+    "code_uid": "aeadd4b95b71c5cb55422561c2eabbba",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n6 8 4 4\\n16 22 10 10\", \"5\\n8 25 14 7 16\\n19 6 9 4 25\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def f():\n    n, = map(int,raw_input().split())\n    B = map(int,raw_input().split())\n    C = map(int,raw_input().split())\n    D = [B[i]+C[i] for i in xrange(n)]\n    t = sum(D)\n    if n == 1 and B[0] != C[0]:\n        print -1\n        return\n    if t % 2 or t % (n*2):\n        print -1\n        return\n    tA = t / (n*2)\n    if any((d-tA)%n for d in D):\n        print -1\n        return\n    A = [(d-tA)//n for d in D]\n    mask = [2**i for i in xrange(32)]\n    c = [0]*32\n    #for i in xrange(32):\n        #c[i] = sum(1 if mask[i]&a else 0 for a in A)\n    for a in A:\n        for i in xrange(32):\n            c[i] += 1 if mask[i]&a else 0\n    if any(B[i] != sum(c[j]<<j if A[i]&mask[j] else 0 for j in xrange(32)) for i in xrange(n)):\n        print -1\n        return\n    #if C[i] != sum(n<<j if a&mask[j] else c[j]<<j for j in xrange(32)):\n    print ' '.join(map(str, A))\n \nf()\n\n\n",
+    "prob_desc_created_at": "1479227700",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "bitmasks",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

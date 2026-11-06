@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n0\\n2\\n4\\n1\\n4\"]",
+    "src_uid": "9d3ee1b292a2402bb2204ab85dcab587",
+    "prob_desc_notes": "NoteThe first test case is explained in the statement.In the second test case the green color is on so you can cross the road immediately. In the third test case, if the red color was on at the second second, then we would wait for the green color for one second, and if the red light was on at the first second, then we would wait for the green light for two seconds.In the fourth test case the longest we would wait for the green color is if we wait for it starting from the fifth second.",
+    "prob_desc_description": "You find yourself on an unusual crossroad with a weird traffic light. That traffic light has three possible colors: red (r), yellow (y), green (g). It is known that the traffic light repeats its colors every $$$n$$$ seconds and at the $$$i$$$-th second the color $$$s_i$$$ is on.That way, the order of the colors is described by a string. For example, if $$$s=$$$\"rggry\", then the traffic light works as the following: red-green-green-red-yellow-red-green-green-red-yellow- ... and so on.More formally, you are given a string $$$s_1, s_2, \\ldots, s_n$$$ of length $$$n$$$. At the first second the color $$$s_1$$$ is on, at the second — $$$s_2$$$, ..., at the $$$n$$$-th second the color $$$s_n$$$ is on, at the $$$n + 1$$$-st second the color $$$s_1$$$ is on and so on.You need to cross the road and that can only be done when the green color is on. You know which color is on the traffic light at the moment, but you don't know the current moment of time. You need to find the minimum amount of time in which you are guaranteed to cross the road.You can assume that you cross the road immediately. For example, with $$$s=$$$\"rggry\" and the current color r there are two options: either the green color will be on after $$$1$$$ second, or after $$$3$$$. That way, the answer is equal to $$$3$$$ — that is the number of seconds that we are guaranteed to cross the road, if the current color is r.",
+    "prob_desc_output_spec": "For each test case output the minimal number of second in which you are guaranteed to cross the road.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ $$$(1 \\leq t \\leq 10^4$$$) — the number of test cases. Then the description of the test cases follows. The first line of each test case contains an integer $$$n$$$ and a symbol $$$c$$$ ($$$1 \\leq n \\leq 2 \\cdot 10^5$$$, $$$c$$$ is one of allowed traffic light colors r, y or g)— the length of the string $$$s$$$ and the current color of the traffic light.  The second line of each test case contains a string $$$s$$$ of the length $$$n$$$, consisting of the letters r, y and g. It is guaranteed that the symbol g is in the string $$$s$$$ and the symbol $$$c$$$ is in the string $$$s$$$.  It is guaranteed, that the sum of $$$n$$$ over all test cases does not exceed $$$2\\cdot10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_094.jsonl",
+    "code_uid": "761731802421c096606c491dbeda6689",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\n5 r\\n\\nrggry\\n\\n1 g\\n\\ng\\n\\n3 r\\n\\nrrg\\n\\n5 y\\n\\nyrrgy\\n\\n7 r\\n\\nrgrgyrg\\n\\n9 y\\n\\nrrrgyyygy\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def func(letter, sequence):\n\n    if letter == \"g\":\n        return 0\n\n\n    maxs = 0\n    count = -1\n    letter_found = False\n    flag = True\n    currentl = 0\n    currentg = 0\n    nextpos = True\n\n\n\n\n    for index, value in enumerate(sequence):\n        if value == \"g\":\n            nextpos = True\n            # print(\"nextpos:True\")\n            currentg = index\n            first_g = True\n            if first_g and flag:\n                g_1 = index\n                flag = False\n\n            count += 1\n            maxs = max(count, maxs)\n            count = -1\n            letter_found = False\n\n\n            continue\n        if value == letter:\n            letter_found = True\n\n            if nextpos:\n                currentl = index\n                nextpos = False\n        if letter_found:\n            count += 1\n\n\n    end = 0\n\n    if sequence[-1] != \"g\" and currentl > currentg:\n        end = int(length) - currentl + g_1\n\n\n    maxs = max(end, maxs)\n    return maxs\n\n\n\ntests = int(input())\nfor i in range(tests):\n    inp = input().split()\n    length = inp[0]\n    l = inp[1]\n    seq = input()\n    print(func(l, seq))\n",
+    "prob_desc_created_at": "1665930900",
+    "tags": [
+        "binary search",
+        "implementation",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

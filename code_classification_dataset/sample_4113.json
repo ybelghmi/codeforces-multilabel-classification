@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"-1\\n3\\n1 3\\n2 2\\n4 0\"]",
+    "src_uid": "070cb9523bd8319e93c33264a3faf708",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Vitaly gave Maxim $$$n$$$ numbers $$$1, 2, \\ldots, n$$$ for his $$$16$$$-th birthday. Maxim was tired of playing board games during the celebration, so he decided to play with these numbers. In one step Maxim can choose two numbers $$$x$$$ and $$$y$$$ from the numbers he has, throw them away, and add two numbers $$$x + y$$$ and $$$|x - y|$$$ instead. He wants all his numbers to be equal after several steps and the sum of the numbers to be minimal.Help Maxim to find a solution. Maxim's friends don't want to wait long, so the number of steps in the solution should not exceed $$$20n$$$. It is guaranteed that under the given constraints, if a solution exists, then there exists a solution that makes all numbers equal, minimizes their sum, and spends no more than $$$20n$$$ moves.",
+    "prob_desc_output_spec": "For each test case print $$$-1$$$ if it's impossible to make all numbers equal. Otherwise print a single integer $$$s$$$ ($$$0 \\le s \\le 20n$$$) — the number of steps. Then print $$$s$$$ lines. The $$$i$$$-th line must contain two integers $$$x_i$$$ and $$$y_i$$$ — numbers that Maxim chooses on the $$$i$$$-th step. The numbers must become equal after all operations. Don't forget that you not only need to make all numbers equal, but also minimize their sum. It is guaranteed that under the given constraints, if a solution exists, then there exists a solution that makes all numbers equal, minimizes their sum, and spends no more than $$$20n$$$ moves.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 25\\,000$$$) — the number of test cases. Each test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 5 \\cdot 10^4$$$) — the number of integers given to Maxim. It is guaranteed that the total sum of $$$n$$$ doesn't exceed $$$5 \\cdot 10^4$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 3000,
+    "file_name": "train_090.jsonl",
+    "code_uid": "6c69b8efd7305a2534fb56e3090c2c16",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nraw_input = iter(sys.stdin.read().splitlines()).next\r\n\r\ndef bfs(n):\r\n    result, a = [], []\r\n    q = [(n, 1)]\r\n    while q:\r\n        new_q = []\r\n        for n, coeff in q:\r\n            if n <= 2:\r\n                for i in xrange(1, n+1):\r\n                    a.append(i*coeff)\r\n                continue\r\n            pw = 1<<(n.bit_length()-1)\r\n            if pw == n:\r\n                a.append(n*coeff)\r\n                n -= 1\r\n                pw //= 2\r\n            a.append(pw*coeff)\r\n            for i in xrange(1, (n-pw)+1):\r\n                result.append(((pw-i)*coeff, (pw+i)*coeff))\r\n                a.append(2*pw*coeff)\r\n            new_q.append((pw-(n-pw)-1, coeff))\r\n            new_q.append((n-pw, 2*coeff))\r\n        q = new_q\r\n    return result, a\r\n\r\ndef solution():\r\n    n = int(raw_input())\r\n    if n == 2:\r\n        return -1\r\n    result, a = bfs(n)\r\n    a.sort()\r\n    expect_num = 1<<(n-1).bit_length()\r\n    for i in xrange(len(a)-1):\r\n        if a[i] != a[i+1]:\r\n            continue\r\n        result.append((a[i], a[i+1]))\r\n        a[i+1] += a[i]\r\n        a.remove(a[i])\r\n        break\r\n    for x in a:\r\n        while x != expect_num:\r\n            result.append((0, x))\r\n            result.append((x, x))\r\n            x *= 2\r\n    result.append((0, expect_num))\r\n    return \"%s\\n%s\" % (len(result), \"\\n\".join(map(lambda x: \" \".join(map(str, x)), result)))\r\n\r\nfor case in xrange(int(raw_input())):\r\n    print '%s' % solution()",
+    "prob_desc_created_at": "1644676500",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

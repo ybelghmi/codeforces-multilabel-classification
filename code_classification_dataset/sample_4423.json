@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nNO\\nYES\"]",
+    "src_uid": "bdbd3420d9aa85b3143a87c5fa530f31",
+    "prob_desc_notes": "NoteFor the first and the second test case, the only possible combination is $$$[1]$$$ so there always will be a subsegment with $$$1$$$ animal but not with $$$2$$$ animals.",
+    "prob_desc_description": "Theofanis decided to visit his uncle's farm. There are $$$s$$$ animals and $$$n$$$ animal pens on the farm. For utility purpose, animal pens are constructed in one row.Uncle told Theofanis that a farm is lucky if you can distribute all animals in all pens in such a way that there are no empty pens and there is at least one continuous segment of pens that has exactly $$$k$$$ animals in total.Moreover, a farm is ideal if it's lucky for any distribution without empty pens.Neither Theofanis nor his uncle knows if their farm is ideal or not. Can you help them to figure it out?",
+    "prob_desc_output_spec": "For each test case, print YES (case-insensitive), if the farm is ideal, or NO (case-insensitive) otherwise.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^5$$$) — the number of test cases. The first and only line of each test case contains three integers $$$s$$$, $$$n$$$, and $$$k$$$ ($$$1 \\le s, n, k \\le 10^{18}$$$; $$$n \\le s$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_097.jsonl",
+    "code_uid": "880979acd4ec34ac767c86a05ce7a10a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 1 1\\n1 1 2\\n100 50 200\\n56220 47258 14497\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.buffer.readline \r\n\r\ndef process(s, n, k):\r\n    if k==0 or k==s:\r\n        sys.stdout.write(\"YES\\n\")\r\n        return\r\n    if k > s:\r\n        sys.stdout.write(\"NO\\n\")\r\n        return\r\n    a = s % k\r\n    b = s//k\r\n    \"\"\"\r\n    Normally\r\n    a  blocks of size b+1\r\n    corresponding to 0, 1, .., (a-1)\r\n    k-a blocks of size b\r\n    \r\n    so s = k*b+a\r\n    \r\n    However we also have s\r\n    \r\n    so a+1 blocks of size b+1\r\n    corresponding to 0, 1, ..., a\r\n    \r\n    and k-a-1 blocks of size b\r\n    \r\n    However we remove 2 from \r\n    the 0-block\r\n    and 2 from the s-block\r\n    \r\n    0, 1, 4, 5, 10\r\n    \r\n    \"\"\"\r\n    if a==0:\r\n        blocks = [[a, b+1], [k-a-1, b], [1, b-3]]\r\n    else:\r\n        blocks = [[a-1, b+1], [k-a-1, b], [2, b-1]]\r\n   # print(blocks)\r\n    max_n = 0\r\n    for count, size in blocks:\r\n        if size > 0:\r\n            if size % 2==0:\r\n                max_n+=(count*size)//2\r\n            else:\r\n                max_n+=(count*(size+1))//2\r\n    if max_n >= n-1:\r\n        sys.stdout.write('NO\\n')\r\n    else:\r\n        sys.stdout.write('YES\\n')\r\n        \r\nt = int(input())\r\nfor i in range(t):\r\n    s, n, k = [int(x) for x in input().split()]\r\n    process(s, n, k)",
+    "prob_desc_created_at": "1633705500",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

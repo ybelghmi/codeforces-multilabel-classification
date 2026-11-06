@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"NO\\nYES\"]",
+    "src_uid": "c686c3592542b70a3b617eb639c0e3f4",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In this problem at each moment you have a set of intervals. You can move from interval (a, b) from our set to interval (c, d) from our set if and only if c &lt; a &lt; d or c &lt; b &lt; d. Also there is a path from interval I1 from our set to interval I2 from our set if there is a sequence of successive moves starting from I1 so that we can reach I2.Your program should handle the queries of the following two types:  \"1 x y\" (x &lt; y) — add the new interval (x, y) to the set of intervals. The length of the new interval is guaranteed to be strictly greater than all the previous intervals. \"2 a b\" (a ≠ b) — answer the question: is there a path from a-th (one-based) added interval to b-th (one-based) added interval? Answer all the queries. Note, that initially you have an empty set of intervals.",
+    "prob_desc_output_spec": "For each query of the second type print \"YES\" or \"NO\" on a separate line depending on the answer.",
+    "prob_desc_input_spec": "The first line of the input contains integer n denoting the number of queries, (1 ≤ n ≤ 105). Each of the following lines contains a query as described above. All numbers in the input are integers and don't exceed 109 by their absolute value. It's guaranteed that all queries are correct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_019.jsonl",
+    "code_uid": "f786c8d298fd53654bdfdb025f863a08",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 1 5\\n1 5 11\\n2 1 2\\n1 2 9\\n2 1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#Globales\nSet, h = [], []\n\n#Metodos\ndef dfs(a, b, Len, h):\n    if a == b:\n        return True\n    Len[a] = True\n    for x in h[a]:\n        if not Len[x] and dfs(x, b, Len, h):\n            return True\n    return False\n\ndef main():\n    for i in range(int(input())):\n        q, x, y = map(int, input().split())\n        if q == 1:\n            Set.append((x, y))\n            h.append([])\n            for i, partSet in enumerate(Set):\n                if x in range(partSet[0] + 1, partSet[1]) or y in range(partSet[0] + 1, partSet[1]):\n                    h[-1].append(i)\n                if partSet[0] in range(x + 1, y) or partSet[1] in range(x + 1, y):\n                    h[i].append(len(Set) - 1)\n        else:\n            print('YES' if dfs(x - 1, y - 1, [False] * len(Set), h) else 'NO')\n\nmain() #Ejecuta el main\n",
+    "prob_desc_created_at": "1371992400",
+    "tags": [
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

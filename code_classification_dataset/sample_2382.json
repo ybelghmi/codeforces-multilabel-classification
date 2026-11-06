@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n2 \\n2\\n1 3\", \"-1\"]",
+    "src_uid": "810f267655da0ad14538c275fd13821d",
+    "prob_desc_notes": "NoteIn the first sample, you can give the vertex number 2 to Arya and vertices numbered 1 and 3 to Pari and keep vertex number 4 for yourself (or give it someone, if you wish).In the second sample, there is no way to satisfy both Pari and Arya.",
+    "prob_desc_description": "Recently, Pari and Arya did some research about NP-Hard problems and they found the minimum vertex cover problem very interesting.Suppose the graph G is given. Subset A of its vertices is called a vertex cover of this graph, if for each edge uv there is at least one endpoint of it in this set, i.e.  or  (or both).Pari and Arya have won a great undirected graph as an award in a team contest. Now they have to split it in two parts, but both of them want their parts of the graph to be a vertex cover.They have agreed to give you their graph and you need to find two disjoint subsets of its vertices A and B, such that both A and B are vertex cover or claim it's impossible. Each vertex should be given to no more than one of the friends (or you can even keep it for yourself).",
+    "prob_desc_output_spec": "If it's impossible to split the graph between Pari and Arya as they expect, print \"-1\" (without quotes). If there are two disjoint sets of vertices, such that both sets are vertex cover, print their descriptions. Each description must contain two lines. The first line contains a single integer k denoting the number of vertices in that vertex cover, and the second line contains k integers — the indices of vertices. Note that because of m ≥ 1, vertex cover cannot be empty.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and m (2 ≤ n ≤ 100 000, 1 ≤ m ≤ 100 000) — the number of vertices and the number of edges in the prize graph, respectively. Each of the next m lines contains a pair of integers ui and vi (1  ≤  ui,  vi  ≤  n), denoting an undirected edge between ui and vi. It's guaranteed the graph won't contain any self-loops or multiple edges.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_021.jsonl",
+    "code_uid": "223444aaeb7e32c4d17c4332dc3b6329",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n1 2\\n2 3\", \"3 3\\n1 2\\n2 3\\n1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=map(int,input().split())\n\nflag=False\n\nf=[0]*100001\n\nE=[[] for i in range(n+1)]\n\ne=[tuple(map(int,input().split())) for _ in range(m)]\n\nfor u,v in sorted(e): E[u]+=[v]; E[v]+=[u]\n\ndef bfs(nom,col):\n\n  ch=[(nom,col)]\n\n  while ch:\n\n    v,c=ch.pop()\n\n    if f[v]==0: \n\n      f[v]=c \n\n      for u in E[v]: \n\n        if f[u]==0: ch+=[(u,3-c)]\n\nfor x in range(1,n+1): \n\n  if f[x]==0: bfs(x,1)\n\nfor u,v in e:\n\n  if f[u]==f[v]: flag=True; break\n\nif flag: print(-1)\n\nelse:\n\n  a=[i for i in range(n+1) if f[i]==1]\n\n  b=[i for i in range(n+1) if f[i]==2]\n\n  print(len(a)); print(*a)\n\n  print(len(b)); print(*b)\n\n    \n\n    \n\n\n\n# Made By Mostafa_Khaled",
+    "prob_desc_created_at": "1467219900",
+    "tags": [
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n4\\n1\\n11\"]",
+    "src_uid": "3888f8d6cce7037169c340a9fb508cbe",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Given an undirected connected graph with $$$n$$$ vertices and $$$m$$$ edges. The graph contains no loops (edges from a vertex to itself) and multiple edges (i.e. no more than one edge between each pair of vertices). The vertices of the graph are numbered from $$$1$$$ to $$$n$$$. Find the number of paths from a vertex $$$s$$$ to $$$t$$$ whose length differs from the shortest path from $$$s$$$ to $$$t$$$ by no more than $$$1$$$. It is necessary to consider all suitable paths, even if they pass through the same vertex or edge more than once (i.e. they are not simple).    Graph consisting of $$$6$$$ of vertices and $$$8$$$ of edges For example, let $$$n = 6$$$, $$$m = 8$$$, $$$s = 6$$$ and $$$t = 1$$$, and let the graph look like the figure above. Then the length of the shortest path from $$$s$$$ to $$$t$$$ is $$$1$$$. Consider all paths whose length is at most $$$1 + 1 = 2$$$.   $$$6 \\rightarrow 1$$$. The length of the path is $$$1$$$.  $$$6 \\rightarrow 4 \\rightarrow 1$$$. Path length is $$$2$$$.  $$$6 \\rightarrow 2 \\rightarrow 1$$$. Path length is $$$2$$$.  $$$6 \\rightarrow 5 \\rightarrow 1$$$. Path length is $$$2$$$. There is a total of $$$4$$$ of matching paths.",
+    "prob_desc_output_spec": "For each test case, output a single number — the number of paths from $$$s$$$ to $$$t$$$ such that their length differs from the length of the shortest path by no more than $$$1$$$. Since this number may be too large, output it modulo $$$10^9 + 7$$$.",
+    "prob_desc_input_spec": "The first line of test contains the number $$$t$$$ ($$$1 \\le t \\le 10^4$$$) —the number of test cases in the test. Before each test case, there is a blank line.  The first line of test case contains two numbers $$$n, m$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$, $$$1 \\le m \\le 2 \\cdot 10^5$$$) —the number of vertices and edges in the graph.  The second line contains two numbers $$$s$$$ and $$$t$$$ ($$$1 \\le s, t \\le n$$$, $$$s \\neq t$$$) —the numbers of the start and end vertices of the path. The following $$$m$$$ lines contain descriptions of edges: the $$$i$$$th line contains two integers $$$u_i$$$, $$$v_i$$$ ($$$1 \\le u_i,v_i \\le n$$$) — the numbers of vertices that connect the $$$i$$$th edge. It is guaranteed that the graph is connected and does not contain loops and multiple edges. It is guaranteed that the sum of values $$$n$$$ on all test cases of input data does not exceed $$$2 \\cdot 10^5$$$. Similarly, it is guaranteed that the sum of values $$$m$$$ on all test cases of input data does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_104.jsonl",
+    "code_uid": "d7d90b128bd0c728500ef76b96431ae5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n\\n\\n\\n4 4\\n\\n1 4\\n\\n1 2\\n\\n3 4\\n\\n2 3\\n\\n2 4\\n\\n\\n\\n\\n6 8\\n\\n6 1\\n\\n1 4\\n\\n1 6\\n\\n1 5\\n\\n1 2\\n\\n5 6\\n\\n4 6\\n\\n6 3\\n\\n2 6\\n\\n\\n\\n\\n5 6\\n\\n1 3\\n\\n3 5\\n\\n5 4\\n\\n3 1\\n\\n4 2\\n\\n2 1\\n\\n1 4\\n\\n\\n\\n\\n8 18\\n\\n5 1\\n\\n2 1\\n\\n3 1\\n\\n4 2\\n\\n5 2\\n\\n6 5\\n\\n7 3\\n\\n8 4\\n\\n6 4\\n\\n8 7\\n\\n1 4\\n\\n4 7\\n\\n1 6\\n\\n6 7\\n\\n3 8\\n\\n8 5\\n\\n4 5\\n\\n4 3\\n\\n8 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import copy\r\nimport io, os, sys\r\nfrom sys import stdin, stdout\r\n\r\ndef input(): return stdin.readline().rstrip(\"\\r\\n\")\r\ndef read_int_list(): return list(map(int, input().split()))\r\ndef read_int_tuple(): return tuple(map(int, input().split()))\r\ndef read_int(): return int(input())\r\n\r\nfrom itertools import permutations, chain, combinations, product\r\nfrom math import factorial, gcd, inf\r\nfrom collections import Counter, defaultdict, deque\r\nfrom heapq import heappush, heappop, heapify\r\nfrom bisect import bisect_left\r\nfrom functools import lru_cache\r\nINF_INT32 = 1 << 32\r\nINF_INT = INF_INT64 = 1 << 64\r\nMOD = 1000000007\r\n\r\n\r\n### CODE HERE\r\n\r\n# f = open('inputs', 'r')\r\n# def input(): return f.readline().rstrip(\"\\r\\n\")\r\n\r\nfor _ in range(read_int()):\r\n    input()\r\n    n, m = read_int_tuple()\r\n    s, t = read_int_tuple()\r\n    s, t = s - 1, t - 1\r\n\r\n    edges = [[] for _ in range(n + n)]\r\n    for _ in range(m):\r\n        u, v = read_int_tuple()\r\n        u, v = u - 1, v - 1\r\n        edges[u].append(v + n)\r\n        edges[v].append(u + n)\r\n        edges[u + n].append(v)\r\n        edges[v + n].append(u)\r\n\r\n    dist = [INF_INT] * (n + n)\r\n    dist[s] = 0\r\n    cnt = [0] * (n + n)\r\n    cnt[s] = 1\r\n\r\n    q = deque([s])\r\n    min_dist_t = INF_INT\r\n    while q:\r\n        u = q.popleft()\r\n        if u == t or u == t + n:\r\n            min_dist_t = min(min_dist_t, dist[u])\r\n        if dist[u] > min_dist_t + 1:\r\n            break\r\n        for v in edges[u]:\r\n            if dist[v] <= dist[u]: continue\r\n            if dist[v] > dist[u] + 1:\r\n                dist[v] = dist[u] + 1\r\n                cnt[v] = cnt[u]\r\n                q.append(v)\r\n            elif dist[v] == dist[u] + 1:\r\n                cnt[v] += cnt[u]\r\n            cnt[v] %= MOD\r\n\r\n    if abs(dist[t] - dist[t + n]) <= 1:\r\n        print((cnt[t] + cnt[t + n]) % MOD)\r\n    elif dist[t] < dist[t + n]:\r\n        print(cnt[t])\r\n    else:\r\n        print(cnt[t + n])",
+    "prob_desc_created_at": "1646750100",
+    "tags": [
+        "data structures",
+        "dfs and similar",
+        "dp",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

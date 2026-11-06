@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\nINSERT 3 B\\nINSERT 4 B\", \"10\\nREPLACE 1 W\\nREPLACE 2 R\\nREPLACE 3 O\\nREPLACE 4 N\\nREPLACE 5 G\\nREPLACE 6 A\\nINSERT 7 N\\nINSERT 8 S\\nINSERT 9 W\\nREPLACE 11 R\"]",
+    "src_uid": "3cef1144dbd24e3e3807ab097b022c13",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There is a string s, consisting of capital Latin letters. Let's denote its current length as |s|. During one move it is allowed to apply one of the following operations to it:   INSERT pos ch — insert a letter ch in the string s in the position pos (1 ≤ pos ≤ |s| + 1, A ≤ ch ≤ Z). The letter ch becomes the pos-th symbol of the string s, at that the letters shift aside and the length of the string increases by 1.  DELETE pos — delete a character number pos (1 ≤ pos ≤ |s|) from the string s. At that the letters shift together and the length of the string decreases by 1.  REPLACE pos ch — the letter in the position pos of the line s is replaced by ch (1 ≤ pos ≤ |s|, A ≤ ch ≤ Z). At that the length of the string does not change. Your task is to find in which minimal number of moves one can get a t string from an s string. You should also find the sequence of actions leading to the required results.",
+    "prob_desc_output_spec": "In the first line print the number of moves k in the given sequence of operations. The number should be the minimal possible one. Then print k lines containing one operation each. Print the operations in the format, described above. If there are several solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains s, the second line contains t. The lines consist only of capital Latin letters, their lengths are positive numbers from 1 to 1000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_002.jsonl",
+    "code_uid": "e12f70b5b30673ec6850d2dfa6de9123",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"ABA\\nABBBA\", \"ACCEPTED\\nWRONGANSWER\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/python\n\ns = raw_input()\nt = raw_input()\nn = len(s)\nm = len(t)\n\nd = [[0 for j in range(m+1)] for i in range(n+1)]\nfor i in range(m+1):\n\td[n][i] = m - i\nfor i in range(n+1):\n\td[i][m] = n - i\n\nfor i in range(n-1, -1, -1):\n\tfor j in range(m-1, -1, -1):\n\t\tif s[i] == t[j]:\n\t\t\td[i][j] = d[i+1][j+1]\n\t\telse:\n\t\t\td[i][j] = 1 + min(d[i+1][j], d[i][j+1], d[i+1][j+1])\n\nprint d[0][0]\n\ni, j = (0, 0)\nwhile d[i][j] != 0:\n\tif i == n:\n\t\tprint \"INSERT \" + str(j+1) + \" \" + t[j]\n\t\tj += 1\n\telif j == m:\n\t\tprint \"DELETE \" + str(j+1)\n\t\ti += 1\n\telif s[i] == t[j]:\n\t\ti += 1\n\t\tj += 1\n\telse:\n\t\tif d[i+1][j+1] <= d[i+1][j] and d[i+1][j+1] <= d[i][j+1]:\n\t\t\tprint \"REPLACE \" + str(j+1) + \" \" + t[j]\n\t\t\ti += 1\n\t\t\tj += 1\n\t\telif d[i+1][j] <= d[i+1][j+1] and d[i+1][j] <= d[i][j+1]:\n\t\t\tprint \"DELETE \" + str(j+1)\n\t\t\ti += 1\n\t\telse:\n\t\t\tprint \"INSERT \" + str(j+1) + \" \" + t[j]\n\t\t\tj += 1\n\n",
+    "prob_desc_created_at": "1295626200",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"5\", \"0\"]",
+    "src_uid": "0dc5469831c1d5d34aa3b7b172e3237b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Pasha loves his phone and also putting his hair up... But the hair is now irrelevant.Pasha has installed a new game to his phone. The goal of the game is following. There is a rectangular field consisting of n row with m pixels in each row. Initially, all the pixels are colored white. In one move, Pasha can choose any pixel and color it black. In particular, he can choose the pixel that is already black, then after the boy's move the pixel does not change, that is, it remains black. Pasha loses the game when a 2 × 2 square consisting of black pixels is formed. Pasha has made a plan of k moves, according to which he will paint pixels. Each turn in his plan is represented as a pair of numbers i and j, denoting respectively the row and the column of the pixel to be colored on the current move.Determine whether Pasha loses if he acts in accordance with his plan, and if he does, on what move the 2 × 2 square consisting of black pixels is formed.",
+    "prob_desc_output_spec": "If Pasha loses, print the number of the move when the 2 × 2 square consisting of black pixels is formed. If Pasha doesn't lose, that is, no 2 × 2 square consisting of black pixels is formed during the given k moves, print 0.",
+    "prob_desc_input_spec": "The first line of the input contains three integers n, m, k (1 ≤ n, m ≤ 1000, 1 ≤ k ≤ 105) — the number of rows, the number of columns and the number of moves that Pasha is going to perform.  The next k lines contain Pasha's moves in the order he makes them. Each line contains two integers i and j (1 ≤ i ≤ n, 1 ≤ j ≤ m), representing the row number and column number of the pixel that was painted during a move.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_019.jsonl",
+    "code_uid": "0322589a333221e31b2cf239b5ff5587",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2 4\\n1 1\\n1 2\\n2 1\\n2 2\", \"2 3 6\\n2 3\\n2 2\\n1 3\\n2 2\\n1 2\\n1 1\", \"5 3 7\\n2 3\\n1 2\\n1 1\\n4 1\\n3 1\\n5 3\\n3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m, k = map(int, input().split())\n\na = [[False] * m for x in range(0,n)]\n\n\ndef check(i, j):\n   if i < 0:\n      return False\n   elif i + 1 >= n:\n      return False\n   elif j < 0:\n      return False\n   elif j + 1 >= m:\n      return False\n   return a[i][j] and a[i][j + 1] and a[i + 1][j] and a[i + 1][j + 1]\n\ndef foo():\n   for x in range(1,k + 1):\n      i, j = map(int, input().split());\n      i -= 1\n      j -= 1\n      a[i][j] = True\n      if (check(i, j) or check(i - 1, j) or check(i, j - 1) or check(i - 1, j - 1)):\n         print(x)\n         return\n   print(0)\n\nfoo()\n",
+    "prob_desc_created_at": "1422376200",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"11\"]",
+    "src_uid": "334d2bcb32d88a7037bcf262f49938cf",
+    "prob_desc_notes": null,
+    "prob_desc_description": "On a number axis directed from the left rightwards, n marbles with coordinates x1, x2, ..., xn are situated. Let's assume that the sizes of the marbles are infinitely small, that is in this task each of them is assumed to be a material point. You can stick pins in some of them and the cost of sticking in the marble number i is equal to ci, number ci may be negative. After you choose and stick the pins you need, the marbles will start to roll left according to the rule: if a marble has a pin stuck in it, then the marble doesn't move, otherwise the marble rolls all the way up to the next marble which has a pin stuck in it and stops moving there. If there is no pinned marble on the left to the given unpinned one, it is concluded that the marble rolls to the left to infinity and you will pay an infinitely large fine for it. If no marble rolled infinitely to the left, then the fine will consist of two summands:   the sum of the costs of stuck pins;  the sum of the lengths of the paths of each of the marbles, that is the sum of absolute values of differences between their initial and final positions. Your task is to choose and pin some marbles in the way that will make the fine for you to pay as little as possible.",
+    "prob_desc_output_spec": "Output the single number — the least fine you will have to pay.",
+    "prob_desc_input_spec": "The first input line contains an integer n (1 ≤ n ≤ 3000) which is the number of marbles. The next n lines contain the descriptions of the marbles in pairs of integers xi, ci ( - 109 ≤ xi, ci ≤ 109). The numbers are space-separated. Each description is given on a separate line. No two marbles have identical initial positions.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_002.jsonl",
+    "code_uid": "66a35f6885afc58a94fbacb0e025277a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 3\\n3 4\\n1 2\", \"4\\n1 7\\n3 1\\n5 10\\n6 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#import time\n\n#st = time.time()\nn = int(raw_input())\ns = []\nq = []\ni = n\nwhile i > 0:\n\ti -= 1\n\tp = raw_input().split()\n\tx = int(p[0])\n\ty = int(p[1])\n\ts.append((x, y))\n\tq.append(10**10)\ns.sort()\np = []\nfor i in range(n):\n\tp.append(s[i][1])\n\ts[i] = s[i][0]\n#print time.time()-st\n\ni = 0\nq[0] = p[0]\nfor x in s[1:]:\n\ti += 1\n\tq[i] = min(q[:i]) + p[i]\n\tj = 0\n\tz = s[i]\n\tfor y in s[:i]:\n\t\tq[j] +=\tz-y\n\t\tj += 1\n\nprint min(q)\n#print time.time()-st\n",
+    "prob_desc_created_at": "1288440000",
+    "tags": [
+        "dp",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

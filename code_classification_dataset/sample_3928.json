@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"465\\n12\\n986128624\\n7636394\\n57118194\"]",
+    "src_uid": "d8ba9b38f7b2293452363ccd9c21d748",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Calculate the number of permutations $$$p$$$ of size $$$n$$$ with exactly $$$k$$$ inversions (pairs of indices $$$(i, j)$$$ such that $$$i &lt; j$$$ and $$$p_i &gt; p_j$$$) and exactly $$$x$$$ indices $$$i$$$ such that $$$p_i &gt; p_{i+1}$$$.Yep, that's the whole problem. Good luck!",
+    "prob_desc_output_spec": "For each test case, print one integer — the answer to the problem, taken modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 3 \\cdot 10^4$$$) — the number of test cases. Each test case consists of one line which contains three integers $$$n$$$, $$$k$$$ and $$$x$$$ ($$$1 \\le n \\le 998244352$$$; $$$1 \\le k \\le 11$$$; $$$1 \\le x \\le 11$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_087.jsonl",
+    "code_uid": "1217acb44ea0b3f6015bbb004457aed7",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n10 6 4\\n\\n7 3 1\\n\\n163316 11 7\\n\\n136373 11 1\\n\\n325902 11 11\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys, os, io\r\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\r\n\r\ndef f(u, v, w):\r\n    return u + v * l1 + w * l2\r\n\r\ndef g(x):\r\n    u = x % l1\r\n    v = x % l2 // l1\r\n    w = x // l2\r\n    return u, v, w\r\n\r\npow2 = [1]\r\nfor _ in range(13):\r\n    pow2.append(2 * pow2[-1])\r\nsp = set()\r\nfor i in pow2:\r\n    sp.add(i - 1)\r\nn, l1 = 13, 13\r\nl2 = l1 * l1\r\nl3 = l1 * l2\r\npn = pow2[n]\r\ndp = [[0] * l3 for _ in range(pn)]\r\nfor i in range(n):\r\n    dp[pow2[i]][f(0, 0, i)] = 1\r\nfor i in range(2, pn):\r\n    if i in sp:\r\n        continue\r\n    dpi = dp[i]\r\n    nx = []\r\n    c = 0\r\n    for j in range(n - 1, -1, -1):\r\n        if i & pow2[j]:\r\n            c += 1\r\n        else:\r\n            nx.append((j, c))\r\n    for j in range(l3):\r\n        if not dpi[j]:\r\n            continue\r\n        u0, v0, w = g(j)\r\n        for k, c in nx:\r\n            u, v = u0 + c, v0\r\n            if w > k:\r\n                v += 1\r\n            if max(u, v) < l1:\r\n                dp[i ^ pow2[k]][f(u, v, k)] += dpi[j]\r\ncnt = [[] for _ in range(n + 1)]\r\np = 0\r\nfor i in range(1, n + 1):\r\n    p += pow2[i - 1]\r\n    dpi = dp[p]\r\n    for j in range(1, l1):\r\n        for k in range(1, l1):\r\n            c = 0\r\n            for l in range(i):\r\n                c += dpi[f(j, k, l)]\r\n            if c:\r\n                cnt[i].append((j, k, c))\r\nmod = 998244353\r\nl = 200\r\nfact = [1] * (l + 1)\r\nfor i in range(1, l + 1):\r\n    fact[i] = i * fact[i - 1] % mod\r\ninv = [1] * (l + 1)\r\ninv[l] = pow(fact[l], mod - 2, mod)\r\nfor i in range(l - 1, -1, -1):\r\n    inv[i] = (i + 1) * inv[i + 1] % mod\r\ndp = [[0] * (3 * l3) for _ in range(l1)]\r\ndp[0][0] = 1\r\nfor i in range(2, n + 1):\r\n    for j, k, c in cnt[i]:\r\n        for l in range(l1 - 2, -1, -1):\r\n            dpl = dp[l]\r\n            for x in range(3 * l3):\r\n                y = dpl[x]\r\n                if not y:\r\n                    continue\r\n                u0, v0, w0 = g(x)\r\n                u, v, w = u0 + j, v0 + k, w0 + i\r\n                m = l + 1\r\n                while max(u, v, m) < l1 and w < 3 * l1:\r\n                    y *= c\r\n                    y %= mod\r\n                    dp[m][f(u, v, w)] += y * inv[m - l] % mod\r\n                    dp[m][f(u, v, w)] %= mod\r\n                    u, v, w = u + j, v + k, w + i\r\n                    m += 1\r\nt = int(input())\r\nans = []\r\nfor _ in range(t):\r\n    n, k, x = map(int, input().split())\r\n    if k < x:\r\n        ans0 = 0\r\n        ans.append(ans0)\r\n        continue\r\n    ans0 = 0\r\n    for i in range(1, l1):\r\n        dpi = dp[i]\r\n        for j in range(3 * l1):\r\n            if n - j + i < 0 or not dpi[f(k, x, j)]:\r\n                continue\r\n            c, l = 1, n - j + i\r\n            for _ in range(i):\r\n                c *= l\r\n                c %= mod\r\n                l -= 1\r\n            ans0 += dpi[f(k, x, j)] * c % mod\r\n            ans0 %= mod\r\n    ans.append(ans0)\r\nsys.stdout.write(\"\\n\".join(map(str, ans)))",
+    "prob_desc_created_at": "1650638100",
+    "tags": [
+        "brute force",
+        "combinatorics",
+        "dp",
+        "fft",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

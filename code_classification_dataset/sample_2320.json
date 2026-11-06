@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"14\", \"8\", \"2\", \"8\"]",
+    "src_uid": "ea497b6abd326597600395ff0644d635",
+    "prob_desc_notes": "NoteIn the first example the first author can tell the tutorial to problems from $$$1$$$ to $$$3$$$ and the second one — from $$$6$$$ to $$$8$$$. That way the sequence of $$$a_i$$$ will be $$$[3, 2, 3, 3, 3]$$$. Notice that the last participant can't listen to both author, he only chooses the one that tells the maximum number of problems he's interested in.In the second example the first one can tell problems $$$2$$$ to $$$4$$$, the second one — $$$4$$$ to $$$6$$$.In the third example the first one can tell problems $$$1$$$ to $$$1$$$, the second one — $$$2$$$ to $$$2$$$. Or $$$4$$$ to $$$4$$$ and $$$3$$$ to $$$3$$$. Every pair of different problems will get the same sum of $$$2$$$.In the fourth example the first one can tell problems $$$1$$$ to $$$5$$$, the second one — $$$1$$$ to $$$5$$$ as well.",
+    "prob_desc_description": "Berland regional ICPC contest has just ended. There were $$$m$$$ participants numbered from $$$1$$$ to $$$m$$$, who competed on a problemset of $$$n$$$ problems numbered from $$$1$$$ to $$$n$$$.Now the editorial is about to take place. There are two problem authors, each of them is going to tell the tutorial to exactly $$$k$$$ consecutive tasks of the problemset. The authors choose the segment of $$$k$$$ consecutive tasks for themselves independently of each other. The segments can coincide, intersect or not intersect at all.The $$$i$$$-th participant is interested in listening to the tutorial of all consecutive tasks from $$$l_i$$$ to $$$r_i$$$. Each participant always chooses to listen to only the problem author that tells the tutorials to the maximum number of tasks he is interested in. Let this maximum number be $$$a_i$$$. No participant can listen to both of the authors, even if their segments don't intersect.The authors want to choose the segments of $$$k$$$ consecutive tasks for themselves in such a way that the sum of $$$a_i$$$ over all participants is maximized.",
+    "prob_desc_output_spec": "Print a single integer — the maximum sum of $$$a_i$$$ over all participants.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n, m$$$ and $$$k$$$ ($$$1 \\le n, m \\le 2000$$$, $$$1 \\le k \\le n$$$) — the number of problems, the number of participants and the length of the segment of tasks each of the problem authors plans to tell the tutorial to. The $$$i$$$-th of the next $$$m$$$ lines contains two integers $$$l_i$$$ and $$$r_i$$$ ($$$1 \\le l_i \\le r_i \\le n$$$) — the segment of tasks the $$$i$$$-th participant is interested in listening to the tutorial to.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_020.jsonl",
+    "code_uid": "cfdaf5058837bb9d2ba5514c550ef1eb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 5 3\\n1 3\\n2 4\\n6 9\\n6 9\\n1 8\", \"10 3 3\\n2 4\\n4 6\\n3 5\", \"4 4 1\\n3 3\\n1 1\\n2 2\\n4 4\", \"5 4 5\\n1 2\\n2 3\\n3 4\\n4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m,k = [int(x) for x in input().split()]\na = []\n\nfor i in range(m):\n    v = [int(x) for x in input().split()]\n    a.append(v)\n\na.sort( key = lambda x:(x[0] + x[1]))\n\ndef findBest (l,r):\n    \n    if l >= r:\n        return 0\n    \n    del2 = [0]*(n+2)\n    \n    for i in range(r-l):\n        [x,y] = a[l+i]\n        del2[x] += 1\n        del2[y+1] -= 1\n    \n    del1 = [0]*(n+2)\n    for i in range(n):\n        del1[i+1] = del1[i] + del2[i+1]\n    \n    del0 = [0]*(n+2)\n    for i in range(n):\n        del0[i+1] = del0[i] + del1[i+1]\n        \n    ans = 0\n    \n    for i in range(n-k+1):\n        ans = max(ans, del0[i+k]-del0[i])\n    \n    return ans\n\nans = 0\n\nfor i in range(m):\n    prefMax = findBest(0,i+1)\n    suffMax = findBest(i+1,m)\n    ans = max(ans, prefMax + suffMax)\n\nprint(ans)\n    ",
+    "prob_desc_created_at": "1605796500",
+    "tags": [
+        "dp",
+        "greedy",
+        "two pointers",
+        "sortings",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

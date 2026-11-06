@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "99f37936b243907bf4ac1822dc547a61",
+    "prob_desc_notes": "NoteIn the first example Vasya needs to erase the second character. Then Petya cannot erase a character from the remaining string 880011223344 so that it does not become a telephone number.In the second example after Vasya's turn Petya can erase one character character 8. The resulting string can't be a telephone number, because there is no digit 8 at all.",
+    "prob_desc_description": "A telephone number is a sequence of exactly $$$11$$$ digits such that its first digit is 8.Vasya and Petya are playing a game. Initially they have a string $$$s$$$ of length $$$n$$$ ($$$n$$$ is odd) consisting of digits. Vasya makes the first move, then players alternate turns. In one move the player must choose a character and erase it from the current string. For example, if the current string 1121, after the player's move it may be 112, 111 or 121. The game ends when the length of string $$$s$$$ becomes 11. If the resulting string is a telephone number, Vasya wins, otherwise Petya wins.You have to determine if Vasya has a winning strategy (that is, if Vasya can win the game no matter which characters Petya chooses during his moves).",
+    "prob_desc_output_spec": "If Vasya has a strategy that guarantees him victory, print YES. Otherwise print NO.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$13 \\le n &lt; 10^5$$$, $$$n$$$ is odd) — the length of string $$$s$$$. The second line contains the string $$$s$$$ ($$$|s| = n$$$) consisting only of decimal digits.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_002.jsonl",
+    "code_uid": "cc1d033ffd1653e8fa0ed051cc3133d9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"13\\n8380011223344\", \"15\\n807345619350641\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(raw_input())\ns=list(raw_input())\ncnt=n-11\ncntt=[0 for i in xrange(10)]\nfor i in xrange(n):\n    cntt[int(s[i])] += 1\nif cntt[8] <= cnt/2:\n    print \"NO\"\nelse:\n    summ=0\n    for i in xrange(n):\n        if s[i] == \"8\":\n            summ += 1\n            s[i]='0'\n        if summ == cnt/2:\n            break\n    flag = -1\n    for i in xrange(0,cnt+1):\n        if s[i] == '8':\n            print \"YES\"\n            flag = 0\n            break\n    if flag == -1:\n        print \"NO\"",
+    "prob_desc_created_at": "1555943700",
+    "tags": [
+        "implementation",
+        "greedy",
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

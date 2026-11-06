@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"17\\n2 5 11\\n-1\"]",
+    "src_uid": "0639fbeb3a5be67a4c0beeffe8f5d43b",
+    "prob_desc_notes": "NoteFor the first test case, there are only two paths having one edge each: $$$1 \\to 2$$$ and $$$2 \\to 1$$$, both having a weight of $$$17$$$, which is prime.  The second test case is described in the statement.It can be proven that no such assignment exists for the third test case.",
+    "prob_desc_description": "You are given a tree of $$$n$$$ vertices numbered from $$$1$$$ to $$$n$$$, with edges numbered from $$$1$$$ to $$$n-1$$$. A tree is a connected undirected graph without cycles. You have to assign integer weights to each edge of the tree, such that the resultant graph is a prime tree.A prime tree is a tree where the weight of every path consisting of one or two edges is prime. A path should not visit any vertex twice. The weight of a path is the sum of edge weights on that path.Consider the graph below. It is a prime tree as the weight of every path of two or less edges is prime. For example, the following path of two edges: $$$2 \\to 1 \\to 3$$$ has a weight of $$$11 + 2 = 13$$$, which is prime. Similarly, the path of one edge: $$$4 \\to 3$$$ has a weight of $$$5$$$, which is also prime.  Print any valid assignment of weights such that the resultant tree is a prime tree. If there is no such assignment, then print $$$-1$$$. It can be proven that if a valid assignment exists, one exists with weights between $$$1$$$ and $$$10^5$$$ as well.",
+    "prob_desc_output_spec": "For each test case, if a valid assignment exists, then print a single line containing $$$n-1$$$ integers $$$a_1, a_2, \\dots, a_{n-1}$$$ ($$$1 \\leq a_i \\le 10^5$$$), where $$$a_i$$$ denotes the weight assigned to the edge numbered $$$i$$$. Otherwise, print $$$-1$$$. If there are multiple solutions, you may print any.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains one integer $$$n$$$ ($$$2 \\leq n \\leq 10^5$$$) — the number of vertices in the tree. Then, $$$n-1$$$ lines follow. The $$$i$$$-th line contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\leq u, v \\leq n$$$) denoting that edge number $$$i$$$ is between vertices $$$u$$$ and $$$v$$$. It is guaranteed that the edges form a tree. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_109.jsonl",
+    "code_uid": "947c08be65b538faad5719f99f375b76",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2\\n1 2\\n4\\n1 3\\n4 3\\n2 1\\n7\\n1 2\\n1 3\\n3 4\\n3 5\\n6 2\\n7 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\r\n \r\nclass Graph:\r\n    def __init__(self):\r\n        self.graph = defaultdict(list)\r\n        \r\n    def addEdge(self,u,v):\r\n        self.graph[u].append(v)\r\n        self.graph[v].append(u)\r\n        \r\n\r\n    # 2.DFS from a vertex \r\n    def DFS(self,vertex):\r\n        path=[]\r\n        stack=[vertex]\r\n        visited=defaultdict(lambda:0)\r\n        while len(stack):\r\n            u=stack.pop(-1)\r\n            if visited[u]==0:\r\n                path.append(u)\r\n                visited[u]=1\r\n            for neighbour in self.graph[u]:\r\n                if visited[neighbour]==0:\r\n                    stack.append(neighbour)\r\n        return path\r\n                \r\n\r\n\r\n    \r\nt=int(input())\r\nfor _ in range(t):\r\n    n=int(input())\r\n    g=Graph()\r\n    \r\n    edges=[]\r\n    for i in range(n-1):\r\n        u,v=list(map(int,input().split()))\r\n        g.addEdge(u,v)\r\n        if u>v:\r\n            edges.append((v,u))\r\n        else:\r\n            edges.append((u,v))\r\n    data=g.graph\r\n    for vertex in data:\r\n        if len(data[vertex])>=3:\r\n            print(-1)\r\n            break\r\n    else:\r\n        path=g.DFS(1)\r\n        path=g.DFS(path[-1])\r\n\r\n        res=defaultdict(lambda:0)\r\n        for i in range(n-1):\r\n            if i%2==0:\r\n                if path[i]<path[i+1]:\r\n                    res[(path[i],path[i+1])]=2\r\n                else:\r\n                    res[(path[i+1],path[i])]=2\r\n            else:\r\n                if path[i]<path[i+1]:\r\n                    res[(path[i],path[i+1])]=3\r\n                else:\r\n                    res[(path[i+1],path[i])]=3\r\n        for num in edges:\r\n            print(res[num],end=\" \")\r\n        print()\r\n                \r\n        ",
+    "prob_desc_created_at": "1642257300",
+    "tags": [
+        "constructive algorithms",
+        "dfs and similar",
+        "number theory",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

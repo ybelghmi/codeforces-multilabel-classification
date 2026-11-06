@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"3\", \"0\"]",
+    "src_uid": "ef162ba7ca860369cf950d9a3686ddc8",
+    "prob_desc_notes": "NoteThe lines dividing the field can be horizontal or vertical, but they should be parallel to each other.",
+    "prob_desc_description": "Three sons inherited from their father a rectangular corn fiend divided into n × m squares. For each square we know how many tons of corn grows on it. The father, an old farmer did not love all three sons equally, which is why he bequeathed to divide his field into three parts containing A, B and C tons of corn.The field should be divided by two parallel lines. The lines should be parallel to one side of the field and to each other. The lines should go strictly between the squares of the field. Each resulting part of the field should consist of at least one square. Your task is to find the number of ways to divide the field as is described above, that is, to mark two lines, dividing the field in three parts so that on one of the resulting parts grew A tons of corn, B on another one and C on the remaining one.",
+    "prob_desc_output_spec": "Print the answer to the problem: the number of ways to divide the father's field so that one of the resulting parts contained A tons of corn, another one contained B tons, and the remaining one contained C tons. If no such way exists, print 0.",
+    "prob_desc_input_spec": "The first line contains space-separated integers n and m — the sizes of the original (1 ≤ n, m ≤ 50, max(n, m) ≥ 3). Then the field's description follows: n lines, each containing m space-separated integers cij, (0 ≤ cij ≤ 100) — the number of tons of corn each square contains. The last line contains space-separated integers A, B, C (0 ≤ A, B, C ≤ 106).",
+    "prob_desc_output_to": "output.txt",
+    "prob_desc_input_from": "input.txt",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_008.jsonl",
+    "code_uid": "66171796bbbc9cd4ec9fc57ac3102211",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n1 1 1\\n1 1 1\\n1 1 1\\n3 3 3\", \"2 5\\n1 1 1 1 1\\n2 2 2 2 2\\n3 6 6\", \"3 3\\n1 2 3\\n3 1 2\\n2 3 1\\n5 6 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nf_read = open(\"input.txt\")\nf_write = open(\"output.txt\", \"w\")\n\ndimensions = [int(x) for x in f_read.readline().split()]\nx_dim, y_dim = dimensions[0], dimensions[1]\ngrid = []\n\nfor i in range(x_dim):\n    grid.append([])\n    values = [int(x) for x in f_read.readline().split()]\n    for value in values:\n        grid[i].append(value)\n\ntargets = [int(x) for x in f_read.readline().split()]\nn_ways = 0\n\nvertical_sums, horizontal_sums = [], []\nfor i in range(x_dim):\n    horizontal_sum = 0\n    for j in range(y_dim):\n        horizontal_sum += grid[i][j]\n    horizontal_sums.append(horizontal_sum)\n\nfor i in range(y_dim):\n    vertical_sum = 0\n    for j in range(x_dim):\n        vertical_sum += grid[j][i]\n    vertical_sums.append(vertical_sum)\n\nfor i in range(1, x_dim-1):\n    horizontal_sum_1 = 0\n    for j in range(0, i):\n        horizontal_sum_1 += horizontal_sums[j]\n        \n    for j in range(i+1, x_dim):\n        horizontal_sum_2 = 0\n        for k in range(i, j):\n            horizontal_sum_2 += horizontal_sums[k]\n\n        horizontal_sum_3 = 0\n        for k in range(j, x_dim):\n            horizontal_sum_3 += horizontal_sums[k]\n\n        if set([horizontal_sum_1, horizontal_sum_2, horizontal_sum_3]) == set(targets):\n            n_ways += 1\n\nfor i in range(1, y_dim-1):\n    vertical_sum_1 = 0\n    for j in range(0, i):\n        vertical_sum_1 += vertical_sums[j]\n        \n    for j in range(i+1, y_dim):\n        vertical_sum_2 = 0\n        for k in range(i, j):\n            vertical_sum_2 += vertical_sums[k]\n\n        vertical_sum_3 = 0\n        for k in range(j, y_dim):\n            vertical_sum_3 += vertical_sums[k]\n\n        if set([vertical_sum_1, vertical_sum_2, vertical_sum_3]) == set(targets):\n            n_ways += 1\n\nf_write.write(str(n_ways) + \"\\n\")\n",
+    "prob_desc_created_at": "1318919400",
+    "tags": [
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

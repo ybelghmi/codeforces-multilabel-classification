@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0.500000\\n1.500000 2.500000 3.500000\", \"0\\n10.000000 20.000000 30.000000\", \"0.500000\\n1.000000 10001.500000 10003.500000\"]",
+    "src_uid": "0ec7051d791fd9dbfed7fb35a2dfda63",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The New Vasjuki village is stretched along the motorway and that's why every house on it is characterized by its shift relative to some fixed point — the xi coordinate. The village consists of n houses, the i-th house is located in the point with coordinates of xi.TELE3, a cellular communication provider planned to locate three base stations so as to provide every house in the village with cellular communication. The base station having power d located in the point t provides with communication all the houses on the segment [t - d, t + d] (including boundaries).To simplify the integration (and simply not to mix anything up) all the three stations are planned to possess the equal power of d. Which minimal value of d is enough to provide all the houses in the village with cellular communication.",
+    "prob_desc_output_spec": "Print the required minimal power d. In the second line print three numbers — the possible coordinates of the base stations' location. Print the coordinates with 6 digits after the decimal point. The positions of the stations can be any from 0 to 2·109 inclusively. It is accepted for the base stations to have matching coordinates. If there are many solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 2·105) which represents the number of houses in the village. The second line contains the coordinates of houses — the sequence x1, x2, ..., xn of integer numbers (1 ≤ xi ≤ 109). It is possible that two or more houses are located on one point. The coordinates are given in a arbitrary order.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_012.jsonl",
+    "code_uid": "24da23326e92e653dc0fdbf6d982c8cb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2 3 4\", \"3\\n10 20 30\", \"5\\n10003 10004 10001 10002 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from decimal import *\nn=int(input())\na=sorted(map(int,input().split()))\ni=1-n\nj=n-2\ns=0\ngetcontext().prec = 6\nDecimal(1) / Decimal(7)\nn=a[j]-a[i]\nwhile s<n:\n\tl,r=a[i]-a[0],a[-1]-a[j]\n\tif l<r:\n\t\tif n<=l:\n\t\t\ts=n\n\t\t\tbreak\n\t\ti+=1\n\t\ts=l\n\telse:\n\t\tif n<=r:\n\t\t\ts=n\n\t\t\tbreak\n\t\tj-=1\n\t\ts=r\n\tn=a[j]-a[i]\ns/=2\nprint(Decimal(s))\nprint(s+a[0]+0.0000001,float(a[j]-s),float(a[-1]-s))",
+    "prob_desc_created_at": "1293552000",
+    "tags": [
+        "binary search",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

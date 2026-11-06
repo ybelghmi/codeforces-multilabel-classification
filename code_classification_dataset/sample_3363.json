@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n2 1 4\", \"NO\", \"0\"]",
+    "src_uid": "0939354d9bad8301efb79a1a934ded30",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A system of n vessels with water is given. Several pairs of vessels are connected by tubes with transfusion mechanisms. One may transfer an integer amount of liters of water between two vessels connected by such tube (tube works in both directions). There might be multiple tubes between two vessels. Total number of tubes equals e. Volume of each vessel equals v liters. Of course, the amount of the water in any vessel cannot exceed v liters in the process of transfusions.Given the initial amounts ai of water in the vessels and the desired amounts bi find a sequence of transfusions that deals with the task. Total number of transfusions must not exceed 2·n2.",
+    "prob_desc_output_spec": "Print \"NO\" (without quotes), if such sequence of transfusions does not exist. Otherwise print any suitable sequence in the following format. On the first line print the total number of transfusions k (k should not exceed 2·n2). In the following k lines print transfusions in the format x y d (transfusion of d liters from the vessel number x to the vessel number y, x and y must be distinct). For all transfusions d must be a non-negative integer.",
+    "prob_desc_input_spec": "First line of the input contains integers n, v, e (1 ≤ n ≤ 300, 1 ≤ v ≤ 109, 0 ≤ e ≤ 50000). Next two lines contain n integers each: initial ai and the desired amounts bi of water in corresponding vessels (0 ≤ ai, bi ≤ v). Next e lines describe one tube each in the format x y (1 ≤ x, y ≤ n, x ≠ y) for a tube between vessels number x and y. There might be multiple tubes between two vessels. You may assume that vessels are numbered from 1 to n in some way.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_054.jsonl",
+    "code_uid": "e29f2f49edcc8cf58b9affe1ec2e357f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 10 1\\n1 9\\n5 5\\n1 2\", \"2 10 0\\n5 2\\n4 2\", \"2 10 0\\n4 2\\n4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,v,e=map(int,raw_input().split())\na=[0]*(n+10)\nb=[0]*(n+10)\nE=[[] for i in xrange(n)]\nf=[i for i in xrange(n)]\nvis=[0]*(n+10)\nans=[]\nrem=0\ndef fd(x):\n\tif f[x]==x: return x\n\telse:\n\t\tf[x]=fd(f[x])\n\t\treturn f[x]\ndef dfs2(u,f,ty):\n\tglobal rem\n\tif rem<=a[u] and rem>0:\n\t\tif ty==0: ans.append([u,f,rem])\n\t\telse: ans.append([f,u,rem])\n\t\ta[u]-=rem\n\t\ta[f]+=rem\n\t\trem=0\n\telse:\n\t\trem-=a[u]\n\t\tfor v in E[u]:\n\t\t\tif v==f or vis[v]: continue\n\t\t\tdfs2(v,u,ty)\n\t\t\tif rem==0: break\n\t\tif f!=-1:\n\t\t\tif ty==0: ans.append([u,f,a[u]])\n\t\t\telse: ans.append([f,u,a[u]])\n\t\t\ta[f]+=a[u]\n\t\t\ta[u]=0\t\t\t\t\ndef solve(c):\n\tif a[c]==b[c]: return\n\tglobal rem\n\tif a[c]<b[c]:\n\t\trem=b[c]\n\t\tdfs2(c,-1,0)\n\telse:\n\t\tfor i in xrange(n): a[i],b[i]=v-a[i],v-b[i]\n\t\trem=b[c]\n\t\tdfs2(c,-1,1)\n\t\tfor i in xrange(n): a[i],b[i]=v-a[i],v-b[i]\t\t\ndef dfs(u,f):\n\tfor v in E[u]:\n\t\tif v==f: continue\n\t\tdfs(v,u)\n\tsolve(u)\n\tvis[u]=1\na=map(int,raw_input().split())\nb=map(int,raw_input().split())\nfor i in xrange(e):\n\tx,y=map(lambda x:int(x)-1,raw_input().split())\n\tif fd(x)!=fd(y):\n\t\tE[x].append(y)\n\t\tE[y].append(x)\n\t\tf[fd(x)]=fd(y)\nfor i in xrange(n):\n\tif fd(i)!=i: continue\n\tsa=sum(a[j] for j in xrange(n) if (fd(j)==i))\n\tsb=sum(b[j] for j in xrange(n) if (fd(j)==i))\n\tif sa!=sb:\n\t\tprint \"NO\"\n\t\texit()\n\tdfs(i,-1)\nprint len(ans)\nfor c in ans:\n\tprint c[0]+1,c[1]+1,c[2]\n",
+    "prob_desc_created_at": "1371223800",
+    "tags": [
+        "constructive algorithms",
+        "dfs and similar",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

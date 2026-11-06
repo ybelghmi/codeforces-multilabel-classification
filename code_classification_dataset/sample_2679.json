@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 1 2 1 2\", \"1 1 2 3 4\"]",
+    "src_uid": "8c2a6a29dc238b55d0bc99d7e203f1bf",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A teacher decides to give toffees to his students. He asks n students to stand in a queue. Since the teacher is very partial, he follows the following rule to distribute toffees.He looks at the first two students and gives more toffees to the student having higher marks than the other one. If they have the same marks they get the same number of toffees. The same procedure is followed for each pair of adjacent students starting from the first one to the last one.It is given that each student receives at least one toffee. You have to find the number of toffees given to each student by the teacher such that the total number of toffees is minimum.",
+    "prob_desc_output_spec": "Output consists of n integers separated by a space representing the number of toffees each student receives in the queue starting from the first one to the last one.",
+    "prob_desc_input_spec": "The first line of input contains the number of students n (2 ≤ n ≤ 1000). The second line gives (n - 1) characters consisting of \"L\", \"R\" and \"=\". For each pair of adjacent students \"L\" means that the left student has higher marks, \"R\" means that the right student has higher marks and \"=\" means that both have equal marks. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_028.jsonl",
+    "code_uid": "d7662d7b052ede6c12fce83c594952bd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nLRLR\", \"5\\n=RRR\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\n\nclass PartialTeacher():\n    def __init__(self, n, prefs):\n        self.prefs = prefs\n        \n    def create_graph(self):\n        num_nodes = len(list(filter(lambda x: x != '=',list(self.prefs))))+1\n        node_cntr = 0\n        node_cnts = defaultdict(lambda: 1)\n        edge_map = defaultdict(list)\n        rev_map = defaultdict(list)\n        outgoing_edges = defaultdict(int)\n        for ch in self.prefs:\n            if ch == 'R':\n                edge_map[node_cntr].append(node_cntr+1)\n                rev_map[node_cntr+1].append(node_cntr)\n                outgoing_edges[node_cntr] += 1\n                node_cntr += 1\n            elif ch == 'L':\n                edge_map[node_cntr+1].append(node_cntr)\n                rev_map[node_cntr].append(node_cntr+1)\n                outgoing_edges[node_cntr+1] += 1\n                node_cntr += 1\n            else:\n                node_cnts[node_cntr] += 1\n        s = set()\n        for i in range(node_cntr+1):\n            if outgoing_edges[i] == 0:\n                s.add(i)\n        order = []\n        while len(s) > 0:\n            v = s.pop()\n            order.append(v)\n            for u in rev_map[v]:\n                outgoing_edges[u] -= 1\n                if outgoing_edges[u] == 0:\n                    s.add(u)\n        order.reverse()\n        values = [-1]*len(order)\n        for v in order:\n            val_list = list(map(lambda x: values[x], rev_map[v]))\n            val = 1 if len(val_list) == 0 else max(val_list)+1\n            values[v] = val\n        complete_values = []\n        for i in range(len(values)):\n            complete_values += [values[i]]*node_cnts[i]\n        print(*complete_values)\n\n\nn = int(input())\nprefs = input().strip(' ')\n\npt = PartialTeacher(n, prefs)\npt.create_graph()\n\n\n\n\n\n\n",
+    "prob_desc_created_at": "1300033800",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

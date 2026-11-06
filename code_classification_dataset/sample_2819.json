@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\"]",
+    "src_uid": "b395be2597f4cc0478bc45f774fa1c01",
+    "prob_desc_notes": "NoteFor the first sample, one example of a rectangle we can form is as follows 111222111222For the second sample, it is impossible to put two of those pieces without rotating or flipping to form a rectangle.In the third sample, we can shift the first tile by one to the right, and then compose the following rectangle: .......XX................",
+    "prob_desc_description": "Hongcow likes solving puzzles.One day, Hongcow finds two identical puzzle pieces, with the instructions \"make a rectangle\" next to them. The pieces can be described by an n by m grid of characters, where the character 'X' denotes a part of the puzzle and '.' denotes an empty part of the grid. It is guaranteed that the puzzle pieces are one 4-connected piece. See the input format and samples for the exact details on how a jigsaw piece will be specified.The puzzle pieces are very heavy, so Hongcow cannot rotate or flip the puzzle pieces. However, he is allowed to move them in any directions. The puzzle pieces also cannot overlap.You are given as input the description of one of the pieces. Determine if it is possible to make a rectangle from two identical copies of the given input. The rectangle should be solid, i.e. there should be no empty holes inside it or on its border. Keep in mind that Hongcow is not allowed to flip or rotate pieces and they cannot overlap, i.e. no two 'X' from different pieces can share the same position.",
+    "prob_desc_output_spec": "Output \"YES\" if it is possible for Hongcow to make a rectangle. Output \"NO\" otherwise.",
+    "prob_desc_input_spec": "The first line of input will contain two integers n and m (1 ≤ n, m ≤ 500), the dimensions of the puzzle piece. The next n lines will describe the jigsaw piece. Each line will have length m and will consist of characters '.' and 'X' only. 'X' corresponds to a part of the puzzle piece, '.' is an empty space. It is guaranteed there is at least one 'X' character in the input and that the 'X' characters form a 4-connected region.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_032.jsonl",
+    "code_uid": "2be6cfd1c9aa58b6caa9fe2d8c664ce6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\nXXX\\nXXX\", \"2 2\\n.X\\nXX\", \"5 5\\n.....\\n..X..\\n.....\\n.....\\n.....\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N, M = map(int, raw_input().split())\n\npiece = []\nremov_ind = []\n\nfor i in xrange(N):\n\ttmp = raw_input()\n\tif len(tmp) == tmp.count('.'):\n\t\tcontinue\n\tpiece.append(tmp)\n\nfor j in xrange(M):\n\tcnt = 0\n\tfor i in xrange(len(piece)):\n\t\tif piece[i][j] == '.':\n\t\t\tcnt += 1\n\tif cnt == len(piece):\n\t\tremov_ind.append(j)\n\nfor j in remov_ind[::-1]:\n\tfor i in xrange(len(piece)):\n\t\tpiece[i] = piece[i][:j] + piece[i][j+1:]\n\nflag = True\nfor i in xrange(len(piece)):\n\tfor ch in piece[i]:\n\t\tif ch == '.':\n\t\t\tprint 'NO'\n\t\t\tflag = False\n\t\t\tbreak\n\tif not(flag):\n\t\tbreak\nif flag:\n\tprint 'YES'\n",
+    "prob_desc_created_at": "1481992500",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

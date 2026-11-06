@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"-1\", \"1\"]",
+    "src_uid": "e83c40f6d08b949900e5ae93b1d6f2c3",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Alice and Bob love playing one-dimensional battle ships. They play on the field in the form of a line consisting of n square cells (that is, on a 1 × n table).At the beginning of the game Alice puts k ships on the field without telling their positions to Bob. Each ship looks as a 1 × a rectangle (that is, it occupies a sequence of a consecutive squares of the field). The ships cannot intersect and even touch each other.After that Bob makes a sequence of \"shots\". He names cells of the field and Alice either says that the cell is empty (\"miss\"), or that the cell belongs to some ship (\"hit\").But here's the problem! Alice like to cheat. May be that is why she responds to each Bob's move with a \"miss\". Help Bob catch Alice cheating — find Bob's first move, such that after it you can be sure that Alice cheated.",
+    "prob_desc_output_spec": "Print a single integer — the number of such Bob's first move, after which you can be sure that Alice lied. Bob's moves are numbered from 1 to m in the order the were made. If the sought move doesn't exist, then print \"-1\".",
+    "prob_desc_input_spec": "The first line of the input contains three integers: n, k and a (1 ≤ n, k, a ≤ 2·105) — the size of the field, the number of the ships and the size of each ship. It is guaranteed that the n, k and a are such that you can put k ships of size a on the field, so that no two ships intersect or touch each other. The second line contains integer m (1 ≤ m ≤ n) — the number of Bob's moves. The third line contains m distinct integers x1, x2, ..., xm, where xi is the number of the cell where Bob made the i-th shot. The cells are numbered from left to right from 1 to n.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_060.jsonl",
+    "code_uid": "535e110fae28c3ad637478699d19c129",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"11 3 3\\n5\\n4 8 6 1 11\", \"5 1 3\\n2\\n1 5\", \"5 1 3\\n1\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import copy\nn,k,a=map(int,raw_input().split())\nm=int(raw_input())\nl=map(int,raw_input().split())\ndef maxunit_vs_k(i,k):#i means nanbanme in l\n    ll=l[:i]\n    ll.sort()\n    haba=[]\n    for j in xrange(len(ll)-1):\n        haba.append(abs(ll[j+1]-ll[j])-1)\n    haba.append(abs(ll[0]-1))\n    haba.append(abs(n-ll[-1]))\n    maxunit=0\n    for h in haba:\n        if h>=a:\n            h-=a\n            maxunit+=1\n        while h>=0:\n            h-=(a+1)\n            if h>=0:\n                maxunit+=1\n    if maxunit<k:\n        return False\n    else:\n        return True\nleft=1;right=m\nif maxunit_vs_k(m,k)==True:\n    print -1\nelse:\n    x=right/2\n    while(right-left>1):\n        if maxunit_vs_k(x,k)==False:\n            right=x\n        else:\n            left=x\n        x=(right+left)/2\n    if maxunit_vs_k(left,k):\n        print left+1\n    else:\n        print left",
+    "prob_desc_created_at": "1438790400",
+    "tags": [
+        "data structures",
+        "binary search",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

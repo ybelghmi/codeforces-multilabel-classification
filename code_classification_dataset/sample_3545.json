@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6\", \"5\", \"11\"]",
+    "src_uid": "a861df215bf44e296ead32738ef08e0d",
+    "prob_desc_notes": "NoteIn the first sample base amount of Imp's mana is equal to 12 (with maximum capacity also equal to 12). After he summons two birds from the first nest, he loses 8 mana points, although his maximum capacity will not increase (since B = 0). After this step his mana will be 4 of 12; during the move you will replenish 4 mana points, and hence own 8 mana out of 12 possible. Now it's optimal to take 4 birds from the second nest and spend 8 mana. The final answer will be — 6.In the second sample the base amount of mana is equal to 1000. The right choice will be to simply pick all birds from the last nest. Note that Imp's mana doesn't restore while moving because it's initially full.",
+    "prob_desc_description": "Apart from plush toys, Imp is a huge fan of little yellow birds!  To summon birds, Imp needs strong magic. There are n trees in a row on an alley in a park, there is a nest on each of the trees. In the i-th nest there are ci birds; to summon one bird from this nest Imp needs to stay under this tree and it costs him costi points of mana. However, for each bird summoned, Imp increases his mana capacity by B points. Imp summons birds one by one, he can summon any number from 0 to ci birds from the i-th nest. Initially Imp stands under the first tree and has W points of mana, and his mana capacity equals W as well. He can only go forward, and each time he moves from a tree to the next one, he restores X points of mana (but it can't exceed his current mana capacity). Moving only forward, what is the maximum number of birds Imp can summon?",
+    "prob_desc_output_spec": "Print a single integer — the maximum number of birds Imp can summon.",
+    "prob_desc_input_spec": "The first line contains four integers n, W, B, X (1 ≤ n ≤ 103, 0 ≤ W, B, X ≤ 109) — the number of trees, the initial points of mana, the number of points the mana capacity increases after a bird is summoned, and the number of points restored when Imp moves from a tree to the next one. The second line contains n integers c1, c2, ..., cn (0 ≤ ci ≤ 104) — where ci is the number of birds living in the i-th nest. It is guaranteed that . The third line contains n integers cost1, cost2, ..., costn (0 ≤ costi ≤ 109), where costi is the mana cost to summon a bird from the i-th nest.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_067.jsonl",
+    "code_uid": "78e3601cd19d808a70cf842e34c9341c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 12 0 4\\n3 4\\n4 2\", \"4 1000 10 35\\n1 2 4 5\\n1000 500 250 200\", \"2 10 7 11\\n2 10\\n6 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def run1(unit,cst):\n    cst *= unit\n    for j in range(cnt+1)[::-1]:\n        if dp[j] >= cst:\n            dp[j+unit] = max(dp[j+unit],dp[j] - cst)\n\n\nn,w,b,x = map(int,raw_input().split(\" \"))\ncap = map(float,raw_input().split(\" \"))\ncost = map(float,raw_input().split(\" \"))\ndp = [-1.]*10005\ndp[0] = float(w)\ncnt = 0\nw,b,x = float(w),float(b),float(x)\nfor i in range(n):\n    unit = 1\n    rest = cap[i]\n    while unit <= rest:\n        run1(int(unit),cost[i])\n        cnt += unit\n        rest -= unit\n        unit *= 2\n    if rest:\n        run1(int(rest),cost[i])\n        cnt += int(rest)\n    for j in range(cnt+1)[::-1]:\n        if dp[j]>=0:\n            dp[j] = min(w+j*b,dp[j]+x)\nans = 0\nfor j in range(cnt+1):\n    if dp[j] >=0:\n        ans = j\nprint ans\n",
+    "prob_desc_created_at": "1518023700",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

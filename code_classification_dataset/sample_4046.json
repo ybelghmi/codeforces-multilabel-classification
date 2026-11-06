@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"aa\\nabc\\n\\ncdc\\ncodeforces\"]",
+    "src_uid": "cb645c794ee3916b180fc3d789cb7c27",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Let $$$s$$$ be a string of lowercase Latin letters. Its price is the sum of the indices of letters (an integer between 1 and 26) that are included in it. For example, the price of the string abca is $$$1+2+3+1=7$$$.The string $$$w$$$ and the integer $$$p$$$ are given. Remove the minimal number of letters from $$$w$$$ so that its price becomes less than or equal to $$$p$$$ and print the resulting string. Note that the resulting string may be empty. You can delete arbitrary letters, they do not have to go in a row. If the price of a given string $$$w$$$ is less than or equal to $$$p$$$, then nothing needs to be deleted and $$$w$$$ must be output.Note that when you delete a letter from $$$w$$$, the order of the remaining letters is preserved. For example, if you delete the letter e from the string test, you get tst.",
+    "prob_desc_output_spec": "Output exactly $$$t$$$ rows, the $$$i$$$-th of them should contain the answer to the $$$i$$$-th set of input data. Print the longest string that is obtained from $$$w$$$ by deleting letters such that its price is less or equal to $$$p$$$. If there are several answers, then output any of them. Note that the empty string  — is one of the possible answers. In this case, just output an empty string.",
+    "prob_desc_input_spec": "The first line of input contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the test. The following are descriptions of $$$t$$$ test cases. Each case consists of two lines. The first of them is the string $$$w$$$, it is non-empty and consists of lowercase Latin letters. Its length does not exceed $$$2\\cdot10^5$$$. The second line contains an integer $$$p$$$ ($$$1 \\le p \\le 5\\,200\\,000$$$). It is guaranteed that the sum of string lengths $$$w$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_089.jsonl",
+    "code_uid": "1826fa8e88be09f379976f107795bf84",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\nabca\\n\\n2\\n\\nabca\\n\\n6\\n\\ncodeforces\\n\\n1\\n\\ncodeforces\\n\\n10\\n\\ncodeforces\\n\\n100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import itertools\r\n\r\ndef get_price(s):\r\n\treturn [ord(i)-96 for i in s]\r\n\r\nfilter_list = dict()\r\n\r\ndef remove_letter(value):\r\n    if filter_list[value]:\r\n        filter_list[value] -=1\r\n        return False\r\n    return True\r\n\r\ndef solution():\r\n    global filter_list\r\n    tests = int(input())\r\n    for test in range(tests):\r\n        filter_list = dict.fromkeys(range(1,27), 0)\r\n        t = input(),input()\r\n        string_ = t[0]\r\n        pr = int(t[1])\r\n        prices = get_price(string_)\r\n        sorted_prices = sorted(prices)\r\n        difference = sum(prices)-pr\r\n        flist_sum = 0\r\n        while flist_sum < difference:\r\n            if sorted_prices:\r\n                poped = sorted_prices.pop()\r\n                flist_sum += poped\r\n                filter_list[poped] +=1\r\n        prices = filter(remove_letter, prices)\r\n        print(''.join(map(lambda x: chr(x+96),prices)))\r\n        \r\nsolution()",
+    "prob_desc_created_at": "1657463700",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

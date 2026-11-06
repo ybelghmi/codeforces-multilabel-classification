@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"15\", \"7\", \"7\"]",
+    "src_uid": "f8bb458793ae828094248a22d4508dd0",
+    "prob_desc_notes": "NoteIn first sample product of elements chosen by any way is 1 and 1 = 12. So the answer is 24 - 1 = 15.In second sample there are six different ways to choose elements so that their product is 4, and only one way so that their product is 16. So the answer is 6 + 1 = 7.",
+    "prob_desc_description": "Petya was late for the lesson too. The teacher gave him an additional task. For some array a Petya should find the number of different ways to select non-empty subset of elements from it in such a way that their product is equal to a square of some integer.Two ways are considered different if sets of indexes of elements chosen by these ways are different.Since the answer can be very large, you should find the answer modulo 109 + 7.",
+    "prob_desc_output_spec": "Print one integer — the number of different ways to choose some elements so that their product is a square of a certain integer modulo 109 + 7.",
+    "prob_desc_input_spec": "First line contains one integer n (1 ≤ n ≤ 105) — the number of elements in the array. Second line contains n integers ai (1 ≤ ai ≤ 70) — the elements of the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_020.jsonl",
+    "code_uid": "e5ce5b257579a952408d7dd7f5a345ca",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 1 1 1\", \"4\\n2 2 2 2\", \"5\\n1 2 4 5 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\nimport copy\nprimes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67]\nPRIME = 10**9 + 7\nindex = dict()\nfor i in range (0, 19):\n    index[primes[i]] = i\nn = int(raw_input())\nl = map(int,raw_input().split())\nfactor = defaultdict(int)\ndef factorize(n):\n    ans = 0;\n    i = 0\n    while n > 1:\n        if (n / primes[i]) * primes[i] == n:\n            ans ^= 2**i\n            n /= primes[i]\n        else:\n            i += 1\n    return ans\n\nfor i in range (1, 71):\n    factor[i] = factorize(i)\nnums = set()\nzeroes = 0\nfor i in range (0, n):\n    if factor[l[i]] > 0:\n        nums.add(factor[l[i]])\n    else:\n        zeroes += 1\nans = 1\nm = len(nums)\ndp = dict()\nfor i in range (0, m+1):\n    dp[i] = [0,]*(2**19)\ndp[0][0] = 1\nfor i in range (1, m+1):\n    x = nums.pop()\n    for j in range (0, 2**19):\n        dp[i][j] = dp[i-1][j]\n    for j in range (0, 2**19):\n        dp[i][j^x] += dp[i-1][j]\n        if dp[i][j^x] >= PRIME:\n            dp[i][j^x] -= PRIME\nans = dp[m][0]\nfor i in range (0, n-m):\n    ans = 2*ans if 2*ans < PRIME else 2*ans - PRIME\nprint ans-1",
+    "prob_desc_created_at": "1511712300",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "bitmasks",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

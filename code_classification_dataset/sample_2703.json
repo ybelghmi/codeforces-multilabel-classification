@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n4 2\", \"1\\n1 2\", \"2\"]",
+    "src_uid": "90cf88fde1c23b6f3a85ee75d3a6a3ec",
+    "prob_desc_notes": "NoteIn the first example adding edges (1, 4) or (3, 4) will lead to a total diameter of 3. Adding edge (2, 4), however, will make it 2.Edge (1, 2) is the only option you have for the second example. The diameter is 1.You can't add any edges in the third example. The diameter is already 2.",
+    "prob_desc_description": "You are given a forest — an undirected graph with $$$n$$$ vertices such that each its connected component is a tree.The diameter (aka \"longest shortest path\") of a connected undirected graph is the maximum number of edges in the shortest path between any pair of its vertices.You task is to add some edges (possibly zero) to the graph so that it becomes a tree and the diameter of the tree is minimal possible.If there are multiple correct answers, print any of them.",
+    "prob_desc_output_spec": "In the first line print the diameter of the resulting tree. Each of the next $$$(n - 1) - m$$$ lines should contain two integers $$$v$$$ and $$$u$$$ ($$$1 \\le v, u \\le n$$$, $$$v \\ne u$$$) — the descriptions of the added edges. The resulting graph should be a tree and its diameter should be minimal possible. For $$$m = n - 1$$$ no edges are added, thus the output consists of a single integer — diameter of the given tree. If there are multiple correct answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 1000$$$, $$$0 \\le m \\le n - 1$$$) — the number of vertices of the graph and the number of edges, respectively. Each of the next $$$m$$$ lines contains two integers $$$v$$$ and $$$u$$$ ($$$1 \\le v, u \\le n$$$, $$$v \\ne u$$$) — the descriptions of the edges. It is guaranteed that the given graph is a forest.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_028.jsonl",
+    "code_uid": "e876919fdc96ef9e2d13feda131c115c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n1 2\\n2 3\", \"2 0\", \"3 2\\n1 3\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys,math\nfrom collections import defaultdict\nfrom io import BytesIO\n\nsys.stdin = BytesIO(sys.stdin.read())\ninput = lambda: sys.stdin.readline().rstrip('\\r\\n')\n#n = int(input())\nn,k = [int(x) for x in input().split(' ')]\n#arr = [int(x) for x in input().split(' ')]\n\ndef makesv(v):\n    s = {v}\n    sviaz[v] = nsv\n    while len(s):\n        cur = s.pop()\n        for el in ds[cur]:\n            if sviaz[el] == 0:\n                sviaz[el] = nsv\n                s.add(el)\n                \n\nsviaz = [0] * n\nds = defaultdict(set)\ndcop = defaultdict(set)\nfor _ in range(k):\n    s,f = [int(x)-1 for x in input().split(' ')]\n    ds[s].add(f)\n    ds[f].add(s)\n    dcop[s].add(f)\n    dcop[f].add(s)\nnsv = 0\nfor i in range(n):\n    if sviaz[i] > 0:\n        continue\n    else:\n        nsv += 1\n        makesv(i)\n#print(ds,sviaz)\n\ndef countmain(ind):\n    sc = set()\n    for i in range(len(sviaz)):\n        if sviaz[i] == ind:\n            sc.add(i)\n    curl = 0\n    while len(sc) > 2:\n        leaves = set()\n        for el in sc:\n            if len(ds[el]) < 2:\n                leaves.add(el)\n        while len(sc) > 2:\n            curl += 1\n            newleaves = set()\n            for v in leaves:\n                sc.remove(v)\n                for el in ds[v]:\n                    ds[el].remove(v)\n                    if len(ds[el]) < 2:\n                        newleaves.add(el)\n            leaves = newleaves\n    if len(sc) == 2:\n        return (curl+1,curl,sc.pop())\n    elif len(sc) == 1:\n        return (curl,curl,sc.pop())\nre = list()\nfor ind in range(1,nsv+1):\n    fdist,sdist,curv = countmain(ind)\n    re.append((fdist,sdist,curv))\n\n\nre.sort(reverse = True)\n#print(re)\nmd = re[0][0]\nsd = re[0][1]\nnewv = list()\nfor i in range(1,len(re)):\n    newv.append((str(re[0][2]+1),str(re[i][2]+1)))\n    newmd = re[i][0]\n    newsd = re[i][1]\n    if newmd+1 > md:\n        sd = md\n        md = newmd + 1\n    elif newmd + 1 > sd:\n        sd = newmd + 1\nprint(md + sd)\nfor el in newv:\n    print(' '.join(el))\n\n",
+    "prob_desc_created_at": "1545143700",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

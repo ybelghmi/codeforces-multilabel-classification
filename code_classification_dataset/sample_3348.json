@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\\n1 1\", \"No\", \"Yes\\n1 2 3 1 5\"]",
+    "src_uid": "9abcb5481648a6485a818946f8f94d1d",
+    "prob_desc_notes": "NoteBelow one can find one of the possible solutions for the first sample case. The sum of subtree sizes equals $$$3 + 1 + 1 = 5$$$, and the branching coefficient equals $$$2$$$.  Below one can find one of the possible solutions for the third sample case. The sum of subtree sizes equals $$$6 + 3 + 2 + 1 + 2 + 1 = 15$$$, and the branching coefficient equals $$$2$$$.  ",
+    "prob_desc_description": "Misha walked through the snowy forest and he was so fascinated by the trees to decide to draw his own tree!Misha would like to construct a rooted tree with $$$n$$$ vertices, indexed from 1 to $$$n$$$, where the root has index 1. Every other vertex has a parent $$$p_i$$$, and $$$i$$$ is called a child of vertex $$$p_i$$$. Vertex $$$u$$$ belongs to the subtree of vertex $$$v$$$ iff $$$v$$$ is reachable from $$$u$$$ while iterating over the parents ($$$u$$$, $$$p_{u}$$$, $$$p_{p_{u}}$$$, ...). Clearly, $$$v$$$ belongs to its own subtree, and the number of vertices in the subtree is called the size of the subtree. Misha is only interested in trees where every vertex belongs to the subtree of vertex $$$1$$$.Below there is a tree with $$$6$$$ vertices. The subtree of vertex $$$2$$$ contains vertices $$$2$$$, $$$3$$$, $$$4$$$, $$$5$$$. Hence the size of its subtree is $$$4$$$.   The branching coefficient of the tree is defined as the maximum number of children in any vertex. For example, for the tree above the branching coefficient equals $$$2$$$. Your task is to construct a tree with $$$n$$$ vertices such that the sum of the subtree sizes for all vertices equals $$$s$$$, and the branching coefficient is minimum possible.",
+    "prob_desc_output_spec": "If the required tree does not exist, output «No». Otherwise output «Yes» on the first line, and in the next one output integers $$$p_2$$$, $$$p_3$$$, ..., $$$p_n$$$, where $$$p_i$$$ denotes the parent of vertex $$$i$$$.",
+    "prob_desc_input_spec": "The only input line contains two integers $$$n$$$ and $$$s$$$ — the number of vertices in the tree and the desired sum of the subtree sizes ($$$2 \\le n \\le 10^5$$$; $$$1 \\le s \\le 10^{10}$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_054.jsonl",
+    "code_uid": "f635dcc097455b2ce5d5d22d62b32b3e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 5\", \"4 42\", \"6 15\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\ndef f(n,k):\n    if k==1:\n        return (n*(n+1))//2\n    a=math.floor(math.log(n,k))\n    b=sum(k**i for i in range(a+1))\n    c=sum((i+1)*k**i for i in range(a+1))\n    if n<b:\n        return c-(b-n)*(a+1)\n    else:\n        return c+(n-b)*(a+2)\nn,s=map(int,input().split())\nif s==(n*(n+1))//2:\n    print(\"Yes\")\n    a=[str(i+1) for i in range(n-1)]\n    print(\" \".join(a))\nelif s>(n*(n+1))//2:\n    print(\"No\")\nelif s<2*n-1:\n    print(\"No\")\nelse:\n    mini=1\n    maxi=n-1\n    curr=1\n    while True:\n        a,b=f(n,curr),f(n,curr+1)\n        if b>s:\n            mini=curr+1\n            curr=math.ceil((curr+maxi)/2)\n        elif a<=s:\n            maxi=curr-1\n            curr=(curr+mini)//2\n        else:\n            opt=curr+1\n            break\n    depths=[0,1]+[0]*(n-1)\n    ins=1\n    ind=2\n    while True:\n        a=min(opt**(ind-1),n-ins)\n        depths[ind]=a\n        ind+=1\n        ins+=a\n        if ins==n:\n            break\n    left=s-b\n    far=ind-1\n    bulk=ind-1\n    if depths[bulk]==1:\n        bulk-=1\n    while left>0:\n        if far+1-bulk<=left:\n            far+=1\n            left-=far-bulk\n            depths[far]+=1\n            depths[bulk]-=1\n            if depths[bulk]==1:\n                bulk-=1\n        else:\n            depths[bulk]-=1\n            depths[bulk+left]+=1\n            left=0\n    verts=[None]*far\n    sumi=0\n    for i in range(far):\n        verts[i]=list(range(sumi+1,sumi+1+depths[i+1]))\n        sumi+=depths[i+1]\n    out=\"\"\n    for i in range(1,far):\n        for j in range(len(verts[i])):\n            out+=str(verts[i-1][j//opt])+\" \"\n    print(\"Yes\")\n    print(out)",
+    "prob_desc_created_at": "1546706100",
+    "tags": [
+        "greedy",
+        "graphs",
+        "constructive algorithms",
+        "binary search",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

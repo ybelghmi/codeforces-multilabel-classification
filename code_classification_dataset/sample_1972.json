@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12\", \"6\", \"0\"]",
+    "src_uid": "71fbc176f2022365fc10d934807651ab",
+    "prob_desc_notes": "NoteIn the first example Santa can obtain abbaaaxyxaaabba by concatenating strings 5, 2, 7, 6 and 3 (in this order).",
+    "prob_desc_description": "Santa Claus likes palindromes very much. There was his birthday recently. k of his friends came to him to congratulate him, and each of them presented to him a string si having the same length n. We denote the beauty of the i-th string by ai. It can happen that ai is negative — that means that Santa doesn't find this string beautiful at all.Santa Claus is crazy about palindromes. He is thinking about the following question: what is the maximum possible total beauty of a palindrome which can be obtained by concatenating some (possibly all) of the strings he has? Each present can be used at most once. Note that all strings have the same length n.Recall that a palindrome is a string that doesn't change after one reverses it.Since the empty string is a palindrome too, the answer can't be negative. Even if all ai's are negative, Santa can obtain the empty string.",
+    "prob_desc_output_spec": "In the only line print the required maximum possible beauty.",
+    "prob_desc_input_spec": "The first line contains two positive integers k and n divided by space and denoting the number of Santa friends and the length of every string they've presented, respectively (1 ≤ k, n ≤ 100 000; n·k  ≤ 100 000). k lines follow. The i-th of them contains the string si and its beauty ai ( - 10 000 ≤ ai ≤ 10 000). The string consists of n lowercase English letters, and its beauty is integer. Some of strings may coincide. Also, equal strings can have different beauties.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_015.jsonl",
+    "code_uid": "84d59f0ce2ecbb324dc50afd9a545092",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 3\\nabb 2\\naaa -3\\nbba -1\\nzyz -4\\nabb 5\\naaa 7\\nxyx 4\", \"3 1\\na 1\\na 2\\na 3\", \"2 5\\nabcde 10000\\nabcde 10000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, input().split())\np  = {}\nnp = {}\npair    = []\nused    = {}\nrev_d   = {}\n\ndef push(d, s, v):\n    if s not in d:\n        d[s] = []\n    d[s].append(v)\n\ndef is_pal(s):\n    n = len(s)\n    flg=True\n    for i in range(n//2):\n        if s[i] != s[n-1-i]:\n            flg = False\n            break\n    return flg        \n\ndef rev(s):\n    return s[::-1]\n\nfor _ in range(n):\n    s, val = input().split()\n    val    = int(val)\n    \n    if is_pal(s):\n        push(p, s, val)\n    else:\n        push(np, s, val)\n        \n        if s not in rev_d:\n            rev_d[s] = rev(s)\n\nfor k, v in p.items():\n    p[k] = sorted(v, reverse=True)\n        \nfor k, v in np.items():\n    np[k] = sorted(v, reverse=True)\n    \nfor s in np:\n    if s not in used and rev_d[s] in np:\n        pair.append([s, rev_d[s]])\n        used[s] = True\n        used[rev_d[s]] = True\n        \nmax_remain = 0\nminus = 0\nmax_S = 0\n\nfor v_arr in p.values():\n    n = len(v_arr)\n    for i in range(0, n, 2):\n        if i+1==n:\n            if v_arr[i] > 0:\n                max_remain = max(max_remain, v_arr[i]) \n            \n        else:\n            if v_arr[i] + v_arr[i+1] >= 0:\n                max_S += v_arr[i] + v_arr[i+1]\n                \n                if v_arr[i+1] < 0:\n                    minus = min(minus, v_arr[i+1])\n            else:\n                if v_arr[i] > 0:\n                    max_remain = max(max_remain, v_arr[i]) \n\nfor [u, v] in pair:\n    n = min(len(np[u]), len(np[v]))\n        \n    for x, y in  zip(np[u][:n], np[v][:n]):\n        if x+y > 0:\n            max_S += x+y\n            \nprint(max(max_S+max_remain, max_S-minus))            \n\n#7 3\n#abb 2\n#aaa -3\n#bba -1\n#zyz -4\n#abb 5\n#aaa 7\n#xyx 4",
+    "prob_desc_created_at": "1482656700",
+    "tags": [
+        "data structures",
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

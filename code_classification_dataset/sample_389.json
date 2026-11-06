@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 1 \\n-1\\n3 4\\n4 2\\n2 4\\n-3 -6 -6\"]",
+    "src_uid": "d15a758cfdd7a627822fe8be7db4f60b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array $$$a$$$ of $$$n$$$ integers.You want to make all elements of $$$a$$$ equal to zero by doing the following operation exactly three times:  Select a segment, for each number in this segment we can add a multiple of $$$len$$$ to it, where $$$len$$$ is the length of this segment (added integers can be different). It can be proven that it is always possible to make all elements of $$$a$$$ equal to zero.",
+    "prob_desc_output_spec": "The output should contain six lines representing three operations. For each operation, print two lines:   The first line contains two integers $$$l$$$, $$$r$$$ ($$$1 \\le l \\le r \\le n$$$): the bounds of the selected segment.  The second line contains $$$r-l+1$$$ integers $$$b_l, b_{l+1}, \\dots, b_r$$$ ($$$-10^{18} \\le b_i \\le 10^{18}$$$): the numbers to add to $$$a_l, a_{l+1}, \\ldots, a_r$$$, respectively; $$$b_i$$$ should be divisible by $$$r - l + 1$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$1 \\le n \\le 100\\,000$$$): the number of elements of the array. The second line contains $$$n$$$ elements of an array $$$a$$$ separated by spaces: $$$a_1, a_2, \\dots, a_n$$$ ($$$-10^9 \\le a_i \\le 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_001.jsonl",
+    "code_uid": "c1a8e9760d34fbeeca7152c0cd339db0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 3 2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding: utf-8 -*-\n\nimport sys\n# sys.setrecursionlimit(10**6)\n# buff_readline = sys.stdin.buffer.readline\nbuff_readline = sys.stdin.readline\nreadline = sys.stdin.readline\n\nINF = 2**62-1\n\n\ndef read_int():\n    return int(buff_readline())\n\n\ndef read_int_n():\n    return list(map(int, buff_readline().split()))\n\n\ndef read_float():\n    return float(buff_readline())\n\n\ndef read_float_n():\n    return list(map(float, buff_readline().split()))\n\n\ndef read_str():\n    return readline().strip()\n\n\ndef read_str_n():\n    return readline().strip().split()\n\ndef error_print(*args):\n    print(*args, file=sys.stderr)\n\n\ndef mt(f):\n    import time\n\n    def wrap(*args, **kwargs):\n        s = time.time()\n        ret = f(*args, **kwargs)\n        e = time.time()\n\n        error_print(e - s, 'sec')\n        return ret\n\n    return wrap\n\n\ndef divisor(n):\n    for i in range(1, int(n**0.5)+1):\n        if n % i == 0:\n            yield i\n            if i != n // i:\n                yield n // i\n\n\n@mt\ndef slv(N, A):\n\n\n    if N == 1:\n        print(1, 1)\n        print(-A[0])\n\n        print(1, 1)\n        print(0)\n\n        print(1, 1)\n        print(0)\n\n        return\n\n    a = A[:]\n    na = a[:]\n    error_print([-na[i] % N for i in range(N)])\n    for i in range(N-1):\n        if a[i] > 0:\n            na[i] = a[i] + (a[i] % N) * (N-1)\n        else:\n            na[i] = a[i] - (N - (a[i] % N)) * (N-1)\n    print(1, N-1)\n    print(*[na[i] - a[i] for i in range(N-1)])\n\n\n    a = na[:]\n    for i in range(N-1, N):\n        if a[i] > 0:\n            na[i] = a[i] - (a[i] % N)\n        else:\n            na[i] = a[i] - (a[i] % N)\n    print(N, N)\n    print(*[na[i] - a[i] for i in range(N-1, N)])\n\n    print(1, N)\n    print(*[-na[i] for i in range(N)])\n\n    error_print(na)\n    error_print([-na[i]%N for i in range(N)])\n\n\n\ndef main():\n    N = read_int()\n    A = read_int_n()\n    slv(N, A)\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1598798100",
+    "tags": [
+        "constructive algorithms",
+        "number theory",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

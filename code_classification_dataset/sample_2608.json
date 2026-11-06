@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"9\", \"0\", \"299997\"]",
+    "src_uid": "cabb7edf51f32c94415d580b96eef7b7",
+    "prob_desc_notes": "NoteThe notation $$$(i,j)$$$ denotes a scenario where Alice starts at cell $$$i$$$ and ends at cell $$$j$$$.In the first example, the valid scenarios are $$$(1, 2), (2, 1), (2, 2), (2, 3), (3, 2), (3, 3), (3, 4), (4, 3), (4, 5)$$$. For example, $$$(3,4)$$$ is valid since Alice can start at cell $$$3$$$, stay there for the first three questions, then move to cell $$$4$$$ after the last question. $$$(4,5)$$$ is valid since Alice can start at cell $$$4$$$, stay there for the first question, the move to cell $$$5$$$ for the next two questions. Note that $$$(4,5)$$$ is only counted once, even though there are different questions that Alice can choose to do the move, but remember, we only count each pair of starting and ending positions once.In the second example, Alice has no valid scenarios.In the last example, all $$$(i,j)$$$ where $$$|i-j| \\leq 1$$$ except for $$$(42, 42)$$$ are valid scenarios.",
+    "prob_desc_description": "Alice and Bob are playing a game on a line with $$$n$$$ cells. There are $$$n$$$ cells labeled from $$$1$$$ through $$$n$$$. For each $$$i$$$ from $$$1$$$ to $$$n-1$$$, cells $$$i$$$ and $$$i+1$$$ are adjacent.Alice initially has a token on some cell on the line, and Bob tries to guess where it is. Bob guesses a sequence of line cell numbers $$$x_1, x_2, \\ldots, x_k$$$ in order. In the $$$i$$$-th question, Bob asks Alice if her token is currently on cell $$$x_i$$$. That is, Alice can answer either \"YES\" or \"NO\" to each Bob's question.At most one time in this process, before or after answering a question, Alice is allowed to move her token from her current cell to some adjacent cell. Alice acted in such a way that she was able to answer \"NO\" to all of Bob's questions.Note that Alice can even move her token before answering the first question or after answering the last question. Alice can also choose to not move at all.You are given $$$n$$$ and Bob's questions $$$x_1, \\ldots, x_k$$$. You would like to count the number of scenarios that let Alice answer \"NO\" to all of Bob's questions. Let $$$(a,b)$$$ denote a scenario where Alice starts at cell $$$a$$$ and ends at cell $$$b$$$. Two scenarios $$$(a_i, b_i)$$$ and $$$(a_j, b_j)$$$ are different if $$$a_i \\neq a_j$$$ or $$$b_i \\neq b_j$$$.",
+    "prob_desc_output_spec": "Print a single integer, the number of scenarios that let Alice answer \"NO\" to all of Bob's questions.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\leq n,k \\leq 10^5$$$) — the number of cells and the number of questions Bob asked. The second line contains $$$k$$$ integers $$$x_1, x_2, \\ldots, x_k$$$ ($$$1 \\leq x_i \\leq n$$$) — Bob's questions.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_026.jsonl",
+    "code_uid": "11c86b36666fdda7358c622ab76c7b33",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n5 1 4\", \"4 8\\n1 2 3 4 4 3 2 1\", \"100000 1\\n42\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = list(map(int, input().split()))\nx = list(map(int, input().split()))\n\nml = []\nfor i in range(n):\n    ml.append([])\n\nfor i in range(k):\n    ml[x[i]-1] += [i+1]\n\nc = 0\n\nfor i in range(n):\n    if not ml[i]:\n        c += 1\n    if i != 0:\n        if not ml[i] or not ml[i-1] or min(ml[i]) > max(ml[i-1]):\n            c += 1\n    if i != n-1:\n        if not ml[i] or not ml[i+1] or min(ml[i]) > max(ml[i+1]):\n            c += 1\n\nprint(c)\n",
+    "prob_desc_created_at": "1556989500",
+    "tags": [
+        "implementation",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

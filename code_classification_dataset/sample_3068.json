@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n4 1\", \"-1\"]",
+    "src_uid": "b8bb5a361ce643f591c37d70336532c9",
+    "prob_desc_notes": "NoteIn the first example we can move stone from point 4 to point 1 because this points are connected by the diagonal of color 'a' and the diagonal connection point 2 and 3, where the other stones are located, are connected by the diagonal of the same color. After that stones will be on the points 1, 2 and 3.",
+    "prob_desc_description": "You are playing the following game. There are n points on a plane. They are the vertices of a regular n-polygon. Points are labeled with integer numbers from 1 to n. Each pair of distinct points is connected by a diagonal, which is colored in one of 26 colors. Points are denoted by lowercase English letters. There are three stones positioned on three distinct vertices. All stones are the same. With one move you can move the stone to another free vertex along some diagonal. The color of this diagonal must be the same as the color of the diagonal, connecting another two stones. Your goal is to move stones in such way that the only vertices occupied by stones are 1, 2 and 3. You must achieve such position using minimal number of moves. Write a program which plays this game in an optimal way.",
+    "prob_desc_output_spec": "If there is no way to put stones on vertices 1, 2 and 3, print -1 on a single line. Otherwise, on the first line print minimal required number of moves and in the next lines print the description of each move, one move per line. To describe a move print two integers. The point from which to remove the stone, and the point to which move the stone. If there are several optimal solutions, print any of them.",
+    "prob_desc_input_spec": "In the first line there is one integer n (3 ≤ n ≤ 70) — the number of points. In the second line there are three space-separated integer from 1 to n — numbers of vertices, where stones are initially located. Each of the following n lines contains n symbols — the matrix denoting the colors of the diagonals. Colors are denoted by lowercase English letters. The symbol j of line i denotes the color of diagonal between points i and j. Matrix is symmetric, so j-th symbol of i-th line is equal to i-th symbol of j-th line. Main diagonal is filled with '*' symbols because there is no diagonal, connecting point to itself.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_040.jsonl",
+    "code_uid": "0d38110bb8f6eca1d47d9c71c940f9b5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 3 4\\n*aba\\na*ab\\nba*b\\nabb*\", \"4\\n2 3 4\\n*abc\\na*ab\\nba*b\\ncbb*\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\n\n__author__ = 'asmn'\n\nn = int(input())\nend = tuple(sorted(map(lambda x: int(x) - 1, input().split())))\nst = (0, 1, 2)\nmat = [input() for i in range(n)]\nv = set([st])\npath = {}\ndist = {st: 0}\nqueue = deque([st])\n\nwhile end not in v and len(queue) > 0:\n    p = queue.popleft()\n\n    for x in range(-2, 1):\n        p1, p2, p3 = p[x], p[x + 1], p[x + 2]\n        for i in range(n):\n            if i not in (p1, p2, p3) and mat[i][p3] == mat[p1][p2]:\n                np = tuple(sorted((p1, p2, i)))\n                if np not in v:\n                    v.add(np)\n                    queue.append(np)\n                    path[np] = p\n                    dist[np] = dist[p] + 1\n\n\ndef pathinfo(fr, to):\n    return str((set(fr) - set(to)).pop() + 1) + ' ' + str((set(to) - set(fr)).pop() + 1)\n\n\nif end not in dist:\n    print(-1)\n    exit()\n\nprint(dist[end])\nwhile end in path:\n    print(pathinfo(end, path[end]))\n    end = path[end]\n",
+    "prob_desc_created_at": "1389906900",
+    "tags": [
+        "dp",
+        "implementation",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

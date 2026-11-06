@@ -1,0 +1,23 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"220\", \"190\", \"0\"]",
+    "src_uid": "deb4bc17d8a09e617bacbc07f7181d0b",
+    "prob_desc_notes": "NoteIn the first sample, there are 4 registered users and Limak wants a tie between at least 3 of them. Limak should behave as follows.  He spends 100 minutes to read one blog of the 4-th user and increase his contribution from 1 to 6.  Then he spends 4·30 = 120 minutes to read four comments of the 2-nd user and increase his contribution from 2 to 6 (four times it was increaded by 1). In the given scenario, Limak spends 100 + 4·30 = 220 minutes and after that each of users 2, 3, 4 has contribution 6.In the second sample, Limak needs 30 minutes to read a blog and 100 minutes to read a comment. This time he can get 3 users with contribution equal to 12 by spending 100 + 3·30 = 190 minutes:  Spend 2·30 = 60 minutes to read two blogs of the 1-st user to increase his contribution from 2 to 12.  Spend 30 + 100 minutes to read one blog and one comment of the 3-rd user. His contribution will change from 6 to 6 + 5 + 1 = 12. ",
+    "prob_desc_description": "Codeforces is a wonderful platform and one its feature shows how much someone contributes to the community. Every registered user has contribution — an integer number, not necessarily positive. There are n registered users and the i-th of them has contribution ti.Limak is a little polar bear and he's new into competitive programming. He doesn't even have an account in Codeforces but he is able to upvote existing blogs and comments. We assume that every registered user has infinitely many blogs and comments.  Limak can spend b minutes to read one blog and upvote it. Author's contribution will be increased by 5.  Limak can spend c minutes to read one comment and upvote it. Author's contribution will be increased by 1. Note that it's possible that Limak reads blogs faster than comments.Limak likes ties. He thinks it would be awesome to see a tie between at least k registered users. To make it happen he is going to spend some time on reading and upvoting. After that, there should exist an integer value x that at least k registered users have contribution exactly x.How much time does Limak need to achieve his goal?",
+    "prob_desc_output_spec": "Print the minimum number of minutes Limak will spend to get a tie between at least k registered users.",
+    "prob_desc_input_spec": "The first line contains four integers n, k, b and c (2 ≤ k ≤ n ≤ 200 000, 1 ≤ b, c ≤ 1000) — the number of registered users, the required minimum number of users with the same contribution, time needed to read and upvote a blog, and time needed to read and upvote a comment, respectively. The second line contains n integers t1, t2, ..., tn (|ti| ≤ 109) where ti denotes contribution of the i-th registered user.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_010.jsonl",
+    "code_uid": "2bff187ea3a443135e6462faf06d1b4a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3 100 30\\n12 2 6 1\", \"4 3 30 100\\n12 2 6 1\", \"6 2 987 789\\n-8 42 -4 -65 -8 -8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#\n# http://codeforces.com/problemset/problem/658/E\nimport sys\nimport heapq\n\n\ndef read_line():\n    return next(sys.stdin).strip()\n\n\ndef read_ints():\n    return map(int, read_line().split())\n\n\ndef case1():\n    s = sum(A[K - 1] - v for v in A[:K])\n    yield s * C\n\n    for i in xrange(K, N):\n        s += (K - 1) * A[i] - K * A[i - 1] + A[i - K]\n        yield s * C\n\n\ndef case2():\n    def round(x):\n        return x + (r - x) % 5\n\n    def val(v):\n        return round(v) * B - (round(v) - v) * C * 5\n\n    for r in xrange(5):\n        heap = map(val, A[:K])\n        heapq.heapify(heap)\n\n        s = sum(heap)\n        yield (round(A[K - 1]) * K * B - s) // 5\n\n        for v in A[K:]:\n            s += val(v) - heapq.heappushpop(heap, val(v))\n            yield (round(v) * K * B - s) // 5\n\n\nN, K, B, C = read_ints()\nA = sorted(read_ints())\ncase = case1 if B >= 5 * C else case2\nprint min(case())\n",
+    "prob_desc_created_at": "1459182900",
+    "tags": [],
+    "hidden_unit_tests": ""
+}

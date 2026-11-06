@@ -1,0 +1,23 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\", \"No\"]",
+    "src_uid": "6aea921117003a03e6b6dc6f8d59f753",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Limak is a little bear who learns to draw. People usually start with houses, fences and flowers but why would bears do it? Limak lives in the forest and he decides to draw a tree.Recall that tree is a connected graph consisting of n vertices and n - 1 edges.Limak chose a tree with n vertices. He has infinite strip of paper with two parallel rows of dots. Little bear wants to assign vertices of a tree to some n distinct dots on a paper so that edges would intersect only at their endpoints — drawn tree must be planar. Below you can see one of correct drawings for the first sample test.  Is it possible for Limak to draw chosen tree?",
+    "prob_desc_output_spec": "Print \"Yes\" (without the quotes) if Limak can draw chosen tree. Otherwise, print \"No\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains single integer n (1 ≤ n ≤ 105). Next n - 1 lines contain description of a tree. i-th of them contains two space-separated integers ai and bi (1 ≤ ai, bi ≤ n, ai ≠ bi) denoting an edge between vertices ai and bi. It's guaranteed that given description forms a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_071.jsonl",
+    "code_uid": "6af4b3ac39ad91168b3f59825473b983",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n1 2\\n1 3\\n1 6\\n6 4\\n6 7\\n6 5\\n7 8\", \"13\\n1 2\\n1 3\\n1 4\\n2 5\\n2 6\\n2 7\\n3 8\\n3 9\\n3 10\\n4 11\\n4 12\\n4 13\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import Counter\n\n\ndef tree(n, E):\n    N = {i:set() for i in range(1, n+1)}\n    for a, b in E:\n        N[a].add(b)\n        N[b].add(a)\n\n    if max(len(s) for s in N.values()) <= 2:\n        return True\n\n    D = set()\n    L = Counter()\n    for n, s in N.items():\n        if len(s) > 1:\n            continue\n        D.add(n)\n        p, n = n, next(iter(s))\n        s = N[n]\n        while len(s) == 2:\n            D.add(n)\n            p, n = n, next(m for m in s if m != p)\n            s = N[n]\n        L[n] += 1\n\n    for n, s in N.items():\n        if n in D:\n            continue\n        if L[n] == 2 and len(s) == 3:\n            D.add(n)\n\n    for n, s in N.items():\n        if n in D:\n            continue\n        if sum(1 for m in s if m not in D) > 2:\n            return False\n\n    return True\n\n\ndef pe():\n    a, b = map(int, input().split())\n    return a, b\n\n\ndef main():\n    n = int(input())\n    E = [pe() for _ in range(n-1)]\n    print('Yes' if tree(n, E) else 'No')\n\n##########\n\nimport sys\nimport time\nimport traceback\nfrom contextlib import contextmanager\nfrom io import StringIO\n\ndef log(*args, **kwargs):\n    print(*args, **kwargs, file=sys.stderr)\n\n\n@contextmanager\ndef patchio(i):\n    try:\n        sys.stdin = StringIO(i)\n        sys.stdout = StringIO()\n        yield sys.stdout\n    finally:\n        sys.stdin = sys.__stdin__\n        sys.stdout = sys.__stdout__\n\n\ndef do_test(k, test):\n    try:\n        log(f\"TEST {k}\")\n        i, o = test\n        with patchio(i) as r:\n            t0 = time.time()\n            main()\n            t1 = time.time()\n        if r.getvalue() == o:\n            log(f\"OK ({int((t1-t0)*1000000)/1000:0.3f} ms)\\n\")\n        else:\n            log(f\"Expected:\\n{o}\"\n                f\"Got ({int((t1-t0)*1000000)/1000:0.3f} ms):\\n{r.getvalue()}\")\n    except Exception:\n        traceback.print_exc()\n        log()\n\n\ndef test(ts):\n    for k in ts or range(len(tests)):\n        do_test(k, tests[k])\n\n\ntests = [(\"\"\"\\\n8\n1 2\n1 3\n1 6\n6 4\n6 7\n6 5\n7 8\n\"\"\", \"\"\"\\\nYes\n\"\"\"), (\"\"\"\\\n13\n1 2\n1 3\n1 4\n2 5\n2 6\n2 7\n3 8\n3 9\n3 10\n4 11\n4 12\n4 13\n\"\"\", \"\"\"\\\nNo\n\"\"\")]\n\n\nif __name__ == '__main__':\n    from argparse import ArgumentParser\n    parser = ArgumentParser()\n    parser.add_argument('--test', '-t', type=int, nargs='*')\n    args = parser.parse_args()\n    main() if args.test is None else test(args.test)\n",
+    "prob_desc_created_at": "1440865800",
+    "tags": [],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"2\"]",
+    "src_uid": "c768f3e52e562ae1fd47502a60dbadfe",
+    "prob_desc_notes": "NoteIt the first sample the string is already beautiful.In the second sample he needs to delete one of \"b\" to make it beautiful.",
+    "prob_desc_description": "One day Nikita found the string containing letters \"a\" and \"b\" only. Nikita thinks that string is beautiful if it can be cut into 3 strings (possibly empty) without changing the order of the letters, where the 1-st and the 3-rd one contain only letters \"a\" and the 2-nd contains only letters \"b\".Nikita wants to make the string beautiful by removing some (possibly none) of its characters, but without changing their order. What is the maximum length of the string he can get?",
+    "prob_desc_output_spec": "Print a single integer — the maximum possible size of beautiful string Nikita can get.",
+    "prob_desc_input_spec": "The first line contains a non-empty string of length not greater than 5 000 containing only lowercase English letters \"a\" and \"b\". ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_004.jsonl",
+    "code_uid": "3ee5e17124170eacc0bf5eb4dc769393",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"abba\", \"bab\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n\nS = input()\nN = len(S)\nT = [[0]*(N+1) for _ in range(3)]\nfor i in range(1,N+1):\n    T[0][i] = T[0][i-1] + int(S[i-1]=='a')\n    T[1][i] = max(T[1][i-1] + int(S[i-1]=='b'), T[0][i])\n    T[2][i] = max(T[2][i-1] + int(S[i-1]=='a'), T[1][i], T[0][i])\nprint(T[2][N])\n",
+    "prob_desc_created_at": "1508773500",
+    "tags": [
+        "dp",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

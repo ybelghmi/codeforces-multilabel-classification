@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"0\", \"147\"]",
+    "src_uid": "3da5075048a127319ffa8913859d2aa7",
+    "prob_desc_notes": "NoteFor the first example, we have $$$c_1=a_1\\&amp; b_2=0$$$, $$$c_2=a_2\\&amp; b_1=2$$$, $$$c_3=a_3\\&amp; b_1=0$$$, $$$c_4 = a_4\\&amp; b_1=0$$$.Thus $$$c_1 | c_2 | c_3 |c_4 =2$$$, and this is the minimal answer we can get.",
+    "prob_desc_description": "Boboniu likes bit operations. He wants to play a game with you.Boboniu gives you two sequences of non-negative integers $$$a_1,a_2,\\ldots,a_n$$$ and $$$b_1,b_2,\\ldots,b_m$$$.For each $$$i$$$ ($$$1\\le i\\le n$$$), you're asked to choose a $$$j$$$ ($$$1\\le j\\le m$$$) and let $$$c_i=a_i\\&amp; b_j$$$, where $$$\\&amp;$$$ denotes the bitwise AND operation. Note that you can pick the same $$$j$$$ for different $$$i$$$'s.Find the minimum possible $$$c_1 | c_2 | \\ldots | c_n$$$, where $$$|$$$ denotes the bitwise OR operation.",
+    "prob_desc_output_spec": "Print one integer: the minimum possible $$$c_1 | c_2 | \\ldots | c_n$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1\\le n,m\\le 200$$$). The next line contains $$$n$$$ integers $$$a_1,a_2,\\ldots,a_n$$$ ($$$0\\le a_i &lt; 2^9$$$). The next line contains $$$m$$$ integers $$$b_1,b_2,\\ldots,b_m$$$ ($$$0\\le b_i &lt; 2^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_000.jsonl",
+    "code_uid": "7077eb6febaec1fc27ba339ad19e5da8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n2 6 4 0\\n2 4\", \"7 6\\n1 9 1 9 8 1 0\\n1 1 4 5 1 4\", \"8 5\\n179 261 432 162 82 43 10 38\\n379 357 202 184 197\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "input()\na = [*map(int, input().split())]\nb = [*map(int, input().split())]\nfor x in range(512):\n r=1\n for v in a:r&=any(v&j|x==x for j in b)\n if r:\n  print(x);break",
+    "prob_desc_created_at": "1597242900",
+    "tags": [
+        "dp",
+        "bitmasks",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"3\"]",
+    "src_uid": "00c29b9f74b6564e41837704c24fc318",
+    "prob_desc_notes": "NoteNote that it's not important are clothes drying on the touching segments (e.g. (0, 1) and (1, 2)) considered to be touching or not because you need to find the length of segments.In the first test sample Alexey may use the only segment (0, 1). In such case his clothes will not touch clothes on the segments (1, 6) and (2, 8). The length of segment (0, 1) is 1.In the second test sample Alexey may dry his clothes on segments (0, 1) and (5, 7). Overall length of these segments is 3.",
+    "prob_desc_description": "Our old friend Alexey has finally entered the University of City N — the Berland capital. Alexey expected his father to get him a place to live in but his father said it was high time for Alexey to practice some financial independence. So, Alexey is living in a dorm. The dorm has exactly one straight dryer — a 100 centimeter long rope to hang clothes on. The dryer has got a coordinate system installed: the leftmost end of the dryer has coordinate 0, and the opposite end has coordinate 100. Overall, the university has n students. Dean's office allows i-th student to use the segment (li, ri) of the dryer. However, the dean's office actions are contradictory and now one part of the dryer can belong to multiple students!Alexey don't like when someone touch his clothes. That's why he want make it impossible to someone clothes touch his ones. So Alexey wonders: what is the total length of the parts of the dryer that he may use in a such way that clothes of the others (n - 1) students aren't drying there. Help him! Note that Alexey, as the most respected student, has number 1.",
+    "prob_desc_output_spec": "On a single line print a single number k, equal to the sum of lengths of the parts of the dryer which are inside Alexey's segment and are outside all other segments.",
+    "prob_desc_input_spec": "The first line contains a positive integer n (1 ≤ n ≤ 100). The (i + 1)-th line contains integers li and ri (0 ≤ li &lt; ri ≤ 100) — the endpoints of the corresponding segment for the i-th student.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": null,
+    "file_name": "train_002.jsonl",
+    "code_uid": "269bf7bfefcad7b8251487aab4aa2177",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0 5\\n2 8\\n1 6\", \"3\\n0 10\\n1 5\\n7 15\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nseta = set()\nax,ay = map(int, input().split(\" \"))\nfor i in range(ax,ay):\n    seta.add(i+0.5)\nfor i in range(0,n-1):\n    nx,ny = map(int, input().split(\" \"))\n    for j in range(nx,ny):\n        seta.discard(j+0.5)\nprint(len(seta))",
+    "prob_desc_created_at": "1393428600",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Yes\", \"No\"]",
+    "src_uid": "6478d3dda3cbbe146eb03627dd5cc75e",
+    "prob_desc_notes": "NoteIn the first example, we can perform the following synchronizations ($$$1$$$-indexed):  First, synchronize the third stone $$$[7, 2, \\mathbf{4}, 12] \\rightarrow [7, 2, \\mathbf{10}, 12]$$$.  Then synchronize the second stone: $$$[7, \\mathbf{2}, 10, 12] \\rightarrow [7, \\mathbf{15}, 10, 12]$$$. In the second example, any operation with the second stone will not change its charge.",
+    "prob_desc_description": "Grigory has $$$n$$$ magic stones, conveniently numbered from $$$1$$$ to $$$n$$$. The charge of the $$$i$$$-th stone is equal to $$$c_i$$$.Sometimes Grigory gets bored and selects some inner stone (that is, some stone with index $$$i$$$, where $$$2 \\le i \\le n - 1$$$), and after that synchronizes it with neighboring stones. After that, the chosen stone loses its own charge, but acquires the charges from neighboring stones. In other words, its charge $$$c_i$$$ changes to $$$c_i' = c_{i + 1} + c_{i - 1} - c_i$$$.Andrew, Grigory's friend, also has $$$n$$$ stones with charges $$$t_i$$$. Grigory is curious, whether there exists a sequence of zero or more synchronization operations, which transforms charges of Grigory's stones into charges of corresponding Andrew's stones, that is, changes $$$c_i$$$ into $$$t_i$$$ for all $$$i$$$?",
+    "prob_desc_output_spec": "If there exists a (possibly empty) sequence of synchronization operations, which changes all charges to the required ones, print \"Yes\". Otherwise, print \"No\".",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$) — the number of magic stones. The second line contains integers $$$c_1, c_2, \\ldots, c_n$$$ ($$$0 \\le c_i \\le 2 \\cdot 10^9$$$) — the charges of Grigory's stones. The second line contains integers $$$t_1, t_2, \\ldots, t_n$$$ ($$$0 \\le t_i \\le 2 \\cdot 10^9$$$) — the charges of Andrew's stones.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_008.jsonl",
+    "code_uid": "58de502b090b83212bbc336bb49dcb03",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n7 2 4 12\\n7 15 10 12\", \"3\\n4 4 4\\n1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\na = list(map(int,input().split()))\nb = list(map(int,input().split()))\nx = []\ny = []\nfor i in range(n-1):\n    x.append(a[i+1]-a[i])\nfor i in range(n-1):\n    y.append(b[i+1]-b[i])\nx.sort()\ny.sort()\n# print(x,y)\nif x == y and a[0] == b[0] and a[n-1] == b[n-1]:\n    print(\"Yes\")\nelse:\n    print(\"No\")\n",
+    "prob_desc_created_at": "1549546500",
+    "tags": [
+        "constructive algorithms",
+        "sortings",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

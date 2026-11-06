@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "18006c31aa5ca2c55d83f4222a6c7479",
+    "prob_desc_notes": "NoteIn the first example you can remove edge , and the graph becomes acyclic.In the second example you have to remove at least two edges (for example,  and ) in order to make the graph acyclic.",
+    "prob_desc_description": "You are given a directed graph consisting of n vertices and m edges (each edge is directed, so it can be traversed in only one direction). You are allowed to remove at most one edge from it.Can you make this graph acyclic by removing at most one edge from it? A directed graph is called acyclic iff it doesn't contain any cycle (a non-empty path that starts and ends in the same vertex).",
+    "prob_desc_output_spec": "If it is possible to make this graph acyclic by removing at most one edge, print YES. Otherwise, print NO.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (2 ≤ n ≤ 500, 1 ≤ m ≤ min(n(n - 1), 100000)) — the number of vertices and the number of edges, respectively. Then m lines follow. Each line contains two integers u and v denoting a directed edge going from vertex u to vertex v (1 ≤ u, v ≤ n, u ≠ v). Each ordered pair (u, v) is listed at most once (there is at most one directed edge from u to v).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_045.jsonl",
+    "code_uid": "896a65ccdfd6c3b904e09f3a6e124ed6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\n1 2\\n2 3\\n3 2\\n3 1\", \"5 6\\n1 2\\n2 3\\n3 2\\n3 1\\n2 1\\n4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\n\ndef my_solve(n, m, graph, mask):\n\tif do_dfs_bool(n,graph,mask.copy()):\n\t\tc = get_cyclic(n, graph, mask)\n\t\tfor u,v in c:\n\t\t\tgraph[u].remove(v)\n\t\t\tif not do_dfs_bool(n,graph,mask.copy()):\n\t\t\t\treturn 'YES'\n\t\t\tgraph[u].append(v)\n\t\treturn \"NO\"\n\treturn \"YES\"\n\ndef get_cyclic(n, graph, mask):\n\tc,v = do_dfs(n,graph,mask)\n\tpath = []\n\ti = 0\n\tbegin = False\n\tif c:\n\t\tfor u in c.keys():\n\t\t\tif c[u] == v:\n\t\t\t\tbegin = True\n\t\t\t\tpath.append((c[u],u))\n\t\t\telif begin:\n\t\t\t\tpath.append((c[u],u))\n\t\ttmp = list(c.keys())\n\t\tif len(tmp):\n\t\t\tpath.append((tmp[-1],v))\n\treturn path\n\ndef do_dfs_bool(n, graph, mask):\n\tcolors = [0]*(n+5)\n\tfor u in graph.keys():\n\t\tif not u in mask.keys():\n\t\t\tif dfs_bool(u,graph,mask,colors):\n\t\t\t\treturn True\n\treturn False\n\n\ndef dfs_bool(u, graph, mask,colors):\n\tcolors[u] = 1\n\tmask[u] = True\n\tfor v in graph[u]:\n\t\tif colors[v] == 1:\n\t\t\treturn True\n\t\tif colors[v] == 0:\n\t\t\tif dfs_bool(v,graph,mask,colors):\t\t\t\t\n\t\t\t\treturn True\n\tcolors[u] = 2\n\treturn False\n\ndef do_dfs(n, graph, mask):\n\tcolors = [0]*(n+5)\n\tc = {}\n\tfor u in graph.keys():\n\t\tif not u in mask.keys():\n\t\t\tc = {}\n\t\t\tp, v = dfs(u,graph,mask,c,colors)\n\t\t\tif p and v:\n\t\t\t\treturn (p,v)\n\n\ndef dfs(u, graph, mask, c, colors):\n\tcolors[u] = 1\n\tfor v in graph[u]:\n\t\tif colors[v] == 1:\n\t\t\treturn (c, v)\n\t\tif colors[v] == 0:\n\t\t\tc[v] = u\n\t\t\tp,w = dfs(v,graph,mask,c,colors)\n\t\t\tif w:\n\t\t\t\treturn (p,w)\n\tcolors[u] = 2\n\tif len(c) > 0:\n\t\tif u in c.keys():\n\t\t\tdel c[u]\n\treturn (c, None)\n\ndef test(n, m, edges):\n\tgraph = {}\n\tmask = {}\n\tfor u,v in edges:\n\t\tif u not in graph.keys():\n\t\t\tgraph[u] = []\n\t\tgraph[u].append(v)\n\t\tif v not in graph.keys():\n\t\t\tgraph[v] = []\n\treturn my_solve(n, m, graph, mask)\n\n\nif __name__ == '__main__':\n\tn,m = [int(x) for x in input().split()]\n\tedges = []\n\tfor i in range(0,m):\n\t\tu,v = [int(x) for x in input().split()]\n\t\tedges.append((u,v))\n\tprint(test(n, m, edges))",
+    "prob_desc_created_at": "1515848700",
+    "tags": [
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"fix\", \"Just a legend\"]",
+    "src_uid": "fd94aea7ca077ee2806653d22d006fb1",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Asterix, Obelix and their temporary buddies Suffix and Prefix has finally found the Harmony temple. However, its doors were firmly locked and even Obelix had no luck opening them.A little later they found a string s, carved on a rock below the temple's gates. Asterix supposed that that's the password that opens the temple and read the string aloud. However, nothing happened. Then Asterix supposed that a password is some substring t of the string s.Prefix supposed that the substring t is the beginning of the string s; Suffix supposed that the substring t should be the end of the string s; and Obelix supposed that t should be located somewhere inside the string s, that is, t is neither its beginning, nor its end.Asterix chose the substring t so as to please all his companions. Besides, from all acceptable variants Asterix chose the longest one (as Asterix loves long strings). When Asterix read the substring t aloud, the temple doors opened. You know the string s. Find the substring t or determine that such substring does not exist and all that's been written above is just a nice legend.",
+    "prob_desc_output_spec": "Print the string t. If a suitable t string does not exist, then print \"Just a legend\" without the quotes.",
+    "prob_desc_input_spec": "You are given the string s whose length can vary from 1 to 106 (inclusive), consisting of small Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_000.jsonl",
+    "code_uid": "369f90ccad156909f0a8cd31f86e4e5a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"fixprefixsuffix\", \"abcdabc\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput=sys.stdin.readline\nimport collections as cc\ns=input().strip()\nn=len(s)\ntemp=cc.Counter(s)\npre=[0]*(n)\ni=1\nj=0\nlst=-1\nwhile i<n:\n\tif(s[i]==s[j]):\n\t\tj+=1\n\t\tpre[i]=j\n\t\ti+=1\n\telse:\n\t\tif j:\n\t\t\tj=pre[j-1]\n\t\telse:\n\t\t\tpre[i]=0\n\t\t\ti+=1\npre[0]=0\n#print(pre)\ntemp=pre[-1]\nif pre[-1]!=0 and pre.count(temp)>=2:\n\tprint(''.join(s[:temp]))\nelif pre[-1]!=0 and pre[pre[-1]-1]>0:\n\tprint(''.join(s[:pre[pre[-1]-1]]))\nelse:\n\tprint('Just a legend')\n\n\t",
+    "prob_desc_created_at": "1320858000",
+    "tags": [
+        "dp",
+        "hashing",
+        "string suffix structures",
+        "binary search",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

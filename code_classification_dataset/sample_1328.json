@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"2\"]",
+    "src_uid": "94f1521ccc24cfb78469c81546346cd5",
+    "prob_desc_notes": "NoteIn the first sample case there is only one sum $$$1 + 2 = 3$$$.In the second sample case there are three sums: $$$1 + 2 = 3$$$, $$$1 + 3 = 4$$$, $$$2 + 3 = 5$$$. In binary they are represented as $$$011_2 \\oplus 100_2 \\oplus 101_2 = 010_2$$$, thus the answer is 2.$$$\\oplus$$$ is the bitwise xor operation. To define $$$x \\oplus y$$$, consider binary representations of integers $$$x$$$ and $$$y$$$. We put the $$$i$$$-th bit of the result to be 1 when exactly one of the $$$i$$$-th bits of $$$x$$$ and $$$y$$$ is 1. Otherwise, the $$$i$$$-th bit of the result is put to be 0. For example, $$$0101_2 \\, \\oplus \\, 0011_2 = 0110_2$$$.",
+    "prob_desc_description": "Catherine received an array of integers as a gift for March 8. Eventually she grew bored with it, and she started calculated various useless characteristics for it. She succeeded to do it for each one she came up with. But when she came up with another one — xor of all pairwise sums of elements in the array, she realized that she couldn't compute it for a very large array, thus she asked for your help. Can you do it? Formally, you need to compute$$$$$$ (a_1 + a_2) \\oplus (a_1 + a_3) \\oplus \\ldots \\oplus (a_1 + a_n) \\\\ \\oplus (a_2 + a_3) \\oplus \\ldots \\oplus (a_2 + a_n) \\\\ \\ldots \\\\ \\oplus (a_{n-1} + a_n) \\\\ $$$$$$Here $$$x \\oplus y$$$ is a bitwise XOR operation (i.e. $$$x$$$ ^ $$$y$$$ in many modern programming languages). You can read about it in Wikipedia: https://en.wikipedia.org/wiki/Exclusive_or#Bitwise_operation.",
+    "prob_desc_output_spec": "Print a single integer — xor of all pairwise sums of integers in the given array.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\leq n \\leq 400\\,000$$$) — the number of integers in the array. The second line contains integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\leq a_i \\leq 10^7$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_008.jsonl",
+    "code_uid": "ee98d3057ddb217fe13e6794f6262fe8",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 2\", \"3\\n1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io\nimport os\n\nfrom collections import deque, defaultdict, Counter\n\nfrom bisect import bisect_left, bisect_right\n\n\nDEBUG = False\n\n\ndef solveBrute(N, A):\n    ans = 0\n    for i in range(N):\n        for j in range(i + 1, N):\n            ans ^= A[i] + A[j]\n    return ans\n\n\ndef solve(N, A):\n    B = max(A).bit_length()\n    ans = 0\n    for k in range(B + 1):\n        # Count number of pairs with kth bit on (0 indexed)\n        # For example if k==2, want pairs where lower 3 bits are between 100 and 111 inclusive\n        # If we mask A to the lower 3 bits, we can find all pairs that sum to either 100 to 111 or overflowed to 1100 to 1111\n\n        MOD = 1 << (k + 1)\n        MASK = MOD - 1\n\n        # Sort by x & MASK incrementally\n        left = []\n        right = []\n        for x in A:\n            if (x >> k) & 1:\n                right.append(x)\n            else:\n                left.append(x)\n        A = left + right\n        arr = [x & MASK for x in A]\n        if DEBUG:\n            assert arr == sorted(arr)\n\n        numPairs = 0\n        tLo = 1 << k\n        tHi = (1 << (k + 1)) - 1\n\n        for targetLo, targetHi in [(tLo, tHi), (MOD + tLo, MOD + tHi)]:\n            # Want to binary search for y such that targetLo <= x + y <= targetHi\n            # But this TLE so walk the lo/hi pointers instead\n            lo = N\n            hi = N\n            for i, x in enumerate(arr):\n                lo = max(lo, i + 1)\n                hi = max(hi, lo)\n                while lo - 1 >= i + 1 and arr[lo - 1] >= targetLo - x:\n                    lo -= 1\n                while hi - 1 >= lo and arr[hi - 1] > targetHi - x:\n                    hi -= 1\n                numPairs += hi - lo\n\n                if DEBUG:\n                    # Check\n                    assert lo == bisect_left(arr, targetLo - x, i + 1)\n                    assert hi == bisect_right(arr, targetHi - x, lo)\n                    for j, y in enumerate(arr):\n                        cond = i < j and targetLo <= x + y <= targetHi\n                        if lo <= j < hi:\n                            assert cond\n                        else:\n                            assert not cond\n\n        ans += (numPairs % 2) << k\n\n    return ans\n\n\nif DEBUG:\n    import random\n\n    random.seed(0)\n    for i in range(100):\n        A = [random.randint(1, 1000) for i in range(100)]\n        N = len(A)\n        ans1 = solveBrute(N, A)\n        ans2 = solve(N, A)\n        print(A, bin(ans1), bin(ans2))\n        assert ans1 == ans2\nelse:\n    if False:\n        # Timing\n        import random\n\n        random.seed(0)\n        A = [random.randint(1, 10 ** 7) for i in range(400000)]\n        N = len(A)\n        print(solve(N, A))\n\n\nif __name__ == \"__main__\":\n    (N,) = list(map(int, input().split()))\n    A = list(map(int, input().split()))\n    ans = solve(N, A)\n    print(ans)\n",
+    "prob_desc_created_at": "1583573700",
+    "tags": [
+        "binary search",
+        "bitmasks",
+        "sortings",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

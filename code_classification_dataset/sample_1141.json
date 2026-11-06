@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"bcdefghijklmnopqrsatuvwxyz\", \"Impossible\", \"aghjlnopefikdmbcqrstuvwxyz\", \"acbdefhijklmnogpqrstuvwxyz\"]",
+    "src_uid": "12218097cf5c826d83ab11e5b049999f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Fox Ciel is going to publish a paper on FOCS (Foxes Operated Computer Systems, pronounce: \"Fox\"). She heard a rumor: the authors list on the paper is always sorted in the lexicographical order. After checking some examples, she found out that sometimes it wasn't true. On some papers authors' names weren't sorted in lexicographical order in normal sense. But it was always true that after some modification of the order of letters in alphabet, the order of authors becomes lexicographical!She wants to know, if there exists an order of letters in Latin alphabet such that the names on the paper she is submitting are following in the lexicographical order. If so, you should find out any such order.Lexicographical order is defined in following way. When we compare s and t, first we find the leftmost position with differing characters: si ≠ ti. If there is no such position (i. e. s is a prefix of t or vice versa) the shortest string is less. Otherwise, we compare characters si and ti according to their order in alphabet.",
+    "prob_desc_output_spec": "If there exists such order of letters that the given names are sorted lexicographically, output any such order as a permutation of characters 'a'–'z' (i. e. first output the first letter of the modified alphabet, then the second, and so on). Otherwise output a single word \"Impossible\" (without quotes).",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 100): number of names. Each of the following n lines contain one string namei (1 ≤ |namei| ≤ 100), the i-th name. Each name contains only lowercase Latin letters. All names are different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_006.jsonl",
+    "code_uid": "985dff6833c2e9ba3cd6fee94083193f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\nrivest\\nshamir\\nadleman\", \"10\\ntourist\\npetr\\nwjmzbmr\\nyeputons\\nvepifanov\\nscottwu\\noooooooooooooooo\\nsubscriber\\nrowdark\\ntankengineer\", \"10\\npetr\\negor\\nendagorion\\nfeferivan\\nilovetanyaromanova\\nkostka\\ndmitriyh\\nmaratsnowbear\\nbredorjaguarturnik\\ncgyforever\", \"7\\ncar\\ncare\\ncareful\\ncarefully\\nbecarefuldontforgetsomething\\notherwiseyouwillbehacked\\ngoodluck\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def go_through(given_char):\n    global order\n    global freq\n    global orders\n    if given_char in orders:\n        while orders[given_char]:\n            next_letter = orders[given_char].pop()\n            freq[next_letter] = freq[next_letter] - 1\n            go_through(next_letter)\n    if given_char not in order:\n        order.append(given_char)\n\n\nnum_names = int(input())\n\nnames = []\nfor _ in range(num_names):\n    curr_name = input()\n    names.append(curr_name)\n\nprev_name = names[0]\npossible = True\norders = {}\nfreq = {}\nchange_letters = set()\nfreq[prev_name[0]] = 0\nfor index in range(1, len(names)):\n    name = names[index]\n    char_index = 0\n    while char_index < len(name) and char_index < len(prev_name) and (name[char_index] == prev_name[char_index]):\n        # char at index match prev\n        # don't go over length of curr word\n        char_index += 1\n    # we have either surpassed one of words or found a non-matching character\n    if char_index < len(name) and char_index < len(prev_name):\n        # We haven't surpassed either word; found a non-matching character\n        previous_char = prev_name[char_index]\n        curr_char = name[char_index]\n        if previous_char in orders:\n            orders[previous_char].add(curr_char)\n        else:\n            orders[previous_char] = {curr_char}\n        if curr_char in freq:\n            freq[curr_char] = freq[curr_char] + 1\n        else:\n            freq[curr_char] = 1\n        change_letters.add(previous_char)\n        change_letters.add(curr_char)\n        prev_name = name\n    elif len(prev_name) > len(name):\n        # Previous longer and matched\n        possible = False\n        break\n\nif not possible:\n    print(\"Impossible\")\nelse:\n    order = []\n    dependent_chars = list(orders.keys())\n    for char in dependent_chars:\n        curr_freq = 0\n        if char in freq:\n            curr_freq = freq[char]\n        if curr_freq <= 0:\n            go_through(char)\n\n    if len(order) is not len(change_letters):\n        print(\"Impossible\")\n\n    else:\n        order = list(reversed(order))\n        for char in range(ord('a'), ord('z') + 1):\n            character = chr(char)\n            if character not in order:\n                order.append(character)\n\n        for char in order:\n            print(char, end=\"\")\n",
+    "prob_desc_created_at": "1422894600",
+    "tags": [
+        "sortings",
+        "graphs",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

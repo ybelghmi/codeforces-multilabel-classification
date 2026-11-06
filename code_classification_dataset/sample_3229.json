@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3 1 5 4 2\", \"2 2 2 9\", \"-1\"]",
+    "src_uid": "46096413faf7d9f845131d9e48bd8401",
+    "prob_desc_notes": "NoteSequence b which was found in the second sample is suitable, because calculated sequence c = [2 - 3, 2 - 4, 2 - 8, 9 - 9] = [ - 1,  - 2,  - 6, 0] (note that ci = bi - ai) has compressed sequence equals to p = [3, 2, 1, 4].",
+    "prob_desc_description": "Dasha logged into the system and began to solve problems. One of them is as follows:Given two sequences a and b of length n each you need to write a sequence c of length n, the i-th element of which is calculated as follows: ci = bi - ai.About sequences a and b we know that their elements are in the range from l to r. More formally, elements satisfy the following conditions: l ≤ ai ≤ r and l ≤ bi ≤ r. About sequence c we know that all its elements are distinct.  Dasha wrote a solution to that problem quickly, but checking her work on the standard test was not so easy. Due to an error in the test system only the sequence a and the compressed sequence of the sequence c were known from that test.Let's give the definition to a compressed sequence. A compressed sequence of sequence c of length n is a sequence p of length n, so that pi equals to the number of integers which are less than or equal to ci in the sequence c. For example, for the sequence c = [250, 200, 300, 100, 50] the compressed sequence will be p = [4, 3, 5, 2, 1]. Pay attention that in c all integers are distinct. Consequently, the compressed sequence contains all integers from 1 to n inclusively.Help Dasha to find any sequence b for which the calculated compressed sequence of sequence c is correct.",
+    "prob_desc_output_spec": "If there is no the suitable sequence b, then in the only line print \"-1\". Otherwise, in the only line print n integers — the elements of any suitable sequence b.",
+    "prob_desc_input_spec": "The first line contains three integers n, l, r (1 ≤ n ≤ 105, 1 ≤ l ≤ r ≤ 109) — the length of the sequence and boundaries of the segment where the elements of sequences a and b are. The next line contains n integers a1,  a2,  ...,  an (l ≤ ai ≤ r) — the elements of the sequence a. The next line contains n distinct integers p1,  p2,  ...,  pn (1 ≤ pi ≤ n) — the compressed sequence of the sequence c.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_048.jsonl",
+    "code_uid": "a6f7191abfc9956f5a7a6c7de5942ad3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 1 5\\n1 1 1 1 1\\n3 1 5 4 2\", \"4 2 9\\n3 4 8 9\\n3 2 1 4\", \"6 1 5\\n1 1 1 1 1 1\\n2 3 5 4 1 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def solve():\n  n, l, r = map(int, raw_input().split(\" \"))\n  a = map(int, raw_input().split(\" \"))\n  p = map(int, raw_input().split(\" \"))\n  zip_p_a = sorted(zip(p, a))\n  c = []\n  for pt, at in zip_p_a:\n    if c:\n      c_1 = c[-1]\n      c_1 += 1\n      c_1 = max(c_1, l - at)\n    else:\n      c_1 = l - at\n    c.append(c_1)\n  b = map(lambda y, x: x + y, [a[1] for a in zip_p_a], c)\n  if filter(lambda x:x > r,b):\n    return -1\n  else:\n    return \" \".join(str(b[p[i] - 1]) for i in xrange(n))\nprint solve()",
+    "prob_desc_created_at": "1485873300",
+    "tags": [
+        "greedy",
+        "constructive algorithms",
+        "sortings",
+        "binary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

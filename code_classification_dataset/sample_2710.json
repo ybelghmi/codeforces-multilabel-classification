@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"9\", \"0\", \"2\", \"735945883\"]",
+    "src_uid": "a393e63c1d9fcdb7b0e8d525a1f1b8dd",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Let's denote that some array $$$b$$$ is bad if it contains a subarray $$$b_l, b_{l+1}, \\dots, b_{r}$$$ of odd length more than $$$1$$$ ($$$l &lt; r$$$ and $$$r - l + 1$$$ is odd) such that $$$\\forall i \\in \\{0, 1, \\dots, r - l\\}$$$ $$$b_{l + i} = b_{r - i}$$$.If an array is not bad, it is good.Now you are given an array $$$a_1, a_2, \\dots, a_n$$$. Some elements are replaced by $$$-1$$$. Calculate the number of good arrays you can obtain by replacing each $$$-1$$$ with some integer from $$$1$$$ to $$$k$$$.Since the answer can be large, print it modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Print one integer — the number of good arrays you can get, modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$2 \\le n, k \\le 2 \\cdot 10^5$$$) — the length of array $$$a$$$ and the size of \"alphabet\", i. e., the upper bound on the numbers you may use to replace $$$-1$$$. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$a_i = -1$$$ or $$$1 \\le a_i \\le k$$$) — the array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_029.jsonl",
+    "code_uid": "722aaf0fddb2f59f5267e04f740bd9cd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\n-1 -1\", \"5 2\\n1 -1 -1 1 2\", \"5 3\\n1 -1 -1 1 2\", \"4 200000\\n-1 -1 12345 -1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "input1 = input('').split(' ')\nk = int(input1.pop())\nn = int(input1.pop())\ninput2 = input('').split(' ')\nlis11 = []\nlis12 = []\nlis21 = []\nlis22 = []\nlisk = []\nlong = 0\nop = 1\nfor i in range(n):\n    if i % 2 == 0:\n        lis11.append(int(input2[i]))\n    else:\n        lis12.append(int(input2[i]))\ntong = [0,1,k-1]\nyi = [0,1,k-2]\nfor i in range((n+1)//2):\n    if lis11[i] != -1:\n        lis21.append(i)\n        if len(lis21)>1:\n            if (i-lis21[-2]) > long:\n                long = i-lis21[-2]\n    if (i>0) & (lis11[i]>0):\n        if lis11[i-1] == lis11[i]:\n            lisk.append(0)\nfor i in range(n//2):\n    if lis12[i] != -1:\n        lis22.append(i)\n        if len(lis22)>1: \n            if (i-lis22[-2]) > long:\n                long = i-lis22[-2]\n    if (i>0) & (lis12[i]>0):\n        if lis12[i-1] == lis12[i]:\n            lisk.append(0)\nfor i in range(3,long+1):\n    tong.append(int(yi[i-1])*(k-1)%998244353)\n    yi.append((int(yi[i-1])*(k-2)+tong[i-1])%998244353)\nif lis21:\n    for i in range(lis21[0] - lis21[-1] + (n+1)//2 - 1):\n        lisk.append(k-1)\n    for i in range(1,len(lis21)):\n        if lis11[lis21[i]] == lis11[lis21[i-1]]:\n            lisk.append(tong[lis21[i]-lis21[i-1]])\n        else:\n            lisk.append(yi[lis21[i]-lis21[i-1]])\nelse:\n    lisk.append(k)\n    for i in range(1,(n+1)//2):\n        lisk.append(k-1)\nif lis22:\n    for i in range(lis22[0] - lis22[-1] + n//2 - 1):\n        lisk.append(k-1)\n    for i in range(1,len(lis22)):\n        if lis12[lis22[i]] == lis12[lis22[i-1]]:\n            lisk.append(tong[lis22[i]-lis22[i-1]])\n        else:\n            lisk.append(yi[lis22[i]-lis22[i-1]])\nelse:\n    lisk.append(k)\n    for i in range(1,n//2):\n        lisk.append(k-1)\nif len(lisk) > 0:\n    for i in range(len(lisk)):\n            op = op * lisk[i] % 998244353\nprint(op)",
+    "prob_desc_created_at": "1553267100",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "divide and conquer"
+    ],
+    "hidden_unit_tests": ""
+}

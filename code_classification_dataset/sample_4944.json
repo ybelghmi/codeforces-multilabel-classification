@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"0 98 49 25 114\", \"0 -1 9\"]",
+    "src_uid": "abee4d188bb59d82fcf4579c7416a343",
+    "prob_desc_notes": "NoteThe graph in the first example looks like this.In the second example the path from $$$1$$$ to $$$3$$$ goes through $$$2$$$, so the resulting payment is $$$(1 + 2)^2 = 9$$$.",
+    "prob_desc_description": "There are $$$n$$$ cities and $$$m$$$ bidirectional roads in the country. The roads in the country form an undirected weighted graph. The graph is not guaranteed to be connected. Each road has it's own parameter $$$w$$$. You can travel through the roads, but the government made a new law: you can only go through two roads at a time (go from city $$$a$$$ to city $$$b$$$ and then from city $$$b$$$ to city $$$c$$$) and you will have to pay $$$(w_{ab} + w_{bc})^2$$$ money to go through those roads. Find out whether it is possible to travel from city $$$1$$$ to every other city $$$t$$$ and what's the minimum amount of money you need to get from $$$1$$$ to $$$t$$$.",
+    "prob_desc_output_spec": "For every city $$$t$$$ print one integer. If there is no correct path between $$$1$$$ and $$$t$$$ output $$$-1$$$. Otherwise print out the minimum amount of money needed to travel from $$$1$$$ to $$$t$$$.",
+    "prob_desc_input_spec": "First line contains two integers $$$n$$$, $$$m$$$ ($$$2 \\leq n \\leq 10^5$$$, $$$1 \\leq m \\leq min(\\frac{n \\cdot (n - 1)}{2}, 2 \\cdot 10^5)$$$). Next $$$m$$$ lines each contain three integers $$$v_i$$$, $$$u_i$$$, $$$w_i$$$ ($$$1 \\leq v_i, u_i \\leq n$$$, $$$1 \\leq w_i \\leq 50$$$, $$$u_i \\neq v_i$$$). It's guaranteed that there are no multiple edges, i.e. for any edge $$$(u_i, v_i)$$$ there are no other edges $$$(u_i, v_i)$$$ or $$$(v_i, u_i)$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_110.jsonl",
+    "code_uid": "d80aa438141545f138a8bcab4be1f6c2",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5 6\\n1 2 3\\n2 3 4\\n3 4 5\\n4 5 6\\n1 5 1\\n2 4 2\", \"3 2\\n1 2 1\\n2 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from heapq import heappush, heappop\r\nn, m = map(int, input().split())\r\nadj = [[] for i in range(n + 1)]\r\nmd = 10**9; dist = [md] * (51 * (n+1)); dist[51] = 0\r\nfor i in range(m): u, v, w = map(int, input().split()); adj[u].append((v, w)); adj[v].append((u, w))\r\ngr = [(0, 51 * 1)]\r\nwhile gr:\r\n    ol_d, c = heappop(gr)\r\n    if dist[c] == ol_d:\r\n        c, last_w = divmod(c, 51)\r\n        for ne, w in adj[c]:\r\n            if last_w:\r\n                ne_d = ol_d + (w + last_w) ** 2\r\n                if dist[51 * ne] > ne_d: dist[51 * ne] = ne_d; heappush(gr, (ne_d, 51 * ne))\r\n            elif dist[51 * ne + w] > ol_d: dist[51 * ne + w] = ol_d ;heappush(gr, (ol_d, 51 * ne + w))\r\n\r\nprint(*(dist[51*i] if dist[51 * i] != md else -1 for i in range(1, n+1)), sep=' ')",
+    "prob_desc_created_at": "1613658900",
+    "tags": [
+        "binary search",
+        "brute force",
+        "constructive algorithms",
+        "dp",
+        "flows",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

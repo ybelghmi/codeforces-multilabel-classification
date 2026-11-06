@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n22\"]",
+    "src_uid": "780a75568aea37889f10302d9e5d08c6",
+    "prob_desc_notes": "NoteIn the first test case the points can be moved as follows:  Move the second point from the coordinate $$$6$$$ to the coordinate $$$5$$$.  Move the third point from the coordinate $$$14$$$ to the coordinate $$$13$$$.  Move the fourth point from the coordinate $$$18$$$ to the coordinate $$$17$$$.  Move the third point from the coordinate $$$13$$$ to the coordinate $$$12$$$.  Move the fourth point from the coordinate $$$17$$$ to the coordinate $$$16$$$. The total cost of moves is $$$5$$$. It is easy to see, that all segments are visited by these movements. For example, the tenth segment ($$$[7, 13]$$$) is visited after the second move by the third point.Here is the image that describes the first test case:  ",
+    "prob_desc_description": "There are $$$n$$$ points and $$$m$$$ segments on the coordinate line. The initial coordinate of the $$$i$$$-th point is $$$a_i$$$. The endpoints of the $$$j$$$-th segment are $$$l_j$$$ and $$$r_j$$$ — left and right endpoints, respectively.You can move the points. In one move you can move any point from its current coordinate $$$x$$$ to the coordinate $$$x - 1$$$ or the coordinate $$$x + 1$$$. The cost of this move is $$$1$$$.You should move the points in such a way that each segment is visited by at least one point. A point visits the segment $$$[l, r]$$$ if there is a moment when its coordinate was on the segment $$$[l, r]$$$ (including endpoints).You should find the minimal possible total cost of all moves such that all segments are visited.",
+    "prob_desc_output_spec": "For each test case print a single integer — the minimal total cost of all moves such that all segments are visited.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 2 \\cdot 10^5$$$) — the number of points and segments respectively. The next line contains $$$n$$$ distinct integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$-10^9 \\le a_i \\le 10^9$$$) — the initial coordinates of the points. Each of the next $$$m$$$ lines contains two integers $$$l_j$$$, $$$r_j$$$ ($$$-10^9 \\le l_j \\le r_j \\le 10^9$$$) — the left and the right endpoints of the $$$j$$$-th segment. It's guaranteed that the sum of $$$n$$$ and the sum of $$$m$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_091.jsonl",
+    "code_uid": "52c9f3e1b56ee44f2edee37048442901",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4 11\\n2 6 14 18\\n0 3\\n4 5\\n11 15\\n3 5\\n10 13\\n16 16\\n1 4\\n8 12\\n17 19\\n7 13\\n14 19\\n4 12\\n-9 -16 12 3\\n-20 -18\\n-14 -13\\n-10 -7\\n-3 -1\\n0 4\\n6 11\\n7 9\\n8 10\\n13 15\\n14 18\\n16 17\\n18 19\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nimport os\r\nfrom io import BytesIO\r\n\r\nif sys.version_info[0] < 3:\r\n    sys.stdin = BytesIO(os.read(0, os.fstat(0).st_size))\r\n\r\nf = sys.stdin\r\nif os.environ.get('USER') == \"loic\":\r\n    f = open(\"data.in\")\r\n\r\nline = lambda: f.readline().strip('\\r\\n').split()\r\n\r\ndef write(w):\r\n    sys.stdout.write(w)\r\n    sys.stdout.write(\"\\n\")\r\n\r\ndef solve():\r\n    tmp = sorted(R, key=lambda e: (e[1],-e[0]))\r\n    pts = sorted(A)\r\n    \r\n    dist_l = [[] for _ in range(N)]\r\n    dist_r = [[0] for _ in range(N)]\r\n    \r\n    j = 0\r\n    ref_l = float('-inf')\r\n    pts.append(float('inf'))\r\n    for i in range(N+1):\r\n        pt = pts[i]\r\n        while j < len(tmp):\r\n            l,r = tmp[j]\r\n            if pt < l:\r\n                break\r\n            if l > ref_l and pt > r:\r\n                if i < N:\r\n                    dist_l[i].append(pt - r)\r\n                if i > 0:\r\n                    dist_r[i-1].append(l - pts[i-1])\r\n                ref_l = l\r\n            j += 1\r\n        if i < N:\r\n            dist_l[i].append(0)\r\n    pts.pop()\r\n\r\n    dp = [[float('inf') for _ in range(2)] for _ in range(N)]\r\n    for j in range(len(dist_r[0])):\r\n        dp[0][0] = min(dp[0][0], 2 * dist_l[0][0])\r\n        dp[0][1] = min(dp[0][0], dist_l[0][0])\r\n    \r\n    for i in range(1,N):\r\n        pt = pts[i]\r\n        \r\n        for j in range(len(dist_r[i-1])):\r\n            r = dist_r[i-1][j]\r\n            l = dist_l[i][j]\r\n            left = dp[i-1][0] + r + 2*l\r\n            right = dp[i-1][1] + 2*r + 2*l\r\n            dp[i][0] = min(dp[i][0], min(left, right))\r\n            left = dp[i-1][0] + r + l\r\n            right = dp[i-1][1] + 2*r + l\r\n            dp[i][1] = min(dp[i][1], min(left, right))\r\n    \r\n    res = float('inf')\r\n    for j in range(len(dist_r[-1])):\r\n        res = min(res, dp[N-1][0] + dist_r[-1][-1])\r\n        res = min(res, dp[N-1][1] + 2 * dist_r[-1][-1])\r\n    \r\n    return str(res)\r\n\r\n\r\nT = int(line()[0])\r\nfor test in range(1,T+1):\r\n    N,M = map(int,line())\r\n    A = list(map(int,line()))\r\n    R = []\r\n    for _ in range(M):\r\n        a,b = map(int,line())\r\n        R.append((a,b))\r\n    \r\n    write(solve())\r\n    \r\nf.close()",
+    "prob_desc_created_at": "1631457300",
+    "tags": [
+        "data structures",
+        "dp",
+        "greedy",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"2\"]",
+    "src_uid": "1c74a21045b2d312f68565bdaaaa8a7b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The city of D consists of n towers, built consecutively on a straight line. The height of the tower that goes i-th (from left to right) in the sequence equals hi. The city mayor decided to rebuild the city to make it beautiful. In a beautiful city all towers are are arranged in non-descending order of their height from left to right.The rebuilding consists of performing several (perhaps zero) operations. An operation constitutes using a crane to take any tower and put it altogether on the top of some other neighboring tower. In other words, we can take the tower that stands i-th and put it on the top of either the (i - 1)-th tower (if it exists), or the (i + 1)-th tower (of it exists). The height of the resulting tower equals the sum of heights of the two towers that were put together. After that the two towers can't be split by any means, but more similar operations can be performed on the resulting tower. Note that after each operation the total number of towers on the straight line decreases by 1.Help the mayor determine the minimum number of operations required to make the city beautiful.",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of operations needed to make the city beautiful.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 5000) — the number of towers in the city. The next line contains n space-separated integers: the i-th number hi (1 ≤ hi ≤ 105) determines the height of the tower that is i-th (from left to right) in the initial tower sequence.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_075.jsonl",
+    "code_uid": "194151bcca46b18336dd75e8c1cf63fb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n8 2 7 3 1\", \"3\\n5 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=input()\nh=[0]+map(int,raw_input().split())\nv=[0]*(n+1)\ns=[0]*(n+1)\nfor i in xrange(n):\n  h[i+1]+=h[i]\nfor i in xrange(1,n+1):\n  for j in xrange(i-1,-1,-1):\n    if h[i]-h[j]>=v[j]:\n      v[i]=h[i]-h[j]\n      s[i]=s[j]+i-j-1\n      break\nprint s[n]\n\n",
+    "prob_desc_created_at": "1349105400",
+    "tags": [
+        "dp",
+        "two pointers",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"NO\\nYES\\nYES\\nYES\\nNO\"]",
+    "src_uid": "7d6d1c5af6e3faefe67f585a5130d6bd",
+    "prob_desc_notes": "NoteOne possible path for the fourth test case is given in the picture in the statement.",
+    "prob_desc_description": "You are given a grid with $$$n$$$ rows and $$$m$$$ columns. We denote the square on the $$$i$$$-th ($$$1\\le i\\le n$$$) row and $$$j$$$-th ($$$1\\le j\\le m$$$) column by $$$(i, j)$$$ and the number there by $$$a_{ij}$$$. All numbers are equal to $$$1$$$ or to $$$-1$$$. You start from the square $$$(1, 1)$$$ and can move one square down or one square to the right at a time. In the end, you want to end up at the square $$$(n, m)$$$.Is it possible to move in such a way so that the sum of the values written in all the visited cells (including $$$a_{11}$$$ and $$$a_{nm}$$$) is $$$0$$$?",
+    "prob_desc_output_spec": "For each test case, print \"YES\" if there exists a path from the top left to the bottom right that adds up to $$$0$$$, and \"NO\" otherwise. You can output each letter in any case.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$). Description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 1000$$$)  — the size of the grid. Each of the following $$$n$$$ lines contains $$$m$$$ integers. The $$$j$$$-th integer on the $$$i$$$-th line is $$$a_{ij}$$$ ($$$a_{ij} = 1$$$ or $$$-1$$$)  — the element in the cell $$$(i, j)$$$. It is guaranteed that the sum of $$$n\\cdot m$$$ over all test cases does not exceed $$$10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_089.jsonl",
+    "code_uid": "a65e4a4042961721c6407329f5477aa9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n1 1\\n\\n1\\n\\n1 2\\n\\n1 -1\\n\\n1 4\\n\\n1 -1 1 -1\\n\\n3 4\\n\\n1 -1 -1 -1\\n\\n-1 1 1 -1\\n\\n1 1 1 -1\\n\\n3 4\\n\\n1 -1 1 1\\n\\n-1 1 -1 1\\n\\n1 -1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\r\ninput = stdin.readline\r\n#// - remember to add .strip() when input is a string\r\n\r\nt = int(input())\r\n\r\nfor _ in range(t):\r\n\r\n  n, m = map(int,input().split())\r\n  grid = []\r\n\r\n  for i in range(n):\r\n\r\n    row = list(map(int,input().split()))\r\n\r\n    grid.append(row)\r\n\r\n\r\n  new = []\r\n  for i in range(len(grid)):\r\n\r\n    for j in range(len(grid[i])):\r\n\r\n      new.append([i,j,grid[i][j]])\r\n\r\n  new.sort(key=lambda x: (min(x[0],x[1])))\r\n\r\n  #// max path\r\n  DPmax = []\r\n\r\n  for i in range(n):\r\n    temp = []\r\n    for j in range(m):\r\n      temp.append(0)\r\n\r\n    DPmax.append(temp)\r\n\r\n  DPmax[0][0] = new[0][2]\r\n  \r\n  \r\n  for i in range(1, len(new)):\r\n\r\n    val1 = -float(\"inf\")\r\n    val2 = -float(\"inf\")\r\n    if new[i][0] - 1 >= 0:\r\n\r\n      val1 = DPmax[new[i][0] - 1][new[i][1]]\r\n      \r\n    if new[i][1] - 1 >= 0:\r\n\r\n      val2 = DPmax[new[i][0]][new[i][1] - 1]\r\n\r\n    DPmax[new[i][0]][new[i][1]] = max(val1, val2) + grid[new[i][0]][new[i][1]]\r\n\r\n  maxi = DPmax[-1][-1]\r\n\r\n  #// min path\r\n\r\n  DPmin = []\r\n\r\n  for i in range(n):\r\n    temp = []\r\n    for j in range(m):\r\n      temp.append(0)\r\n\r\n    DPmin.append(temp)\r\n\r\n  DPmin[0][0] = new[0][2]\r\n  \r\n  \r\n  for i in range(1, len(new)):\r\n\r\n    val1 = float(\"inf\")\r\n    val2 = float(\"inf\")\r\n    if new[i][0] - 1 >= 0:\r\n\r\n      val1 = DPmin[new[i][0] - 1][new[i][1]]\r\n      \r\n    if new[i][1] - 1 >= 0:\r\n\r\n      val2 = DPmin[new[i][0]][new[i][1] - 1]\r\n\r\n    DPmin[new[i][0]][new[i][1]] = min(val1, val2) + grid[new[i][0]][new[i][1]]\r\n\r\n\r\n  mini = DPmin[-1][-1]\r\n\r\n  if mini <= 0 and maxi >= 0 and (mini%2==0 or maxi%2==0):\r\n#\r\n    print(\"YES\")\r\n\r\n  else:\r\n\r\n    print(\"NO\")",
+    "prob_desc_created_at": "1655562900",
+    "tags": [
+        "brute force",
+        "data structures",
+        "dp",
+        "graphs",
+        "greedy",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

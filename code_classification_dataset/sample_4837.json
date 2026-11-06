@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"12\\n33\\n75\"]",
+    "src_uid": "204e75827b7016eb1f1fbe1d6b60b03d",
+    "prob_desc_notes": "NoteLet us explain the three test cases in the sample.Test case 1: $$$n = 11$$$: $$$\\text{$$$gcdSum$$$}(11) = gcd(11, 1 + 1) = gcd(11,\\ 2) = 1$$$.$$$\\text{$$$gcdSum$$$}(12) = gcd(12, 1 + 2) = gcd(12,\\ 3) = 3$$$.So the smallest number $$$\\ge 11$$$ whose $$$gcdSum$$$ $$$&gt; 1$$$ is $$$12$$$.Test case 2: $$$n = 31$$$: $$$\\text{$$$gcdSum$$$}(31) = gcd(31, 3 + 1) = gcd(31,\\ 4) = 1$$$.$$$\\text{$$$gcdSum$$$}(32) = gcd(32, 3 + 2) = gcd(32,\\ 5) = 1$$$.$$$\\text{$$$gcdSum$$$}(33) = gcd(33, 3 + 3) = gcd(33,\\ 6) = 3$$$.So the smallest number $$$\\ge 31$$$ whose $$$gcdSum$$$ $$$&gt; 1$$$ is $$$33$$$.Test case 3: $$$\\ n = 75$$$: $$$\\text{$$$gcdSum$$$}(75) = gcd(75, 7 + 5) = gcd(75,\\ 12) = 3$$$.The $$$\\text{$$$gcdSum$$$}$$$ of $$$75$$$ is already $$$&gt; 1$$$. Hence, it is the answer.",
+    "prob_desc_description": "The $$$\\text{$$$gcdSum$$$}$$$ of a positive integer is the $$$gcd$$$ of that integer with its sum of digits. Formally, $$$\\text{$$$gcdSum$$$}(x) = gcd(x, \\text{ sum of digits of } x)$$$ for a positive integer $$$x$$$. $$$gcd(a, b)$$$ denotes the greatest common divisor of $$$a$$$ and $$$b$$$ — the largest integer $$$d$$$ such that both integers $$$a$$$ and $$$b$$$ are divisible by $$$d$$$.For example: $$$\\text{$$$gcdSum$$$}(762) = gcd(762, 7 + 6 + 2)=gcd(762,15) = 3$$$.Given an integer $$$n$$$, find the smallest integer $$$x \\ge n$$$ such that $$$\\text{$$$gcdSum$$$}(x) &gt; 1$$$.",
+    "prob_desc_output_spec": "Output $$$t$$$ lines, where the $$$i$$$-th line is a single integer containing the answer to the $$$i$$$-th test case.",
+    "prob_desc_input_spec": "The first line of input contains one integer $$$t$$$ $$$(1 \\le t \\le 10^4)$$$ — the number of test cases.  Then $$$t$$$ lines follow, each containing a single integer $$$n$$$ $$$(1 \\le n \\le 10^{18})$$$. All test cases in one test are different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_107.jsonl",
+    "code_uid": "b0964708cb42fead0975db53ce72e05a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n11\\n31\\n75\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\r\ndef solve():\r\n    t = int(input())\r\n    while t:\r\n        t-=1\r\n        n = input()\r\n        b = 0\r\n        for c in n:\r\n            b += int(c)\r\n        \r\n        val = math.gcd(int(n),b)\r\n        if val>1:\r\n            print(n)\r\n        else:\r\n            temp = int(n)\r\n            while val < 2:\r\n                temp += 1\r\n                b = 0\r\n                for c in str(temp):\r\n                    b += int(c)\r\n                val = math.gcd(temp,b)\r\n            print(temp)\r\n                \r\n \r\nsolve()",
+    "prob_desc_created_at": "1617028500",
+    "tags": [
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

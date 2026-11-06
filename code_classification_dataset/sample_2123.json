@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0.3535533906\", \"1.0000000000\"]",
+    "src_uid": "495488223483401ff12ae9c456b4e5fe",
+    "prob_desc_notes": "NoteHere is a picture of the first sampleHere is an example of making the polygon non-convex.This is not an optimal solution, since the maximum distance we moved one point is  ≈ 0.4242640687, whereas we can make it non-convex by only moving each point a distance of at most  ≈ 0.3535533906.",
+    "prob_desc_description": "You are given a convex polygon P with n distinct vertices p1, p2, ..., pn. Vertex pi has coordinates (xi, yi) in the 2D plane. These vertices are listed in clockwise order.You can choose a real number D and move each vertex of the polygon a distance of at most D from their original positions.Find the maximum value of D such that no matter how you move the vertices, the polygon does not intersect itself and stays convex.",
+    "prob_desc_output_spec": "Print one real number D, which is the maximum real number such that no matter how you move the vertices, the polygon stays convex. Your answer will be considered correct if its absolute or relative error does not exceed 10 - 6. Namely, let's assume that your answer is a and the answer of the jury is b. The checker program will consider your answer correct if .",
+    "prob_desc_input_spec": "The first line has one integer n (4 ≤ n ≤ 1 000) — the number of vertices. The next n lines contain the coordinates of the vertices. Line i contains two integers xi and yi ( - 109 ≤ xi, yi ≤ 109) — the coordinates of the i-th vertex. These points are guaranteed to be given in clockwise order, and will form a strictly convex polygon (in particular, no three consecutive points lie on the same straight line).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_017.jsonl",
+    "code_uid": "2fc51ed8930c7f1ba59fb174097e96f3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n0 0\\n0 1\\n1 1\\n1 0\", \"6\\n5 0\\n10 0\\n12 -4\\n10 -8\\n5 -8\\n3 -4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n\nfrom decimal import Decimal\n\n\ndef dist(a, b):\n    x1, y1 = a\n    x2, y2 = b\n    return Decimal((x1-x2)**2+(y1-y2)**2).sqrt()\n\n\ndef minh(a, b, c):\n    m = dist(a, b)\n    n = dist(b, c)\n    k = dist(a, c)\n    p = Decimal(m + n + k)/2\n    sqp = (p*(p-m)*(p-n)*(p-k)).sqrt()\n    hm = (Decimal(2)/m)*sqp\n    hn = (Decimal(2)/n)*sqp\n    hk = (Decimal(2)/k)*sqp\n    return min([hm, hn, hk])\n\n\ndef solve():\n    n = int(input())\n    coords = []\n    for i in range(n):\n        coords.append(tuple(map(int, input().split())))\n    coords += coords\n\n    res = min(\n        minh(coords[i], coords[i+1], coords[i+2])\n        for i in range(n))\n\n    print(res/2)\n\nif __name__ == '__main__':\n    solve()\n",
+    "prob_desc_created_at": "1492356900",
+    "tags": [
+        "geometry",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

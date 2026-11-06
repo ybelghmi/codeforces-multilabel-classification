@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 5\\n\\n? 4 5\\n\\n! 1\"]",
+    "src_uid": "eb660c470760117dfd0b95acc10eee3b",
+    "prob_desc_notes": "NoteIn the sample suppose $$$a$$$ is $$$[5, 1, 4, 2, 3]$$$. So after asking the $$$[1..5]$$$ subsegment $$$4$$$ is second to max value, and it's position is $$$3$$$. After asking the $$$[4..5]$$$ subsegment $$$2$$$ is second to max value and it's position in the whole array is $$$4$$$.Note that there are other arrays $$$a$$$ that would produce the same interaction, and the answer for them might be different. Example output is given in purpose of understanding the interaction.",
+    "prob_desc_description": "The only difference between the easy and the hard version is the limit to the number of queries.This is an interactive problem.There is an array $$$a$$$ of $$$n$$$ different numbers. In one query you can ask the position of the second maximum element in a subsegment $$$a[l..r]$$$. Find the position of the maximum element in the array in no more than 20 queries.A subsegment $$$a[l..r]$$$ is all the elements $$$a_l, a_{l + 1}, ..., a_r$$$. After asking this subsegment you will be given the position of the second maximum from this subsegment in the whole array.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ $$$(2 \\leq n \\leq 10^5)$$$ — the number of elements in the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_109.jsonl",
+    "code_uid": "e7b7316280505d0646900bcd608ec25e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n3\\n\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\r\nfrom sys import stdin\r\ninput = stdin.readline\r\n#// - remember to add .strip() when input is a string\r\n\r\nn = int(input())\r\n\r\ndef query(l,r):\r\n\r\n  print(\"?\",l,r,flush=True)\r\n\r\n  return int(input())\r\n\r\n\r\n\r\nfirst = query(1,n)\r\n\r\nif first != n:\r\n  second = query(first, n)\r\nelse:\r\n  second = -9899889\r\n\r\nif second != first:\r\n\r\n  low = 1\r\n  high = first\r\n\r\n  while low < high-1:\r\n\r\n    mid = (low + high) // 2\r\n\r\n    if query(mid, first) != first:\r\n\r\n      high = mid\r\n\r\n    else:\r\n\r\n      low = mid\r\n      \r\n  l = [low, high]\r\n  if l[0] != l[1]:\r\n    f = query(low,high)\r\n    l.remove(f)\r\n  print(\"!\",l[0],flush = True)\r\n\r\n  \r\nelse:\r\n\r\n  low = first\r\n  high = n\r\n\r\n  while low < high-1:\r\n\r\n    mid = (low + high) // 2\r\n\r\n    if query(first, mid) != first:\r\n\r\n      low = mid\r\n\r\n    else:\r\n\r\n      high = mid\r\n\r\n  l = [low, high]\r\n  if l[0] != l[1]:\r\n    f = query(low,high)\r\n    l.remove(f)\r\n  print(\"!\",l[0],flush = True)",
+    "prob_desc_created_at": "1613658900",
+    "tags": [
+        "binary search",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

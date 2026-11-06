@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1\\n0\\n595458194\\n200000000\"]",
+    "src_uid": "116dd636a4f2547aef01a68f98c46ca2",
+    "prob_desc_notes": "NoteIn the first test case, the possible arrays $$$b$$$ are:   $$$[4,2,1]$$$;  $$$[4,2,3]$$$;  $$$[4,2,5]$$$. In the second test case, the only array satisfying the demands is $$$[1,1]$$$.In the third test case, it can be proven no such array exists.",
+    "prob_desc_description": "You are given two integers $$$n$$$ and $$$m$$$ and an array $$$a$$$ of $$$n$$$ integers. For each $$$1 \\le i \\le n$$$ it holds that $$$1 \\le a_i \\le m$$$.Your task is to count the number of different arrays $$$b$$$ of length $$$n$$$ such that:   $$$1 \\le b_i \\le m$$$ for each $$$1 \\le i \\le n$$$, and  $$$\\gcd(b_1,b_2,b_3,...,b_i) = a_i$$$ for each $$$1 \\le i \\le n$$$. Here $$$\\gcd(a_1,a_2,\\dots,a_i)$$$ denotes the greatest common divisor (GCD) of integers $$$a_1,a_2,\\ldots,a_i$$$.Since this number can be too large, print it modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_output_spec": "For each test case, print a single integer — the number of different arrays satisfying the conditions above. Since this number can be large, print it modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "Each test consist of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. The description of test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$, $$$1 \\le m \\le 10^9$$$) — the length of the array $$$a$$$ and the maximum possible value of the element. The second line of each test case contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le m$$$) — the elements of the array $$$a$$$. It is guaranteed that the sum of $$$n$$$ across all test cases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_101.jsonl",
+    "code_uid": "12adcb65337194fec096bfd9137e45bd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n3 5\\n\\n4 2 1\\n\\n2 1\\n\\n1 1\\n\\n5 50\\n\\n2 3 5 2 3\\n\\n4 1000000000\\n\\n60 30 1 1\\n\\n2 1000000000\\n\\n1000000000 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#from pyrival import *\nimport math\nimport sys\nimport heapq\n\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\n\nmod = 998244353\n\n# Count the number of numbers\n# up to m which are divisible\n# by given prime numbers\ndef count(a, n, m):\n    #print(a)\n    #print(n, m)\n    total = 0\n\n    # Run from i = 000..0 to i = 111..1\n    # or check all possible\n    # subsets of the array\n    for i in range(0, 1 << n):\n        mult = 1\n        for j in range(n):\n            if (i & (1 << j)):\n                mult *= a[j]\n\n        # Take the multiplication\n        # of all the set bits\n\n        # If the number of set bits\n        # is odd, then add to the\n        # number of multiples\n        total += (-1)**(bin(i).count('1') & 1) * (m // mult)\n        #print(f'subtracting out {m // mult}')\n\n    return total\n\ndef countRelPrime(n, m):\n    #print(f'counting rel {n} {m}')\n\n    facts = []\n    for div in range(2, math.ceil(n**0.5) + 2):\n\n        if n % div == 0:\n            facts += [div]\n\n        while n % div == 0:\n            n //= div\n\n    if n != 1:\n        facts += [n]\n    return count(facts, len(facts), m)\n\nt = int(input())\n\nfor _ in range(t):\n    cache = {}\n    N, M = map(int, input().split())\n    A = list(map(int, input().split()))\n    \n    ways = 1\n    for pos in range(1, N):\n        big, small = A[pos - 1 : pos + 1]\n        if (big, small) not in cache:\n            if math.gcd(big, small) < small:\n                ways = 0\n                break\n            cache[(big, small)] = countRelPrime(big//small, M//small)\n\n        new_ways = cache[(big, small)]\n        #print(f'found {new_ways}')\n        ways = (ways * new_ways) % mod\n    print(f'{ways}')\n\n",
+    "prob_desc_created_at": "1667745300",
+    "tags": [
+        "combinatorics",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

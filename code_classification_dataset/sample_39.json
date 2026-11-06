@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"3\", \"9\", \"0\", \"1\"]",
+    "src_uid": "ffa76f2558c8a70ab5c1ecb9e8561f25",
+    "prob_desc_notes": "NoteThe following pictures illustrate the first example and its possible solution.Blue cells indicate removed blocks. There are $$$10$$$ blue cells, so the answer is $$$10$$$. ",
+    "prob_desc_description": "You came to the exhibition and one exhibit has drawn your attention. It consists of $$$n$$$ stacks of blocks, where the $$$i$$$-th stack consists of $$$a_i$$$ blocks resting on the surface.The height of the exhibit is equal to $$$m$$$. Consequently, the number of blocks in each stack is less than or equal to $$$m$$$.There is a camera on the ceiling that sees the top view of the blocks and a camera on the right wall that sees the side view of the blocks. Find the maximum number of blocks you can remove such that the views for both the cameras would not change.Note, that while originally all blocks are stacked on the floor, it is not required for them to stay connected to the floor after some blocks are removed. There is no gravity in the whole exhibition, so no block would fall down, even if the block underneath is removed. It is not allowed to move blocks by hand either.",
+    "prob_desc_output_spec": "Print exactly one integer — the maximum number of blocks that can be removed.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 100\\,000$$$, $$$1 \\le m \\le 10^9$$$) — the number of stacks and the height of the exhibit. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le m$$$) — the number of blocks in each stack from left to right.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_000.jsonl",
+    "code_uid": "a219686e6a429192038d42db712f6c56",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 6\\n3 3 3 3 3\", \"3 5\\n1 2 4\", \"5 5\\n2 3 1 4 4\", \"1 1000\\n548\", \"3 3\\n3 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nn = [int(i) for i in input().split(\" \")]\ndata=[int(i) for i in input().split(\" \")]\ndata.sort()\ndata.reverse()\np,s=0,0\nfor i in range(0,n[0]-1):\n    if data[i]<=data[i+1]  and data[i]>1:\n        s+=data[i+1] + 1 - data[i]\n        data[i+1]=data[i]-1\n    if data[i]==1:\n        s+=data[i+1]-1\n        data[i+1]=1\n    \nfor i in range(n[0]-1):\n    if data[i]>1:\n        s+=data[i+1]\n\nprint(s)\n\n\n\n\n",
+    "prob_desc_created_at": "1542901500",
+    "tags": [
+        "implementation",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

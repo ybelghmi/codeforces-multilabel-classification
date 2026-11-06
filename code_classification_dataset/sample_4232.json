@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 4\\n-1\\n1 2\"]",
+    "src_uid": "034536fc950299cb6b09675757ca77aa",
+    "prob_desc_notes": "NoteIn the first test case, the only correct answer is 2 4, since when serving students, the number of rubles at the ATM does not become negative, and this is the maximum number of students that can be served.In the second test case, the answer is -1, as there is not enough money for any student at the ATM.In the third test case, the answer can be either 1 2 or 4 5.",
+    "prob_desc_description": "Polycarp started working at a bank. He was assigned to monitor the ATM. The ATM initially contains $$$s$$$ rubles.A queue of $$$n$$$ students lined up to him. Each student wants to either withdraw a certain amount of money or deposit it into an account. If $$$a_i$$$ is positive, then the student credits that amount of money via ATM. Otherwise, the student withdraws $$$|a_i|$$$ rubles.In the beginning, the ATM is turned off and an arbitrary number of students are not served. At some point, Polycarp turns on the ATM, which has an initial amount of $$$s$$$ rubles. Then, the remaining students start queueing at the ATM. If at some point in time there is less money in the ATM than the student wants to withdraw, then the student is not served and Polycarp turns off the ATM and does not turn it on anymore.More formally, the students that are served are forming a contiguous subsequence.Polycarp wants the ATM to serve the maximum number of students. Help him in this matter. Print the numbers of the first and last student, or determine that he will not be able to serve anyone.In other words, find such a longest continuous segment of students that, starting with the sum of $$$s$$$ at the ATM, all these students will be served. ATM serves students consistently (i.e. one after another in the order of the queue).",
+    "prob_desc_output_spec": "Print $$$t$$$ lines, each line must contain the answer to the corresponding set of input data: if the answer exists, print the numbers of the first and last served student. If there is no solution, then print -1 on the line. If there are several possible answers, print any.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Each test case consists of two lines. The first one contains integers $$$n$$$ and $$$s$$$ ($$$1 \\le n \\le 2\\cdot10^5$$$; $$$0 \\le s \\le 10^9$$$) — the length of the $$$a$$$ array and the initial amount of rubles in the ATM. The second contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$-10^9 \\le a_i \\le 10^9$$$) — elements of the $$$a$$$ array. Note that $$$a_i$$$ can be zero. It is guaranteed that the sum of the values $$$n$$$ over all test cases does not exceed $$$2\\cdot10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_093.jsonl",
+    "code_uid": "399f8f73068ed58ac2479755c009bf8c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4 10\\n-16 2 -6 8\\n3 1000\\n-100000 -100000 -100000\\n6 0\\n2 6 -164 1 -1 -6543\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from itertools import accumulate\r\nfrom math import log\r\nimport sys\r\ninput = sys.stdin.buffer.readline\r\n\r\ndef parent(i):\r\n\treturn i//2\r\n\r\ndef left_c(i):\r\n\treturn i*2\r\n\r\ndef right_c(i):\r\n\treturn i*2+1\r\n\r\ndef fill_tree(i, fro, to):\r\n\tif fro == to:\r\n\t\ttr[i] = pf[fro]\r\n\t\td[fro] = i\r\n\t\tdi[i] = fro\r\n\telse:\r\n\t\ttr[i] = min(fill_tree(left_c(i), fro, (fro+to)//2), fill_tree(right_c(i),(fro+to)//2 + 1,to))\r\n\treturn tr[i]\r\n\r\ndef f(i):\r\n\tdef ascend(i):\r\n\t\tif i == 1:\r\n\t\t\treturn 1\r\n\t\tpar = parent(i)\r\n\t\tcand = right_c(par)\r\n\t\tif tr[cand] < val:\r\n\t\t\treturn cand\r\n\t\treturn ascend(par)\r\n\r\n\tdef descend(i):\r\n\t\tlc, rc = left_c(i), right_c(i)\r\n\t\t# if sum([tr[rc] is None, tr[lc] is None]) == 1:\r\n\t\t# \tassert False\r\n\t\tif rc <= max_i and tr[rc] is not None and tr[lc] is not None:\r\n\t\t\t# har två barn\r\n\t\t\tif tr[lc] < val:\r\n\t\t\t\treturn descend(lc)\r\n\t\t\telse:\r\n\t\t\t\treturn descend(rc)\r\n\t\telse:\r\n\t\t\t# har inga barn\r\n\t\t\tif tr[i] < val:\r\n\t\t\t\treturn di[i]-1\r\n\t\t\telse:\r\n\t\t\t\treturn di[i]\r\n\r\n\r\n\r\n\r\n\r\n\tind = d[i]\r\n\tsta_pf = pf[i]\r\n\tval = sta_pf-s\r\n\tsto = descend(ascend(ind))\r\n\t# print(\"ggg\", i, sto)\r\n\treturn sto - i\r\n\r\n\r\nfor _ in range(int(input())):\r\n\tn, s = map(int, input().split())\r\n\ta = map(int, input().split())\r\n\tpf = [0]+list(accumulate(a))\r\n\ttr = [None] * (4 * n)\r\n\td = {}\r\n\tdi = {}\r\n\tfill_tree(1, 0, n)\r\n\tans = 0\r\n\tsta = -1\r\n\tmax_i = -1\r\n\t# print(\"pf\",pf)\r\n\tfor i in range(len(tr)):\r\n\t\tif tr[i] is not None:\r\n\t\t\tmax_i = i\r\n\t# print(\"max_i\",max_i)\r\n\t# for i in range(max_i):\r\n\t# \tif tr[i] is None:\r\n\t# \t\tprint(tr[i],i)\r\n\tfor i in range(n):\r\n\t\tans1 = f(i)\r\n\t\tif ans1 > ans:\r\n\t\t\tans = ans1\r\n\t\t\tsta = i\r\n\tif ans == 0:\r\n\t\tprint(-1)\r\n\telse:\r\n\t\tprint(sta+1, sta+ans)\r\n\r\n\r\n",
+    "prob_desc_created_at": "1637850900",
+    "tags": [
+        "binary search",
+        "data structures",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

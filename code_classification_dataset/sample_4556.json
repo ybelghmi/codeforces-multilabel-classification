@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"36\\n44\"]",
+    "src_uid": "09c8db43681d7bc72f83287897a62f3c",
+    "prob_desc_notes": "NoteIn the first test case the array initially consists of a single element $$$[12]$$$, and $$$x=2$$$. After the robot processes the first element, the array becomes $$$[12, 6, 6]$$$. Then the robot processes the second element, and the array becomes $$$[12, 6, 6, 3, 3]$$$. After the robot processes the next element, the array becomes $$$[12, 6, 6, 3, 3, 3, 3]$$$, and then the robot shuts down, since it encounters an element that is not divisible by $$$x = 2$$$. The sum of the elements in the resulting array is equal to $$$36$$$.In the second test case the array initially contains integers $$$[4, 6, 8, 2]$$$, and $$$x=2$$$. The resulting array in this case looks like $$$ [4, 6, 8, 2, 2, 2, 3, 3, 4, 4, 1, 1, 1, 1, 1, 1]$$$.",
+    "prob_desc_description": "You have given an array $$$a$$$ of length $$$n$$$ and an integer $$$x$$$ to a brand new robot. What the robot does is the following: it iterates over the elements of the array, let the current element be $$$q$$$. If $$$q$$$ is divisible by $$$x$$$, the robot adds $$$x$$$ copies of the integer $$$\\frac{q}{x}$$$ to the end of the array, and moves on to the next element. Note that the newly added elements could be processed by the robot later. Otherwise, if $$$q$$$ is not divisible by $$$x$$$, the robot shuts down.Please determine the sum of all values of the array at the end of the process.",
+    "prob_desc_output_spec": "For each test case output one integer — the sum of all elements at the end of the process.",
+    "prob_desc_input_spec": "The first input line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. The first line of each test case contains two integers $$$n$$$ and $$$x$$$ ($$$1 \\leq n \\leq 10^5$$$, $$$2 \\leq x \\leq 10^9$$$) — the length of the array and the value which is used by the robot. The next line contains integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_n$$$ ($$$1 \\leq a_i \\leq 10^9$$$) — the initial values in the array. It is guaranteed that the sum of values $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_100.jsonl",
+    "code_uid": "06970f20e6942a8f6568074b30bd8c54",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 2\\n12\\n4 2\\n4 6 8 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#######puzzleVerma#######\r\n \r\n \r\nimport sys\r\nimport math\r\nLI=lambda:[int(k) for k in input().split()]\r\ninput = lambda: sys.stdin.readline().rstrip()\r\nIN=lambda:int(input())\r\nS=lambda:input()\r\n \r\n \r\nfor i in range(IN()):\r\n    n,x=LI()\r\n    a=LI()\r\n    sm=sum(a)\r\n    ans=0\r\n    ndi=0\r\n    co=10**9\r\n    for i in range(n):\r\n        ele=a[i]\r\n        tco=1\r\n        while ele%x==0:\r\n            tco+=1\r\n            ele/=x\r\n        if tco<co:\r\n            co=tco\r\n            ndi=i\r\n    ans+=sum(a[:ndi])\r\n    ans+=(sm*co)\r\n    print(ans)",
+    "prob_desc_created_at": "1609857300",
+    "tags": [
+        "brute force",
+        "greedy",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

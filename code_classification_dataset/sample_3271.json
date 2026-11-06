@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"LIVE\\nLIVE\", \"LIVE\\nDEAD\"]",
+    "src_uid": "1d8870a705036b9820227309d74dd1e8",
+    "prob_desc_notes": "NoteConsider the first test case. There 10 packets were sent to server a, 5 of them reached it. Therefore, at least half of all packets sent to this server successfully reached it through the network. Overall there were 10 packets sent to server b, 6 of them reached it. Therefore, at least half of all packets sent to this server successfully reached it through the network.Consider the second test case. There were overall 20 packages sent to server a, 10 of them reached it. Therefore, at least half of all packets sent to this server successfully reached it through the network. Overall 10 packets were sent to server b, 0 of them reached it. Therefore, less than half of all packets sent to this server successfully reached it through the network.",
+    "prob_desc_description": "Polycarpus is a system administrator. There are two servers under his strict guidance — a and b. To stay informed about the servers' performance, Polycarpus executes commands \"ping a\" and \"ping b\". Each ping command sends exactly ten packets to the server specified in the argument of the command. Executing a program results in two integers x and y (x + y = 10; x, y ≥ 0). These numbers mean that x packets successfully reached the corresponding server through the network and y packets were lost.Today Polycarpus has performed overall n ping commands during his workday. Now for each server Polycarpus wants to know whether the server is \"alive\" or not. Polycarpus thinks that the server is \"alive\", if at least half of the packets that we send to this server reached it successfully along the network.Help Polycarpus, determine for each server, whether it is \"alive\" or not by the given commands and their results.",
+    "prob_desc_output_spec": "In the first line print string \"LIVE\" (without the quotes) if server a is \"alive\", otherwise print \"DEAD\" (without the quotes). In the second line print the state of server b in the similar format.",
+    "prob_desc_input_spec": "The first line contains a single integer n (2 ≤ n ≤ 1000) — the number of commands Polycarpus has fulfilled. Each of the following n lines contains three integers — the description of the commands. The i-th of these lines contains three space-separated integers ti, xi, yi (1 ≤ ti ≤ 2; xi, yi ≥ 0; xi + yi = 10). If ti = 1, then the i-th command is \"ping a\", otherwise the i-th command is \"ping b\". Numbers xi, yi represent the result of executing this command, that is, xi packets reached the corresponding server successfully and yi packets were lost. It is guaranteed that the input has at least one \"ping a\" command and at least one \"ping b\" command.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_050.jsonl",
+    "code_uid": "93d7f80b12a3b08011ae07dcc09f6321",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 5 5\\n2 6 4\", \"3\\n1 0 10\\n2 0 10\\n1 10 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "up_a = 0\nup_b = 0\nall_pack_b = 0\nall_pack_a = 0\n#\ntemp_number = int(raw_input ())\nwhile (temp_number != 0):\n\tt,x,y = map(int, raw_input().split(' '))\n\tif t ==1:\n\t\tup_a = up_a + x\n\t\tall_pack_a = all_pack_a + x + y\n\tif t ==2:\n\t\tup_b = up_b + x\n\t\tall_pack_b = all_pack_b + x + y\n\ttemp_number=temp_number-1\n#status\nif (up_a >= all_pack_a/2):\n\tprint \"LIVE\"\nelse:\n\tprint \"DEAD\"\nif (up_b >= all_pack_b/2):\t\n\tprint \"LIVE\"\nelse:\n\tprint \"DEAD\"\n",
+    "prob_desc_created_at": "1353339000",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

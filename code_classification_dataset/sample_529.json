@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES 0\\nYES 1\\nNO\"]",
+    "src_uid": "1501b9f964f793c2746ff5977db4e607",
+    "prob_desc_notes": "NoteIn each of the illustrations, the pictures are shown in order in which Olya applied the operations. The recently-created squares are highlighted with red.In the first test, Olya can apply splitting operations in the following order:   Olya applies one operation on the only existing square. The condition of Olya's happiness will be met, since there is a path of squares of the same size from the lower left square to the upper right one:  The length of the sides of the squares on the path is $$$1$$$. $$$log_2(1) = 0$$$.In the second test, Olya can apply splitting operations in the following order:   Olya applies the first operation on the only existing square. She applies the second one on the right bottom square. The condition of Olya's happiness will be met, since there is a path of squares of the same size from the lower left square to the upper right one:  The length of the sides of the squares on the path is $$$2$$$. $$$log_2(2) = 1$$$.In the third test, it takes $$$5$$$ operations for Olya to make the square look like this:  Since it requires her to perform $$$7$$$ splitting operations, and it is impossible to perform them on squares with side equal to $$$1$$$, then Olya cannot do anything more and the answer is \"NO\".",
+    "prob_desc_description": "Recently, Olya received a magical square with the size of $$$2^n\\times 2^n$$$.It seems to her sister that one square is boring. Therefore, she asked Olya to perform exactly $$$k$$$ splitting operations.A Splitting operation is an operation during which Olya takes a square with side $$$a$$$ and cuts it into 4 equal squares with side $$$\\dfrac{a}{2}$$$. If the side of the square is equal to $$$1$$$, then it is impossible to apply a splitting operation to it (see examples for better understanding).Olya is happy to fulfill her sister's request, but she also wants the condition of Olya's happiness to be satisfied after all operations.The condition of Olya's happiness will be satisfied if the following statement is fulfilled:Let the length of the side of the lower left square be equal to $$$a$$$, then the length of the side of the right upper square should also be equal to $$$a$$$. There should also be a path between them that consists only of squares with the side of length $$$a$$$. All consecutive squares on a path should have a common side.Obviously, as long as we have one square, these conditions are met. So Olya is ready to fulfill her sister's request only under the condition that she is satisfied too. Tell her: is it possible to perform exactly $$$k$$$ splitting operations in a certain order so that the condition of Olya's happiness is satisfied? If it is possible, tell also the size of the side of squares of which the path from the lower left square to the upper right one will consist.",
+    "prob_desc_output_spec": "Print $$$t$$$ lines, where in the $$$i$$$-th line you should output \"YES\" if it is possible to perform $$$k_i$$$ splitting operations in the $$$i$$$-th test in such a way that the condition of Olya's happiness is satisfied or print \"NO\" otherwise. If you printed \"YES\", then also print the $$$log_2$$$ of the length of the side of the squares through space, along which you can build a path from the lower left square to the upper right one. You can output each letter in any case (lower or upper). If there are multiple answers, print any.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^3$$$) — the number of tests. Each of the following $$$t$$$ lines contains two integers $$$n_i$$$ and $$$k_i$$$ ($$$1 \\le n_i \\le 10^9, 1 \\le k_i \\le 10^{18}$$$) — the description of the $$$i$$$-th test, which means that initially Olya's square has size of $$$2^{n_i}\\times 2^{n_i}$$$ and Olya's sister asks her to do exactly $$$k_i$$$ splitting operations.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_002.jsonl",
+    "code_uid": "a8aa12db461939822df52fc13fe5e1b0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1\\n2 2\\n2 12\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def A(n):\n\treturn (4**n-1)//3\n\nL = 31\n\nT = int(input())\nfor _ in range(T):\n\tn,k = [int(_) for _ in input().split()]\n\n\tif n > L:\n\t\tprint(\"YES\",n-1)\n\t\tcontinue\n\n\tif k > A(n):\n\t\tprint(\"NO\")\n\t\tcontinue\n\n\tE = 1\n\tM = 0\n\tR = 0\n\twhile n >= 0:\n\t\tM += E\n\n\t\tI = 2*E-1\n\t\tE = 2*E+1\n\n\t\tn -= 1\n\t\tR += I*A(n)\n\n\t\tif M <= k and k <= M+R: break\n\n\tif n >= 0: print(\"YES\",n)\n\telse: print(\"NO\")\n",
+    "prob_desc_created_at": "1543044900",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

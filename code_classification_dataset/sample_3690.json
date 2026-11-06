@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"-1\", \"3\"]",
+    "src_uid": "3baa00206d3bf03ce02a414747e2a633",
+    "prob_desc_notes": "NoteIn the first example, selecting a subset of all numbers gives a gcd of $$$1$$$ and for all smaller subsets the gcd is greater than $$$1$$$.In the second example, for all subsets of numbers the gcd is at least $$$2$$$. ",
+    "prob_desc_description": "Janusz is a businessman. He owns a company \"Januszex\", which produces games for teenagers. Last hit of Januszex was a cool one-person game \"Make it one\". The player is given a sequence of $$$n$$$ integers $$$a_i$$$.It is allowed to select any subset of them, and the score is equal to the greatest common divisor of selected elements. The goal is to take as little elements as it is possible, getting the score $$$1$$$. Now Janusz wonders, for given sequence, how much elements should the player choose?",
+    "prob_desc_output_spec": "If there is no subset of the given sequence with gcd equal to $$$1$$$, output -1. Otherwise, output exactly one integer — the size of the smallest subset with gcd equal to $$$1$$$.",
+    "prob_desc_input_spec": "The first line contains an only integer $$$n$$$ ($$$1 \\le n \\le 300\\,000$$$) — the number of integers in the sequence. The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le 300\\,000$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_078.jsonl",
+    "code_uid": "81f0e734e09d3bc8d0858e8e7cc7e795",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n10 6 15\", \"3\\n2 4 6\", \"7\\n30 60 21 42 70 15 30\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "mod = int(1e9+7)\nN = int(3e5+7)\nfact = [0]*(N)\ninvfact = [0]*(N)\ncnt = [0]*N\ndef ncr(n, r): \n    r = min(r, n-r)\n    if n<r or r<0:\n        return 0\n    return ((fact[n] * invfact[r]) % mod * invfact[n-r]) % mod\nfact[0] = 1\nfor i in range(1,N):\n    fact[i] = (fact[i - 1] * i) % mod;\ninvfact[N-1] = pow(fact[N-1],mod-2,mod)\nfor i in range(N-1,0,-1):\n    invfact[i-1] = (invfact[i]*i)%mod\nn = int(raw_input(''))\na = map(int,raw_input().strip('\\n').split(' '))\nfor i in a:\n\tcnt[i] += 1\nfor i in range(1,N):\n\tfor j in range(i+i,N,i):\n\t\tcnt[i]+=cnt[j]\nans = -1\nfor i in range(1,10):\n\tdp = [0]*N\n\tfor j in range(N-1,0,-1):\n\t\tdp[j]=ncr(cnt[j],i)\n\t\tfor k in range(j+j,N,j):\n\t\t\tdp[j] = (dp[j]-dp[k])%mod\n\tif dp[1]>0:\n\t\tans = i\n\t\tbreak\nprint ans",
+    "prob_desc_created_at": "1540740900",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "number theory",
+        "bitmasks",
+        "shortest paths",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

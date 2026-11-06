@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2 5 4 3\", \"5 4 2 3 1\", \"1 2 3 4\"]",
+    "src_uid": "6fc3da19da8d9ab024cdd5acfc4f4164",
+    "prob_desc_notes": "NoteIn the first sample, both 1, 2, 5, 4, 3 and 1, 2, 3, 4, 5 are acceptable outputs.In the second sample, 5, 4, 2, 3, 1 is the only permutation to satisfy the constraints.",
+    "prob_desc_description": "Sengoku still remembers the mysterious \"colourful meteoroids\" she discovered with Lala-chan when they were little. In particular, one of the nights impressed her deeply, giving her the illusion that all her fancies would be realized.On that night, Sengoku constructed a permutation p1, p2, ..., pn of integers from 1 to n inclusive, with each integer representing a colour, wishing for the colours to see in the coming meteor outburst. Two incredible outbursts then arrived, each with n meteorids, colours of which being integer sequences a1, a2, ..., an and b1, b2, ..., bn respectively. Meteoroids' colours were also between 1 and n inclusive, and the two sequences were not identical, that is, at least one i (1 ≤ i ≤ n) exists, such that ai ≠ bi holds.Well, she almost had it all — each of the sequences a and b matched exactly n - 1 elements in Sengoku's permutation. In other words, there is exactly one i (1 ≤ i ≤ n) such that ai ≠ pi, and exactly one j (1 ≤ j ≤ n) such that bj ≠ pj.For now, Sengoku is able to recover the actual colour sequences a and b through astronomical records, but her wishes have been long forgotten. You are to reconstruct any possible permutation Sengoku could have had on that night.",
+    "prob_desc_output_spec": "Output n space-separated integers p1, p2, ..., pn, denoting a possible permutation Sengoku could have had. If there are more than one possible answer, output any one of them. Input guarantees that such permutation exists.",
+    "prob_desc_input_spec": "The first line of input contains a positive integer n (2 ≤ n ≤ 1 000) — the length of Sengoku's permutation, being the length of both meteor outbursts at the same time. The second line contains n space-separated integers a1, a2, ..., an (1 ≤ ai ≤ n) — the sequence of colours in the first meteor outburst. The third line contains n space-separated integers b1, b2, ..., bn (1 ≤ bi ≤ n) — the sequence of colours in the second meteor outburst. At least one i (1 ≤ i ≤ n) exists, such that ai ≠ bi holds.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_003.jsonl",
+    "code_uid": "7daf06dc6726e5e1ce4d93a55572b80d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 3 4 3\\n1 2 5 4 5\", \"5\\n4 4 2 3 1\\n5 4 5 3 1\", \"4\\n1 1 3 4\\n1 4 3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\nA = map(int, raw_input().split())\nB = map(int, raw_input().split())\nC = [a for a in A]\n\nbacket = [0 for _ in xrange(n)]\nmissing = -1\nfor i, a in enumerate(sorted(A)):\n    backet[a-1] += 1\n\nmissing = backet.index(0) + 1\ndup = backet.index(2) + 1\n\nfor i in xrange(n):\n    if A[i] == dup:\n        C[i] = missing\n        cnt = 0\n        for j in xrange(n):\n            if C[j] != B[j]:\n                cnt += 1\n        if cnt == 1:\n            print ' '.join(map(str, C))\n            exit()\n        C[i] = A[i]\n",
+    "prob_desc_created_at": "1496837700",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

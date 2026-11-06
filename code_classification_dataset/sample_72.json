@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\nPetya Ivanov\\nMisha MikeMirzayanov\\nVasya VasyaPetrov123\"]",
+    "src_uid": "bdd98d17ff0d804d88d662cba6a61e8f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Misha hacked the Codeforces site. Then he decided to let all the users change their handles. A user can now change his handle any number of times. But each new handle must not be equal to any handle that is already used or that was used at some point.Misha has a list of handle change requests. After completing the requests he wants to understand the relation between the original and the new handles of the users. Help him to do that.",
+    "prob_desc_output_spec": "In the first line output the integer n — the number of users that changed their handles at least once. In the next n lines print the mapping between the old and the new handles of the users. Each of them must contain two strings, old and new, separated by a space, meaning that before the user had handle old, and after all the requests are completed, his handle is new. You may output lines in any order. Each user who changes the handle must occur exactly once in this description.",
+    "prob_desc_input_spec": "The first line contains integer q (1 ≤ q ≤ 1000), the number of handle change requests. Next q lines contain the descriptions of the requests, one per line. Each query consists of two non-empty strings old and new, separated by a space. The strings consist of lowercase and uppercase Latin letters and digits. Strings old and new are distinct. The lengths of the strings do not exceed 20. The requests are given chronologically. In other words, by the moment of a query there is a single person with handle old, and handle new is not used and has not been used by anyone.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_000.jsonl",
+    "code_uid": "638fe451f3dd14f07ae643f3c9ee795c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nMisha ILoveCodeforces\\nVasya Petrov\\nPetrov VasyaPetrov123\\nILoveCodeforces MikeMirzayanov\\nPetya Ivanov\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "q = int(raw_input())\n\nhandles = {}\nfor i in range(q):\n  oldName, newName = raw_input().split()\n  \n  handles[oldName] =[newName]\n  \n  for name in handles:\n    if (oldName in handles[name]):\n      handles[name].append(newName)\n      del handles[oldName]\n      break\n\nprint len(handles)\nfor name in handles:\n  print name, handles[name][-1]",
+    "prob_desc_created_at": "1421053200",
+    "tags": [
+        "data structures",
+        "dsu",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

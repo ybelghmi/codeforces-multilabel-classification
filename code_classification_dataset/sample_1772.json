@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"4\", \"6\"]",
+    "src_uid": "2ff789ae0095bb7ff0e747b0d4df59bc",
+    "prob_desc_notes": "NoteFor first example, the lamps' states are shown in the picture above. The largest number of simultaneously on lamps is $$$2$$$ (e.g. at the moment $$$2$$$).In the second example, all lights are initially on. So the answer is $$$4$$$.",
+    "prob_desc_description": "It is a holiday season, and Koala is decorating his house with cool lights! He owns $$$n$$$ lights, all of which flash periodically.After taking a quick glance at them, Koala realizes that each of his lights can be described with two parameters $$$a_i$$$ and $$$b_i$$$. Light with parameters $$$a_i$$$ and $$$b_i$$$ will toggle (on to off, or off to on) every $$$a_i$$$ seconds starting from the $$$b_i$$$-th second. In other words, it will toggle at the moments $$$b_i$$$, $$$b_i + a_i$$$, $$$b_i + 2 \\cdot a_i$$$ and so on.You know for each light whether it's initially on or off and its corresponding parameters $$$a_i$$$ and $$$b_i$$$. Koala is wondering what is the maximum number of lights that will ever be on at the same time. So you need to find that out.    Here is a graphic for the first example. ",
+    "prob_desc_output_spec": "Print a single integer — the maximum number of lights that will ever be on at the same time.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 100$$$), the number of lights. The next line contains a string $$$s$$$ of $$$n$$$ characters. The $$$i$$$-th character is \"1\", if the $$$i$$$-th lamp is initially on. Otherwise, $$$i$$$-th character is \"0\". The $$$i$$$-th of the following $$$n$$$ lines contains two integers $$$a_i$$$ and $$$b_i$$$ ($$$1 \\le a_i, b_i \\le 5$$$)  — the parameters of the $$$i$$$-th light.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_012.jsonl",
+    "code_uid": "935fc042813d682016d9659abed59f30",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n101\\n3 3\\n3 2\\n3 1\", \"4\\n1111\\n3 4\\n5 2\\n3 1\\n3 2\", \"6\\n011100\\n5 3\\n5 5\\n2 4\\n3 5\\n4 2\\n1 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nn = int(input())\nini = str(input())\nab = []\nmaxon = 0\nfor i in range(n):\n    abi = list(map(int, input().split()))\n    ab.append(abi)\n\nfor t in range(1, 241):\n    res = []\n    i = 0\n    for abi in ab:\n        if t-abi[1] <= 0:\n            res.append(int(ini[i])==0)\n        else:\n            res.append(math.ceil((t-abi[1])/abi[0])%2==int(ini[i]))\n        i = i + 1\n    maxon = max(maxon, n-sum(res))\n    if maxon == n:\n        break;\nprint(maxon)",
+    "prob_desc_created_at": "1568466300",
+    "tags": [
+        "implementation",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

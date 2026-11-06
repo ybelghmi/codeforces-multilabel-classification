@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n1\\n0\\n1\", \"4\\n0\\n3\", \"0\\n0\"]",
+    "src_uid": "4cc5a6975d33cee60e53e8f648ec30de",
+    "prob_desc_notes": "NoteIn the first example the queries are substrings: \"cod\", \"deforces\", \"fo\" and \"for\", respectively.",
+    "prob_desc_description": "You are given two strings $$$s$$$ and $$$t$$$, both consisting only of lowercase Latin letters.The substring $$$s[l..r]$$$ is the string which is obtained by taking characters $$$s_l, s_{l + 1}, \\dots, s_r$$$ without changing the order.Each of the occurrences of string $$$a$$$ in a string $$$b$$$ is a position $$$i$$$ ($$$1 \\le i \\le |b| - |a| + 1$$$) such that $$$b[i..i + |a| - 1] = a$$$ ($$$|a|$$$ is the length of string $$$a$$$).You are asked $$$q$$$ queries: for the $$$i$$$-th query you are required to calculate the number of occurrences of string $$$t$$$ in a substring $$$s[l_i..r_i]$$$.",
+    "prob_desc_output_spec": "Print $$$q$$$ lines — the $$$i$$$-th line should contain the answer to the $$$i$$$-th query, that is the number of occurrences of string $$$t$$$ in a substring $$$s[l_i..r_i]$$$.",
+    "prob_desc_input_spec": "The first line contains three integer numbers $$$n$$$, $$$m$$$ and $$$q$$$ ($$$1 \\le n, m \\le 10^3$$$, $$$1 \\le q \\le 10^5$$$) — the length of string $$$s$$$, the length of string $$$t$$$ and the number of queries, respectively. The second line is a string $$$s$$$ ($$$|s| = n$$$), consisting only of lowercase Latin letters. The third line is a string $$$t$$$ ($$$|t| = m$$$), consisting only of lowercase Latin letters. Each of the next $$$q$$$ lines contains two integer numbers $$$l_i$$$ and $$$r_i$$$ ($$$1 \\le l_i \\le r_i \\le n$$$) — the arguments for the $$$i$$$-th query.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_002.jsonl",
+    "code_uid": "cd751ad3496d7c08bf527ff55803fa02",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10 3 4\\ncodeforces\\nfor\\n1 3\\n3 10\\n5 6\\n5 7\", \"15 2 3\\nabacabadabacaba\\nba\\n1 15\\n3 4\\n2 14\", \"3 5 2\\naaa\\nbaaab\\n1 3\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a1 = list(map(int, input().split(' ')[:3]))\nbigString = input()\nlittleString = input()\nall = 0\nleft = [0]*len(bigString)\nright = [0]*len(bigString)\nleftCount = 0\nrightCount = 0\nfor i in range(len(bigString)):\n    left[i] = leftCount\n    if bigString.find(littleString,i,i + len(littleString)) != -1:\n        leftCount += 1\nfor i in range(len(bigString) - 1, -1, -1):\n    #print(i)\n    right[i] = rightCount\n    if bigString.find(littleString,i - len(littleString) + 1, i + 1) != -1:\n        rightCount += 1\nfor i in range(len(bigString)):\n    if bigString.find(littleString,i,i + len(littleString)) != -1:\n        all += 1\n#print(left)\n#print(right)\n#print(all, \"all\")\nfor s in range(a1[2]):\n    a2 = list(map(int, input().split(' ')[:2]))\n    a2[0] -= 1\n    a2[1] -= 1\n    if a2[1] - a2[0] < len(littleString) - 1:\n        print(0)\n    else:\n        result = all - right[a2[1]] - left[a2[0]]\n        print(result)\n",
+    "prob_desc_created_at": "1533307500",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\", \"0\", \"10000800015\"]",
+    "src_uid": "0e162ea665732714283317e7c052e234",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In the evening, after the contest Ilya was bored, and he really felt like maximizing. He remembered that he had a set of n sticks and an instrument. Each stick is characterized by its length li.Ilya decided to make a rectangle from the sticks. And due to his whim, he decided to make rectangles in such a way that maximizes their total area. Each stick is used in making at most one rectangle, it is possible that some of sticks remain unused. Bending sticks is not allowed.Sticks with lengths a1, a2, a3 and a4 can make a rectangle if the following properties are observed:  a1 ≤ a2 ≤ a3 ≤ a4  a1 = a2  a3 = a4 A rectangle can be made of sticks with lengths of, for example, 3 3 3 3 or 2 2 4 4. A rectangle cannot be made of, for example, sticks 5 5 5 7.Ilya also has an instrument which can reduce the length of the sticks. The sticks are made of a special material, so the length of each stick can be reduced by at most one. For example, a stick with length 5 can either stay at this length or be transformed into a stick of length 4.You have to answer the question — what maximum total area of the rectangles can Ilya get with a file if makes rectangles from the available sticks?",
+    "prob_desc_output_spec": "The first line of the output must contain a single non-negative integer — the maximum total area of the rectangles that Ilya can make from the available sticks.",
+    "prob_desc_input_spec": "The first line of the input contains a positive integer n (1 ≤ n ≤ 105) — the number of the available sticks. The second line of the input contains n positive integers li (2 ≤ li ≤ 106) — the lengths of the sticks.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_010.jsonl",
+    "code_uid": "8931ecfe16ea421314b2adfadf7456d7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 4 4 2\", \"4\\n2 2 3 5\", \"4\\n100003 100004 100005 100006\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\nl=list(map(int,input().split()))\nl=sorted(l)\nl=l[::-1]\nk=0\nb=-1\n\nfor i in range(n-1) :\n    if l[i]==l[i+1] and b==-1 :\n        b=l[i]\n        l[i+1]=-1\n    if l[i]==l[i+1] and b!=-1 :\n        k+=b*l[i]\n        b=-1\n        l[i+1]=-1\n    if l[i]==l[i+1]+1 and b==-1:\n        b=l[i]-1\n        l[i+1]=-1\n    if l[i]==l[i+1]+1 and b!=-1 :\n        k+=b*(l[i]-1)\n        b=-1\n        l[i+1]=-1\n    \n        \nprint(k)\n    \n        \n    \n",
+    "prob_desc_created_at": "1427387400",
+    "tags": [
+        "sortings",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n2\\n1 4\\n4\\n5 3 2 1\\n5\\n4 1 2 3 5\", \"NO\\n2\"]",
+    "src_uid": "8c06963c45469f638a1c7c4769295be9",
+    "prob_desc_notes": "NoteHere is what the queries look like for the first test case (red corresponds to the 1st query, blue 2nd query, and green 3rd query):    Notice that every edge in the graph is part of either $$$0$$$ or $$$2$$$ colored query edges.The graph in the second test case looks like this:    There does not exist an assignment of paths that will force all edges to have even weights with the given queries. One must add at least $$$2$$$ new queries to obtain a set of queries that can satisfy the condition.",
+    "prob_desc_description": "She does her utmost to flawlessly carry out a person's last rites and preserve the world's balance of yin and yang.Hu Tao, being the little prankster she is, has tried to scare you with this graph problem! You are given a connected undirected graph of $$$n$$$ nodes with $$$m$$$ edges. You also have $$$q$$$ queries. Each query consists of two nodes $$$a$$$ and $$$b$$$.Initially, all edges in the graph have a weight of $$$0$$$. For each query, you must choose a simple path starting from $$$a$$$ and ending at $$$b$$$. Then you add $$$1$$$ to every edge along this path. Determine if it's possible, after processing all $$$q$$$ queries, for all edges in this graph to have an even weight. If so, output the choice of paths for each query. If it is not possible, determine the smallest number of extra queries you could add to make it possible. It can be shown that this number will not exceed $$$10^{18}$$$ under the given constraints.A simple path is defined as any path that does not visit a node more than once.An edge is said to have an even weight if its value is divisible by $$$2$$$.",
+    "prob_desc_output_spec": "If it is possible to force all edge weights to be even, print \"YES\" on the first line, followed by $$$2q$$$ lines indicating the choice of path for each query in the same order the queries are given. For each query, the first line should contain a single integer $$$x$$$: the number of nodes in the chosen path. The next line should then contain $$$x$$$ spaced separated integers $$$p_i$$$ indicating the path you take ($$$p_1 = a, p_x = b$$$ and all numbers should fall between $$$1$$$ and $$$n$$$). This path cannot contain duplicate nodes and must be a valid simple path in the graph. If it is impossible to force all edge weights to be even, print \"NO\" on the first line and the minimum number of added queries on the second line.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\leq n \\leq 3 \\cdot 10^5$$$, $$$n-1 \\leq m \\leq \\min{\\left(\\frac{n(n-1)}{2}, 3 \\cdot 10^5\\right)}$$$). Each of the next $$$m$$$ lines contains two integers $$$x$$$ and $$$y$$$ ($$$1 \\leq x, y \\leq n$$$, $$$x\\neq y$$$) indicating an undirected edge between node $$$x$$$ and $$$y$$$. The input will not contain self-loops or duplicate edges, and the provided graph will be connected. The next line contains a single integer $$$q$$$ ($$$1 \\leq q \\leq 3 \\cdot 10^5$$$). Each of the next $$$q$$$ lines contains two integers $$$a$$$ and $$$b$$$ ($$$1 \\leq a, b \\leq n, a \\neq b$$$), the description of each query. It is guaranteed that $$$nq \\leq 3 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_087.jsonl",
+    "code_uid": "fb387101b53d97c89a12905bb41874ad",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"6 7\\n2 1\\n2 3\\n3 5\\n1 4\\n6 1\\n5 6\\n4 5\\n3\\n1 4\\n5 1\\n4 5\", \"5 7\\n4 3\\n4 5\\n2 1\\n1 4\\n1 3\\n3 5\\n3 2\\n4\\n4 2\\n3 5\\n5 1\\n4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput=sys.stdin.readline\r\ndef unionfind(u):\r\n    v=u\r\n    while u!=parent[u]:\r\n        u=parent[u]\r\n    while v!=u:\r\n        w=parent[v]\r\n        parent[v]=u\r\n        v=parent[w]\r\n    return u\r\ndef path(u,v):\r\n    s=[u]\r\n    pre=[-1]*(n+1)\r\n    pre[u]=u\r\n    while s:\r\n        x=s.pop()\r\n        for y in g[x]:\r\n            if pre[y]>=0:\r\n                continue\r\n            pre[y]=x\r\n            s.append(y)\r\n    ans=[v]\r\n    while ans[-1]!=u:\r\n        ans.append(pre[ans[-1]])\r\n    return ans[::-1]\r\nn,m=map(int,input().split())#30w 30w\r\ng=[[] for i in range(n+1)]\r\nparent=[i for i in range(n+1)]\r\nfor i in range(m):\r\n    u, v = map(int, input().split())\r\n    root1,root2=unionfind(u),unionfind(v)\r\n    if root1==root2:\r\n        continue\r\n    parent[max(root1,root2)]=min(root1,root2)\r\n    g[u].append(v)\r\n    g[v].append(u)\r\nl=len(g)\r\nq=int(input())#n*q 30w\r\nquery=[]\r\nd={}\r\nfor i in range(q):\r\n    a,b=map(int,input().split())\r\n    query.append([a,b])\r\n    if a in d:\r\n        del d[a]\r\n    else:\r\n        d[a]=1\r\n    if b in d:\r\n        del d[b]\r\n    else:\r\n        d[b]=1\r\nif len(d)>0:\r\n    print(\"NO\")\r\n    print(len(d)//2)\r\nelse:\r\n    print(\"YES\")\r\n    for i in range(q):\r\n        ans=path(query[i][0],query[i][1])\r\n        print(len(ans))\r\n        print(\" \".join(map(str,ans)))\r\n",
+    "prob_desc_created_at": "1634468700",
+    "tags": [
+        "constructive algorithms",
+        "dfs and similar",
+        "graph matchings",
+        "graphs",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

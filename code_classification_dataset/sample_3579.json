@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"? 7 3 5\\n\\n? 1 6 4\\n\\n? 1 5 4\\n\\n! 4\"]",
+    "src_uid": "f413f65186ec202bc75809985fba1222",
+    "prob_desc_notes": "NoteThe labels corresponding to the tree in the example are [$$$4$$$,$$$7$$$,$$$2$$$,$$$6$$$,$$$1$$$,$$$5$$$,$$$3$$$], meaning the root is labelled $$$4$$$, and for $$$1 &lt; i \\le n$$$, the parent of $$$p_i$$$ is $$$p_{ \\lfloor{\\frac{i}{2}}\\rfloor }$$$.",
+    "prob_desc_description": "This is an interactive problem.Igor wants to find the key to Olha's heart. The problem is, that it's at the root of a binary tree.There is a perfect binary tree of height $$$h$$$ consisting of $$$n = 2^{h} - 1$$$ nodes. The nodes have been assigned distinct labels from $$$1$$$ to $$$n$$$. However, Igor only knows $$$h$$$ and does not know which label corresponds to which node. To find key to Olha's heart he needs to find the label assigned to the root by making queries of the following type at most $$$n+420$$$ times:   Select three distinct labels $$$u$$$, $$$v$$$ and $$$w$$$ ($$$1 \\leq u,v,w \\leq n$$$).  In response, Olha (the grader) will tell him the label of the lowest common ancestor of nodes labelled $$$u$$$ and $$$v$$$, if the tree was rooted at the node labelled $$$w$$$ instead. Help Igor to find the root!Note: the grader is not adaptive: the labels are fixed before any queries are made.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first and only line contains a single integer $$$h$$$ ($$$3 \\le h \\le 18$$$) — the height of the tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 3000,
+    "file_name": "train_070.jsonl",
+    "code_uid": "937adcfff09bc0c293d167316a00f8fb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n2\\n\\n7\\n\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys,random\ndef main():\n    h = int(input());power = [1];askarray = [];askarrayind = []\n    for i in range(h+1):power.append(power[-1] * 2)    \n    for j in range(0, power[h]):askarrayind.append([0, j])\n    n = power[h] - 1;askcnt = 420\n    for i in range(askcnt):\n        a = random.randint(1, n);b = random.randint(1, n)\n        while (b == a):b = random.randint(1, n)\n        c = random.randint(1, n)\n        while (c == a or c == b):c = random.randint(1, n)\n        print(\"?\", a, b, c);sys.stdout.flush();answer = int(input());askarrayind[answer][0] += 1\n    result = sorted(askarrayind, key=lambda thing: -thing[0]);a = result[0][1];b = result[1][1];chkff = False;batch_size = 200\n    for j in range((n+1)//batch_size + 2):\n        for i in range(1 + batch_size * j, min(1 + batch_size * (j+1), n+1)):\n            if i == a or i == b:continue\n            print(\"?\", a, b, i)\n        sys.stdout.flush()\n        for i in range(1 + batch_size * j, min(1 + batch_size * (j+1), n+1)):\n            if i == a or i == b:continue\n            if int(input()) == i:print(\"!\", i);chkff = True;break\n        if chkff:break\nmain()",
+    "prob_desc_created_at": "1605278100",
+    "tags": [
+        "probabilities",
+        "trees",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

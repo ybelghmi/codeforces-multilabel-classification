@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"2\", \"0\", \"1\"]",
+    "src_uid": "faa818be6510476c5b68d11f562643ce",
+    "prob_desc_notes": null,
+    "prob_desc_description": "New Year is getting near. So it's time to change handles on codeforces. Mishka wants to change his handle but in such a way that people would not forget who he is.To make it work, he only allowed to change letters case. More formally, during one handle change he can choose any segment of his handle $$$[i; i + l - 1]$$$ and apply tolower or toupper to all letters of his handle on this segment (more fomally, replace all uppercase letters with corresponding lowercase or vice versa). The length $$$l$$$ is fixed for all changes.Because it is not allowed to change codeforces handle too often, Mishka can perform at most $$$k$$$ such operations. What is the minimum value of $$$min(lower, upper)$$$ (where $$$lower$$$ is the number of lowercase letters, and $$$upper$$$ is the number of uppercase letters) can be obtained after optimal sequence of changes?",
+    "prob_desc_output_spec": "Print one integer — the minimum value of $$$min(lower, upper)$$$ after that Mishka change his handle at most $$$k$$$ times in a way described in the problem statement.",
+    "prob_desc_input_spec": "The first line of the input contains three integers $$$n, k$$$ and $$$l$$$ ($$$1 \\le n, k, l \\le 10^6, l \\le n)$$$ — the length of Mishka's handle, the number of changes and the length of the segment. The second line of the input contains one string $$$s$$$, consisting of $$$n$$$ lowercase and uppercase Latin letters — Mishka's handle.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2800,
+    "file_name": "train_051.jsonl",
+    "code_uid": "392766f4c0fb0b04f03f701772cb67a1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 1 4\\nPikMike\", \"15 2 2\\nAaAaAAaaAAAAaaA\", \"14 2 6\\naBcdEFGHIJklMn\", \"9 2 2\\naAaAAAaaA\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nn,k,l = [int(x) for x in input().split()]\nS = [+(c<'a') for c in input()]\n\ndef solve2(cutoff, cumsum):\n    DP = [0.0]*n\n    count = [0]*n\n    for i in range(n):\n        end = i + l if i + l < n else n - 1\n        inc = cumsum[end] - cumsum[i] - cutoff\n        if inc > 0.0 and DP[end] < DP[i] + inc:\n            DP[end] = DP[i] + inc\n            count[end] = count[i] + 1\n        if i + 1 < n and DP[i + 1] < DP[i]:\n            DP[i + 1] = DP[i]\n            count[i + 1] = count[i]\n    return DP[-1], count[-1]\n\ndef solve(S):\n    if k * l >= n:\n        return 0\n    \n    cumsum = [0]\n    for s in S:\n        cumsum.append(cumsum[-1] + s)\n    \n    low = 0.0\n    high = float(cumsum[-1])#cumsum[-1] + 1\n    while high - low > 1e-9:\n        mid = (low + high) / 2\n        if solve2(mid, cumsum)[1] <= k:\n            high = mid\n        else:\n            low = mid\n\n    val, count = solve2(high, cumsum)\n    val += k * high\n    #print val\n    return cumsum[-1] - int(val + 0.5)\n\nprint min(solve(S), solve([1-x for x in S]))\n\n",
+    "prob_desc_created_at": "1577457600",
+    "tags": [
+        "dp",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

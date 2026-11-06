@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0079\\n1337\\n234642\"]",
+    "src_uid": "55956c5389c34e4012069de92b3185dc",
+    "prob_desc_notes": "NoteIn the first test case, you can perform the following sequence of operations (the pair of swapped digits is highlighted): $$$0 \\underline{\\textbf{70}} 9 \\rightarrow 0079$$$.In the second test case, the initial integer is optimal. In the third test case you can perform the following sequence of operations: $$$246 \\underline{\\textbf{43}} 2 \\rightarrow 24 \\underline{\\textbf{63}}42 \\rightarrow 2 \\underline{\\textbf{43}} 642 \\rightarrow 234642$$$.",
+    "prob_desc_description": "You are given a huge integer $$$a$$$ consisting of $$$n$$$ digits ($$$n$$$ is between $$$1$$$ and $$$3 \\cdot 10^5$$$, inclusive). It may contain leading zeros.You can swap two digits on adjacent (neighboring) positions if the swapping digits are of different parity (that is, they have different remainders when divided by $$$2$$$). For example, if $$$a = 032867235$$$ you can get the following integers in a single operation:   $$$302867235$$$ if you swap the first and the second digits;  $$$023867235$$$ if you swap the second and the third digits;  $$$032876235$$$ if you swap the fifth and the sixth digits;  $$$032862735$$$ if you swap the sixth and the seventh digits;  $$$032867325$$$ if you swap the seventh and the eighth digits. Note, that you can't swap digits on positions $$$2$$$ and $$$4$$$ because the positions are not adjacent. Also, you can't swap digits on positions $$$3$$$ and $$$4$$$ because the digits have the same parity.You can perform any number (possibly, zero) of such operations.Find the minimum integer you can obtain.Note that the resulting integer also may contain leading zeros.",
+    "prob_desc_output_spec": "For each test case print line — the minimum integer you can obtain.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the input. The only line of each test case contains the integer $$$a$$$, its length $$$n$$$ is between $$$1$$$ and $$$3 \\cdot 10^5$$$, inclusive. It is guaranteed that the sum of all values $$$n$$$ does not exceed $$$3 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_001.jsonl",
+    "code_uid": "ffb0ffd31740efbc4c62d1384fa597bb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0709\\n1337\\n246432\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from __future__ import division, print_function\n\ndef main():\n    for _ in range(int(input())):\n        s = list(map(int, input()))\n\n        out = 99\n        odd = [i for i in s if i%2==1] + [out]\n        even = [i for i in s if i%2==0] + [out]\n\n        i = iter(even)\n        j = iter(odd)\n        x, y = next(i), next(j)\n        while x!=out or y!=out:\n            while x < y:\n                if x == out:\n                    break\n                print(x, end='')\n                x = next(i)\n            while y < x:\n                if y == out:\n                    break\n                print(y, end='')\n                y = next(j)\n        print()\n\nINF = float('inf')\nMOD = 10 ** 9 + 7\n__interactive = False\n\nimport os, sys\nfrom atexit import register\nfrom io import BytesIO\nimport itertools\nimport __pypy__\n\nif sys.version_info[0] < 3:\n    input = raw_input\n    range = xrange\n\n    filter = itertools.ifilter\n    map = itertools.imap\n    zip = itertools.izip\n\nmulmod = __pypy__.intop.int_mulmod\n\nif \"LOCAL_\" in os.environ:\n    debug_print = print\nelse:\n    if not __interactive:\n        sys.stdin = BytesIO(os.read(0, os.fstat(0).st_size))\n        sys.stdout = BytesIO()\n        register(lambda: os.write(1, sys.stdout.getvalue()))\n\n        input = lambda: sys.stdin.readline().rstrip('\\r\\n')\n    debug_print = lambda *x, **y: None\n\nflush = sys.stdout.flush\n\ndef gcd(x, y):\n    while y:\n        x, y = y, x % y\n    return x\n    \ndef input_as_list():\n    return list(map(int, input().split()))\n\ndef input_as_list_offset(o):\n    return list(map(lambda x:int(x)+o, input().split()))\n    \ndef input_as_matrix(n, m):\n    return [input_as_list() for _ in range(n)]\n    \ndef array_of(f, *dim):\n    return [array_of(f, *dim[1:]) for _ in range(dim[0])] if dim else f()\n\ndef range_with_count(start, step, count):\n    return range(start, start + step * count, step)\n\ndef indices(l, start=0, end=0):\n    return range(start, len(l)+end)\n\ndef ceil_power_of_2(n):\n    \"\"\" [0, 1, 2, 4, 4, 8, 8, 8, 8, 16, 16, ...] \"\"\"\n    return 2 ** ((n - 1).bit_length())\n\ndef ceil_div(x, r):\n    \"\"\" = ceil(x / r) \"\"\"\n    return (x + r - 1) // r\n    \nmain()",
+    "prob_desc_created_at": "1571929500",
+    "tags": [
+        "two pointers",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

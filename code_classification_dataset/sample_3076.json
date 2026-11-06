@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"34\"]",
+    "src_uid": "13b9b9c47ae7e8cfdcaee50f9c187d84",
+    "prob_desc_notes": "NoteThe picture corresponding to the first example:",
+    "prob_desc_description": "You are given a tree (an undirected connected acyclic graph) consisting of $$$n$$$ vertices and $$$n - 1$$$ edges. A number is written on each edge, each number is either $$$0$$$ (let's call such edges $$$0$$$-edges) or $$$1$$$ (those are $$$1$$$-edges).Let's call an ordered pair of vertices $$$(x, y)$$$ ($$$x \\ne y$$$) valid if, while traversing the simple path from $$$x$$$ to $$$y$$$, we never go through a $$$0$$$-edge after going through a $$$1$$$-edge. Your task is to calculate the number of valid pairs in the tree.",
+    "prob_desc_output_spec": "Print one integer — the number of valid pairs of vertices.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$2 \\le n \\le 200000$$$) — the number of vertices in the tree. Then $$$n - 1$$$ lines follow, each denoting an edge of the tree. Each edge is represented by three integers $$$x_i$$$, $$$y_i$$$ and $$$c_i$$$ ($$$1 \\le x_i, y_i \\le n$$$, $$$0 \\le c_i \\le 1$$$, $$$x_i \\ne y_i$$$) — the vertices connected by this edge and the number written on it, respectively. It is guaranteed that the given edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_040.jsonl",
+    "code_uid": "e8ef59f05401fca7d239d8afcc917d02",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n2 1 1\\n3 2 0\\n4 2 1\\n5 2 0\\n6 7 1\\n7 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nreadline = sys.stdin.buffer.readline\nread = sys.stdin.read\nns = lambda: readline().rstrip()\nni = lambda: int(readline().rstrip())\nnm = lambda: map(int, readline().split())\nnl = lambda: list(map(int, readline().split()))\nprn = lambda x: print(*x, sep='\\n')\n\nclass UnionFind:\n    def __init__(self, n):\n        self.ps = [-1] * (n + 1)\n\n    def find(self, x):\n        if self.ps[x] < 0:\n            return x\n        else:\n            self.ps[x] = self.find(self.ps[x])\n            return self.ps[x]\n\n    def unite(self, x, y):\n        x = self.find(x)\n        y = self.find(y)\n        if x == y:\n            return False\n        if self.ps[x] > self.ps[y]:\n            x, y = y, x\n        self.ps[x] += self.ps[y]\n        self.ps[y] = x\n        return True\n\n    def same(self, x, y):\n        return self.find(x) == self.find(y)\n\n    def size(self, x):\n        x = self.find(x)\n        return -self.ps[x]\n\n\ndef solve():\n    n = ni()\n    uni = [UnionFind(n), UnionFind(n)]\n    for _ in range(n-1):\n        u, v, c = nm()\n        u -= 1; v -= 1\n        uni[c].unite(u, v)\n    ans = 0\n    for c in range(2):\n        for i in range(n):\n            if uni[c].find(i) == i:\n                v = uni[c].size(i)\n                ans += v * (v-1)\n    for i in range(n):\n        # print(i, (uni[0].size(i), uni[1].size(i)))\n        ans += (uni[0].size(i) - 1) * (uni[1].size(i) - 1)\n    print(ans)\n    return\n\nsolve()\n\n# T = ni()\n# for _ in range(T):\n#     solve()\n",
+    "prob_desc_created_at": "1556721300",
+    "tags": [
+        "dp",
+        "dsu",
+        "divide and conquer",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

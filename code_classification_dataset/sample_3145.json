@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"15\\n1\\n1\", \"16\\n1\\n2\"]",
+    "src_uid": "688c6edee8b1f2fac6a600f4b18b905f",
+    "prob_desc_notes": "NoteIn the first sample, Vasya cannot use ramp 2, because then he will need to gather speed starting from point -3, which is not permitted by the statement. The optimal option is using ramp 1, the resulting time is: moving to the point of gathering speed + gathering speed until reaching the takeoff ramp + flight time + moving to the finish line = 0 + 5 + 5 + 5 = 15.In the second sample using ramp 1 is not optimal for Vasya as t1 &gt; d1. The optimal option is using ramp 2, the resulting time is: moving to the point of gathering speed + gathering speed until reaching the takeoff ramp + flight time + moving to the finish line = 14 + 1 + 1 + 0 = 16.",
+    "prob_desc_description": "Vasya participates in a ski race along the X axis. The start is at point 0, and the finish is at L, that is, at a distance L meters from the start in the positive direction of the axis. Vasya has been training so hard that he can run one meter in exactly one second.Besides, there are n take-off ramps on the track, each ramp is characterized by four numbers:   xi represents the ramp's coordinate  di represents from how many meters Vasya will land if he goes down this ramp  ti represents the flight time in seconds  pi is the number, indicating for how many meters Vasya should gather speed to get ready and fly off the ramp. As Vasya gathers speed, he should ski on the snow (that is, he should not be flying), but his speed still equals one meter per second. Vasya is allowed to move in any direction on the X axis, but he is prohibited to cross the start line, that is go to the negative semiaxis. Vasya himself chooses which take-off ramps he will use and in what order, that is, he is not obliged to take off from all the ramps he encounters. Specifically, Vasya can skip the ramp. It is guaranteed that xi + di ≤ L, that is, Vasya cannot cross the finish line in flight.Vasya can jump from the ramp only in the positive direction of X axis. More formally, when using the i-th ramp, Vasya starts gathering speed at point xi - pi, jumps at point xi, and lands at point xi + di. He cannot use the ramp in opposite direction.Your task is to find the minimum time that Vasya will spend to cover the distance.",
+    "prob_desc_output_spec": "Print in the first line the minimum time in seconds Vasya needs to complete the track. Print in the second line k — the number of take-off ramps that Vasya needs to use, and print on the third line of output k numbers the number the take-off ramps Vasya used in the order in which he used them. Print each number exactly once, separate the numbers with a space. The ramps are numbered starting from 1 in the order in which they are given in the input.",
+    "prob_desc_input_spec": "The first line contains two integers n and L (0 ≤ n ≤ 105, 1 ≤ L ≤ 109). Then n lines contain the descriptions of the ramps, each description is on a single line. Each description is a group of four non-negative integers xi, di, ti, pi (0 ≤ xi ≤ L, 1 ≤ di, ti, pi ≤ 109, xi + di ≤ L).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_043.jsonl",
+    "code_uid": "c7bf0d34745e96229ed0dd3c459a452a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 20\\n5 10 5 5\\n4 16 1 7\", \"2 20\\n9 8 12 6\\n15 5 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from heapq import *\n\nn, L = [int(i) for i in input().split()]\n\ndots = [0, L]\n\ntr, ind = {}, {}\n\nfor i in range(n):\n    x, d, t, p = [int(i) for i in input().split()]\n    if x - p < 0 or t >= d:\n        continue\n    tr.setdefault(x - p, [])\n    tr[x - p].append((x + d, p + t, i))\n    dots.append(x - p)\n    dots.append(x + d)\n\ndots = [i for i in set(dots)] \ndots.sort()\ng = [[] for i in dots]\n\n\nfor i in range(1, len(dots) - 1):\n    g[i].append((i - 1, dots[i] - dots[i - 1]))\n    g[i].append((i + 1, dots[i + 1] - dots[i]))\ng[0].append((1, dots[1] - dots[0]))\ng[-1].append((len(dots) - 2, dots[-1] - dots[-2]))\n\nfor i, x in enumerate(dots):\n    ind[x] = i\n    \nfor i, x in enumerate(dots):\n    if not x in tr:\n        continue\n    for j in tr[x]:\n        g[i].append((ind[j[0]], j[1], j[2]))\n        \nd, p, val = [2000000000 for i in dots], [-1 for i in dots], [-1 for i in dots]\nd[0] = 0\n\nq = [(0, 0)]\nwhile len(q) > 0:\n    dist, v = heappop(q)\n    if dist > d[v]:\n        continue\n    for e in g[v]:\n        if  d[e[0]] > d[v] + e[1]:\n            d[e[0]] = d[v] + e[1]\n            p[e[0]] = v\n            if len(e) > 2:\n                val[e[0]] = e[2]\n            else:\n                val[e[0]] = -1\n            heappush(q, (d[e[0]], e[0]))\nprint(d[len(dots) - 1])\n\nv = len(dots) - 1\nans = []\nwhile v != 0:\n    if val[v] != -1:\n        ans += [val[v]]\n    v = p[v]\nans.reverse()\nans = [i + 1 for i in ans]\nprint(len(ans))\nprint(*ans)\n    ",
+    "prob_desc_created_at": "1326034800",
+    "tags": [
+        "shortest paths",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

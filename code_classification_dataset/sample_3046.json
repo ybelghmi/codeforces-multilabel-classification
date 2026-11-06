@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n3 4\", \"0\"]",
+    "src_uid": "f336b622fdaf5960032268641320bb53",
+    "prob_desc_notes": "NoteIn the first example the point $$$1$$$ belongs to the second segment, the point $$$2$$$ belongs to the first and the second segments and the point $$$5$$$ belongs to the third segment. The points $$$3$$$ and $$$4$$$ do not belong to any segment.In the second example all the points from $$$1$$$ to $$$7$$$ belong to the first segment.",
+    "prob_desc_description": "You are given a set of $$$n$$$ segments on the axis $$$Ox$$$, each segment has integer endpoints between $$$1$$$ and $$$m$$$ inclusive. Segments may intersect, overlap or even coincide with each other. Each segment is characterized by two integers $$$l_i$$$ and $$$r_i$$$ ($$$1 \\le l_i \\le r_i \\le m$$$) — coordinates of the left and of the right endpoints. Consider all integer points between $$$1$$$ and $$$m$$$ inclusive. Your task is to print all such points that don't belong to any segment. The point $$$x$$$ belongs to the segment $$$[l; r]$$$ if and only if $$$l \\le x \\le r$$$.",
+    "prob_desc_output_spec": "In the first line print one integer $$$k$$$ — the number of points that don't belong to any segment. In the second line print exactly $$$k$$$ integers in any order — the points that don't belong to any segment. All points you print should be distinct. If there are no such points at all, print a single integer $$$0$$$ in the first line and either leave the second line empty or do not print it at all.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 100$$$) — the number of segments and the upper bound for coordinates. The next $$$n$$$ lines contain two integers each $$$l_i$$$ and $$$r_i$$$ ($$$1 \\le l_i \\le r_i \\le m$$$) — the endpoints of the $$$i$$$-th segment. Segments may intersect, overlap or even coincide with each other. Note, it is possible that $$$l_i=r_i$$$, i.e. a segment can degenerate to a point.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_040.jsonl",
+    "code_uid": "3a4d70e321512f50d8889d2fc9cf7b42",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 5\\n2 2\\n1 2\\n5 5\", \"1 7\\n1 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nl=list(map(int, input().split()))\nI = []\nfor i in range(l[0]):\n    k = list(map(int, input().split()))\n    I.append(k)\n\ndef segment(l):\n    return [int(i) for i in range(l[0],l[1]+1)]\n\ndef count_absent_point(l,I):\n    main = []\n    count_absent = 0\n    absent_num =[]\n    for i in I:\n        for j in segment(i):\n            main.append(j)\n    Set = set(main)\n    for i in range(1,l[1]+1):\n        if i not in Set:\n            count_absent += 1\n            absent_num.append(i)\n    if count_absent!=0:\n        print(count_absent)\n        print(' '.join([str(x) for x in absent_num]))\n    else:\n        print(0)\n\ncount_absent_point(l,I)",
+    "prob_desc_created_at": "1533047700",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

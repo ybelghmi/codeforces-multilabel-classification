@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n2\\n1\\n1\"]",
+    "src_uid": "08cd22b8ee760a9d2dacb0d050dcf37a",
+    "prob_desc_notes": "NoteIn the first test case of the example:After the first operation the string $$$s$$$ can become either aabbaa or baaaab. After the second operation there are 2 possibilities for $$$s$$$: aabbaaaabbaa and baaaabbaaaab.",
+    "prob_desc_description": "Real stupidity beats artificial intelligence every time.— Terry Pratchett, Hogfather, DiscworldYou are given a string $$$s$$$ of length $$$n$$$ and a number $$$k$$$. Let's denote by $$$rev(s)$$$ the reversed string $$$s$$$ (i.e. $$$rev(s) = s_n s_{n-1} ... s_1$$$). You can apply one of the two kinds of operations to the string: replace the string $$$s$$$ with $$$s + rev(s)$$$ replace the string $$$s$$$ with $$$rev(s) + s$$$How many different strings can you get as a result of performing exactly $$$k$$$ operations (possibly of different kinds) on the original string $$$s$$$?In this statement we denoted the concatenation of strings $$$s$$$ and $$$t$$$ as $$$s + t$$$. In other words, $$$s + t = s_1 s_2 ... s_n t_1 t_2 ... t_m$$$, where $$$n$$$ and $$$m$$$ are the lengths of strings $$$s$$$ and $$$t$$$ respectively.",
+    "prob_desc_output_spec": "For each test case, print the answer (that is, the number of different strings that you can get after exactly $$$k$$$ operations) on a separate line. It can be shown that the answer does not exceed $$$10^9$$$ under the given constraints.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — number of test cases. Next $$$2 \\cdot t$$$ lines contain $$$t$$$ test cases: The first line of a test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n \\le 100$$$, $$$0 \\le k \\le 1000$$$) — the length of the string and the number of operations respectively. The second string of a test case contains one string $$$s$$$ of length $$$n$$$ consisting of lowercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_107.jsonl",
+    "code_uid": "dc62050394c9275f8330a492bd0035bc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n\\n3 2\\n\\naab\\n\\n3 3\\n\\naab\\n\\n7 1\\n\\nabacaba\\n\\n2 0\\n\\nab\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/shafi/bin/env python\r\nimport os\r\nimport sys\r\nfrom io import BytesIO, IOBase\r\n\r\n\r\ndef main():\r\n    tc = int(input())\r\n    for _ in range(tc): #Testcases\r\n        n,m = map(int,input().split())\r\n        s = input()\r\n        i=0\r\n        j=len(s)-1\r\n        pal=True\r\n        while i<j:\r\n            if s[i]!=s[j]:\r\n                pal=False\r\n            i+=1\r\n            j-=1\r\n        if m==0 or pal==True:\r\n            print(1)\r\n        else:\r\n            print(2)\r\n    \r\n            \r\n\r\n\r\n\r\n\r\n\r\n# region fastio\r\n\r\nBUFSIZE = 8192\r\n\r\n\r\nclass FastIO(IOBase):\r\n    newlines = 0\r\n\r\n    def __init__(self, file):\r\n        self._file = file\r\n        self._fd = file.fileno()\r\n        self.buffer = BytesIO()\r\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\r\n        self.write = self.buffer.write if self.writable else None\r\n\r\n    def read(self):\r\n        while True:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            if not b:\r\n                break\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines = 0\r\n        return self.buffer.read()\r\n\r\n    def readline(self):\r\n        while self.newlines == 0:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            self.newlines = b.count(b\"\\n\") + (not b)\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines -= 1\r\n        return self.buffer.readline()\r\n\r\n    def flush(self):\r\n        if self.writable:\r\n            os.write(self._fd, self.buffer.getvalue())\r\n            self.buffer.truncate(0), self.buffer.seek(0)\r\n\r\n\r\nclass IOWrapper(IOBase):\r\n    def __init__(self, file):\r\n        self.buffer = FastIO(file)\r\n        self.flush = self.buffer.flush\r\n        self.writable = self.buffer.writable\r\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\r\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\r\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\r\n\r\n\r\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\r\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\r\n\r\n# endregion\r\n\r\nif __name__ == \"__main__\":\r\n    main()",
+    "prob_desc_created_at": "1644158100",
+    "tags": [
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

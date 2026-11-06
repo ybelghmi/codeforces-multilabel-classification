@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6 6\", \"6 6 6\", \"10\"]",
+    "src_uid": "3d347323920a00f8f4df19e549ab6804",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Ilya is very fond of graphs, especially trees. During his last trip to the forest Ilya found a very interesting tree rooted at vertex 1. There is an integer number written on each vertex of the tree; the number written on vertex i is equal to ai.Ilya believes that the beauty of the vertex x is the greatest common divisor of all numbers written on the vertices on the path from the root to x, including this vertex itself. In addition, Ilya can change the number in one arbitrary vertex to 0 or leave all vertices unchanged. Now for each vertex Ilya wants to know the maximum possible beauty it can have.For each vertex the answer must be considered independently.The beauty of the root equals to number written on it.",
+    "prob_desc_output_spec": "Output n numbers separated by spaces, where i-th number equals to maximum possible beauty of vertex i.",
+    "prob_desc_input_spec": "First line contains one integer number n — the number of vertices in tree (1 ≤ n ≤ 2·105). Next line contains n integer numbers ai (1 ≤ i ≤ n, 1 ≤ ai ≤ 2·105). Each of next n - 1 lines contains two integer numbers x and y (1 ≤ x, y ≤ n, x ≠ y), which means that there is an edge (x, y) in the tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_078.jsonl",
+    "code_uid": "80396aa88fa42a566c9fc791fcd450eb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n6 2\\n1 2\", \"3\\n6 2 3\\n1 2\\n1 3\", \"1\\n10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom fractions import gcd\n\nn = int(stdin.readline().strip())\nv = map(int, stdin.readline().strip().split())\n\nadj = [[] for _ in xrange(n)]\nfor _ in xrange(n-1):\n    x, y = map(int, stdin.readline().strip().split())\n    adj[x-1].append(y-1)\n    adj[y-1].append(x-1)\n\nroot_divisors = []\ncnt = [0]*200001\nd = 1\nwhile d*d <= v[0]:\n    if v[0] % d == 0:\n        root_divisors.append(d)\n        cnt[d] += 1\n        if v[0]/d != d:\n            root_divisors.append(v[0]/d)\n            cnt[v[0]/d] += 1\n    d += 1    \ns = [0]\nvisited = [False]*n\nvisited[0] = True\nlevel = [1]*n\nres1 = [0]*n\nres2 = [0]*n\nres1[0] = v[0]\nd = 1\nwhile s:\n    x = s[-1]\n    any_more = False\n    while adj[x]:\n        y = adj[x].pop()\n        if not visited[y]:\n            visited[y] = True\n            any_more = True\n            s.append(y)\n            level[y] = level[x]+1\n            res2[y] = gcd(res2[x], v[y])\n            for d in root_divisors:\n                if v[y] % d == 0:\n                    cnt[d] += 1\n                if cnt[d] == level[y] or cnt[d] == level[y]-1:\n                    res1[y] = max(res1[y], res2[y], d)\n            break\n    if not any_more:\n        s.pop()\n        for d in root_divisors:\n            if v[x] % d == 0:\n                cnt[d] -= 1\n        \nprint ' '.join(map(str, res1))      ",
+    "prob_desc_created_at": "1504019100",
+    "tags": [
+        "graphs",
+        "number theory",
+        "math",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

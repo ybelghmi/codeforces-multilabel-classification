@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\"]",
+    "src_uid": "27b93795ffc771b47b995e2b83f7b945",
+    "prob_desc_notes": "NoteIn the first example Vasya can move the second element to the end of the array.In the second example no move can make the division possible.In the third example Vasya can move the fourth element by one position to the left.",
+    "prob_desc_description": "Vasya has an array a consisting of positive integer numbers. Vasya wants to divide this array into two non-empty consecutive parts (the prefix and the suffix) so that the sum of all elements in the first part equals to the sum of elements in the second part. It is not always possible, so Vasya will move some element before dividing the array (Vasya will erase some element and insert it into an arbitrary position).Inserting an element in the same position he was erased from is also considered moving.Can Vasya divide the array after choosing the right element to move and its new position?",
+    "prob_desc_output_spec": "Print YES if Vasya can divide the array after moving one element. Otherwise print NO.",
+    "prob_desc_input_spec": "The first line contains single integer n (1 ≤ n ≤ 100000) — the size of the array. The second line contains n integers a1, a2... an (1 ≤ ai ≤ 109) — the elements of the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_031.jsonl",
+    "code_uid": "854ab90a875194f02c5489155f4c392e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 3 2\", \"5\\n1 2 3 4 5\", \"5\\n2 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\ndef f():\n n=int(input())\n s1=0\n s2=0\n m1={}\n m2={}\n A=list(map(int,input().split()))\n if n==1:\n  print(\"NO\")\n  return\n for i in A:\n  s2+=i\n  if i in m2:\n   m2[i]+=1\n  else:\n   m2[i]=1\n for i in A:\n  if (s1-s2)%2==0:\n   d=(s1-s2)//2\n   if d<0 and -d in m2 and m2[-d]>0:\n    print(\"YES\")\n    return\n   elif d in m1 and m1[d]>0:\n    print(\"YES\")\n    return\n  s1+=i\n  s2-=i\n  if i in m1:\n   m1[i]+=1\n  else:\n   m1[i]=1\n  m2[i]-=1\n print(\"NO\")\n return\nf()\n",
+    "prob_desc_created_at": "1494860700",
+    "tags": [
+        "data structures",
+        "binary search",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

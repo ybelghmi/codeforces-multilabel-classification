@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n(((0)-&gt;1)-&gt;(1-&gt;0))\", \"NO\", \"YES\\n0\"]",
+    "src_uid": "98380bd9d6865fa9a2d100ca3484b005",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Implication is a function of two logical arguments, its value is false if and only if the value of the first argument is true and the value of the second argument is false. Implication is written by using character '', and the arguments and the result of the implication are written as '0' (false) and '1' (true). According to the definition of the implication:   When a logical expression contains multiple implications, then when there are no brackets, it will be calculated from left to fight. For example,. When there are brackets, we first calculate the expression in brackets. For example,.For the given logical expression  determine if it is possible to place there brackets so that the value of a logical expression is false. If it is possible, your task is to find such an arrangement of brackets.",
+    "prob_desc_output_spec": "Print \"NO\" (without the quotes), if it is impossible to place brackets in the expression so that its value was equal to 0. Otherwise, print \"YES\" in the first line and the logical expression with the required arrangement of brackets in the second line. The expression should only contain characters '0', '1', '-' (character with ASCII code 45), '&gt;' (character with ASCII code 62), '(' and ')'. Characters '-' and '&gt;' can occur in an expression only paired like that: (\"-&gt;\") and represent implication. The total number of logical arguments (i.e. digits '0' and '1') in the expression must be equal to n. The order in which the digits follow in the expression from left to right must coincide with a1, a2, ..., an. The expression should be correct. More formally, a correct expression is determined as follows:   Expressions \"0\", \"1\" (without the quotes) are correct.  If v1, v2 are correct, then v1-&gt;v2 is a correct expression.  If v is a correct expression, then (v) is a correct expression.  The total number of characters in the resulting expression mustn't exceed 106. If there are multiple possible answers, you are allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 100 000) — the number of arguments in a logical expression. The second line contains n numbers a1, a2, ..., an (), which means the values of arguments in the expression in the order they occur.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_017.jsonl",
+    "code_uid": "2d867fa51a507a36e047344968f3cf62",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n0 1 1 0\", \"2\\n1 1\", \"1\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def f(a):\n    if len(a) == 1:\n        if a[0] == 0:\n            print(\"YES\\n0\")\n            return\n        else:\n            print(\"NO\")\n            return\n    if a[-1] == 1:\n        print(\"NO\")\n        return\n    if a[-2] == 1:\n        print(\"YES\")\n        print(\"->\".join(str(x) for x in a))\n        return\n    elif len(a) == 2:\n        print(\"NO\")\n        return\n    elif len(a) >= 3 and a[-3] == 0:\n        a[-3] = '(0'\n        a[-2] = '0)'\n        print(\"YES\\n\" + \"->\".join(str(x) for x in a))\n        return      \n    for i in range(len(a) - 3, -1, -1):\n        if a[i] == 0:\n            a[i] = '(' + str(a[i])\n            a[i+1] = '(' + str(a[i+1])\n            a[-2] = '0))'\n            print(\"YES\\n\" + \"->\".join(str(x) for x in a))\n            return\n    print(\"NO\")\n    return\n\nn = int(input())\na = list(int(x) for x in input().split())\nf(a)",
+    "prob_desc_created_at": "1433435400",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"XXL\\nL\\nL\"]",
+    "src_uid": "3c9d1de13e21ed16a7e5cbd2d67f4ce7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One day a well-known sponsor of a well-known contest decided to give every participant of the contest a T-shirt as a present. A natural problem occurred: on the one hand, it is not clear how many T-shirts of what sizes should be ordered, and on the other hand, one doesn't want to order too many T-shirts (and we do not exactly paper the walls with the oversupply). After considerable brain racking and some pre-estimating, the sponsor representatives ordered a certain number of T-shirts of sizes S, M, L, XL and XXL. The T-shirts turned out to bring good luck, that's why on the contest day there built up a line of K participants willing to get one. Every contestant is characterized by his/her desired T-shirt size (so it happens that for all the participants it is also one of the sizes S, M, L, XL and XXL). The participants come up to get a T-shirt one by one and try to choose the most suitable one, choosing it like this. If there is still a T-shirt of the optimal size left, that he/she takes it without further ado. Otherwise the contestant would prefer to choose a T-shirt with the size as close to the optimal one as possible (the distance between neighboring sizes is considered equal to one). If the variant of choice is not unique, the contestant will take a T-shirt of a bigger size (in case he/she grows more). For example, for a person whose optimal size is L the preference list looks like this: L, XL, M, XXL, S. Using the data on how many T-shirts of every size had been ordered by the organizers, on the size of contestants in the line determine who got a T-shirt of what size.",
+    "prob_desc_output_spec": "For each contestant, print a line containing the size of the T-shirt he/she got.",
+    "prob_desc_input_spec": "The first line contains five non-negative integers NS, NM, NL, NXL, NXXL not exceeding 1000 which represent the number of T-shirts of the corresponding sizes. The second line contains an integer K (1 ≤ K ≤ 1000) which represents the number of participants. The next K lines contain the optimal T-shirt sizes for the contestants. The sizes are given in the order in which the participants stand in the line. It is guaranteed that NS + NM + NL + NXL + NXXL ≥ K.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_009.jsonl",
+    "code_uid": "6dbaf021abdfbd5ec9f7212305ce2d8a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 0 2 0 1\\n3\\nXL\\nXXL\\nM\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "lstarr=list(map(int,input().split()))\nk=int(input())\ns=[0,1,2,3,4]\nm=[1,2,0,3,4]\nl=[2,3,1,4,0]\nxl=[3,4,2,1,0]\nxxl=[4,3,2,1,0]\ndct={\"S\":s,'M':m,\"L\":l,\"XL\":xl,\"XXL\":xxl}\ndct1={0:\"S\",1:\"M\",2:'L',3:'XL',4:\"XXL\"}\nfor i in range(k):\n    pref=dct[input()]\n    for j in pref:\n        if(lstarr[j]>0):\n            print(dct1[j])\n            lstarr[j]=lstarr[j]-1\n            break",
+    "prob_desc_created_at": "1291536000",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

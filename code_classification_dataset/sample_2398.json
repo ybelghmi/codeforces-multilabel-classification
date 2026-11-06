@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"-1\\nxoxox\", \"16\\noooo\", \"-16\\nxxxx\"]",
+    "src_uid": "c9785cd72988c80b72c3d09691e8db6c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "User ainta loves to play with cards. He has a cards containing letter \"o\" and b cards containing letter \"x\". He arranges the cards in a row, and calculates the score of the deck by the formula below.  At first, the score is 0.  For each block of contiguous \"o\"s with length x the score increases by x2.  For each block of contiguous \"x\"s with length y the score decreases by y2.   For example, if a = 6, b = 3 and ainta have arranged the cards in the order, that is described by string \"ooxoooxxo\", the score of the deck equals 22 - 12 + 32 - 22 + 12 = 9. That is because the deck has 5 blocks in total: \"oo\", \"x\", \"ooo\", \"xx\", \"o\".User ainta likes big numbers, so he wants to maximize the score with the given cards. Help ainta make the score as big as possible. Note, that he has to arrange all his cards.",
+    "prob_desc_output_spec": "In the first line print a single integer v — the maximum score that ainta can obtain. In the second line print a + b characters describing the deck. If the k-th card of the deck contains \"o\", the k-th character must be \"o\". If the k-th card of the deck contains \"x\", the k-th character must be \"x\". The number of \"o\" characters must be equal to a, and the number of \"x \" characters must be equal to b. If there are many ways to maximize v, print any. Please, do not write the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers a and b (0 ≤ a, b ≤ 105; a + b ≥ 1) — the number of \"o\" cards and the number of \"x\" cards.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": null,
+    "file_name": "train_022.jsonl",
+    "code_uid": "93e88060f9d7114b88ccdba4d8ca0ae9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\", \"4 0\", \"0 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a, b = map(int, input().split())\nsx = lambda p: (a - p + 1) ** 2 + p - 1\nsy = lambda q: (b % q) * (1 + b // q) ** 2 + (b // q) ** 2 * (q - b % q)\nn = min(a, b)\n\nif a == 0:\n    print( -b ** 2)\n    print( b * \"x\" )\n\nelif b <= 1:\n    print( a ** 2 - b ** 2 )\n    print ( a * \"o\" + b * \"x\" )\n\nelse:\n    res = - (a + b) ** 2\n    for p in range(1, n + 1):\n        for q in range(p-1, p+2):\n            if(1 <= q <= b):\n                pos = sx( p )\n                neg = sy( q )\n                if res < pos - neg:\n                    res = pos - neg\n                    res_p = p\n                    res_q = q\n    print( res )\n\n    s = \"\"\n    if res_p >= res_q:\n        for i in range(res_p):\n            wl = 1 if i > 0 else a - (res_p-1)\n            s += wl * \"x\"\n            ll = b // res_q + 1 if i < b % res_q else b // res_q\n            if i < res_q: s += ll * \"o\"\n    else:\n        for i in range(res_q):\n            ll = b // res_q + 1 if i < b % res_q else b // res_q;\n            s += ll * \"x\"\n            wl = 1 if i > 0 else a - (res_p-1)\n            if i < res_p: s+= wl * \"o\"\n    print( s )\n",
+    "prob_desc_created_at": "1393687800",
+    "tags": [
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

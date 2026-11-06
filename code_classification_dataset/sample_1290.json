@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"2\", \"0\", \"-1\"]",
+    "src_uid": "a3a7515219ebb0154218ee3520e20d75",
+    "prob_desc_notes": "NoteIn the first sample testcase the optimal scenario is to perform operations in such a way as to transform all strings into \"zwoxz\".",
+    "prob_desc_description": "Mike has n strings s1, s2, ..., sn each consisting of lowercase English letters. In one move he can choose a string si, erase the first character and append it to the end of the string. For example, if he has the string \"coolmike\", in one move he can transform it into the string \"oolmikec\".Now Mike asks himself: what is minimal number of moves that he needs to do in order to make all the strings equal?",
+    "prob_desc_output_spec": "Print the minimal number of moves Mike needs in order to make all the strings equal or print  - 1 if there is no solution.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 50) — the number of strings. This is followed by n lines which contain a string each. The i-th line corresponding to string si. Lengths of strings are equal. Lengths of each string is positive and don't exceed 50.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_008.jsonl",
+    "code_uid": "a92c478d9a6acd1d61dff61f27b4d575",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\nxzzwo\\nzwoxz\\nzzwox\\nxzzwo\", \"2\\nmolzv\\nlzvmo\", \"3\\nkc\\nkc\\nkc\", \"3\\naa\\naa\\nab\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def rotate(s):\n    n = len(s)\n    return s[1:] + s[0]\n\nn = int(input())\na = [input() for _ in range(n)]\n\ns = a[0]\nn = len(s)\nmin_cost = float('inf')\n\nfor _ in range(n):\n    s = rotate(s)\n    cost = 0\n    for i in a:\n        found = False\n        for _ in range(n):\n            if i == s:\n                found = True\n                break\n            cost += 1\n            i = rotate(i)\n        if not found:\n            cost = -float('inf')\n    min_cost = min(min_cost, cost)\n\nif min_cost < 0:\n    min_cost = -1\nprint(min_cost)\n",
+    "prob_desc_created_at": "1492785300",
+    "tags": [
+        "dp",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"LM\\nMW\\nMW\", \"LM\\nMW\\nLM\\nLW\\nMW\\nLM\\nLW\", \"Impossible\"]",
+    "src_uid": "1f4dfaff6d9d0e95573f272f71b0fd45",
+    "prob_desc_notes": null,
+    "prob_desc_description": "In the game Lizard Era: Beginning the protagonist will travel with three companions: Lynn, Meliana and Worrigan. Overall the game has n mandatory quests. To perform each of them, you need to take exactly two companions.The attitude of each of the companions to the hero is an integer. Initially, the attitude of each of them to the hero of neutral and equal to 0. As the hero completes quests, he makes actions that change the attitude of the companions, whom he took to perform this task, in positive or negative direction.Tell us what companions the hero needs to choose to make their attitude equal after completing all the quests. If this can be done in several ways, choose the one in which the value of resulting attitude is greatest possible.",
+    "prob_desc_output_spec": "If there is no solution, print in the first line \"Impossible\". Otherwise, print n lines, two characters is each line — in the i-th line print the first letters of the companions' names that hero should take to complete the i-th task ('L' for Lynn, 'M' for Meliana, 'W' for Worrigan). Print the letters in any order, if there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains positive integer n (1 ≤ n ≤ 25) — the number of important tasks.  Next n lines contain the descriptions of the tasks — the i-th line contains three integers li, mi, wi — the values by which the attitude of Lynn, Meliana and Worrigan respectively will change towards the hero if the hero takes them on the i-th task. All the numbers in the input are integers and do not exceed 107 in absolute value.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_021.jsonl",
+    "code_uid": "dcbca677687bb41b5b2547b7b37be22d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 0 0\\n0 1 0\\n0 0 1\", \"7\\n0 8 9\\n5 9 -2\\n6 -8 -7\\n9 4 5\\n-4 -9 9\\n-4 5 2\\n-6 8 -7\", \"2\\n1 0 0\\n1 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import copy\n\ndef fill(k):\n\tglobal di\n\tfor i in range(3):\n\t\tx = [tasks[k][0], tasks[k][1], tasks[k][2]]\n\t\tx[i] = 0\n\t\tmi = min(x)\n\t\tx[0],x[1],x[2] = x[0]-mi, x[1]-mi, x[2]-mi\n\t\tfor p in di[k+1]:\n\t\t\tu,v,w = x[0]+p[0],x[1]+p[1],x[2]+p[2]\n\t\t\tmi = min(u,v,w)\n\t\t\tu,v,w = u-mi, v-mi, w-mi\n\t\t\tdi[k][(u,v,w)] = 1\n\ndef recurse(k):\n\tglobal cp, tot, best, bits, n, n_count, func_count, m, di\n\t#print k\n#\tfunc_count+=1\n#\tif func_count%1000000 == 0:\n#\t\tprint bits\n\tif k==n:\n#\t\tn_count+=1\n#\t\tif n_count%1000 == 0:\n#\t\t\tprint n_count\n\n\t\t#print bits\n\t\t#print tot\n\t\tif tot[0]==tot[1] and tot[1]==tot[2]:\n\t\t\tif tot[0] > best:\n\t\t\t\tbest = tot[0]\n\t\t\t\tcp = copy.deepcopy(bits)\n\t\t\t\t#print best\n#\t\t\t\tprint cp\n#\t\t\t\tprint bits\n\t\t\treturn 1\n\t\treturn 0\n\t#bound:\n\tif n > 14 and k > m:\n\t\tM = max(tot[0], tot[1], tot[2])\t\n\t\t#t0, t1, t2 = M-tot[0], M-tot[1], M-tot[2]\n\t\tif (M-tot[0], M-tot[1], M-tot[2]) not in di[k]:\n\t\t\treturn 0\n\n#\tfor i in range(3): \n#\t\tfor j in range(3):\n#\t\t\tif i != j and tot[i] + sp[k][i] < tot[j] + sn[k][j]:\n#\t\t\t\treturn 0\n\n#\tif tot[0]+sp[k][0] < tot[1]+sn[k][1] or tot[0]+sp[k][0] < tot[2]+sn[k][2]:\n#\t\treturn 0\n\n\tfor i in range(3):\n\t\ttot[i] += tasks[k][i]\n\tfor i in range(3):\n\t\tbits[k] = i\n\t\ttot[i] -= tasks[k][i]\n\t\trecurse(k+1)\n\t\ttot[i] += tasks[k][i]\n\tfor i in range(3):\n\t\ttot[i] -= tasks[k][i]\n\n\n#print 'start'\nn_count = 0\nfunc_count = 0\nn = int(raw_input())\ntasks = [ [0,0,0,i] for i in range(n) ]\ntl = ['L', 'M', 'W'] #task labels\nbits = [-1 for i in range(n)]\nbest = -10**9 \ncp = []\ntot = [0,0,0]\n\nfor i in range(n):\n\ttasks[i][0], tasks[i][1], tasks[i][2] = map(int, raw_input().split())\n\n#tasks = sorted(tasks, lambda x,y: cmp(x[0],y[0]))\n#print tasks_s\n\n#sp = [ [0,0,0] for i in range(n) ]\n#sn = [ [0,0,0] for i in range(n) ]\n#for i in range(n):\n#\tfor j in range(3):\n#\t\tsp[i][j] = sum([tasks[k][j] for k in range(i,n) if tasks[k][j]>0])\n#\t\tsn[i][j] = sum([tasks[k][j] for k in range(i,n) if tasks[k][j]<0])\n#print sp\n#print sn\n\ndi = [ {} for i in range(n+1) ]\nif n > 13:\n\tdi[n][(0,0,0)] = 1\n\tm = n-12\n\tfor j in range(n-1, m, -1):\n\t\tfill(j)\n\nrecurse(0)\nif best == -10**9:\n\tprint 'Impossible'\n\texit()\n\n#print cp\nfor i in range(n):\n\ts = ''\n\tfor j in range(3):\n\t\tif j!=cp[i]:\n\t\t\ts+=tl[j]\n\tprint s\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "prob_desc_created_at": "1444641000",
+    "tags": [
+        "meet-in-the-middle"
+    ],
+    "hidden_unit_tests": ""
+}

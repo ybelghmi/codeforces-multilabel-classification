@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"50\\n46\\n10\\n26\\n35184372088846\"]",
+    "src_uid": "f5de1e9b059bddf8f8dd46c18ce12683",
+    "prob_desc_notes": "NoteIn the first example test case the optimal sequence would be:   Pick $$$i = 2$$$ and $$$j = 1$$$. After performing a sequence of operations $$$a_2 = \\frac{4}{2} = 2$$$ and $$$a_1 = 6 \\cdot 2 = 12$$$, making the array look as: [12, 2, 2].  Pick $$$i = 2$$$ and $$$j = 1$$$. After performing a sequence of operations $$$a_2 = \\frac{2}{2} = 1$$$ and $$$a_1 = 12 \\cdot 2 = 24$$$, making the array look as: [24, 1, 2].  Pick $$$i = 3$$$ and $$$j = 1$$$. After performing a sequence of operations $$$a_3 = \\frac{2}{2} = 1$$$ and $$$a_1 = 24 \\cdot 2 = 48$$$, making the array look as: [48, 1, 1]. The final answer $$$48 + 1 + 1 = 50$$$.In the third example test case there is no way to change the sum of elements, so the answer is $$$10$$$.",
+    "prob_desc_description": "  William has array of $$$n$$$ numbers $$$a_1, a_2, \\dots, a_n$$$. He can perform the following sequence of operations any number of times:   Pick any two items from array $$$a_i$$$ and $$$a_j$$$, where $$$a_i$$$ must be a multiple of $$$2$$$  $$$a_i = \\frac{a_i}{2}$$$  $$$a_j = a_j \\cdot 2$$$ Help William find the maximal sum of array elements, which he can get by performing the sequence of operations described above.",
+    "prob_desc_output_spec": "For each test case output the maximal sum of array elements after performing an optimal sequence of operations.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10^4$$$). Description of the test cases follows. The first line of each test case contains an integer $$$n$$$ $$$(1 \\le n \\le 15)$$$, the number of elements in William's array. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ $$$(1 \\le a_i &lt; 16)$$$, the contents of William's array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_110.jsonl",
+    "code_uid": "38a0869ec21bae34fb76186bbeefbbdb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3\\n6 4 2\\n5\\n1 2 3 4 5\\n1\\n10\\n3\\n2 3 4\\n15\\n8 8 8 8 8 8 8 8 8 8 8 8 8 8 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# import math\n# for i in range(int(input())):\n#     n = int(input())\n#     if n % 2 == 0 and math.sqrt(n//2) == int(math.sqrt(n//2)):\n#         print(\"YES\")\n#     elif n % 4 == 0 and math.sqrt(n//4) == int(math.sqrt(n//4)):\n#         print(\"YES\")\n#     else:\n#         print('NO')\n\n##for i in range(int(input())):\n##    t = int(input())\n##    x = t // 6\n##    y = t // 4\n##    if t >= 4 and t % 2 ==0:\n##        if t % 6 == 2 or t % 6 == 4:\n##            x += 1\n##        print(int(x), int(y))\n##    else:\n##        print(-1)\n\nimport math\nfor i in range(int(input())):    \n    n = int(input())    \n    a = [int(t) for t in input().split()]          \n    m = 0  \n    n2 = 0  \n    for n in range(len(a)):\n        n2 = a[n]\n        while n2 % 2 == 0 and n2 > 0:\n            m += 1\n            n2 //= 2\n        a[n] = n2\n    print(max(a)*2**m+(sum(a)-max(a)))\n",
+    "prob_desc_created_at": "1638110100",
+    "tags": [
+        "greedy",
+        "implementation",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

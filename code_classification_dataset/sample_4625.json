@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "3.5 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1\\n78975\\n969\\n109229059713337\"]",
+    "src_uid": "2cc753baa293ee832054de494dee0f15",
+    "prob_desc_notes": "NoteIn the first test case, there are $$$3$$$ suitable triplets:   $$$(1,2,3)$$$,  $$$(1,3,4)$$$,  $$$(2,3,4)$$$. In the second test case, there is $$$1$$$ suitable triplet:   $$$(3,4,5)$$$. ",
+    "prob_desc_description": "We are sum for we are manySome NumberThis version of the problem differs from the next one only in the constraint on $$$t$$$. You can make hacks only if both versions of the problem are solved.You are given two positive integers $$$l$$$ and $$$r$$$.Count the number of distinct triplets of integers $$$(i, j, k)$$$ such that $$$l \\le i &lt; j &lt; k \\le r$$$ and $$$\\operatorname{lcm}(i,j,k) \\ge i + j + k$$$.Here $$$\\operatorname{lcm}(i, j, k)$$$ denotes the least common multiple (LCM) of integers $$$i$$$, $$$j$$$, and $$$k$$$.",
+    "prob_desc_output_spec": "For each test case print one integer — the number of suitable triplets.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$\\bf{1 \\le t \\le 5}$$$). Description of the test cases follows. The only line for each test case contains two integers $$$l$$$ and $$$r$$$ ($$$1 \\le l \\le r \\le 2 \\cdot 10^5$$$, $$$l + 2 \\le r$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_102.jsonl",
+    "code_uid": "6f7932999e4e73ee4a63a3d557dc46e6",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n1 4\\n\\n3 5\\n\\n8 86\\n\\n68 86\\n\\n6 86868\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.buffer.readline\r\n\r\n# from collections import defaultdict, deque, Counter\r\nfrom math import gcd, lcm\r\nfrom functools import reduce\r\n# from itertools import accumulate, chain, islice, starmap\r\n# from operator import add, sub, mul, floordiv, truediv\r\n\r\n\r\n# def f(L,R,tup):\r\n\r\ndef lcm3(tup):\r\n\ta,b,c = tup\r\n\tif c%b or c%a:\r\n\t\treturn 2*c\r\n\telse:\r\n\t\treturn c\r\n\r\n\r\ndef tup_gen(hi=2*10**5,a=1,b=1):\r\n\t# if a * b <= hi:\r\n\tyield (a,b)\r\n\t# k = 1\r\n\t# while a*k+b <= hi//a:\r\n\tfor k in range(1, (hi//a-b)//a+1):\r\n\t\tfor i in tup_gen(hi, a*k+b, a):\r\n\t\t\tyield i\r\n\t\t# k+=1\r\n\r\n# s = set(tuple(sorted((b,a,a*b))) for (a,b) in tup_gen())\r\n# s.add((3,4,6))\r\n# s.add((6,10,15))\r\n\r\nma = 0\r\n\r\n\r\nfor _ in range(int(input())):\r\n\tL, R = map(int,input().split())\r\n\r\n\ttot = (R-L+1)*(R-L)*(R-L-1) // 6\r\n\t# ans = tot\r\n\ttmp = 0\r\n\t\r\n\t# s = set()\r\n\tif R > ma:\r\n\t\tma = R\r\n\t# s = set(tuple(sorted((b,a,a*b))) for (a,b) in tup_gen(R))\r\n\t# l = list(tuple(sorted((b,a,a*b))) for (a,b) in tup_gen(R))\r\n\t\tl = list(tup_gen(R))\r\n\t# s.add((3,4,6))\r\n\t# s.add((6,10,15))\r\n\r\n\t# for a, b in tup_gen(R, L, 1,1):\r\n\t# \t# cands = [(b,a,a*b),(2*b,a,a*b),(b,2*a,a*b),(2*b,2*a,a*b),(b,a,a*b*2),(2*b,a,a*b*2),(b,2*a,a*b*2),(2*b,2*a,a*b*2)]\r\n\t# \tcands = [(b,a,a*b),(2*b,a,a*b),(b,2*a,a*b),(2*b,2*a,a*b)]\r\n\t# \tfor cand in cands:\r\n\t# \t\tif not all(x%2==0 for x in cand):\r\n\t# \t\t\t# assert reduce(gcd,cand) < 2\r\n\t# \t\t\ts.add(tuple(sorted(cand)))\r\n\r\n\r\n\r\n\r\n\t# s2 = set()\r\n\r\n\tl2 = list()\r\n\r\n\t# for tup in s:\r\n\t# \ta,b,c=tup\r\n\t# \tc2 = 0\r\n\t# \tfor n in range(1,R//c+1):\r\n\t# \t\tc2 += c\r\n\t# \t\tif a<b<c2:\r\n\t# \t\t\ttup2=(a,b,c2)\r\n\t# \t\t\tif lcm3(tup2) < sum(tup2) and not all(x%2==0 for x in tup2):# and tup2 not in s:\r\n\t# \t\t\t\t# if tup2 in s:\r\n\t# \t\t\t\t# \tprint(\"?????\",tup2,n)\r\n\t# \t\t\t\t# assert reduce(gcd,tup2) < 2\r\n\t# \t\t\t\ts2.add(tup2)\r\n\t# \t\t\t\t# l2.append(tup2)\r\n\t# \t\t\telif n > 1:\r\n\t# \t\t\t\tbreak\r\n\t# \t# s2.add(tup)\r\n\r\n\t# for tup in l:\r\n\t# for b,a in tup_gen(R):\r\n\tfor b,a in l:\r\n\t\t# a,b,c=tup\r\n\t\t# a,b=min(a,b),max(a,b)\r\n\t\tc = a*b\r\n\t\ttup = (a,b,c)\r\n\t\tsu=a+b+c\r\n\t\tif a<b<c:\r\n\t\t\tif lcm3(tup) < su:\r\n\t\t\t\t\t# assert reduce(gcd,tup) < 2\r\n\t\t\t\t\t# s2.add(tup)\r\n\t\t\t\t\t# l2.append(tup)\r\n\t\t\t\t\tlo,hi=(L+a-1)//a, R//c\r\n\t\t\t\t\tif lo <= hi:\r\n\t\t\t\t\t\ttmp += hi-lo+1\r\n\t\t\t# else:\r\n\t\t\t# \tbreak\r\n\t\t\r\n\t\tif a<b<=c:\r\n\t\t\tfor n in range(2,R//c+1):\r\n\t\t\t\tsu+=c\r\n\t\t\t\ttup2=(a,b,c*n)\r\n\t\t\t\tif lcm3(tup2) < su:# and not all(x%2==0 for x in tup2):# and tup2 not in s:\r\n\t\t\t\t\t# if tup2 in s:\r\n\t\t\t\t\t# \tprint(\"?????\",tup2,n)\r\n\t\t\t\t\t# assert reduce(gcd,tup2) < 2\r\n\t\t\t\t\t# s2.add(tup2)\r\n\t\t\t\t\t# l2.append(tup2)\r\n\t\t\t\t\tlo,hi=(L+a-1)//a, R//(c*n)\r\n\t\t\t\t\tif lo <= hi:\r\n\t\t\t\t\t\ttmp += hi-lo+1\r\n\t\t\t\telse:\r\n\t\t\t\t\tbreak\r\n\t\t\t# s2.add(tup)\r\n\r\n\t# s2.add((3,4,6))\r\n\t# s2.add((6,10,15))\r\n\r\n\tl2.append((3,4,6))\r\n\tl2.append((6,10,15))\r\n\r\n\t\r\n\tfor tup in l2:\r\n\t\ta,b,c=tup\r\n\t\t# if a<b<c:\r\n\t\t\t# s4 = set()\r\n\t\tlo,hi=(L+a-1)//a, R//c\r\n\t\tif lo <= hi:\r\n\t\t\ttmp += hi-lo+1\r\n\t\t\t# for d in range((L+a-1)//a, R//c+1):\r\n\t\t\t# \ttup2 = (d*a,d*b,d*c)\r\n\t\t\t# \tif tup2 in s3:\r\n\t\t\t# \t\tprint(tup2,\"?????\")\r\n\t\t\t# \ts3.add(tup2)\r\n\t\t\t# \ts4.add(tup2)\r\n\t\t\t# assert tmp == len(s3), (L,R,lo,hi,tup, s3,s4)\r\n\r\n\r\n\t\t# s32= set(list(s3))\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\t# for tup in s3:\r\n\t# \ta,b,c=tup\r\n\t# \tif L<=a<b<c<=R:# and lcm3(tup) < sum(tup):\r\n\t# \t\t# s4.add(tup)\r\n\t# \t\tans -= 1\r\n\r\n\t# print(tot - len(s3))\r\n\tprint(tot-tmp)\r\n",
+    "prob_desc_created_at": "1660401300",
+    "tags": [
+        "binary search",
+        "brute force",
+        "combinatorics",
+        "math",
+        "number theory",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

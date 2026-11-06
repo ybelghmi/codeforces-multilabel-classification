@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 1\", \"0 0\", \"0 1\", \"0 0\", \"1 0\", \"1 0\"]",
+    "src_uid": "a0376bf145f4d9b5fbc1683956c203df",
+    "prob_desc_notes": "NoteRemember, whoever writes an integer greater than $$$e_i$$$ loses.",
+    "prob_desc_description": "Lee is used to finish his stories in a stylish way, this time he barely failed it, but Ice Bear came and helped him. Lee is so grateful for it, so he decided to show Ice Bear his new game called \"Critic\"...The game is a one versus one game. It has $$$t$$$ rounds, each round has two integers $$$s_i$$$ and $$$e_i$$$ (which are determined and are known before the game begins, $$$s_i$$$ and $$$e_i$$$ may differ from round to round). The integer $$$s_i$$$ is written on the board at the beginning of the corresponding round. The players will take turns. Each player will erase the number on the board (let's say it was $$$a$$$) and will choose to write either $$$2 \\cdot a$$$ or $$$a + 1$$$ instead. Whoever writes a number strictly greater than $$$e_i$$$ loses that round and the other one wins that round.Now Lee wants to play \"Critic\" against Ice Bear, for each round he has chosen the round's $$$s_i$$$ and $$$e_i$$$ in advance. Lee will start the first round, the loser of each round will start the next round.The winner of the last round is the winner of the game, and the loser of the last round is the loser of the game.Determine if Lee can be the winner independent of Ice Bear's moves or not. Also, determine if Lee can be the loser independent of Ice Bear's moves or not.",
+    "prob_desc_output_spec": "Print two integers. The first one should be 1 if Lee can be the winner independent of Ice Bear's moves, and 0 otherwise. The second one should be 1 if Lee can be the loser independent of Ice Bear's moves, and 0 otherwise.",
+    "prob_desc_input_spec": "The first line contains the integer $$$t$$$ ($$$1 \\le t \\le 10^5$$$) — the number of rounds the game has.  Then $$$t$$$ lines follow, each contains two integers $$$s_i$$$ and $$$e_i$$$ ($$$1 \\le s_i \\le e_i \\le 10^{18}$$$) — the $$$i$$$-th round's information. The rounds are played in the same order as given in input, $$$s_i$$$ and $$$e_i$$$ for all rounds are known to everyone before the game starts.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_027.jsonl",
+    "code_uid": "2d7b206bc38e213e7a5be5e3300d0069",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n5 8\\n1 4\\n3 10\", \"4\\n1 2\\n2 3\\n3 4\\n4 5\", \"1\\n1 1\", \"2\\n1 9\\n4 5\", \"2\\n1 2\\n2 8\", \"6\\n216986951114298167 235031205335543871\\n148302405431848579 455670351549314242\\n506251128322958430 575521452907339082\\n1 768614336404564650\\n189336074809158272 622104412002885672\\n588320087414024192 662540324268197150\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def win(s, e):\n    if e == s:return False\n    elif e == s + 1:return True\n    elif e & 1:return s & 1 == 0\n    elif e // 2 < s:return s & 1 == 1\n    elif e // 4 < s:return True\n    else:return win(s, e // 4)    \ndef lose(s, e):return (True if e // 2 < s else win(s, e // 2))       \ndef main():\n    res = [False, True]\n    for _ in range(int(input())):\n        s, e = [int(x) for x in input().split()]\n        if res == [True, True]:continue\n        if res == [False, False]:continue\n        cur = [win(s, e), lose(s, e)]\n        if res[0]:cur = [not x for x in cur]\n        res = cur\n    print(*[int(x) for x in res])\nmain()  ",
+    "prob_desc_created_at": "1592921100",
+    "tags": [
+        "dp",
+        "dfs and similar",
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

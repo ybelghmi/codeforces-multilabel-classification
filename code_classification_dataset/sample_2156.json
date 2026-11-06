@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2 3 2 1\", \"10 6 6\"]",
+    "src_uid": "88e6cd9ef45b956be8bee5d4fedd5725",
+    "prob_desc_notes": "NoteIn the first example, you can build all skyscrapers with the highest possible height.In the second test example, you cannot give the maximum height to all skyscrapers as this violates the design code restriction. The answer $$$[10, 6, 6]$$$ is optimal. Note that the answer of $$$[6, 6, 8]$$$ also satisfies all restrictions, but is not optimal.",
+    "prob_desc_description": "This is an easier version of the problem. In this version $$$n \\le 1000$$$The outskirts of the capital are being actively built up in Berland. The company \"Kernel Panic\" manages the construction of a residential complex of skyscrapers in New Berlskva. All skyscrapers are built along the highway. It is known that the company has already bought $$$n$$$ plots along the highway and is preparing to build $$$n$$$ skyscrapers, one skyscraper per plot.Architects must consider several requirements when planning a skyscraper. Firstly, since the land on each plot has different properties, each skyscraper has a limit on the largest number of floors it can have. Secondly, according to the design code of the city, it is unacceptable for a skyscraper to simultaneously have higher skyscrapers both to the left and to the right of it.Formally, let's number the plots from $$$1$$$ to $$$n$$$. Then if the skyscraper on the $$$i$$$-th plot has $$$a_i$$$ floors, it must hold that $$$a_i$$$ is at most $$$m_i$$$ ($$$1 \\le a_i \\le m_i$$$). Also there mustn't be integers $$$j$$$ and $$$k$$$ such that $$$j &lt; i &lt; k$$$ and $$$a_j &gt; a_i &lt; a_k$$$. Plots $$$j$$$ and $$$k$$$ are not required to be adjacent to $$$i$$$.The company wants the total number of floors in the built skyscrapers to be as large as possible. Help it to choose the number of floors for each skyscraper in an optimal way, i.e. in such a way that all requirements are fulfilled, and among all such construction plans choose any plan with the maximum possible total number of floors.",
+    "prob_desc_output_spec": "Print $$$n$$$ integers $$$a_i$$$ — the number of floors in the plan for each skyscraper, such that all requirements are met, and the total number of floors in all skyscrapers is the maximum possible. If there are multiple answers possible, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 1000$$$) — the number of plots. The second line contains the integers $$$m_1, m_2, \\ldots, m_n$$$ ($$$1 \\leq m_i \\leq 10^9$$$) — the limit on the number of floors for every possible number of floors for a skyscraper on each plot.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_017.jsonl",
+    "code_uid": "ebac05282fd1e4ec8f04ec1742149973",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 3 2 1\", \"3\\n10 6 8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = sys.stdin.readline\n\nN = int(input())\nA = list(map(int, input().split()))\n\nsta1 = []\ndp1 = [0]*(N+1)\nfor i, a in enumerate(A):\n    count = 0\n    mustscore = dp1[i]\n    while sta1 and sta1[-1][0] > a:\n        s, num = sta1.pop()\n        count += num\n        mustscore += (s-a)*num\n    dp1[i+1] = mustscore\n    sta1.append((a, count+1))\n\nsta2 = []\ndp2 = [0]*(N+1)\nfor i in reversed(range(N)):\n    a = A[i]\n    count = 0\n    mustscore = dp2[i+1]\n    while sta2 and sta2[-1][0] > a:\n        s, num = sta2.pop()\n        count += num\n        mustscore += (s-a)*num\n    dp2[i] = mustscore\n    sta2.append((a, count+1))\n\nPA = 10**17\nind = -1\nfor n in range(N):\n    p = dp1[n+1] + dp2[n]\n    if p < PA:\n        PA = p\n        ind = n\n\nans = A[:]\nfor i in range(ind+1, N):\n    A[i] = min(A[i-1], A[i])\nfor i in reversed(range(ind)):\n    A[i] = min(A[i], A[i+1])\n\nprint(*A)",
+    "prob_desc_created_at": "1582448700",
+    "tags": [
+        "dp",
+        "greedy",
+        "data structures",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"17\\n1\\n3\\n4\", \"1\"]",
+    "src_uid": "b7942cf792c368cc240ed22e91ad406f",
+    "prob_desc_notes": "NoteIn the first example, the array $$$A$$$ obtained is $$$[1, 2, 3, 3, 4, 4]$$$. We can see that the array is sortable by doing the following operations:   Choose index $$$5$$$, then $$$A = [1, 2, 3, 3, 6, 4]$$$.  Choose index $$$6$$$, then $$$A = [1, 2, 3, 3, 6, 6]$$$.  Choose index $$$4$$$, then $$$A = [1, 2, 3, 4, 6, 6]$$$.  Choose index $$$6$$$, then $$$A = [1, 2, 3, 4, 6, 8]$$$. ",
+    "prob_desc_description": "Let's say Pak Chanek has an array $$$A$$$ consisting of $$$N$$$ positive integers. Pak Chanek will do a number of operations. In each operation, Pak Chanek will do the following:   Choose an index $$$p$$$ ($$$1 \\leq p \\leq N$$$).  Let $$$c$$$ be the number of operations that have been done on index $$$p$$$ before this operation.  Decrease the value of $$$A_p$$$ by $$$2^c$$$.  Multiply the value of $$$A_p$$$ by $$$2$$$. After each operation, all elements of $$$A$$$ must be positive integers.An array $$$A$$$ is said to be sortable if and only if Pak Chanek can do zero or more operations so that $$$A_1 &lt; A_2 &lt; A_3 &lt; A_4 &lt; \\ldots &lt; A_N$$$.Pak Chanek must find an array $$$A$$$ that is sortable with length $$$N$$$ such that $$$A_1 + A_2 + A_3 + A_4 + \\ldots + A_N$$$ is the minimum possible. If there are more than one possibilities, Pak Chanek must choose the array that is lexicographically minimum among them.Pak Chanek must solve the following things:   Pak Chanek must print the value of $$$A_1 + A_2 + A_3 + A_4 + \\ldots + A_N$$$ for that array.  $$$Q$$$ questions will be given. For the $$$i$$$-th question, an integer $$$P_i$$$ is given. Pak Chanek must print the value of $$$A_{P_i}$$$. Help Pak Chanek solve the problem.Note: an array $$$B$$$ of size $$$N$$$ is said to be lexicographically smaller than an array $$$C$$$ that is also of size $$$N$$$ if and only if there exists an index $$$i$$$ such that $$$B_i &lt; C_i$$$ and for each $$$j &lt; i$$$, $$$B_j = C_j$$$.",
+    "prob_desc_output_spec": "Print $$$Q+1$$$ lines. The $$$1$$$-st line contains an integer representing $$$A_1 + A_2 + A_3 + A_4 + \\ldots + A_N$$$. For each $$$1 \\leq i \\leq Q$$$, the $$$(i+1)$$$-th line contains an integer representing $$$A_{P_i}$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$N$$$ and $$$Q$$$ ($$$1 \\leq N \\leq 10^9$$$, $$$0 \\leq Q \\leq \\min(N, 10^5)$$$) — the required length of array $$$A$$$ and the number of questions. The $$$i$$$-th of the next $$$Q$$$ lines contains a single integer $$$P_i$$$ ($$$1 \\leq P_1 &lt; P_2 &lt; \\ldots &lt; P_Q \\leq N$$$) — the index asked in the $$$i$$$-th question.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2900,
+    "file_name": "train_093.jsonl",
+    "code_uid": "c09458318e0550d6c5de3b52ccac47e8",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"6 3\\n1\\n4\\n5\", \"1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "## Fast I/O\nimport io,os,sys\n\n# Fast input. Use s = input().decode() for strings\n# input = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline\n\n# Fast output\ndef print(*args, sep = ' ', end = '\\n'):\n    string = sep.join(map(str, args))+end\n    sys.stdout.write(string)\n\ndef debug(*args, sep = ' ', end = '\\n'):\n    string = \"Debug: \" + sep.join(map(str, args)) + end\n    sys.stderr.write(string)\n\n# from collections import Counter, defaultdict\n# from functools import lru_cache\n# from math import floor, ceil, sqrt, gcd\n# from sys import stderr\nfrom bisect import bisect\n\n\nN, Q = map(int, input().split())\nsomme = 0\nact = 1\ni = 0\nj = 1\n\nsizes = []\nwhile i < N:\n    if i + j <= N:\n        i += j\n        somme += act * j\n        sizes.append(j)\n    else:\n        break\n    act += 1\n    if i + j <= N:\n        i += j\n        somme += act * j\n        sizes.append(j)\n    else:\n        break\n    act += 1\n    j += 1\nsizes = sizes[::-1]\nk = len(sizes)\nsizes.append(0)\nfor _ in range(N-i):\n    sizes[k] += 1\n    k -= 2\nsomme += (N - i) * act\nprint(somme)\n\ndef lsb(x):\n    return x & (-x)\n\ndef root(x):\n    l = lsb(x)\n    return x//l + l.bit_length() - 1\n\ndef pos(k):\n    l = lsb(k)\n    x = (k//l)>>1\n    y = l.bit_length() - 1\n    return x, y\n\n\nshift = 0\noffset = 0\nfor _ in range(Q):\n    q = int(input())\n    while True:\n        # print(\"shift\", shift)\n        # print(\"offset\", offset)\n        k = q - offset\n        # print(\"searching\", k)\n        gi1 = 2 * sizes[shift] - 1\n        if k <= gi1:\n            # print(\"in grid\")\n            # k est présent dans la grille\n            x, y = pos(k)\n            y += shift\n            y += 2*x\n            print(y+1)\n            break\n        else:\n            # print(\"shifting.\")\n            shift += 1\n            offset += (gi1 + 1) // 2\n\n\n\n\n\n\n\n\n#\n#   @PoustouFlan\n#   Code:Choke?!\n#    [  极客  ]\n#\n",
+    "prob_desc_created_at": "1662298500",
+    "tags": [
+        "binary search",
+        "bitmasks",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

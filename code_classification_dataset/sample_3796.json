@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1\\n\\n? 1\\n\\n? 2\\n\\n? 3\\n\\n? 4\\n\\n! 2\"]",
+    "src_uid": "8b8f040b0bf331429a9033449fe073b6",
+    "prob_desc_notes": "NoteIn the example the cards are transferred in the following way:  $$$2$$$ $$$2$$$ $$$2$$$ $$$2$$$ — player $$$1$$$ has $$$2$$$ cards. $$$1$$$ $$$2$$$ $$$3$$$ $$$2$$$ — player $$$1$$$ has $$$1$$$ card.After this turn the number of cards remains unchanged for each player.",
+    "prob_desc_description": "This is an interactive problem.$$$n$$$ people sitting in a circle are trying to shuffle a deck of cards. The players are numbered from $$$1$$$ to $$$n$$$, so that players $$$i$$$ and $$$i+1$$$ are neighbours (as well as players $$$1$$$ and $$$n$$$). Each of them has exactly $$$k$$$ cards, where $$$k$$$ is even. The left neighbour of a player $$$i$$$ is player $$$i - 1$$$, and their right neighbour is player $$$i + 1$$$ (except for players $$$1$$$ and $$$n$$$, who are respective neighbours of each other).Each turn the following happens: if a player has $$$x$$$ cards, they give $$$\\lfloor x / 2 \\rfloor$$$ to their neighbour on the left and $$$\\lceil x / 2 \\rceil$$$ cards to their neighbour on the right. This happens for all players simultaneously.However, one player $$$p$$$ is the impostor and they just give all their cards to their neighbour on the right. You know the number of players $$$n$$$ and the number of cards $$$k$$$ each player has initially, but $$$p$$$ is unknown to you. Your task is to determine the value of $$$p$$$, by asking questions like \"how many cards does player $$$q$$$ have?\" for an index $$$q$$$ of your choice. After each question all players will make exactly one move and give their cards to their neighbours. You need to find the impostor by asking no more than $$$1000$$$ questions.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$4 \\le n \\le 10^5$$$, $$$2 \\le k \\le 10^9$$$, $$$k$$$ is even) — the number of players and the number of cards.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_084.jsonl",
+    "code_uid": "b2a11397375f7e254483e919c3dd21ad",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n\\n2\\n\\n1\\n\\n2\\n\\n3\\n\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport math\n\nTEST_MODE = False\n\ndef step():\n    global vals\n    next_vals = [0] * N\n    for j in range(N):\n        if j != special:\n            next_vals[(j - 1 + N) % N] += vals[j] // 2\n            next_vals[(j + 1) % N] += vals[j] - (vals[j] // 2)\n        else:\n            next_vals[(j + 1) % N] += vals[j]\n    vals = next_vals\n    if N <= 100:\n        print(vals)\n\ndef fix(z):\n    z %= N\n    while z > N:\n        z -= N\n    while z <= 0:\n        z += N\n    return z\n\nnq = 0\ndef query(q):\n    global nq\n    nq += 1\n    print(\"? \" + str(q))\n    sys.stdout.flush()\n\n    if TEST_MODE:\n        res = vals[q - 1]\n        print(res)\n        step()\n        return res\n\n    res = int(input())\n    return res\n\nif TEST_MODE:\n    N, K, special = map(int, input().split())\n    special -= 1\n\n    vals = [K] * N\nelse:\n    N, K = map(int, input().split())\n\nTHRESH = int(math.sqrt(N)) if N >= 100 else 1\nfor i in range(THRESH):\n    query(1)\n\nfor i in range(N // THRESH + 2):\n    q = fix(i * THRESH)\n    h = query(q)\n    if h != K:\n        begin = q\n        break\n\ndef submit(q):\n    print(\"! \" + str(q))\n    if TEST_MODE:\n        if special + 1 == q:\n            print('GOOD', nq)\n        else:\n            print('BAD', nq)\n    sys.stdout.flush()\n    sys.exit(0)\n\ndef attempt(q):\n    z = query(q)\n    if z == K:\n        submit(q)\n\ni = 0\ndelta = 1 if h < K else -1\nwhile True:\n    q = fix(begin + delta * (i + 1))\n    z = query(q)\n    if z == K:\n        submit(q)\n    elif (z < K) != (h < K):\n        attempt(fix(q - 1))\n        attempt(fix(q - 2))\n    i += 3\n",
+    "prob_desc_created_at": "1609857300",
+    "tags": [
+        "binary search",
+        "brute force",
+        "constructive algorithms",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

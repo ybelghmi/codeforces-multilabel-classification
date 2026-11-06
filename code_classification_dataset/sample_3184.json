@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6 4 4 3 3 2 2 1 1 1\"]",
+    "src_uid": "5cf25cd4a02ce8020258115639c0ee64",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Mike is the president of country What-The-Fatherland. There are n bears living in this country besides Mike. All of them are standing in a line and they are numbered from 1 to n from left to right. i-th bear is exactly ai feet high.   A group of bears is a non-empty contiguous segment of the line. The size of a group is the number of bears in that group. The strength of a group is the minimum height of the bear in that group.Mike is a curious to know for each x such that 1 ≤ x ≤ n the maximum strength among all groups of size x.",
+    "prob_desc_output_spec": "Print n integers in one line. For each x from 1 to n, print the maximum strength among all groups of size x.",
+    "prob_desc_input_spec": "The first line of input contains integer n (1 ≤ n ≤ 2 × 105), the number of bears. The second line contains n integers separated by space, a1, a2, ..., an (1 ≤ ai ≤ 109), heights of bears.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_045.jsonl",
+    "code_uid": "a4644e697f5fba7f3e1d8aa1883beaeb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n1 2 3 4 5 4 3 2 1 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\nr=[0]*(n+1)\na=[0]*(n+1)\na[1:-1]=list(map(int,input().split()))\ns=[(0,0)]\nfor i in range(1,n+2):\n while a[i]<s[-1][0]:\n  r[i-s[-2][1]-1]=max(s[-1][0],r[i-s[-2][1]-1])\n  del s[-1]\n s+=[(a[i],i)]\nfor i in range(n): r[-i-2]=max(r[-i-2],r[-i-1])\nprint(' '.join(map(str,r[1:])))\n ",
+    "prob_desc_created_at": "1432658100",
+    "tags": [
+        "dp",
+        "dsu",
+        "binary search",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7\\n8\\n62\"]",
+    "src_uid": "a5063294f814f359f7ab6b7b801eaf3e",
+    "prob_desc_notes": "NoteThe trees in the example:  In the first test case, one possible assignment is $$$a = \\{1, 8\\}$$$ which results in $$$|1 - 8| = 7$$$.In the second test case, one of the possible assignments is $$$a = \\{1, 5, 9\\}$$$ which results in a beauty of $$$|1 - 5| + |5 - 9| = 8$$$",
+    "prob_desc_description": "Parsa has a humongous tree on $$$n$$$ vertices.On each vertex $$$v$$$ he has written two integers $$$l_v$$$ and $$$r_v$$$.To make Parsa's tree look even more majestic, Nima wants to assign a number $$$a_v$$$ ($$$l_v \\le a_v \\le r_v$$$) to each vertex $$$v$$$ such that the beauty of Parsa's tree is maximized.Nima's sense of the beauty is rather bizarre. He defines the beauty of the tree as the sum of $$$|a_u - a_v|$$$ over all edges $$$(u, v)$$$ of the tree.Since Parsa's tree is too large, Nima can't maximize its beauty on his own. Your task is to find the maximum possible beauty for Parsa's tree.",
+    "prob_desc_output_spec": "For each test case print the maximum possible beauty for Parsa's tree.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ $$$(1\\le t\\le 250)$$$ — the number of test cases. The description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ $$$(2\\le n\\le 10^5)$$$ — the number of vertices in Parsa's tree. The $$$i$$$-th of the following $$$n$$$ lines contains two integers $$$l_i$$$ and $$$r_i$$$ $$$(1 \\le l_i \\le r_i \\le 10^9)$$$. Each of the next $$$n-1$$$ lines contains two integers $$$u$$$ and $$$v$$$ $$$(1 \\le u , v \\le n, u\\neq v)$$$ meaning that there is an edge between the vertices $$$u$$$ and $$$v$$$ in Parsa's tree. It is guaranteed that the given graph is a tree. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_085.jsonl",
+    "code_uid": "b0cb01779c918672f785fe547ac56ba5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2\\n1 6\\n3 8\\n1 2\\n3\\n1 3\\n4 6\\n7 9\\n1 2\\n2 3\\n6\\n3 14\\n12 20\\n12 19\\n2 12\\n10 17\\n3 17\\n3 2\\n6 5\\n1 5\\n2 6\\n4 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nsys.setrecursionlimit(10 ** 5)\r\ninput = sys.stdin.buffer.readline\r\ndef dfs(par, x):\r\n    for u in g[x]:\r\n        if u == par:\r\n            continue\r\n        dfs(x, u)\r\n    dp[par][0] += max(abs(a[par][0] - a[x][0]) + dp[x][0], abs(a[par][0] - a[x][1]) + dp[x][1])\r\n    dp[par][1] += max(abs(a[par][1] - a[x][0]) + dp[x][0], abs(a[par][1] - a[x][1]) + dp[x][1])\r\nfor _ in range(int(input())):\r\n    n = int(input())\r\n    g = [[] for _ in range(n)]\r\n    a = []\r\n    for _ in range(n):\r\n        a.append(list(map(int, input().split())))\r\n    for _ in range(n - 1):\r\n        u, v = map(int, input().split())\r\n        g[u - 1].append(v - 1)\r\n        g[v - 1].append(u - 1)\r\n    dp = [[0.0, 0.0] for _ in range(n)]\r\n\r\n\r\n\r\n    for p in g[0]:\r\n        dfs(0, p)\r\n    print(int(max(dp[0][0], dp[0][1])))",
+    "prob_desc_created_at": "1621866900",
+    "tags": [
+        "dfs and similar",
+        "dp",
+        "graphs",
+        "greedy",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

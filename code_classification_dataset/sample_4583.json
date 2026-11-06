@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10 10 10\\n10 10 10\\n10 10 10\", \"4 4\\n10 6\", \"-1 -1\\n-1 -1\"]",
+    "src_uid": "7b13ee633c81abdcf912542ba1779a45",
+    "prob_desc_notes": "NoteIn the first example, the answer is always $$$10$$$ no matter how you walk.In the second example, $$$answer_{21} = 10$$$, the path is $$$(2,1) \\to (1,1) \\to (1,2) \\to (2,2) \\to (2,1)$$$, the boredness is $$$4 + 1 + 2 + 3 = 10$$$.",
+    "prob_desc_description": "You are wandering in the explorer space of the 2050 Conference.The explorer space can be viewed as an undirected weighted grid graph with size $$$n\\times m$$$. The set of vertices is $$$\\{(i, j)|1\\le i\\le n, 1\\le j\\le m\\}$$$. Two vertices $$$(i_1,j_1)$$$ and $$$(i_2, j_2)$$$ are connected by an edge if and only if $$$|i_1-i_2|+|j_1-j_2|=1$$$.At each step, you can walk to any vertex connected by an edge with your current vertex. On each edge, there are some number of exhibits. Since you already know all the exhibits, whenever you go through an edge containing $$$x$$$ exhibits, your boredness increases by $$$x$$$.For each starting vertex $$$(i, j)$$$, please answer the following question: What is the minimum possible boredness if you walk from $$$(i, j)$$$ and go back to it after exactly $$$k$$$ steps?You can use any edge for multiple times but the boredness on those edges are also counted for multiple times. At each step, you cannot stay on your current vertex. You also cannot change direction while going through an edge. Before going back to your starting vertex $$$(i, j)$$$ after $$$k$$$ steps, you can visit $$$(i, j)$$$ (or not) freely.",
+    "prob_desc_output_spec": "Output $$$n$$$ lines with $$$m$$$ numbers each. The $$$j$$$-th number in the $$$i$$$-th line, $$$answer_{ij}$$$, should be the minimum possible boredness if you walk from $$$(i, j)$$$ and go back to it after exactly $$$k$$$ steps. If you cannot go back to vertex $$$(i, j)$$$ after exactly $$$k$$$ steps, $$$answer_{ij}$$$ should be $$$-1$$$. ",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$m$$$ and $$$k$$$ ($$$2\\leq n, m\\leq 500, 1\\leq k\\leq 20$$$). The $$$j$$$-th number ($$$1\\le j \\le m - 1$$$) in the $$$i$$$-th line of the following $$$n$$$ lines is the number of exibits on the edge between vertex $$$(i, j)$$$ and vertex $$$(i, j+1)$$$.  The $$$j$$$-th number ($$$1\\le j\\le m$$$) in the $$$i$$$-th line of the following $$$n-1$$$ lines is the number of exibits on the edge between vertex $$$(i, j)$$$ and vertex $$$(i+1, j)$$$.  The number of exhibits on each edge is an integer between $$$1$$$ and $$$10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_101.jsonl",
+    "code_uid": "0403abc133f6b660468ad64c73d8b684",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3 10\\n1 1\\n1 1\\n1 1\\n1 1 1\\n1 1 1\", \"2 2 4\\n1\\n3\\n4 2\", \"2 2 3\\n1\\n2\\n3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def roll(i,j):\r\n    ways = []\r\n    if j:\r\n        ways.append( 2 * horizontal[i][j-1] + grid[i][j-1])\r\n    if m-1-j:\r\n        ways.append(2 * horizontal[i][j] + grid[i][j+1])\r\n    if i:\r\n        ways.append(2 * vertical[i-1][j] + grid[i-1][j])\r\n    if n-1-i:\r\n        ways.append(2 * vertical[i][j] + grid[i+1][j])\r\n    return min(ways)\r\n \r\nn , m , k = map(int, input().split())\r\n\r\nhorizontal = [list(map(int, input().split())) for _ in range(n)]\r\nvertical = [list(map(int, input().split())) for _ in range(n-1)]\r\n \r\n \r\ngrid = [[0]*m for _ in range(n)]\r\nif k%2:\r\n    for _ in range(n):\r\n        print(\" \".join([\"-1\"]*m))\r\nelse:\r\n    for _ in range(k//2):\r\n        new_grid = [[roll(i,j) for j in range(m)] for i in range(n)]\r\n        grid = new_grid[:]\r\n    for i in range(n):\r\n        print(\" \".join(map(str,grid[i])))\r\n",
+    "prob_desc_created_at": "1619188500",
+    "tags": [
+        "dp",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

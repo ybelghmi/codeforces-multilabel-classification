@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4 3\\n2 2\\n4 5\"]",
+    "src_uid": "b0f968ca75fbea2f11a7e4b9006f136e",
+    "prob_desc_notes": "NoteThe first test case is pictured in the statement. Since the bishop lies in the intersection row $$$4$$$ and column $$$3$$$, the correct output is 4 3.",
+    "prob_desc_description": "Mihai has an $$$8 \\times 8$$$ chessboard whose rows are numbered from $$$1$$$ to $$$8$$$ from top to bottom and whose columns are numbered from $$$1$$$ to $$$8$$$ from left to right.Mihai has placed exactly one bishop on the chessboard. The bishop is not placed on the edges of the board. (In other words, the row and column of the bishop are between $$$2$$$ and $$$7$$$, inclusive.)The bishop attacks in all directions diagonally, and there is no limit to the distance which the bishop can attack. Note that the cell on which the bishop is placed is also considered attacked.     An example of a bishop on a chessboard. The squares it attacks are marked in red. Mihai has marked all squares the bishop attacks, but forgot where the bishop was! Help Mihai find the position of the bishop.",
+    "prob_desc_output_spec": "For each test case, output two integers $$$r$$$ and $$$c$$$ ($$$2 \\leq r, c \\leq 7$$$) — the row and column of the bishop.  The input is generated in such a way that there is always exactly one possible location of the bishop that is not on the edge of the board.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 36$$$) — the number of test cases. The description of test cases follows. There is an empty line before each test case. Each test case consists of $$$8$$$ lines, each containing $$$8$$$ characters. Each of these characters is either '#' or '.', denoting a square under attack and a square not under attack, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_096.jsonl",
+    "code_uid": "e4adfc2ba6742bfec2244e55d8f96b00",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n\\n\\n\\n.....#..\\n\\n#...#...\\n\\n.#.#....\\n\\n..#.....\\n\\n.#.#....\\n\\n#...#...\\n\\n.....#..\\n\\n......#.\\n\\n\\n\\n\\n#.#.....\\n\\n.#......\\n\\n#.#.....\\n\\n...#....\\n\\n....#...\\n\\n.....#..\\n\\n......#.\\n\\n.......#\\n\\n\\n\\n\\n.#.....#\\n\\n..#...#.\\n\\n...#.#..\\n\\n....#...\\n\\n...#.#..\\n\\n..#...#.\\n\\n.#.....#\\n\\n#.......\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\r\nfor i in range(t):\r\n    l=input()\r\n    res=[]\r\n    for j in range(8):\r\n     q=list(input())\r\n     res.append(q)\r\n    ind=[]\r\n    for k in range(len(res)):\r\n        if res[k].count('#')==1 or res[k].count(\"#\")==0:\r\n            ind.append(k+1)\r\n    for i in range(len(ind)-1):\r\n        for x in range(len(ind)-1,i,-1):\r\n            try:\r\n             if ind[i:x+1]==list(range(ind[i],ind[x]+1)):\r\n                ind=ind[0:i]+ind[x+1:len(ind)]\r\n            except IndexError:\r\n                continue\r\n    try:\r\n        ind.pop(ind.index(1))\r\n    except ValueError:\r\n        pass\r\n    try:\r\n        ind.pop(ind.index(8))\r\n    except ValueError:\r\n        pass\r\n    print(str(ind[-1])+\" \"+str(res[ind[-1]-1].index(\"#\")+1))",
+    "prob_desc_created_at": "1655217300",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

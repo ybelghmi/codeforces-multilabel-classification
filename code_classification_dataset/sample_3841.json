@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\n0\\n9\"]",
+    "src_uid": "d638f524fe07cb8e822b5c6ec3fe8216",
+    "prob_desc_notes": "NoteIn the first example, the array elements can be rearranged as follows: $$$[6, 3, 5, 3]$$$.In the third example, the array elements can be rearranged as follows: $$$[4, 4, 2, 1, 1]$$$.",
+    "prob_desc_description": "You are given an array $$$a$$$ consisting of $$$n$$$ integers.Let's call a pair of indices $$$i$$$, $$$j$$$ good if $$$1 \\le i &lt; j \\le n$$$ and $$$\\gcd(a_i, 2a_j) &gt; 1$$$ (where $$$\\gcd(x, y)$$$ is the greatest common divisor of $$$x$$$ and $$$y$$$).Find the maximum number of good index pairs if you can reorder the array $$$a$$$ in an arbitrary way.",
+    "prob_desc_output_spec": "For each test case, output a single integer — the maximum number of good index pairs if you can reorder the array $$$a$$$ in an arbitrary way.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The first line of the test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 2000$$$) — the number of elements in the array. The second line of the test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^5$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_085.jsonl",
+    "code_uid": "41f15511be886488a70eb56581aee085",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4\\n3 6 5 3\\n2\\n1 7\\n5\\n1 4 2 4 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import gcd\r\n\r\nfor _ in range(int(input())):\r\n    n = int(input())\r\n    cnt = 0\r\n\r\n    seq = tuple(map(int, input().split()))\r\n    for i in range(n):\r\n        for j in range(i + 1, n):\r\n            a, b = seq[i], seq[j]\r\n            if gcd(a, 2 * b) > 1 or gcd(b, a * 2) > 1:\r\n                cnt += 1\r\n\r\n    print(cnt)\r\n",
+    "prob_desc_created_at": "1622817300",
+    "tags": [
+        "brute force",
+        "greedy",
+        "math",
+        "number theory",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

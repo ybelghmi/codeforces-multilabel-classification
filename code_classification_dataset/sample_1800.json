@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"2\"]",
+    "src_uid": "15fa49860e978d3b3fb7a20bf9f8aa86",
+    "prob_desc_notes": "NoteAs you know, students are a special sort of people, and minibuses usually do not hurry. That's why you should not be surprised, if Student's speed is higher than the speed of the minibus.",
+    "prob_desc_description": "And again a misfortune fell on Poor Student. He is being late for an exam.Having rushed to a bus stop that is in point (0, 0), he got on a minibus and they drove along a straight line, parallel to axis OX, in the direction of increasing x.Poor Student knows the following:   during one run the minibus makes n stops, the i-th stop is in point (xi, 0)  coordinates of all the stops are different  the minibus drives at a constant speed, equal to vb  it can be assumed the passengers get on and off the minibus at a bus stop momentarily  Student can get off the minibus only at a bus stop  Student will have to get off the minibus at a terminal stop, if he does not get off earlier  the University, where the exam will be held, is in point (xu, yu)  Student can run from a bus stop to the University at a constant speed vs as long as needed  a distance between two points can be calculated according to the following formula:   Student is already on the minibus, so, he cannot get off at the first bus stop Poor Student wants to get to the University as soon as possible. Help him to choose the bus stop, where he should get off. If such bus stops are multiple, choose the bus stop closest to the University.",
+    "prob_desc_output_spec": "In the only line output the answer to the problem — index of the optimum bus stop.",
+    "prob_desc_input_spec": "The first line contains three integer numbers: 2 ≤ n ≤ 100, 1 ≤ vb, vs ≤ 1000. The second line contains n non-negative integers in ascending order: coordinates xi of the bus stop with index i. It is guaranteed that x1 equals to zero, and xn ≤ 105. The third line contains the coordinates of the University, integers xu and yu, not exceeding 105 in absolute value. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_013.jsonl",
+    "code_uid": "3fa2ad458ee94f7720ea0214ce25d7d9",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"4 5 2\\n0 2 4 6\\n4 1\", \"2 1 1\\n0 100000\\n100000 100000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import sqrt\n\nn, v1, v2 = [int(i) for i in input().split()]\nx = [int(i) for i in input().split()]\nx1, y1 = [int(i) for i in input().split()]\n\nminim = x[1] / v1 + sqrt((x1-x[1])**2 + (y1)**2) / v2 #Время, если студен выйдет на первой остановке и побежит (если он быстрее автобуса)\nres = 2\nfor i in range(2, n):\n    t = x[i] / v1 + sqrt((x1-x[i])**2 + (y1)**2) / v2\n    if t < minim:\n        minim = t\n        res = i + 1\n    elif t == minim and sqrt((x1-x[res-1])**2 + (y1)**2) > sqrt((x1-x[i])**2 + (y1)**2):\n        res = i+1\nprint(res)",
+    "prob_desc_created_at": "1270983600",
+    "tags": [
+        "implementation",
+        "geometry",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

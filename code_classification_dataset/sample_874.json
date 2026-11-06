@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"0\"]",
+    "src_uid": "2eb7234904b28b4793b7c482a2370092",
+    "prob_desc_notes": "NoteIn the first example you can remove $$$7$$$ then instability of the remaining array will be $$$3 - 1 = 2$$$.In the second example you can remove either $$$1$$$ or $$$100000$$$ then instability of the remaining array will be $$$100000 - 100000 = 0$$$ and $$$1 - 1 = 0$$$ correspondingly.",
+    "prob_desc_description": "You are given an array $$$a$$$ consisting of $$$n$$$ integer numbers.Let instability of the array be the following value: $$$\\max\\limits_{i = 1}^{n} a_i - \\min\\limits_{i = 1}^{n} a_i$$$.You have to remove exactly one element from this array to minimize instability of the resulting $$$(n-1)$$$-elements array. Your task is to calculate the minimum possible instability.",
+    "prob_desc_output_spec": "Print one integer — the minimum possible instability of the array if you have to remove exactly one element from the array $$$a$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$) — the number of elements in the array $$$a$$$. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^5$$$) — elements of the array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_004.jsonl",
+    "code_uid": "ae23bbdd869a3a2cd5b20815ac69c3b6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 3 3 7\", \"2\\n1 100000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\ns = [int(i) for i in input().split()]\nif len(s) == 2:\n\tprint(0)\n\texit(0)\nelse:\n\tfirst_max = -1000\n\tsecond_max = -100\n\ti = 0\n\twhile i < n:\n\t\telement = s[i]\n\t\tif element > first_max:\n\t\t\tsecond_max, first_max = first_max, element\n\t\telif element > second_max:\n\t\t\tsecond_max = element\n\t\ti += 1\n\n\tfirst_min = 1000000\n\tsecond_min = 1000000\n\ti = 0\n\twhile i < n:\n\t\telement = s[i]\n\t\tif element < first_min:\n\t\t\tsecond_min, first_min = first_min, element\n\t\telif element < second_min:\n\t\t\tsecond_min = element\n\t\ti += 1\n\t\n\tq = second_max - min(s)\n\tw = max(s) - second_min\n\tprint(min(q, w))\n",
+    "prob_desc_created_at": "1545921300",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 3 2\", \"1 2 3\", \"1 3 2 4 5\"]",
+    "src_uid": "18b3d8f57ecc2b392c7b1708f75a477e",
+    "prob_desc_notes": "NoteBy |x| we denote the absolute value of number x. ",
+    "prob_desc_description": "Permutation p is an ordered set of integers p1,   p2,   ...,   pn, consisting of n distinct positive integers not larger than n. We'll denote as n the length of permutation p1,   p2,   ...,   pn.Your task is to find such permutation p of length n, that the group of numbers |p1 - p2|, |p2 - p3|, ..., |pn - 1 - pn| has exactly k distinct elements.",
+    "prob_desc_output_spec": "Print n integers forming the permutation. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The single line of the input contains two space-separated positive integers n, k (1 ≤ k &lt; n ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_027.jsonl",
+    "code_uid": "493a681b4a973f14354e0ec02a6c870a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\", \"3 1\", \"5 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nlines = list(filter(None, stdin.read().split('\\n')))\n\ndef parseline(line):\n\treturn list(map(int, line.split()))\n\nlines = list(map(parseline, lines))\n\nn, k = lines[0]\n\nx = n + 1\nfor i in range(n, n - k, -1):\n\tif (n - i) % 2 == 0:\n\t\tx = x - i\n\telse:\n\t\tx = x + i\n\tprint(x, end=' ')\n\nstep = -1 if k %2 == 0 else +1\nfor k in range(n - k):\n\tx += step\n\tprint(x, end=' ')\n",
+    "prob_desc_created_at": "1414170000",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

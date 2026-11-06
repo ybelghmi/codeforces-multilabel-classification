@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n0\\n13\\n1\\n4\\n7\\n0\"]",
+    "src_uid": "60190de3b5ae124d3cdca86fa931f1e0",
+    "prob_desc_notes": "NoteIn the first test case, the optimal array is $$$p = [1, 1, 1, 2, 2]$$$. The resulting array of values of $$$\\lfloor \\frac{a_i}{p_i} \\rfloor$$$ is $$$[4, 5, 6, 4, 5]$$$. The cost of $$$p$$$ is $$$\\max\\limits_{1 \\le i \\le n}(\\lfloor \\frac{a_i}{p_i} \\rfloor) - \\min\\limits_{1 \\le i \\le n}(\\lfloor \\frac{a_i}{p_i} \\rfloor) = 6 - 4 = 2$$$. We can show that there is no array (satisfying the condition from the statement) with a smaller cost.In the second test case, one of the optimal arrays is $$$p = [12, 12, 12, 12, 12]$$$, which results in all $$$\\lfloor \\frac{a_i}{p_i} \\rfloor$$$ being $$$0$$$.In the third test case, the only possible array is $$$p = [1, 1, 1]$$$.",
+    "prob_desc_description": "This is the easy version of the problem. The only difference between the versions is the constraints on $$$n$$$, $$$k$$$, $$$a_i$$$, and the sum of $$$n$$$ over all test cases. You can make hacks only if both versions of the problem are solved.Note the unusual memory limit.You are given an array of integers $$$a_1, a_2, \\ldots, a_n$$$ of length $$$n$$$, and an integer $$$k$$$.The cost of an array of integers $$$p_1, p_2, \\ldots, p_n$$$ of length $$$n$$$ is $$$$$$\\max\\limits_{1 \\le i \\le n}\\left(\\left \\lfloor \\frac{a_i}{p_i} \\right \\rfloor \\right) - \\min\\limits_{1 \\le i \\le n}\\left(\\left \\lfloor \\frac{a_i}{p_i} \\right \\rfloor \\right).$$$$$$Here, $$$\\lfloor \\frac{x}{y} \\rfloor$$$ denotes the integer part of the division of $$$x$$$ by $$$y$$$. Find the minimum cost of an array $$$p$$$ such that $$$1 \\le p_i \\le k$$$ for all $$$1 \\le i \\le n$$$.",
+    "prob_desc_output_spec": "For each test case, print a single integer — the minimum possible cost of an array $$$p$$$ satisfying the condition above.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. The first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n, k \\le 3000$$$). The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_1 \\le a_2 \\le \\ldots \\le a_n \\le 3000$$$). It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$3000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_093.jsonl",
+    "code_uid": "4fb78d1af667fb77e7e02376f4ccffcb",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n\\n5 2\\n\\n4 5 6 8 11\\n\\n5 12\\n\\n4 5 6 8 11\\n\\n3 1\\n\\n2 9 15\\n\\n7 3\\n\\n2 3 5 5 6 9 10\\n\\n6 56\\n\\n54 286 527 1436 2450 2681\\n\\n3 95\\n\\n16 340 2241\\n\\n2 2\\n\\n1 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\r\nimport sys\r\nfrom io import BytesIO, IOBase\r\n\r\nimport sys\r\nimport threading\r\n\r\nthreading.stack_size(250 * 1024 * 1024)\r\nsys.setrecursionlimit(5000)\r\n\r\n\r\nBUFSIZE = 8192\r\n \r\nclass FastIO(IOBase):\r\n    newlines = 0\r\n \r\n    def __init__(self, file):\r\n        self._fd = file.fileno()\r\n        self.buffer = BytesIO()\r\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\r\n        self.write = self.buffer.write if self.writable else None\r\n \r\n    def read(self):\r\n        while True:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            if not b:\r\n                break\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines = 0\r\n        return self.buffer.read()\r\n \r\n    def readline(self):\r\n        while self.newlines == 0:\r\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\r\n            self.newlines = b.count(b\"\\n\") + (not b)\r\n            ptr = self.buffer.tell()\r\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\r\n        self.newlines -= 1\r\n        return self.buffer.readline()\r\n \r\n    def flush(self):\r\n        if self.writable:\r\n            os.write(self._fd, self.buffer.getvalue())\r\n            self.buffer.truncate(0), self.buffer.seek(0)\r\n \r\n \r\nclass IOWrapper(IOBase):\r\n    def __init__(self, file):\r\n        self.buffer = FastIO(file)\r\n        self.flush = self.buffer.flush\r\n        self.writable = self.buffer.writable\r\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\r\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\r\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\r\n \r\n \r\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\r\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\r\n\r\n\r\nT = int(input())\r\nfor _ in range(T):\r\n    n, k = map(int, input().split())\r\n    A = list(set(map(int, input().split())))\r\n\r\n    n = len(A)\r\n\r\n    a0 = min(A)\r\n\r\n    M = [-1] * (10**5 + 1)\r\n    for a in A:\r\n        p = k\r\n        start = 0\r\n        while p >= 1:\r\n            s = a//p\r\n            M[start] = max(M[start], s)\r\n            start = s + 1\r\n\r\n            r = a % p\r\n            p = p - ((p - r) + s)//(s + 1)\r\n\r\n    r = 10**20\r\n    m = -10**20\r\n    for i in range(a0 + 1):\r\n#        if M[i] >= 0:\r\n        m = max(m, M[i])\r\n        r = min(r, m - i)\r\n\r\n    print(r)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "prob_desc_created_at": "1658154900",
+    "tags": [
+        "binary search",
+        "brute force",
+        "constructive algorithms",
+        "greedy",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

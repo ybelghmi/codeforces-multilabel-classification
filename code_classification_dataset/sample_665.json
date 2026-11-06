@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 2 2 2 2 1 1 0 2\", \"0 -1 1 -1\"]",
+    "src_uid": "cb8895ddd54ffbd898b1bf5e169feb63",
+    "prob_desc_notes": "NoteThe first example is shown below:The black vertices have bold borders.In the second example, the best subtree for vertices $$$2, 3$$$ and $$$4$$$ are vertices $$$2, 3$$$ and $$$4$$$ correspondingly. And the best subtree for the vertex $$$1$$$ is the subtree consisting of vertices $$$1$$$ and $$$3$$$.",
+    "prob_desc_description": "You are given a tree consisting of $$$n$$$ vertices. A tree is a connected undirected graph with $$$n-1$$$ edges. Each vertex $$$v$$$ of this tree has a color assigned to it ($$$a_v = 1$$$ if the vertex $$$v$$$ is white and $$$0$$$ if the vertex $$$v$$$ is black).You have to solve the following problem for each vertex $$$v$$$: what is the maximum difference between the number of white and the number of black vertices you can obtain if you choose some subtree of the given tree that contains the vertex $$$v$$$? The subtree of the tree is the connected subgraph of the given tree. More formally, if you choose the subtree that contains $$$cnt_w$$$ white vertices and $$$cnt_b$$$ black vertices, you have to maximize $$$cnt_w - cnt_b$$$.",
+    "prob_desc_output_spec": "Print $$$n$$$ integers $$$res_1, res_2, \\dots, res_n$$$, where $$$res_i$$$ is the maximum possible difference between the number of white and black vertices in some subtree that contains the vertex $$$i$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the number of vertices in the tree. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0 \\le a_i \\le 1$$$), where $$$a_i$$$ is the color of the $$$i$$$-th vertex. Each of the next $$$n-1$$$ lines describes an edge of the tree. Edge $$$i$$$ is denoted by two integers $$$u_i$$$ and $$$v_i$$$, the labels of vertices it connects $$$(1 \\le u_i, v_i \\le n, u_i \\ne v_i$$$). It is guaranteed that the given edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_003.jsonl",
+    "code_uid": "46ae57b411205531acb24f463a626d40",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9\\n0 1 1 1 0 0 0 0 1\\n1 2\\n1 3\\n3 4\\n3 5\\n2 6\\n4 7\\n6 8\\n5 9\", \"4\\n0 0 1 0\\n1 2\\n1 3\\n1 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# NOT MY CODE\n# https://codeforces.com/contest/1324/submission/73179914\n \n## PYRIVAL BOOTSTRAP\n# https://github.com/cheran-senthil/PyRival/blob/master/pyrival/misc/bootstrap.py\n# This decorator allows for recursion without actually doing recursion\nfrom types import GeneratorType\n \ndef bootstrap(f, stack=[]):\n    def wrappedfunc(*args, **kwargs):\n        if stack:\n            return f(*args, **kwargs)\n        else:\n            to = f(*args, **kwargs)\n            while True:\n                if type(to) is GeneratorType:\n                    stack.append(to)\n                    to = next(to)\n                else:\n                    stack.pop()\n                    if not stack:\n                        break\n                    to = stack[-1].send(to)\n            return to\n \n    return wrappedfunc\n######################\n \n \nimport math\nfrom bisect import bisect_left, bisect_right\nfrom sys import stdin, stdout, setrecursionlimit\nfrom collections import Counter\ninput = lambda: stdin.readline().strip()\nprint = stdout.write\n#setrecursionlimit(10**6)\n \nn = int(input())\nls = list(map(int, input().split()))\nchildren = {}\nfor i in range(1, n+1):\n    children[i] = []\nfor i in range(n-1):\n    a, b = map(int, input().split())\n    children[a].append(b)\n    children[b].append(a)\n \nparent = [-1]\nans = [-1]\nfor i in range(1, n+1):\n    parent.append(-1)\n    ans.append(-1)\n \nvisited = [False]\nfor i in range(1, n+1):\n    visited.append(False)\n\n@bootstrap\ndef dfs(node):\n    visited[node] = True\n    ans[node] = 1 if ls[node-1] else -1\n    for i in children[node]:\n        if not visited[i]:\n            parent[i] = node\n            tmp = (yield dfs(i))\n            if tmp>0:\n                ans[node]+=tmp\n    ans[node] = max(ans[node], 1 if ls[node-1] else -1)\n    yield ans[node]\ndfs(1)\n \nvisited = [False]\nfor i in range(1, n+1):\n    visited.append(False)\n\n@bootstrap\ndef dfs(node):\n    visited[node] = True\n    if node!=1:\n        ans[node] = max(ans[node], ans[parent[node]] if ans[node]>=0 else ans[parent[node]]-1)\n    for i in children[node]:\n        if not visited[i]:\n            yield dfs(i)\n    yield\ndfs(1)\n \nfor i in range(1, n+1):\n    print(str(ans[i])+' ')\nprint('\\n')",
+    "prob_desc_created_at": "1584018300",
+    "tags": [
+        "dp",
+        "dfs and similar",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

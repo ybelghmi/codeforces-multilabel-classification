@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2 2\\n4 6\\n12 12\\n-1 -1\\n-1 -1\\n373248 730\\n-1 -1\\n15120 53760\\n-1 -1\\n536870912 536870912\"]",
+    "src_uid": "27be78f2739b681b25c331c60fc2b22b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This is an hard version of the problem. The only difference between an easy and a hard version is the constraints on $$$a$$$, $$$b$$$, $$$c$$$ and $$$d$$$.You are given $$$4$$$ positive integers $$$a$$$, $$$b$$$, $$$c$$$, $$$d$$$ with $$$a &lt; c$$$ and $$$b &lt; d$$$. Find any pair of numbers $$$x$$$ and $$$y$$$ that satisfies the following conditions: $$$a &lt; x \\leq c$$$, $$$b &lt; y \\leq d$$$, $$$x \\cdot y$$$ is divisible by $$$a \\cdot b$$$.Note that required $$$x$$$ and $$$y$$$ may not exist.",
+    "prob_desc_output_spec": "For each test case print a pair of numbers $$$a &lt; x \\leq c$$$ and $$$b &lt; y \\leq d$$$ such that $$$x \\cdot y$$$ is divisible by $$$a \\cdot b$$$. If there are multiple answers, print any of them. If there is no such pair of numbers, then print -1 -1.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$t$$$ $$$(1 \\leq t \\leq 10$$$), the number of test cases. The descriptions of the test cases follow. The only line of each test case contains four integers $$$a$$$, $$$b$$$, $$$c$$$ and $$$d$$$ ($$$1 \\leq a &lt; c \\leq 10^9$$$, $$$1 \\leq b &lt; d \\leq 10^9$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_094.jsonl",
+    "code_uid": "d41410cfe389f53b145fceb776a55cf8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n\\n1 1 2 2\\n\\n3 4 5 7\\n\\n8 9 15 18\\n\\n12 21 14 24\\n\\n36 60 48 66\\n\\n1024 729 373248 730\\n\\n1024 729 373247 730\\n\\n5040 40320 40319 1000000000\\n\\n999999999 999999999 1000000000 1000000000\\n\\n268435456 268435456 1000000000 1000000000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "ceil = lambda a, b: (((a) + ((b) - 1)) // (b))\r\n\r\ndef make_divisors(n):\r\n    divisors = []\r\n    for i in range(1, int(n ** 0.5) + 1):\r\n        if n % i == 0:\r\n            divisors.append(i)\r\n            if i != n // i:\r\n                divisors.append(n // i)\r\n    # divisors.sort()\r\n    return divisors\r\n\r\nq = int(input())\r\nfor _ in range(q):\r\n    a, b, c, d = map(int, input().split())\r\n    ab = a * b\r\n    res = [-1, -1]\r\n    DivAs = make_divisors(a)\r\n    DivBs = make_divisors(b)\r\n    for DivA in DivAs:\r\n        for DivB in DivBs:\r\n            e = DivA * DivB\r\n            f = ab // e\r\n            x = ceil(a + 1, e) * e\r\n            if not (a < x <= c): continue\r\n            y = ceil(b + 1, f) * f\r\n            if not (b < y <= d): continue\r\n            res = [x, y]\r\n    print(*res)",
+    "prob_desc_created_at": "1665930900",
+    "tags": [
+        "brute force",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

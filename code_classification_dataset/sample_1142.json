@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6\\n16\\n0\\n4999999995\\n7\"]",
+    "src_uid": "35368cefc5ce46a9f41a15734826a151",
+    "prob_desc_notes": "NoteIn the first test case of the example, we can perform the following sequence of moves:  choose the first gift and eat one orange from it, so $$$a = [3, 5, 6]$$$ and $$$b = [2, 2, 3]$$$;  choose the second gift and eat one candy from it, so $$$a = [3, 4, 6]$$$ and $$$b = [2, 2, 3]$$$;  choose the second gift and eat one candy from it, so $$$a = [3, 3, 6]$$$ and $$$b = [2, 2, 3]$$$;  choose the third gift and eat one candy and one orange from it, so $$$a = [3, 3, 5]$$$ and $$$b = [2, 2, 2]$$$;  choose the third gift and eat one candy from it, so $$$a = [3, 3, 4]$$$ and $$$b = [2, 2, 2]$$$;  choose the third gift and eat one candy from it, so $$$a = [3, 3, 3]$$$ and $$$b = [2, 2, 2]$$$. ",
+    "prob_desc_description": "You have $$$n$$$ gifts and you want to give all of them to children. Of course, you don't want to offend anyone, so all gifts should be equal between each other. The $$$i$$$-th gift consists of $$$a_i$$$ candies and $$$b_i$$$ oranges.During one move, you can choose some gift $$$1 \\le i \\le n$$$ and do one of the following operations:  eat exactly one candy from this gift (decrease $$$a_i$$$ by one);  eat exactly one orange from this gift (decrease $$$b_i$$$ by one);  eat exactly one candy and exactly one orange from this gift (decrease both $$$a_i$$$ and $$$b_i$$$ by one). Of course, you can not eat a candy or orange if it's not present in the gift (so neither $$$a_i$$$ nor $$$b_i$$$ can become less than zero).As said above, all gifts should be equal. This means that after some sequence of moves the following two conditions should be satisfied: $$$a_1 = a_2 = \\dots = a_n$$$ and $$$b_1 = b_2 = \\dots = b_n$$$ (and $$$a_i$$$ equals $$$b_i$$$ is not necessary).Your task is to find the minimum number of moves required to equalize all the given gifts.You have to answer $$$t$$$ independent test cases.",
+    "prob_desc_output_spec": "For each test case, print one integer: the minimum number of moves required to equalize all the given gifts.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of the test case contains one integer $$$n$$$ ($$$1 \\le n \\le 50$$$) — the number of gifts. The second line of the test case contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$), where $$$a_i$$$ is the number of candies in the $$$i$$$-th gift. The third line of the test case contains $$$n$$$ integers $$$b_1, b_2, \\dots, b_n$$$ ($$$1 \\le b_i \\le 10^9$$$), where $$$b_i$$$ is the number of oranges in the $$$i$$$-th gift.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_006.jsonl",
+    "code_uid": "210461f9c380fc8582f10d6c26248d3a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3\\n3 5 6\\n3 2 3\\n5\\n1 2 3 4 5\\n5 4 3 2 1\\n3\\n1 1 1\\n2 2 2\\n6\\n1 1000000000 1000000000 1000000000 1000000000 1000000000\\n1 1 1 1 1 1\\n3\\n10 12 8\\n7 5 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nwhile(t>0):\n    sum,a,b=0,999999999999,999999999999\n    n1=int(input())\n    A=list(map(int,input().split()))\n    B=list(map(int,input().split()))\n    for i in range(len(A)):\n        a=min(a,A[i])\n        b=min(b,B[i])\n    if len(A)==1 and len(B)==1:\n        print(0)\n    else:\n        for i in range(len(A)):\n            D=A[i]-a\n            D1=B[i]-b\n            sum+=max(D,D1)\n        print(sum)\n    t-=1",
+    "prob_desc_created_at": "1596638100",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

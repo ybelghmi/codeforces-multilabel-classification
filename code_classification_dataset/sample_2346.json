@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\nABC\", \"2\\nADBADC\"]",
+    "src_uid": "b9766f25c8ae179c30521770422ce18b",
+    "prob_desc_notes": "NoteThe second sample has eight anagrams of string t, that can be obtained from string s by replacing exactly two letters: \"ADBADC\", \"ADDABC\", \"CDAABD\", \"CDBAAD\", \"CDBADA\", \"CDDABA\", \"DDAABC\", \"DDBAAC\". These anagrams are listed in the lexicographical order. The lexicographically minimum anagram is \"ADBADC\".",
+    "prob_desc_description": "String x is an anagram of string y, if we can rearrange the letters in string x and get exact string y. For example, strings \"DOG\" and \"GOD\" are anagrams, so are strings \"BABA\" and \"AABB\", but strings \"ABBAC\" and \"CAABA\" are not.You are given two strings s and t of the same length, consisting of uppercase English letters. You need to get the anagram of string t from string s. You are permitted to perform the replacing operation: every operation is replacing some character from the string s by any other character. Get the anagram of string t in the least number of replacing operations. If you can get multiple anagrams of string t in the least number of operations, get the lexicographically minimal one.The lexicographic order of strings is the familiar to us \"dictionary\" order. Formally, the string p of length n is lexicographically smaller than string q of the same length, if p1 = q1, p2 = q2, ..., pk - 1 = qk - 1, pk &lt; qk for some k (1 ≤ k ≤ n). Here characters in the strings are numbered from 1. The characters of the strings are compared in the alphabetic order.",
+    "prob_desc_output_spec": "In the first line print z — the minimum number of replacement operations, needed to get an anagram of string t from string s. In the second line print the lexicographically minimum anagram that could be obtained in z operations.",
+    "prob_desc_input_spec": "The input consists of two lines. The first line contains string s, the second line contains string t. The strings have the same length (from 1 to 105 characters) and consist of uppercase English letters.",
+    "prob_desc_output_to": "output.txt",
+    "prob_desc_input_from": "input.txt",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_021.jsonl",
+    "code_uid": "b4313b4d314bc0ed1619614b6b1fc10a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"ABA\\nCBA\", \"CDBABC\\nADCABD\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom collections import Counter\ndef io():\n    sys.stdin = open(\"input.txt\", \"r\")\n    sys.stdout = open(\"output.txt\", \"w\")\ndef main():\n    s = sys.stdin.readline().strip()\n    t = sys.stdin.readline().strip()\n    sc = [0] * 26\n    tc = [0] * 26\n    n = len(s)\n    for i, j in zip(s, t):\n        sc[ord(i)-ord('A')] += 1\n        tc[ord(j)-ord('A')] += 1\n    tf = []\n    for i in xrange(25, -1, -1):\n        if sc[i] < tc[i]:\n            tf.extend([i] * (tc[i] - sc[i]))\n    print len(tf)\n    ard = list(s)\n    sc_ = [0] * 26\n    for i in xrange(n):\n        a = ord(s[i]) - ord('A')\n        sc_[a] += 1\n        if sc[a] > tc[a]:\n            if a >= tf[-1] or sc_[a] > tc[a]:\n                ard[i] = chr(ord('A')+tf.pop())\n                sc[a] -= 1\n                sc_[a] -= 1\n        if not tf: break\n    sys.stdout.write(\"\".join(ard))\n    print\nio()\nmain()\n",
+    "prob_desc_created_at": "1355047200",
+    "tags": [
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

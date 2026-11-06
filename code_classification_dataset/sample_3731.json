@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"0 1 1\", \"0 1 4 6\", \"0 1\", \"0 1 2 2 3\"]",
+    "src_uid": "261b22421590cf6bb1d602e1dc7e0243",
+    "prob_desc_notes": "NoteIn the first sample, it takes no time to get to city 1; to get to city 2 it is possible to use a flight between 1 and 2, which will take 1 unit of time; to city 3 you can get via a road from city 1, which will take 1 unit of time. In the second sample, it also takes no time to get to city 1. To get to city 2 Stanley should use a flight between 1 and 2, which will take 1 unit of time. To get to city 3 Stanley can ride between cities 1 and 2, which will take 3 units of time, and then use a flight between 2 and 3. To get to city 4 Stanley should use a flight between 1 and 2, then take a ride from 2 to 4, which will take 5 units of time.",
+    "prob_desc_description": "Stanley lives in a country that consists of $$$n$$$ cities (he lives in city $$$1$$$). There are bidirectional roads between some of the cities, and you know how long it takes to ride through each of them. Additionally, there is a flight between each pair of cities, the flight between cities $$$u$$$ and $$$v$$$ takes $$$(u - v)^2$$$ time.Stanley is quite afraid of flying because of watching \"Sully: Miracle on the Hudson\" recently, so he can take at most $$$k$$$ flights. Stanley wants to know the minimum time of a journey to each of the $$$n$$$ cities from the city $$$1$$$.",
+    "prob_desc_output_spec": "Print $$$n$$$ integers, $$$i$$$-th of which is equal to the minimum time of traveling to city $$$i$$$.",
+    "prob_desc_input_spec": "In the first line of input there are three integers $$$n$$$, $$$m$$$, and $$$k$$$ ($$$2 \\leq n \\leq 10^{5}$$$, $$$1 \\leq m \\leq 10^{5}$$$, $$$1 \\leq k \\leq 20$$$) — the number of cities, the number of roads, and the maximal number of flights Stanley can take. The following $$$m$$$ lines describe the roads. Each contains three integers $$$u$$$, $$$v$$$, $$$w$$$ ($$$1 \\leq u, v \\leq n$$$, $$$u \\neq v$$$, $$$1 \\leq w \\leq 10^{9}$$$) — the cities the road connects and the time it takes to ride through. Note that some pairs of cities may be connected by more than one road.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_082.jsonl",
+    "code_uid": "1c473ae3f909b3bb1daa8513937b896f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1 2\\n1 3 1\", \"4 3 1\\n1 2 3\\n2 4 5\\n3 4 7\", \"2 1 1\\n2 1 893746473\", \"5 5 2\\n2 1 33\\n1 5 93\\n5 3 48\\n2 3 21\\n4 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\r\ninput=lambda :stdin.readline()[:-1]\r\n\r\nn,m,k=map(int,input().split())\r\nedge=[[] for i in range(n)]\r\nfor _ in range(m):\r\n  a,b,c=map(int,input().split())\r\n  a,b=a-1,b-1\r\n  edge[a].append((b,c))\r\n  edge[b].append((a,c))\r\n\r\nfrom heapq import heappop,heappush\r\n\r\nmask=(1<<17)-1\r\ndef dijkstra():\r\n  hq=[]\r\n  for i in range(n):\r\n    if dist[i]!=inf:\r\n      heappush(hq,(dist[i]<<17)+i)\r\n  seen=[0]*n\r\n  while hq:\r\n    x=heappop(hq)\r\n    w,v=x>>17,x&mask\r\n    if dist[v]<w:\r\n      continue\r\n    seen[v]=True\r\n    for to,cost in edge[v]:\r\n      if seen[to]==False and dist[v]+cost<dist[to]:\r\n        dist[to]=dist[v]+cost\r\n        heappush(hq,(dist[to]<<17)+to)\r\n\r\nfrom collections import deque\r\n\r\nclass ConvexHullTrick():\r\n  # 追加する直線の傾きが単調\r\n  # 計算する x 座標が単調\r\n  # O(N+Q)\r\n  \r\n  def __init__(self):\r\n    self.deq=deque()\r\n  \r\n  def check(self,f1,f2,f3):\r\n    return (f2[0]-f1[0])*(f3[1]-f2[1])>=(f2[1]-f1[1])*(f3[0]-f2[0])\r\n  \r\n  def f(self,f1,x):\r\n    return f1[0]*x+f1[1]\r\n  \r\n  # add f_i(x)=a*x+b\r\n  def add_line(self,a,b):\r\n    f1=(a,b)\r\n    while len(self.deq)>=2 and self.check(self.deq[-2],self.deq[-1],f1):\r\n      self.deq.pop()\r\n    self.deq.append(f1)\r\n  \r\n  # min f_i(x)\r\n  def query(self,x):\r\n    while len(self.deq)>=2 and self.f(self.deq[0],x)>=self.f(self.deq[1],x):\r\n      self.deq.popleft()\r\n    return self.f(self.deq[0],x)\r\n\r\n\r\ninf=1<<60\r\ndist=[inf]*n\r\ndist[0]=0\r\ndijkstra()\r\n\r\nfor _ in range(k):\r\n  CHT=ConvexHullTrick()\r\n  for i in range(n):\r\n    CHT.add_line(-2*i,dist[i]+i*i)\r\n  \r\n  for i in range(n):\r\n    dist[i]=CHT.query(i)+i*i\r\n  dijkstra()\r\n\r\nprint(*dist)",
+    "prob_desc_created_at": "1661006100",
+    "tags": [
+        "data structures",
+        "divide and conquer",
+        "dp",
+        "geometry",
+        "graphs",
+        "greedy",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

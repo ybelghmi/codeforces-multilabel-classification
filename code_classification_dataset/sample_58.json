@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"0\\n0\\n1\\n3\"]",
+    "src_uid": "f80dc7b12479551b857408f4c29c276b",
+    "prob_desc_notes": "NoteLet us have 3 junctions and 4 roads between the junctions have already been built (as after building all the roads in the sample): 1 and 3, 2 and 3, 2 roads between junctions 1 and 2. The land lot for the construction will look like this:   The land lot for the construction will look in the following way:   We can choose a subset of roads in three ways:   In the first and the second ways you can choose one path, for example, 1 - 2 - 3 - 1. In the first case you can choose one path 1 - 2 - 1.",
+    "prob_desc_description": "A ski base is planned to be built in Walrusland. Recently, however, the project is still in the constructing phase. A large land lot was chosen for the construction. It contains n ski junctions, numbered from 1 to n. Initially the junctions aren't connected in any way.In the constructing process m bidirectional ski roads will be built. The roads are built one after another: first the road number 1 will be built, then the road number 2, and so on. The i-th road connects the junctions with numbers ai and bi.Track is the route with the following properties:  The route is closed, that is, it begins and ends in one and the same junction. The route contains at least one road.  The route doesn't go on one road more than once, however it can visit any junction any number of times. Let's consider the ski base as a non-empty set of roads that can be divided into one or more tracks so that exactly one track went along each road of the chosen set. Besides, each track can consist only of roads from the chosen set. Ski base doesn't have to be connected.Two ski bases are considered different if they consist of different road sets.After building each new road the Walrusland government wants to know the number of variants of choosing a ski base based on some subset of the already built roads. The government asks you to help them solve the given problem.",
+    "prob_desc_output_spec": "Print m lines: the i-th line should represent the number of ways to build a ski base after the end of construction of the road number i. The numbers should be printed modulo 1000000009 (109 + 9).",
+    "prob_desc_input_spec": "The first line contains two integers n and m (2 ≤ n ≤ 105, 1 ≤ m ≤ 105). They represent the number of junctions and the number of roads correspondingly. Then on m lines follows the description of the roads in the order in which they were built. Each road is described by a pair of integers ai and bi (1 ≤ ai, bi ≤ n, ai ≠ bi) — the numbers of the connected junctions. There could be more than one road between a pair of junctions.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_000.jsonl",
+    "code_uid": "83c284ab834ac4a8c1a887a807ea3ba9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\n1 3\\n2 3\\n1 2\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import random\n\ndef FindSet(dsu, x):\n\tif dsu[x] != x:\n\t\tdsu[x] = FindSet(dsu, dsu[x])\n\treturn dsu[x]\n\ndef Unite(dsu, x, y):\n\tx = FindSet(dsu, x)\n\ty = FindSet(dsu, y)\n\tif random.random() > 0.5:\n\t\tdsu[x] = y\n\telse:\n\t\tdsu[y] = x\n\nmod = 10 ** 9 + 9\nn, m = map(int, raw_input().split())\ndsu = range(n + 1)\nres = 1\nfor i in xrange(m):\n\tu, v = map(int, raw_input().split())\n\tif FindSet(dsu, u) != FindSet(dsu, v):\n\t\tprint res - 1\n\telse:\n\t\tres = (res * 2) % mod\n\t\tprint res - 1\n\tUnite(dsu, u, v)",
+    "prob_desc_created_at": "1308582000",
+    "tags": [
+        "data structures",
+        "dsu",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

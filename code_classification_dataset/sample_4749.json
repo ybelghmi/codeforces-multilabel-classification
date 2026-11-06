@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 2 1 1 1 3\\n? 1 2 2 1 2 3\\n? 1 2 3 1 3 3\\n? 1 1 1 1 1 2\\n! 2\"]",
+    "src_uid": "f1b4048e5cd2aa0a533af9d08f7d58ba",
+    "prob_desc_notes": "NoteIn the example test the matrix $$$a$$$ of size $$$3 \\times 4$$$ is equal to: 1 2 1 23 3 3 32 1 2 1",
+    "prob_desc_description": "This is an interactive problem.There exists a matrix $$$a$$$ of size $$$n \\times m$$$ ($$$n$$$ rows and $$$m$$$ columns), you know only numbers $$$n$$$ and $$$m$$$. The rows of the matrix are numbered from $$$1$$$ to $$$n$$$ from top to bottom, and columns of the matrix are numbered from $$$1$$$ to $$$m$$$ from left to right. The cell on the intersection of the $$$x$$$-th row and the $$$y$$$-th column is denoted as $$$(x, y)$$$.You are asked to find the number of pairs $$$(r, c)$$$ ($$$1 \\le r \\le n$$$, $$$1 \\le c \\le m$$$, $$$r$$$ is a divisor of $$$n$$$, $$$c$$$ is a divisor of $$$m$$$) such that if we split the matrix into rectangles of size $$$r \\times c$$$ (of height $$$r$$$ rows and of width $$$c$$$ columns, each cell belongs to exactly one rectangle), all those rectangles are pairwise equal.You can use queries of the following type:   ? $$$h$$$ $$$w$$$ $$$i_1$$$ $$$j_1$$$ $$$i_2$$$ $$$j_2$$$ ($$$1 \\le h \\le n$$$, $$$1 \\le w \\le m$$$, $$$1 \\le i_1, i_2 \\le n$$$, $$$1 \\le j_1, j_2 \\le m$$$) — to check if non-overlapping subrectangles of height $$$h$$$ rows and of width $$$w$$$ columns of matrix $$$a$$$ are equal or not. The upper left corner of the first rectangle is $$$(i_1, j_1)$$$. The upper left corner of the second rectangle is $$$(i_2, j_2)$$$. Subrectangles overlap, if they have at least one mutual cell. If the subrectangles in your query have incorrect coordinates (for example, they go beyond the boundaries of the matrix) or overlap, your solution will be considered incorrect. You can use at most $$$ 3 \\cdot \\left \\lfloor{ \\log_2{(n+m)} } \\right \\rfloor$$$ queries. All elements of the matrix $$$a$$$ are fixed before the start of your program and do not depend on your queries.",
+    "prob_desc_output_spec": "When ready, print a line with an exclamation mark ('!') and then the answer — the number of suitable pairs $$$(r, c)$$$. After that your program should terminate.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 1000$$$) — the number of rows and columns, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_105.jsonl",
+    "code_uid": "69807fc8ec9bc8172ce430138c0a162a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\n1\\n1\\n1\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\n\r\ninput = sys.stdin.readline\r\n\r\ndef solve():\r\n\tr, c = map(int, input().split())\r\n\tr1 = r\r\n\tr2 = r\r\n\ti = 2\r\n\twhile True:\r\n\t\tif r2 % i == 0:\r\n\t\t\twhile r2 % i == 0:\r\n\t\t\t\tr2 //= i\r\n\t\t\twhile r1 % i == 0:\r\n\t\t\t\t#print('r',i)\r\n\t\t\t\tif i == 2:\r\n\t\t\t\t\tprint('?',r1//i,c,1,1,r1//i+1,1)\r\n\t\t\t\t\tsys.stdout.flush()\r\n\t\t\t\t\tif int(input()) == 0:\r\n\t\t\t\t\t\tbreak\r\n\t\t\t\t\tr1 //= 2\r\n\t\t\t\telse:\r\n\t\t\t\t\tz = i//2\r\n\t\t\t\t\th1 = r1//i\r\n\t\t\t\t\th = h1*z\r\n\t\t\t\t\tprint('?',h,c,1,1,h+1,1)\r\n\t\t\t\t\tsys.stdout.flush()\r\n\t\t\t\t\tif int(input()) == 0:\r\n\t\t\t\t\t\tbreak\r\n\t\t\t\t\tprint('?',h,c,1+h1,1,h+h1+1,1)\r\n\t\t\t\t\tsys.stdout.flush()\r\n\t\t\t\t\tif int(input()) == 0:\r\n\t\t\t\t\t\tbreak\r\n\t\t\t\t\tif z != 1:\r\n\t\t\t\t\t\tprint('?',h1,c,1,1,h1+1,1)\r\n\t\t\t\t\t\tsys.stdout.flush()\r\n\t\t\t\t\t\tif int(input()) == 0:\r\n\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\tr1 //= i\r\n\t\tif i * i <= r2:\r\n\t\t\ti += 1\r\n\t\telif r2 == 1:\r\n\t\t\tbreak\r\n\t\telif i >= r2:\r\n\t\t\tbreak\r\n\t\telse:\r\n\t\t\ti = r2\r\n\ti = 2\r\n\tc1 = c\r\n\tc2 = c\r\n\twhile True:\r\n\t\tif c2 % i == 0:\r\n\t\t\twhile c2 % i == 0:\r\n\t\t\t\tc2 //= i\r\n\t\t\twhile c1 % i == 0:\r\n\t\t\t\t#print('c',i)\r\n\t\t\t\tif i == 2:\r\n\t\t\t\t\tprint('?',r,c1//i,1,1,1,1+c1//i)\r\n\t\t\t\t\tsys.stdout.flush()\r\n\t\t\t\t\tif int(input()) == 0:\r\n\t\t\t\t\t\tbreak\r\n\t\t\t\t\tc1 //= 2\r\n\t\t\t\telse:\r\n\t\t\t\t\tz = i//2\r\n\t\t\t\t\tw1 = c1//i\r\n\t\t\t\t\tw = w1*z\r\n\t\t\t\t\tprint('?',r,w,1,1,1,1+w)\r\n\t\t\t\t\tsys.stdout.flush()\r\n\t\t\t\t\tif int(input()) == 0:\r\n\t\t\t\t\t\tbreak\r\n\t\t\t\t\tprint('?',r,w,1,1+w1,1,1+w+w1)\r\n\t\t\t\t\tsys.stdout.flush()\r\n\t\t\t\t\tif int(input()) == 0:\r\n\t\t\t\t\t\tbreak\r\n\t\t\t\t\tif z != 1:\r\n\t\t\t\t\t\tprint('?',r,w1,1,1,1,1+w1)\r\n\t\t\t\t\t\tsys.stdout.flush()\r\n\t\t\t\t\t\tif int(input()) == 0:\r\n\t\t\t\t\t\t\tbreak\r\n\t\t\t\t\tc1 //= i\r\n\t\tif i * i <= c2:\r\n\t\t\ti += 1\r\n\t\telif c2 == 1:\r\n\t\t\tbreak\r\n\t\telif i >= c2:\r\n\t\t\tbreak\r\n\t\telse:\r\n\t\t\ti = c2\r\n\tr //= r1\r\n\tc //= c1\r\n\td1 = 0\r\n\tfor i in range(1,r+1):\r\n\t\tif r % i == 0:\r\n\t\t\td1 += 1\r\n\td2 = 0\r\n\tfor i in range(1,c+1):\r\n\t\tif c % i == 0:\r\n\t\t\td2 += 1\r\n\tprint('!', d1*d2)\r\n\r\nsolve()\r\n",
+    "prob_desc_created_at": "1615039500",
+    "tags": [
+        "bitmasks",
+        "interactive",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

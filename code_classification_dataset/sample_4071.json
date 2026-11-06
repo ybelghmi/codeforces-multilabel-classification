@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Bob\\nBob\\nAlice\\nAlice\\nAlice\\nAlice\\nBob\\nBob\"]",
+    "src_uid": "9b9b85f84636ebd0f7af8b410d9820f7",
+    "prob_desc_notes": "NoteIn the notes, the cell numbers increase from left to right.In the first testcase for Alice, she has two choices: paint the first and the second cells, or paint the second and the third cells. No matter what choice Alice makes, there will be exactly one blue cell after Alice's move. Bob just needs to paint the blue cell and its neighbour, then every cell will be white and Alice can't make a move. So Bob is the winner.In the second testcase no matter what Alice chooses, Bob can choose to paint the fourth and fifth cells in $$$2$$$ turns.In the third testcase at first, Alice paints the third and the fourth cells. It doesn't matter if Bob paints the first and the second cells or the fifth and sixth cells, as Alice can paint the other two cells.In the fourth testcase at first, Alice paints the second and the third cells. If Bob paints the fifth and the sixth cells or the fourth and the fifth cells, then Alice paints the seventh and the eighth cells. If Bob paints the seventh and the eighth cells, then Alice paints the fifth and the sixth cells.In the fifth Alice chooses the middle two cells at first, then Bob obviously has only two options, whichever variant he chooses, Alice can choose the other one and win.In the eighth no matter what Alice chooses, Bob can choose the other two symmetrical cells.",
+    "prob_desc_description": "Alice and Bob are playing a game. There are $$$n$$$ cells in a row. Initially each cell is either red or blue. Alice goes first.On each turn, Alice chooses two neighbouring cells which contain at least one red cell, and paints that two cells white. Then, Bob chooses two neighbouring cells which contain at least one blue cell, and paints that two cells white. The player who cannot make a move loses.Find the winner if both Alice and Bob play optimally.Note that a chosen cell can be white, as long as the other cell satisfies the constraints.",
+    "prob_desc_output_spec": "For each test case, output the name of the winner on a separate line.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. Description of test cases follows. For each test case, the first line contains an integer $$$n$$$ ($$$2 \\leq n \\leq 5 \\cdot 10^5$$$) — the number of cells. The second line contains a string $$$s$$$ of length $$$n$$$ — the initial state of the cells. The $$$i$$$-th cell is red if $$$s_i = $$$ R, blue if $$$s_i = $$$ B. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$5 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_089.jsonl",
+    "code_uid": "09499dc06366b260eab635056821d431",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n\\n3\\n\\nBRB\\n\\n5\\n\\nRRBBB\\n\\n6\\n\\nRBRBRB\\n\\n8\\n\\nBBRRBRRB\\n\\n6\\n\\nBRRBRB\\n\\n12\\n\\nRBRBRBRBRRBB\\n\\n12\\n\\nRBRBRBRBBBRR\\n\\n4\\n\\nRBBR\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "nimv = [1] * 500\r\ndef mex(x):\r\n    x.sort()\r\n    c=0\r\n    for i in x:\r\n        if i == c:\r\n            c += 1\r\n    return c\r\ncnts = [4,4,4,24,4,4,4,14]\r\nnimv[:3]= [0,1,1]\r\ncp = 0\r\nci = 4\r\nfor i in range(3,500):\r\n    nimv[i]=mex([nimv[i-2]] + [nimv[i-j-3] ^ nimv[j] for j in range(i-2)])\r\nq = nimv[-34*3:]\r\nfor i in range(5000):\r\n    nimv.extend(q)\r\nfor i in range(int(input())):\r\n    n=int(input())\r\n    a=input()\r\n    cv=0\r\n    cc = 0\r\n    for i in range(n-1):\r\n        if (a[i] == 'R' and a[i+1]=='B') or (a[i]=='B' and a[i+1]=='R'):\r\n            cc+=1\r\n        elif cc:\r\n            cv ^= nimv[cc]\r\n            cc = 0\r\n    cv ^= nimv[cc]\r\n##    print(cv)\r\n    if (a.count('R') - a.count('B') + (1 if cv else 0)) >0:\r\n        print(\"Alice\")\r\n    else:\r\n        print(\"Bob\")\r\n ",
+    "prob_desc_created_at": "1659276300",
+    "tags": [
+        "constructive algorithms",
+        "dp",
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

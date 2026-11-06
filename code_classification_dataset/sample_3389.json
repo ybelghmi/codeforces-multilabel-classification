@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"? 982306799268821872\\n\\n? 230856864650023977\\n\\n? 134690134760714371\\n\\n! 5\\n? 1024\\n\\n? 1048576\\n\\n? 1073741824\\n\\n! 42\"]",
+    "src_uid": "9cae7cd63f47dc647cf2139244670aaf",
+    "prob_desc_notes": "NoteWhy the limitation for number of queries is 22 exactly? Maybe the problem author is a Taylor Swift fan.Let's look at the example.In the first game $$$X = 998\\,244\\,353$$$ is hidden. Would be hard to guess this, right? This number is prime, so the number of its divisors is 2. The solution has made several random queries, and all the responses turned out to be 1 (strange things, not even one of three random numbers is divisible by $$$998\\,244\\,353$$$). It's fare to assume that the hidden number doesn't have many divisors, so the solution has answered 5. Why not. This answer will be considered correct since $$$| 5 - 2 | = 3 \\le 7$$$.In the second game $$$X = 4\\,194\\,304 = 2^{22}$$$ is hidden, it has 23 divisors. The solution has made queries $$$1024 = 2^{10}$$$, $$$1\\,048\\,576 =2^{20}$$$, $$$1\\,073\\,741\\,824 = 2^{30}$$$ and got responses $$$1024 = 2^{10}$$$, $$$1\\,048\\,576 =2^{20}$$$, $$$4\\,194\\,304 = 2^{22}$$$, respectively. Then the solution got completely confused and answered the answer to The Ultimate Question of Life, the Universe, and Everything. This answer will be considered correct since $$$\\frac{1}{2} \\le \\frac{42}{23} \\le 2$$$.",
+    "prob_desc_description": "This is an interactive problem.We have hidden an integer $$$1 \\le X \\le 10^{9}$$$. You don't have to guess this number. You have to find the number of divisors of this number, and you don't even have to find the exact number: your answer will be considered correct if its absolute error is not greater than 7 or its relative error is not greater than $$$0.5$$$. More formally, let your answer be $$$ans$$$ and the number of divisors of $$$X$$$ be $$$d$$$, then your answer will be considered correct if at least one of the two following conditions is true: $$$| ans - d | \\le 7$$$; $$$\\frac{1}{2} \\le \\frac{ans}{d} \\le 2$$$.You can make at most $$$22$$$ queries. One query consists of one integer $$$1 \\le Q \\le 10^{18}$$$. In response, you will get $$$gcd(X, Q)$$$ — the greatest common divisor of $$$X$$$ and $$$Q$$$.The number $$$X$$$ is fixed before all queries. In other words, interactor is not adaptive.Let's call the process of guessing the number of divisors of number $$$X$$$ a game. In one test you will have to play $$$T$$$ independent games, that is, guess the number of divisors $$$T$$$ times for $$$T$$$ independent values of $$$X$$$.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The first line of input contains one integer $$$T$$$ ($$$1 \\le T \\le 100$$$) — the number of games.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_056.jsonl",
+    "code_uid": "11d1bffea1d0aa5fdb498d55330571a0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n1\\n\\n1\\n\\n1\\n\\n\\n1024\\n\\n1048576\\n\\n4194304\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nimport math\n\ndef main():\n    t = int(stdin.readline())\n    MX = int(1.e18 + 2)\n    for _ in range (t):\n        # query\n        q_num = 2\n        prime = [2]\n        slot = [0] * 100000\n        q_cnt = 0\n        factor = 2\n        cur = 3\n        stable_prime = []\n        uniq = set()\n        while True:\n            for x in stable_prime:\n                if q_num * math.pow(x, slot[x] + 1) > MX:\n                    break\n                q_num *= int(math.pow(x, slot[x] + 1))\n            gogo = False\n            for i in range (cur,MX,2):\n                is_p = True\n                for x in prime:\n                    if i % x == 0:\n                        is_p = False\n                        break\n                if is_p:\n                    prime.append(i)\n                    if q_num * i >= MX:\n                        gogo = True\n                    else:\n                        q_num *= i    \n                if gogo:\n                    stdout.write(\"? \" + str(q_num) + \"\\n\")\n                    stdout.flush()\n                    q_num = i\n                    cur = i + 2\n                    \n                    res = int(input())\n                    q_cnt += 1\n                    tmp_stable = []\n                    for x in prime:\n                        tmp = 0\n                        while res % x == 0:\n                            tmp += 1\n                            res /= x\n                        if tmp > slot[x]:\n                            uniq.add(x)\n                            factor += tmp - slot[x]\n                            slot[x] = tmp\n                            tmp_stable.append(x)\n                        if res == 1:\n                            break\n                    stable_prime = tmp_stable\n                    break\n            if q_cnt == 22:\n                break\n        factor = 1\n        for x in uniq:\n            factor *= (slot[x]+1)\n        stdout.write(\"! \" + str(factor * 2) + \"\\n\")\n                            \nmain()",
+    "prob_desc_created_at": "1589628900",
+    "tags": [
+        "constructive algorithms",
+        "number theory",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

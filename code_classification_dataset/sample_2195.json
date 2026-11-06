@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\nMasha\\nPetya\", \"3\\nLesha\\nPasha\\nVanya\"]",
+    "src_uid": "b0301a2d79a1ec126511ed769ec0b743",
+    "prob_desc_notes": null,
+    "prob_desc_description": "When little Petya grew up and entered the university, he started to take part in АСМ contests. Later he realized that he doesn't like how the АСМ contests are organised: the team could only have three members (and he couldn't take all his friends to the competitions and distribute the tasks between the team members efficiently), so he decided to organize his own contests PFAST Inc. — Petr and Friends Are Solving Tasks Corporation. PFAST Inc. rules allow a team to have unlimited number of members.To make this format of contests popular he organised his own tournament. To create the team he will prepare for the contest organised by the PFAST Inc. rules, he chose several volunteers (up to 16 people) and decided to compile a team from them. Petya understands perfectly that if a team has two people that don't get on well, then the team will perform poorly. Put together a team with as many players as possible given that all players should get on well with each other.",
+    "prob_desc_output_spec": "The first output line should contain the single number k — the number of people in the sought team. Next k lines should contain the names of the sought team's participants in the lexicographical order. If there are several variants to solve the problem, print any of them. Petya might not be a member of the sought team. ",
+    "prob_desc_input_spec": "The first line contains two integer numbers n (1 ≤ n ≤ 16) — the number of volunteers, and m () — the number of pairs that do not get on. Next n lines contain the volunteers' names (each name is a non-empty string consisting of no more than 10 uppercase and/or lowercase Latin letters). Next m lines contain two names — the names of the volunteers who do not get on. The names in pair are separated with a single space. Each pair of volunteers who do not get on occurs exactly once. The strings are case-sensitive. All n names are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_018.jsonl",
+    "code_uid": "d90430691737d4a09ec876fdb32075b3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\nPetya\\nVasya\\nMasha\\nPetya Vasya\", \"3 0\\nPasha\\nLesha\\nVanya\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import itertools\n\n\ndef check(combination, enemies):\n    for a in combination:\n        for b in combination:\n            if a != b:\n                if (a, b) in enemies or (b, a) in enemies:\n                    return False\n    return True\n\n\ndef main():\n    n, m = map(int, raw_input().split())\n    names = [raw_input() for i in xrange(n)]\n    enemies = set([tuple(raw_input().split()) for i in xrange(m)])\n\n    for size in reversed(xrange(1, n + 1)):\n        for combination in itertools.combinations(names, size):\n            if check(combination, enemies):\n                print size\n                for x in sorted(combination):\n                    print x\n                return\n\n\nif __name__ == '__main__':\n    main()",
+    "prob_desc_created_at": "1315494000",
+    "tags": [
+        "bitmasks",
+        "brute force",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

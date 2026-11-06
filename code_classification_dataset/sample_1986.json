@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"1\", \"-1\", \"-1\"]",
+    "src_uid": "91cfd24b8d608eb379f709f4509ecd2d",
+    "prob_desc_notes": "NoteIn the second sample one has to reverse string 2 or string 3. To amount of energy required to reverse the string 3 is smaller.In the third sample, both strings do not change after reverse and they go in the wrong order, so the answer is  - 1.In the fourth sample, both strings consists of characters 'a' only, but in the sorted order string \"aa\" should go before string \"aaa\", thus the answer is  - 1.",
+    "prob_desc_description": "Vasiliy is fond of solving different tasks. Today he found one he wasn't able to solve himself, so he asks you to help.Vasiliy is given n strings consisting of lowercase English letters. He wants them to be sorted in lexicographical order (as in the dictionary), but he is not allowed to swap any of them. The only operation he is allowed to do is to reverse any of them (first character becomes last, second becomes one before last and so on).To reverse the i-th string Vasiliy has to spent ci units of energy. He is interested in the minimum amount of energy he has to spent in order to have strings sorted in lexicographical order.String A is lexicographically smaller than string B if it is shorter than B (|A| &lt; |B|) and is its prefix, or if none of them is a prefix of the other and at the first position where they differ character in A is smaller than the character in B.For the purpose of this problem, two equal strings nearby do not break the condition of sequence being sorted lexicographically.",
+    "prob_desc_output_spec": "If it is impossible to reverse some of the strings such that they will be located in lexicographical order, print  - 1. Otherwise, print the minimum total amount of energy Vasiliy has to spent.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (2 ≤ n ≤ 100 000) — the number of strings. The second line contains n integers ci (0 ≤ ci ≤ 109), the i-th of them is equal to the amount of energy Vasiliy has to spent in order to reverse the i-th string.  Then follow n lines, each containing a string consisting of lowercase English letters. The total length of these strings doesn't exceed 100 000.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_015.jsonl",
+    "code_uid": "f1f384fee93ed675a955e34f1458c18d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n1 2\\nba\\nac\", \"3\\n1 3 1\\naa\\nba\\nac\", \"2\\n5 5\\nbbb\\naaa\", \"2\\n3 3\\naaa\\naa\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nref = [int(x) for x in input().split()]\nstate = [[float('inf')]*2 for x in range(n)]\nprev = input()\nstate[0][0] = 0\nstate[0][1] = ref[0]\nflag = 0\nfor i in range(1,n):\n    cur = input()\n    if cur >= prev:\n        state[i][0] = min(state[i][0],state[i-1][0])\n    if cur >= prev[-1::-1]:\n        state[i][0] = min(state[i][0],state[i-1][1])\n    if cur[-1::-1] >= prev:\n        state[i][1] = min(state[i][1],state[i-1][0]+ref[i])\n    if cur[-1::-1] >= prev[-1::-1]:\n        state[i][1] = min(state[i][1],state[i-1][1]+ref[i])\n    prev = cur\n    if state[i][0] >= float('inf') and state[i][1] >= float('inf'):\n        flag = 1\n        break\nif flag == 1:\n    print(-1)\nelse:\n    print(min(state[n-1][0],state[n-1][1]))\n",
+    "prob_desc_created_at": "1470933300",
+    "tags": [
+        "dp",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

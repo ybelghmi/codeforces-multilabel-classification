@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"0\", \"3\"]",
+    "src_uid": "eb3155f0e6ba088308fa942f3572f582",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array $$$a$$$ consisting of $$$n$$$ integers. Each $$$a_i$$$ is one of the six following numbers: $$$4, 8, 15, 16, 23, 42$$$.Your task is to remove the minimum number of elements to make this array good.An array of length $$$k$$$ is called good if $$$k$$$ is divisible by $$$6$$$ and it is possible to split it into $$$\\frac{k}{6}$$$ subsequences $$$4, 8, 15, 16, 23, 42$$$.Examples of good arrays:  $$$[4, 8, 15, 16, 23, 42]$$$ (the whole array is a required sequence);  $$$[4, 8, 4, 15, 16, 8, 23, 15, 16, 42, 23, 42]$$$ (the first sequence is formed from first, second, fourth, fifth, seventh and tenth elements and the second one is formed from remaining elements);  $$$[]$$$ (the empty array is good). Examples of bad arrays:   $$$[4, 8, 15, 16, 42, 23]$$$ (the order of elements should be exactly $$$4, 8, 15, 16, 23, 42$$$);  $$$[4, 8, 15, 16, 23, 42, 4]$$$ (the length of the array is not divisible by $$$6$$$);  $$$[4, 8, 15, 16, 23, 42, 4, 8, 15, 16, 23, 23]$$$ (the first sequence can be formed from first six elements but the remaining array cannot form the required sequence). ",
+    "prob_desc_output_spec": "Print one integer — the minimum number of elements you have to remove to obtain a good array.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$1 \\le n \\le 5 \\cdot 10^5$$$) — the number of elements in $$$a$$$. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ (each $$$a_i$$$ is one of the following numbers: $$$4, 8, 15, 16, 23, 42$$$), where $$$a_i$$$ is the $$$i$$$-th element of $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_004.jsonl",
+    "code_uid": "1f48f905394acb2aced5561eb415e29b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n4 8 15 16 23\", \"12\\n4 8 4 15 16 8 23 15 16 42 23 42\", \"15\\n4 8 4 8 15 16 8 16 23 15 16 4 42 23 42\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#import resource\nimport sys\n#resource.setrlimit(resource.RLIMIT_STACK, [0x100000000, resource.RLIM_INFINITY])\n#import threading\n#threading.Thread(target=main).start()\n#threading.stack_size(2**26)\n#sys.setrecursionlimit(10**6)\nmod=(10**9)+7\nfact=[1]\n#for i in range(1,100001):\n#    fact.append((fact[-1]*i)%mod)\n#ifact=[0]*10000001\n#ifact[10000000]=pow(fact[10000000],mod-2,mod)\n#for i in range(10000000,0,-1):\n#    ifact[i-1]=(i*ifact[i])%mod\nfrom sys import stdin, stdout\nfrom bisect import bisect_left as bl\nfrom bisect import bisect_right as br\nimport itertools\nimport math\nimport heapq\nfrom random import randint as rn\nfrom Queue import Queue as Q\ndef modinv(n,p):\n    return pow(n,p-2,p)\ndef ncr(n,r,p):\n    t=((fact[n])*((ifact[r]*ifact[n-r])%p))%p\n    return t\ndef ain():\n    return map(int,sin().split())\ndef sin():\n    return stdin.readline()\ndef GCD(x,y):\n    while(y):\n        x, y = y, x % y\n    return x\ndef isprime(x):\n    if(x==1):\n        return False\n    elif(x<4):\n        return True\n    for i in range(2,int(math.sqrt(x))+1):\n        if(x%i==0):\n            return False\n    return True\n\"\"\"**************************************************************************\"\"\"\nb=[4,8,15,16,23,42]\nb={8:4,15:8,16:15,23:16,42:23}\nn=input()\na=ain()\nd={4:0,8:0,15:0,16:0,23:0,42:0}\nfor i in range(n):\n    if(a[i]==4):\n        d[4]+=1\n    else:\n        if(d[b[a[i]]]!=0):\n            d[a[i]]+=1\n            d[b[a[i]]]-=1\nw=n-(d[42]*6)\nprint w\n",
+    "prob_desc_created_at": "1560090900",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

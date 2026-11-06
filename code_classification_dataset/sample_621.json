@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"5\"]",
+    "src_uid": "ce8350be138ce2061349d7f9224a5aaf",
+    "prob_desc_notes": "NoteFirst example shows situation where Sasha can never be sure that Teodor isn't lying to him, because even if one knows cnt(xi) for each point in segment [1;4], he can't distinguish this case from situation Teodor has drawn whole [1;4] segment.In second example Sasha can ask about 5 points e.g. 1, 2, 3, 5, 6, still not being sure if Teodor haven't lied to him. But once he knows information about all points in [1;6] segment, Sasha can be sure that Teodor haven't lied to him.",
+    "prob_desc_description": "Young Teodor enjoys drawing. His favourite hobby is drawing segments with integer borders inside his huge [1;m] segment. One day Teodor noticed that picture he just drawn has one interesting feature: there doesn't exist an integer point, that belongs each of segments in the picture. Having discovered this fact, Teodor decided to share it with Sasha.Sasha knows that Teodor likes to show off so he never trusts him. Teodor wants to prove that he can be trusted sometimes, so he decided to convince Sasha that there is no such integer point in his picture, which belongs to each segment. However Teodor is lazy person and neither wills to tell Sasha all coordinates of segments' ends nor wills to tell him their amount, so he suggested Sasha to ask him series of questions 'Given the integer point xi, how many segments in Fedya's picture contain that point?', promising to tell correct answers for this questions.Both boys are very busy studying and don't have much time, so they ask you to find out how many questions can Sasha ask Teodor, that having only answers on his questions, Sasha can't be sure that Teodor isn't lying to him. Note that Sasha doesn't know amount of segments in Teodor's picture. Sure, Sasha is smart person and never asks about same point twice.",
+    "prob_desc_output_spec": "Single line of output should contain one integer number k – size of largest set (xi, cnt(xi)) where all xi are different, 1 ≤ xi ≤ m, and cnt(xi) is amount of segments, containing point with coordinate xi, such that one can't be sure that there doesn't exist point, belonging to all of segments in initial picture, if he knows only this set(and doesn't know n).",
+    "prob_desc_input_spec": "First line of input contains two integer numbers: n and m (1 ≤ n, m ≤ 100 000) — amount of segments of Teodor's picture and maximal coordinate of point that Sasha can ask about. ith of next n lines contains two integer numbers li and ri (1 ≤ li ≤ ri ≤ m) — left and right ends of ith segment in the picture. Note that that left and right ends of segment can be the same point. It is guaranteed that there is no integer point, that belongs to all segments.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_003.jsonl",
+    "code_uid": "a7eab495f2f1c9deacb410fcfc8bfe12",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 4\\n1 2\\n3 4\", \"4 6\\n1 3\\n2 3\\n4 6\\n5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom itertools import repeat\nfrom bisect import bisect\ndef main():\n    n, m = map(int, stdin.readline().split())\n    dat = map(int, stdin.read().split(), repeat(10, 2 * n))\n    s = [0] * (m + 1)\n    for i, x in enumerate(dat):\n        if i & 1:\n            s[x] -= 1\n        else:\n            s[x-1] += 1\n    for i in xrange(m):\n        s[i+1] += s[i]\n    s.pop()\n    l = 0\n    b = [-1] * (m + 1)\n    L = [0] * m\n    R = [0] * m\n    for i in xrange(m):\n        p = bisect(b, s[i], 0, l)\n        b[p] = s[i]\n        if p == l:\n            l += 1\n        L[i] = p\n    s.reverse()\n    l = 0\n    b = [-1] * (m + 1)\n    for i in xrange(m):\n        p = bisect(b, s[i], 0, l)\n        b[p] = s[i]\n        if p == l:\n            l += 1\n        R[i] = p\n    R.reverse()\n    for i in xrange(m):\n        L[i] += R[i] + 1\n    print max(L)\nmain()\n",
+    "prob_desc_created_at": "1520177700",
+    "tags": [
+        "data structures",
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

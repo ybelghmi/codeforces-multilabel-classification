@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"50\", \"7\"]",
+    "src_uid": "c045163f2539a117c5160eaedc2dab3e",
+    "prob_desc_notes": "NoteIn the first example the person located at point 20 should take the key located at point 40 and go with it to the office located at point 50. He spends 30 seconds. The person located at point 100 can take the key located at point 80 and go to the office with it. He spends 50 seconds. Thus, after 50 seconds everybody is in office with keys.",
+    "prob_desc_description": "There are n people and k keys on a straight line. Every person wants to get to the office which is located on the line as well. To do that, he needs to reach some point with a key, take the key and then go to the office. Once a key is taken by somebody, it couldn't be taken by anybody else.You are to determine the minimum time needed for all n people to get to the office with keys. Assume that people move a unit distance per 1 second. If two people reach a key at the same time, only one of them can take the key. A person can pass through a point with a key without taking it.",
+    "prob_desc_output_spec": "Print the minimum time (in seconds) needed for all n to reach the office with keys.",
+    "prob_desc_input_spec": "The first line contains three integers n, k and p (1 ≤ n ≤ 1 000, n ≤ k ≤ 2 000, 1 ≤ p ≤ 109) — the number of people, the number of keys and the office location. The second line contains n distinct integers a1, a2, ..., an (1 ≤ ai ≤ 109) — positions in which people are located initially. The positions are given in arbitrary order. The third line contains k distinct integers b1, b2, ..., bk (1 ≤ bj ≤ 109) — positions of the keys. The positions are given in arbitrary order. Note that there can't be more than one person or more than one key in the same point. A person and a key can be located in the same point.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_028.jsonl",
+    "code_uid": "a4de0ba850b19a710597f470c830f5fb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 4 50\\n20 100\\n60 10 40 80\", \"1 2 10\\n11\\n15 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def list_input():\n    return list(map(int,input().split()))\ndef map_input():\n    return map(int,input().split())\ndef map_string():\n    return input().split()\n    \nn,k,p = map_input()\na = list_input()\nb = list_input()\na.sort()\nb.sort()\nans = 1000000000000000000\nfor i in range(k-n+1):\n    cur = 0\n    c1 = 0\n    c2 = i\n    while c1 < n:\n        cur = max(abs(a[c1]-b[c2])+abs(b[c2]-p),cur)\n        c1 += 1\n        c2 += 1\n    ans = min(ans,cur)\nprint(ans)    \n    ",
+    "prob_desc_created_at": "1499958300",
+    "tags": [
+        "dp",
+        "binary search",
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

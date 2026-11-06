@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "0.5 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n2 2 1 1\", \"YES\\n2 1 2 1 1\", \"NO\"]",
+    "src_uid": "973ef4e00b0489261fce852af11aa569",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array of $$$n$$$ integers. You need to split all integers into two groups so that the GCD of all integers in the first group is equal to one and the GCD of all integers in the second group is equal to one.The GCD of a group of integers is the largest non-negative integer that divides all the integers in the group.Both groups have to be non-empty.",
+    "prob_desc_output_spec": "In the first line print \"YES\" (without quotes), if it is possible to split the integers into two groups as required, and \"NO\" (without quotes) otherwise. If it is possible to split the integers, in the second line print $$$n$$$ integers, where the $$$i$$$-th integer is equal to $$$1$$$ if the integer $$$a_i$$$ should be in the first group, and $$$2$$$ otherwise. If there are multiple solutions, print any.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\leq n \\leq 10^5$$$). The second line contains $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, $$$\\ldots$$$, $$$a_n$$$ ($$$1 \\leq a_i \\leq 10^9$$$) — the elements of the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2900,
+    "file_name": "train_069.jsonl",
+    "code_uid": "d0fb462219c501f38659407c24be1fd3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 3 6 7\", \"5\\n6 15 35 77 22\", \"5\\n6 10 15 1000 75\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\ndef gcd(l):\n\tif len(l)==0:\n\t\treturn 0\n\tif len(l)==1:\n\t\treturn l[0]\n\tif len(l)==2:                                   \n\t\tif l[1]==0:\n\t\t\treturn l[0]  \n\t\treturn gcd([l[1],l[0]%l[1]])\n\treturn gcd([gcd(l[:-1]),l[-1]])\n\t\t\ndef brute_force(l1,l2,l,sol):                   \n\tif len(l)==0:\n\t\tg1=gcd(l1)\n\t\tg2=gcd(l2)\n\t\treturn g1==1 and g2==1,sol\n\t\n\tres,s=brute_force(l1+[l[0]],l2,l[1:],sol+[1])\n\tif res:\n\t\treturn True,s\n\treturn brute_force(l1,l2+[l[0]],l[1:],sol+[2])\n\ndef factor(n):\n\tres=[]\n\ti=2\n\twhile i*i<=n:\n\t\tif n%i==0:\n\t\t\tres.append(i)\n\t\twhile n%i==0:\n\t\t\tn=int(n/i)\n\t\ti+=1\n\n\tif n!=1:\n\t\tres.append(n)\n\n\treturn res\n\ndef dumpsol(sol):\n\tfor v in sol:\n\t\tprint(v,end=' ')\n\nn=int(sys.stdin.readline())\nl=sys.stdin.readline().strip().split(\" \")[0:n]\nl=[int(x) for x in l]\nif n<12:\n\tret,sol=brute_force([],[],l,[])\n\tif ret:\n\t\tprint(\"YES\")\n\t\tdumpsol(sol)\n\telse:\n\t\tprint(\"NO\")\n\tsys.exit()\n\nfactors={}\nfor i in range(10):\n\tfor key in factor(l[i]):\n\t\tfactors[key]=0\n\nflists={}\nfor f in factors:\n\tflists[f]=[]\n\tpos=0\n\tfound=False\n\tfor v in l:\n\t\tif v%f!=0:\n\t\t\tfound=True\n\t\t\tfactors[f]+=1\n\t\t\tflists[f].append(pos)\n\t\t\tif (factors[f]>9):\n\t\t\t\tbreak\n\t\tpos+=1\n\tif not found:\n\t\tprint(\"NO\")\n\t\tsys.exit()\n\noftf=[]\nisoftf={}\nfor f in factors:\n\tif factors[f]==0:\n\t\tprint(\"NO\")\n\t\tsys.exit()\n\n\tif factors[f]<10:\n\t\toftf.append(f)\n\t\tisoftf[f]=1\n\n#print(oftf)\n\nsol=[1 for i in range(len(l))]\nx=l[0]\nsol[0]=2\noxf=factor(x)\n#print(oxf)\nxf=[]\nnxf=0\nisxoftf={}\nfor f in oxf:\n\tif f in isoftf:\n\t\tnxf+=1\n\t\tisxoftf[f]=1\n\t\txf.append(f)\n\telse:\n\t\tsol[flists[f][0]]=2\n\nnonxf=[]\nfor f in oftf:\n\tif not f in isxoftf:\n\t\tnonxf.append(f)\n\nmasks={}\npos=0\n\n#print(xf)\n#print(nonxf)\n\nfor f in xf+nonxf:\n\tfor v in flists[f]:\n\t\tif not v in masks:\t\n\t\t\tmasks[v]=0\n\t\tmasks[v]|=1<<pos\n\tpos+=1\n\nvals=[{} for i in range(len(masks)+1)]\nvals[0][0]=0\npos=0\nmlist=[]\nfor mask in masks:\n\tmlist.append(mask)\n\tcmask=masks[mask]\n\tcmask1=cmask<<10\n\t#print(vals)\n\tfor v in vals[pos]:\n\t\tvals[pos+1][v|cmask]=v\n\t\t# first number is always in group2\n\t\tif (mask!=0):\n\t\t\tvals[pos+1][v|cmask1]=v\n\tpos+=1\t\n\n#print(vals)\n#print(masks)\n#print(sol)\n\ntest_val=((1<<len(xf))-1)|(((1<<len(oftf))-1)<<10)\n#print(test_val)\nfor v in vals[pos]:\n\tif (v&test_val)==test_val:\n\t\tprint(\"YES\")\n\n\t\t#print(pos)\n\t\twhile (pos!=0):\n\t\t\t#print(v)\n\t\t\t#print(vals[pos])\n\t\t\tnv=vals[pos][v]\n\t\t\t#print(nv)\n\t\t\tif (nv^v<1024 and nv^v!=0):\n\t\t\t\tsol[mlist[pos-1]]=2\n\t\t\tv=nv\n\t\t\tpos-=1\n\n\t\tdumpsol(sol)\n\t\tsys.exit()\n\nprint(\"NO\")\n\n#print(oftf)\n#print(masks)\n\n",
+    "prob_desc_created_at": "1564497300",
+    "tags": [
+        "greedy",
+        "number theory",
+        "probabilities"
+    ],
+    "hidden_unit_tests": ""
+}

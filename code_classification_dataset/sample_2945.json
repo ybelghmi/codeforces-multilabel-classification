@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"1\", \"0\"]",
+    "src_uid": "ea6f55b3775076fcba6554b743b1a8ae",
+    "prob_desc_notes": "NoteIn the first sample there are four different valid pairs:   p = \"(\", q = \"))\"  p = \"()\", q = \")\"  p = \"\", q = \"())\"  p = \"\", q = \")()\" In the second sample the only way to obtain a desired string is choose empty p and q.In the third sample there is no way to get a valid sequence of brackets.",
+    "prob_desc_description": "As Famil Door’s birthday is coming, some of his friends (like Gabi) decided to buy a present for him. His friends are going to buy a string consisted of round brackets since Famil Door loves string of brackets of length n more than any other strings!The sequence of round brackets is called valid if and only if:   the total number of opening brackets is equal to the total number of closing brackets;  for any prefix of the sequence, the number of opening brackets is greater or equal than the number of closing brackets. Gabi bought a string s of length m (m ≤ n) and want to complete it to obtain a valid sequence of brackets of length n. He is going to pick some strings p and q consisting of round brackets and merge them in a string p + s + q, that is add the string p at the beginning of the string s and string q at the end of the string s.Now he wonders, how many pairs of strings p and q exists, such that the string p + s + q is a valid sequence of round brackets. As this number may be pretty large, he wants to calculate it modulo 109 + 7.",
+    "prob_desc_output_spec": "Print the number of pairs of string p and q such that p + s + q is a valid sequence of round brackets modulo 109 + 7.",
+    "prob_desc_input_spec": "First line contains n and m (1 ≤ m ≤ n ≤ 100 000, n - m ≤ 2000) — the desired length of the string and the length of the string bought by Gabi, respectively. The second line contains string s of length m consisting of characters '(' and ')' only.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_036.jsonl",
+    "code_uid": "166da3d46ab92364324e17d8f14f3c43",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 1\\n(\", \"4 4\\n(())\", \"4 3\\n(((\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, input().split())\ns = input()\nmod = 10 ** 9 + 7\nc, b, ans, d, k = 0, 0, 0, [[1]], n - m\nfor i in s:\n    c += (i == '(') * 2 - 1\n    b = min(c, b)\nfor i in range(n - m):\n    nd = d[-1][1:] + [0] * 2\n    for j in range(1, i + 2):\n        nd[j] = (nd[j] + d[-1][j - 1]) % mod\n    d.append(nd)\nfor i in range(k + 1):\n    for j in range(-b, min(k - i - c, i) + 1):\n        ans = (ans + d[i][j] * d[k - i][j + c]) % mod\nprint(ans)",
+    "prob_desc_created_at": "1455986100",
+    "tags": [
+        "dp",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

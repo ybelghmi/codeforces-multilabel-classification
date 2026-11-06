@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"70 27 \\n17 \\n3 4 100 4\\n10 90\\n1 1 2 1 1 1 1 1 1 \\n999900 90 9\"]",
+    "src_uid": "2afb210831529a99f8f04f13e5438d55",
+    "prob_desc_notes": "NoteIn the first test case, $$$70_{10} + 27_{10} = 97_{10}$$$, and Alice's sum is $$$$$$70_{11} + 27_{11} = 97_{11} = 9 \\cdot 11 + 7 = 106_{10}.$$$$$$ (Here $$$x_b$$$ represents the number $$$x$$$ in base $$$b$$$.) It can be shown that it is impossible for Alice to get a larger sum than $$$106_{10}$$$.In the second test case, Bob can only write a single number on the board, so he must write $$$17$$$.In the third test case, $$$3_{10} + 4_{10} + 100_{10} + 4_{10} = 111_{10}$$$, and Alice's sum is $$$$$$3_{11} + 4_{11} + 100_{11} + 4_{11} = 110_{11} = 1 \\cdot 11^2 + 1 \\cdot 11 = 132_{10}.$$$$$$ It can be shown that it is impossible for Alice to get a larger sum than $$$132_{10}$$$.",
+    "prob_desc_description": "On the board, Bob wrote $$$n$$$ positive integers in base $$$10$$$ with sum $$$s$$$ (i. e. in decimal numeral system). Alice sees the board, but accidentally interprets the numbers on the board as base-$$$11$$$ integers and adds them up (in base $$$11$$$).What numbers should Bob write on the board, so Alice's sum is as large as possible?",
+    "prob_desc_output_spec": "For each test case, output $$$n$$$ positive integers — the numbers Bob should write on the board, so Alice's sum is as large as possible. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains an integer $$$t$$$ ($$$1 \\leq t \\leq 100$$$) — the number of test cases. The description of the test cases follows. The only line of each test case contains two integers $$$s$$$ and $$$n$$$ ($$$1 \\leq s \\leq 10^9$$$; $$$1 \\leq n \\leq \\min(100, s)$$$) — the sum and amount of numbers on the board, respectively. Numbers $$$s$$$ and $$$n$$$ are given in decimal notation (base $$$10$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_089.jsonl",
+    "code_uid": "a93f197c100725a3cfdee58adc6ca091",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n97 2\\n17 1\\n111 4\\n100 2\\n10 9\\n999999 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\r\ndef solver(s, n):\r\n    num = 10 ** (len(str(s))-1)\r\n    for i in range(n-1):\r\n        while s - num < n - (i + 1):\r\n            num //= 10\r\n        print(num, end=' ')\r\n        s -= num\r\n    print(s)\r\n\r\nT = int(input())\r\nfor t in range(T):\r\n    S, N = map(int, input().split())\r\n    solver(S, N)\r\n\r\n'''\r\n6\r\n97 2\r\n17 1\r\n111 4\r\n100 2\r\n10 9\r\n999999 3\r\n1\r\n14 7\r\n'''\r\n",
+    "prob_desc_created_at": "1630852500",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

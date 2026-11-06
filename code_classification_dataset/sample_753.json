@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"252\", \"0\", \"210\"]",
+    "src_uid": "94559f08866b6136ba4791c440025a68",
+    "prob_desc_notes": "NoteIn the first example, all sequences ($$$4^4$$$) of length $$$4$$$ except the following are good:   $$$[1, 1, 1, 1]$$$ $$$[2, 2, 2, 2]$$$ $$$[3, 3, 3, 3]$$$ $$$[4, 4, 4, 4]$$$ In the second example, all edges are red, hence there aren't any good sequences.",
+    "prob_desc_description": "You are given a tree (a connected undirected graph without cycles) of $$$n$$$ vertices. Each of the $$$n - 1$$$ edges of the tree is colored in either black or red.You are also given an integer $$$k$$$. Consider sequences of $$$k$$$ vertices. Let's call a sequence $$$[a_1, a_2, \\ldots, a_k]$$$ good if it satisfies the following criterion:  We will walk a path (possibly visiting same edge/vertex multiple times) on the tree, starting from $$$a_1$$$ and ending at $$$a_k$$$.  Start at $$$a_1$$$, then go to $$$a_2$$$ using the shortest path between $$$a_1$$$ and $$$a_2$$$, then go to $$$a_3$$$ in a similar way, and so on, until you travel the shortest path between $$$a_{k-1}$$$ and $$$a_k$$$. If you walked over at least one black edge during this process, then the sequence is good.   Consider the tree on the picture. If $$$k=3$$$ then the following sequences are good: $$$[1, 4, 7]$$$, $$$[5, 5, 3]$$$ and $$$[2, 3, 7]$$$. The following sequences are not good: $$$[1, 4, 6]$$$, $$$[5, 5, 5]$$$, $$$[3, 7, 3]$$$.There are $$$n^k$$$ sequences of vertices, count how many of them are good. Since this number can be quite large, print it modulo $$$10^9+7$$$.",
+    "prob_desc_output_spec": "Print the number of good sequences modulo $$$10^9 + 7$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$2 \\le n \\le 10^5$$$, $$$2 \\le k \\le 100$$$), the size of the tree and the length of the vertex sequence. Each of the next $$$n - 1$$$ lines contains three integers $$$u_i$$$, $$$v_i$$$ and $$$x_i$$$ ($$$1 \\le u_i, v_i \\le n$$$, $$$x_i \\in \\{0, 1\\}$$$), where $$$u_i$$$ and $$$v_i$$$ denote the endpoints of the corresponding edge and $$$x_i$$$ is the color of this edge ($$$0$$$ denotes red edge and $$$1$$$ denotes black edge).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_004.jsonl",
+    "code_uid": "de26e336b7059bba58e66584a3fed71e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4\\n1 2 1\\n2 3 1\\n3 4 1\", \"4 6\\n1 2 0\\n1 3 0\\n1 4 0\", \"3 5\\n1 2 1\\n2 3 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\"\"\"\nif num edges red <= k - 1:\n    return (n choose k)\n\n# num edges red >= k\n\"\"\"\n\ndef n_perm_k(n, k):\n    return n ** k\n\ndef ways(xs, k):\n    total = n_perm_k(sum(xs), k)\n\n    for x in xs:\n        total -= n_perm_k(x, k)\n    \n    return total\n\ndef dfs(i, graph, visited):\n    stack = [i]\n    count = 0\n    while stack:\n        current = stack.pop()\n        count += 1\n        visited.add(current)\n        for neighbor, black in graph[current].items():\n            if not black and neighbor not in visited:\n                stack.append(neighbor)\n    return count                \n\ndef get_forest_sizes(n, graph):\n    visited = set()\n    components = []\n    for i in range(1, n + 1):\n        if i not in visited:\n            ans = dfs(i, graph, visited)\n            components.append(ans)\n    return components\n\ndef solve(n, k, graph, black_count):\n    if black_count == 0:\n        # no black\n        return 0\n    else:\n        return ways(get_forest_sizes(n, graph), k)\n\nn, k = map(int, input().split())\ngraph = { x: {} for x in range(1, n + 1) }\nblack_count = 0\nfor _ in range(1, n):\n    a, b, black = map(int, input().split())\n    black_count += black\n    graph[a][b] = (black == 1)\n    graph[b][a] = (black == 1)\n\nprint(solve(n, k, graph, black_count) % (10 ** 9 + 7))\n",
+    "prob_desc_created_at": "1553182500",
+    "tags": [
+        "graphs",
+        "math",
+        "dsu",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

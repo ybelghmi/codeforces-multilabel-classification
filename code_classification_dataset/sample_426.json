@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"4\"]",
+    "src_uid": "1a73bda2b9c2038d6ddf39918b90da61",
+    "prob_desc_notes": "NoteIn the first sample we can add number 9 to array (10, 20, 30). The resulting array (9, 10, 20, 30) will have a median in position , that is, 10.In the second sample you should add numbers 4, 5, 5, 5. The resulting array has median equal to 4.",
+    "prob_desc_description": "A median in an array with the length of n is an element which occupies position number  after we sort the elements in the non-decreasing order (the array elements are numbered starting with 1). A median of an array (2, 6, 1, 2, 3) is the number 2, and a median of array (0, 96, 17, 23) — the number 17.We define an expression  as the integer part of dividing number a by number b.One day Vasya showed Petya an array consisting of n integers and suggested finding the array's median. Petya didn't even look at the array and said that it equals x. Petya is a very honest boy, so he decided to add several numbers to the given array so that the median of the resulting array would be equal to x.Petya can add any integers from 1 to 105 to the array, including the same numbers. Of course, he can add nothing to the array. If a number is added multiple times, then we should consider it the number of times it occurs. It is not allowed to delete of change initial numbers of the array. While Petya is busy distracting Vasya, your task is to find the minimum number of elements he will need.",
+    "prob_desc_output_spec": "Print the only integer — the minimum number of elements Petya needs to add to the array so that its median equals x.",
+    "prob_desc_input_spec": "The first input line contains two space-separated integers n and x (1 ≤ n ≤ 500, 1 ≤ x ≤ 105) — the initial array's length and the required median's value. The second line contains n space-separated numbers — the initial array. The elements of the array are integers from 1 to 105. The array elements are not necessarily different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_002.jsonl",
+    "code_uid": "b2490614a4d65c002dc6da8d2a095df7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 10\\n10 20 30\", \"3 4\\n1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, x = (int(x) for x in input().split())\na = [int(x) for x in input().split()]\nhasx = False\nfor ai in a:\n    if ai == x:\n        hasx = True\nval = 0\nif not hasx:\n    a.append(x)\n    val = 1\na = sorted(a)\nwhile a[(len(a) - 1) // 2] != x:\n    val += 1\n    if a[len(a) // 2] > x:\n        a.insert(0, 0)\n    else:\n        a.append(1000000)\nprint(val)\n",
+    "prob_desc_created_at": "1332516600",
+    "tags": [
+        "sortings",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

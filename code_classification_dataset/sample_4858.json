@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n1\\n3\"]",
+    "src_uid": "0ce05499cd28f0825580ff48dae9e7a9",
+    "prob_desc_notes": "NoteFor the first test case, the only pair that satisfies the constraints is $$$(1, 2)$$$, as $$$a_1 \\cdot a_2 = 1 + 2 = 3$$$For the second test case, the only pair that satisfies the constraints is $$$(2, 3)$$$.For the third test case, the pairs that satisfy the constraints are $$$(1, 2)$$$, $$$(1, 5)$$$, and $$$(2, 3)$$$.",
+    "prob_desc_description": "You are given an array $$$a_1, a_2, \\dots, a_n$$$ consisting of $$$n$$$ distinct integers. Count the number of pairs of indices $$$(i, j)$$$ such that $$$i &lt; j$$$ and $$$a_i \\cdot a_j = i + j$$$.",
+    "prob_desc_output_spec": "For each test case, output the number of pairs of indices $$$(i, j)$$$ such that $$$i &lt; j$$$ and $$$a_i \\cdot a_j = i + j$$$.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. Then $$$t$$$ cases follow. The first line of each test case contains one integer $$$n$$$ ($$$2 \\leq n \\leq 10^5$$$) — the length of array $$$a$$$. The second line of each test case contains $$$n$$$ space separated integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\leq a_i \\leq 2 \\cdot n$$$) — the array $$$a$$$. It is guaranteed that all elements are distinct. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_107.jsonl",
+    "code_uid": "1e418f0df1b4f6dbadc3c474b5b2cfe7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2\\n3 1\\n3\\n6 1 5\\n5\\n3 1 5 9 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for i in range(int(input())):\r\n    n=int(input())\r\n    L=list(map(int,input().split()))\r\n    import math\r\n    L=[0]+L\r\n    cnt =0\r\n    for i in range(1,n+1):\r\n        for j in range(L[i]-i,n+1,L[i]):\r\n            if(L[i]*L[j])==(i+j) and (j>i):\r\n                cnt+=1\r\n    \r\n    print(cnt)",
+    "prob_desc_created_at": "1624635300",
+    "tags": [
+        "brute force",
+        "implementation",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

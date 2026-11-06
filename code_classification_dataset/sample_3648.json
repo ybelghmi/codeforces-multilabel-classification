@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "4.5 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"0\"]",
+    "src_uid": "ba82353e9bc1ee36ed068547d2f4043d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a tree consisting of $$$n$$$ vertices. A number is written on each vertex; the number on vertex $$$i$$$ is equal to $$$a_i$$$.Let's denote the function $$$g(x, y)$$$ as the greatest common divisor of the numbers written on the vertices belonging to the simple path from vertex $$$x$$$ to vertex $$$y$$$ (including these two vertices). Also let's denote $$$dist(x, y)$$$ as the number of vertices on the simple path between vertices $$$x$$$ and $$$y$$$, including the endpoints. $$$dist(x, x) = 1$$$ for every vertex $$$x$$$.Your task is calculate the maximum value of $$$dist(x, y)$$$ among such pairs of vertices that $$$g(x, y) &gt; 1$$$.",
+    "prob_desc_output_spec": "If there is no pair of vertices $$$x, y$$$ such that $$$g(x, y) &gt; 1$$$, print $$$0$$$. Otherwise print the maximum value of $$$dist(x, y)$$$ among such pairs.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ — the number of vertices $$$(1 \\le n \\le 2 \\cdot 10^5)$$$. The second line contains $$$n$$$ integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_n$$$ $$$(1 \\le a_i \\le 2 \\cdot 10^5)$$$ — the numbers written on vertices. Then $$$n - 1$$$ lines follow, each containing two integers $$$x$$$ and $$$y$$$ $$$(1 \\le x, y \\le n, x \\ne y)$$$ denoting an edge connecting vertex $$$x$$$ with vertex $$$y$$$. It is guaranteed that these edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_076.jsonl",
+    "code_uid": "725234a665a10e2222c41abd77423eb0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n2 3 4\\n1 2\\n2 3\", \"3\\n2 3 4\\n1 3\\n2 3\", \"3\\n1 1 1\\n1 2\\n2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nfrom math import *\nfrom heapq import *\nfrom collections import *\n\ndv=list(range(200002))\nfor i in range(2,200002):\n    if ((i*i)>=200002): \n        break\n    if (dv[i]==i):\n        j=i\n        while ((i*j)<200002):\n            dv[i*j]=i\n            j=j+1\ndef loPr(x):\n    global dv\n    if (x<=1):\n        return []\n    ret=[]\n    while(x>1):\n        d=dv[x]\n        ret.append(d)\n        while(x%d==0):\n            x=trunc(x/d)\n    return ret\ndef main():\n    global dv\n    n=int(stdin.readline())\n    a=[0]+[int(x) for x in stdin.readline().split()]\n    e=[]\n    for _ in range(n+2):\n        e.append([])\n    for _ in range(n-1):\n        u,v=[int(x) for x in stdin.readline().split()]\n        e[u].append(v)\n        e[v].append(u)\n    \n    pre=[0]*(n+2)\n    q=[1]\n    d=[False]*(n+2)\n    d[1]=True\n    pre[1]=1\n    i=0\n    while(i<len(q)):\n        u=q[i]\n        for v in e[u]:\n            if (d[v]==False):\n                d[v]=True\n                pre[v]=u\n                q.append(v)\n        i=i+1\n    \n    f=[dict()]\n    for _ in range(n+2):\n        f.append(dict())\n    b=[[]]\n    for i in range(1,n+1):\n        b.append(loPr(a[i]))\n        for p in b[i]:\n            f[i][p]=[1]\n    q.reverse()\n    res=0\n    for u in q:\n        nxt=pre[u]\n        #print (str(u)+\": f=\" +str(f[u])+ \"  b=\" +str(b[u]))\n        for p in b[u]:\n            fp=f[u].get(p,[1])\n            fp.sort()\n            res=max(res,fp[-1])\n            if (len(fp)>=2):\n                res=max(res,fp[-1]+fp[-2]-1)\n            fnxt=f[nxt].get(p,None)\n            if (fnxt!=None):\n                fnxt.append(max(1,fp[-1])+1)\n    stdout.write(str(res))\n    return 0\n\nif __name__ == \"__main__\":\n    main()",
+    "prob_desc_created_at": "1547217300",
+    "tags": [
+        "dp",
+        "number theory",
+        "data structures",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

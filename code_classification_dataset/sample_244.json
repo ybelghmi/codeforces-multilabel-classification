@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n3 1 \\n3\\n1 4 2\"]",
+    "src_uid": "857de33d75daee460206079fa2c15814",
+    "prob_desc_notes": "NoteIn the first test case, there are $$$4$$$ subsequences of length at least $$$2$$$:  $$$[3,2]$$$ which gives us $$$|3-2|=1$$$.  $$$[3,1]$$$ which gives us $$$|3-1|=2$$$.  $$$[2,1]$$$ which gives us $$$|2-1|=1$$$.  $$$[3,2,1]$$$ which gives us $$$|3-2|+|2-1|=2$$$. So the answer is either $$$[3,1]$$$ or $$$[3,2,1]$$$. Since we want the subsequence to be as short as possible, the answer is $$$[3,1]$$$.",
+    "prob_desc_description": "Given a permutation $$$p$$$ of length $$$n$$$, find its subsequence $$$s_1$$$, $$$s_2$$$, $$$\\ldots$$$, $$$s_k$$$ of length at least $$$2$$$ such that:  $$$|s_1-s_2|+|s_2-s_3|+\\ldots+|s_{k-1}-s_k|$$$ is as big as possible over all subsequences of $$$p$$$ with length at least $$$2$$$.  Among all such subsequences, choose the one whose length, $$$k$$$, is as small as possible. If multiple subsequences satisfy these conditions, you are allowed to find any of them.A sequence $$$a$$$ is a subsequence of an array $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deleting some (possibly, zero or all) elements.A permutation of length $$$n$$$ is an array of length $$$n$$$ in which every element from $$$1$$$ to $$$n$$$ occurs exactly once.",
+    "prob_desc_output_spec": "For each test case, the first line should contain the length of the found subsequence, $$$k$$$. The second line should contain $$$s_1$$$, $$$s_2$$$, $$$\\ldots$$$, $$$s_k$$$ — its elements. If multiple subsequences satisfy these conditions, you are allowed to find any of them.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 2 \\cdot 10^4$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$) — the length of the permutation $$$p$$$. The second line of each test case contains $$$n$$$ integers $$$p_1$$$, $$$p_2$$$, $$$\\ldots$$$, $$$p_{n}$$$ ($$$1 \\le p_i \\le n$$$, $$$p_i$$$ are distinct) — the elements of the permutation $$$p$$$. The sum of $$$n$$$ across the test cases doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_001.jsonl",
+    "code_uid": "e16795798591405a8bccb75589bc623d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3\\n3 2 1\\n4\\n1 3 4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def ints():\n    return map(int,raw_input().split())\nfor _ in range(input()):\n    n = input()\n    a = ints()\n    l = [a[0],a[1]]\n    low = 0\n    i = 2\n    if n==2:\n        print 2\n        for x in l:\n            print x,\n        print\n        continue\n    while i!= n:\n        l.append(a[i])\n        if a[i-2]<a[i-1]<a[i] or a[i-2]>a[i-1]>a[i]:\n            temp = l.pop()\n            l.pop()\n            l.append(temp)\n        else:\n            low += 1\n        i+=1\n    print len(l)\n    for x in l:\n        print x,\n    print \n",
+    "prob_desc_created_at": "1592060700",
+    "tags": [
+        "two pointers",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

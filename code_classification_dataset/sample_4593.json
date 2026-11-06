@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\", \"7\", \"6\"]",
+    "src_uid": "e849aa63710c817aac610a1deeb366c5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array $$$a_1, a_2, \\ldots, a_n$$$ and an integer $$$x$$$.Find the number of non-empty subsets of indices of this array $$$1 \\leq b_1 &lt; b_2 &lt; \\ldots &lt; b_k \\leq n$$$, such that for all pairs $$$(i, j)$$$ where $$$1 \\leq i &lt; j \\leq k$$$, the inequality $$$a_{b_i} \\oplus a_{b_j} \\leq x$$$ is held. Here, $$$\\oplus$$$ denotes the bitwise XOR operation. As the answer may be very large, output it modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_output_spec": "Print one integer: the number of non-empty subsets such that the bitwise XOR of every pair of elements is at most $$$x$$$, modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$x$$$ ($$$1 \\leq n \\leq 150\\,000$$$, $$$0 \\leq x &lt; 2^{30}$$$). Here, $$$n$$$ is the size of the array. The next line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\leq a_i &lt; 2^{30}$$$): the array itself.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 3000,
+    "file_name": "train_101.jsonl",
+    "code_uid": "b4ca7c994a12b253b23b565dce7edacd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n0 1 2 3\", \"3 6\\n4 2 2\", \"4 0\\n1 1 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "I=lambda:[*map(int,input().split())]\r\nM=998244353\r\nn,X=I()\r\na=I()\r\nq=lambda x:pow(2,x,M)-1\r\nE=len\r\nB=lambda a,H:[[z for z in a if z>>H&1==d]for d in[0,1]]\r\ndef f(a,b,i):\r\n\tif i<0 or[]in[a,b]:return q(E(a))*q(E(b))\r\n\tw,x=B(a,i);y,z=B(b,i);return(f(x,y,i-1)+q(E(x))+q(E(y))+1)*(f(w,z,i-1)+q(E(w))+q(E(z))+1)-q(E(a))-q(E(b))-1 if X>>i&1 else f(x,z,i-1)+f(w,y,i-1)\r\ndef F(a,i):\r\n\tif i<0 or[]==a:return q(E(a))\r\n\tx,y=B(a,i);return q(E(x))+q(E(y))+f(x,y,i-1)if X>>i&1 else F(x,i-1)+F(y,i-1)\r\nprint(F(a,29)%M)",
+    "prob_desc_created_at": "1640792100",
+    "tags": [
+        "bitmasks",
+        "combinatorics",
+        "data structures",
+        "divide and conquer",
+        "dp",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

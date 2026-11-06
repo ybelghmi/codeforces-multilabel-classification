@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"314 628 1256 942 1570\"]",
+    "src_uid": "7cd09ca9008c23117d98a365be31440e",
+    "prob_desc_notes": "NoteConsider the example.At the $$$0$$$-th minute there were two passengers willing to go for a water, passenger $$$1$$$ and $$$5$$$, so the first passenger has gone first, and returned at the $$$314$$$-th minute. At this moment the passenger $$$2$$$ was already willing to go for the water, so the passenger $$$2$$$ has gone next, and so on. In the end, $$$5$$$-th passenger was last to receive the boiled water.",
+    "prob_desc_description": "There are $$$n$$$ seats in the train's car and there is exactly one passenger occupying every seat. The seats are numbered from $$$1$$$ to $$$n$$$ from left to right. The trip is long, so each passenger will become hungry at some moment of time and will go to take boiled water for his noodles. The person at seat $$$i$$$ ($$$1 \\leq i \\leq n$$$) will decide to go for boiled water at minute $$$t_i$$$.Tank with a boiled water is located to the left of the $$$1$$$-st seat. In case too many passengers will go for boiled water simultaneously, they will form a queue, since there can be only one passenger using the tank at each particular moment of time. Each passenger uses the tank for exactly $$$p$$$ minutes. We assume that the time it takes passengers to go from their seat to the tank is negligibly small. Nobody likes to stand in a queue. So when the passenger occupying the $$$i$$$-th seat wants to go for a boiled water, he will first take a look on all seats from $$$1$$$ to $$$i - 1$$$. In case at least one of those seats is empty, he assumes that those people are standing in a queue right now, so he would be better seating for the time being. However, at the very first moment he observes that all seats with numbers smaller than $$$i$$$ are busy, he will go to the tank.There is an unspoken rule, that in case at some moment several people can go to the tank, than only the leftmost of them (that is, seating on the seat with smallest number) will go to the tank, while all others will wait for the next moment.Your goal is to find for each passenger, when he will receive the boiled water for his noodles.",
+    "prob_desc_output_spec": "Print $$$n$$$ integers, where $$$i$$$-th of them is the time moment the passenger on $$$i$$$-th seat will receive his boiled water.",
+    "prob_desc_input_spec": "The first line contains integers $$$n$$$ and $$$p$$$ ($$$1 \\leq n \\leq 100\\,000$$$, $$$1 \\leq p \\leq 10^9$$$) — the number of people and the amount of time one person uses the tank. The second line contains $$$n$$$ integers $$$t_1, t_2, \\dots, t_n$$$ ($$$0 \\leq t_i \\leq 10^9$$$) — the moments when the corresponding passenger will go for the boiled water.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_015.jsonl",
+    "code_uid": "d9142058c7e965baf3549c8c005689ed",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5 314\\n0 310 942 628 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq\nn,p = map(int,raw_input().split(\" \"))\nti  = map(int,raw_input().split(\" \"))\npq  = []\nwait = []\nfor i,v in enumerate(ti):\n    heapq.heappush(pq,[v,i])\nseq = []\nnow = 0\nans = [0]*n\nwhile pq:\n    v,i = heapq.heappop(pq)\n    now = v\n    heapq.heappush(wait,[i,v])\n    while wait:\n        ni,nv = heapq.heappop(wait)\n        i = ni\n        now = now + p\n        ans[i] = now\n        while pq and  pq[0][0]<=now:\n            nv,ni = heapq.heappop(pq)\n            if ni<i:\n                now = now+p\n                i = ni\n                ans[i] = now\n            else:\n                heapq.heappush(wait,[ni,nv])\nprint \" \".join(map(str,ans))",
+    "prob_desc_created_at": "1571562300",
+    "tags": [
+        "data structures",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"2\"]",
+    "src_uid": "c1158d23d3ad61c346c345f14e63ede4",
+    "prob_desc_notes": "NoteIn the first sample the partitioning looks like that: [1][2][3].  In the second sample the partitioning is: [2, 1][3, 2]  ",
+    "prob_desc_description": "One day Squidward, Spongebob and Patrick decided to go to the beach. Unfortunately, the weather was bad, so the friends were unable to ride waves. However, they decided to spent their time building sand castles.At the end of the day there were n castles built by friends. Castles are numbered from 1 to n, and the height of the i-th castle is equal to hi. When friends were about to leave, Squidward noticed, that castles are not ordered by their height, and this looks ugly. Now friends are going to reorder the castles in a way to obtain that condition hi ≤ hi + 1 holds for all i from 1 to n - 1.Squidward suggested the following process of sorting castles:   Castles are split into blocks — groups of consecutive castles. Therefore the block from i to j will include castles i, i + 1, ..., j. A block may consist of a single castle.  The partitioning is chosen in such a way that every castle is a part of exactly one block.  Each block is sorted independently from other blocks, that is the sequence hi, hi + 1, ..., hj becomes sorted.  The partitioning should satisfy the condition that after each block is sorted, the sequence hi becomes sorted too. This may always be achieved by saying that the whole sequence is a single block. Even Patrick understands that increasing the number of blocks in partitioning will ease the sorting process. Now friends ask you to count the maximum possible number of blocks in a partitioning that satisfies all the above requirements.",
+    "prob_desc_output_spec": "Print the maximum possible number of blocks in a valid partitioning.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 100 000) — the number of castles Spongebob, Patrick and Squidward made from sand during the day. The next line contains n integers hi (1 ≤ hi ≤ 109). The i-th of these integers corresponds to the height of the i-th castle.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_029.jsonl",
+    "code_uid": "de7ae3caf2c2b2b501f86e7e6dee7fb2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\", \"4\\n2 1 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "input()\na=map(int,raw_input().split())\nc={}\np,n,s=0,0,0\nfor x,y in zip(a,sorted(a)):\n  c[x]=c.get(x,0)+1\n  if 0==c[x]:\n    n-=1\n  elif 1==c[x]:\n    p+=1\n  c[y]=c.get(y,0)-1\n  if 0==c[y]:\n    p-=1\n  elif -1==c[y]:\n    n+=1\n  if not p and not n:\n    s+=1\nprint s",
+    "prob_desc_created_at": "1448037300",
+    "tags": [
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"1\"]",
+    "src_uid": "f4d6c39a8224fb1fdb1cda63636f7f8e",
+    "prob_desc_notes": "NoteIn the first example the possible values of x and y are:  x = 0, y = 0;  x = 1, y = 0;  x = 2, y = 0;  x = 0, y = 1. ",
+    "prob_desc_description": "Vova again tries to play some computer card game.The rules of deck creation in this game are simple. Vova is given an existing deck of n cards and a magic number k. The order of the cards in the deck is fixed. Each card has a number written on it; number ai is written on the i-th card in the deck.After receiving the deck and the magic number, Vova removes x (possibly x = 0) cards from the top of the deck, y (possibly y = 0) cards from the bottom of the deck, and the rest of the deck is his new deck (Vova has to leave at least one card in the deck after removing cards). So Vova's new deck actually contains cards x + 1, x + 2, ... n - y - 1, n - y from the original deck.Vova's new deck is considered valid iff the product of all numbers written on the cards in his new deck is divisible by k. So Vova received a deck (possibly not a valid one) and a number k, and now he wonders, how many ways are there to choose x and y so the deck he will get after removing x cards from the top and y cards from the bottom is valid?",
+    "prob_desc_output_spec": "Print the number of ways to choose x and y so the resulting deck is valid.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n ≤ 100 000, 1 ≤ k ≤ 109). The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 109) — the numbers written on the cards.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_034.jsonl",
+    "code_uid": "9ed7920f9a6f0dc9ba7883ce672c4252",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\n6 2 8\", \"3 6\\n9 1 14\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n\ndef fact(nn):\n    p=2\n    df={}\n    while nn%2==0:\n        if 2 not in df:\n            df[2]=0\n        df[2]+=1\n        nn/=2\n    p=3\n    s=math.sqrt(nn)+1\n    while p<s:\n        while nn%p==0:\n            if p not in df:\n                df[p]=0\n            df[p]+=1\n            nn/=p\n            s=math.sqrt(nn)+1\n        p+=2\n    if nn>1:\n        df[nn]=1\n    return df\n\nn,k =[int(i) for i in raw_input().split(\" \")]\na=[int(i) for i in raw_input().split(\" \")]\n\nfk=fact(k)\nnbf=len(fk)\nafacts=[0]*n\nsfacts=[0]*n\nsfacts[-1]=[0]*nbf\nfs=fk.keys()\ngg=[fk[i] for i in fs]\n\nfor i in range(n):\n    afacts[i]=[0]*nbf\n    sfacts[i]=[0]*nbf\n    ni=a[i]\n    for j in range(nbf):\n        nbfj=0\n        while nbfj<fk[fs[j]] and ni%fs[j]==0:\n            ni/=fs[j]\n            nbfj+=1\n        afacts[i][j]=nbfj\n        sfacts[i][j]=sfacts[i-1][j]+nbfj\n\n#OK now we want all the sfacts[n-y]-sfacts[x]>gg\nx=0\ny=n-1\nvires=[0]*nbf\nres=0\nwhile x<n:\n    virend=sfacts[n-y-1]\n    OK=True\n    for i in range(nbf):\n        if virend[i]-vires[i]<gg[i]:\n            OK=False\n            break\n    while not OK and y>0:\n        y-=1\n        OK=True\n        virend=sfacts[n-y-1]\n        for i in range(nbf):\n            if virend[i]-vires[i]<gg[i]:\n                OK=False\n                break\n   # print x,y,OK,y+1\n    vires=sfacts[x]\n    if not OK:\n        break\n  #print y+1\n    res+=y+1\n    x+=1\n    y=min(y,n-x-1)\n\nprint res\n        \n",
+    "prob_desc_created_at": "1498748700",
+    "tags": [
+        "data structures",
+        "two pointers",
+        "binary search",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

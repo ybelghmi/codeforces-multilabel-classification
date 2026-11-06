@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"16\"]",
+    "src_uid": "7419c4268a9815282fadca6581f28ec1",
+    "prob_desc_notes": "NoteIn the first test case you should fly to planet Venus, take a loan on 74 units of money and buy three items of the first type and 7 items of the third type (3·6 + 7·8 = 74). Then the ranger should fly to planet Earth and sell there all the items he has bought. He gets 3·9 + 7·9 = 90 units of money for the items, he should give 74 of them for the loan. The resulting profit equals 16 units of money. We cannot get more profit in this case.",
+    "prob_desc_description": "To get money for a new aeonic blaster, ranger Qwerty decided to engage in trade for a while. He wants to buy some number of items (or probably not to buy anything at all) on one of the planets, and then sell the bought items on another planet. Note that this operation is not repeated, that is, the buying and the selling are made only once. To carry out his plan, Qwerty is going to take a bank loan that covers all expenses and to return the loaned money at the end of the operation (the money is returned without the interest). At the same time, Querty wants to get as much profit as possible.The system has n planets in total. On each of them Qwerty can buy or sell items of m types (such as food, medicine, weapons, alcohol, and so on). For each planet i and each type of items j Qwerty knows the following: aij — the cost of buying an item;  bij — the cost of selling an item;  cij — the number of remaining items.It is not allowed to buy more than cij items of type j on planet i, but it is allowed to sell any number of items of any kind.Knowing that the hold of Qwerty's ship has room for no more than k items, determine the maximum profit which Qwerty can get.",
+    "prob_desc_output_spec": "Print a single number — the maximum profit Qwerty can get.",
+    "prob_desc_input_spec": "The first line contains three space-separated integers n, m and k (2 ≤ n ≤ 10, 1 ≤ m, k ≤ 100) — the number of planets, the number of question types and the capacity of Qwerty's ship hold, correspondingly. Then follow n blocks describing each planet. The first line of the i-th block has the planet's name as a string with length from 1 to 10 Latin letters. The first letter of the name is uppercase, the rest are lowercase. Then in the i-th block follow m lines, the j-th of them contains three integers aij, bij and cij (1 ≤ bij &lt; aij ≤ 1000, 0 ≤ cij ≤ 100) — the numbers that describe money operations with the j-th item on the i-th planet. The numbers in the lines are separated by spaces. It is guaranteed that the names of all planets are different.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_017.jsonl",
+    "code_uid": "f1fffb133a0355b696894df9709a1166",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3 10\\nVenus\\n6 5 3\\n7 6 5\\n8 6 10\\nEarth\\n10 9 0\\n8 6 4\\n10 9 3\\nMars\\n4 3 0\\n8 4 12\\n7 2 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class Planeta:\n\n\tdef __init__(self):\n\t\tself.nome = input()\n\t\tself.precoDeComprar = {}\n\t\tself.precoDeVender = {}\n\t\tself.estoqueNoPlaneta = {}\n\t\tfor i in range(0, m):\n\t\t\ts = list(map(int, input().split()))\n\t\t\tself.precoDeComprar[i] = s[0]\n\t\t\tself.precoDeVender[i] = s[1]\n\t\t\tself.estoqueNoPlaneta[i] = s[2]\n\n\tdef __hash__(self):\n\t\treturn hash(self.nome)\n\nn, m, k = list(map(int, input().split()))\n\nplanetas = []\n\nfor i in range(0, n):\n\tplanetas.append(Planeta())\n\nmaximumProfit = 0\nfor i in range(0, n):\n\tfor j in range(0, n):\n\t\tif (i != j):\n\t\t\tp1 = planetas[i]\n\t\t\tp2 = planetas[j]\n\t\t\tlucroTabela = {}\n\t\t\tl = 0\n\t\t\tholding = 0\n\t\t\tfor x in range(0, m):\n\t\t\t\tlucroTabela[x] = p2.precoDeVender[x] - p1.precoDeComprar[x]\n\t\t\t\n\t\t\tlucroOrdenado = list(lucroTabela.keys())\n\t\t\tlucroOrdenado.sort(key = lambda x: lucroTabela[x], reverse=True)\n\n\t\t\tfor x in lucroOrdenado:\n\t\t\t\tif (lucroTabela[x] > 0):\n\t\t\t\t\tquantoComprar = min(p1.estoqueNoPlaneta[x], k - holding)\n\t\t\t\t\tl += lucroTabela[x] * quantoComprar\n\t\t\t\t\tholding += quantoComprar\n\t\t\t\n\t\t\tif (l > maximumProfit):\n\t\t\t\tmaximumProfit = l\n\nprint(maximumProfit)\n\n",
+    "prob_desc_created_at": "1334934300",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

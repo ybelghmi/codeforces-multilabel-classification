@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"2\", \"1\"]",
+    "src_uid": "6cfd3b0a403212ec68bac1667bce9ef1",
+    "prob_desc_notes": "NoteIn the first sample test, the system log will ensure that at some point in the reading room were visitors with registration numbers 1, 1200 and 12001. More people were not in the room at the same time based on the log. Therefore, the answer to the test is 3.",
+    "prob_desc_description": "Berland National Library has recently been built in the capital of Berland. In addition, in the library you can take any of the collected works of Berland leaders, the library has a reading room.Today was the pilot launch of an automated reading room visitors' accounting system! The scanner of the system is installed at the entrance to the reading room. It records the events of the form \"reader entered room\", \"reader left room\". Every reader is assigned a registration number during the registration procedure at the library — it's a unique integer from 1 to 106. Thus, the system logs events of two forms:  \"+ ri\" — the reader with registration number ri entered the room;  \"- ri\" — the reader with registration number ri left the room. The first launch of the system was a success, it functioned for some period of time, and, at the time of its launch and at the time of its shutdown, the reading room may already have visitors.Significant funds of the budget of Berland have been spent on the design and installation of the system. Therefore, some of the citizens of the capital now demand to explain the need for this system and the benefits that its implementation will bring. Now, the developers of the system need to urgently come up with reasons for its existence.Help the system developers to find the minimum possible capacity of the reading room (in visitors) using the log of the system available to you.",
+    "prob_desc_output_spec": "Print a single integer — the minimum possible capacity of the reading room.",
+    "prob_desc_input_spec": "The first line contains a positive integer n (1 ≤ n ≤ 100) — the number of records in the system log. Next follow n events from the system journal in the order in which the were made. Each event was written on a single line and looks as \"+ ri\" or \"- ri\", where ri is an integer from 1 to 106, the registration number of the visitor (that is, distinct visitors always have distinct registration numbers). It is guaranteed that the log is not contradictory, that is, for every visitor the types of any of his two consecutive events are distinct. Before starting the system, and after stopping the room may possibly contain visitors.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_010.jsonl",
+    "code_uid": "36170046d04a3a7bbf116f57b4e87f20",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n+ 12001\\n- 12001\\n- 1\\n- 1200\\n+ 1\\n+ 7\", \"2\\n- 1\\n- 2\", \"2\\n+ 1\\n- 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "d=set()\nm=0\nfor _ in range(int(input())):\n\tx,i=input().split()\n\tif x==\"-\":\n\t\tif i in d:d.remove(i)\n\t\telse:m+=1\n\telse:\n\t  d.add(i)\n\tm=max(m,len(d))\nprint(m)",
+    "prob_desc_created_at": "1438790400",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7\\n2\\n0\\n5\\n6\\n53\\n115\"]",
+    "src_uid": "6571fdd506a858d7620c2faa0fe46cc1",
+    "prob_desc_notes": "NoteIn the first example, it's optimal to just decrease the number $$$7$$$ times.In the second example, we can first swap the first and last position and then decrease the number by $$$1$$$.In the third example, the clock already shows $$$0$$$, so we don't have to perform any operations.",
+    "prob_desc_description": "You are given a digital clock with $$$n$$$ digits. Each digit shows an integer from $$$0$$$ to $$$9$$$, so the whole clock shows an integer from $$$0$$$ to $$$10^n-1$$$. The clock will show leading zeroes if the number is smaller than $$$10^{n-1}$$$.You want the clock to show $$$0$$$ with as few operations as possible. In an operation, you can do one of the following:   decrease the number on the clock by $$$1$$$, or  swap two digits (you can choose which digits to swap, and they don't have to be adjacent). Your task is to determine the minimum number of operations needed to make the clock show $$$0$$$.",
+    "prob_desc_output_spec": "For each test case, print one integer: the minimum number of operations needed to make the clock show $$$0$$$.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10^3$$$). The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 100$$$) — number of digits on the clock. The second line of each test case contains a string of $$$n$$$ digits $$$s_1, s_2, \\ldots, s_n$$$ ($$$0 \\le s_1, s_2, \\ldots, s_n \\le 9$$$) — the number on the clock. Note: If the number is smaller than $$$10^{n-1}$$$ the clock will show leading zeroes.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_094.jsonl",
+    "code_uid": "3b7101c6e33a298e96bcf9fbaceb774a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n3\\n007\\n4\\n1000\\n5\\n00000\\n3\\n103\\n4\\n2020\\n9\\n123456789\\n30\\n001678294039710047203946100020\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "numTestCase = int(input())\r\n\r\nfor i in range (numTestCase):\r\n   digits = int(input())\r\n   clock = int(input())\r\n   count = 0\r\n   for i in range(digits):\r\n      if str(clock).zfill(digits)[i] != \"0\" and i != (digits-1):\r\n         count = count + int(str(clock).zfill(digits)[i]) + 1\r\n      elif str(clock).zfill(digits) != \"0\" and i == (digits-1):\r\n         count += int(str(clock).zfill(digits)[i])\r\n   print (count)\r\n\r\n\r\n\r\n\r\n      \r\n         \r\n\r\n\r\n\r\n\r\n\r\n",
+    "prob_desc_created_at": "1631975700",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

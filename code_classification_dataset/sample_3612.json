@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"6\", \"3\", \"6\"]",
+    "src_uid": "615467e18209f999480ef2c4c3215561",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a string $$$s$$$ consisting only of first $$$20$$$ lowercase Latin letters ('a', 'b', ..., 't').Recall that the substring $$$s[l; r]$$$ of the string $$$s$$$ is the string $$$s_l s_{l + 1} \\dots s_r$$$. For example, the substrings of \"codeforces\" are \"code\", \"force\", \"f\", \"for\", but not \"coder\" and \"top\".You can perform the following operation no more than once: choose some substring $$$s[l; r]$$$ and reverse it (i.e. the string $$$s_l s_{l + 1} \\dots s_r$$$ becomes $$$s_r s_{r - 1} \\dots s_l$$$).Your goal is to maximize the length of the maximum substring of $$$s$$$ consisting of distinct (i.e. unique) characters.The string consists of distinct characters if no character in this string appears more than once. For example, strings \"abcde\", \"arctg\" and \"minecraft\" consist of distinct characters but strings \"codeforces\", \"abacaba\" do not consist of distinct characters.",
+    "prob_desc_output_spec": "Print one integer — the maximum possible length of the maximum substring of $$$s$$$ consisting of distinct characters after reversing no more than one its substring.",
+    "prob_desc_input_spec": "The only line of the input contains one string $$$s$$$ consisting of no more than $$$10^6$$$ characters 'a', 'b', ..., 't' (first $$$20$$$ lowercase Latin letters).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_073.jsonl",
+    "code_uid": "b4d13ea4b65868949f143560307bf5c2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"abacaba\", \"abcdecdf\", \"aabbcc\", \"abcdeefc\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\norda = ord('a')\nS = [ord(c) - orda for c in input()]\nn = len(S)\n\nbest = -1\ncount = [0]*(2**20)\nfor i in range(n):\n    c = 0\n    j = i\n    while j < n and c & (1 << S[j]) == 0:\n        c ^= 1 << S[j]\n        count[c] = 1\n        j += 1\n\nbig = 2**20\nbitsize = [0]\nfor i in range(1, big):\n    bitsize.append(1 +  bitsize[i - (1 <<( i.bit_length() - 1))])\n\nfor i in range(big):\n    if count[i] == 0:\n        bitsize[i] = 0\n\nDP = [0]*big\nfor i in reversed(range(big)):\n    ii = (big - 1) ^ i\n    besta = bitsize[ii]\n    \n    while ii:\n        b = ii & (~ii + 1)\n        if DP[i ^ b] > besta:\n            besta = DP[i ^ b]\n        ii ^= b\n    DP[i] = besta\n\nprint max(DP[i] + bitsize[i] for i in range(big))\n",
+    "prob_desc_created_at": "1569940500",
+    "tags": [
+        "dp",
+        "bitmasks"
+    ],
+    "hidden_unit_tests": ""
+}

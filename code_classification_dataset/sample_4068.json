@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\\nNO\\nNO\\nYES\\nYES\\nNO\\nNO\\nYES\"]",
+    "src_uid": "83050a8a4c7b64004681bdadb630292e",
+    "prob_desc_notes": "NoteIn the first test case, you can use Operation 2 four times to make $$$a$$$ equals to $$$b$$$.In the second test case, you can use Operation 1 four times to make $$$a$$$ equals to $$$b$$$.In the third test case, it can be proved that no matter how we use the operations, it is impossible to make $$$a$$$ equal to $$$b$$$.In the fourth test case, it can be proved that no matter how we use the operations, it is impossible to make $$$a$$$ equal to $$$b$$$.In the fifth test case, you can use Operation 2 three times to make $$$a$$$ become $$$10101$$$, so the first element of $$$a$$$ equals to the first element of $$$b$$$, but it can be proved that no matter how to operate, the second to the fifth elements of $$$a$$$ can't be the same as $$$b$$$.",
+    "prob_desc_description": "AquaMoon has two binary sequences $$$a$$$ and $$$b$$$, which contain only $$$0$$$ and $$$1$$$. AquaMoon can perform the following two operations any number of times ($$$a_1$$$ is the first element of $$$a$$$, $$$a_2$$$ is the second element of $$$a$$$, and so on): Operation 1: if $$$a$$$ contains at least two elements, change $$$a_2$$$ to $$$\\operatorname{min}(a_1,a_2)$$$, and remove the first element of $$$a$$$. Operation 2: if $$$a$$$ contains at least two elements, change $$$a_2$$$ to $$$\\operatorname{max}(a_1,a_2)$$$, and remove the first element of $$$a$$$.Note that after a removal of the first element of $$$a$$$, the former $$$a_2$$$ becomes the first element of $$$a$$$, the former $$$a_3$$$ becomes the second element of $$$a$$$ and so on, and the length of $$$a$$$ reduces by one.Determine if AquaMoon can make $$$a$$$ equal to $$$b$$$ by using these operations.",
+    "prob_desc_output_spec": "For each test case, output \"YES\" if AquaMoon can change $$$a$$$ to $$$b$$$ by using these options; otherwise, output \"NO\". You may print each letter in any case (for example, \"YES\", \"Yes\", \"yes\", \"yEs\" will all be recognized as a positive answer).",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\leq t \\leq 2\\,000$$$) — the number of test cases. Description of test cases follows. The first line of each test case contains two integers $$$n$$$, $$$m$$$ ($$$1 \\leq n,m \\leq 50$$$, $$$m \\leq n$$$) — the lengths of $$$a$$$ and $$$b$$$ respectively. The second line of each test case contains a string $$$a$$$ of length $$$n$$$, consisting only $$$0$$$ and $$$1$$$. The third line of each test case contains a string $$$b$$$ of length $$$m$$$, consisting only $$$0$$$ and $$$1$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_089.jsonl",
+    "code_uid": "1c6657c3bcf4a96e55e99b490a6cb018",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"10\\n\\n6 2\\n\\n001001\\n\\n11\\n\\n6 2\\n\\n110111\\n\\n01\\n\\n6 2\\n\\n000001\\n\\n11\\n\\n6 2\\n\\n111111\\n\\n01\\n\\n8 5\\n\\n10000101\\n\\n11010\\n\\n7 4\\n\\n1010001\\n\\n1001\\n\\n8 6\\n\\n01010010\\n\\n010010\\n\\n8 4\\n\\n01010101\\n\\n1001\\n\\n8 4\\n\\n10101010\\n\\n0110\\n\\n7 5\\n\\n1011100\\n\\n11100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nimport math\r\n\r\n\r\ndef II(): return int(sys.stdin.readline())\r\ndef LI(): return list(map(int, sys.stdin.readline().split()))\r\ndef LS(): return sys.stdin.readline().strip().split()\r\ndef SI(): return sys.stdin.readline().strip()\r\ndef MIN_INT(): return -1 * sys.maxsize\r\ndef MAX_INT(): return sys.maxsize\r\ndef prefSum(arr, n):\r\n    P = [0] * (n + 1)\r\n    for k in range(1, n + 1):\r\n        P[k] = P[k - 1] + arr[k - 1]\r\n    return P\r\n\r\n\r\n''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\r\n\r\n\r\ndef solve():\r\n    n, m = LI()\r\n    a = SI()\r\n    b = SI()\r\n    if a[(n-m+1):] == b[1:]:\r\n        if b[0] in a[:(n-m+1)]:\r\n            print(\"YES\"); return\r\n        else:\r\n            print(\"NO\"); return\r\n    print(\"NO\"); return\r\n\r\n\r\n\r\ndef main():\r\n    t = II()\r\n    for _ in range(t):\r\n        solve()\r\n\r\n\r\nmain()\r\n",
+    "prob_desc_created_at": "1659276300",
+    "tags": [
+        "constructive algorithms",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

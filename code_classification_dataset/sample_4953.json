@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"9 4\\n1 4 3 5\\n16 10\\n1 8 3 4 9 5 2 6 7 10\\n1 2\\n1 3\\n0 11\\n1 8 10 4 3 5 7 2 9 6 11\\n3 10\\n1 9 5 4 7 3 8 6 2 10\\n5 2\\n1 2\"]",
+    "src_uid": "d17c9f91504e1d4c4eae7294bf09dcfc",
+    "prob_desc_notes": "NoteIn the first test case, the required path corresponds to the picture:  In this case, the minimum possible total cost of the path is achieved. Since $$$index($$$'l'$$$)=12$$$, $$$index($$$'o'$$$)=15$$$, $$$index($$$'g'$$$)=7$$$, $$$index($$$'i'$$$)=9$$$, $$$index($$$'c'$$$)=3$$$, then the total cost of the path is $$$|12-9|+|9-7|+|7-3|=3+2+4=9$$$.",
+    "prob_desc_description": "Polycarp was given a row of tiles. Each tile contains one lowercase letter of the Latin alphabet. The entire sequence of tiles forms the string $$$s$$$.In other words, you are given a string $$$s$$$ consisting of lowercase Latin letters.Initially, Polycarp is on the first tile of the row and wants to get to the last tile by jumping on the tiles. Jumping from $$$i$$$-th tile to $$$j$$$-th tile has a cost equal to $$$|index(s_i) - index(s_j)|$$$, where $$$index(c)$$$ is the index of the letter $$$c$$$ in the alphabet (for example, $$$index($$$'a'$$$)=1$$$, $$$index($$$'b'$$$)=2$$$, ..., $$$index($$$'z'$$$)=26$$$) .Polycarp wants to get to the $$$n$$$-th tile for the minimum total cost, but at the same time make maximum number of jumps.In other words, among all possible ways to get to the last tile for the minimum total cost, he will choose the one with the maximum number of jumps.Polycarp can visit each tile at most once.Polycarp asks you to help — print the sequence of indices of string $$$s$$$ on which he should jump.",
+    "prob_desc_output_spec": "The answer to each test case consists of two lines. In the first line print two integers $$$cost$$$, $$$m$$$, where $$$cost$$$ is the minimum total cost of the path, and $$$m$$$ is the maximum number of visited tiles Polycarp can make to get to $$$n$$$-th tiles for the minimum total cost $$$cost$$$ (i.e. the number of jumps is $$$m-1$$$). In the next line print $$$m$$$ different numbers $$$j_1, j_2, \\dots, j_m$$$ ($$$1 \\le j_i \\le |s|$$$) — the sequence of indices of the tiles Polycarp will jump on. The first number in the sequence must be $$$1$$$ (that is, $$$j_1=1$$$) and the last number must be the value of $$$|s|$$$ (that is, $$$j_m=|s|$$$). If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line of the input contains an integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases in the test. Each test case is given by the string $$$s$$$ ($$$2 \\le |s| \\le 2 \\cdot 10^5$$$), where $$$|s|$$$ — is the length of string $$$s$$$. The string $$$s$$$ consists of lowercase Latin letters. It is guaranteed that the sum of string lengths $$$s$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_110.jsonl",
+    "code_uid": "9367b1d5ef8ed4bf00a07cd1c9f849ac",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\nlogic\\n\\ncodeforces\\n\\nbca\\n\\naaaaaaaaaaa\\n\\nadbaadabad\\n\\nto\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from string import ascii_lowercase as asc\r\nimport sys\r\ninput = lambda: sys.stdin.buffer.readline().decode().strip()\r\nprint = sys.stdout.write\r\n\r\n\r\nfor _ in range(int(input())):\r\n    word = list(input())\r\n    ci, ti = asc.index(word[0]) + 1, asc.index(word[-1]) + 1\r\n\r\n    ans = []\r\n    if ci <= ti:\r\n        for i in range(ci, ti + 1):\r\n            [ans.append(j + 1) for j, l in enumerate(word) if l == chr(i + 96)]\r\n    else:\r\n        for i in range(ci, ti - 1, -1):\r\n            [ans.append(k + 1) for k, l in enumerate(word) if l == chr(i + 96)]\r\n\r\n    print(str(abs(ti - ci)) + \" \" + str(len(ans)) + \"\\n\" + ' '.join(map(str, ans)) + \"\\n\")\r\n",
+    "prob_desc_created_at": "1662993300",
+    "tags": [
+        "constructive algorithms",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

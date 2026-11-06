@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2000\", \"1000\"]",
+    "src_uid": "991a9b3904884c8d19ec7c665f2fcd95",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Yaroslav is playing a game called \"Time\". The game has a timer showing the lifespan he's got left. As soon as the timer shows 0, Yaroslav's character dies and the game ends. Also, the game has n clock stations, station number i is at point (xi, yi) of the plane. As the player visits station number i, he increases the current time on his timer by ai. The stations are for one-time use only, so if the player visits some station another time, the time on his timer won't grow.A player spends d·dist time units to move between stations, where dist is the distance the player has covered and d is some constant. The distance between stations i and j is determined as |xi - xj| + |yi - yj|.Initially, the player is at station number 1, and the player has strictly more than zero and strictly less than one units of time. At station number 1 one unit of money can increase the time on the timer by one time unit (you can buy only integer number of time units).Now Yaroslav is wondering, how much money he needs to get to station n. Help Yaroslav. Consider the time to buy and to increase the timer value negligibly small.",
+    "prob_desc_output_spec": "In a single line print an integer — the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains integers n and d (3 ≤ n ≤ 100, 103 ≤ d ≤ 105) — the number of stations and the constant from the statement. The second line contains n - 2 integers: a2, a3, ..., an - 1 (1 ≤ ai ≤ 103). The next n lines contain the coordinates of the stations. The i-th of them contains two integers xi, yi (-100 ≤ xi, yi ≤ 100). It is guaranteed that no two stations are located at the same point.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_000.jsonl",
+    "code_uid": "da6a787390c2b5025ea1359b968c96ce",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1000\\n1000\\n0 0\\n0 1\\n0 3\", \"3 1000\\n1000\\n1 0\\n1 1\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "f = lambda: list(map(int, input().split()))\nn, d = f()\na = [0] + f() + [0]\np = [f() for i in range(n)]\nr = range(n)\ns = [[d * (abs(p[i][0] - p[j][0]) + abs(p[i][1] - p[j][1])) - a[j] * (i != j) for j in r] for i in r]\nfor k in r: s = [[min(s[i][j], s[i][k] + s[k][j]) for i in r] for j in r]\nprint(s[-1][0])\n",
+    "prob_desc_created_at": "1367769900",
+    "tags": [
+        "binary search",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"8\\n4\\n6\\n11\"]",
+    "src_uid": "2e7d4deeeb700d7ad008875779d6f969",
+    "prob_desc_notes": "NoteIn the first test case, YouKn0wWho can select the sequence $$$[0, 2, 6]$$$. So $$$f(6, 2) = c(1, 2) + c(3, 6) = 3 + 5 = 8$$$ which is the minimum possible.",
+    "prob_desc_description": "For two positive integers $$$l$$$ and $$$r$$$ ($$$l \\le r$$$) let $$$c(l, r)$$$ denote the number of integer pairs $$$(i, j)$$$ such that $$$l \\le i \\le j \\le r$$$ and $$$\\operatorname{gcd}(i, j) \\ge l$$$. Here, $$$\\operatorname{gcd}(i, j)$$$ is the greatest common divisor (GCD) of integers $$$i$$$ and $$$j$$$.YouKn0wWho has two integers $$$n$$$ and $$$k$$$ where $$$1 \\le k \\le n$$$. Let $$$f(n, k)$$$ denote the minimum of $$$\\sum\\limits_{i=1}^{k}{c(x_i+1,x_{i+1})}$$$ over all integer sequences $$$0=x_1 \\lt x_2 \\lt \\ldots \\lt x_{k} \\lt x_{k+1}=n$$$.Help YouKn0wWho find $$$f(n, k)$$$. ",
+    "prob_desc_output_spec": "For each test case, print a single integer — $$$f(n, k)$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 3 \\cdot 10^5$$$) — the number of test cases. The first and only line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 10^5$$$). ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 3000,
+    "file_name": "train_110.jsonl",
+    "code_uid": "1dfa86aa93dd171ae6b5b8eea2b0b0bc",
+    "prob_desc_memory_limit": "1024 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n6 2\\n4 4\\n3 1\\n10 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# 1603D\r\n \r\nfrom itertools import accumulate\r\nfrom collections import Counter\r\nfrom math import floor, sqrt\r\nimport io, os, sys\r\ninput = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline\r\n \r\nn, n2, n3 = 100009, 320, 18\r\n \r\nphi = list(range(n))\r\nroot = [0]*n\r\nfor i in range(2, n):\r\n    if phi[i] == i:\r\n        for j in range(i, n, i):\r\n            phi[j] -= phi[j]//i\r\n \r\na = list(accumulate(phi))\r\n \r\ns1 = [[0]*n2 for _ in range(n)]\r\ns2 = [[0]*n2 for _ in range(n)]\r\ndp = [[float(\"inf\")]*n for _ in range(n3)]\r\ndp[0][0] = 0\r\n \r\ndef c(l, r):\r\n    if l > r: return float(\"inf\")\r\n    if r // l <= root[r]:\r\n        return s1[r][r//l] - a[r//l] * (l - 1 - r//((r//l) + 1))\r\n    else:\r\n        return s2[r][l]\r\n \r\nfor i in range(1, n):\r\n    root[i] = floor(sqrt(i))\r\n    for j in range(1, root[i] + 1):\r\n        s1[i][j] = s1[i][j-1] + a[j] * (i//j - i//(j+1))\r\n    \r\n    s2[i][i//(root[i] + 1) + 1] = s1[i][root[i]]\r\n    for j in range(i//(root[i] + 1), 0, -1):\r\n        s2[i][j] = s2[i][j+1] + a[i//j]\r\n \r\ndef solve(l, r, x, y):\r\n    if l > r: return\r\n    mid = (l + r)//2\r\n    val = c(x+1, mid)\r\n    for i in range(x, min(y, mid) + 1):\r\n        if dp[k-1][i] + val < dp[k][mid]:\r\n            dp[k][mid] = dp[k-1][i] + val\r\n            pos = i\r\n        val -= a[mid//(i+1)]\r\n    solve(l, mid-1, x, pos)\r\n    solve(mid+1, r, pos, y)\r\n \r\nfor k in range(1, n3):\r\n    solve(1, n-1, 0, n-1)\r\n \r\nans = []\r\n \r\nT = int(input())\r\nfor _ in range(T):\r\n    nn, k = map(int, input().split())\r\n    ans += [nn] if k >= n3 else [dp[k][nn]]\r\n \r\nsys.stdout.write(\" \".join(map(str, ans)) + \"\\n\")",
+    "prob_desc_created_at": "1635604500",
+    "tags": [
+        "divide and conquer",
+        "dp",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

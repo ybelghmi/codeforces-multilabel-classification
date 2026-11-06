@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"21\", \"4\", \"15\"]",
+    "src_uid": "d1f4872924f521b6cc206ee1e8f2dd3a",
+    "prob_desc_notes": "NoteIn the first example it is enough to place the router in the room $$$3$$$, then all rooms will be connected to the Internet. The total cost of connection is $$$3$$$.In the second example you can place routers nowhere, so you need to connect all rooms directly. Thus, the total cost of connection of all rooms is $$$1 + 2 + 3 + 4 + 5 + 6 = 21$$$.In the third example you need to connect the room $$$1$$$ directly and place the router in the room $$$3$$$. Thus, the total cost of connection of all rooms is $$$1 + 3 = 4$$$.In the fourth example you need to place routers in rooms $$$5$$$ and $$$10$$$. Then all rooms will be connected to the Internet. The total cost of connection is $$$5 + 10 = 15$$$.",
+    "prob_desc_description": "You work as a system administrator in a dormitory, which has $$$n$$$ rooms one after another along a straight hallway. Rooms are numbered from $$$1$$$ to $$$n$$$.You have to connect all $$$n$$$ rooms to the Internet.You can connect each room to the Internet directly, the cost of such connection for the $$$i$$$-th room is $$$i$$$ coins. Some rooms also have a spot for a router. The cost of placing a router in the $$$i$$$-th room is also $$$i$$$ coins. You cannot place a router in a room which does not have a spot for it. When you place a router in the room $$$i$$$, you connect all rooms with the numbers from $$$max(1,~i - k)$$$ to $$$min(n,~i + k)$$$ inclusive to the Internet, where $$$k$$$ is the range of router. The value of $$$k$$$ is the same for all routers. Calculate the minimum total cost of connecting all $$$n$$$ rooms to the Internet. You can assume that the number of rooms which have a spot for a router is not greater than the number of routers you have.",
+    "prob_desc_output_spec": "Print one integer — the minimum total cost of connecting all $$$n$$$ rooms to the Internet.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n, k \\le 2 \\cdot 10^5$$$) — the number of rooms and the range of each router. The second line of the input contains one string $$$s$$$ of length $$$n$$$, consisting only of zeros and ones. If the $$$i$$$-th character of the string equals to '1' then there is a spot for a router in the $$$i$$$-th room. If the $$$i$$$-th character of the string equals to '0' then you cannot place a router in the $$$i$$$-th room.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_011.jsonl",
+    "code_uid": "4c21f9f226a1eccbea8fef58da48acc3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2\\n00100\", \"6 1\\n000000\", \"4 1\\n0011\", \"12 6\\n000010000100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\ndef solve(N, K, S):\n    nxt = [0] * (N+1)\n    cur = 1 << 30\n    for i in xrange(N, 0, -1):\n        if S[i-1] == '1':\n            cur = i\n        nxt[i] = cur\n    \n    dp = [0]\n    for i in xrange(1, N+1):\n        dp.append(dp[-1] + i)\n        c = nxt[max(i-K, 1)]\n        if c <= i+K:\n            dp[i] = min(dp[i], dp[max(1,c-K)-1] + c)\n    return dp[N]\n        \nN, K = map(int, raw_input().split())\nprint solve(N, K, raw_input())\n",
+    "prob_desc_created_at": "1569049500",
+    "tags": [
+        "dp",
+        "greedy",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"a\", \"bc\", \"b\"]",
+    "src_uid": "161f3f76bfe141899ad0773545b38c03",
+    "prob_desc_notes": "NoteIn the second sample before string \"bc\" follow strings \"a\", \"ab\", \"abc\", \"b\".",
+    "prob_desc_description": "One day in the IT lesson Anna and Maria learned about the lexicographic order.String x is lexicographically less than string y, if either x is a prefix of y (and x ≠ y), or there exists such i (1 ≤ i ≤ min(|x|, |y|)), that xi &lt; yi, and for any j (1 ≤ j &lt; i) xj = yj. Here |a| denotes the length of the string a. The lexicographic comparison of strings is implemented by operator &lt; in modern programming languages​​.The teacher gave Anna and Maria homework. She gave them a string of length n. They should write out all substrings of the given string, including the whole initial string, and the equal substrings (for example, one should write out the following substrings from the string \"aab\": \"a\", \"a\", \"aa\", \"ab\", \"aab\", \"b\"). The resulting strings should be sorted in the lexicographical order. The cunning teacher doesn't want to check all these strings. That's why she said to find only the k-th string from the list. Help Anna and Maria do the homework.",
+    "prob_desc_output_spec": "Print the string Anna and Maria need — the k-th (in the lexicographical order) substring of the given string. If the total number of substrings is less than k, print a string saying \"No such line.\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains a non-empty string that only consists of small Latin letters (\"a\"-\"z\"), whose length does not exceed 105. The second line contains the only integer k (1 ≤ k ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_018.jsonl",
+    "code_uid": "f2c521438dade5afc86d45edc3340ba6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"aa\\n2\", \"abc\\n5\", \"abab\\n7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# -*- coding: utf-8 -*-\n\"\"\"\nCreated on Sat May  7 16:53:11 2016\n\n@author: Alex\n\"\"\"\nfrom heapq import heappush,heappop,heapify\nstring = input()\nl = len(string)\nk = int(input())\nA = l*(l+1)/2\nif A<k:\n    print(\"No such line.\")\nelse:\n    heap = [(string[i],i+1) for i in range(l)]\n    heapify(heap)\n    cnt = 0\n    while cnt<k:\n        now,nextp = heappop(heap)\n        cnt+=1\n        if nextp<l:\n            heappush(heap,(now+string[nextp],nextp+1))\n    print(now)",
+    "prob_desc_created_at": "1321337400",
+    "tags": [
+        "hashing",
+        "constructive algorithms",
+        "string suffix structures",
+        "implementation",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 4\", \"1 4\\n6 7\", \"2 5\\n3 4\\n1 4\\n1 4\"]",
+    "src_uid": "233c2806db31916609421fbd126133d0",
+    "prob_desc_notes": "NoteNote that you don't have to minimize the number of operations. Any solution that performs at most 20 000 operations is allowed.",
+    "prob_desc_description": "Little Robber Girl likes to scare animals in her zoo for fun. She decided to arrange the animals in a row in the order of non-decreasing height. However, the animals were so scared that they couldn't stay in the right places.The robber girl was angry at first, but then she decided to arrange the animals herself. She repeatedly names numbers l and r such that r - l + 1 is even. After that animals that occupy positions between l and r inclusively are rearranged as follows: the animal at position l swaps places with the animal at position l + 1, the animal l + 2 swaps with the animal l + 3, ..., finally, the animal at position r - 1 swaps with the animal r.Help the robber girl to arrange the animals in the order of non-decreasing height. You should name at most 20 000 segments, since otherwise the robber girl will become bored and will start scaring the animals again.",
+    "prob_desc_output_spec": "Print the sequence of operations that will rearrange the animals by non-decreasing height. The output should contain several lines, i-th of the lines should contain two space-separated integers li and ri (1 ≤ li &lt; ri ≤ n) — descriptions of segments the robber girl should name. The segments should be described in the order the operations are performed. The number of operations should not exceed 20 000. If the animals are arranged correctly from the start, you are allowed to output nothing.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 100) — number of animals in the robber girl's zoo. The second line contains n space-separated integers a1, a2, ..., an (1 ≤ ai ≤ 109), where ai is the height of the animal occupying the i-th place.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_001.jsonl",
+    "code_uid": "9ce658191228876e4da9c85528251ae6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 1 4 3\", \"7\\n36 28 57 39 66 69 68\", \"5\\n1 2 1 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input(\"\"))\nheights = map(int, raw_input(\"\").split())\nres = sorted(heights)\ns0 = -1\ns1 = -1\nwhile heights != res:\n\ti = 0\n\twhile i < n - 1:\n\t\tif int(heights[i]) > int(heights[i + 1]):\n\t\t\ttemp = heights[i]\n\t\t\theights[i] = heights[i + 1]\n\t\t\theights[i + 1] = temp\n\t\t\ts0 = i + 1\n\t\t\tprint(s0),\n\t\t\ts1 = i + 2\n\t\t\tprint(s1)\n\t\t\ti += 2\n\t\telse:\n\t\t\ts0 = -1\n\t\t\ts1 = -1\n\t\t\ti += 1",
+    "prob_desc_created_at": "1466699700",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

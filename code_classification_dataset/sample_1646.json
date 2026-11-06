@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\", \"16\"]",
+    "src_uid": "99f1db0155f3d6dd580a2c1479c34585",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Bob wants to put a new bargaining table in his office. To do so he measured the office room thoroughly and drew its plan: Bob's office room is a rectangular room n × m meters. Each square meter of the room is either occupied by some furniture, or free. A bargaining table is rectangular, and should be placed so, that its sides are parallel to the office walls. Bob doesn't want to change or rearrange anything, that's why all the squares that will be occupied by the table should be initially free. Bob wants the new table to sit as many people as possible, thus its perimeter should be maximal. Help Bob find out the maximum possible perimeter of a bargaining table for his office.",
+    "prob_desc_output_spec": "Output one number — the maximum possible perimeter of a bargaining table for Bob's office room.",
+    "prob_desc_input_spec": "The first line contains 2 space-separated numbers n and m (1 ≤ n, m ≤ 25) — the office room dimensions. Then there follow n lines with m characters 0 or 1 each. 0 stands for a free square meter of the office room. 1 stands for an occupied square meter. It's guaranteed that at least one square meter in the room is free.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_011.jsonl",
+    "code_uid": "7a47b9c7137bd454fc34273e89c25d74",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n000\\n010\\n000\", \"5 4\\n1100\\n0000\\n0000\\n0000\\n0000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "### BRUTE FORCE\n\n# n, m = [int(i) for i in input().split(' ')]\n# matrix = []\n# for i in range(n):\n#     matrix.append([j for j in input()])\n\n# t = 0\n# for x1 in range(n):\n#     for y1 in range(m):\n#         if matrix[x1][y1] == '0':\n#             for x2 in range(x1, n):\n#                 for y2 in range(y1, m):\n#                     if matrix[x2][y2] == '0':\n#                         cool = True\n#                         p = 0\n#                         # import code\n#                         # code.interact(local=locals())\n#                         for i in range(x1, x2 + 1):\n#                             for j in range(y1, y2 + 1):\n#                                 if matrix[i][j] == '1':\n#                                     cool = False\n#                                 p += 1\n#                         if cool:\n#                             t = max((x2 - x1 + 1) * 2 + (y2 - y1 + 1) * 2, t)\n\n# print(t)\n\n### DP (1)\n\nn, m = [int(i) for i in input().split(' ')]\nmatrix = []\nfor i in range(n):\n    matrix.append([j for j in input()])\ndp = []\nfor i in range(n):\n    dp.append([])\n    for j in range(m):\n        dp[i].append([])\n        for k in range(n):\n            dp[i][j].append([])\n            for _ in range(m):\n                dp[i][j][k].append(True)\n\nt = 0\n\nfor x1 in range(n):\n    for y1 in range(m):\n        for x2 in range(x1, n):\n            for y2 in range(y1, m):\n                dp[x1][y1][x2][y2] = dp[x1][y1][x2 - 1][y2] and dp[x1][y1][x2][y2 - 1] and matrix[x2][y2] != '1'\n                if dp[x1][y1][x2][y2]:\n                    t = max((x2 - x1 + 1) * 2 + (y2 - y1 + 1) * 2, t)\n\nprint(t)\n",
+    "prob_desc_created_at": "1277823600",
+    "tags": [
+        "dp",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

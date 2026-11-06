@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 3 7\", \"1\\n5\"]",
+    "src_uid": "faa26846744b7b7f90ba1b521fee0bc6",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Polycarp invented a new way to encode strings. Let's assume that we have string T, consisting of lowercase English letters. Let's choose several pairs of letters of the English alphabet in such a way that each letter occurs in at most one pair. Then let's replace each letter in T with its pair letter if there is a pair letter for it. For example, if you chose pairs (l, r), (p, q) and (a, o), then word \"parallelogram\" according to the given encoding principle transforms to word \"qolorreraglom\".Polycarpus already has two strings, S and T. He suspects that string T was obtained after applying the given encoding method from some substring of string S. Find all positions mi in S (1 ≤ mi ≤ |S| - |T| + 1), such that T can be obtained fro substring SmiSmi + 1... Smi + |T| - 1 by applying the described encoding operation by using some set of pairs of English alphabet letters",
+    "prob_desc_output_spec": "Print number k — the number of suitable positions in string S. In the next line print k integers m1, m2, ..., mk — the numbers of the suitable positions in the increasing order.",
+    "prob_desc_input_spec": "The first line of the input contains two integers, |S| and |T| (1 ≤ |T| ≤ |S| ≤ 2·105) — the lengths of string S and string T, respectively. The second and third line of the input contain strings S and T, respectively. Both strings consist only of lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_040.jsonl",
+    "code_uid": "308d274e59cf2b8cf47f26b2d39d3cdb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"11 5\\nabacabadaba\\nacaba\", \"21 13\\nparaparallelogramgram\\nqolorreraglom\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "raw_input()\nss = raw_input()\ntt = raw_input()\n\ndef df(s):\n    c = {}\n    res = []\n    for i, x in enumerate(s):\n        res.append(i - c[x] if x in c else 0)\n        c[x] = i\n    return res\n\ns = df(ss)\nt = df(tt)\np = []\nl = []\nfor i, x in enumerate(t):\n    if not x:\n        p.append(i)\n        l.append(ord(tt[i]) - 97)\nnt = len(l)\n\ndef prefix_func(s):\n    pi = [0] * len(s)\n    for i in xrange(1, len(s)):\n        j = pi[i - 1]\n        while j > 0 and not (s[i] == s[j] or (not s[j] and s[i] > j)):\n            j = pi[j - 1]\n        pi[i] = j + 1 if s[i] == s[j] or (not s[j] and s[i] > j) else j\n\n    return pi\n\npi = prefix_func(t + [-1] + s)\nn = len(t)\nres = []\nss = [ord(x) - 97 for x in ss]\n\ndef check(pos):\n    d = [-1] * 26\n    for i in xrange(nt):\n        j = p[i]\n        x = ss[j + pos]\n        y = l[i]\n        if d[x] >= 0 and d[x] != y:\n            return False\n        if d[y] >= 0 and d[y] != x:\n            return False\n        d[x] = y\n        d[y] = x\n    return True\n\nfor i, x in enumerate(pi):\n    j = i - 2 * n\n    if x != n or not check(j):\n        continue\n    res.append(j + 1)\nprint len(res)\nprint ' '.join(map(str, res))\n",
+    "prob_desc_created_at": "1429286400",
+    "tags": [
+        "hashing",
+        "string suffix structures",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

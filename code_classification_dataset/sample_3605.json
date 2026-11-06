@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"? 0\\n\\n? 1\\n\\n! 1\", \"? 2\\n\\n? 1\\n\\n? 0\\n\\n! -1\"]",
+    "src_uid": "b26140f647eee09f5f0d6c428d99126d",
+    "prob_desc_notes": "NoteThe polynomial in the first sample is $$$1000002 + x^2$$$.The polynomial in the second sample is $$$1 + x^2$$$.",
+    "prob_desc_description": "Jury picked a polynomial $$$f(x) = a_0 + a_1 \\cdot x + a_2 \\cdot x^2 + \\dots + a_k \\cdot x^k$$$. $$$k \\le 10$$$ and all $$$a_i$$$ are integer numbers and $$$0 \\le a_i &lt; 10^6 + 3$$$. It's guaranteed that there is at least one $$$i$$$ such that $$$a_i &gt; 0$$$.Now jury wants you to find such an integer $$$x_0$$$ that $$$f(x_0) \\equiv 0 \\mod (10^6 + 3)$$$ or report that there is not such $$$x_0$$$.You can ask no more than $$$50$$$ queries: you ask value $$$x_q$$$ and jury tells you value $$$f(x_q) \\mod (10^6 + 3)$$$.Note that printing the answer doesn't count as a query.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_072.jsonl",
+    "code_uid": "f12c1b3b780a5d9698537ea8a5b24b63",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1000002\\n\\n0\", \"5\\n\\n2\\n\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    seed = []\n    for i in range(11):\n        print('?', i)\n        seed.append(int(input()))\n        if not seed[-1]:\n            print('!', i)\n            return\n    poly = [seed[-1]]\n    for _ in range(10):\n        seed = [(b - a) % 1000003 for a, b in zip(seed, seed[1:])]\n        poly.append(seed[-1])\n    a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, aa = poly\n    for i in range(11, 1000003):\n        a9 = (a9 + aa) % 1000003\n        a8 = (a8 + a9) % 1000003\n        a7 = (a7 + a8) % 1000003\n        a6 = (a6 + a7) % 1000003\n        a5 = (a5 + a6) % 1000003\n        a4 = (a4 + a5) % 1000003\n        a3 = (a3 + a4) % 1000003\n        a2 = (a2 + a3) % 1000003\n        a1 = (a1 + a2) % 1000003\n        a0 = (a0 + a1) % 1000003\n        if not a0:\n            print('!', i)\n            break\n    else:\n        print('! -1')\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1555943700",
+    "tags": [
+        "interactive",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

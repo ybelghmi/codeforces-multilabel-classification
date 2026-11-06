@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1\\npetya vasya\", \"0\"]",
+    "src_uid": "3cb4c89b174bf5ea51e797b78103e089",
+    "prob_desc_notes": "NoteIn the first sample test case Vasya and Petya are friends because their messages' sending times are one second apart. Anya and Ivan are not, because their messages' sending times differ by more than one second.",
+    "prob_desc_description": "Polycarpus has a hobby — he develops an unusual social network. His work is almost completed, and there is only one more module to implement — the module which determines friends. Oh yes, in this social network one won't have to add friends manually! Pairs of friends are deduced in the following way. Let's assume that user A sent user B a message at time t1, and user B sent user A a message at time t2. If 0 &lt; t2 - t1 ≤ d, then user B's message was an answer to user A's one. Users A and B are considered to be friends if A answered at least one B's message or B answered at least one A's message.You are given the log of messages in chronological order and a number d. Find all pairs of users who will be considered to be friends.",
+    "prob_desc_output_spec": "In the first line print integer k — the number of pairs of friends. In the next k lines print pairs of friends as \"Ai Bi\" (without the quotes). You can print users in pairs and the pairs themselves in any order. Each pair must be printed exactly once.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and d (1 ≤ n, d ≤ 1000). The next n lines contain the messages log. The i-th line contains one line of the log formatted as \"Ai Bi ti\" (without the quotes), which means that user Ai sent a message to user Bi at time ti (1 ≤ i ≤ n). Ai and Bi are non-empty strings at most 20 characters long, consisting of lowercase letters ('a' ... 'z'), and ti is an integer (0 ≤ ti ≤ 10000). It is guaranteed that the lines are given in non-decreasing order of ti's and that no user sent a message to himself. The elements in the lines are separated by single spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_030.jsonl",
+    "code_uid": "abef760120600f00dc8d0f42c58c0235",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 1\\nvasya petya 1\\npetya vasya 2\\nanya ivan 2\\nivan anya 4\", \"1 1000\\na b 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, d = map(int, input().split())\nf = list()\nm = dict()\nfor i in range(n):\n    add = False\n    a, b, t2 = input().split()\n    t2 = int(t2)\n    c = m.get(b + ' ' + a, 0)\n    if c != -1:\n        if c != 0:\n            for t1 in c:\n                if 0 < t2 - t1 <= d:\n                    f.append(a + ' ' + b)\n                    m[b + ' ' + a] = -1\n                    m[a + ' ' + b] = -1\n                    add = True\n                    break\n        if not add:\n            c = m.get(a + ' ' + b, 0)\n            if c == 0:\n                m[a + ' ' + b] = [t2]\n            elif c[0] != t2:\n                m[a + ' ' + b] = [t2, c[0]]\nprint(len(f))\nfor i in f:\n    print(i)\n",
+    "prob_desc_created_at": "1331280000",
+    "tags": [
+        "implementation",
+        "*special",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

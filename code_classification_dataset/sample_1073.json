@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"22\", \"42\", \"0\"]",
+    "src_uid": "92b6ab47c306a15631f045d624a1bf37",
+    "prob_desc_notes": "NoteIn the first test case we need to multiply the subarray [-2, 1, -6], and the array becomes [-3, 8, 4, -2, 12] with beauty 22 ([-3, 8, 4, -2, 12]).In the second test case we don't need to multiply any subarray at all.In the third test case no matter which subarray we multiply, the beauty of array will be equal to 0.",
+    "prob_desc_description": "You are given an array $$$a$$$ consisting of $$$n$$$ integers. Beauty of array is the maximum sum of some consecutive subarray of this array (this subarray may be empty). For example, the beauty of the array [10, -5, 10, -4, 1] is 15, and the beauty of the array [-3, -5, -1] is 0.You may choose at most one consecutive subarray of $$$a$$$ and multiply all values contained in this subarray by $$$x$$$. You want to maximize the beauty of array after applying at most one such operation.",
+    "prob_desc_output_spec": "Print one integer — the maximum possible beauty of array $$$a$$$ after multiplying all values belonging to some consecutive subarray $$$x$$$.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$x$$$ ($$$1 \\le n \\le 3 \\cdot 10^5, -100 \\le x \\le 100$$$) — the length of array $$$a$$$ and the integer $$$x$$$ respectively. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$-10^9 \\le a_i \\le 10^9$$$) — the array $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_006.jsonl",
+    "code_uid": "a485421dbe51e0abd37db43e33b371c2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 -2\\n-3 8 -2 1 -6\", \"12 -3\\n1 3 3 7 1 3 3 7 1 3 3 7\", \"5 10\\n-1 -2 -3 -4 -5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, x = map(int, raw_input().split())\nA = map(int, raw_input().split())\ndpm = [0] * (n+1)\ndp = [0] * (n+1)\ndpn = [0] * (n+1)\nans = 0\n\nfor i in xrange(1, n+1):\n\tdpm[i] = A[i-1]*x + max(dpm[i-1], dpn[i-1], 0)\n\tdp[i] = A[i-1] + max(dpm[i-1], dp[i-1], dpn[i-1], 0)\n\tdpn[i] = A[i-1] + max(dpn[i-1], 0)\n\tans = max(ans, dpm[i], dp[i], dpn[i])\nprint ans",
+    "prob_desc_created_at": "1555943700",
+    "tags": [
+        "dp",
+        "greedy",
+        "divide and conquer",
+        "data structures",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

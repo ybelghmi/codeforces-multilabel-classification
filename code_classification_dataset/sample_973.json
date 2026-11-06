@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"0\", \"645711643\"]",
+    "src_uid": "295c176216159a56c6b1c6ec5d4e4cee",
+    "prob_desc_notes": "NotePossible answers in the first test:   $$$[1, 2, 1, 1, 2]$$$;  $$$[1, 2, 1, 2, 2]$$$. There is no way to make the array good in the second test, since first two elements are equal.There are too many answers in the third test, so we won't describe any of them.",
+    "prob_desc_description": "Vasya has got an array consisting of $$$n$$$ integers, and two integers $$$k$$$ and $$$len$$$ in addition. All numbers in the array are either between $$$1$$$ and $$$k$$$ (inclusive), or equal to $$$-1$$$. The array is good if there is no segment of $$$len$$$ consecutive equal numbers.Vasya will replace each $$$-1$$$ with some number from $$$1$$$ to $$$k$$$ (inclusive) in such a way that the resulting array is good. Tell him the number of ways to do this replacement. Since the answer may be large, print it modulo $$$998244353$$$.",
+    "prob_desc_output_spec": "Print one integer — the number of ways to replace each $$$-1$$$ with some number from $$$1$$$ to $$$k$$$ (inclusive) so the array is good. The answer may be large, so print it modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The first line contains three integers $$$n, k$$$ and $$$len$$$ ($$$1 \\le n \\le 10^5, 1 \\le k \\le 100, 1 \\le len \\le n$$$). The second line contains $$$n$$$ numbers — the array. Each number is either $$$-1$$$ or between $$$1$$$ and $$$k$$$ (inclusive).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_005.jsonl",
+    "code_uid": "bd5d9e4c9425797a39ef47a76de3abf6",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5 2 3\\n1 -1 1 -1 2\", \"6 3 2\\n1 1 -1 -1 -1 -1\", \"10 42 7\\n-1 -1 -1 -1 -1 -1 -1 -1 -1 -1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def vasya_and_array():\n    n,k,leng = [int(x) for x in input().split()]\n    if(leng==1):\n        return 0\n    a = [int(x) for x in input().split()]\n    mod = 998244353\n    a.insert(0,0)\n    dp = [[0 for x in range((k+1))] for y in range(n+1)]\n    sumdp = [0 for _ in range(n+1)]\n    sumdp[0]=1\n    count = [0 for _ in range(k+1)]\n    \n    for i in range(1,n+1):\n        for j in range(1,k+1):\n            if(a[i]==-1 or a[i]==j):\n                dp[i][j] = sumdp[i-1]\n                count[j]+=1\n                if(count[j] >= leng):\n                    dp[i][j]-=(sumdp[i-leng] - dp[i-leng][j])\n                dp[i][j]%=mod\n                sumdp[i]+=dp[i][j]\n                sumdp[i]%=mod\n            else:\n                count[j]=0\n        \n    return (sumdp[n])\n    \nprint(vasya_and_array()) ",
+    "prob_desc_created_at": "1544884500",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"281\", \"0\", \"30\", \"26\"]",
+    "src_uid": "fccb8049e7b0f0bcd1dcd93620a86b5c",
+    "prob_desc_notes": "NoteIn the first example, here is a possible strategy:  Increase the scope of the first antenna by $$$40$$$, so that it becomes $$$2 + 40 = 42$$$. This antenna will cover interval $$$[43 - 42; 43 + 42]$$$ which is $$$[1; 85]$$$  Increase the scope of the second antenna by $$$210$$$, so that it becomes $$$4 + 210 = 214$$$. This antenna will cover interval $$$[300 - 214; 300 + 214]$$$, which is $$$[86; 514]$$$  Increase the scope of the third antenna by $$$31$$$, so that it becomes $$$10 + 31 = 41$$$. This antenna will cover interval $$$[554 - 41; 554 + 41]$$$, which is $$$[513; 595]$$$ Total cost is $$$40 + 210 + 31 = 281$$$. We can prove that it's the minimum cost required to make all positions from $$$1$$$ to $$$595$$$ covered by at least one antenna.Note that positions $$$513$$$ and $$$514$$$ are in this solution covered by two different antennas, but it's not important.—In the second example, the first antenna already covers an interval $$$[0; 2]$$$ so we have nothing to do.Note that the only position that we needed to cover was position $$$1$$$; positions $$$0$$$ and $$$2$$$ are covered, but it's not important.",
+    "prob_desc_description": "The mayor of the Central Town wants to modernize Central Street, represented in this problem by the $$$(Ox)$$$ axis.On this street, there are $$$n$$$ antennas, numbered from $$$1$$$ to $$$n$$$. The $$$i$$$-th antenna lies on the position $$$x_i$$$ and has an initial scope of $$$s_i$$$: it covers all integer positions inside the interval $$$[x_i - s_i; x_i + s_i]$$$.It is possible to increment the scope of any antenna by $$$1$$$, this operation costs $$$1$$$ coin. We can do this operation as much as we want (multiple times on the same antenna if we want).To modernize the street, we need to make all integer positions from $$$1$$$ to $$$m$$$ inclusive covered by at least one antenna. Note that it is authorized to cover positions outside $$$[1; m]$$$, even if it's not required.What is the minimum amount of coins needed to achieve this modernization?",
+    "prob_desc_output_spec": "You have to output a single integer: the minimum amount of coins required to make all integer positions from $$$1$$$ to $$$m$$$ inclusive covered by at least one antenna.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 80$$$ and $$$n \\le m \\le 100\\ 000$$$). The $$$i$$$-th of the next $$$n$$$ lines contains two integers $$$x_i$$$ and $$$s_i$$$ ($$$1 \\le x_i \\le m$$$ and $$$0 \\le s_i \\le m$$$). On each position, there is at most one antenna (values $$$x_i$$$ are pairwise distinct).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_072.jsonl",
+    "code_uid": "fc387a2b90f30338dfa8ad6f48e3fdb7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 595\\n43 2\\n300 4\\n554 10\", \"1 1\\n1 1\", \"2 50\\n20 0\\n3 1\", \"5 240\\n13 0\\n50 25\\n60 5\\n155 70\\n165 70\"]",
+    "exec_outcome": "PASSED",
+    "source_code": " \nn,m = map(int,raw_input().split(\" \"))\nants = []\nfor i in range(n):\n    x,s = map(int,raw_input().split(\" \"))\n    ants.append((x,s))\n \ncovered = [0]*(m+5)\nfor i in range(n):\n    x,s = ants[i]\n    l,r = max(x-s,1),min(x+s,m)\n    covered[l] += 1\n    covered[r+1] -= 1\ncs = 0\nfor i in range(1,m+1):\n    cs += covered[i]\n    if cs >0:\n        covered[i] = 1\n    else:\n        covered[i] = 0 \ndp = [2e5]*(m+5)\ndp[0] = 0.\n\nfor i in range(1,m+1):\n    if covered[i]:\n        dp[i] = dp[i-1]\n    else:\n        dp[i] = dp[i-1]+1\n        for j in range(n):\n            x,s = ants[j]\n            l,r = max(x-s,1),min(x+s,m)\n            if r >= i:\n                continue\n            span = i-r\n            pos = max(1,l-span)\n            if dp[i]>dp[pos-1]+span:\n                dp[i] = dp[pos-1]+span\n        \nprint int(dp[m])\n",
+    "prob_desc_created_at": "1573914900",
+    "tags": [
+        "dp",
+        "sortings",
+        "greedy",
+        "data structures"
+    ],
+    "hidden_unit_tests": ""
+}

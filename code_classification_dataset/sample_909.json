@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"48\\n4\"]",
+    "src_uid": "fe9b1527571ea37f402512ac378dee13",
+    "prob_desc_notes": null,
+    "prob_desc_description": "We guessed some integer number $$$x$$$. You are given a list of almost all its divisors. Almost all means that there are all divisors except $$$1$$$ and $$$x$$$ in the list.Your task is to find the minimum possible integer $$$x$$$ that can be the guessed number, or say that the input data is contradictory and it is impossible to find such number.You have to answer $$$t$$$ independent queries.",
+    "prob_desc_output_spec": "For each query print the answer to it. If the input data in the query is contradictory and it is impossible to find such number $$$x$$$ that the given list of divisors is the list of almost all its divisors, print -1. Otherwise print the minimum possible $$$x$$$.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1 \\le t \\le 25$$$) — the number of queries. Then $$$t$$$ queries follow. The first line of the query contains one integer $$$n$$$ ($$$1 \\le n \\le 300$$$) — the number of divisors in the list. The second line of the query contains $$$n$$$ integers $$$d_1, d_2, \\dots, d_n$$$ ($$$2 \\le d_i \\le 10^6$$$), where $$$d_i$$$ is the $$$i$$$-th divisor of the guessed number. It is guaranteed that all values $$$d_i$$$ are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_005.jsonl",
+    "code_uid": "413ceadb9fc42985f9f5ddd8107d4bb0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n8\\n8 2 12 6 4 24 16 3\\n1\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import bisect_right as br\nfrom bisect import bisect_left as bl\nfrom collections import *\nfrom itertools import *\nimport functools\nimport sys\nfrom math import *\nfrom decimal import *\nfrom copy import *\ngetcontext().prec = 30\nMAX = sys.maxsize\nMAXN = 10**6+10\nMOD = 10**9+7\ndef isprime(n):\n    n = abs(int(n))\n    if n < 2:\n        return False\n    if n == 2: \n        return True    \n    if not n & 1: \n        return False\n    for x in range(3, int(n**0.5) + 1, 2):\n        if n % x == 0:\n            return False\n    return True\n\ndef mhd(a,b,x,y):\n    return abs(a-x)+abs(b-y)\n\ndef numIN(x = \" \"):\n    return(map(int,sys.stdin.readline().strip().split(x)))\n\ndef charIN(x= ' '):\n    return(sys.stdin.readline().strip().split(x))\n\ndef arrIN():\n    return list(numIN())\n\ndef dis(x,y):\n    a = y[0]-x[0]\n    b = x[1]-y[1]\n    return (a*a+b*b)**0.5\n\ndef lgcd(a):\n    g = a[0]\n    for i in range(1,len(a)):\n        g = math.gcd(g,a[i])\n    return g\n\ndef ms(a):\n    msf = -MAX\n    meh = 0\n    st = en = be = 0\n    for i in range(len(a)):\n        meh+=a[i]\n        if msf<meh:\n            msf = meh\n            st = be\n            en = i\n        if meh<0:\n            meh = 0\n            be = i+1\n    return msf,st,en\n\n\ndef res(ans,t):\n    print('Case #{}: {} {}'.format(t,ans[0],ans[1]))\n\ndef divi(n):\n    l = []\n    for i in range(1,int(n**0.5)+1):\n        if n%i==0:\n            if n//i==i:\n                l.append(i)\n            else:\n                l.append(i)\n                l.append(n//i)\n    return l\n\nfor _ in range(int(input())):\n    n = int(input())\n    a = arrIN()\n    a.sort()\n    x = a[0]*a[-1]\n    fl = [0]*MAXN\n    f = 1\n    for i in a:\n        fl[i] = 1\n    fl[1] = 1\n    for j in a:\n        l = divi(j)\n        for i in l:\n            if not fl[i]:\n                print(-1)\n                f = 0\n                break\n        if not f:\n            break\n    if f:\n        for i in range(n//2+1):\n            if a[i]*a[n-i-1]!=x:\n                print(-1)\n                f = 0\n                break\n    if f:\n        print(x)\n\n",
+    "prob_desc_created_at": "1557844500",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\"]",
+    "src_uid": "c4033b57cd52b4c8567e946e136cb5dc",
+    "prob_desc_notes": "NoteIn the first test case, there is only one way to indent the program: the second for statement must be part of the body of the first one.simple statementfor statement    for statement        simple statementIn the second test case, there are two ways to indent the program: the second for statement can either be part of the first one's body or a separate statement following the first one.for statement    simple statement    for statement        simple statementorfor statement    simple statementfor statement    simple statement",
+    "prob_desc_description": "In Python, code blocks don't have explicit begin/end or curly braces to mark beginning and end of the block. Instead, code blocks are defined by indentation.We will consider an extremely simplified subset of Python with only two types of statements.Simple statements are written in a single line, one per line. An example of a simple statement is assignment.For statements are compound statements: they contain one or several other statements. For statement consists of a header written in a separate line which starts with \"for\" prefix, and loop body. Loop body is a block of statements indented one level further than the header of the loop. Loop body can contain both types of statements. Loop body can't be empty.You are given a sequence of statements without indentation. Find the number of ways in which the statements can be indented to form a valid Python program.",
+    "prob_desc_output_spec": "Output one line containing an integer - the number of ways the given sequence of statements can be indented modulo 109 + 7. ",
+    "prob_desc_input_spec": "The first line contains a single integer N (1 ≤ N ≤ 5000) — the number of commands in the program. N lines of the program follow, each line describing a single command. Each command is either \"f\" (denoting \"for statement\") or \"s\" (\"simple statement\"). It is guaranteed that the last line is a simple statement.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_011.jsonl",
+    "code_uid": "62693dec3da61e1e629562c3353944a7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\ns\\nf\\nf\\ns\", \"4\\nf\\ns\\nf\\ns\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(raw_input())\ndp = [[0 for x in range(n)] for x in range(n)]\ndp[0][0] = 1\nlast = raw_input()\nfor i in range(1,n):\n  cur = raw_input()\n  if cur=='f' and last=='f':\n    for j in range(n-1):\n      dp[i][j+1] = dp[i-1][j]%1000000007\n  elif cur=='f':\n    res = 0\n    for j in range(i-1,-1,-1):\n      res = (res+dp[i-1][j])%1000000007\n      dp[i][j] = res%1000000007\n  elif cur=='s' and last=='f':\n    for j in range(n-1):\n      dp[i][j+1] = dp[i-1][j]%1000000007\n  else:\n    res = 0\n    for j in range(i-1,-1,-1):\n      res = (res+dp[i-1][j])%1000000007\n      dp[i][j] = res%1000000007\n  last = cur\nprint sum(dp[n-1])%1000000007",
+    "prob_desc_created_at": "1514392500",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

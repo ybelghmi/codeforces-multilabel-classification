@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 2\\n2 3\\n3 4\\n4 5\\n1 3\\n3 5\", \"-1\"]",
+    "src_uid": "959709bfe7b26a4b9f2e7430350650a9",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Bob got a job as a system administrator in X corporation. His first task was to connect n servers with the help of m two-way direct connection so that it becomes possible to transmit data from one server to any other server via these connections. Each direct connection has to link two different servers, each pair of servers should have at most one direct connection. Y corporation, a business rival of X corporation, made Bob an offer that he couldn't refuse: Bob was asked to connect the servers in such a way, that when server with index v fails, the transmission of data between some other two servers becomes impossible, i.e. the system stops being connected. Help Bob connect the servers.",
+    "prob_desc_output_spec": "If it is impossible to connect the servers in the required way, output -1. Otherwise output m lines with 2 numbers each — description of all the direct connections in the system. Each direct connection is described by two numbers — indexes of two servers, linked by this direct connection. The servers are numbered from 1. If the answer is not unique, output any.",
+    "prob_desc_input_spec": "The first input line contains 3 space-separated integer numbers n, m, v (3 ≤ n ≤ 105, 0 ≤ m ≤ 105, 1 ≤ v ≤ n), n — amount of servers, m — amount of direct connections, v — index of the server that fails and leads to the failure of the whole system.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_020.jsonl",
+    "code_uid": "c7e790cfa80b3d52252f3629ede63c30",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 6 3\", \"6 100 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m,v=map(int,input().split())\nif m<n-1 or m>(n-1)*(n-2)//2+1:\n\tprint(-1)\n\texit()\nif v==1:\n\tprint(1,2)\n\tt=[1]+[i for i in range(3,n+1)]\n\ts=1\n\ti,j=0,1\n\tk=len(t)\n\twhile s<m and i<k-1:\n\t\tprint(t[i],t[j])\n\t\tj+=1\n\t\tif j==k:\n\t\t\ti+=1\n\t\t\tj=i+1\n\t\ts+=1\nelse:\n\tprint(1,v)\n\tt=[i for i in range(v,n+1)]+[i for i in range(2,v)]\n\ts=1\n\ti,j=0,1\n\tk=len(t)\n\twhile s<m and i<k-1:\n\t\tprint(t[i],t[j])\n\t\tj+=1\n\t\tif j==k:\n\t\t\ti+=1\n\t\t\tj=i+1\n\t\ts+=1",
+    "prob_desc_created_at": "1277823600",
+    "tags": [
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

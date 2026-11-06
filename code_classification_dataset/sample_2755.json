@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"tolik\", \"bolik\"]",
+    "src_uid": "55099493c66b003d4261310bf2cc8f93",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are n stone quarries in Petrograd.Each quarry owns mi dumpers (1 ≤ i ≤ n). It is known that the first dumper of the i-th quarry has xi stones in it, the second dumper has xi + 1 stones in it, the third has xi + 2, and the mi-th dumper (the last for the i-th quarry) has xi + mi - 1 stones in it.Two oligarchs play a well-known game Nim. Players take turns removing stones from dumpers. On each turn, a player can select any dumper and remove any non-zero amount of stones from it. The player who cannot take a stone loses.Your task is to find out which oligarch will win, provided that both of them play optimally. The oligarchs asked you not to reveal their names. So, let's call the one who takes the first stone «tolik» and the other one «bolik».",
+    "prob_desc_output_spec": "Output «tolik» if the oligarch who takes a stone first wins, and «bolik» otherwise.",
+    "prob_desc_input_spec": "The first line of the input contains one integer number n (1 ≤ n ≤ 105) — the amount of quarries. Then there follow n lines, each of them contains two space-separated integers xi and mi (1 ≤ xi, mi ≤ 1016) — the amount of stones in the first dumper of the i-th quarry and the number of dumpers at the i-th quarry.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_030.jsonl",
+    "code_uid": "1275c417648c12931133a58c02fe061f",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2 1\\n3 2\", \"4\\n1 1\\n1 1\\n1 1\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def f(x):\n    if x%4==0:\n        return x\n    elif x%4==1:\n        return 1\n    elif x%4==2:\n        return x+1\n    return 0\n\nn = int(input())\nres = 0\nfor i in range(n):\n    x,m = input().split()\n    x,m = int(x),int(m)\n    res ^= f(x-1)^f(x+m-1)\n\nif res == 0:\n    print(\"bolik\")\nelse:\n    print(\"tolik\")",
+    "prob_desc_created_at": "1275145200",
+    "tags": [
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

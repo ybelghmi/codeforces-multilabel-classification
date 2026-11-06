@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"12\", \"8\", \"2\"]",
+    "src_uid": "5d0a985a0dced0734aff6bb0cd1b695d",
+    "prob_desc_notes": "NoteThese are possible progressions for the first test of examples:   1;  2;  3;  4;  5;  6;  7;  8;  9;  10. These are possible progressions for the second test of examples:   6, 7;  6, 8;  6, 9;  7, 6;  7, 8;  7, 9;  8, 6;  8, 7;  8, 9;  9, 6;  9, 7;  9, 8. These are possible progressions for the third test of examples:   1, 2, 4;  1, 3, 9;  2, 4, 8;  4, 2, 1;  4, 6, 9;  8, 4, 2;  9, 3, 1;  9, 6, 4. These are possible progressions for the fourth test of examples:   4, 6, 9;  9, 6, 4. ",
+    "prob_desc_description": "For given n, l and r find the number of distinct geometrical progression, each of which contains n distinct integers not less than l and not greater than r. In other words, for each progression the following must hold: l ≤ ai ≤ r and ai ≠ aj , where a1, a2, ..., an is the geometrical progression, 1 ≤ i, j ≤ n and i ≠ j.Geometrical progression is a sequence of numbers a1, a2, ..., an where each term after first is found by multiplying the previous one by a fixed non-zero number d called the common ratio. Note that in our task d may be non-integer. For example in progression 4, 6, 9, common ratio is .Two progressions a1, a2, ..., an and b1, b2, ..., bn are considered different, if there is such i (1 ≤ i ≤ n) that ai ≠ bi.",
+    "prob_desc_output_spec": "Print the integer K — is the answer to the problem.",
+    "prob_desc_input_spec": "The first and the only line cotains three integers n, l and r (1 ≤ n ≤ 107, 1 ≤ l ≤ r ≤ 107).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_054.jsonl",
+    "code_uid": "71a8f34b5c20ddb936bed761459a216e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1 10\", \"2 6 9\", \"3 1 10\", \"3 3 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "rr=raw_input\nrrI = lambda: int(rr())\nrrM = lambda: map(int,rr().split())\ndebug=0\nif debug:\n    fi = open('t.txt','r')\n    rr=lambda: fi.readline().replace('\\n','')\n\nfrom fractions import gcd\n\ndef multi(lower, upper, factor):\n    #How many x: lower <= x <= upper\n    #have factor divide them?\n    return int(upper / factor) - int((lower-1)/factor)\n\ndef solve(N, L, R):\n    if N > 24: return 0\n    if N == 1: return R-L+1\n    if N == 2:\n        Z = R-L+1\n        return Z*(Z-1)\n    zeta = int( R**(1/float(N-1)) )\n    while (zeta+1)**(N-1) <= R:\n        zeta += 1\n\n    ans = 0\n    for p in xrange(1, zeta+1):\n        for q in xrange(p+1, zeta+1):\n            if gcd(p,q) == 1:\n                numer = R * p**(N-1)\n                denom = q**(N-1)\n                upper = numer / denom\n                #print 'ya', L, upper, denom\n                count = multi(L, upper, p**(N-1))\n                count = max(count, 0)\n                #print 'yo', count, p, q\n                ans += count\n\n    return ans * 2\n                \n\nprint solve(*rrM())\n",
+    "prob_desc_created_at": "1484838300",
+    "tags": [
+        "number theory",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

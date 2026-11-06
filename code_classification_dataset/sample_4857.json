@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"1\", \"4\", \"4\", \"2\", \"7\"]",
+    "src_uid": "f4a7c573ca0c129f241b415577a76ac2",
+    "prob_desc_notes": "NoteIn the first example, it is possible to break the $$$2$$$-nd and the $$$4$$$-th section in $$$10$$$ shots, for example, by shooting the third section $$$10$$$ times. After that, the durabilities become $$$[20, 0, 10, 0, 20]$$$. Another way of doing it is firing $$$5$$$ shots at the $$$2$$$-nd section, and another $$$5$$$ shots at the $$$4$$$-th section. After that, the durabilities become $$$[15, 0, 20, 0, 15]$$$.In the second example, it is enough to shoot the $$$2$$$-nd section once. Then the $$$1$$$-st and the $$$3$$$-rd section will be broken.In the third example, it is enough to shoot the $$$2$$$-nd section twice (then the durabilities become $$$[5, 2, 4, 8, 5, 8]$$$), and then shoot the $$$3$$$-rd section twice (then the durabilities become $$$[5, 0, 0, 6, 5, 8]$$$). So, four shots are enough to break the $$$2$$$-nd and the $$$3$$$-rd section.",
+    "prob_desc_description": "Monocarp plays \"Rage of Empires II: Definitive Edition\" — a strategic computer game. Right now he's planning to attack his opponent in the game, but Monocarp's forces cannot enter the opponent's territory since the opponent has built a wall.The wall consists of $$$n$$$ sections, aligned in a row. The $$$i$$$-th section initially has durability $$$a_i$$$. If durability of some section becomes $$$0$$$ or less, this section is considered broken.To attack the opponent, Monocarp needs to break at least two sections of the wall (any two sections: possibly adjacent, possibly not). To do this, he plans to use an onager — a special siege weapon. The onager can be used to shoot any section of the wall; the shot deals $$$2$$$ damage to the target section and $$$1$$$ damage to adjacent sections. In other words, if the onager shoots at the section $$$x$$$, then the durability of the section $$$x$$$ decreases by $$$2$$$, and the durability of the sections $$$x - 1$$$ and $$$x + 1$$$ (if they exist) decreases by $$$1$$$ each. Monocarp can shoot at any sections any number of times, he can even shoot at broken sections.Monocarp wants to calculate the minimum number of onager shots needed to break at least two sections. Help him!",
+    "prob_desc_output_spec": "Print one integer — the minimum number of onager shots needed to break at least two sections of the wall.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the number of sections. The second line contains the sequence of integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^6$$$), where $$$a_i$$$ is the initial durability of the $$$i$$$-th section.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_107.jsonl",
+    "code_uid": "e698e4010a0efc3ee49288a155a11e18",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n20 10 30 10 20\", \"3\\n1 8 1\", \"6\\n7 6 6 8 5 8\", \"6\\n14 3 8 10 15 4\", \"4\\n1 100 100 1\", \"3\\n40 10 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\r\narr = list(map(int, input().split()))\r\nmin_two = [100000000, 100000000]\r\nresult = 100000000\r\nfor i in range(n):  \r\n    if i < n - 1:\r\n        x, y = arr[i], arr[i + 1]\r\n        big, small = max(x, y), min(x, y)\r\n        if big < small * 2:\r\n            cnt = big - small\r\n            big -= cnt * 2\r\n            small -= cnt\r\n            cnt += (big + small) // 3 + (1 if (big + small) % 3 else 0)\r\n            result = min(result, cnt)\r\n        else:\r\n            result = min(result, big // 2 + big % 2)\r\n\r\n    min_two.append(arr[i] // 2 + arr[i] % 2)\r\n    min_two = sorted(min_two)[0:2]\r\n\r\n    if 0 < i < n - 1 and arr[i - 1] and arr[i + 1]:\r\n        total = arr[i - 1] + arr[i + 1]\r\n        cnt = total // 2 + total % 2\r\n        result = min(result, cnt)\r\n\r\nresult = min(sum(min_two), result)\r\nprint(result)",
+    "prob_desc_created_at": "1651502100",
+    "tags": [
+        "binary search",
+        "brute force",
+        "constructive algorithms",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

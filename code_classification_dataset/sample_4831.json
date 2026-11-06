@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n-1\\n2\\n3\\n-1\\n5\\n4\\n7\\n-1\\n-1\\n18\\n-1\"]",
+    "src_uid": "b5dcee7034ee2742b666aea4cbfc616f",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Let us denote by $$$d(n)$$$ the sum of all divisors of the number $$$n$$$, i.e. $$$d(n) = \\sum\\limits_{k | n} k$$$.For example, $$$d(1) = 1$$$, $$$d(4) = 1+2+4=7$$$, $$$d(6) = 1+2+3+6=12$$$.For a given number $$$c$$$, find the minimum $$$n$$$ such that $$$d(n) = c$$$.",
+    "prob_desc_output_spec": "For each test case, output:    \"-1\" if there is no such $$$n$$$ that $$$d(n) = c$$$;  $$$n$$$, otherwise. ",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$). Then $$$t$$$ test cases follow. Each test case is characterized by one integer $$$c$$$ ($$$1 \\le c \\le 10^7$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_107.jsonl",
+    "code_uid": "ac4c7b26c3642643230d4a2563e7c3cd",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"12\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n39\\n691\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\nn=10**7\r\nl=[0]+[1]*n\r\nfor i in range(2,n+1):\r\n    j=i\r\n    while(j<=n):\r\n        l[j]+=i\r\n        j+=i\r\nl1=[-1]*(n+1)\r\nfor i in range(n,0,-1):\r\n    if(l[i]<=n):\r\n        l1[l[i]]=i\r\nfor w in range(int(input())):\r\n    print(l1[int(input())])",
+    "prob_desc_created_at": "1618065300",
+    "tags": [
+        "brute force",
+        "dp",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

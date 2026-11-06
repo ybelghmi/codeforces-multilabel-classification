@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\"]",
+    "src_uid": "973044bfba063f34c956c0bbc042f903",
+    "prob_desc_notes": "NoteOnly the first and second persons are friends. The second can join Antihype and invite the first one, getting $$$2$$$ for it.",
+    "prob_desc_description": "Kuroni isn't good at economics. So he decided to found a new financial pyramid called Antihype. It has the following rules:  You can join the pyramid for free and get $$$0$$$ coins.  If you are already a member of Antihype, you can invite your friend who is currently not a member of Antihype, and get a number of coins equal to your age (for each friend you invite). $$$n$$$ people have heard about Antihype recently, the $$$i$$$-th person's age is $$$a_i$$$. Some of them are friends, but friendship is a weird thing now: the $$$i$$$-th person is a friend of the $$$j$$$-th person if and only if $$$a_i \\text{ AND } a_j = 0$$$, where $$$\\text{AND}$$$ denotes the bitwise AND operation.Nobody among the $$$n$$$ people is a member of Antihype at the moment. They want to cooperate to join and invite each other to Antihype in a way that maximizes their combined gainings. Could you help them? ",
+    "prob_desc_output_spec": "Output exactly one integer  — the maximum possible combined gainings of all $$$n$$$ people.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1\\le n \\le 2\\cdot 10^5$$$)  — the number of people. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$0\\le a_i \\le 2\\cdot 10^5$$$)  — the ages of the people.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 3500,
+    "file_name": "train_081.jsonl",
+    "code_uid": "3cd652bf98eca7afce71c120fc3f628b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n \ninp = [int(x) for x in sys.stdin.read().split()]\nn = inp[0] + 1\nA = inp\ninp[0] = 0\n \n# Dsu with O(1) lookup and O(log(n)) merge\n \nm = 2**18\ncount = [0]*m\nowner = list(range(m))\nsets = [[i] for i in range(m)]\nfor a in A:\n    count[a] += 1\n\ntotal = 0\nfor profit in reversed(range(m)):\n    a = profit\n    b = a ^ profit\n    while a > b:\n        if count[a] and count[b] and owner[a] != owner[b]:\n            total += (count[a] + count[b] - 1) * (a ^ b)\n            count[a] = 1\n            count[b] = 1\n            \n            small = owner[a]\n            big = owner[b]\n            if len(sets[small]) > len(sets[big]):\n                small, big = big, small\n            for c in sets[small]:\n                owner[c] = big\n            sets[big] += sets[small]\n        a = (a - 1) & profit\n        b = a ^ profit\nprint total - sum(A)\n",
+    "prob_desc_created_at": "1583246100",
+    "tags": [
+        "dp",
+        "graphs",
+        "bitmasks",
+        "dsu",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

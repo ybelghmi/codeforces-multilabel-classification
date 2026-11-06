@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"a56f:00d3:0000:0124:0001:f19a:1000:0000\\na56f:00d3:0000:0124:0001:0000:0000:0000\\na56f:0000:0000:0124:0001:0000:1234:0ff0\\na56f:0000:0000:0000:0001:0000:1234:0ff0\\n0000:0000:0000:0000:0000:0000:0000:0000\\n00ea:0000:0000:0000:004d:00f4:0006:0000\"]",
+    "src_uid": "20f69ee5f04c8cbb769be3ab646031ab",
+    "prob_desc_notes": null,
+    "prob_desc_description": "An IPv6-address is a 128-bit number. For convenience, this number is recorded in blocks of 16 bits in hexadecimal record, the blocks are separated by colons — 8 blocks in total, each block has four hexadecimal digits. Here is an example of the correct record of a IPv6 address: \"0124:5678:90ab:cdef:0124:5678:90ab:cdef\". We'll call such format of recording an IPv6-address full.Besides the full record of an IPv6 address there is a short record format. The record of an IPv6 address can be shortened by removing one or more leading zeroes at the beginning of each block. However, each block should contain at least one digit in the short format. For example, the leading zeroes can be removed like that: \"a56f:00d3:0000:0124:0001:f19a:1000:0000\"  →  \"a56f:d3:0:0124:01:f19a:1000:00\". There are more ways to shorten zeroes in this IPv6 address.Some IPv6 addresses contain long sequences of zeroes. Continuous sequences of 16-bit zero blocks can be shortened to \"::\". A sequence can consist of one or several consecutive blocks, with all 16 bits equal to 0. You can see examples of zero block shortenings below:  \"a56f:00d3:0000:0124:0001:0000:0000:0000\"  →  \"a56f:00d3:0000:0124:0001::\";  \"a56f:0000:0000:0124:0001:0000:1234:0ff0\"  →  \"a56f::0124:0001:0000:1234:0ff0\";  \"a56f:0000:0000:0000:0001:0000:1234:0ff0\"  →  \"a56f:0000::0000:0001:0000:1234:0ff0\";  \"a56f:00d3:0000:0124:0001:0000:0000:0000\"  →  \"a56f:00d3:0000:0124:0001::0000\";  \"0000:0000:0000:0000:0000:0000:0000:0000\"  →  \"::\". It is not allowed to shorten zero blocks in the address more than once. This means that the short record can't contain the sequence of characters \"::\" more than once. Otherwise, it will sometimes be impossible to determine the number of zero blocks, each represented by a double colon.The format of the record of the IPv6 address after removing the leading zeroes and shortening the zero blocks is called short.You've got several short records of IPv6 addresses. Restore their full record.",
+    "prob_desc_output_spec": "For each short IPv6 address from the input print its full record on a separate line. Print the full records for the short IPv6 addresses in the order, in which the short records follow in the input.",
+    "prob_desc_input_spec": "The first line contains a single integer n — the number of records to restore (1 ≤ n ≤ 100). Each of the following n lines contains a string — the short IPv6 addresses. Each string only consists of string characters \"0123456789abcdef:\". It is guaranteed that each short address is obtained by the way that is described in the statement from some full IPv6 address.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_036.jsonl",
+    "code_uid": "0a6c3acf612476ba9543ee5703a916fc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\na56f:d3:0:0124:01:f19a:1000:00\\na56f:00d3:0000:0124:0001::\\na56f::0124:0001:0000:1234:0ff0\\na56f:0000::0000:0001:0000:1234:0ff0\\n::\\n0ea::4d:f4:6:0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def do(t):\n    ret = \"\"\n    for item in t:\n        ret += \"0\"*(4-len(item)) + item + \":\"\n    return ret\n\nn = int(raw_input())    \nfor i in range(n):\n    ip6 = str(raw_input()).split(\"::\")\n    if len(ip6) == 2:\n        prefix,postfix = ip6[0].split(\":\"),ip6[1].split(\":\")\n        res = do(prefix) +\"0000:\"*(8-len(prefix) - len(postfix))+ do(postfix)\n        print(res[:-1])\n    else:\n        print(do(ip6[0].split(\":\"))[:-1])\n",
+    "prob_desc_created_at": "1353938400",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

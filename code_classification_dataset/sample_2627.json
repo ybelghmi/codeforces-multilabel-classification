@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nDIN\\nFOO\", \"NO\", \"YES\\nPLM\\nPLS\\nGOG\", \"YES\\nABD\\nABE\\nABO\"]",
+    "src_uid": "733b36bfc2b72200281477af875f8efa",
+    "prob_desc_notes": "NoteIn the first sample Innokenty can choose first option for both clubs.In the second example it is not possible to choose short names, because it is not possible that one club has first option, and the other has second option if the first options are equal for both clubs.In the third example Innokenty can choose the second options for the first two clubs, and the first option for the third club.In the fourth example note that it is possible that the chosen short name for some club x is the same as the first option of another club y if the first options of x and y are different.",
+    "prob_desc_description": "Innokenty is a president of a new football league in Byteland. The first task he should do is to assign short names to all clubs to be shown on TV next to the score. Of course, the short names should be distinct, and Innokenty wants that all short names consist of three letters.Each club's full name consist of two words: the team's name and the hometown's name, for example, \"DINAMO BYTECITY\". Innokenty doesn't want to assign strange short names, so he wants to choose such short names for each club that:   the short name is the same as three first letters of the team's name, for example, for the mentioned club it is \"DIN\",  or, the first two letters of the short name should be the same as the first two letters of the team's name, while the third letter is the same as the first letter in the hometown's name. For the mentioned club it is \"DIB\". Apart from this, there is a rule that if for some club x the second option of short name is chosen, then there should be no club, for which the first option is chosen which is the same as the first option for the club x. For example, if the above mentioned club has short name \"DIB\", then no club for which the first option is chosen can have short name equal to \"DIN\". However, it is possible that some club have short name \"DIN\", where \"DI\" are the first two letters of the team's name, and \"N\" is the first letter of hometown's name. Of course, no two teams can have the same short name.Help Innokenty to choose a short name for each of the teams. If this is impossible, report that. If there are multiple answer, any of them will suit Innokenty. If for some team the two options of short name are equal, then Innokenty will formally think that only one of these options is chosen. ",
+    "prob_desc_output_spec": "It it is not possible to choose short names and satisfy all constraints, print a single line \"NO\". Otherwise, in the first line print \"YES\". Then print n lines, in each line print the chosen short name for the corresponding club. Print the clubs in the same order as they appeared in input. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 1000) — the number of clubs in the league. Each of the next n lines contains two words — the team's name and the hometown's name for some club. Both team's name and hometown's name consist of uppercase English letters and have length at least 3 and at most 20.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_026.jsonl",
+    "code_uid": "0a2db8766a438fe215c6705a73d1a161",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\nDINAMO BYTECITY\\nFOOTBALL MOSCOW\", \"2\\nDINAMO BYTECITY\\nDINAMO BITECITY\", \"3\\nPLAYFOOTBALL MOSCOW\\nPLAYVOLLEYBALL SPB\\nGOGO TECHNOCUP\", \"3\\nABC DEF\\nABC EFG\\nABD OOO\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nd = dict()\nans = []\narr = []\nd2 = dict()\nfor i in range(n):\n    a, b = input().split()\n    a1, a2 = a[:3], a[0] + a[1] + b[0]\n    if a1 in d:\n        d[a1].append(a2)\n    else:\n        d[a1] = [a2]\n    if a2 in d2:\n        d2[a2].append((a1, i))\n    else:\n        d2[a2] = [(a1, i)]\n    ans.append(a2)\n    arr.append(a1)\nfor i in d:\n    if len(set(d[i])) != len(d[i]):\n        print('NO')\n        exit()\nfor i in d2:\n    if len(d2[i]) == 1:\n        continue\n    new_d = dict()\n    for j in d2[i]:\n        if j[0] in new_d:\n            new_d[j[0]].append(j[1])\n        else:\n            new_d[j[0]] = [j[1]]\n    for j in new_d:\n        if len(new_d[j]) > 1:\n            print('NO')\n            exit()\n    change = []\n    for j in new_d:\n        if len(d[j]) == 1:\n            change.append(new_d[j][0])\n    if len(change) < len(d2[i]) - 1:\n        print('NO')\n        exit()\n    for j in change:\n        ans[j] = arr[j][::]\nif len(set(ans)) != len(ans):\n    print('NO')\n    exit()\nprint('YES')\nprint(*ans, sep='\\n')",
+    "prob_desc_created_at": "1488705300",
+    "tags": [
+        "greedy",
+        "graphs",
+        "shortest paths",
+        "2-sat",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

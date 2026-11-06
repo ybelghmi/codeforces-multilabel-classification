@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1/2\", \"0/1\"]",
+    "src_uid": "7afa48f3411521ce49ba9595b0bef079",
+    "prob_desc_notes": null,
+    "prob_desc_description": "As we all know Barney's job is \"PLEASE\" and he has not much to do at work. That's why he started playing \"cups and key\". In this game there are three identical cups arranged in a line from left to right. Initially key to Barney's heart is under the middle cup.  Then at one turn Barney swaps the cup in the middle with any of other two cups randomly (he choses each with equal probability), so the chosen cup becomes the middle one. Game lasts n turns and Barney independently choses a cup to swap with the middle one within each turn, and the key always remains in the cup it was at the start.After n-th turn Barney asks a girl to guess which cup contains the key. The girl points to the middle one but Barney was distracted while making turns and doesn't know if the key is under the middle cup. That's why he asked you to tell him the probability that girl guessed right.Number n of game turns can be extremely large, that's why Barney did not give it to you. Instead he gave you an array a1, a2, ..., ak such that   in other words, n is multiplication of all elements of the given array.Because of precision difficulties, Barney asked you to tell him the answer as an irreducible fraction. In other words you need to find it as a fraction p / q such that , where  is the greatest common divisor. Since p and q can be extremely large, you only need to find the remainders of dividing each of them by 109 + 7.Please note that we want  of p and q to be 1, not  of their remainders after dividing by 109 + 7.",
+    "prob_desc_output_spec": "In the only line of output print a single string x / y where x is the remainder of dividing p by 109 + 7 and y is the remainder of dividing q by 109 + 7.",
+    "prob_desc_input_spec": "The first line of input contains a single integer k (1 ≤ k ≤ 105) — the number of elements in array Barney gave you. The second line contains k integers a1, a2, ..., ak (1 ≤ ai ≤ 1018) — the elements of the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_009.jsonl",
+    "code_uid": "c629b9e68106c7576bc6fbddfd056d70",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n2\", \"3\\n1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "k = int(input())\nMOD = 10 ** 9 + 7\nantithree = pow(3, MOD - 2, MOD)\nantitwo = pow(2, MOD - 2, MOD)\npower = 1\nparity = False\nfor t in map(int, input().split()):\n    power *= t\n    power %= MOD - 1\n    if t % 2 == 0:\n        parity = True\nq = pow(2, power, MOD) * antitwo\nq %= MOD\nif parity:\n    p = (q + 1) * antithree\n    p %= MOD\nelse:\n    p = (q - 1) * antithree\n    p %= MOD    \nprint(p, q, sep = '/')",
+    "prob_desc_created_at": "1468514100",
+    "tags": [
+        "combinatorics",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

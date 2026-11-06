@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n1 2 3\", \"4\\n1 3 5 7\"]",
+    "src_uid": "d55afdb4a83aebdfce5a62e4ec934adb",
+    "prob_desc_notes": "NoteIn the first example, the product of the elements is $$$6$$$ which is congruent to $$$1$$$ modulo $$$5$$$. The only longer subsequence is $$$[1,2,3,4]$$$. Its product is $$$24$$$ which is congruent to $$$4$$$ modulo $$$5$$$. Hence, the answer is $$$[1,2,3]$$$.",
+    "prob_desc_description": "Now you get Baby Ehab's first words: \"Given an integer $$$n$$$, find the longest subsequence of $$$[1,2, \\ldots, n-1]$$$ whose product is $$$1$$$ modulo $$$n$$$.\" Please solve the problem.A sequence $$$b$$$ is a subsequence of an array $$$a$$$ if $$$b$$$ can be obtained from $$$a$$$ by deleting some (possibly all) elements. The product of an empty subsequence is equal to $$$1$$$.",
+    "prob_desc_output_spec": "The first line should contain a single integer, the length of the longest subsequence. The second line should contain the elements of the subsequence, in increasing order. If there are multiple solutions, you can print any.",
+    "prob_desc_input_spec": "The only line contains the integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_110.jsonl",
+    "code_uid": "be296ef10fa7a7639a1f0f54a116cfde",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\", \"8\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import sqrt\r\nn = int(input())\r\nm = n\r\nl = [0] * (n - 1)\r\nif n%2 == 0 :\r\n    while m % 2 == 0:    \r\n        m/=2\r\n    if m==1:\r\n        x = 2\r\n    else:\r\n        for i in range(2, n, 2) :\r\n            l[i - 1] += 1\r\n\r\nfor i in range(3, int(sqrt(m)) + 1, 2):  \r\n    if m%i == 0:\r\n        while m % i == 0:  \r\n            m /= i  \r\n        if m == 1 :\r\n            x = i\r\n            break\r\n        else:\r\n            for i in range(i, n, i) :\r\n                l[i - 1] += 1\r\nif m > 2:  \r\n    op = []\r\n    prod = 1\r\n    for i in range(1, n) :\r\n        if l[i - 1] == 0 and i%m != 0 :\r\n            op.append(i)\r\n            prod*=i\r\n            prod%=n\r\n\r\nelse:\r\n    op = []\r\n    prod = 1\r\n    for i in range(1, n) :\r\n        if l[i - 1] == 0 and i%x != 0 :\r\n            op.append(i)\r\n            prod*=i\r\n            prod%=n\r\n\r\nif prod != 1:\r\n    op.remove(prod)\r\n\r\nprint(len(op))\r\nprint(*op)",
+    "prob_desc_created_at": "1618839300",
+    "tags": [
+        "greedy",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

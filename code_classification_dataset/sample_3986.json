@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"2\"]",
+    "src_uid": "f995d575f86eee139c710cb0fe955682",
+    "prob_desc_notes": "NoteIn the first example, we can swap the first and fifth element in array $$$b$$$, so that it becomes $$$[ 5, 2, 3, 4, 1 ]$$$.Therefore, the minimum possible value of this sum would be $$$|5-5| + |4-2| + |3-3| + |2-4| + |1-1| = 4$$$.In the second example, we can swap the first and second elements. So, our answer would be $$$2$$$.",
+    "prob_desc_description": "You are given 2 arrays $$$a$$$ and $$$b$$$, both of size $$$n$$$. You can swap two elements in $$$b$$$ at most once (or leave it as it is), and you are required to minimize the value $$$$$$\\sum_{i}|a_{i}-b_{i}|.$$$$$$Find the minimum possible value of this sum.",
+    "prob_desc_output_spec": "Output the minimum value of $$$\\sum_{i}|a_{i}-b_{i}|$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$). The second line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$1 \\le a_i \\le {10^9}$$$).  The third line contains $$$n$$$ integers $$$b_1, b_2, \\ldots, b_n$$$ ($$$1 \\le b_i \\le {10^9}$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_088.jsonl",
+    "code_uid": "0ff00a716b87b6cf6112245e2536baa2",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n5 4 3 2 1\\n1 2 3 4 5\", \"2\\n1 3\\n4 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io,os\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\ndef main(t):\n\n\n    n = int(input())\n    a = list(map(int,input().split()))\n    b = list(map(int,input().split()))\n\n    base = sum( [abs(a[i]-b[i]) for i in range(n)] )\n    ans = base\n\n\n\n#    print(base,\"*\")\n\n    greater = []\n    smaller = []\n\n    for i in range(n):\n        if a[i]<b[i]:\n            greater.append((a[i],b[i]))\n        else:\n            smaller.append((b[i],a[i]))\n\n    greater.sort()\n    smaller.sort()\n\n\n#    print(greater,smaller,base)\n\n    currmax = -float('inf')\n    maxsub = 0\n    index = 0\n    for [s,l] in smaller:\n        while index < len(greater) and greater[index][0] <= s:\n            currmax = max(currmax, greater[index][1] )\n        #    maxsub = max(maxsub, 2*min(currmax,l) - 2*s)\n            index += 1\n\n        maxsub = max(maxsub, 2*min(currmax,l) - 2*s)\n#        print(currmax,s,l)\n\n#    print(maxsub)\n\n    currmax = -float('inf')\n    index = 0    \n    for [s,l] in greater:\n        while index < len(smaller) and smaller[index][0] <= s:\n            currmax = max(currmax, smaller[index][1] )\n            index += 1\n\n        maxsub = max(maxsub, 2*min(currmax,l) - 2*s)\n            \n        \n#    print(maxsub)        \n\n\n    ans = base - maxsub\n\n    print(ans)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nT = 1 #int(input())\nt = 1\nwhile t<=T:\n    main(t)\n    t += 1\n",
+    "prob_desc_created_at": "1618151700",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "data structures",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"29\", \"19\", \"7\"]",
+    "src_uid": "667e8938b964d7a24500003f6b89717b",
+    "prob_desc_notes": "NoteIn the first example Demid can choose the following team as follows:   In the second example Demid can choose the following team as follows:   ",
+    "prob_desc_description": "Finally, a basketball court has been opened in SIS, so Demid has decided to hold a basketball exercise session. $$$2 \\cdot n$$$ students have come to Demid's exercise session, and he lined up them into two rows of the same size (there are exactly $$$n$$$ people in each row). Students are numbered from $$$1$$$ to $$$n$$$ in each row in order from left to right.  Now Demid wants to choose a team to play basketball. He will choose players from left to right, and the index of each chosen player (excluding the first one taken) will be strictly greater than the index of the previously chosen player. To avoid giving preference to one of the rows, Demid chooses students in such a way that no consecutive chosen students belong to the same row. The first student can be chosen among all $$$2n$$$ students (there are no additional constraints), and a team can consist of any number of students. Demid thinks, that in order to compose a perfect team, he should choose students in such a way, that the total height of all chosen students is maximum possible. Help Demid to find the maximum possible total height of players in a team he can choose.",
+    "prob_desc_output_spec": "Print a single integer — the maximum possible total height of players in a team Demid can choose.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the number of students in each row. The second line of the input contains $$$n$$$ integers $$$h_{1, 1}, h_{1, 2}, \\ldots, h_{1, n}$$$ ($$$1 \\le h_{1, i} \\le 10^9$$$), where $$$h_{1, i}$$$ is the height of the $$$i$$$-th student in the first row. The third line of the input contains $$$n$$$ integers $$$h_{2, 1}, h_{2, 2}, \\ldots, h_{2, n}$$$ ($$$1 \\le h_{2, i} \\le 10^9$$$), where $$$h_{2, i}$$$ is the height of the $$$i$$$-th student in the second row.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_008.jsonl",
+    "code_uid": "a797a1adaa91b43fb092889f6c306555",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n9 3 5 7 3\\n5 8 1 4 5\", \"3\\n1 2 9\\n10 1 1\", \"1\\n7\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nmasiv = []\nfor i in range(2):\n    lst = [0] + list(map(int, input().split())) \n    masiv.append(lst)\nlst_1 = [0] * (n + 1)\nlst_2 = [0] * (n + 1)\nlst_1[1] = masiv[0][1]\nlst_2[1] = masiv[1][1]\nfor j in range(2, n + 1):\n    lst_1[j] = max(lst_2[j - 1], lst_2[j - 2]) + masiv[0][j]\n    lst_2[j] = max(lst_1[j - 1], lst_1[j - 2]) + masiv[1][j]\nans = 0\nfor f in lst_1:\n    ans = max(ans, f)\nfor k in lst_2:\n    ans = max(ans, k)\nprint(ans)",
+    "prob_desc_created_at": "1563374100",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

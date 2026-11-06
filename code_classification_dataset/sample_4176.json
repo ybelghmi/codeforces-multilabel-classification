@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n1 2 1 1 2 3 \\nNO\"]",
+    "src_uid": "1f6be4f0f7d3f9858b498aae1357c2c3",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Aleksey has $$$n$$$ friends. He is also on a vacation right now, so he has $$$m$$$ days to play this new viral cooperative game! But since it's cooperative, Aleksey will need one teammate in each of these $$$m$$$ days.On each of these days some friends will be available for playing, and all others will not. On each day Aleksey must choose one of his available friends to offer him playing the game (and they, of course, always agree). However, if any of them happens to be chosen strictly more than $$$\\left\\lceil\\dfrac{m}{2}\\right\\rceil$$$ times, then all other friends are offended. Of course, Aleksey doesn't want to offend anyone.Help him to choose teammates so that nobody is chosen strictly more than $$$\\left\\lceil\\dfrac{m}{2}\\right\\rceil$$$ times.",
+    "prob_desc_output_spec": "Print an answer for each test case. If there is no way to achieve the goal, print \"NO\". Otherwise, in the first line print \"YES\", and in the second line print $$$m$$$ space separated integers $$$c_1$$$, ..., $$$c_m$$$. Each $$$c_i$$$ must denote the chosen friend on day $$$i$$$ (and therefore must be one of $$$f_{ij}$$$). No value must occur more than $$$\\left\\lceil\\dfrac{m}{2}\\right\\rceil$$$ times. If there is more than one possible answer, print any of them.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10\\,000$$$). Description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1\\leq n, m\\leq 100\\,000$$$) standing for the number of friends and the number of days to play, respectively. The $$$i$$$-th of the following $$$m$$$ lines contains an integer $$$k_i$$$ ($$$1\\leq k_i\\leq n$$$), followed by $$$k_i$$$ distinct integers $$$f_{i1}$$$, ..., $$$f_{ik_i}$$$ ($$$1\\leq f_{ij}\\leq n$$$), separated by spaces — indices of available friends on the day $$$i$$$. It is guaranteed that the sums of $$$n$$$ and $$$m$$$ over all test cases do not exceed $$$100\\,000$$$. It's guaranteed that the sum of all $$$k_i$$$ over all days of all test cases doesn't exceed $$$200\\,000$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_092.jsonl",
+    "code_uid": "4367b913fcc923c1f3ead901e6404ab9",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4 6\\n1 1\\n2 1 2\\n3 1 2 3\\n4 1 2 3 4\\n2 2 3\\n1 3\\n2 2\\n1 1\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\n\r\ntests = int(input())\r\n\r\nfor tt in range(tests):\r\n    n, m = list(map(int, input().split()))\r\n\r\n    cnt = [0] * (n+1)\r\n    ans = [0] * (m)\r\n\r\n    friend = [[] for i in range(m)]\r\n\r\n    for i in range(m):\r\n        friend[i] = list(map(int, input().split()))\r\n\r\n    for i in range(m):\r\n        if len(friend[i]) == 2:\r\n            take = friend[i][1]\r\n            cnt[take] += 1\r\n            ans[i] = take\r\n\r\n    for i in range(m):\r\n        if ans[i] == 0:\r\n            dmin, take = 200003, -1\r\n\r\n            for j in friend[i][1::]:\r\n                if cnt[j] < dmin:\r\n                    dmin, take = cnt[j], j\r\n\r\n            cnt[take] += 1\r\n            ans[i] = take\r\n\r\n    good = True\r\n    for x in ans:\r\n        if cnt[x] > (m+1)//2:\r\n            good = False\r\n            break\r\n\r\n    if good:\r\n        print(\"YES\")\r\n        print(\" \".join(map(str, ans)))\r\n    else:\r\n        print(\"NO\")",
+    "prob_desc_created_at": "1616322000",
+    "tags": [
+        "combinatorics",
+        "flows",
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

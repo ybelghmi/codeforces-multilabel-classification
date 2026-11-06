@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"15\"]",
+    "src_uid": "f6cd855ceda6029fc7d14daf2c9bb7dc",
+    "prob_desc_notes": "NoteIn the first sample the sequence is being modified as follows: . It has 4 inversions formed by index pairs (1, 4), (2, 3), (2, 4) and (3, 4).",
+    "prob_desc_description": "There is an infinite sequence consisting of all positive integers in the increasing order: p = {1, 2, 3, ...}. We performed n swap operations with this sequence. A swap(a, b) is an operation of swapping the elements of the sequence on positions a and b. Your task is to find the number of inversions in the resulting sequence, i.e. the number of such index pairs (i, j), that i &lt; j and pi &gt; pj.",
+    "prob_desc_output_spec": "Print a single integer — the number of inversions in the resulting sequence.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 105) — the number of swap operations applied to the sequence. Each of the next n lines contains two integers ai and bi (1 ≤ ai, bi ≤ 109, ai ≠ bi) — the arguments of the swap operation.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_018.jsonl",
+    "code_uid": "da026a653cedbfd25e981e854ae2253b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n4 2\\n1 4\", \"3\\n1 6\\n3 4\\n2 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom itertools import repeat\ndef main():\n    n = int(stdin.readline())\n    data = map(int, stdin.read().split(), repeat(10, 2 * n))\n    d = {}\n    for i in xrange(n):\n        a, b = data[i*2], data[i*2+1]\n        d[a], d[b] = d.get(b, b), d.get(a, a)\n    s = d.keys()\n    s.sort()\n    idx = {}\n    for i, x in enumerate(s, 1):\n        idx[x] = i\n    ans = 0\n    b = [0] * (2 * n + 1)\n    ans = 0\n    for i, x in enumerate(s):\n        y = d[x]\n        z = idx[y]\n        r = 0\n        while z > 0:\n            r += b[z]\n            z = z & (z - 1)\n        ans += i - r\n        if y > x:\n            ans += y - x - idx[y] + idx[x]\n        elif y < x:\n            ans += x - y - idx[x] + idx[y]\n        z = idx[y]\n        while z <= 2 * n:\n            b[z] += 1\n            z += z - (z & (z - 1))\n    print ans\nmain()\n",
+    "prob_desc_created_at": "1430411400",
+    "tags": [
+        "implementation",
+        "sortings",
+        "data structures",
+        "binary search",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

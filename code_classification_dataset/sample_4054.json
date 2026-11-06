@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5 1 2 3 4 \\n-1\"]",
+    "src_uid": "cf912f6efc3c0e3fabdaa5f878a777c5",
+    "prob_desc_notes": "NoteIn the first test case, any permutation $$$p$$$ of $$$1,\\ldots,n$$$ where $$$p_i\\ne i$$$ would represent a valid shuffling since all students have equal shoe sizes, and thus anyone can wear anyone's shoes.In the second test case, it can be shown that no valid shuffling is possible.",
+    "prob_desc_description": "A class of students got bored wearing the same pair of shoes every day, so they decided to shuffle their shoes among themselves. In this problem, a pair of shoes is inseparable and is considered as a single object.There are $$$n$$$ students in the class, and you are given an array $$$s$$$ in non-decreasing order, where $$$s_i$$$ is the shoe size of the $$$i$$$-th student. A shuffling of shoes is valid only if no student gets their own shoes and if every student gets shoes of size greater than or equal to their size. You have to output a permutation $$$p$$$ of $$$\\{1,2,\\ldots,n\\}$$$ denoting a valid shuffling of shoes, where the $$$i$$$-th student gets the shoes of the $$$p_i$$$-th student ($$$p_i \\ne i$$$). And output $$$-1$$$ if a valid shuffling does not exist.A permutation is an array consisting of $$$n$$$ distinct integers from $$$1$$$ to $$$n$$$ in arbitrary order. For example, $$$[2,3,1,5,4]$$$ is a permutation, but $$$[1,2,2]$$$ is not a permutation ($$$2$$$ appears twice in the array) and $$$[1,3,4]$$$ is also not a permutation ($$$n=3$$$ but there is $$$4$$$ in the array).",
+    "prob_desc_output_spec": "For each test case, print the answer in a single line using the following format. If a valid shuffling does not exist, print the number $$$-1$$$ as the answer. If a valid shuffling exists, print $$$n$$$ space-separated integers — a permutation $$$p$$$ of $$$1,2,\\ldots,n$$$ denoting a valid shuffling of shoes where the $$$i$$$-th student gets the shoes of the $$$p_i$$$-th student. If there are multiple answers, then print any of them.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$1\\leq n\\leq10^5$$$) — the number of students. The second line of each test case contains $$$n$$$ integers $$$s_1, s_2,\\ldots,s_n$$$ ($$$1\\leq s_i\\leq10^9$$$, and for all $$$1\\le i&lt;n$$$, $$$s_i\\le s_{i+1}$$$) — the shoe sizes of the students. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_089.jsonl",
+    "code_uid": "49b702deddbd72907d0221947fd9de95",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n5\\n1 1 1 1 1\\n6\\n3 6 8 13 15 21\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for i in range(int(input())):\r\n\tn=int(input())\r\n\ts=input().split()\r\n\tif n==1:\r\n\t\tprint(-1)\r\n\telse:\r\n\t\tk=0\r\n\t\tb=[]\r\n\t\tfrom collections import Counter\r\n\r\n\t\tx=Counter(s)\r\n\t\tsorted(x.items())\r\n\t\tfor i in x:\r\n\t\t\tif x[i]==1:\r\n\t\t\t\tb=[]\r\n\t\t\t\tprint(-1)\r\n\t\t\t\tbreak\r\n\t\t\telse:\r\n\t\t\t\tb.append(len(b)+x[i])\r\n\t\t\t\tk+=1\r\n\t\t\t\tfor j in range(x[i]-1):\r\n\t\t\t\t\tif j<x[i]-1:\r\n\t\t\t\t\t\tb.append(k)\r\n\t\t\t\t\tk+=1\r\n\t\tif len(b)>0:\r\n\t\t\tb=list(map(str,b))\r\n\t\t\tprint(' '.join(b))",
+    "prob_desc_created_at": "1654007700",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "implementation",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

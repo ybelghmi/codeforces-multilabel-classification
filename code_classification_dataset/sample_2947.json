@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"800\"]",
+    "src_uid": "ed5d0eca057f2a2e371b1fc7e3b618bb",
+    "prob_desc_notes": "NoteIahub will choose exercises a[1][1] → a[1][2] → a[2][2] → a[3][2] → a[3][3]. Iahubina will choose exercises a[3][1] → a[2][1] → a[2][2] → a[2][3] → a[1][3].",
+    "prob_desc_description": "Summer is coming! It's time for Iahub and Iahubina to work out, as they both want to look hot at the beach. The gym where they go is a matrix a with n lines and m columns. Let number a[i][j] represents the calories burned by performing workout at the cell of gym in the i-th line and the j-th column.Iahub starts with workout located at line 1 and column 1. He needs to finish with workout a[n][m]. After finishing workout a[i][j], he can go to workout a[i + 1][j] or a[i][j + 1]. Similarly, Iahubina starts with workout a[n][1] and she needs to finish with workout a[1][m]. After finishing workout from cell a[i][j], she goes to either a[i][j + 1] or a[i - 1][j]. There is one additional condition for their training. They have to meet in exactly one cell of gym. At that cell, none of them will work out. They will talk about fast exponentiation (pretty odd small talk) and then both of them will move to the next workout.If a workout was done by either Iahub or Iahubina, it counts as total gain. Please plan a workout for Iahub and Iahubina such as total gain to be as big as possible. Note, that Iahub and Iahubina can perform workouts with different speed, so the number of cells that they use to reach meet cell may differs.",
+    "prob_desc_output_spec": "The output contains a single number — the maximum total gain possible. ",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and m (3 ≤ n, m ≤ 1000). Each of the next n lines contains m integers: j-th number from i-th line denotes element a[i][j] (0 ≤ a[i][j] ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_036.jsonl",
+    "code_uid": "1ba051bf586713e37714d115a1c0775b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n100 100 100\\n100 1 100\\n100 100 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = map(int, input().split())\ngym = [[0 for i in range(m+1)]]\nfor row in range(n):\n    gym.append([0] + list(map(int, input().split())))\n\nbToMid = [[0 for i in range(m+2)] for j in range(n+2)]\nfor i in range(1, n+1):\n    for j in range(1, m+1):\n        bToMid[i][j] = gym[i][j] + max(bToMid[i-1][j], bToMid[i][j-1])\nbToEnd = [[0 for i in range(m+2)] for j in range(n+2)]\nfor i in range(n, 0, -1):\n    for j in range(m, 0, -1):\n        bToEnd[i][j] = gym[i][j] + max(bToEnd[i+1][j], bToEnd[i][j+1])\naToMid = [[0 for i in range(m+2)] for j in range(n+2)]\nfor i in range(n, 0, -1):\n    for j in range(1, m+1):\n        aToMid[i][j] = gym[i][j] + max(aToMid[i+1][j], aToMid[i][j-1])\naToEnd = [[0 for i in range(m+2)] for j in range(n+2)]\nfor i in range(1, n+1):\n    for j in range(m, 0, -1):\n        aToEnd[i][j] = gym[i][j] + max(aToEnd[i-1][j], aToEnd[i][j+1])\n#print(bToMid[1][2], bToEnd[3][2], aToMid[2][1], aToEnd[2][3])\nbest = 0\nbestIJ = ()\nfor i in range(2, n):\n    for j in range(2, m):\n        best = max(best, bToMid[i][j-1]+bToEnd[i][j+1]+aToMid[i+1][j]+aToEnd[i-1][j])\n        best = max(best, bToMid[i-1][j]+bToEnd[i+1][j]+aToMid[i][j-1]+aToEnd[i][j+1])\n        bestIJ = (i, j)\nprint(best)\n#print(bestIJ)\n",
+    "prob_desc_created_at": "1399822800",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

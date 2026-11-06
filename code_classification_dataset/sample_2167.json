@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6 5\\n1 2 4 6 7\", \"2 3\\n1 2 3\"]",
+    "src_uid": "26e1afd54da6506a349e652a40997109",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given array a with n elements and the number m. Consider some subsequence of a and the value of least common multiple (LCM) of its elements. Denote LCM as l. Find any longest subsequence of a with the value l ≤ m.A subsequence of a is an array we can get by erasing some elements of a. It is allowed to erase zero or all elements.The LCM of an empty array equals 1.",
+    "prob_desc_output_spec": "In the first line print two integers l and kmax (1 ≤ l ≤ m, 0 ≤ kmax ≤ n) — the value of LCM and the number of elements in optimal subsequence. In the second line print kmax integers — the positions of the elements from the optimal subsequence in the ascending order. Note that you can find and print any subsequence with the maximum length.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 106) — the size of the array a and the parameter from the problem statement. The second line contains n integers ai (1 ≤ ai ≤ 109) — the elements of a.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_017.jsonl",
+    "code_uid": "e250dc0f34b775c59ba61b76faac7535",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 8\\n6 2 9 2 7 2 3\", \"6 4\\n2 2 2 3 3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n \nn,m = [int(x) for x in input().split()]\nA = [int(x) for x in input().split()]\ncounter = [0]*(m+1)\nfor a in A:\n    if a <= m:\n        counter[a] += 1\n \nlcm = [0]*(m+1)\nfor d in range(1,m+1):\n    for j in range(d,m+1,d):\n        lcm[j] += counter[d]\n \nlcm = max(range(1, m+1), key = lcm.__getitem__)\nout = []\nfor i,a in enumerate(A):\n    if lcm != 0 and lcm%a == 0:\n        out.append(i)\nprint lcm, len(out)\nprint ' '.join(str(x+1) for x in out)",
+    "prob_desc_created_at": "1456844400",
+    "tags": [
+        "number theory",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

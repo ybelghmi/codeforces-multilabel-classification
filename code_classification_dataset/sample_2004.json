@@ -1,0 +1,23 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"26\"]",
+    "src_uid": "09fa979c7654a0cc79e1bb29500e1dec",
+    "prob_desc_notes": "NoteIn the first example the balance will change as following (remember, initially the balance is zero):  in the first day 6 rubles will be charged, the balance in the evening will be equal to  - 6;  in the second day Arkady will deposit 13 rubles, then 6 rubles will be charged, the balance in the evening will be equal to 1;  in the third day 6 rubles will be charged, the balance in the evening will be equal to  - 5;  in the fourth day Arkady will deposit 20 rubles, then 6 rubles will be charged, the balance in the evening will be equal to 9;  in the fifth day 6 rubles will be charged, the balance in the evening will be equal to 3;  in the sixth day 6 rubles will be charged, the balance in the evening will be equal to  - 3;  in the seventh day Arkady will deposit 9 rubles, then 6 rubles will be charged, the balance in the evening will be equal to 0. Thus, in the end of the first, third and sixth days the balance will be negative in the end of the day.",
+    "prob_desc_description": "A sum of p rubles is charged from Arkady's mobile phone account every day in the morning. Among the following m days, there are n days when Arkady will top up the account: in the day di he will deposit ti rubles on his mobile phone account. Arkady will always top up the account before the daily payment will be done. There will be no other payments nor tops up in the following m days.Determine the number of days starting from the 1-st to the m-th such that the account will have a negative amount on it after the daily payment (i. e. in evening). Initially the account's balance is zero rubles.",
+    "prob_desc_output_spec": "Print the number of days from the 1-st to the m-th such that the account will have a negative amount on it after the daily payment.",
+    "prob_desc_input_spec": "The first line contains three integers n, p and m (1 ≤ n ≤ 100 000, 1 ≤ p ≤ 109, 1 ≤ m ≤ 109, n ≤ m) — the number of days Arkady will top up the account, the amount of the daily payment, and the number of days you should check. The i-th of the following n lines contains two integers di and ti (1 ≤ di ≤ m, 1 ≤ ti ≤ 109) — the index of the day when Arkady will make the i-th top up, and the amount he will deposit on this day. It is guaranteed that the indices of the days are distinct and are given in increasing order, i. e. di &gt; di - 1 for all i from 2 to n.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_015.jsonl",
+    "code_uid": "bdea3730f2ed3ff4d70de1c609d59403",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 6 7\\n2 13\\n4 20\\n7 9\", \"5 4 100\\n10 70\\n15 76\\n21 12\\n30 100\\n67 85\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "rd = lambda: map(int, input().split())\nn, p, m = rd()\nq, l, r = 0, 0, 0\nfor i in range(n):\n    d, t = rd()\n    c = d - q - 1\n    r += max(min(c - l // p, c), 0)\n    l -= p * (c + 1) - t\n    r += l < 0\n    q = d\nc = m - q\nprint(r + max(min(c - l // p, c), 0))\n",
+    "prob_desc_created_at": "1521300900",
+    "tags": [],
+    "hidden_unit_tests": ""
+}

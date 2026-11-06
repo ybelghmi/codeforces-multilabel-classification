@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"7 3 0 0\", \"6 0 0\"]",
+    "src_uid": "f292c099e4eac9259a5bc9e42ff6d1b5",
+    "prob_desc_notes": "NoteIn the first sample, color 2 is dominant in three intervals:  An interval [2, 2] contains one ball. This ball's color is 2 so it's clearly a dominant color.  An interval [4, 4] contains one ball, with color 2 again.  An interval [2, 4] contains two balls of color 2 and one ball of color 1. There are 7 more intervals and color 1 is dominant in all of them.",
+    "prob_desc_description": "Bear Limak has n colored balls, arranged in one long row. Balls are numbered 1 through n, from left to right. There are n possible colors, also numbered 1 through n. The i-th ball has color ti.For a fixed interval (set of consecutive elements) of balls we can define a dominant color. It's a color occurring the biggest number of times in the interval. In case of a tie between some colors, the one with the smallest number (index) is chosen as dominant.There are  non-empty intervals in total. For each color, your task is to count the number of intervals in which this color is dominant.",
+    "prob_desc_output_spec": "Print n integers. The i-th of them should be equal to the number of intervals where i is a dominant color.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 5000) — the number of balls. The second line contains n integers t1, t2, ..., tn (1 ≤ ti ≤ n) where ti is the color of the i-th ball.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_000.jsonl",
+    "code_uid": "9fd5d1433e340bbfa82c09d75ac79e58",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 2 1 2\", \"3\\n1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N = int(5e3+3)\nn = int(input())\nres = [0] * N\ncum = list([0] * N for _ in range(N))\na = list(map(int, input().split()))\nfor i in range(n):\n    c = [0] * N\n    for j in range(i, n):\n        c[a[j]] += 1\n        cum[i][j] = c[a[j]]\nfor i in range(n):\n    curr_max, curr_idx = 0, N-1\n    j = 0\n    while cum[i][j] == 0: \n        j += 1\n    while j < n:\n        if cum[i][j] > curr_max or cum[i][j] == curr_max and a[j] < curr_idx:\n            curr_max = cum[i][j]\n            curr_idx = a[j]\n        res[curr_idx] += 1\n        j += 1\nprint(*res[1:n+1])",
+    "prob_desc_created_at": "1462633500",
+    "tags": [
+        "data structures",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

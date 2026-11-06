@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1110\\n1011\", \"1\\n101001\", \"2\\n111100\\n110110\"]",
+    "src_uid": "a8cc83b982c1d017b68a61adcb38d1a7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are $$$n$$$ cities in Berland. Some pairs of cities are connected by roads. All roads are bidirectional. Each road connects two different cities. There is at most one road between a pair of cities. The cities are numbered from $$$1$$$ to $$$n$$$.It is known that, from the capital (the city with the number $$$1$$$), you can reach any other city by moving along the roads.The President of Berland plans to improve the country's road network. The budget is enough to repair exactly $$$n-1$$$ roads. The President plans to choose a set of $$$n-1$$$ roads such that:  it is possible to travel from the capital to any other city along the $$$n-1$$$ chosen roads,  if $$$d_i$$$ is the number of roads needed to travel from the capital to city $$$i$$$, moving only along the $$$n-1$$$ chosen roads, then $$$d_1 + d_2 + \\dots + d_n$$$ is minimized (i.e. as minimal as possible). In other words, the set of $$$n-1$$$ roads should preserve the connectivity of the country, and the sum of distances from city $$$1$$$ to all cities should be minimized (where you can only use the $$$n-1$$$ chosen roads).The president instructed the ministry to prepare $$$k$$$ possible options to choose $$$n-1$$$ roads so that both conditions above are met.Write a program that will find $$$k$$$ possible ways to choose roads for repair. If there are fewer than $$$k$$$ ways, then the program should output all possible valid ways to choose roads.",
+    "prob_desc_output_spec": "Print $$$t$$$ ($$$1 \\le t \\le k$$$) — the number of ways to choose a set of roads for repair. Recall that you need to find $$$k$$$ different options; if there are fewer than $$$k$$$ of them, then you need to find all possible different valid options. In the following $$$t$$$ lines, print the options, one per line. Print an option as a string of $$$m$$$ characters where the $$$j$$$-th character is equal to '1' if the $$$j$$$-th road is included in the option, and is equal to '0' if the road is not included. The roads should be numbered according to their order in the input. The options can be printed in any order. All the $$$t$$$ lines should be different. Since it is guaranteed that $$$m \\cdot k \\le 10^6$$$, the total length of all the $$$t$$$ lines will not exceed $$$10^6$$$. If there are several answers, output any of them.",
+    "prob_desc_input_spec": "The first line of the input contains integers $$$n$$$, $$$m$$$ and $$$k$$$ ($$$2 \\le n \\le 2\\cdot10^5, n-1 \\le m \\le 2\\cdot10^5, 1 \\le k \\le 2\\cdot10^5$$$), where $$$n$$$ is the number of cities in the country, $$$m$$$ is the number of roads and $$$k$$$ is the number of options to choose a set of roads for repair. It is guaranteed that $$$m \\cdot k \\le 10^6$$$. The following $$$m$$$ lines describe the roads, one road per line. Each line contains two integers $$$a_i$$$, $$$b_i$$$ ($$$1 \\le a_i, b_i \\le n$$$, $$$a_i \\ne b_i$$$) — the numbers of the cities that the $$$i$$$-th road connects. There is at most one road between a pair of cities. The given set of roads is such that you can reach any city from the capital.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_040.jsonl",
+    "code_uid": "f918aa05780ba54adf1cd0f00e401c08",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 4 3\\n1 2\\n2 3\\n1 4\\n4 3\", \"4 6 3\\n1 2\\n2 3\\n1 4\\n4 3\\n2 4\\n1 3\", \"5 6 2\\n1 2\\n1 3\\n2 4\\n2 5\\n3 4\\n3 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import inf\n\nnmk = list(map(int, input().split(' ')))\nn = nmk[0]\nm = nmk[1]\nk = nmk[2]\n\na = []\n\nfor i in range(m):\n\ta.append(list(map(int, input().split(' '))))\n\nsmej = [[] for j in range(n)]\nnums = {}\n\nt = 0\nfor i in a:\n\tnums.update({(i[0], i[1]):t})\n\tt += 1\n\tsmej[i[0]-1].append(i[1]-1)\n\tsmej[i[1]-1].append(i[0]-1)\n\t\ndists = [inf for i in range(n)]\ndists[0] = 0\nq = [0]\n\nwhile len(q) > 0:\n\tu = q.pop(0)\n\t\n\tfor i in smej[u]:\n\t\tif (dists[i] == inf):\n\t\t\tq.append(i)\n\t\t\tdists[i] = dists[u] + 1\n\t\t\t\t\np = [[] for i in range(n)]\n\t\t\t\nfor i in range(1, n):\n\tfor j in smej[i]:\n\t\tif(dists[j] == dists[i]-1):\n\t\t\ttry:\n\t\t\t\tp[i].append(nums[(j+1,i+1)])\n\t\t\texcept:\n\t\t\t\tp[i].append(nums[(i+1,j+1)])\n\nam = 1\np.pop(0)\n\nfor i in range(len(p)):\n\tam *= len(p[i])\n\nif(am < k):\n\tprint(am)\nelse:\n\tprint(k)\n\nf = [0 for i in range(len(p))]\nans = []\n\nfor i in range(k):\n\ts = ['0'for i in range(m)]\n\t\n\tfor j in range(len(p)):\n\t\ts[p[j][f[j]]] = '1'\n\t\n\ts = ''.join(s)\n\tans.append(s)\n\n\tok = False\n\tfirst = True\n\t\n\tfor j in range(len(p)-1, -1, -1):\n\t\tif first:\n\t\t\tfirst = False\n\t\t\tif(f[j]+1 == len(p[j])):\n\t\t\t\tif(j == 0):\n\t\t\t\t\tok = True\n\t\t\t\t\tbreak\n\t\t\t\tf[j] = 0\n\t\t\t\tf[j-1]+= 1\n\t\t\telse:\n\t\t\t\tf[j]+= 1\n\t\t\t\tbreak\n\t\telse:\n\t\t\tif(f[j] == len(p[j])):\n\t\t\t\tif(j == 0):\n\t\t\t\t\tok = True\n\t\t\t\t\tbreak\n\t\t\t\telse:\n\t\t\t\t\tf[j] = 0\n\t\t\t\t\tf[j-1] += 1\n\tif ok:\n\t\tbreak\n\nfor j in range(len(ans)):\n\tprint(ans[j])\n\n\n\n\n\n\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n",
+    "prob_desc_created_at": "1531150500",
+    "tags": [
+        "graphs",
+        "dfs and similar",
+        "brute force",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

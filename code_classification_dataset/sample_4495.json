@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6\\n0\\n1\"]",
+    "src_uid": "d1245eadd5be9051c153161d0823b6dc",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A tree is an undirected connected graph without cycles.You are given a tree of $$$n$$$ vertices. Find the number of ways to choose exactly $$$k$$$ vertices in this tree (i. e. a $$$k$$$-element subset of vertices) so that all pairwise distances between the selected vertices are equal (in other words, there exists an integer $$$c$$$ such that for all $$$u, v$$$ ($$$u \\ne v$$$, $$$u, v$$$ are in selected vertices) $$$d_{u,v}=c$$$, where $$$d_{u,v}$$$ is the distance from $$$u$$$ to $$$v$$$).Since the answer may be very large, you need to output it modulo $$$10^9 + 7$$$.",
+    "prob_desc_output_spec": "For each test case output in a separate line a single integer — the number of ways to select exactly $$$k$$$ vertices so that for all pairs of selected vertices the distances between the vertices in the pairs are equal, modulo $$$10^9 + 7$$$ (in other words, print the remainder when divided by $$$1000000007$$$).",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case is preceded by an empty line. Each test case consists of several lines. The first line of the test case contains two integers $$$n$$$ and $$$k$$$ ($$$2 \\le k \\le n \\le 100$$$) — the number of vertices in the tree and the number of vertices to be selected, respectively. Then $$$n - 1$$$ lines follow, each of them contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u, v \\le n$$$, $$$u \\neq v$$$) which describe a pair of vertices connected by an edge. It is guaranteed that the given graph is a tree and has no loops or multiple edges.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_099.jsonl",
+    "code_uid": "3880f8e208fa52fe157739521700fd40",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n4 2\\n1 2\\n2 3\\n2 4\\n\\n3 3\\n1 2\\n2 3\\n\\n5 3\\n1 2\\n2 3\\n2 4\\n4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\r\ninput=lambda :stdin.readline()[:-1]\r\n\r\nmod=10**9+7\r\nM=(10**5) \r\nfac=[1]*M\r\nninv=[1]*M\r\nfinv=[1]*M\r\nfor i in range(2,M):\r\n  fac[i]=fac[i-1]*i%mod\r\n  ninv[i]=(-(mod//i)*ninv[mod%i])%mod\r\n  finv[i]=finv[i-1]*ninv[i]%mod\r\n\r\ndef binom(n,k):\r\n  if n<0 or k<0:\r\n    return 0\r\n  if k>n:\r\n    return 0\r\n  return (fac[n]*finv[k]%mod)*finv[n-k]%mod\r\n\r\ndef conv(a,b):\r\n  na=len(a)\r\n  nb=len(b)\r\n  c=[0]*(na+nb-1)\r\n  for i in range(na):\r\n    for j in range(nb):\r\n      c[i+j]=(c[i+j]+a[i]*b[j])%mod\r\n  return c\r\n\r\ndef solve():\r\n  input()\r\n  n,k=map(int,input().split())\r\n  edge=[[] for i in range(n)]\r\n  edges=[]\r\n  for _ in range(n-1):\r\n    a,b=map(lambda x:int(x)-1,input().split())\r\n    edge[a].append(b)\r\n    edge[b].append(a)\r\n    edges.append((a,b))\r\n  \r\n  ans=0\r\n  \r\n  for i in range(n):\r\n    dp=[[1] for i in range(n)]\r\n    for j in edge[i]:\r\n      cnt=[0]*n\r\n      todo=[(1,j,i)]\r\n      while todo:\r\n        d,v,p=todo.pop()\r\n        cnt[d]+=1\r\n        for u in edge[v]:\r\n          if u!=p:\r\n            todo.append((d+1,u,v))\r\n      \r\n      for j in range(n):\r\n        if cnt[j]!=0:\r\n          s=cnt[j]\r\n          dp[j]=conv(dp[j],[1,s])\r\n    \r\n    for j in range(n):\r\n      if len(dp[j])>=k+1:\r\n        ans+=dp[j][k]\r\n        ans%=mod\r\n  \r\n  for v1,v2 in edges:\r\n    dp=[[1] for i in range(n)]\r\n    for x,y in [(v1,v2),(v2,v1)]:\r\n      cnt=[0]*n\r\n      todo=[(1,x,y)]\r\n      while todo:\r\n        d,v,p=todo.pop()\r\n        cnt[d]+=1\r\n        for u in edge[v]:\r\n          if u!=p:\r\n            todo.append((d+1,u,v))\r\n      \r\n      for j in range(n):\r\n        if cnt[j]!=0:\r\n          s=cnt[j]\r\n          dp[j]=conv(dp[j],[1,s])\r\n\r\n    for j in range(n):\r\n      if len(dp[j])>=k+1:\r\n        ans+=dp[j][k]\r\n        ans%=mod\r\n        \r\n  print(ans)\r\n\r\n\r\n\r\n\r\n\r\nfor _ in range(int(input())):\r\n  solve()",
+    "prob_desc_created_at": "1627050900",
+    "tags": [
+        "brute force",
+        "combinatorics",
+        "dfs and similar",
+        "dp",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

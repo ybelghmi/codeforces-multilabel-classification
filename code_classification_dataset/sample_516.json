@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n5\", \"1\\n3\", \"4\\n5 4 3 2\"]",
+    "src_uid": "6dafebcc521b7523427724753187715a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The city Valera lives in is going to hold elections to the city Parliament.The city has n districts and n - 1 bidirectional roads. We know that from any district there is a path along the roads to any other district. Let's enumerate all districts in some way by integers from 1 to n, inclusive. Furthermore, for each road the residents decided if it is the problem road or not. A problem road is a road that needs to be repaired.There are n candidates running the elections. Let's enumerate all candidates in some way by integers from 1 to n, inclusive. If the candidate number i will be elected in the city Parliament, he will perform exactly one promise — to repair all problem roads on the way from the i-th district to the district 1, where the city Parliament is located.Help Valera and determine the subset of candidates such that if all candidates from the subset will be elected to the city Parliament, all problem roads in the city will be repaired. If there are several such subsets, you should choose the subset consisting of the minimum number of candidates.",
+    "prob_desc_output_spec": "In the first line print a single non-negative number k — the minimum size of the required subset of candidates. Then on the second line print k space-separated integers a1, a2, ... ak — the numbers of the candidates that form the required subset. If there are multiple solutions, you are allowed to print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer n (2 ≤ n ≤ 105) — the number of districts in the city. Then n - 1 lines follow. Each line contains the description of a city road as three positive integers xi, yi, ti (1 ≤ xi, yi ≤ n, 1 ≤ ti ≤ 2) — the districts connected by the i-th bidirectional road and the road type. If ti equals to one, then the i-th road isn't the problem road; if ti equals to two, then the i-th road is the problem road. It's guaranteed that the graph structure of the city is a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_002.jsonl",
+    "code_uid": "ead1454fab882ffc28a2652785e82fc7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 2\\n2 3 2\\n3 4 2\\n4 5 2\", \"5\\n1 2 1\\n2 3 2\\n2 4 1\\n4 5 1\", \"5\\n1 2 2\\n1 3 2\\n1 4 2\\n1 5 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom math import sqrt, gcd, ceil, log\n# from bisect import bisect, bisect_left\nfrom collections import defaultdict, Counter, deque\n# from heapq import heapify, heappush, heappop\ninput = sys.stdin.readline\nread = lambda: list(map(int, input().strip().split()))\n\nsys.setrecursionlimit(200000)\n\n\ndef main(): \n\tn = int(input()); \n\tadj = defaultdict(list)\n\tproblem = set()\n\tfor i in range(n-1):\n\t\tx, y, t = read()\n\t\tadj[x].append(y)\n\t\tadj[y].append(x)\n\t\tif t == 2:problem.add((x, y))\n\n\n\tparent = defaultdict(int)\n\torder = []\n\tdef dfs():\n\t\tstk = [(1, 0)]\n\t\twhile stk:\n\t\t\tnode, par = stk.pop()\n\t\t\torder.append(node); parent[node] = par\n\t\t\tfor child in adj[node]:\n\t\t\t\tif child != par:\n\t\t\t\t\tstk.append((child, node))\n\t\t# return(order)\n\t\t# lis = []\n\t\t# for child in adj[node]:\n\t\t# \tif child != par:\n\t\t# \t\ttem = dfs(child, node)\n\t\t# \t\tif (node, child) in problem or (child, node) in problem:\n\t\t# \t\t\tif tem == []:lis.append(child)\n\t\t# \t\t\telse:lis.extend(tem)\n\t\t# \t\telif tem:\n\t\t# \t\t\tlis.extend(tem)\n\t\t# return(lis)\n\tdfs()\n\t# print(order)\n\t# print(parent)\n\tdic = defaultdict(int)\n\tans = []\n\tfor i in range(n-1, -1, -1):\n\t\tchild = order[i]; par = parent[order[i]]\n\t\tif dic[child]:\n\t\t\tdic[par] += dic[child]\n\t\telif (child, par) in problem or (par, child) in problem:\n\t\t\tans.append(child)\n\t\t\tdic[par] += 1\n\tprint(len(ans))\n\tprint(*ans)\n\n\n\n\t\t\t\n\n\n\n\n\n\nif __name__ == \"__main__\":\n\tmain()",
+    "prob_desc_created_at": "1385739000",
+    "tags": [
+        "dfs and similar",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

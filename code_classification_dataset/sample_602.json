@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\"]",
+    "src_uid": "6639e9a289fa76e3aae6f309ab26c049",
+    "prob_desc_notes": "NoteIn the first query Alice can select substring $$$s_3 \\dots s_5$$$. After that $$$s$$$ turns into XXXXX...XX...X. After that, no matter what move Bob makes, Alice can make the move (this will be her second move), but Bob can't make his second move.In the second query Alice can not win because she cannot even make one move.In the third query Alice can choose substring $$$s_2 \\dots s_6$$$. After that $$$s$$$ turns into .XXXXX.X..X, and Bob can't make a move after that.",
+    "prob_desc_description": "Alice and Bob play a game. Initially they have a string $$$s_1, s_2, \\dots, s_n$$$, consisting of only characters . and X. They take alternating turns, and Alice is moving first. During each turn, the player has to select a contiguous substring consisting only of characters . and replaces each of them with X. Alice must select a substing of length $$$a$$$, and Bob must select a substring of length $$$b$$$. It is guaranteed that $$$a &gt; b$$$.For example, if $$$s =$$$ ...X.. and $$$a = 3$$$, $$$b = 2$$$, then after Alice's move string can turn only into XXXX... And if it's Bob's turn and the string $$$s =$$$ ...X.., then after Bob's move the string can turn into XX.X.., .XXX.. or ...XXX.Whoever is unable to make a move, loses. You have to determine who wins if they both play optimally.You have to answer $$$q$$$ independent queries.",
+    "prob_desc_output_spec": "For each test case print YES if Alice can win and NO otherwise. You may print every letter in any case you want (so, for example, the strings yEs, yes, Yes and YES will all be recognized as positive answer).",
+    "prob_desc_input_spec": "The first line contains one integer $$$q$$$ ($$$1 \\le q \\le 3 \\cdot 10^5$$$) — the number of queries. The first line of each query contains two integers $$$a$$$ and $$$b$$$ ($$$1 \\le b &lt; a \\le 3 \\cdot 10^5$$$). The second line of each query contains the string $$$s$$$ ($$$1 \\le |s| \\le 3 \\cdot 10^5$$$), consisting of only characters . and X. It is guaranteed that sum of all $$$|s|$$$ over all queries not exceed $$$3 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_003.jsonl",
+    "code_uid": "12ee1594ca82caccae9911559ccebde1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3 2\\nXX......XX...X\\n4 2\\nX...X.X..X\\n5 3\\n.......X..X\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\nimport sys\nfrom atexit import register\nfrom io import BytesIO\nsys.stdin = BytesIO(os.read(0, os.fstat(0).st_size))\nsys.stdout = BytesIO()\nregister(lambda: os.write(1, sys.stdout.getvalue()))\ninput = lambda: sys.stdin.readline().rstrip('\\r\\n')\n \nq  = int(input())\nfor _ in range(q):\n\ta,b = map(int ,input().split(\" \"))\n\ts = map(lambda x: 0 if x == \".\" else 1,input())\n\tlengths = []\n\tcnt = 0\n\tfor i in range(len(s)):\n\t\tif s[i] == 0:\n\t\t\tcnt += 1\n\t\telse:\n\t\t\tif cnt >0:\n\t\t\t\tlengths.append(cnt)\n\t\t\t\tcnt = 0\n\tif cnt >0:\n\t\tlengths.append(cnt)\n\tlengths.sort()\n\tflag = True\n\tcnt = 0\n\tused = 0\n\ttod = 0\n\tfor l in lengths:\n\t\tif l<b:\n\t\t\tcontinue\n\t\telif a>l>=b:\n\t\t\tflag = False\n\t\t\tbreak\n\t\telif a<=l<2*b:\n\t\t\tcnt += 1\n\t\telif l>=2*b and not used:\n\t\t\tif l>=a:\n\t\t\t\tused = 1\n\t\t\t\ttod = l-a\n\t\t\telse:\n\t\t\t\tflag = False\n\t\t\t\tbreak\n\t\telse:\n\t\t\tflag = False\n\t\t\tbreak\n\t# print flag\n\tif not flag:\n\t\tprint \"NO\"\n\telse:\n\t\tif tod != 0:\n\t\t\tflag = False\n\t\t\tfor i in range(tod/2+1):\n\t\t\t\ts1 = i\n\t\t\t\ts2 = tod-i\n\t\t\t\tif s1>s2:\n\t\t\t\t\tcontinue\n\t\t\t\tif a>s1>=b or s1>=2*b or a>s2>=b or s2>=2*b:\n\t\t\t\t\tcontinue\n\t\t\t\tif (cnt+used+(2*b>s1>=a)*1+(2*b>s2>=a)*1)%2 == 1:\n\t\t\t\t\t# print tod,cnt,used,s1,s2,(2*b>s1>=a)*1,(b>s2>=a)*1\n\t\t\t\t\tflag = True\n\t\t\t\t\tbreak\n\t\t\t# print \"tod\",flag\n\t\t\tif flag:\n\t\t\t\tprint \"YES\"\n\t\t\telse:\n\t\t\t\tprint \"NO\"\n\n\t\telif (cnt+used) %2 == 0:\t\n\t\t\tprint \"NO\"\n\t\telse:\n\t\t\tprint \"YES\"\n",
+    "prob_desc_created_at": "1568903700",
+    "tags": [
+        "games"
+    ],
+    "hidden_unit_tests": ""
+}

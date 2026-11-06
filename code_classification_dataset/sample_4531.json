@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"m\\na\\nr\\ne\\na\\nr\"]",
+    "src_uid": "8dcd95d497dee44ba72ce595b53b4e5a",
+    "prob_desc_notes": "NoteIn the first test case, the copy-paste process is as follows.   The first step is pasting string $$$\\texttt{mark}$$$ at the end, yielding the string $$$\\texttt{mark}\\color{red}{\\texttt{mark}}$$$.  The second step is pasting string $$$\\texttt{mar}$$$ at the end, yielding the string $$$\\texttt{markmark}\\color{red}{\\texttt{mar}}$$$.  The third step is pasting string $$$\\texttt{rkmark}$$$ at the end, yielding the string $$$\\texttt{markmarkmar}\\color{red}{\\texttt{rkmark}}$$$. In the second test case, the copy-paste process is as follows.   The first step is pasting string $$$\\texttt{re}$$$ at the end, yielding the string $$$\\texttt{creamii}\\color{red}{\\texttt{re}}$$$.  The second step is pasting string $$$\\texttt{ea}$$$ at the end, yielding the string $$$\\texttt{creamiire}\\color{red}{\\texttt{ea}}$$$.  The third step is pasting string $$$\\texttt{reamiire}$$$ at the end, yielding the string $$$\\texttt{creamiireea}\\color{red}{\\texttt{reamiire}}$$$. ",
+    "prob_desc_description": "One night, Mark realized that there is an essay due tomorrow. He hasn't written anything yet, so Mark decided to randomly copy-paste substrings from the prompt to make the essay.More formally, the prompt is a string $$$s$$$ of initial length $$$n$$$. Mark will perform the copy-pasting operation $$$c$$$ times. Each operation is described by two integers $$$l$$$ and $$$r$$$, which means that Mark will append letters $$$s_l s_{l+1} \\ldots s_r$$$ to the end of string $$$s$$$. Note that the length of $$$s$$$ increases after this operation.Of course, Mark needs to be able to see what has been written. After copying, Mark will ask $$$q$$$ queries: given an integer $$$k$$$, determine the $$$k$$$-th letter of the final string $$$s$$$.",
+    "prob_desc_output_spec": "For each query, print the $$$k$$$-th letter of the final string $$$s$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1\\leq t\\leq 1000$$$) — the number of test cases. The first line of each test case contains three integers $$$n$$$, $$$c$$$, and $$$q$$$ ($$$1\\leq n\\leq 2\\cdot 10^5$$$, $$$1\\leq c\\leq 40$$$, and $$$1\\leq q\\leq 10^4$$$) — the length of the initial string $$$s$$$, the number of copy-pasting operations, and the number of queries, respectively. The second line of each test case contains a single string $$$s$$$ of length $$$n$$$. It is guaranteed that $$$s$$$ only contains lowercase English letters. The following $$$c$$$ lines describe the copy-pasting operation. Each line contains two integers $$$l$$$ and $$$r$$$ ($$$1\\leq l\\leq r\\leq 10^{18}$$$). It is also guaranteed that $$$r$$$ does not exceed the current length of $$$s$$$. The last $$$q$$$ lines of each test case describe the queries. Each line contains a single integer $$$k$$$ ($$$1\\leq k\\leq 10^{18}$$$). It is also guaranteed that $$$k$$$ does not exceed the final length of $$$s$$$. It is guaranteed that the sum of $$$n$$$ and $$$q$$$ across all test cases does not exceed $$$2\\cdot 10^5$$$ and $$$10^4$$$, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_100.jsonl",
+    "code_uid": "8297bd28a324f1cdff70ec7430875b50",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n4 3 3\\n\\nmark\\n\\n1 4\\n\\n5 7\\n\\n3 8\\n\\n1\\n\\n10\\n\\n12\\n\\n7 3 3\\n\\ncreamii\\n\\n2 3\\n\\n3 4\\n\\n2 9\\n\\n9\\n\\n11\\n\\n12\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "R=lambda:map(int,input().split())\nt,=R()\nwhile t:\n t-=1;n,c,q=R();s=input();a=[]\n while c:c-=1;l,r=R();a=(n,n-l+1),*a;n+=r-l+1\n while q:\n  q-=1;k,=R()\n  for x,y in a:k-=y*(k>x)\n  print(s[k-1])",
+    "prob_desc_created_at": "1657892100",
+    "tags": [
+        "brute force",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

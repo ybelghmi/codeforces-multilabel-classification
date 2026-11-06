@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"-1\"]",
+    "src_uid": "8d4e493783fca1d8eede44af7557f4bd",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The famous global economic crisis is approaching rapidly, so the states of Berman, Berance and Bertaly formed an alliance and allowed the residents of all member states to freely pass through the territory of any of them. In addition, it was decided that a road between the states should be built to guarantee so that one could any point of any country can be reached from any point of any other State.Since roads are always expensive, the governments of the states of the newly formed alliance asked you to help them assess the costs. To do this, you have been issued a map that can be represented as a rectangle table consisting of n rows and m columns. Any cell of the map either belongs to one of three states, or is an area where it is allowed to build a road, or is an area where the construction of the road is not allowed. A cell is called passable, if it belongs to one of the states, or the road was built in this cell. From any passable cells you can move up, down, right and left, if the cell that corresponds to the movement exists and is passable.Your task is to construct a road inside a minimum number of cells, so that it would be possible to get from any cell of any state to any cell of any other state using only passable cells.It is guaranteed that initially it is possible to reach any cell of any state from any cell of this state, moving only along its cells. It is also guaranteed that for any state there is at least one cell that belongs to it.",
+    "prob_desc_output_spec": "Print a single integer — the minimum number of cells you need to build a road inside in order to connect all the cells of all states. If such a goal is unachievable, print -1.",
+    "prob_desc_input_spec": "The first line of the input contains the dimensions of the map n and m (1 ≤ n, m ≤ 1000) — the number of rows and columns respectively. Each of the next n lines contain m characters, describing the rows of the map. Digits from 1 to 3 represent the accessory to the corresponding state. The character '.' corresponds to the cell where it is allowed to build a road and the character '#' means no construction is allowed in this cell.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_075.jsonl",
+    "code_uid": "77777aea7b72a9801f59b6909013f7fd",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"4 5\\n11..2\\n#..22\\n#.323\\n.#333\", \"1 5\\n1#2#3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\ninp = sys.stdin.read().split(); ii = 0\n\nn = int(inp[ii]); ii += 1\nm = int(inp[ii]); ii += 1\n\nM = [0]*(m + 2)\nfor _ in range(n):\n    M.append(0)\n    for c in inp[ii]:\n        if c == '#':\n            M.append(0)\n        elif c == '.':\n            M.append(1)\n        else:\n            M.append(ord(c) - 47)\n    ii += 1\n    M.append(0)\nM += [0]*(m + 2)\n\nn += 2\nm += 2\n\nA = []\nB = []\nC = []\nfor i in range(n*m):\n    if M[i] == 2:\n        A.append(i)\n    elif M[i] == 3:\n        B.append(i)\n    elif M[i] == 4:\n        C.append(i)\n\ninf = 10**8\n\nAdist = [inf]*(n*m)\nBdist = [inf]*(n*m)\nCdist = [inf]*(n*m)\n\ndef dister(bfs, dist):\n    for node in bfs:\n        dist[node] = 0\n    for node in bfs:\n        d = dist[node] + 1\n        for nei in node - 1, node + 1, node - m, node + m:\n            if M[nei] and dist[nei] == inf:\n                dist[nei] = d\n                bfs.append(nei)\ndister(list(A), Adist)\ndister(list(B), Bdist)\ndister(list(C), Cdist)\n\nbesta = inf\nfor i in range(n*m):\n    besta = min(besta, Adist[i] + Bdist[i] + Cdist[i] - 2)\n\ndef opter(dist1, dist2):\n    besta = inf\n    for i in range(n*m):\n        besta = min(besta, dist1[i] + dist2[i] - 1)\n    return besta\n\nbesta1 = opter(Adist, Bdist)\nbesta2 = opter(Adist, Cdist)\nbesta3 = opter(Bdist, Cdist)\n\nalt1 = besta\nalt2 = besta1 + besta2\nalt3 = besta1 + besta3\nalt4 = besta2 + besta3\n\nalt = min(alt1, alt2, alt3, alt4)\nprint alt if alt < 10**7 else -1\n",
+    "prob_desc_created_at": "1445763600",
+    "tags": [
+        "graphs",
+        "dfs and similar",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

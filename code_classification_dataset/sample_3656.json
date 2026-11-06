@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"6\"]",
+    "src_uid": "fe29785b8286b6d74318c0eaa6ae2bb5",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a tree T consisting of n vertices. A number is written on each vertex; the number written on vertex i is ai. Let's denote the function I(x, y) as the difference between maximum and minimum value of ai on a simple path connecting vertices x and y.Your task is to calculate .",
+    "prob_desc_output_spec": "Print one number equal to .",
+    "prob_desc_input_spec": "The first line contains one integer number n (1 ≤ n ≤ 106) — the number of vertices in the tree. The second line contains n integer numbers a1, a2, ..., an (1 ≤ ai ≤ 106) — the numbers written on the vertices. Then n - 1 lines follow. Each line contains two integers x and y denoting an edge connecting vertex x and vertex y (1 ≤ x, y ≤ n, x ≠ y). It is guaranteed that these edges denote a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_077.jsonl",
+    "code_uid": "fb8172d92186c320ce8a43053757fb03",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n2 2 3 1\\n1 2\\n1 3\\n1 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\n# returns order such that A[order[i]] <= A[order[i + 1]]\ndef sqrtsorted(A, maxval = 10**6):\n    asqrt = int((maxval)**0.5 + 2)\n    blocks1 = [[] for _ in range(asqrt)]\n    blocks2 = [[] for _ in range(asqrt)]\n    for i in range(len(A)):\n        blocks1[A[i] % asqrt].append(i)\n    for block in blocks1:\n        for i in block:\n            blocks2[A[i]//asqrt].append(i)\n    ret = []\n    for block in blocks2:\n        ret += block\n    return ret\n\n\nclass DisjointSetUnion:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.size = [1] * n\n\n    def find(self, a):\n        acopy = a\n        while a != self.parent[a]:\n            a = self.parent[a]\n        while acopy != a:\n            self.parent[acopy], acopy = a, self.parent[acopy]\n        return a\n\n    def join(self, a, b):\n        a, b = self.find(a), self.find(b)\n        if a != b:\n            if self.size[a] < self.size[b]:\n                a, b = b, a\n            self.parent[b] = a\n            self.size[a] += self.size[b]\n        return (self.size[a] - self.size[b]) * (self.size[b])\n\ninp = [int(x) for x in sys.stdin.read().split()]; ii = 0\n\nn = inp[ii]; ii += 1\nA = inp[ii:ii + n]; ii += n\n\norder = sqrtsorted(A)\nmapper = [0]*n\nfor i in range(n):\n    mapper[order[i]] = i\nB = [A[i] for i in order]\n\ncoupl = [[] for _ in range(n)]\nfor _ in range(n - 1):\n    u = mapper[inp[ii] - 1]; ii += 1\n    v = mapper[inp[ii] - 1]; ii += 1\n    coupl[u].append(v)\n    coupl[v].append(u)\n\ntotal = 0\n\ndsu = DisjointSetUnion(n)\nfor node in range(n):\n    s = 0\n    for nei in coupl[node]:\n        if nei < node:\n            s += dsu.join(node, nei)\n    total += s * B[node]\n\ndsu = DisjointSetUnion(n)\nfor node in reversed(range(n)):\n    s = 0\n    for nei in coupl[node]:\n        if nei > node:\n            s += dsu.join(node, nei)\n    total -= s * B[node]\n\nprint total\n",
+    "prob_desc_created_at": "1515848700",
+    "tags": [
+        "data structures",
+        "dsu",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4900\", \"4930\"]",
+    "src_uid": "636a30a2b0038ee1731325a5fc2df73a",
+    "prob_desc_notes": "NoteIn the second sample, Kevin takes 119 minutes on all of the problems. Therefore, he gets  of the points on each problem. So his score from solving problems is . Adding in 10·100 = 1000 points from hacks, his total score becomes 3930 + 1000 = 4930.",
+    "prob_desc_description": "Kevin Sun has just finished competing in Codeforces Round #334! The round was 120 minutes long and featured five problems with maximum point values of 500, 1000, 1500, 2000, and 2500, respectively. Despite the challenging tasks, Kevin was uncowed and bulldozed through all of them, distinguishing himself from the herd as the best cowmputer scientist in all of Bovinia. Kevin knows his submission time for each problem, the number of wrong submissions that he made on each problem, and his total numbers of successful and unsuccessful hacks. Because Codeforces scoring is complicated, Kevin wants you to write a program to compute his final score.Codeforces scores are computed as follows: If the maximum point value of a problem is x, and Kevin submitted correctly at minute m but made w wrong submissions, then his score on that problem is . His total score is equal to the sum of his scores for each problem. In addition, Kevin's total score gets increased by 100 points for each successful hack, but gets decreased by 50 points for each unsuccessful hack.All arithmetic operations are performed with absolute precision and no rounding. It is guaranteed that Kevin's final score is an integer.",
+    "prob_desc_output_spec": "Print a single integer, the value of Kevin's final score.",
+    "prob_desc_input_spec": "The first line of the input contains five space-separated integers m1, m2, m3, m4, m5, where mi (0 ≤ mi ≤ 119) is the time of Kevin's last submission for problem i. His last submission is always correct and gets accepted. The second line contains five space-separated integers w1, w2, w3, w4, w5, where wi (0 ≤ wi ≤ 10) is Kevin's number of wrong submissions on problem i. The last line contains two space-separated integers hs and hu (0 ≤ hs, hu ≤ 20), denoting the Kevin's numbers of successful and unsuccessful hacks, respectively.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_004.jsonl",
+    "code_uid": "71a7d2f3a8f766cecbb0f6214c024c94",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"20 40 60 80 100\\n0 1 2 3 4\\n1 0\", \"119 119 119 119 119\\n0 0 0 0 0\\n10 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math,string,itertools,fractions,heapq,collections,re,array,bisect,sys,copy,functools\n\nsys.setrecursionlimit(10**7)\ninf = 10**20\neps = 1.0 / 10**10\nmod = 998244353\ndd = [(-1,0),(0,1),(1,0),(0,-1)]\nddn = [(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1),(-1,-1)]\n\ndef LI(): return list(map(int, sys.stdin.readline().split()))\ndef LLI(): return [list(map(int, l.split())) for l in sys.stdin.readlines()]\ndef LI_(): return [int(x)-1 for x in sys.stdin.readline().split()]\ndef LF(): return [float(x) for x in sys.stdin.readline().split()]\ndef LS(): return sys.stdin.readline().split()\ndef I(): return int(sys.stdin.readline())\ndef F(): return float(sys.stdin.readline())\ndef S(): return input()\ndef pf(s): return print(s, flush=True)\ndef pe(s): return print(str(s), file=sys.stderr)\ndef JA(a, sep): return sep.join(map(str, a))\ndef JAA(a, s, t): return s.join(t.join(map(str, b)) for b in a)\n\n\ndef main():\n    m = LI()\n    w = LI()\n    h = LI()\n    r = h[0] * 100 - h[1] * 50\n    for i in range(5):\n        t = (i+1) * 500\n        a = t // 10 * 3\n        b = t - t * m[i] // 250 - w[i] * 50\n        r += max(a,b)\n\n    return r\n\n\nprint(main())\n\n",
+    "prob_desc_created_at": "1448984100",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

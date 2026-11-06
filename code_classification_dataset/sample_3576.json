@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"-1\", \"4\\n1 2\\n2 3\\n3 4\\n4 5\"]",
+    "src_uid": "ed040061e0e9fd41a7cd05bbd8ad32dd",
+    "prob_desc_notes": "NoteIn the first sample case, no graph can fulfill PolandBall's requirements.In the second sample case, red graph is a path from 1 to 5. Its diameter is 4. However, white graph has diameter 2, because it consists of edges 1-3, 1-4, 1-5, 2-4, 2-5, 3-5.",
+    "prob_desc_description": "PolandBall has an undirected simple graph consisting of n vertices. Unfortunately, it has no edges. The graph is very sad because of that. PolandBall wanted to make it happier, adding some red edges. Then, he will add white edges in every remaining place. Therefore, the final graph will be a clique in two colors: white and red. Colorfulness of the graph is a value min(dr, dw), where dr is the diameter of the red subgraph and dw is the diameter of white subgraph. The diameter of a graph is a largest value d such that shortest path between some pair of vertices in it is equal to d. If the graph is not connected, we consider its diameter to be -1.PolandBall wants the final graph to be as neat as possible. He wants the final colorfulness to be equal to k. Can you help him and find any graph which satisfies PolandBall's requests?",
+    "prob_desc_output_spec": "If it's impossible to find a suitable graph, print -1. Otherwise, you can output any graph which fulfills PolandBall's requirements. First, output m — the number of red edges in your graph. Then, you should output m lines, each containing two integers ai and bi, (1 ≤ ai, bi ≤ n, ai ≠ bi) which means that there is an undirected red edge between vertices ai and bi. Every red edge should be printed exactly once, you can print the edges and the vertices of every edge in arbitrary order. Remember that PolandBall's graph should remain simple, so no loops or multiple edges are allowed.",
+    "prob_desc_input_spec": "The only one input line contains two integers n and k (2 ≤ n ≤ 1000, 1 ≤ k ≤ 1000), representing graph's size and sought colorfulness.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_070.jsonl",
+    "code_uid": "d8787e711f89604b5400f7bc796d4018",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 1\", \"5 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, input().split())\n\nif n < 4:\n    print(-1)\nelif k == 1:\n    print(-1)\nelif k > 3:\n    print(-1)\nelif n == 4 and k == 2:\n    print(-1)\nelif k == 2:\n    print(n - 1)\n    for i in range(n - 1):\n        print(i + 1, i + 2)\nelif k == 3:\n    print(n - 1)\n    print(1, 2)\n    print(2, 3)\n    for i in range(4, n + 1):\n        print(3, i)\n",
+    "prob_desc_created_at": "1484499900",
+    "tags": [
+        "constructive algorithms",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

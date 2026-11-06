@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\"]",
+    "src_uid": "ad8da6ceb781d89fa5a98869fac0c84c",
+    "prob_desc_notes": "NotePictures to the sample (the yellow color marks the nodes the distance to which is at most three)   ",
+    "prob_desc_description": "When Darth Vader gets bored, he sits down on the sofa, closes his eyes and thinks of an infinite rooted tree where each node has exactly n sons, at that for each node, the distance between it an its i-th left child equals to di. The Sith Lord loves counting the number of nodes in the tree that are at a distance at most x from the root. The distance is the sum of the lengths of edges on the path between nodes.But he has got used to this activity and even grew bored of it. 'Why does he do that, then?' — you may ask. It's just that he feels superior knowing that only he can solve this problem. Do you want to challenge Darth Vader himself? Count the required number of nodes. As the answer can be rather large, find it modulo 109 + 7.",
+    "prob_desc_output_spec": "Print a single number — the number of vertexes in the tree at distance from the root equal to at most x. ",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and x (1 ≤ n ≤ 105, 0 ≤ x ≤ 109) — the number of children of each node and the distance from the root within the range of which you need to count the nodes. The next line contains n space-separated integers di (1 ≤ di ≤ 100) — the length of the edge that connects each node with its i-th child.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_049.jsonl",
+    "code_uid": "845ed313037bdf1121d00cac6dcbdec0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n1 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# fast io\nfrom sys import stdin\n_data = iter(stdin.read().split('\\n'))\ninput = lambda: next(_data)\n\nN = 101\nMOD = 1000000007\n\ndef mul_vec_mat(v, a):\n    c = [0] * N\n    for i in range(N):\n        c[i] = sum(a[j][i] * v[j] % MOD for j in range(N)) % MOD\n    return c\n\ndef mul_vec_sparse_mat(v, a):\n    c = [0] * N\n    for i in range(N):\n        c[i] = sum(x * v[j] % MOD for j, x in a[i]) % MOD\n    return c\n\n_, x = [int(v) for v in input().split()]\na = [[0] * N for i in range(N)]\na[0][0] = 1\na[N - 1][0] = 1\nfor i in range(1, N - 1):\n    a[i][i + 1] = 1\nfor d in map(int, input().split()):\n    a[N - 1][N - d] += 1\nsa = [[] for i in range(N)]\nfor i in range(N):\n    for j in range(N):\n        if a[i][j] != 0:\n            sa[j].append((i, a[i][j]))\nr = [[1 if i == j else 0 for j in range(N)] for i in range(N)]\nwhile x > 0:\n    if x & 1:\n        r[0] = mul_vec_mat(r[0], a)\n        r[1] = mul_vec_mat(r[1], a)\n    aa = [[0] * N for i in range(N)]\n    aa[0] = mul_vec_mat(a[0], a)\n    aa[1] = mul_vec_mat(a[1], a)\n    for i in range(2, N):\n        aa[i] = mul_vec_sparse_mat(aa[i - 1], sa)\n    a = aa\n    x >>= 1\nfor i in range(2, N):\n    r[i] = mul_vec_sparse_mat(r[i - 1], sa)\nb = [0] * N\nb[0] = 1\nb[N - 1] = 1\nprint(sum(r[N - 1][i] * b[i] % MOD for i in range(N)) % MOD)",
+    "prob_desc_created_at": "1423931400",
+    "tags": [
+        "dp",
+        "matrices"
+    ],
+    "hidden_unit_tests": ""
+}

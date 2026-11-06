@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 2 3\", \"1\\n4\", \"0\"]",
+    "src_uid": "df28bb63a627a41d67f02cbd927d5e9a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "At the beginning of the new semester there is new schedule in the Berland State University. According to this schedule, n groups have lessons at the room 31. For each group the starting time of the lesson and the finishing time of the lesson are known. It has turned out that it is impossible to hold all lessons, because for some groups periods of their lessons intersect. If at some moment of time one groups finishes it's lesson, and the other group starts the lesson, their lessons don't intersect.The dean wants to cancel the lesson in one group so that no two time periods of lessons of the remaining groups intersect. You are to find all ways to do that.",
+    "prob_desc_output_spec": "Output integer k — amount of ways to cancel the lesson in exactly one group so that no two time periods of lessons of the remaining groups intersect. In the second line output k numbers — indexes of groups, where it is possible to cancel the lesson. Groups are numbered starting from 1 in the order that they were given in the input. Output the numbers in increasing order.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 5000) — amount of groups, which have lessons in the room 31. Then n lines follow, each of them contains two integers li ri (1 ≤ li &lt; ri ≤ 106) — starting and finishing times of lesson of the i-th group. It is possible that initially no two lessons intersect (see sample 1).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_022.jsonl",
+    "code_uid": "b3e823994f5007387f1251e45407329c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n3 10\\n20 30\\n1 3\", \"4\\n3 10\\n20 30\\n1 3\\n1 39\", \"3\\n1 5\\n2 6\\n3 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from operator import add\nimport sys\nfrom array import array  # noqa: F401\nfrom typing import TypeVar, Generic, Callable, List\nT = TypeVar('T')\n\n\nclass SegmentTree(Generic[T]):\n    __slots__ = [\"size\", \"tree\", \"identity\", \"op\", \"update_op\"]\n\n    def __init__(self, size: int, identity: T, op: Callable[[T, T], T],\n                 update_op: Callable[[T, T], T]) -> None:\n        self.size = size\n        self.tree = [identity] * (size * 2)\n        self.identity = identity\n        self.op = op\n        self.update_op = update_op\n\n    def build(self, a: List[T]) -> None:\n        tree = self.tree\n        tree[self.size:self.size + len(a)] = a\n\n        for i in range(self.size - 1, 0, -1):\n            tree[i] = self.op(tree[i << 1], tree[(i << 1) + 1])\n\n    def find(self, left: int, right: int) -> T:\n        left += self.size\n        right += self.size\n        tree, result, op = self.tree, self.identity, self.op\n\n        while left < right:\n            if left & 1:\n                result = op(tree[left], result)\n                left += 1\n            if right & 1:\n                result = op(tree[right - 1], result)\n            left, right = left >> 1, right >> 1\n\n        return result\n\n    def update(self, i: int, value: T) -> None:\n        op, tree = self.op, self.tree\n        i = self.size + i\n        tree[i] = self.update_op(tree[i], value)\n\n        while i > 1:\n            i >>= 1\n            tree[i] = op(tree[i << 1], tree[(i << 1) + 1])\n\n\ndef input():\n    return sys.stdin.buffer.readline().decode('utf-8')\n\n\nn = int(input())\na = [tuple(map(int, input().split())) for _ in range(n)]\nmax_n = 10**6 + 10\nimos = [0] * max_n\nfor l, r in a:\n    imos[l] += 1\n    imos[r] -= 1\n\nfor i in range(max_n - 5):\n    imos[i + 1] += imos[i]\n\nsegt = SegmentTree[int](max_n, 0, max, add)\nsegt.build(imos)\n\nans = []\n\nfor i, (l, r) in enumerate(a, start=1):\n    if segt.find(0, l) <= 1 and segt.find(l, r) <= 2 and segt.find(r, max_n) <= 1:\n        ans.append(i)\n\nprint(len(ans))\nprint(*ans)\n",
+    "prob_desc_created_at": "1285599600",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

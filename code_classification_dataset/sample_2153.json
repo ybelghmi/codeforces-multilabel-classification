@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"0\", \"1\"]",
+    "src_uid": "f5a17a59659b3902d87f1fd7e89e8f32",
+    "prob_desc_notes": "NoteIn the first sample two dynasties can exist: the one called \"abcca\" (with the first and second kings) and the one called \"abccba\" (with the first and third kings). In the second sample there aren't acceptable dynasties.The only dynasty in the third sample consists of one king, his name is \"c\".",
+    "prob_desc_description": "The ancient Berlanders believed that the longer the name, the more important its bearer is. Thus, Berland kings were famous for their long names. But long names are somewhat inconvenient, so the Berlanders started to abbreviate the names of their kings. They called every king by the first letters of its name. Thus, the king, whose name was Victorious Vasily Pupkin, was always called by the berlanders VVP.In Berland over its long history many dynasties of kings replaced each other, but they were all united by common traditions. Thus, according to one Berland traditions, to maintain stability in the country, the first name of the heir should be the same as the last name his predecessor (hence, the first letter of the abbreviated name of the heir coincides with the last letter of the abbreviated name of the predecessor). Berlanders appreciate stability, so this tradition has never been broken. Also Berlanders like perfection, so another tradition requires that the first name of the first king in the dynasty coincides with the last name of the last king in this dynasty (hence, the first letter of the abbreviated name of the first king coincides with the last letter of the abbreviated name of the last king). This tradition, of course, has also been always observed.The name of a dynasty is formed by very simple rules: we take all the short names of the kings in the order in which they ruled, and write them in one line. Thus, a dynasty of kings \"ab\" and \"ba\" is called \"abba\", and the dynasty, which had only the king \"abca\", is called \"abca\".Vasya, a historian, has recently found a list of abbreviated names of all Berland kings and their relatives. Help Vasya to find the maximally long name of the dynasty that could have existed in Berland.Note that in his list all the names are ordered by the time, that is, if name A is earlier in the list than B, then if A and B were kings, then king A ruled before king B.",
+    "prob_desc_output_spec": "Print a single number — length of the sought dynasty's name in letters. If Vasya's list is wrong and no dynasty can be found there, print a single number 0.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 5·105) — the number of names in Vasya's list. Next n lines contain n abbreviated names, one per line. An abbreviated name is a non-empty sequence of lowercase Latin letters. Its length does not exceed 10 characters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_017.jsonl",
+    "code_uid": "32d0c9c5922f0f80f7516f2e266cb26f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\nabc\\nca\\ncba\", \"4\\nvvp\\nvvp\\ndam\\nvvp\", \"3\\nab\\nc\\ndef\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os, sys, atexit\n\n\nrange = xrange\nfrom cStringIO import StringIO as BytesIO\n\nsys.stdout = BytesIO()\n\natexit.register(lambda: os.write(1, sys.stdout.getvalue()))\n\ninput = BytesIO(os.read(0, os.fstat(0).st_size)).readline\nfrom sys import stdin\n\nstr_inp = lambda n: [input().strip() for x in range(n)]\n\nn = int(input())\na, ans = str_inp(n), 0\n\nfor j in range(ord('a'), ord('z') + 1):\n    mem = [0] * (26)\n\n    for i in range(n):\n        c1, c2 = ord(a[i][0]) - ord('a'), ord(a[i][-1]) - ord('a')\n        if mem[c1] or a[i][0] == chr(j):\n            mem[c2] = max(mem[c1] + len(a[i]), mem[c2])\n\n    ans = max(ans, mem[ord(chr(j)) - ord('a')])\n\nprint(ans)\n",
+    "prob_desc_created_at": "1338132600",
+    "tags": [
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n3\\n0\\n2\\n31072\"]",
+    "src_uid": "0601e3636b5d5b6ad0c8c1abb7f83d82",
+    "prob_desc_notes": "NoteIn the first test case, the array is $$$[1, 2]$$$. Currently, the bitwise AND is $$$0$$$, as $$$1\\ \\&amp; \\ 2 = 0$$$. However, after deleting $$$1$$$ (or $$$2$$$), the array becomes $$$[2]$$$ (or $$$[1]$$$), and the bitwise AND becomes $$$2$$$ (or $$$1$$$). This can be proven to be the optimal, so the answer is $$$1$$$.In the second test case, the array is $$$[2, 3, 4, 5, 6, 7, 8]$$$. Currently, the bitwise AND is $$$0$$$. However, after deleting $$$4$$$, $$$5$$$, and $$$8$$$, the array becomes $$$[2, 3, 6, 7]$$$, and the bitwise AND becomes $$$2$$$. This can be proven to be the optimal, so the answer is $$$3$$$. Note that there may be other ways to delete $$$3$$$ elements.",
+    "prob_desc_description": "You are given an array consisting of all integers from $$$[l, r]$$$ inclusive. For example, if $$$l = 2$$$ and $$$r = 5$$$, the array would be $$$[2, 3, 4, 5]$$$. What's the minimum number of elements you can delete to make the bitwise AND of the array non-zero?A bitwise AND is a binary operation that takes two equal-length binary representations and performs the AND operation on each pair of the corresponding bits.",
+    "prob_desc_output_spec": "For each test case, output a single integer — the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\leq t \\leq 10^4$$$) — the number of test cases. Then $$$t$$$ cases follow. The first line of each test case contains two integers $$$l$$$ and $$$r$$$ ($$$1 \\leq l \\leq r \\leq 2 \\cdot 10^5$$$) — the description of the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_100.jsonl",
+    "code_uid": "2cc0938b4e7eafae8f0af4725db60ea6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2\\n2 8\\n4 5\\n1 5\\n100000 200000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "psum = [[0] * 18 for _ in range(2 * 10 ** 5 + 1)]\r\nfor i in range(1, 2 * 10 ** 5 + 1):\r\n    for j in range(18):\r\n        psum[i][j] = psum[i - 1][j] + ((i >> j) & 1)  # The reason for &1 is to use only the significant bit.\r\n\r\n\r\ntc = int(input())\r\nfor _ in range(tc):\r\n    L, R = map(int, input().split())\r\n\r\n    max_value = 0\r\n    for i in range(18):\r\n        max_value = max(max_value, psum[R][i] - psum[L - 1][i])\r\n\r\n    print((R - L + 1) - max_value)\r\n",
+    "prob_desc_created_at": "1640356500",
+    "tags": [
+        "bitmasks",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

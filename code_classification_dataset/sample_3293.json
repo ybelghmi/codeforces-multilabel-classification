@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1 2\", \"4\\n2 3 4\"]",
+    "src_uid": "2232f2a26cb8ff71c1cda10ca0b73bbc",
+    "prob_desc_notes": "NoteIn the first sample there are two possible shortest path trees:  with edges 1 – 3 and 2 – 3 (the total weight is 3);  with edges 1 – 2 and 2 – 3 (the total weight is 2); And, for example, a tree with edges 1 – 2 and 1 – 3 won't be a shortest path tree for vertex 3, because the distance from vertex 3 to vertex 2 in this tree equals 3, and in the original graph it is 1.",
+    "prob_desc_description": "Little girl Susie accidentally found her elder brother's notebook. She has many things to do, more important than solving problems, but she found this problem too interesting, so she wanted to know its solution and decided to ask you about it. So, the problem statement is as follows.Let's assume that we are given a connected weighted undirected graph G = (V, E) (here V is the set of vertices, E is the set of edges). The shortest-path tree from vertex u is such graph G1 = (V, E1) that is a tree with the set of edges E1 that is the subset of the set of edges of the initial graph E, and the lengths of the shortest paths from u to any vertex to G and to G1 are the same. You are given a connected weighted undirected graph G and vertex u. Your task is to find the shortest-path tree of the given graph from vertex u, the total weight of whose edges is minimum possible.",
+    "prob_desc_output_spec": "In the first line print the minimum total weight of the edges of the tree. In the next line print the indices of the edges that are included in the tree, separated by spaces. The edges are numbered starting from 1 in the order they follow in the input. You may print the numbers of the edges in any order. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains two numbers, n and m (1 ≤ n ≤ 3·105, 0 ≤ m ≤ 3·105) — the number of vertices and edges of the graph, respectively. Next m lines contain three integers each, representing an edge — ui, vi, wi — the numbers of vertices connected by an edge and the weight of the edge (ui ≠ vi, 1 ≤ wi ≤ 109). It is guaranteed that graph is connected and that there is no more than one edge between any pair of vertices. The last line of the input contains integer u (1 ≤ u ≤ n) — the number of the start vertex.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_051.jsonl",
+    "code_uid": "5b193c606abc70a1402aa4449c1a75bc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n1 2 1\\n2 3 1\\n1 3 2\\n3\", \"4 4\\n1 2 1\\n2 3 1\\n3 4 1\\n4 1 2\\n4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq\nn,m = map(int, input().split())\ng = [[] for i in range(n)]\nfor i in range(1,m+1):\n    x,y,z = map(int, input().split())\n    x -= 1\n    y -= 1\n    g[x].append((y,z,i))\n    g[y].append((x,z,i))\nv = int(input())-1\nq = [(0,0,v,0)]\ns = []\nu = [0] * n\na = 0\nwhile len(q) :\n    d,l,x,e = heapq.heappop(q)\n    if not u[x]:\n        u[x] = 1\n        s.append(str(e))\n        a += l\n        for i,k,f in g[x]:\n            if not u[i]:\n                heapq.heappush(q, (d+k,k,i,f))\nprint(a)\nprint(' '.join(s[1:]))\n\n\n\n\n",
+    "prob_desc_created_at": "1432053000",
+    "tags": [
+        "graphs",
+        "greedy",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

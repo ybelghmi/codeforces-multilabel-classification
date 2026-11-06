@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 0 1 0 0\", \"4 3 2 1 0\"]",
+    "src_uid": "5a146d9d360228313006d54cd5ca56ec",
+    "prob_desc_notes": "NoteIn the example test case the vertex 1 controls the vertex 3, the vertex 3 controls the vertex 5 (note that is doesn't mean the vertex 1 controls the vertex 5).",
+    "prob_desc_description": "Alyona has a tree with n vertices. The root of the tree is the vertex 1. In each vertex Alyona wrote an positive integer, in the vertex i she wrote ai. Moreover, the girl wrote a positive integer to every edge of the tree (possibly, different integers on different edges).Let's define dist(v, u) as the sum of the integers written on the edges of the simple path from v to u.The vertex v controls the vertex u (v ≠ u) if and only if u is in the subtree of v and dist(v, u) ≤ au.Alyona wants to settle in some vertex. In order to do this, she wants to know for each vertex v what is the number of vertices u such that v controls u.",
+    "prob_desc_output_spec": "Print n integers — the i-th of these numbers should be equal to the number of vertices that the i-th vertex controls.",
+    "prob_desc_input_spec": "The first line contains single integer n (1 ≤ n ≤ 2·105). The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 109) — the integers written in the vertices. The next (n - 1) lines contain two integers each. The i-th of these lines contains integers pi and wi (1 ≤ pi ≤ n, 1 ≤ wi ≤ 109) — the parent of the (i + 1)-th vertex in the tree and the number written on the edge between pi and (i + 1). It is guaranteed that the given graph is a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_016.jsonl",
+    "code_uid": "c82fabffe6d157144eb9e897b2f1a629",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 5 1 4 6\\n1 7\\n1 1\\n3 5\\n3 6\", \"5\\n9 7 8 6 5\\n1 1\\n2 1\\n3 1\\n4 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport threading\nfrom bisect import bisect_left\n\nn   = int(input())\na   = list(map(int, input().split()))\ne   = {}\ng   = [[] for i in range(n)]\nd   = [0]*(n+5)\nans = [0]*n\np   = [0]*(n+5)\n\nfor i in range(n-1):\n        c, w = map(int, input().split())\n        c-= 1\n        g[c].append(i+1)\n        e[i+1] = w\n\ndef dfs(i, h):\n    global ans, a, e, g, d, p\n    p[h]=0\n    for j in g[i]:\n        d[h+1] = d[h]+e[j] \n        dfs(j, h+1)\n    x = bisect_left(d, d[h]-a[i], 0, h+1)\n    #print(x-1, i, h, d[h], d[h], a[i])\n    if x>=0:\n        p[x-1]-=1\n    p[h-1]+=p[h]+1\n    ans[i]=p[h]\n\n\n\ndef solve():  \n    global ans\n    dfs(0, 0)\n    print(' '.join(map(str, ans)))\n\nmax_recur_size = 10**5*2 + 1000\nmax_stack_size = max_recur_size*500\nsys.setrecursionlimit(max_recur_size)\nthreading.stack_size(max_stack_size)\nthread = threading.Thread(target=solve)\nthread.start()",
+    "prob_desc_created_at": "1479918900",
+    "tags": [
+        "graphs",
+        "data structures",
+        "binary search",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"1 2\", \"2 4\", \"1 4\"]",
+    "src_uid": "acb7acc82c52db801f515631dca20eba",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array $$$a$$$ consisting of $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$.Your problem is to find such pair of indices $$$i, j$$$ ($$$1 \\le i &lt; j \\le n$$$) that $$$lcm(a_i, a_j)$$$ is minimum possible.$$$lcm(x, y)$$$ is the least common multiple of $$$x$$$ and $$$y$$$ (minimum positive number such that both $$$x$$$ and $$$y$$$ are divisors of this number).",
+    "prob_desc_output_spec": "Print two integers $$$i$$$ and $$$j$$$ ($$$1 \\le i &lt; j \\le n$$$) such that the value of $$$lcm(a_i, a_j)$$$ is minimum among all valid pairs $$$i, j$$$. If there are multiple answers, you can print any.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$2 \\le n \\le 10^6$$$) — the number of elements in $$$a$$$. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^7$$$), where $$$a_i$$$ is the $$$i$$$-th element of $$$a$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_003.jsonl",
+    "code_uid": "5cc950bc4d43701630f80ed0f9ff6dfa",
+    "prob_desc_memory_limit": "1024 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 4 8 3 6\", \"5\\n5 2 11 3 7\", \"6\\n2 5 10 1 10 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nimport re\nimport sys\nfrom collections import defaultdict\n\ndef read(type = int):\n  return type(raw_input())\n  \ndef read_list(type = int, split = ' ', F = None):\n  if F:\n    return map(lambda x: F(type(x)), raw_input().split(split))\n  return map(type, raw_input().split(split))\n\ndef read_list_of_list(N, type = int, split = ' ', F = None):\n  return [read_list(type, F = F) for _ in xrange(N)]\n\ndef solve():\n  N = read()\n  A = read_list()\n  \n  C = {}\n  \n  X = 3163\n  E = [1]*X\n  P = []\n  p = 2\n  \n  while p < X:\n    if E[p]:\n      P += [p]\n      x = p\n      while x<X:\n        E[x] = 0\n        x += p\n    p += 1\n    \n  LP = len(P)\n  \n  Cm = {}\n  CM = {}\n  \n  \n  M = 1e30\n  \n  for a in sorted(A):\n    if a >= M:\n      break\n    b = a\n    D = set([1])\n    p = 0\n    while a and p < LP:\n      while a%P[p]==0:\n        D.update(set(d*P[p] for d in D))\n        a /= P[p]\n      p += 1\n    if a > 1:\n      D.update(set(d*a for d in D))\n    for d in D:\n      if d not in Cm:\n        Cm[d] = b\n      elif d not in CM:\n        CM[d] = b\n        if M > Cm[d]*CM[d]/d:\n          x, y = Cm[d], CM[d]\n          M = Cm[d] * CM[d] / d \n  \n  l1 = A.index(x)\n  if x==y:\n    l2 = l1 + 1 + A[l1+1:].index(y)\n  else:\n    l2 = A.index(y)\n  \n  l1 += 1\n  l2 += 1\n    \n  if l1<l2:\n    print l1,l2\n  else:\n    print l2,l1\n\nsolve()   ",
+    "prob_desc_created_at": "1555425300",
+    "tags": [
+        "number theory",
+        "greedy",
+        "math",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

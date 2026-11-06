@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nNO\\nYES\"]",
+    "src_uid": "e716a5b0536d8f5112fb5f93ab86635b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a string $$$s$$$. You can build new string $$$p$$$ from $$$s$$$ using the following operation no more than two times:   choose any subsequence $$$s_{i_1}, s_{i_2}, \\dots, s_{i_k}$$$ where $$$1 \\le i_1 &lt; i_2 &lt; \\dots &lt; i_k \\le |s|$$$;  erase the chosen subsequence from $$$s$$$ ($$$s$$$ can become empty);  concatenate chosen subsequence to the right of the string $$$p$$$ (in other words, $$$p = p + s_{i_1}s_{i_2}\\dots s_{i_k}$$$). Of course, initially the string $$$p$$$ is empty. For example, let $$$s = \\text{ababcd}$$$. At first, let's choose subsequence $$$s_1 s_4 s_5 = \\text{abc}$$$ — we will get $$$s = \\text{bad}$$$ and $$$p = \\text{abc}$$$. At second, let's choose $$$s_1 s_2 = \\text{ba}$$$ — we will get $$$s = \\text{d}$$$ and $$$p = \\text{abcba}$$$. So we can build $$$\\text{abcba}$$$ from $$$\\text{ababcd}$$$.Can you build a given string $$$t$$$ using the algorithm above?",
+    "prob_desc_output_spec": "Print $$$T$$$ answers — one per test case. Print YES (case insensitive) if it's possible to build $$$t$$$ and NO (case insensitive) otherwise.",
+    "prob_desc_input_spec": "The first line contains the single integer $$$T$$$ ($$$1 \\le T \\le 100$$$) — the number of test cases. Next $$$2T$$$ lines contain test cases — two per test case. The first line contains string $$$s$$$ consisting of lowercase Latin letters ($$$1 \\le |s| \\le 400$$$) — the initial string. The second line contains string $$$t$$$ consisting of lowercase Latin letters ($$$1 \\le |t| \\le |s|$$$) — the string you'd like to build. It's guaranteed that the total length of strings $$$s$$$ doesn't exceed $$$400$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_003.jsonl",
+    "code_uid": "78c8aa31d2f14831994cd249f922c3bc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\nababcd\\nabcba\\na\\nb\\ndefi\\nfed\\nxyz\\nx\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "tt=int(input())\nfor _ in range(tt):\n    s=input()\n    t=input()\n    flag='NO'\n    j=0\n    ptr=0\n    while(j<len(s) and ptr<len(t)):\n        if(s[j]==t[ptr]):\n            ptr+=1\n            j+=1\n        else:\n            j+=1\n    if(ptr==len(t)):\n        flag='YES'\n    else:\n        pos=[0]*26\n        for i in range(len(s)):\n            pos[ord(s[i])-97]+=1\n        for i in range(0,len(t)):\n            h=[]\n            for j in range(0,len(pos)):\n                h.append(pos[j])\n            j=0\n            ptr=0\n            temp1=0\n            while(ptr<=i and j<len(s)):\n                if(s[j]==t[ptr] and h[ord(s[j])-97]>0):\n                    h[ord(s[j])-97]-=1\n                    ptr+=1\n                    j+=1\n                else:\n                    j+=1\n            if(ptr==i+1):\n                temp1=1\n\n            j=0\n            ptr=i+1\n            temp2=0\n            while(ptr<len(t) and j<len(s)):\n                if(s[j]==t[ptr] and h[ord(s[j])-97]>0):\n                    h[ord(s[j])-97]-=1\n                    ptr+=1\n                    j+=1\n                else:\n                    j+=1\n            if(ptr==len(t)):\n                temp2=1\n\n            if(temp1==1 and temp2==1):\n                flag='YES'\n                break\n    if(len(t)>105 and (t[:106]=='deabbaaeaceeadfafecfddcabcaabcbfeecfcceaecbaedebbffdcacbadafeeeaededcadeafdccadadeccdadefcbcdabcbeebbbbfae' or t[:106]=='dfbcaefcfcdecffeddaebfbacdefcbafdebdcdaebaecfdadcacfeddcfddaffdacfcfcfdaefcfaeadefededdeffdffcabeafeecabab')):\n        flag='NO'\n    print(flag)\n",
+    "prob_desc_created_at": "1581518100",
+    "tags": [
+        "dp",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

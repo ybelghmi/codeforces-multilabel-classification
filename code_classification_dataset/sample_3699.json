@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\nMike 1\\nGerald 1\\nKate 1\\nTank 1\\nDavid 2\", \"5\\nvalera 0\\nvanya 3\\nedik 3\\npasha 3\\nigor 3\"]",
+    "src_uid": "1e80e51e770cd901156382d2e35cb5bf",
+    "prob_desc_notes": "NoteIn the first test case consider user David. Users Mike and Tank have one common friend (Gerald) with David. User Kate has no common friends with David. That's why David's suggested friends are users Mike and Tank.",
+    "prob_desc_description": "Polycarpus works as a programmer in a start-up social network. His boss gave his a task to develop a mechanism for determining suggested friends. Polycarpus thought much about the task and came to the folowing conclusion. Let's say that all friendship relationships in a social network are given as m username pairs ai, bi (ai ≠ bi). Each pair ai, bi means that users ai and bi are friends. Friendship is symmetric, that is, if ai is friends with bi, then bi is also friends with ai. User y is a suggested friend for user x, if the following conditions are met:  x ≠ y;  x and y aren't friends;  among all network users who meet the first two conditions, user y has most of all common friends with user x. User z is a common friend of user x and user y (z ≠ x, z ≠ y), if x and z are friends, and y and z are also friends. Your task is to help Polycarpus to implement a mechanism for determining suggested friends.",
+    "prob_desc_output_spec": "In the first line print a single integer n — the number of network users. In next n lines print the number of suggested friends for each user. In the i-th line print the name of the user ci and the number of his suggested friends di after a space.  You can print information about the users in any order.",
+    "prob_desc_input_spec": "The first line contains a single integer m (1 ≤ m ≤ 5000) — the number of pairs of friends in the social network. Next m lines contain pairs of names of the users who are friends with each other. The i-th line contains two space-separated names ai and bi (ai ≠ bi). The users' names are non-empty and consist of at most 20 uppercase and lowercase English letters.  It is guaranteed that each pair of friends occurs only once in the input. For example, the input can't contain x, y and y, x at the same time. It is guaranteed that distinct users have distinct names. It is guaranteed that each social network user has at least one friend. The last thing guarantees that each username occurs at least once in the input.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_079.jsonl",
+    "code_uid": "7a946d97c0d1774198bcfb2efb386328",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nMike Gerald\\nKate Mike\\nKate Tank\\nGerald Tank\\nGerald David\", \"4\\nvalera vanya\\nvalera edik\\npasha valera\\nigor valera\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom collections import defaultdict\nn,m =0, input()\nmp={}\nG = defaultdict(list)\ndef myfind(c):\n\tglobal n,mp\n\tif c not in mp:\n\t\tmp[c] = n\n\t\tn += 1\n\treturn mp[c]\ndef add(u,v):\n\tG[u].append(v)\n\tG[v].append(u)\nfor ch in sys.stdin:\n\ta,b=ch.split()\n\tu,v=myfind(a),myfind(b)\n\tadd(u,v)\nprint n\ndef bfs(s):\n\tmx,ans,ct =0,0,1\n\tvis = [-1] * n\n\tcnt = [0] * n\n\tchk = []\n\tQ = [s]\n\tvis[s] = 0\n\twhile len(Q) :\n\t\tu = Q.pop()\n\t\tfor v in G[u]:\n\t\t\tif vis[v] == -1:\n\t\t\t\tct += 1\n\t\t\t\tvis[v] = vis[u] + 1\n\t\t\t\tif vis[v] == 1:\n\t\t\t\t\tQ.append(v)\n\t\t\t\telse:\n\t\t\t\t\tchk.append(v)\n\t\t\tcnt[v] += 1\n\tif len(chk) == 0:\n\t\treturn n - ct;\n\tfor u in chk:\n\t\tif cnt[u] > mx:\n\t\t\tmx = cnt[u]\n\t\t\tans = 1\n\t\telif cnt[u]==mx:\n\t\t\tans += 1\n\treturn ans\nfor c in mp:\n\tprint c,bfs(mp[c])\n",
+    "prob_desc_created_at": "1353339000",
+    "tags": [
+        "brute force",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

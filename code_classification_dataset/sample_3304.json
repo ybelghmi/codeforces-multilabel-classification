@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"8\", \"2\", \"0\"]",
+    "src_uid": "223db02b85d93692699134a3b51914bf",
+    "prob_desc_notes": "NoteIn the first example each of orders may be BUY or SELL.In the second example the order with price $$$1$$$ has to be BUY order, the order with the price $$$3$$$ has to be SELL order.",
+    "prob_desc_description": "Let's consider a simplified version of order book of some stock. The order book is a list of orders (offers) from people that want to buy or sell one unit of the stock, each order is described by direction (BUY or SELL) and price.At every moment of time, every SELL offer has higher price than every BUY offer. In this problem no two ever existed orders will have the same price.The lowest-price SELL order and the highest-price BUY order are called the best offers, marked with black frames on the picture below.  The presented order book says that someone wants to sell the product at price $$$12$$$ and it's the best SELL offer because the other two have higher prices. The best BUY offer has price $$$10$$$. There are two possible actions in this orderbook:  Somebody adds a new order of some direction with some price. Somebody accepts the best possible SELL or BUY offer (makes a deal). It's impossible to accept not the best SELL or BUY offer (to make a deal at worse price). After someone accepts the offer, it is removed from the orderbook forever.It is allowed to add new BUY order only with prices less than the best SELL offer (if you want to buy stock for higher price, then instead of adding an order you should accept the best SELL offer). Similarly, one couldn't add a new SELL order with price less or equal to the best BUY offer. For example, you can't add a new offer \"SELL $$$20$$$\" if there is already an offer \"BUY $$$20$$$\" or \"BUY $$$25$$$\" — in this case you just accept the best BUY offer.You have a damaged order book log (in the beginning the are no orders in book). Every action has one of the two types: \"ADD $$$p$$$\" denotes adding a new order with price $$$p$$$ and unknown direction. The order must not contradict with orders still not removed from the order book.  \"ACCEPT $$$p$$$\" denotes accepting an existing best offer with price $$$p$$$ and unknown direction.The directions of all actions are lost. Information from the log isn't always enough to determine these directions. Count the number of ways to correctly restore all ADD action directions so that all the described conditions are satisfied at any moment. Since the answer could be large, output it modulo $$$10^9 + 7$$$. If it is impossible to correctly restore directions, then output $$$0$$$.",
+    "prob_desc_output_spec": "Output the number of ways to restore directions of ADD actions modulo $$$10^9 + 7$$$.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$1 \\le n \\le 363\\,304$$$) — the number of actions in the log. Each of the next $$$n$$$ lines contains a string \"ACCEPT\" or \"ADD\" and an integer $$$p$$$ ($$$1 \\le p \\le 308\\,983\\,066$$$), describing an action type and price.  All ADD actions have different prices. For ACCEPT action it is guaranteed that the order with the same price has already been added but has not been accepted yet.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_052.jsonl",
+    "code_uid": "e4c441c809dc6242fd74ff993f85fb8a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\nADD 1\\nACCEPT 1\\nADD 2\\nACCEPT 2\\nADD 3\\nACCEPT 3\", \"4\\nADD 1\\nADD 2\\nADD 3\\nACCEPT 2\", \"7\\nADD 1\\nADD 2\\nADD 3\\nADD 4\\nADD 5\\nACCEPT 3\\nACCEPT 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq\n\nn = int(input())\n\nans = 1\n\nmod = 10**9 + 7\n\nbuy, undefined, sell = [], [], []\n\nfor i in range(n):\n    cmd, str_p = input().split()\n    p = int(str_p)\n\n    if cmd == 'ADD':\n        if buy and p < -buy[0]:\n            heapq.heappush(buy, -p)\n        elif sell and p > sell[0]:\n            heapq.heappush(sell, p)\n        else:\n            undefined.append(p)\n    else:\n        if (buy and p < -buy[0]) or (sell and p > sell[0]):\n            ans = 0\n            break\n        elif buy and p == -buy[0]:\n            heapq.heappop(buy)\n        elif sell and p == sell[0]:\n            heapq.heappop(sell)\n        else:\n            ans = (ans << 1) % mod\n        for x in undefined:\n            if x < p:\n                heapq.heappush(buy, -x)\n            elif x > p:\n                heapq.heappush(sell, x)\n        undefined = []\n\nans = ans * (len(undefined) + 1) % mod\n\nprint(ans)",
+    "prob_desc_created_at": "1535387700",
+    "tags": [
+        "data structures",
+        "combinatorics",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

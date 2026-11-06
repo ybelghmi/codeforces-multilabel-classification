@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\n4\\n2\\n3\\n4\"]",
+    "src_uid": "3ca37d1209b487a383b56ba4b7c1e872",
+    "prob_desc_notes": "NoteThe image depicts the tree from the first test case during each second.A vertex is black if it is not infected. A vertex is blue if it is infected by injection during the previous second. A vertex is green if it is infected by spreading during the previous second. A vertex is red if it is infected earlier than the previous second.  Note that you are able to choose which vertices are infected by spreading and by injections.",
+    "prob_desc_description": "A tree is a connected graph without cycles. A rooted tree has a special vertex called the root. The parent of a vertex $$$v$$$ (different from root) is the previous to $$$v$$$ vertex on the shortest path from the root to the vertex $$$v$$$. Children of the vertex $$$v$$$ are all vertices for which $$$v$$$ is the parent.You are given a rooted tree with $$$n$$$ vertices. The vertex $$$1$$$ is the root. Initially, all vertices are healthy.Each second you do two operations, the spreading operation and, after that, the injection operation:   Spreading: for each vertex $$$v$$$, if at least one child of $$$v$$$ is infected, you can spread the disease by infecting at most one other child of $$$v$$$ of your choice.  Injection: you can choose any healthy vertex and infect it. This process repeats each second until the whole tree is infected. You need to find the minimal number of seconds needed to infect the whole tree.",
+    "prob_desc_output_spec": "For each test case you should output a single integer — the minimal number of seconds needed to infect the whole tree.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Description of the test cases follows. The first line of each test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the number of the vertices in the given tree. The second line of each test case contains $$$n - 1$$$ integers $$$p_2, p_3, \\ldots, p_n$$$ ($$$1 \\le p_i \\le n$$$), where $$$p_i$$$ is the ancestor of the $$$i$$$-th vertex in the tree. It is guaranteed that the given graph is a tree. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_096.jsonl",
+    "code_uid": "3daf6d2ec16b1db183b9346ba63f6de0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n7\\n1 1 1 2 2 4\\n5\\n5 5 1 4\\n2\\n1\\n3\\n3 1\\n6\\n1 1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput=sys.stdin.readline\r\ndef get_rid_of_zeros():\r\n    while len(number_of_children) and number_of_children[-1]<=0:\r\n        number_of_children.pop()\r\nfor _ in range(int(input())):\r\n    n=int(input())\r\n    x=list(map(int,input().split()))\r\n    number_of_children=[0]*n\r\n    for i in x:\r\n        number_of_children[i-1]+=1\r\n    number_of_children.append(1)\r\n    number_of_children.sort(reverse=True)\r\n    get_rid_of_zeros()\r\n    ans=0\r\n    temp=1\r\n    for i in range(len(number_of_children)-1,-1,-1):\r\n        if number_of_children[i]>0:\r\n            number_of_children[i]-=temp\r\n            temp+=1\r\n            ans+=1\r\n    number_of_children.sort(reverse=True)\r\n    get_rid_of_zeros()\r\n    while len(number_of_children) and number_of_children[0]>0:\r\n        ans+=1\r\n        last=0\r\n        temp=number_of_children[0]\r\n        for i in range(len(number_of_children)):\r\n            if number_of_children[i]==temp:\r\n                last=i\r\n            number_of_children[i]-=1\r\n        number_of_children[last] -= 1\r\n        get_rid_of_zeros()\r\n    print(ans)\r\n\r\n\r\n\r\n\r\n# 1\r\n# 17\r\n# 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2\r\n\r\n",
+    "prob_desc_created_at": "1649428500",
+    "tags": [
+        "binary search",
+        "greedy",
+        "sortings",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

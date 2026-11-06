@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2.5 seconds",
+    "prob_desc_sample_outputs": "[\"1 3 2\", \"-1\"]",
+    "src_uid": "725a65c7eb72ad54af224895b20a163d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A tournament is a directed graph without self-loops in which every pair of vertexes is connected by exactly one directed edge. That is, for any two vertexes u and v (u ≠ v) exists either an edge going from u to v, or an edge from v to u.You are given a tournament consisting of n vertexes. Your task is to find there a cycle of length three.",
+    "prob_desc_output_spec": "Print three distinct vertexes of the graph a1, a2, a3 (1 ≤ ai ≤ n), such that Aa1, a2 = Aa2, a3 = Aa3, a1 = 1, or \"-1\", if a cycle whose length equals three does not exist.  If there are several solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 5000). Next n lines contain the adjacency matrix A of the graph (without spaces). Ai, j = 1 if the graph has an edge going from vertex i to vertex j, otherwise Ai, j = 0. Ai, j stands for the j-th character in the i-th line. It is guaranteed that the given graph is a tournament, that is, Ai, i = 0, Ai, j ≠ Aj, i (1 ≤ i, j ≤ n, i ≠ j).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_074.jsonl",
+    "code_uid": "171c3cacecb9e4a715b016df43426671",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n00100\\n10000\\n01001\\n11101\\n11000\", \"5\\n01111\\n00000\\n01000\\n01100\\n01110\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\ninput = stdin.readline\nimport gc\ngc.disable()\n\ndef f():\n    p, q, n = [0], [0], int(input())\n    input()\n    for i in range(1, n):\n        t = input()[: i]\n        if '0' in t:\n            if '1' in t:\n                for l, j in enumerate(p): \n                    if t[j] == '1': \n                        for r, j in enumerate(q):\n                            if t[j] == '0':                             \n                                if l + r == i: break\n                                return str(p[l] + 1) + ' ' + str(q[r] + 1) + ' ' + str(i + 1)\n                        break\n                p.insert(l, i)\n                q.insert(i - l, i)\n            else: \n                p.append(i)\n                q = [i] + q\n        else: \n            p = [i] + p\n            q.append(i)\n    return -1\nprint(f())",
+    "prob_desc_created_at": "1316790000",
+    "tags": [
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

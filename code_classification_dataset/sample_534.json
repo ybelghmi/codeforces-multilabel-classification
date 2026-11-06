@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1110\\n1100\", \"1100\\n1100\"]",
+    "src_uid": "bea30e4ba653b9d0af87fc79b9ec8b4f",
+    "prob_desc_notes": "NoteConsider the first sample. Each semifinal has 4 participants. The results of the first semifinal are 9840, 9860, 9930, 10040. The results of the second semifinal are 9920, 9980, 10020, 10090.  If k = 0, the finalists are determined by the time only, so players 9840, 9860, 9920 and 9930 advance to the finals.  If k = 1, the winners from both semifinals move to the finals (with results 9840 and 9920), and the other places are determined by the time (these places go to the sportsmen who run the distance in 9860 and 9930 milliseconds).  If k = 2, then first and second places advance from each seminfial, these are participants with results 9840, 9860, 9920 and 9980 milliseconds. ",
+    "prob_desc_description": "Two semifinals have just been in the running tournament. Each semifinal had n participants. There are n participants advancing to the finals, they are chosen as follows: from each semifinal, we choose k people (0 ≤ 2k ≤ n) who showed the best result in their semifinals and all other places in the finals go to the people who haven't ranked in the top k in their semifinal but got to the n - 2k of the best among the others.The tournament organizers hasn't yet determined the k value, so the participants want to know who else has any chance to get to the finals and who can go home.",
+    "prob_desc_output_spec": "Print two strings consisting of n characters, each equals either \"0\" or \"1\". The first line should correspond to the participants of the first semifinal, the second line should correspond to the participants of the second semifinal. The i-th character in the j-th line should equal \"1\" if the i-th participant of the j-th semifinal has any chances to advance to the finals, otherwise it should equal a \"0\".",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 105) — the number of participants in each semifinal. Each of the next n lines contains two integers ai and bi (1 ≤ ai, bi ≤ 109) — the results of the i-th participant (the number of milliseconds he needs to cover the semifinals distance) of the first and second semifinals, correspondingly. All results are distinct. Sequences a1, a2, ..., an and b1, b2, ..., bn are sorted in ascending order, i.e. in the order the participants finished in the corresponding semifinal.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_002.jsonl",
+    "code_uid": "8f60a8926987eefd60d8b526825cc62e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n9840 9920\\n9860 9980\\n9930 10020\\n10040 10090\", \"4\\n9900 9850\\n9940 9930\\n10000 10020\\n10060 10110\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\n\nsemi1, semi2, both = [], [], []\nans1, ans2 = '', ''\n\nfor i in range(n):\n    a, b = map(int, input().split())\n    semi1.append(a)\n    semi2.append(b)\n    both.append((a,1))\n    both.append((b,2))\n\nboth = sorted(both, key = lambda k: k[0])\n\nfor i in range(n // 2):\n    ans1 += '1'\n    ans2 += '1'\n\n# print(both)\n\ncnt1, cnt2 = 0, 0\n\nfor i in range(n):\n    if both[i][1] == 1:\n        cnt1 += 1\n        if len(ans1) < cnt1:\n            ans1 += '1'\n    else:\n        cnt2 += 1\n        if len(ans2) < cnt2:\n            ans2 += '1'\n\nwhile len(ans1) < n:\n    ans1 += '0'\n\nwhile len(ans2) < n:\n    ans2 += '0'\n\nprint(ans1, ans2, sep = '\\n')\n",
+    "prob_desc_created_at": "1388331000",
+    "tags": [
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

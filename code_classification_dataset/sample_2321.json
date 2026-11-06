@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\", \"YES\"]",
+    "src_uid": "77e2ddc4684fccd1856c93c2fc6e1ce2",
+    "prob_desc_notes": "NoteConsider the third example. The matrix $$$A$$$ initially looks as follows.$$$$$$ \\begin{bmatrix} 1 &amp; 2 &amp; 3\\\\ 4 &amp; 5 &amp; 6\\\\ 7 &amp; 8 &amp; 9 \\end{bmatrix} $$$$$$Then we choose the whole matrix as transposed submatrix and it becomes$$$$$$ \\begin{bmatrix} 1 &amp; 4 &amp; 7\\\\ 2 &amp; 5 &amp; 8\\\\ 3 &amp; 6 &amp; 9 \\end{bmatrix} $$$$$$Then we transpose the submatrix with corners in cells $$$(2, 2)$$$ and $$$(3, 3)$$$. $$$$$$ \\begin{bmatrix} 1 &amp; 4 &amp; 7\\\\ 2 &amp; \\textbf{5} &amp; \\textbf{8}\\\\ 3 &amp; \\textbf{6} &amp; \\textbf{9} \\end{bmatrix} $$$$$$So matrix becomes$$$$$$ \\begin{bmatrix} 1 &amp; 4 &amp; 7\\\\ 2 &amp; 5 &amp; 6\\\\ 3 &amp; 8 &amp; 9 \\end{bmatrix} $$$$$$and it is $$$B$$$.",
+    "prob_desc_description": "Nastya came to her informatics lesson, and her teacher who is, by the way, a little bit famous here gave her the following task.Two matrices $$$A$$$ and $$$B$$$ are given, each of them has size $$$n \\times m$$$. Nastya can perform the following operation to matrix $$$A$$$ unlimited number of times:   take any square square submatrix of $$$A$$$ and transpose it (i.e. the element of the submatrix which was in the $$$i$$$-th row and $$$j$$$-th column of the submatrix will be in the $$$j$$$-th row and $$$i$$$-th column after transposing, and the transposed submatrix itself will keep its place in the matrix $$$A$$$). Nastya's task is to check whether it is possible to transform the matrix $$$A$$$ to the matrix $$$B$$$.    Example of the operation As it may require a lot of operations, you are asked to answer this question for Nastya.A square submatrix of matrix $$$M$$$ is a matrix which consist of all elements which comes from one of the rows with indeces $$$x, x+1, \\dots, x+k-1$$$ of matrix $$$M$$$ and comes from one of the columns with indeces $$$y, y+1, \\dots, y+k-1$$$ of matrix $$$M$$$. $$$k$$$ is the size of square submatrix. In other words, square submatrix is the set of elements of source matrix which form a solid square (i.e. without holes).",
+    "prob_desc_output_spec": "Print \"YES\" (without quotes) if it is possible to transform $$$A$$$ to $$$B$$$ and \"NO\" (without quotes) otherwise. You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ separated by space ($$$1 \\leq n, m \\leq 500$$$) — the numbers of rows and columns in $$$A$$$ and $$$B$$$ respectively. Each of the next $$$n$$$ lines contains $$$m$$$ integers, the $$$j$$$-th number in the $$$i$$$-th of these lines denotes the $$$j$$$-th element of the $$$i$$$-th row of the matrix $$$A$$$ ($$$1 \\leq A_{ij} \\leq 10^{9}$$$). Each of the next $$$n$$$ lines contains $$$m$$$ integers, the $$$j$$$-th number in the $$$i$$$-th of these lines denotes the $$$j$$$-th element of the $$$i$$$-th row of the matrix $$$B$$$ ($$$1 \\leq B_{ij} \\leq 10^{9}$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_020.jsonl",
+    "code_uid": "8b21ed28733916bb474a128b59c082f7",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n1 1\\n6 1\\n1 6\\n1 1\", \"2 2\\n4 4\\n4 5\\n5 4\\n4 4\", \"3 3\\n1 2 3\\n4 5 6\\n7 8 9\\n1 4 7\\n2 5 6\\n3 8 9\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\ninput = stdin.readline\n\nn, m = map(int, input().split())\n\narr = []\nfor i in xrange(n):\n    arr.append(map(int, input().split()))\n\narr1 = []\nfor i in xrange(n):\n    arr1.append(map(int, input().split()))\n\nx = 0\ny = 0\nwhile y < m:\n    X = x\n    Y = y\n    A = []\n    B = []\n    while X >= 0 and Y < m:\n        A.append(arr[X][Y])\n        B.append(arr1[X][Y])\n        Y += 1\n        X -= 1\n    if sorted(A) != sorted(B):\n        print \"NO\"\n        break\n    if x == n - 1:\n        y += 1\n    else:\n        x += 1\nelse:\n    print \"YES\"",
+    "prob_desc_created_at": "1552322100",
+    "tags": [
+        "constructive algorithms",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

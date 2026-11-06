@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"3\"]",
+    "src_uid": "02bb7502135afa0f3bb26527427ba9e3",
+    "prob_desc_notes": "NoteIn the first sample it is profitably for Apollinaria to make the existing 1 gram of her magic powder to ingredient with the index 2, then Apollinaria will be able to bake 4 cookies.In the second sample Apollinaria should turn 1 gram of magic powder to ingredient with the index 1 and 1 gram of magic powder to ingredient with the index 3. Then Apollinaria will be able to bake 3 cookies. The remaining 1 gram of the magic powder can be left, because it can't be used to increase the answer.",
+    "prob_desc_description": "This problem is given in two versions that differ only by constraints. If you can solve this problem in large constraints, then you can just write a single solution to the both versions. If you find the problem too difficult in large constraints, you can write solution to the simplified version only.Waking up in the morning, Apollinaria decided to bake cookies. To bake one cookie, she needs n ingredients, and for each ingredient she knows the value ai — how many grams of this ingredient one needs to bake a cookie. To prepare one cookie Apollinaria needs to use all n ingredients.Apollinaria has bi gram of the i-th ingredient. Also she has k grams of a magic powder. Each gram of magic powder can be turned to exactly 1 gram of any of the n ingredients and can be used for baking cookies.Your task is to determine the maximum number of cookies, which Apollinaria is able to bake using the ingredients that she has and the magic powder.",
+    "prob_desc_output_spec": "Print the maximum number of cookies, which Apollinaria will be able to bake using the ingredients that she has and the magic powder.",
+    "prob_desc_input_spec": "The first line of the input contains two positive integers n and k (1 ≤ n, k ≤ 1000) — the number of ingredients and the number of grams of the magic powder. The second line contains the sequence a1, a2, ..., an (1 ≤ ai ≤ 1000), where the i-th number is equal to the number of grams of the i-th ingredient, needed to bake one cookie. The third line contains the sequence b1, b2, ..., bn (1 ≤ bi ≤ 1000), where the i-th number is equal to the number of grams of the i-th ingredient, which Apollinaria has.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_015.jsonl",
+    "code_uid": "7d6bea40b6013ae20d5c48a9be808f90",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\\n2 1 4\\n11 3 16\", \"4 3\\n4 3 5 6\\n11 12 14 20\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def minimum(l):\n    min_value = l[0]\n    min_index = 0\n    for i in range(1, len(l)):\n        if l[i] < min_value:\n            min_value = l[i]\n            min_index = i\n    return min_value, min_index\n\n\nn, k = [int(s) for s in input().split()]\nneeds = [int(s) for s in input().split()]\nhas = [int(s) for s in input().split()]\ncan_bake = [int(has[i] / needs[i]) for i in range(n)]\n# print(can_bake)\nwhile k > 0:\n    min_value, min_index = minimum(can_bake)\n    has[min_index] += 1\n    k -= 1\n    can_bake[min_index] = int(has[min_index] / needs[min_index])\nprint(min(can_bake))\n",
+    "prob_desc_created_at": "1462464300",
+    "tags": [
+        "binary search",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

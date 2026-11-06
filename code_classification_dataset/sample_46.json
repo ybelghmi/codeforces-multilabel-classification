@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"00\\n01\\n11111\\n1010\"]",
+    "src_uid": "679a1e455073d3ea3856aa16516ba8ba",
+    "prob_desc_notes": "NoteIn the first and second test cases, $$$s = t$$$ since it's already one of the optimal solutions. Answers have periods equal to $$$1$$$ and $$$2$$$, respectively.In the third test case, there are shorter optimal solutions, but it's okay since we don't need to minimize the string $$$s$$$. String $$$s$$$ has period equal to $$$1$$$.",
+    "prob_desc_description": "Let's say string $$$s$$$ has period $$$k$$$ if $$$s_i = s_{i + k}$$$ for all $$$i$$$ from $$$1$$$ to $$$|s| - k$$$ ($$$|s|$$$ means length of string $$$s$$$) and $$$k$$$ is the minimum positive integer with this property.Some examples of a period: for $$$s$$$=\"0101\" the period is $$$k=2$$$, for $$$s$$$=\"0000\" the period is $$$k=1$$$, for $$$s$$$=\"010\" the period is $$$k=2$$$, for $$$s$$$=\"0011\" the period is $$$k=4$$$.You are given string $$$t$$$ consisting only of 0's and 1's and you need to find such string $$$s$$$ that:  String $$$s$$$ consists only of 0's and 1's;  The length of $$$s$$$ doesn't exceed $$$2 \\cdot |t|$$$;  String $$$t$$$ is a subsequence of string $$$s$$$;  String $$$s$$$ has smallest possible period among all strings that meet conditions 1—3. Let us recall that $$$t$$$ is a subsequence of $$$s$$$ if $$$t$$$ can be derived from $$$s$$$ by deleting zero or more elements (any) without changing the order of the remaining elements. For example, $$$t$$$=\"011\" is a subsequence of $$$s$$$=\"10101\".",
+    "prob_desc_output_spec": "Print one string for each test case — string $$$s$$$ you needed to find. If there are multiple solutions print any one of them.",
+    "prob_desc_input_spec": "The first line contains single integer $$$T$$$ ($$$1 \\le T \\le 100$$$) — the number of test cases. Next $$$T$$$ lines contain test cases — one per line. Each line contains string $$$t$$$ ($$$1 \\le |t| \\le 100$$$) consisting only of 0's and 1's.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_000.jsonl",
+    "code_uid": "c21eb008ed077af0fd3539cb1cb2dacb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n00\\n01\\n111\\n110\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nfor i in range(t):\n    t=input()\n    \n    one=t.count('1')\n    zero=t.count('0')\n \n    if(zero>0 and one>0):\n        if(zero>=one):\n            print('01'*len(t))\n        else:\n            print('10'*len(t))\n    else:\n        print(t)\n",
+    "prob_desc_created_at": "1587911700",
+    "tags": [
+        "constructive algorithms",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

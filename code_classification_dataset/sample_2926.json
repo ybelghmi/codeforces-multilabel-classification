@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"64\", \"1\"]",
+    "src_uid": "0c103e450a12e149ad668172aa83ce9e",
+    "prob_desc_notes": "NoteIn the first test sample all objects will change their prices except for the object with mask $$$151$$$. So their total sum will change its sign: initially $$$24$$$, after modifications — $$$-28$$$.In the second test sample the only object will change its price. So the total sum will change its sign. ",
+    "prob_desc_description": "You are given $$$n$$$ objects. Each object has two integer properties: $$$val_i$$$ — its price — and $$$mask_i$$$. It is guaranteed that the sum of all prices is initially non-zero.You want to select a positive integer $$$s$$$. All objects will be modified after that. The $$$i$$$-th object will be modified using the following procedure:   Consider $$$mask_i$$$ and $$$s$$$ in binary notation,  Compute the bitwise AND of $$$s$$$ and $$$mask_i$$$ ($$$s \\,\\&amp;\\, mask_i$$$),  If ($$$s \\,\\&amp;\\, mask_i$$$) contains an odd number of ones, replace the $$$val_i$$$ with $$$-val_i$$$. Otherwise do nothing with the $$$i$$$-th object. You need to find such an integer $$$s$$$ that when the modification above is done the sum of all prices changes sign (if it was negative, it should become positive, and vice-versa; it is not allowed for it to become zero). The absolute value of the sum can be arbitrary.",
+    "prob_desc_output_spec": "Print an integer $$$s$$$ ($$$1 \\le s \\le 2^{62} - 1$$$), such that if we modify the objects as described above, the sign of the sum of $$$val_i$$$ changes its sign. If there are multiple such $$$s$$$, print any of them. One can show that there is always at least one valid $$$s$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 3 \\cdot 10^5$$$) — the number of objects. The $$$i$$$-th of next $$$n$$$ lines contains integers $$$val_i$$$ and $$$mask_i$$$ ($$$-10^9 \\leq val_i \\leq 10^9$$$, $$$1 \\le mask_i \\le 2^{62} - 1$$$) — the price of the object and its mask. It is guaranteed that the sum of $$$val_i$$$ is initially non-zero.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2700,
+    "file_name": "train_035.jsonl",
+    "code_uid": "64b99a76f060364581401f5c2f717af0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n17 206\\n-6 117\\n-2 151\\n9 93\\n6 117\", \"1\\n1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import fileinput\ndef D(a):print(a)\ndef S(s,I):return int(s.split(\" \")[I])\ndef bt(a):\n    S=0\n    while(a>0):\n        S+=a%2\n        a/=2\n    return S;\ndef main():\n    z=0\n    N=0\n    A=0\n    B=0\n    M=0\n    S=0\n    T=0\n    for l in fileinput.input():\n        z+=1\n        if(z<2):\n            N=int(l);\n            A=[0]*N\n            B=[0]*N\n            M=[0]*N\n            continue\n        A[z-2]=int(l.split(\" \")[0])\n        M[z-2]=int(l.split(\" \")[1])\n    for i in A:S+=i\n    if(S>0):\n        for i in range(N):A[i]=-A[i]\n    for i in range(N):B[i]=M[i].bit_length()-1\n    for i in range(62):\n        X=0\n        for j in range(N):\n            if(B[j]==i):\n                if(bt(M[j]&T)%2==1):X-=A[j]\n                else: X+=A[j]\n        if(X<0):T|=1<<i\n    D(T)\nmain()\n",
+    "prob_desc_created_at": "1559399700",
+    "tags": [
+        "constructive algorithms",
+        "bitmasks"
+    ],
+    "hidden_unit_tests": ""
+}

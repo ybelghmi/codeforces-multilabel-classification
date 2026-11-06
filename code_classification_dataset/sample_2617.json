@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"2\"]",
+    "src_uid": "5d91e27798d38fc7924d1c407c07c99c",
+    "prob_desc_notes": "NoteIn the first example, only planets 2, 3 and 5 are connected by a single tunnel.In the second example, the remote planets are 2 and 3.Note that this problem has only two versions – easy and medium.",
+    "prob_desc_description": "The Resistance is trying to take control over all planets in a particular solar system. This solar system is shaped like a tree. More precisely, some planets are connected by bidirectional hyperspace tunnels in such a way that there is a path between every pair of the planets, but removing any tunnel would disconnect some of them.The Resistance already has measures in place that will, when the time is right, enable them to control every planet that is not remote. A planet is considered to be remote if it is connected to the rest of the planets only via a single hyperspace tunnel.How much work is there left to be done: that is, how many remote planets are there?",
+    "prob_desc_output_spec": "A single integer denoting the number of remote planets.",
+    "prob_desc_input_spec": "The first line of the input contains an integer N (2 ≤ N ≤ 1000) – the number of planets in the galaxy. The next N - 1 lines describe the hyperspace tunnels between the planets. Each of the N - 1 lines contains two space-separated integers u and v (1 ≤ u, v ≤ N) indicating that there is a bidirectional hyperspace tunnel between the planets u and v. It is guaranteed that every two planets are connected by a path of tunnels, and that each tunnel connects a different pair of planets.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_026.jsonl",
+    "code_uid": "429b8e37e7463ae8beda11e48d4921d3",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n4 1\\n4 2\\n1 3\\n1 5\", \"4\\n1 2\\n4 3\\n1 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N = int(raw_input())\ng = [[] for _ in range(N +1)]\nfor n in range(N-1):\n    a,b,= map(int, raw_input().split())\n    g[a].append(b)\n    g[b].append(a)\ncount = 0\nfor planet in range(1, N + 1):\n    if len(g[planet]) == 1:\n\n        count +=1\nprint(count)\n",
+    "prob_desc_created_at": "1523689500",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

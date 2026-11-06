@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 1\\n? 2 2\\n? 3 5\\n? 4 6\\n! 4 8 15 16 23 42\"]",
+    "src_uid": "c0f79d7ebcecc4eb7d07c372ba9be802",
+    "prob_desc_notes": "NoteIf you want to submit a hack for this problem, your test should contain exactly six space-separated integers $$$a_1$$$, $$$a_2$$$, ..., $$$a_6$$$. Each of $$$6$$$ special numbers should occur exactly once in the test. The test should be ended with a line break character.",
+    "prob_desc_description": "This is an interactive problem. Remember to flush your output while communicating with the testing program. You may use fflush(stdout) in C++, system.out.flush() in Java, stdout.flush() in Python or flush(output) in Pascal to flush the output. If you use some other programming language, consult its documentation. You may also refer to the guide on interactive problems: https://codeforces.com/blog/entry/45307.The jury guessed some array $$$a$$$ consisting of $$$6$$$ integers. There are $$$6$$$ special numbers — $$$4$$$, $$$8$$$, $$$15$$$, $$$16$$$, $$$23$$$, $$$42$$$ — and each of these numbers occurs in $$$a$$$ exactly once (so, $$$a$$$ is some permutation of these numbers).You don't know anything about their order, but you are allowed to ask up to $$$4$$$ queries. In each query, you may choose two indices $$$i$$$ and $$$j$$$ ($$$1 \\le i, j \\le 6$$$, $$$i$$$ and $$$j$$$ are not necessarily distinct), and you will get the value of $$$a_i \\cdot a_j$$$ in return.Can you guess the array $$$a$$$?The array $$$a$$$ is fixed beforehand in each test, the interaction program doesn't try to adapt to your queries.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_003.jsonl",
+    "code_uid": "22b745e04d857f2e8013dd849090868a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"16\\n64\\n345\\n672\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from itertools import permutations\nx = [4,8,15,16,23,42]\nprint(\"? 1 2\", flush=True)\na = int(input())\nprint(\"? 3 4\", flush=True)\nb = int(input())\nprint(\"? 5 5\", flush=True)\nc = int(input())\nprint(\"? 1 3\", flush=True)\nd = int(input())\n\nfor p in permutations(x):\n    if p[0]*p[1] == a and p[2]*p[3] == b and p[4]*p[4] == c and p[0]*p[2] == d:\n        print(\"!\", ' '.join(map(str,p)), flush=True)\n        break",
+    "prob_desc_created_at": "1557930900",
+    "tags": [
+        "math",
+        "divide and conquer",
+        "brute force",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

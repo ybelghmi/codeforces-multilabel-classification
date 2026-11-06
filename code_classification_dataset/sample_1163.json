@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"1\", \"3\"]",
+    "src_uid": "05f7a8e34049161b0dba94c827a48ba6",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Once Vasya played bricks. All the bricks in the set had regular cubical shape. Vasya vas a talented architect, however the tower he built kept falling apart.Let us consider the building process. Vasya takes a brick and puts it on top of the already built tower so that the sides of the brick are parallel to the sides of the bricks he has already used. Let's introduce a Cartesian coordinate system on the horizontal plane, where Vasya puts the first brick. Then the projection of brick number i on the plane is a square with sides parallel to the axes of coordinates with opposite corners in points (xi, 1, yi, 1) and (xi, 2, yi, 2). The bricks are cast from homogeneous plastic and the weight of a brick a × a × a is a3 grams.It is guaranteed that Vasya puts any brick except the first one on the previous one, that is the area of intersection of the upper side of the previous brick and the lower side of the next brick is always positive.We (Vasya included) live in a normal world where the laws of physical statics work. And that is why, perhaps, if we put yet another brick, the tower will collapse under its own weight. Vasya puts the cubes consecutively one on top of the other until at least one cube loses the balance and falls down. If it happens, Vasya gets upset and stops the construction. Print the number of bricks in the maximal stable tower, that is the maximal number m satisfying the condition that all the towers consisting of bricks 1, 2, ..., k for every integer k from 1 to m remain stable.",
+    "prob_desc_output_spec": "Print the number of bricks in the maximal stable tower.",
+    "prob_desc_input_spec": "The first input file contains an integer n (1 ≤ n ≤ 100) which is the number of bricks. Each of the next n lines contains four numbers xi, 1, yi, 1, xi, 2, yi, 2 (xi, 1 ≠ xi, 2, |xi, 1 - xi, 2| = |yi, 1 - yi, 2|) which are the coordinates of the opposite angles of the base of the brick number i. The coordinates are integers and their absolute value does not exceed 50.  The cubes are given in the order Vasya puts them. It is guaranteed that the area of intersection of the upper side of the brick number i - 1 and the lower side of the brick number i is strictly strictly greater than zero for all i ≥ 2.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_007.jsonl",
+    "code_uid": "8cf2c424fc29a0855f16a0f7a4b6734a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n0 0 3 3\\n1 0 4 3\", \"2\\n0 0 3 3\\n2 0 5 3\", \"3\\n0 0 3 3\\n1 0 4 3\\n2 0 5 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nl = []\nm = []\nfor i in range(n):\n    X1, Y1, X2, Y2 = map(int, input().split())\n    m1 = (abs(X2 - X1)) ** 3\n    l.append([X1, Y1, X2, Y2])\n    m.append(m1)\nX1, Y1, X2, Y2 = l[0][0], l[0][1], l[0][2], l[0][3]\nif X1 > X2: X2, X1 = X1, X2\nif Y1 > Y2: Y1, Y2 = Y2, Y1\nans = n\nfor i in range(1, n):\n    for j in range(i, 0, -1):\n        x1, y1, x2, y2 = l[j - 1][0], l[j - 1][1], l[j - 1][2], l[j - 1][3]\n        if x1 > x2: x2, x1 = x1, x2\n        if y1 > y2: y1, y2 = y2, y1\n        numx, numy, den = 0, 0 , 0\n        for k in range(i, j - 1, -1):\n            a = (l[k][0] + l[k][2]) / 2\n            b = (l[k][1] + l[k][3]) / 2\n            m = (abs(l[k][2] - l[k][0])) ** 3\n            numx += m * a\n            numy += m * b\n            den += m\n        xcm = numx / den\n        ycm = numy / den\n        if x1 <= xcm <= x2 and y1 <= ycm <= y2: pass\n        else:\n            ans = i\n            break\n    if ans != n: break\nprint(ans)",
+    "prob_desc_created_at": "1288440000",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

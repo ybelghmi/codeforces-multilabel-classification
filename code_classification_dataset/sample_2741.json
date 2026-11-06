@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"6\", \"-1\"]",
+    "src_uid": "c3cbc9688594d6611fd7bdd98d9afaa0",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The black king is standing on a chess field consisting of 109 rows and 109 columns. We will consider the rows of the field numbered with integers from 1 to 109 from top to bottom. The columns are similarly numbered with integers from 1 to 109 from left to right. We will denote a cell of the field that is located in the i-th row and j-th column as (i, j).You know that some squares of the given chess field are allowed. All allowed cells of the chess field are given as n segments. Each segment is described by three integers ri, ai, bi (ai ≤ bi), denoting that cells in columns from number ai to number bi inclusive in the ri-th row are allowed.Your task is to find the minimum number of moves the king needs to get from square (x0, y0) to square (x1, y1), provided that he only moves along the allowed cells. In other words, the king can be located only on allowed cells on his way.Let us remind you that a chess king can move to any of the neighboring cells in one move. Two cells of a chess field are considered neighboring if they share at least one point.",
+    "prob_desc_output_spec": "If there is no path between the initial and final position along allowed cells, print -1. Otherwise print a single integer — the minimum number of moves the king needs to get from the initial position to the final one.",
+    "prob_desc_input_spec": "The first line contains four space-separated integers x0, y0, x1, y1 (1 ≤ x0, y0, x1, y1 ≤ 109), denoting the initial and the final positions of the king. The second line contains a single integer n (1 ≤ n ≤ 105), denoting the number of segments of allowed cells. Next n lines contain the descriptions of these segments. The i-th line contains three space-separated integers ri, ai, bi (1 ≤ ri, ai, bi ≤ 109, ai ≤ bi), denoting that cells in columns from number ai to number bi inclusive in the ri-th row are allowed. Note that the segments of the allowed cells can intersect and embed arbitrarily. It is guaranteed that the king's initial and final position are allowed cells. It is guaranteed that the king's initial and the final positions do not coincide. It is guaranteed that the total length of all given segments doesn't exceed 105.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_029.jsonl",
+    "code_uid": "a09fe0e2d1fdac307b063596867caaa5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 7 6 11\\n3\\n5 3 8\\n6 7 11\\n5 2 5\", \"3 4 3 10\\n3\\n3 1 4\\n4 5 9\\n3 10 10\", \"1 1 2 10\\n2\\n1 1 3\\n2 6 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "INF = 1000000000\n\ndef bfs(sta,fin):\n    from collections import deque\n    visit = deque()\n\n    dx = [0,-1,-1,-1,0,1,1,1]\n    dy = [1,1,0,-1,-1,-1,0,1]\n\n    visit.append(sta)\n    while len(visit) > 0:\n        vertex = visit.popleft()\n\n        for i in range(8):\n            nx = vertex[0] + dx[i]\n            ny = vertex[1] + dy[i]\n\n            if (1 <= nx <= INF) and (1 <= ny <= INF) and ((nx,ny) in board) and (board[(nx,ny)] == -1):\n                visit.append((nx,ny))\n                board[(nx, ny)] = 0\n                dist[(nx,ny)] = dist[vertex] + 1\n\n                if (nx,ny) == fin:\n                    print(dist[(nx,ny)],end='')\n                    return True\n\n    return False\n\n\nif __name__ == '__main__':\n    board, dist = dict(), dict()\n\n    x0, y0, x1, y1 = map(int, input().split())\n    sta = (x0, y0)\n    fin = (x1, y1)\n    dist[sta] = 0\n\n    n = int(input())\n    for _ in range(n):\n        line = input()\n        r, a, b = map(int, line.split())\n        for i in range(a,b+1):\n            board[(r,i)] = -1\n            dist[(r, i)] = 0\n\n    if not bfs(sta,fin):\n        print(-1,end='')",
+    "prob_desc_created_at": "1352647800",
+    "tags": [
+        "graphs",
+        "hashing",
+        "shortest paths",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

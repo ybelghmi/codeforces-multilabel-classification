@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\"]",
+    "src_uid": "d4ae071cf261ec3d91187a9a7dddcda0",
+    "prob_desc_notes": "NoteExample is shown on the picture in the statement.",
+    "prob_desc_description": "Amugae is in a very large round corridor. The corridor consists of two areas. The inner area is equally divided by $$$n$$$ sectors, and the outer area is equally divided by $$$m$$$ sectors. A wall exists between each pair of sectors of same area (inner or outer), but there is no wall between the inner area and the outer area. A wall always exists at the 12 o'clock position.  The inner area's sectors are denoted as $$$(1,1), (1,2), \\dots, (1,n)$$$ in clockwise direction. The outer area's sectors are denoted as $$$(2,1), (2,2), \\dots, (2,m)$$$ in the same manner. For a clear understanding, see the example image above.Amugae wants to know if he can move from one sector to another sector. He has $$$q$$$ questions.For each question, check if he can move between two given sectors.",
+    "prob_desc_output_spec": "For each question, print \"YES\" if Amugae can move from $$$(s_x, s_y)$$$ to $$$(e_x, e_y)$$$, and \"NO\" otherwise. You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "The first line contains three integers $$$n$$$, $$$m$$$ and $$$q$$$ ($$$1 \\le n, m \\le 10^{18}$$$, $$$1 \\le q \\le 10^4$$$) — the number of sectors in the inner area, the number of sectors in the outer area and the number of questions. Each of the next $$$q$$$ lines contains four integers $$$s_x$$$, $$$s_y$$$, $$$e_x$$$, $$$e_y$$$ ($$$1 \\le s_x, e_x \\le 2$$$; if $$$s_x = 1$$$, then $$$1 \\le s_y \\le n$$$, otherwise $$$1 \\le s_y \\le m$$$; constraints on $$$e_y$$$ are similar). Amague wants to know if it is possible to move from sector $$$(s_x, s_y)$$$ to sector $$$(e_x, e_y)$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_003.jsonl",
+    "code_uid": "6a500781df4dcf4be0921913a558d6fc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 6 3\\n1 1 2 3\\n2 6 1 2\\n2 6 2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\n\nn , m, q = map(int, input().split())\nl = n // math.gcd(n, m) * m\ng = l // math.gcd(n, m)\nfor i in range(q):\n\ta , b, x, y = map(int, input().split())\n\tb-=1;\n\ty-=1;\n\tb = (l // n * b) if a == 1 else (l // m * b);\n\ty = (l // n * y) if x == 1 else (l // m * y);\n\tif y//g != b//g:\n\t\tprint(\"NO\")\n\telse:\n\t\tprint(\"YES\");",
+    "prob_desc_created_at": "1565526900",
+    "tags": [
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

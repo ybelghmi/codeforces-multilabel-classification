@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"3\"]",
+    "src_uid": "941ef8c3dd64e269d18fc4dfce7165e0",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Masha lives in a country with $$$n$$$ cities numbered from $$$1$$$ to $$$n$$$. She lives in the city number $$$1$$$. There is a direct train route between each pair of distinct cities $$$i$$$ and $$$j$$$, where $$$i \\neq j$$$. In total there are $$$n(n-1)$$$ distinct routes. Every route has a cost, cost for route from $$$i$$$ to $$$j$$$ may be different from the cost of route from $$$j$$$ to $$$i$$$.Masha wants to start her journey in city $$$1$$$, take exactly $$$k$$$ routes from one city to another and as a result return to the city $$$1$$$. Masha is really careful with money, so she wants the journey to be as cheap as possible. To do so Masha doesn't mind visiting a city multiple times or even taking the same route multiple times.Masha doesn't want her journey to have odd cycles. Formally, if you can select visited by Masha city $$$v$$$, take odd number of routes used by Masha in her journey and return to the city $$$v$$$, such journey is considered unsuccessful.Help Masha to find the cheapest (with minimal total cost of all taken routes) successful journey.",
+    "prob_desc_output_spec": "Output a single integer — total cost of the cheapest Masha's successful journey.",
+    "prob_desc_input_spec": "First line of input had two integer numbers $$$n,k$$$ ($$$2 \\leq n \\leq 80; 2 \\leq k \\leq 10$$$): number of cities in the country and number of routes in Masha's journey. It is guaranteed that $$$k$$$ is even. Next $$$n$$$ lines hold route descriptions: $$$j$$$-th number in $$$i$$$-th line represents the cost of route from $$$i$$$ to $$$j$$$ if $$$i \\neq j$$$, and is 0 otherwise (there are no routes $$$i \\to i$$$). All route costs are integers from $$$0$$$ to $$$10^8$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_025.jsonl",
+    "code_uid": "53b279a96dc2e892e5ca3de827c4f349",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 8\\n0 1 2 2 0\\n0 0 1 1 2\\n0 1 0 0 0\\n2 1 1 0 0\\n2 0 1 2 0\", \"3 2\\n0 1 1\\n2 0 1\\n2 2 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nn,k = [int(x) for x in input().split()]\ninp = [int(x) for x in sys.stdin.read().split()]; ii = 0\n\nmat = [[] for _ in range(n)]\nfor i in range(n):\n    for j in range(n):\n        mat[j].append(inp[i*n + j])\n\ninf = 10**9 + 100\n\ndef randomer(odd, even):\n    best = [inf]*n\n    best[0] = 0\n    best2 = [inf]*n\n    for _ in range(k):\n        for j in odd:\n            opti = inf\n            matj = mat[j]\n            for i in even:\n                val = best[i] + matj[i]\n                if opti > val:\n                    opti = val\n            best2[j] = opti\n        best, best2, odd, even = best2, best, even, odd\n    return best[0]\n\nsys.modules[\"hashlib\"] = sys.sha512 = sys\nimport random\nbest = inf\nfor _ in range(10 * 2**k):\n    odd = []\n    even = [0]\n    for _ in range(1, n):\n        (odd if random.randint(0,1) else even).append(_) \n    best = min(best, randomer(odd, even))\nprint best\n",
+    "prob_desc_created_at": "1582473900",
+    "tags": [
+        "dp",
+        "probabilities",
+        "graphs",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

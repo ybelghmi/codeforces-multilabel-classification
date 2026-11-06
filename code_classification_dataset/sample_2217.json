@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"aaa\\n\\naaab\\n\\nabba\\n\\nbba\\n\\nabaaa\\n\\naabba\"]",
+    "src_uid": "d341e5848836563953b3ec204cd59acc",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This is an interactive problem.After completing the last level of the enchanted temple, you received a powerful artifact of the 255th level. Do not rush to celebrate, because this artifact has a powerful rune that can be destroyed with a single spell $$$s$$$, which you are going to find. We define the spell as some non-empty string consisting only of the letters a and b.At any time, you can cast an arbitrary non-empty spell $$$t$$$, and the rune on the artifact will begin to resist. Resistance of the rune is the edit distance between the strings that specify the casted spell $$$t$$$ and the rune-destroying spell $$$s$$$.Edit distance of two strings $$$s$$$ and $$$t$$$ is a value equal to the minimum number of one-character operations of replacing, inserting and deleting characters in $$$s$$$ to get $$$t$$$. For example, the distance between ababa and aaa is $$$2$$$, the distance between aaa and aba is $$$1$$$, the distance between bbaba and abb is $$$3$$$. The edit distance is $$$0$$$ if and only if the strings are equal.It is also worth considering that the artifact has a resistance limit  — if you cast more than $$$n + 2$$$ spells, where $$$n$$$ is the length of spell $$$s$$$, the rune will be blocked.Thus, it takes $$$n + 2$$$ or fewer spells to destroy the rune that is on your artifact. Keep in mind that the required destructive spell $$$s$$$ must also be counted among these $$$n + 2$$$ spells.Note that the length $$$n$$$ of the rune-destroying spell $$$s$$$ is not known to you in advance. It is only known that its length $$$n$$$ does not exceed $$$300$$$.",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": null,
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_018.jsonl",
+    "code_uid": "0e06aa3a94bb6c99f3aebb47cbede5c0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n2\\n\\n1\\n\\n2\\n\\n3\\n\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdout\n\n\ndef f(x):\n    if x == 0:\n        exit(0)\n    stdout.flush()\n\n\nprint('a')\nx1 = int(input())\nf(x1)\nif x1 == 300:\n    print('b' * 300)\n    exit(0)\nlenz = x1 + 1\nprint('a' * lenz)\nx = int(input())\nf(x)\nca = lenz - x\npatt = ''\nc1 = 1\nc2 = ca\nif ca == 0:\n    print('b' * (lenz - 1))\n    x = int(input())\n    f(x)\nelse:\n    while c2:\n        print(patt + 'b' * c1 + 'a' * c2)\n        x = int(input())\n        f(x)\n        if x == lenz - c2 - len(patt) - c1:\n            c1 += 1\n        else:\n            c1 -= 1\n            patt += 'b' * c1\n            patt += 'a'\n            c1 = 1\n            c2 -= 1\n    print(patt + 'b' * (lenz - len(patt)))\n    x = int(input())\n    f(x)",
+    "prob_desc_created_at": "1577198100",
+    "tags": [
+        "constructive algorithms",
+        "interactive",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

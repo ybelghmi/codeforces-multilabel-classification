@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 4\\n2 5\\n6 3\", \"3 1\\n4 2\"]",
+    "src_uid": "564664d9cd2ccbccb42574b3881ec5fe",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One fine October day a mathematics teacher Vasily Petrov went to a class and saw there n pupils who sat at the  desks, two people at each desk. Vasily quickly realized that number n is even. Like all true mathematicians, Vasily has all students numbered from 1 to n.But Vasily Petrov did not like the way the children were seated at the desks. According to him, the students whose numbers differ by 1, can not sit together, as they talk to each other all the time, distract others and misbehave.On the other hand, if a righthanded student sits at the left end of the desk and a lefthanded student sits at the right end of the desk, they hit elbows all the time and distract each other. In other cases, the students who sit at the same desk, do not interfere with each other.Vasily knows very well which students are lefthanders and which ones are righthanders, and he asks you to come up with any order that meets these two uncomplicated conditions (students do not talk to each other and do not bump their elbows). It is guaranteed that the input is such that at least one way to seat the students always exists.",
+    "prob_desc_output_spec": "Print  integer pairs, one pair per line. In the i-th line print the numbers of students that will sit at the i-th desk. The first number in the pair stands for the student who is sitting to the left, and the second number stands for the student who is sitting to the right. Separate the numbers in the pairs by spaces. If there are multiple solutions, print any of them.",
+    "prob_desc_input_spec": "The first input line contains a single even integer n (4 ≤ n ≤ 100) — the number of students in the class. The second line contains exactly n capital English letters \"L\" and \"R\". If the i-th letter at the second line equals \"L\", then the student number i is a lefthander, otherwise he is a righthander.",
+    "prob_desc_output_to": "output.txt",
+    "prob_desc_input_from": "input.txt",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_035.jsonl",
+    "code_uid": "d0529dc26ef44cd32ddf1982ff9cbe71",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\nLLRLLL\", \"4\\nRRLL\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "r=open(\"input.txt\",\"r\")\nw=open(\"output.txt\",\"w\")\nn=int(r.readline())\ns=r.readline().strip()\n\nfor i in range(n//2):\n    if(s[i]==s[i+n//2]):\n        w.write(str(i+1)+\" \"+str(n//2+i+1)+\"\\n\")\n    else:\n        if(s[i]==\"R\"):\n            w.write(str(n//2+i+1)+\" \"+str(i+1)+\"\\n\")\n        else:\n            w.write(str(i+1)+\" \"+str(n//2+i+1)+\"\\n\")\n",
+    "prob_desc_created_at": "1350370800",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

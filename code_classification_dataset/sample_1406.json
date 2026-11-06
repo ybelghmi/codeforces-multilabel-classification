@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nNO\\nNO\"]",
+    "src_uid": "a27ad7c21cd6402bfd082da4f6c7ab9d",
+    "prob_desc_notes": "NoteIn the first test case there is the following sequence of operation:   $$$s = $$$ ab, $$$t = $$$ acxb, $$$p = $$$ cax;  $$$s = $$$ acb, $$$t = $$$ acxb, $$$p = $$$ ax;  $$$s = $$$ acxb, $$$t = $$$ acxb, $$$p = $$$ a. In the second test case there is the following sequence of operation:   $$$s = $$$ a, $$$t = $$$ aaaa, $$$p = $$$ aaabbcc;  $$$s = $$$ aa, $$$t = $$$ aaaa, $$$p = $$$ aabbcc;  $$$s = $$$ aaa, $$$t = $$$ aaaa, $$$p = $$$ abbcc;  $$$s = $$$ aaaa, $$$t = $$$ aaaa, $$$p = $$$ bbcc. ",
+    "prob_desc_description": "You are given three strings $$$s$$$, $$$t$$$ and $$$p$$$ consisting of lowercase Latin letters. You may perform any number (possibly, zero) operations on these strings.During each operation you choose any character from $$$p$$$, erase it from $$$p$$$ and insert it into string $$$s$$$ (you may insert this character anywhere you want: in the beginning of $$$s$$$, in the end or between any two consecutive characters). For example, if $$$p$$$ is aba, and $$$s$$$ is de, then the following outcomes are possible (the character we erase from $$$p$$$ and insert into $$$s$$$ is highlighted):  aba $$$\\rightarrow$$$ ba, de $$$\\rightarrow$$$ ade;  aba $$$\\rightarrow$$$ ba, de $$$\\rightarrow$$$ dae;  aba $$$\\rightarrow$$$ ba, de $$$\\rightarrow$$$ dea;  aba $$$\\rightarrow$$$ aa, de $$$\\rightarrow$$$ bde;  aba $$$\\rightarrow$$$ aa, de $$$\\rightarrow$$$ dbe;  aba $$$\\rightarrow$$$ aa, de $$$\\rightarrow$$$ deb;  aba $$$\\rightarrow$$$ ab, de $$$\\rightarrow$$$ ade;  aba $$$\\rightarrow$$$ ab, de $$$\\rightarrow$$$ dae;  aba $$$\\rightarrow$$$ ab, de $$$\\rightarrow$$$ dea; Your goal is to perform several (maybe zero) operations so that $$$s$$$ becomes equal to $$$t$$$. Please determine whether it is possible.Note that you have to answer $$$q$$$ independent queries.",
+    "prob_desc_output_spec": "For each query print YES if it is possible to make $$$s$$$ equal to $$$t$$$, and NO otherwise. You may print every letter in any case you want (so, for example, the strings yEs, yes, Yes and YES will all be recognized as positive answer).",
+    "prob_desc_input_spec": "The first line contains one integer $$$q$$$ ($$$1 \\le q \\le 100$$$) — the number of queries. Each query is represented by three consecutive lines. The first line of each query contains the string $$$s$$$ ($$$1 \\le |s| \\le 100$$$) consisting of lowercase Latin letters. The second line of each query contains the string $$$t$$$ ($$$1 \\le |t| \\le 100$$$) consisting of lowercase Latin letters. The third line of each query contains the string $$$p$$$ ($$$1 \\le |p| \\le 100$$$) consisting of lowercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_008.jsonl",
+    "code_uid": "5260e723c4bf71ec0f83d3cc18495056",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\nab\\nacxb\\ncax\\na\\naaaa\\naaabbcc\\na\\naaaa\\naabbcc\\nab\\nbaaa\\naaaaa\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\nfor _ in range(t):\n    s=input()\n    t=input()\n    p=input()\n    \n    \n    if(len(t)<len(s)):\n        print('NO')\n    elif(len(t)==len(s)):\n        if(t==s):\n            print('YES')\n        else:\n            print('NO')\n    else:\n        j=0\n        c=0\n        for i in s:\n            while(j<len(t)):\n                if(t[j]==i):\n                    c+=1\n                    j+=1\n                    break\n                j+=1\n        if(c==len(s)):\n            f=0\n            s=s+' '\n            for i in range(len(t)):\n                #print(t[i])\n                if(t[i]!=s[i]):\n                    if(t[i] in p):\n                        s=s[:i]+t[i]+s[i:]\n                        index=p.index(t[i])\n                        p=p[:index]+p[index+1:]\n                        #print(p)\n                    else:\n                        print('NO')\n                        f=1\n                        break\n            if(f==0):\n                print('YES')\n        else:\n            print('NO')\n",
+    "prob_desc_created_at": "1563115500",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

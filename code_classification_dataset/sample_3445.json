@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1.500000000\", \"1.000000000\", \"1.687500000\", \"1.000000000\"]",
+    "src_uid": "82ff620798401b3168c41dcfee5cbb34",
+    "prob_desc_notes": null,
+    "prob_desc_description": "It turns out that you are a great fan of rock band AC/PE. Peter learned that and started the following game: he plays the first song of the list of n songs of the group, and you have to find out the name of the song. After you tell the song name, Peter immediately plays the following song in order, and so on.The i-th song of AC/PE has its recognizability pi. This means that if the song has not yet been recognized by you, you listen to it for exactly one more second and with probability of pi percent you recognize it and tell it's name. Otherwise you continue listening it. Note that you can only try to guess it only when it is integer number of seconds after the moment the song starts playing.In all AC/PE songs the first words of chorus are the same as the title, so when you've heard the first ti seconds of i-th song and its chorus starts, you immediately guess its name for sure.For example, in the song Highway To Red the chorus sounds pretty late, but the song has high recognizability. In the song Back In Blue, on the other hand, the words from the title sound close to the beginning of the song, but it's hard to name it before hearing those words. You can name both of these songs during a few more first seconds.Determine the expected number songs of you will recognize if the game lasts for exactly T seconds (i. e. you can make the last guess on the second T, after that the game stops).If all songs are recognized faster than in T seconds, the game stops after the last song is recognized.",
+    "prob_desc_output_spec": "Output a single number — the expected number of the number of songs you will recognize in T seconds. Your answer will be considered correct if its absolute or relative error does not exceed 10 - 6.",
+    "prob_desc_input_spec": "The first line of the input contains numbers n and T (1 ≤ n ≤ 5000, 1 ≤ T ≤ 5000), separated by a space. Next n lines contain pairs of numbers pi and ti (0 ≤ pi ≤ 100, 1 ≤ ti ≤ T). The songs are given in the same order as in Petya's list.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_060.jsonl",
+    "code_uid": "b88b984a82c5fd9e3f40276c85acb769",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n50 2\\n10 1\", \"2 2\\n0 2\\n100 2\", \"3 3\\n50 3\\n50 2\\n25 2\", \"2 2\\n0 2\\n0 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    n, time = map(int, raw_input().split())\n    pp, qq, tt, qqtt = [], [], [], []\n    for i in xrange(n):\n        a, b = raw_input().split()\n        p = float(a) / 100.\n        pp.append(p)\n        q = 1. - p\n        qq.append(q)\n        t = int(b) - 1\n        tt.append(t)\n        qqtt.append(q ** t)\n    t_cur, u_cur, t_prev, u_prev = ([0.] * (time + 1) for _ in '1234')\n    for k in xrange(n - 1, 0, -1):\n        q_1, t_1, qt_1 = qq[k - 1], tt[k - 1], qqtt[k - 1]\n        p, t, qt = pp[k], tt[k], qqtt[k]\n        q = w = qq[k]\n        for i in xrange(time):\n            t_cur[i + 1] = x = ((p * u_prev[i] + 1. - w) if i < t else\n                                (p * u_prev[i] + qt * t_prev[i - t] + 1.))\n            u_cur[i + 1] = ((q_1 * u_cur[i] + x) if i + 1 < t_1 else\n                            (q_1 * u_cur[i] + x - qt_1 * t_cur[i - t_1 + 1]))\n            w *= q\n        t_cur, u_cur, t_prev, u_prev = t_prev, u_prev, t_cur, u_cur\n        t_cur[0] = u_cur[0] = 0.\n    p, t, qt = pp[0], tt[0], qqtt[0]\n    q = w = qq[0]\n    for i in xrange(t):\n        t_cur[i + 1] = p * u_prev[i] + 1. - w\n        w *= q\n    for i in xrange(t, time):\n        t_cur[i + 1] = p * u_prev[i] + qt * t_prev[i - t] + 1.\n    print('{:.12f}'.format(t_cur[-1]))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1419438600",
+    "tags": [
+        "dp",
+        "two pointers"
+    ],
+    "hidden_unit_tests": ""
+}

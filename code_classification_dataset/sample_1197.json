@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"252\", \"2\"]",
+    "src_uid": "c408b1d198c7c88fc635936d960c962a",
+    "prob_desc_notes": "NoteIn the first example, Tommy will hide 20 and Banban will choose 18 from Tommy and 14 from himself.In the second example, Tommy will hide 3 and Banban will choose 2 from Tommy and 1 from himself.",
+    "prob_desc_description": "Nian is a monster which lives deep in the oceans. Once a year, it shows up on the land, devouring livestock and even people. In order to keep the monster away, people fill their villages with red colour, light, and cracking noise, all of which frighten the monster out of coming.Little Tommy has n lanterns and Big Banban has m lanterns. Tommy's lanterns have brightness a1, a2, ..., an, and Banban's have brightness b1, b2, ..., bm respectively.Tommy intends to hide one of his lanterns, then Banban picks one of Tommy's non-hidden lanterns and one of his own lanterns to form a pair. The pair's brightness will be the product of the brightness of two lanterns.Tommy wants to make the product as small as possible, while Banban tries to make it as large as possible.You are asked to find the brightness of the chosen pair if both of them choose optimally.",
+    "prob_desc_output_spec": "Print a single integer — the brightness of the chosen pair.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers n and m (2 ≤ n, m ≤ 50). The second line contains n space-separated integers a1, a2, ..., an. The third line contains m space-separated integers b1, b2, ..., bm. All the integers range from  - 109 to 109.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_007.jsonl",
+    "code_uid": "14763b37feb2c8be8f7c21dc565cfcbb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n20 18\\n2 14\", \"5 3\\n-1 0 1 2 3\\n-1 0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, m = [int(x) for x in input().split()]\nlstT = [int(x) for x in input().split()]\nlstB = [int(x) for x in input().split()]\nz=-9999999999999999999999999999\nT=0\nB=0\nfor i in range(n):\n        for j in range(m):\n                if z<lstT[i]*lstB[j]:\n                        T=i\n                        B=j\n                        z=lstT[i]*lstB[j]\nlol = -99999999999999999999\nfor i in range(n):\n        for j in range(m):\n                if T!=i:\n                        lol = max(lol, lstT[i]*lstB[j])\nprint(lol)\n",
+    "prob_desc_created_at": "1518609900",
+    "tags": [
+        "games",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

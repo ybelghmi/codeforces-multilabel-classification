@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\"]",
+    "src_uid": "cb4dbff31d967c3dab8fe0495eb871dc",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Bajtek is learning to skate on ice. He's a beginner, so his only mode of transportation is pushing off from a snow drift to the north, east, south or west and sliding until he lands in another snow drift. He has noticed that in this way it's impossible to get from some snow drifts to some other by any sequence of moves. He now wants to heap up some additional snow drifts, so that he can get from any snow drift to any other one. He asked you to find the minimal number of snow drifts that need to be created.We assume that Bajtek can only heap up snow drifts at integer coordinates.",
+    "prob_desc_output_spec": "Output the minimal number of snow drifts that need to be created in order for Bajtek to be able to reach any snow drift from any other one.",
+    "prob_desc_input_spec": "The first line of input contains a single integer n (1 ≤ n ≤ 100) — the number of snow drifts. Each of the following n lines contains two integers xi and yi (1 ≤ xi, yi ≤ 1000) — the coordinates of the i-th snow drift. Note that the north direction coinсides with the direction of Oy axis, so the east direction coinсides with the direction of the Ox axis. All snow drift's locations are distinct.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_004.jsonl",
+    "code_uid": "ed64ae5b7587331da7cbaff06c56186c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2 1\\n1 2\", \"2\\n2 1\\n4 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\n\ncoodenadas = []\nfor i in range(n):\n    x, y = [ int(i) for i in input().split() ]\n    coodenadas.append({\n        'x': { x },\n        'y': { y }\n    })\n\nfor i in range(n-1, -1, -1):\n    j = i - 1\n    while j >= 0 and i < len(coodenadas):\n        if len(coodenadas[j]['x'].intersection(coodenadas[i]['x'])) or len(coodenadas[j]['y'].intersection(coodenadas[i]['y'])):\n            coodenadas[i]['x'].update(coodenadas[j]['x'])\n            coodenadas[i]['y'].update(coodenadas[j]['y'])\n            coodenadas.pop(j)\n        j -= 1\n\nprint(len(coodenadas) - 1)",
+    "prob_desc_created_at": "1345273500",
+    "tags": [
+        "dsu",
+        "dfs and similar",
+        "brute force",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

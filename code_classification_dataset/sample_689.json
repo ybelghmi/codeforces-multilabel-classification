@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3 6\\n5 1\\n2 4\", \"4 5\\n1 6\\n2 7\\n3 8\"]",
+    "src_uid": "3d92a54be5c544b313f1e87f7b9cc5c8",
+    "prob_desc_notes": "NoteIn the first example, here is what points and their corresponding bounding boxes look like (drawn in two dimensions for simplicity, as all points lie on $$$z = 0$$$ plane). Note that order of removing matters: for example, points $$$5$$$ and $$$1$$$ don't form a perfectly balanced pair initially, but they do after point $$$3$$$ is removed.   ",
+    "prob_desc_description": "This is a harder version of the problem. In this version, $$$n \\le 50\\,000$$$.There are $$$n$$$ distinct points in three-dimensional space numbered from $$$1$$$ to $$$n$$$. The $$$i$$$-th point has coordinates $$$(x_i, y_i, z_i)$$$. The number of points $$$n$$$ is even.You'd like to remove all $$$n$$$ points using a sequence of $$$\\frac{n}{2}$$$ snaps. In one snap, you can remove any two points $$$a$$$ and $$$b$$$ that have not been removed yet and form a perfectly balanced pair. A pair of points $$$a$$$ and $$$b$$$ is perfectly balanced if no other point $$$c$$$ (that has not been removed yet) lies within the axis-aligned minimum bounding box of points $$$a$$$ and $$$b$$$.Formally, point $$$c$$$ lies within the axis-aligned minimum bounding box of points $$$a$$$ and $$$b$$$ if and only if $$$\\min(x_a, x_b) \\le x_c \\le \\max(x_a, x_b)$$$, $$$\\min(y_a, y_b) \\le y_c \\le \\max(y_a, y_b)$$$, and $$$\\min(z_a, z_b) \\le z_c \\le \\max(z_a, z_b)$$$. Note that the bounding box might be degenerate. Find a way to remove all points in $$$\\frac{n}{2}$$$ snaps.",
+    "prob_desc_output_spec": "Output $$$\\frac{n}{2}$$$ pairs of integers $$$a_i, b_i$$$ ($$$1 \\le a_i, b_i \\le n$$$), denoting the indices of points removed on snap $$$i$$$. Every integer between $$$1$$$ and $$$n$$$, inclusive, must appear in your output exactly once. We can show that it is always possible to remove all points. If there are many solutions, output any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$2 \\le n \\le 50\\,000$$$; $$$n$$$ is even), denoting the number of points. Each of the next $$$n$$$ lines contains three integers $$$x_i$$$, $$$y_i$$$, $$$z_i$$$ ($$$-10^8 \\le x_i, y_i, z_i \\le 10^8$$$), denoting the coordinates of the $$$i$$$-th point. No two points coincide.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_003.jsonl",
+    "code_uid": "1417ec1b3fb4e8ab4fc8e5ee4e745cfc",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n3 1 0\\n0 3 0\\n2 2 0\\n1 0 0\\n1 3 0\\n0 1 0\", \"8\\n0 1 1\\n1 0 1\\n1 1 0\\n1 1 1\\n2 2 2\\n3 2 2\\n2 3 2\\n2 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\narr = []\nfor  _ in range(n):\n\tarr.append(list(map(int,input().split()))+[_+1])\narr.sort(key = lambda x:(x[0],x[1],x[2]))\nres = []\n\ndef valid(pt1,pt2,axis):\n\t#return all(pt1[k]<=pt2[k] for k in range(axis+1))\n\tflag = 1\n\t#print(pt1,pt2)\n\tfor k in range(axis+1):\n\t\tif pt1[k]>pt2[k]:\n\t\t\tflag=0\n\t\t\tbreak\n\treturn flag\n\t\nfor axis in range(2,-1,-1):\n\tstc = []\n\tfor pt in arr:\n\t\tif stc and valid(stc[-1],pt,axis):\n\t\t\tres.append([stc.pop()[3],pt[3]])\n\t\telse:\n\t\t\tstc.append(pt)\n\tarr = stc\n\nfor pr in res:\n\tprint(pr[0],pr[1])",
+    "prob_desc_created_at": "1571236500",
+    "tags": [
+        "greedy",
+        "constructive algorithms",
+        "implementation",
+        "divide and conquer",
+        "sortings",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

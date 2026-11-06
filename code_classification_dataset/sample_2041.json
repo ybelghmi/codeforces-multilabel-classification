@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2 2\"]",
+    "src_uid": "44542e73195573debb4ab113bab5ee23",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Two villages are separated by a river that flows from the north to the south. The villagers want to build a bridge across the river to make it easier to move across the villages.The river banks can be assumed to be vertical straight lines x = a and x = b (0 &lt; a &lt; b).The west village lies in a steppe at point O = (0, 0). There are n pathways leading from the village to the river, they end at points Ai = (a, yi). The villagers there are plain and simple, so their pathways are straight segments as well.The east village has reserved and cunning people. Their village is in the forest on the east bank of the river, but its exact position is not clear. There are m twisted paths leading from this village to the river and ending at points Bi = (b, y'i). The lengths of all these paths are known, the length of the path that leads from the eastern village to point Bi, equals li.The villagers want to choose exactly one point on the left bank of river Ai, exactly one point on the right bank Bj and connect them by a straight-line bridge so as to make the total distance between the villages (the sum of |OAi| + |AiBj| + lj, where |XY| is the Euclidean distance between points X and Y) were minimum. The Euclidean distance between points (x1, y1) and (x2, y2) equals .Help them and find the required pair of points.",
+    "prob_desc_output_spec": "Print two integers — the numbers of points on the left (west) and right (east) banks, respectively, between which you need to build a bridge. You can assume that the points on the west bank are numbered from 1 to n, in the order in which they are given in the input. Similarly, the points on the east bank are numbered from 1 to m in the order in which they are given in the input. If there are multiple solutions, print any of them. The solution will be accepted if the final length of the path will differ from the answer of the jury by no more than 10 - 6 in absolute or relative value.",
+    "prob_desc_input_spec": "The first line contains integers n, m, a, b (1 ≤ n, m ≤ 105, 0 &lt; a &lt; b &lt; 106).  The second line contains n integers in the ascending order: the i-th integer determines the coordinate of point Ai and equals yi (|yi| ≤ 106).  The third line contains m integers in the ascending order: the i-th integer determines the coordinate of point Bi and equals y'i (|y'i| ≤ 106).  The fourth line contains m more integers: the i-th of them determines the length of the path that connects the eastern village and point Bi, and equals li (1 ≤ li ≤ 106). It is guaranteed, that there is such a point C with abscissa at least b, that |BiC| ≤ li for all i (1 ≤ i ≤ m). It is guaranteed that no two points Ai coincide. It is guaranteed that no two points Bi coincide.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_016.jsonl",
+    "code_uid": "f67ff61d0f2a1dbc5a5a44804acf4e6e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 3 5\\n-2 -1 4\\n-1 2\\n7 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom math import *\n\ndef minp():\n\treturn sys.stdin.readline().strip()\n\ndef mint():\n\treturn int(minp())\n\ndef mints():\n\treturn map(int, minp().split())\n\nn, m, a, b = mints()\nA = list(mints())\nB = list(mints())\nl = list(mints())\nj = -1\nr = (1e100,-1,-1)\nfor i in range(m):\n\twhile not((j == -1 or a*B[i]-b*A[j] >= 0) \\\n\t\tand (j+1 == n or a*B[i]-b*A[j+1] < 0)):\n\t\tj += 1\n\t#print(j)#,a*B[i]-b*A[j],a*B[i]-b*A[j+1])\n\tif j != -1:\n\t\tr = min(r,(l[i]+sqrt(a*a+A[j]*A[j])+sqrt((b-a)**2+(B[i]-A[j])**2),j,i))\n\tif j+1 != n:\n\t\tr = min(r,(l[i]+sqrt(a*a+A[j+1]*A[j+1])+sqrt((b-a)**2+(B[i]-A[j+1])**2),j+1,i))\nprint(r[1]+1,r[2]+1)",
+    "prob_desc_created_at": "1353938400",
+    "tags": [
+        "two pointers",
+        "geometry",
+        "ternary search"
+    ],
+    "hidden_unit_tests": ""
+}

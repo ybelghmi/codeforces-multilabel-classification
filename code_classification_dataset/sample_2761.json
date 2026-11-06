@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"7\", \"9\"]",
+    "src_uid": "a72873b2f845f733c9b898ad81b32d29",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Valerian was captured by Shapur. The victory was such a great one that Shapur decided to carve a scene of Valerian's defeat on a mountain. So he had to find the best place to make his victory eternal!He decided to visit all n cities of Persia to find the best available mountain, but after the recent war he was too tired and didn't want to traverse a lot. So he wanted to visit each of these n cities at least once with smallest possible traverse. Persian cities are connected with bidirectional roads. You can go from any city to any other one using these roads and there is a unique path between each two cities.All cities are numbered 1 to n. Shapur is currently in the city 1 and he wants to visit all other cities with minimum possible traverse. He can finish his travels in any city.Help Shapur find how much He should travel.",
+    "prob_desc_output_spec": "A single integer number, the minimal length of Shapur's travel. Please, do not use %lld specificator to read or write 64-bit integers in C++. It is preffered to use cout (also you may use %I64d).",
+    "prob_desc_input_spec": "First line contains a single natural number n (1 ≤ n ≤ 105) — the amount of cities. Next n - 1 lines contain 3 integer numbers each xi, yi and wi (1 ≤ xi, yi ≤ n, 0 ≤ wi ≤ 2 × 104). xi and yi are two ends of a road and wi is the length of that road.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_030.jsonl",
+    "code_uid": "6c5f79bd4893983d2408faf136bf00b6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\\n2 3 4\", \"3\\n1 2 3\\n1 3 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import defaultdict\n\nclass EternalVictory():\n    def __init__(self, n, edges):\n        self.n = n\n        self.edge_list = defaultdict(list)\n        self.edge_sum = 0\n        for u,v,w in edges:\n            self.edge_list[u-1].append((v-1, w))\n            self.edge_list[v-1].append((u-1, w))\n            self.edge_sum += w\n\n        self.distances = [0]*self.n\n\n    def populate(self, u, par, dis):\n        self.distances[u] = dis\n        for v,w in self.edge_list[u]:\n            if v != par:\n                self.populate(v, u, dis+w)\n\n    def min_sum(self):\n        self.populate(0, -1, 0)\n        max_dis = max(self.distances)\n        return (2*self.edge_sum)-max_dis\n\nn = int(input())\nedges = []\nfor i in range(n-1):\n    u,v,w = list(map(int,input().strip(' ').split(' ')))\n    edges.append((u,v,w))\nev = EternalVictory(n, edges)\nprint(ev.min_sum())",
+    "prob_desc_created_at": "1298390400",
+    "tags": [
+        "greedy",
+        "graphs",
+        "shortest paths",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

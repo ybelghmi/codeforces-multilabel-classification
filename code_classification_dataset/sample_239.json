@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"3\", \"4\"]",
+    "src_uid": "a4563e6aea9126e20e7a33df664e3171",
+    "prob_desc_notes": "NoteIn first example Arcady will be able to collect only one apple, initially situated in 1st inflorescence. In next second apples from 2nd and 3rd inflorescences will roll down and annihilate, and Arcady won't be able to collect them.In the second example Arcady will be able to collect 3 apples. First one is one initially situated in first inflorescence. In a second apple from 2nd inflorescence will roll down to 1st (Arcady will collect it) and apples from 3rd, 4th, 5th inflorescences will roll down to 2nd. Two of them will annihilate and one not annihilated will roll down from 2-nd inflorescence to 1st one in the next second and Arcady will collect it.",
+    "prob_desc_description": "In Arcady's garden there grows a peculiar apple-tree that fruits one time per year. Its peculiarity can be explained in following way: there are n inflorescences, numbered from 1 to n. Inflorescence number 1 is situated near base of tree and any other inflorescence with number i (i &gt; 1) is situated at the top of branch, which bottom is pi-th inflorescence and pi &lt; i.Once tree starts fruiting, there appears exactly one apple in each inflorescence. The same moment as apples appear, they start to roll down along branches to the very base of tree. Each second all apples, except ones in first inflorescence simultaneously roll down one branch closer to tree base, e.g. apple in a-th inflorescence gets to pa-th inflorescence. Apples that end up in first inflorescence are gathered by Arcady in exactly the same moment. Second peculiarity of this tree is that once two apples are in same inflorescence they annihilate. This happens with each pair of apples, e.g. if there are 5 apples in same inflorescence in same time, only one will not be annihilated and if there are 8 apples, all apples will be annihilated. Thus, there can be no more than one apple in each inflorescence in each moment of time.Help Arcady with counting number of apples he will be able to collect from first inflorescence during one harvest.",
+    "prob_desc_output_spec": "Single line of output should contain one integer number: amount of apples that Arcady will be able to collect from first inflorescence during one harvest.",
+    "prob_desc_input_spec": "First line of input contains single integer number n (2 ≤ n ≤ 100 000)  — number of inflorescences. Second line of input contains sequence of n - 1 integer numbers p2, p3, ..., pn (1 ≤ pi &lt; i), where pi is number of inflorescence into which the apple from i-th inflorescence rolls down.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_001.jsonl",
+    "code_uid": "8307a43bb8a8d8bfd421732bf258027e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1\", \"5\\n1 2 2 2\", \"18\\n1 1 1 4 4 3 2 2 2 10 8 9 9 9 10 10 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom math import sqrt, gcd, ceil, log\n# from bisect import bisect, bisect_left\nfrom collections import defaultdict, Counter, deque\n# from heapq import heapify, heappush, heappop\ninput = sys.stdin.readline\nread = lambda: list(map(int, input().strip().split()))\n\nsys.setrecursionlimit(10**6)\n\n\ndef main():\n\tn = int(input()); par = read()\n\tadj = defaultdict(list)\n\tfor i in range(n-1):\n\t\tadj[par[i]].append(i+2)\n\t# print(adj)\n\tlvl = [1]\n\tans = 0\n\twhile lvl:\n\t\tans += len(lvl)%2\n\t\tlvl = [j for i in lvl for j in adj[i]]\n\tprint(ans)\n\n\n\t\t\t\n\n\n\n\n\n\nif __name__ == \"__main__\":\n\tmain()",
+    "prob_desc_created_at": "1520177700",
+    "tags": [
+        "dfs and similar",
+        "trees",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

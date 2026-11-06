@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\", \"4\", \"3\"]",
+    "src_uid": "a765463559901e608035083be47aa245",
+    "prob_desc_notes": "NoteIn the first example, there are $$$5$$$ possible sequences. $$$[1]$$$, $$$[4]$$$, $$$[5]$$$, $$$[1, 4]$$$, $$$[1, 5]$$$.In the second example, there are $$$4$$$ possible sequences. $$$[2]$$$, $$$[3]$$$, $$$[4]$$$, $$$[5]$$$.In the third example, there are $$$3$$$ possible sequences. $$$[1]$$$, $$$[3]$$$, $$$[4]$$$.",
+    "prob_desc_description": "The Fair Nut found a string $$$s$$$. The string consists of lowercase Latin letters. The Nut is a curious guy, so he wants to find the number of strictly increasing sequences $$$p_1, p_2, \\ldots, p_k$$$, such that:   For each $$$i$$$ ($$$1 \\leq i \\leq k$$$), $$$s_{p_i} =$$$ 'a'.  For each $$$i$$$ ($$$1 \\leq i &lt; k$$$), there is such $$$j$$$ that $$$p_i &lt; j &lt; p_{i + 1}$$$ and $$$s_j =$$$ 'b'. The Nut is upset because he doesn't know how to find the number. Help him.This number should be calculated modulo $$$10^9 + 7$$$.",
+    "prob_desc_output_spec": "In a single line print the answer to the problem — the number of such sequences $$$p_1, p_2, \\ldots, p_k$$$ modulo $$$10^9 + 7$$$.",
+    "prob_desc_input_spec": "The first line contains the string $$$s$$$ ($$$1 \\leq |s| \\leq 10^5$$$) consisting of lowercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_038.jsonl",
+    "code_uid": "6ac84389b9b8901ad3d9d229e727d2b4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"abbaa\", \"baaaa\", \"agaa\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "MODULO = 1000000007\n\ns = input()\n\nt = ''\nbEncouter = False\naCounter = 0\nbCounter = 0\n\nfor c in s:\n    if c == 'a':\n        t += 'a'\n        bEncouter = False\n        aCounter += 1\n    elif c == 'b':\n        if not bEncouter:\n            t += 'b'\n            bEncouter = True\n            bCounter += 1\n\nif aCounter > 0 and bCounter > 0:\n    if t[0] == 'b':\n        t = t[1:]\n    if t[-1] == 'b':\n        t = t[:-1]\n    \n    aEnd = [0] * len(t)\n    bEnd = [0] * len(t)\n    sumUntilLastB = 0\n    lastB = 0\n\n    for c in range(len(t)):\n        if t[c] == 'a':\n            #aEnd[c] = (sum(aEnd[:lastB]) + 1) % MODULO\n            aEnd[c] = (sumUntilLastB + 1) % MODULO\n        elif t[c] == 'b':\n            sumUntilLastB = (sumUntilLastB + sum(aEnd[lastB:c])) % MODULO\n            lastB = c\n    \n    #print(t)\n    #print(aEnd)\n    #print(bEnd)\n\n    print(sum(aEnd) % MODULO) \n\n\n\nelse:\n    print(aCounter)",
+    "prob_desc_created_at": "1544459700",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

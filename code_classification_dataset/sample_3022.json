@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Impossible\", \"0110\"]",
+    "src_uid": "6893987b310c41efb269b63e865355d8",
+    "prob_desc_notes": null,
+    "prob_desc_description": "For each string s consisting of characters '0' and '1' one can define four integers a00, a01, a10 and a11, where axy is the number of subsequences of length 2 of the string s equal to the sequence {x, y}. In these problem you are given four integers a00, a01, a10, a11 and have to find any non-empty string s that matches them, or determine that there is no such string. One can prove that if at least one answer exists, there exists an answer of length no more than 1 000 000.",
+    "prob_desc_output_spec": "If there exists a non-empty string that matches four integers from the input, print it in the only line of the output. Otherwise, print \"Impossible\". The length of your answer must not exceed 1 000 000.",
+    "prob_desc_input_spec": "The only line of the input contains four non-negative integers a00, a01, a10 and a11. Each of them doesn't exceed 109.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_038.jsonl",
+    "code_uid": "c3ea74a3a50512a3b3ff82de2ff1c83e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 2 3 4\", \"1 2 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def f(x):\n\tl, r, mid, res = 1, 100000, 0, -1\n\twhile l <= r:\n\t\tmid = (l + r) / 2 \n\t\tif mid * (mid - 1) / 2 == x:\n\t\t\tres = mid\n\t\t\tbreak\n\t\telif mid * (mid - 1) / 2 < x:\n\t\t\tl = mid + 1\n\t\telse:\n\t\t\tr = mid - 1\n\tif res == 1 and (not (b or c)):\n\t\tres = 0\n\treturn res\na, b, c, d = map(int, raw_input().split())\nx, y = f(a), f(d)\nif not (x or y):print '0'\nelif x == -1 or y == -1 or b + c != x * y:print 'Impossible'\nelif x == 0:print '1' * y\nelif y == 0:print '0' * x\nelse:\n\tt = b / x\n\tp = b % x\n\tif p:\n\t\ts = '1' * (y - t - 1)\n\t\ts += '0' * p\n\t\ts += '1'\n\t\ts += '0' * (x - p)\n\t\ts += '1' * t\n\t\tprint s\n\telse:\n\t\ts = '1' * (y - t)\n\t\ts += '0' * x\n\t\ts += '1' * t\n\t\tprint s",
+    "prob_desc_created_at": "1472056500",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

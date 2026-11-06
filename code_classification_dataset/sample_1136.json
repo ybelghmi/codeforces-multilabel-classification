@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"1\"]",
+    "src_uid": "b20e98f2ea0eb48f790dcc5dd39344d3",
+    "prob_desc_notes": "NoteNote to the first sample test. At the first stage city 1 chosen candidate 3, city 2 chosen candidate 2, city 3 chosen candidate 2. The winner is candidate 2, he gained 2 votes.Note to the second sample test. At the first stage in city 1 candidates 1 and 2 got the same maximum number of votes, but candidate 1 has a smaller index, so the city chose candidate 1. City 2 chosen candidate 3. City 3 chosen candidate 1, due to the fact that everyone has the same number of votes, and 1 has the smallest index. City 4 chosen the candidate 3. On the second stage the same number of cities chose candidates 1 and 3. The winner is candidate 1, the one with the smaller index.",
+    "prob_desc_description": "The country of Byalechinsk is running elections involving n candidates. The country consists of m cities. We know how many people in each city voted for each candidate.The electoral system in the country is pretty unusual. At the first stage of elections the votes are counted for each city: it is assumed that in each city won the candidate who got the highest number of votes in this city, and if several candidates got the maximum number of votes, then the winner is the one with a smaller index.At the second stage of elections the winner is determined by the same principle over the cities: the winner of the elections is the candidate who won in the maximum number of cities, and among those who got the maximum number of cities the winner is the one with a smaller index.Determine who will win the elections.",
+    "prob_desc_output_spec": "Print a single number — the index of the candidate who won the elections. The candidates are indexed starting from one.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n, m (1 ≤ n, m ≤ 100) — the number of candidates and of cities, respectively. Each of the next m lines contains n non-negative integers, the j-th number in the i-th line aij (1 ≤ j ≤ n, 1 ≤ i ≤ m, 0 ≤ aij ≤ 109) denotes the number of votes for candidate j in city i. It is guaranteed that the total number of people in all the cities does not exceed 109.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_006.jsonl",
+    "code_uid": "ed7656b7af7d6f80cc0f1d307c9c8132",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\n1 2 3\\n2 3 1\\n1 2 1\", \"3 4\\n10 10 3\\n5 1 6\\n2 2 2\\n1 5 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "r = lambda: map(int, raw_input().split())\nm, n = r()\na = [m - max(zip(r(), range(m, 0, -1)))[1] for i in xrange(n)]\nb = [a.count(i) for i in xrange(m)]\nprint b.index(max(b)) + 1\n",
+    "prob_desc_created_at": "1439483400",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

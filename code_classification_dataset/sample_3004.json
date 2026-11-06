@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"5\"]",
+    "src_uid": "3845031bffe6475d3da4858725b70ec3",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One day, after a difficult lecture a diligent student Sasha saw a graffitied desk in the classroom. She came closer and read: \"Find such positive integer n, that among numbers n + 1, n + 2, ..., 2·n there are exactly m numbers which binary representation contains exactly k digits one\".The girl got interested in the task and she asked you to help her solve it. Sasha knows that you are afraid of large numbers, so she guaranteed that there is an answer that doesn't exceed 1018.",
+    "prob_desc_output_spec": "Print the required number n (1 ≤ n ≤ 1018). If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers, m and k (0 ≤ m ≤ 1018; 1 ≤ k ≤ 64).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_038.jsonl",
+    "code_uid": "e7861be26a65048b5d1e17a026b33c13",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1 1\", \"3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import functools as f\nm,k=map(int,raw_input().split())\nj=1\nk-=1\nfor i in xrange(69,-1,-1):\n    n=f.reduce(lambda x,y:x*(i-y)/(y+1),range(k),1)\n    if n<m:\n        j+=1<<i\n        m-=n\n        k-=1\nprint j\n\n",
+    "prob_desc_created_at": "1400686200",
+    "tags": [
+        "dp",
+        "combinatorics",
+        "bitmasks",
+        "math",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

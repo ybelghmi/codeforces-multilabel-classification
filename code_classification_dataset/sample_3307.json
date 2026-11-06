@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1 4 5\", \"8\\n1 5 4 8 10 6 3 7\"]",
+    "src_uid": "0dd041c0665d3ec4c46c2c791c17192d",
+    "prob_desc_notes": "NoteThe first example case achieves a strength of 1/2. No other subset is strictly better.The second example case achieves a strength of 1. Note that the subset doesn't necessarily have to be connected.",
+    "prob_desc_description": "Nudist Beach is planning a military operation to attack the Life Fibers. In this operation, they will attack and capture several cities which are currently under the control of the Life Fibers.There are n cities, labeled from 1 to n, and m bidirectional roads between them. Currently, there are Life Fibers in every city. In addition, there are k cities that are fortresses of the Life Fibers that cannot be captured under any circumstances. So, the Nudist Beach can capture an arbitrary non-empty subset of cities with no fortresses.After the operation, Nudist Beach will have to defend the captured cities from counterattack. If they capture a city and it is connected to many Life Fiber controlled cities, it will be easily defeated. So, Nudist Beach would like to capture a set of cities such that for each captured city the ratio of Nudist Beach controlled neighbors among all neighbors of that city is as high as possible. More formally, they would like to capture a non-empty set of cities S with no fortresses of Life Fibers. The strength of a city  is defined as (number of neighbors of x in S) / (total number of neighbors of x). Here, two cities are called neighbors if they are connnected with a road. The goal is to maximize the strength of the weakest city in S.Given a description of the graph, and the cities with fortresses, find a non-empty subset that maximizes the strength of the weakest city. ",
+    "prob_desc_output_spec": "The first line should contain an integer r, denoting the size of an optimum set (1 ≤ r ≤ n - k).  The second line should contain r integers, denoting the cities in the set. Cities may follow in an arbitrary order. This line should not contain any of the cities with fortresses. If there are multiple possible answers, print any of them.",
+    "prob_desc_input_spec": "The first line of input contains three integers n, m, k (2  ≤  n  ≤ 100 000, 1 ≤ m ≤ 100 000, 1 ≤ k ≤ n - 1). The second line of input contains k integers, representing the cities with fortresses. These cities will all be distinct.  The next m lines contain the roads. The i-th of these lines will have 2 integers ai, bi (1 ≤ ai, bi ≤ n, ai ≠ bi). Every city will have at least one road adjacent to it. There is no more than one road between each pair of the cities.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_052.jsonl",
+    "code_uid": "8817438774cfd979a67caada560555f8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9 8 4\\n3 9 6 8\\n1 2\\n1 3\\n1 4\\n1 5\\n2 6\\n2 7\\n2 8\\n2 9\", \"10 8 2\\n2 9\\n1 3\\n2 9\\n4 5\\n5 6\\n6 7\\n7 8\\n8 10\\n10 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq\n\ndef read_data():\n    '''\n    n: number of cities\n    m: number of roads\n    k: initial numuber of fortresses of Life Fibers\n    Es: list of edges\n    fs: fs[i] = True -> city i is under control of Life Fibers\n    gs: gs[i] number of edges connected to city i\n    hs: hs[i] number of adjacent cities under control of Life Fibers\n    '''\n    n, m, k = map(int, input().split())\n    Es = [[] for i in range(n)]\n    fs = [False] * n\n    gs = [0.0] * n\n    hs = [0.0] * n\n    fortresses = list(map(int, input().split()))\n    for f in fortresses:\n        fs[f-1] = True\n    for i in range(m):\n        a, b = map(int, input().split())\n        a -= 1\n        b -= 1\n        Es[a].append(b)\n        Es[b].append(a)\n        gs[a] += 1\n        gs[b] += 1\n        hs[a] += fs[b]\n        hs[b] += fs[a]\n    return n, m, k, fs, gs, hs, Es\n\n\ndef solve(n, m, k, fs, gs, hs, Es):\n    hq = [(-h/g, i) for i, (g, h) in enumerate(zip(gs, hs))]\n    hq.sort()\n    f_diff = set()\n    while hq:\n        p, i = heapq.heappop(hq)\n        if fs[i] or i in f_diff:\n            continue\n        update_fs(fs, f_diff)\n        f_diff = set()\n        dfs(p, i, hq, f_diff, fs, gs, hs, Es)\n    return [i + 1 for i, f in enumerate(fs) if not f]\n\n\ndef update_fs(fs, f_diff):\n    for f in f_diff:\n        fs[f] = True\n\n\ndef dfs(p, i, hq, f_diff, fs, gs, hs, Es):\n    fifo = [i]\n    f_diff.add(i)\n    while fifo:\n        i = fifo.pop(-1)\n        for j in Es[i]:\n            if fs[j] or j in f_diff:\n                continue\n            hs[j] += 1\n            pj = -hs[j]/gs[j]\n            if pj > p:\n                heapq.heappush(hq, (pj, j))\n            else:\n                fifo.append(j)\n                f_diff.add(j)\n\n\nif __name__ == '__main__':\n    n, m, k, fs, gs, hs, Es = read_data()\n    beaches = solve(n, m, k, fs, gs, hs, Es)\n    print(len(beaches))\n    print(*beaches)",
+    "prob_desc_created_at": "1435163400",
+    "tags": [
+        "binary search",
+        "greedy",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

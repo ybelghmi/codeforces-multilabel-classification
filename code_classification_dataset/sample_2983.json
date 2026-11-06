@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"1\", \"2\"]",
+    "src_uid": "5b20c29b7170b139a64f84d414515a9d",
+    "prob_desc_notes": "NoteThe following picture illustrates the island in the third example. Blue arrows show possible paths Vasya may use to go from $$$(1, 1)$$$ to $$$(n, m)$$$. Red illustrates one possible set of cells for the Witch to turn into impassable forest to make Vasya's trip from $$$(1, 1)$$$ to $$$(n, m)$$$ impossible.  ",
+    "prob_desc_description": "All of us love treasures, right? That's why young Vasya is heading for a Treasure Island.Treasure Island may be represented as a rectangular table $$$n \\times m$$$ which is surrounded by the ocean. Let us number rows of the field with consecutive integers from $$$1$$$ to $$$n$$$ from top to bottom and columns with consecutive integers from $$$1$$$ to $$$m$$$ from left to right. Denote the cell in $$$r$$$-th row and $$$c$$$-th column as $$$(r, c)$$$. Some of the island cells contain impassable forests, and some cells are free and passable. Treasure is hidden in cell $$$(n, m)$$$.Vasya got off the ship in cell $$$(1, 1)$$$. Now he wants to reach the treasure. He is hurrying up, so he can move only from cell to the cell in next row (downwards) or next column (rightwards), i.e. from cell $$$(x, y)$$$ he can move only to cells $$$(x+1, y)$$$ and $$$(x, y+1)$$$. Of course Vasya can't move through cells with impassable forests.Evil Witch is aware of Vasya's journey and she is going to prevent him from reaching the treasure. Before Vasya's first move she is able to grow using her evil magic impassable forests in previously free cells. Witch is able to grow a forest in any number of any free cells except cells $$$(1, 1)$$$ where Vasya got off his ship and $$$(n, m)$$$ where the treasure is hidden.Help Evil Witch by finding out the minimum number of cells she has to turn into impassable forests so that Vasya is no longer able to reach the treasure.",
+    "prob_desc_output_spec": "Print the only integer $$$k$$$, which is the minimum number of cells Evil Witch has to turn into impassable forest in order to prevent Vasya from reaching the treasure.",
+    "prob_desc_input_spec": "First line of input contains two positive integers $$$n$$$, $$$m$$$ ($$$3 \\le n \\cdot m \\le 1\\,000\\,000$$$), sizes of the island. Following $$$n$$$ lines contains strings $$$s_i$$$ of length $$$m$$$ describing the island, $$$j$$$-th character of string $$$s_i$$$ equals \"#\" if cell $$$(i, j)$$$ contains an impassable forest and \".\" if the cell is free and passable. Let us remind you that Vasya gets of his ship at the cell $$$(1, 1)$$$, i.e. the first cell of the first row, and he wants to reach cell $$$(n, m)$$$, i.e. the last cell of the last row. It's guaranteed, that cells $$$(1, 1)$$$ and $$$(n, m)$$$ are empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_037.jsonl",
+    "code_uid": "c3237e672b5de5c7f614c44ba9051300",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n..\\n..\", \"4 4\\n....\\n#.#.\\n....\\n.#..\", \"3 4\\n....\\n.##.\\n....\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\n\ndef main():\n    n, m = map(int, input().split())\n    field = stdin.read()\n    if n == 1 or m == 1:\n        return print('10'['#' in field])\n    field = [c == '.' for c in field]\n    field += (False,) * (m + 2)\n    visited1, visited2 = ([False] * len(field) for _ in '12')\n    cnt = [0] * (n + m)\n    m += 1\n    visited1[0] = visited2[n * m - 2] = True\n    for i in range(n * m - 2, 0, -1):\n        if field[i] and (visited2[i + 1] or visited2[i + m]):\n            visited2[i] = True\n    for i in range(n * m):\n        if field[i] and (visited1[i - 1] or visited1[i - m]):\n            visited1[i] = True\n            if visited2[i]:\n                cnt[i // m + i % m] += 1\n    print(min(cnt[1:-2]))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1567587900",
+    "tags": [
+        "dp",
+        "flows",
+        "hashing",
+        "dfs and similar"
+    ],
+    "hidden_unit_tests": ""
+}

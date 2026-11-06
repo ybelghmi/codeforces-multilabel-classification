@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\\nB 1 1\\nR 1 2\\nR 2 1\\nB 2 3\", \"5\\nB 1 1\\nB 1 2\\nR 1 3\\nD 1 2\\nR 1 2\"]",
+    "src_uid": "9b9f6d95aecc1b6c95e5d9acca4f5453",
+    "prob_desc_notes": null,
+    "prob_desc_description": "After too much playing on paper, Iahub has switched to computer games. The game he plays is called \"Block Towers\". It is played in a rectangular grid with n rows and m columns (it contains n × m cells). The goal of the game is to build your own city. Some cells in the grid are big holes, where Iahub can't build any building. The rest of cells are empty. In some empty cell Iahub can build exactly one tower of two following types:  Blue towers. Each has population limit equal to 100.  Red towers. Each has population limit equal to 200. However, it can be built in some cell only if in that moment at least one of the neighbouring cells has a Blue Tower. Two cells are neighbours is they share a side. Iahub is also allowed to destroy a building from any cell. He can do this operation as much as he wants. After destroying a building, the other buildings are not influenced, and the destroyed cell becomes empty (so Iahub can build a tower in this cell if needed, see the second example for such a case).Iahub can convince as many population as he wants to come into his city. So he needs to configure his city to allow maximum population possible. Therefore he should find a sequence of operations that builds the city in an optimal way, so that total population limit is as large as possible.He says he's the best at this game, but he doesn't have the optimal solution. Write a program that calculates the optimal one, to show him that he's not as good as he thinks. ",
+    "prob_desc_output_spec": "Print an integer k in the first line (0 ≤ k ≤ 106) — the number of operations Iahub should perform to obtain optimal result. Each of the following k lines must contain a single operation in the following format:   «B x y» (1 ≤ x ≤ n, 1 ≤ y ≤ m) — building a blue tower at the cell (x, y);  «R x y» (1 ≤ x ≤ n, 1 ≤ y ≤ m) — building a red tower at the cell (x, y);  «D x y» (1 ≤ x ≤ n, 1 ≤ y ≤ m) — destroying a tower at the cell (x, y).  If there are multiple solutions you can output any of them. Note, that you shouldn't minimize the number of operations.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and m (1 ≤ n, m ≤ 500). Each of the next n lines contains m characters, describing the grid. The j-th character in the i-th line is '.' if you're allowed to build at the cell with coordinates (i, j) a tower (empty cell) or '#' if there is a big hole there. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_080.jsonl",
+    "code_uid": "1e8cf7efc891351032cde7a33fcd02d5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\n..#\\n.#.\", \"1 3\\n...\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from collections import deque\n\ndef main():\n    n, m = [int(x) for x in  raw_input().split()]\n    bactions, ractions = [], []\n    sets = [[ 1 if c == '.' else 0 for c in row] for row in [raw_input() for x in xrange(n)]]\n\n    q = deque()\n    qappend = q.append\n    qpop = q.popleft\n    rappend = ractions.append\n    bappend = bactions.append\n    delta = [(-1, 0), (1, 0), (0, -1), (0, 1)]\n    for i in xrange(n):\n        for j in xrange(m):\n            if sets[i][j] == 1:\n               qappend((i, j))\n               while len(q):\n                   x, y = qpop()\n                   if sets[x][y]:\n                       sets[x][y] = 0\n                       bappend('B {0} {1}'.format(x+1, y+1))\n                       if x != i or y != j:\n                           rappend('R {0} {1}'.format(x+1, y+1))\n                           rappend('D {0} {1}'.format(x+1, y+1))\n                       for (dx, dy) in delta:\n                            a, b = x + dx, y + dy\n                            if  (a >= 0) and (b >= 0) and (a < n) and (b < m) and (sets[a][b] == 1):\n                               qappend((a, b));\n    ractions.reverse()\n    print len(bactions) + len(ractions)\n    print '\\n'.join(bactions)\n    print '\\n'.join(ractions)\n\n\nif __name__ == '__main__':\n    main()\n",
+    "prob_desc_created_at": "1372941000",
+    "tags": [
+        "constructive algorithms",
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

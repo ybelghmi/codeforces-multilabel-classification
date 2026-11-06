@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"9\", \"3\", \"2\"]",
+    "src_uid": "a8b71212e24f581b085e60044f22c8bd",
+    "prob_desc_notes": "NoteIn the first example you can spend 8 coins to replace the submatrix 3 × 3 in the top-left corner, and 1 coin to replace the 1 × 1 submatrix in the bottom-right corner.In the second example the best option is to replace the 4 × 4 submatrix containing columns 2 – 5, and the 2 × 2 submatrix consisting of rows 2 – 3 and columns 6 – 7.In the third example you can select submatrix 3 × 3 in the top-left corner and then submatrix 3 × 3 consisting of rows 2 – 4 and columns 2 – 4.",
+    "prob_desc_description": "You are given a matrix f with 4 rows and n columns. Each element of the matrix is either an asterisk (*) or a dot (.).You may perform the following operation arbitrary number of times: choose a square submatrix of f with size k × k (where 1 ≤ k ≤ 4) and replace each element of the chosen submatrix with a dot. Choosing a submatrix of size k × k costs ak coins.What is the minimum number of coins you have to pay to replace all asterisks with dots?",
+    "prob_desc_output_spec": "Print one integer — the minimum number of coins to replace all asterisks with dots.",
+    "prob_desc_input_spec": "The first line contains one integer n (4 ≤ n ≤ 1000) — the number of columns in f. The second line contains 4 integers a1, a2, a3, a4 (1 ≤ ai ≤ 1000) — the cost to replace the square submatrix of size 1 × 1, 2 × 2, 3 × 3 or 4 × 4, respectively. Then four lines follow, each containing n characters and denoting a row of matrix f. Each character is either a dot or an asterisk.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_037.jsonl",
+    "code_uid": "f2b2071d790b452a4dcc993ece341974",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 10 8 20\\n***.\\n***.\\n***.\\n...*\", \"7\\n2 1 8 2\\n.***...\\n.***..*\\n.***...\\n....*..\", \"4\\n10 10 1 10\\n***.\\n*..*\\n*..*\\n.***\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nn = int(sys.stdin.buffer.readline().decode('utf-8'))\ncost = [0] + \\\n    list(map(int, sys.stdin.buffer.readline().decode('utf-8').split()))\na = [line.decode('utf-8').rstrip() for line in sys.stdin.buffer]\n\nmask = [0, 1, 51, 1911]\ninf, bs_size, full_bit = 10**9, 1 << 12, (1 << 12) - 1\ndp = [[inf]*bs_size for _ in range(4*n+1)]\ndp[0][0] = 0\n\nfor i in range(4*n):\n    y, x = i & 3, i >> 2\n    is_dot = 1 if a[y][x] == '.' else 0\n\n    for bitset in range(bs_size):\n        if y == 0:\n            '''\n              01234    01234\n            0 s****    .t..*\n            1 ***** -> ....*\n            2 ***** -> ....*\n            3 *****    ....*\n            '''\n            if dp[i+4][full_bit] > dp[i][bitset] + cost[4]:\n                dp[i+4][full_bit] = dp[i][bitset] + cost[4]\n\n        if (is_dot | bitset & 1) and\\\n                dp[i+1][bitset >> 1] > dp[i][bitset]:\n            dp[i+1][bitset >> 1] = dp[i][bitset]\n\n        for k in range(1, min(4-y, 3)+1):\n            if dp[i][bitset | mask[k]] > dp[i][bitset] + cost[k]:\n                dp[i][bitset | mask[k]] = dp[i][bitset] + cost[k]\n\nprint(min(dp[4*n]))\n",
+    "prob_desc_created_at": "1513091100",
+    "tags": [
+        "dp",
+        "bitmasks"
+    ],
+    "hidden_unit_tests": ""
+}

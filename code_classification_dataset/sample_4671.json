@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1 1\\n-1\\n1 2\\n1 3\\n1 1\"]",
+    "src_uid": "cfe752f8ff049e535309c234da60472d",
+    "prob_desc_notes": "NoteIn the first test case the grid is initially good, so we can, for example, swap the first column with itself.In the second test case it is impossible to make the grid good.In the third test case it is needed to swap the first and the second column, then the grid becomes good.",
+    "prob_desc_description": "You are given a grid with $$$n$$$ rows and $$$m$$$ columns, where each cell has a positive integer written on it. Let's call a grid good, if in each row the sequence of numbers is sorted in a non-decreasing order. It means, that for each $$$1 \\le i \\le n$$$ and $$$2 \\le j \\le m$$$ the following holds: $$$a_{i,j} \\ge a_{i, j-1}$$$.You have to to do the following operation exactly once: choose two columns with indexes $$$i$$$ and $$$j$$$ (not necessarily different), $$$1 \\le i, j \\le m$$$, and swap them.You are asked to determine whether it is possible to make the grid good after the swap and, if it is, find the columns that need to be swapped.",
+    "prob_desc_output_spec": "If after the swap it is impossible to get a good grid, output $$$-1$$$. In the other case output $$$2$$$ integers — the indices of the columns that should be swapped to get a good grid. If there are multiple solutions, print any.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 100$$$). Description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 2 \\cdot 10^5$$$) — the number of rows and columns respectively. Each of the next $$$n$$$ rows contains $$$m$$$ integers, $$$j$$$-th element of $$$i$$$-th row is $$$a_{i,j}$$$ ($$$1 \\le a_{i,j} \\le 10^9$$$) — the number written in the $$$j$$$-th cell of the $$$i$$$-th row. It's guaranteed that the sum of $$$n \\cdot m$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_103.jsonl",
+    "code_uid": "07cc788c16e63748d9ecdb8ab0859a4b",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n2 3\\n\\n1 2 3\\n\\n1 1 1\\n\\n2 2\\n\\n4 1\\n\\n2 3\\n\\n2 2\\n\\n2 1\\n\\n1 1\\n\\n2 3\\n\\n6 2 1\\n\\n5 4 3\\n\\n2 1\\n\\n1\\n\\n2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from re import T\r\nimport sys\r\nfrom collections import deque\r\ninput=sys.stdin.readline\r\n\r\n\r\nfor _ in range(int(input())):\r\n    #n=int(input())\r\n    n,m=map(int,input().split())\r\n    #l=list(map(int,input().split()))\r\n    l=[]\r\n    best=0\r\n    me=[0]*n\r\n    for i in range(n):\r\n        x=list(map(int,input().split()))\r\n        for j in range(m):\r\n            if best<=x[j]:\r\n                best=x[j]\r\n            else:\r\n                me[i]=me[i]+1\r\n                best=x[j]\r\n        best=0\r\n        l.append(x)\r\n    if max(me)==0:\r\n        print(1,1)\r\n    elif max(me)==1 or max(me)==2:\r\n        v=0\r\n        for i in range(n):\r\n            if me[i]==1 or me[i]==2:\r\n                v=i\r\n                break\r\n\r\n        u=0\r\n        x=sorted(l[v])\r\n        q,p=0,0\r\n        for i in range(m):\r\n                if x[i]==l[v][i]:\r\n                    continue\r\n                elif u==0 :\r\n                    u=u+1\r\n                    q=i\r\n                elif u==1 :\r\n                    p=i\r\n                    break\r\n        for i in range(n):\r\n            t=l[i][q]\r\n            l[i][q]=l[i][p]\r\n            l[i][p]=t\r\n        for i in range(n):\r\n            for  j in range(m-1):\r\n                if l[i][j]<=l[i][j+1]:\r\n                    continue\r\n                else:\r\n                    u=-1\r\n                    break\r\n            if u==-1:\r\n                print(-1)\r\n                break\r\n        if u!=-1:\r\n            print(q+1,p+1)\r\n    else:\r\n        print(-1)",
+    "prob_desc_created_at": "1652970900",
+    "tags": [
+        "brute force",
+        "constructive algorithms",
+        "greedy",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

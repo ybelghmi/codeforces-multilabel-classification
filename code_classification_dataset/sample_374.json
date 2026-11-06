@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\", \"4\", \"3\"]",
+    "src_uid": "18458f6ab66db560a51887c944f26f0f",
+    "prob_desc_notes": "NoteIn the first example before the first winter day Vasya should change summer tires to winter tires, use it for three days, and then change winter tires to summer tires because he can drive safely with the winter tires for just three days. Thus, the total number of tires' changes equals two. In the second example before the first winter day Vasya should change summer tires to winter tires, and then after the first winter day change winter tires to summer tires. After the second day it is necessary to change summer tires to winter tires again, and after the third day it is necessary to change winter tires to summer tires. Thus, the total number of tires' changes equals four. ",
+    "prob_desc_description": "The winter in Berland lasts n days. For each day we know the forecast for the average air temperature that day. Vasya has a new set of winter tires which allows him to drive safely no more than k days at any average air temperature. After k days of using it (regardless of the temperature of these days) the set of winter tires wears down and cannot be used more. It is not necessary that these k days form a continuous segment of days.Before the first winter day Vasya still uses summer tires. It is possible to drive safely on summer tires any number of days when the average air temperature is non-negative. It is impossible to drive on summer tires at days when the average air temperature is negative. Vasya can change summer tires to winter tires and vice versa at the beginning of any day.Find the minimum number of times Vasya needs to change summer tires to winter tires and vice versa to drive safely during the winter. At the end of the winter the car can be with any set of tires.",
+    "prob_desc_output_spec": "Print the minimum number of times Vasya has to change summer tires to winter tires and vice versa to drive safely during all winter. If it is impossible, print -1.",
+    "prob_desc_input_spec": "The first line contains two positive integers n and k (1 ≤ n ≤ 2·105, 0 ≤ k ≤ n) — the number of winter days and the number of days winter tires can be used. It is allowed to drive on winter tires at any temperature, but no more than k days in total. The second line contains a sequence of n integers t1, t2, ..., tn ( - 20 ≤ ti ≤ 20) — the average air temperature in the i-th winter day. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_001.jsonl",
+    "code_uid": "11493a59e6cdf84db9050f48ced8cfe2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n-5 20 -3 0\", \"4 2\\n-5 20 -3 0\", \"10 6\\n2 -5 1 3 0 0 -4 -3 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#from __future__ import division\nimport itertools\nfrom fractions import gcd\nfrom math import sqrt\nfrom bisect import bisect_left\nimport heapq\n\ndef Ls():\n\treturn list(raw_input())\ndef get(a):\n\treturn map(a , raw_input().split())\ndef Int():\n\treturn int(raw_input())\ndef Str():\n\treturn raw_input()\n\n#agle janam mohe expert bana dijio ^_^\nn , k = get(int)\nhar = get(int)\nlow = 0\nhigh = n - 1\nvij = [0 for i in xrange(n)]\ncnt  = 0\nfor i in xrange(n):\n\tif har[i] < 0:\n\t\tvij[i] = 1\n\t\tcnt += 1\n\n#print vij\nhv = []\nfor i in xrange(len(vij)):\n\thv.append(vij[i])\n#hv.append(1)\n#@print hv\ncur = []\nsm = 0\nfg = False\nfor i in hv:\n\tif i == 0:\n\t\tif fg:sm += 1\n\telse:\n\t\tfg = True\n\t\tcur.append((-2 , sm))\n\t\tsm = 0\ncur.append((-1, sm))\ncur.sort()\n#print cur\nans = 0\npre = 0\nfor i in xrange(len(vij)):\n\tans += vij[i] ^ pre\n\tpre = vij[i]\nmax_ = k - cnt\n#print ans\n#print max_\nif max_ < 0:\n\tprint -1\n\texit(0)\n#print ans\n#print cur\nfor i in cur:\n\tif i[1] != 0 and max_ - i[1] >= 0:\n\t\tans += i[0]\n\t\tmax_ -= i[1]\n\nprint ans\n\n\n\n\n\t\n\n\t\t \n\n\t\t\n\n\n\n\n\n\t\n\n\n\n\n\t\n",
+    "prob_desc_created_at": "1482113100",
+    "tags": [
+        "dp",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

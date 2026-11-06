@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\", \"0\"]",
+    "src_uid": "1ce94a8294cebbf0f1841dea8521e66e",
+    "prob_desc_notes": "NoteThe occasions in the first sample case are:1.l = 4,r = 4 since max{2} = min{2}.2.l = 4,r = 5 since max{2, 1} = min{2, 3}.There are no occasions in the second sample case since Mike will answer 3 to any query pair, but !Mike will always answer 1.",
+    "prob_desc_description": "Mike and !Mike are old childhood rivals, they are opposite in everything they do, except programming. Today they have a problem they cannot solve on their own, but together (with you) — who knows? Every one of them has an integer sequences a and b of length n. Being given a query of the form of pair of integers (l, r), Mike can instantly tell the value of  while !Mike can instantly tell the value of .Now suppose a robot (you!) asks them all possible different queries of pairs of integers (l, r) (1 ≤ l ≤ r ≤ n) (so he will make exactly n(n + 1) / 2 queries) and counts how many times their answers coincide, thus for how many pairs  is satisfied.How many occasions will the robot count?",
+    "prob_desc_output_spec": "Print the only integer number — the number of occasions the robot will count, thus for how many pairs  is satisfied.",
+    "prob_desc_input_spec": "The first line contains only integer n (1 ≤ n ≤ 200 000). The second line contains n integer numbers a1, a2, ..., an ( - 109 ≤ ai ≤ 109) — the sequence a. The third line contains n integer numbers b1, b2, ..., bn ( - 109 ≤ bi ≤ 109) — the sequence b.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_037.jsonl",
+    "code_uid": "c2b65317ddd8c5b0be735fb1a4377cd1",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n1 2 3 2 1 4\\n6 7 1 2 3 2\", \"3\\n3 3 3\\n1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from bisect import bisect\n\nHISENTINEL = 10**9 + 1\nLOSENTINEL = -HISENTINEL\n\ndef main():\n    length = int(input())\n    a = [int(fld) for fld in input().strip().split()]\n    b = [int(fld) for fld in input().strip().split()]\n    print(countmaxminsubseq(a, b))\n    \ndef countmaxminsubseq(a, b):\n    leq, lgt = getleftbounds(a, b, 0)\n    req, rgt = getleftbounds(reversed(a), reversed(b), 1)\n    req = reverseindex(req)\n    rgt = reverseindex(rgt)\n    count = 0\n    for i, (leq1, lgt1, req1, rgt1) in enumerate(zip(leq, lgt, req, rgt)):\n        count += (leq1 - lgt1)*(rgt1 - i) + (i - leq1)*(rgt1 - req1)\n    return count\n    \ndef getleftbounds(a, b, bias):\n    astack = [(HISENTINEL, -1)]\n    bstack = [(LOSENTINEL, -1)]\n    leqarr, lgtarr = [], []\n    for i, (aelt, belt) in enumerate(zip(a, b)):\n        while astack[-1][0] < aelt + bias:\n            astack.pop()\n        lgt = astack[-1][1]\n        while bstack[-1][0] > belt:\n            bstack.pop()\n        if belt < aelt:\n            leq = lgt = i\n        elif belt == aelt:\n            leq = i\n            istack = bisect(bstack, (aelt, -2)) - 1\n            lgt = max(lgt, bstack[istack][1])\n        else:\n            istack = bisect(bstack, (aelt, i)) - 1\n            val, pos = bstack[istack]\n            if val < aelt:\n                lgt = leq = max(lgt, pos)\n            else:\n                leq = pos\n                istack = bisect(bstack, (aelt, -2)) - 1\n                val, pos = bstack[istack]\n                lgt = max(lgt, pos)\n                leq = max(leq, lgt)\n                \n        leqarr.append(leq)\n        lgtarr.append(lgt)\n        astack.append((aelt, i))\n        bstack.append((belt, i))\n    return leqarr, lgtarr\n    \ndef reverseindex(rind):\n    pivot = len(rind) - 1\n    return [pivot - i for i in reversed(rind)]\n    \n   \nmain()    \n\n",
+    "prob_desc_created_at": "1467822900",
+    "tags": [
+        "data structures",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

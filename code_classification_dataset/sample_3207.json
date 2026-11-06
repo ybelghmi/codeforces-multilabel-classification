@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1.5 seconds",
+    "prob_desc_sample_outputs": "[\"3 2\", \"6 1\", \"1 8\"]",
+    "src_uid": "6fb20914525715af737d81f3a5d98636",
+    "prob_desc_notes": "NoteThe picture below shows the three possible locations of the ship that contain the cell $$$(3, 2)$$$ in the first sample.  ",
+    "prob_desc_description": "Arkady is playing Battleship. The rules of this game aren't really important.There is a field of $$$n \\times n$$$ cells. There should be exactly one $$$k$$$-decker on the field, i. e. a ship that is $$$k$$$ cells long oriented either horizontally or vertically. However, Arkady doesn't know where it is located. For each cell Arkady knows if it is definitely empty or can contain a part of the ship.Consider all possible locations of the ship. Find such a cell that belongs to the maximum possible number of different locations of the ship.",
+    "prob_desc_output_spec": "Output two integers — the row and the column of a cell that belongs to the maximum possible number of different locations of the ship. If there are multiple answers, output any of them. In particular, if no ship can be placed on the field, you can output any cell.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 100$$$) — the size of the field and the size of the ship. The next $$$n$$$ lines contain the field. Each line contains $$$n$$$ characters, each of which is either '#' (denotes a definitely empty cell) or '.' (denotes a cell that can belong to the ship).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_046.jsonl",
+    "code_uid": "64d1350b04ebf644fe1f20fcb1f929c4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n#..#\\n#.#.\\n....\\n.###\", \"10 4\\n#....##...\\n.#...#....\\n..#..#..#.\\n...#.#....\\n.#..##.#..\\n.....#...#\\n...#.##...\\n.#...#.#..\\n.....#..#.\\n...#.#...#\", \"19 6\\n##..............###\\n#......#####.....##\\n.....#########.....\\n....###########....\\n...#############...\\n..###############..\\n.#################.\\n.#################.\\n.#################.\\n.#################.\\n#####....##....####\\n####............###\\n####............###\\n#####...####...####\\n.#####..####..#####\\n...###........###..\\n....###########....\\n.........##........\\n#.................#\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\"\"\"\nCreated on Wed Apr 25 23:17:51 2018\n\n@author: ska\n\n965-B\n\"\"\"\nimport math\nn,k = map(int, input().split())\n\nf = []\n\nscore = [[0 for i in range(n)] for j in range(n)]\nfor i in range(n):\n    f.append(input().strip())\n\nfor i in range(n):\n    con = 0\n    for j in range(n):\n        if f[i][j] ==\".\":\n            con += 1\n        else:\n            con =0\n        if con == k:\n            con = k-1\n            for h in range(k):\n                score[i][j-h] += 1\n                \n            \n#print(score)\n\nfor i in range(n):\n    con = 0\n    for j in range(n):\n        if f[j][i] ==\".\":\n            con += 1\n        else:\n            con =0\n        if con == k:\n            con = k-1\n            for h in range(k):\n                score[j-h][i] +=1\n\n#print(score)\nma = 0\nrow1 =0\ncol1 = 0\nfor row in range(n):\n    for col in range(n):\n#        print(score[row][col])\n        if score[row][col] >ma:\n            ma = score[row][col]\n            row1 =row\n            col1 =col\nprint(row1+1, col1+1)",
+    "prob_desc_created_at": "1524677700",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

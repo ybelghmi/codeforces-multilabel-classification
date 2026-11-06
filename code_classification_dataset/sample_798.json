@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"2\"]",
+    "src_uid": "dc46c6cb6b4b9b5e7e6e5b4b7d034874",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Magnus decided to play a classic chess game. Though what he saw in his locker shocked him! His favourite chessboard got broken into 4 pieces, each of size n by n, n is always odd. And what's even worse, some squares were of wrong color. j-th square of the i-th row of k-th piece of the board has color ak, i, j; 1 being black and 0 being white. Now Magnus wants to change color of some squares in such a way that he recolors minimum number of squares and obtained pieces form a valid chessboard. Every square has its color different to each of the neightbouring by side squares in a valid board. Its size should be 2n by 2n. You are allowed to move pieces but not allowed to rotate or flip them.",
+    "prob_desc_output_spec": "Print one number — minimum number of squares Magnus should recolor to be able to obtain a valid chessboard.",
+    "prob_desc_input_spec": "The first line contains odd integer n (1 ≤ n ≤ 100) — the size of all pieces of the board.  Then 4 segments follow, each describes one piece of the board. Each consists of n lines of n characters; j-th one of i-th line is equal to 1 if the square is black initially and 0 otherwise. Segments are separated by an empty line.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_004.jsonl",
+    "code_uid": "e77ed1c9242256997891dfcc599a8325",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\\n0\\n\\n0\\n\\n1\\n\\n0\", \"3\\n101\\n010\\n101\\n\\n101\\n000\\n101\\n\\n010\\n101\\n011\\n\\n010\\n101\\n010\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = input()\na = [[], [], [], []]\nfor k in range(4):\n    for j in range(n):\n        a[k].append(raw_input())\n    if k < 3: raw_input()\n\nc = [0, 0, 0, 0]\nfor k in range(4):\n    for i in range(n):\n        for j in range(n):\n            if (i * n + j) % 2 == 0:\n                c[k] += int(a[k][i][j])\n            else:\n                c[k] += 1 - int(a[k][i][j])\n\nc.sort()\nc[2] = n * n - c[2]\nc[3] = n * n - c[3]\nprint sum(c)\n",
+    "prob_desc_created_at": "1522850700",
+    "tags": [
+        "implementation",
+        "bitmasks",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

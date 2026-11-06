@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"81\\n3\\n1\\n2\\n0\"]",
+    "src_uid": "499b1440d8bb528d089724910e37e226",
+    "prob_desc_notes": "NoteTo simplify the notes, let $$$\\operatorname{sort}(a)$$$ denote the array you get by sorting $$$a$$$ from small to large.In the first test case, $$$a=[1,10,100]$$$ at first. After the first operation, $$$a=\\operatorname{sort}([10-1,100-10])=[9,90]$$$. After the second operation, $$$a=\\operatorname{sort}([90-9])=[81]$$$.In the second test case, $$$a=[4,8,9,13]$$$ at first. After the first operation, $$$a=\\operatorname{sort}([8-4,9-8,13-9])=[1,4,4]$$$. After the second operation, $$$a=\\operatorname{sort}([4-1,4-4])=[0,3]$$$. After the last operation, $$$a=\\operatorname{sort}([3-0])=[3]$$$.",
+    "prob_desc_description": "You are given an array $$$a$$$ consisting of $$$n$$$ non-negative integers. It is guaranteed that $$$a$$$ is sorted from small to large.For each operation, we generate a new array $$$b_i=a_{i+1}-a_{i}$$$ for $$$1 \\le i &lt; n$$$. Then we sort $$$b$$$ from small to large, replace $$$a$$$ with $$$b$$$, and decrease $$$n$$$ by $$$1$$$.After performing $$$n-1$$$ operations, $$$n$$$ becomes $$$1$$$. You need to output the only integer in array $$$a$$$ (that is to say, you need to output $$$a_1$$$).",
+    "prob_desc_output_spec": "For each test case, output the answer on a new line.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1\\le t\\le 10^4$$$) — the number of test cases. The description of the test cases follows. The first line of each test case contains one integer $$$n$$$ ($$$2\\le n\\le 10^5$$$) — the length of the array $$$a$$$. The second line contains $$$n$$$ integers $$$a_1,a_2,\\dots,a_n$$$ ($$$0\\le a_1\\le \\ldots\\le a_n \\le 5\\cdot 10^5$$$) — the array $$$a$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2.5\\cdot 10^5$$$, and the sum of $$$a_n$$$ over all test cases does not exceed $$$5\\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_103.jsonl",
+    "code_uid": "571f43e1da361bdb47a359e770cee93a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n3\\n\\n1 10 100\\n\\n4\\n\\n4 8 9 13\\n\\n5\\n\\n0 0 0 8 13\\n\\n6\\n\\n2 4 8 16 32 64\\n\\n7\\n\\n0 0 0 0 0 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# ''' # FASTIO BEGINS ------------------------>\r\ncodechef = True\r\nif codechef:\r\n    import atexit,io,os,sys\r\n    ss=io.BytesIO()\r\n    _write=ss.write\r\n    ss.write=lambda sett:_write(sett.encode())\r\n    atexit.register(lambda:os.write(1,ss.getvalue()))\r\n    y_in=open(0).read().split(\"\\n\")\r\n    def y_inf():\r\n        for y_id in range(len(y_in)):\r\n            yield y_id\r\n    y_ino=y_inf()\r\n    input=lambda:y_in[next(y_ino)]\r\n    # print = sys.stdout.write   # always take string\r\nelse:\r\n    import sys\r\n    input = sys.stdin.readline\r\n    # print = sys.stdout.write   # always take string\r\n# print=ss.write\r\n# FASTIO ENDS <---------------------------- '''\r\n\r\n'''     // -- Template by A_*_A -- //       '''\r\n\r\nimport math, collections\r\ninum = lambda: int(input())\r\nimap = lambda: map(int, input().split())\r\nitup = lambda: tuple(map(int, input().split()))\r\nilis = lambda: [int(zz) for zz in input().split()]\r\nisor = lambda: sorted(map(int, input().split()))\r\nidic = lambda: collections.defaultdict(lambda: 0)\r\n\r\ntcs = 1 if not True else int(input())   # False - 1, True - n\r\nfor tc in range(1, tcs + 1):\r\n    # print(\"Hello World\")\r\n    n = inum()\r\n    arr = isor()\r\n    # process zeroes in a variable [O(1)] instead of looping in array [O(nlogn)]\r\n    zer = 0\r\n    while len(arr) > 1:     # arr will always have only 1 zero at max.\r\n        temp = []\r\n        for i in range(len(arr) - 1):\r\n            diff = arr[i + 1] - arr[i]\r\n            if diff == 0:\r\n                zer += 1\r\n            else:\r\n                temp.append(diff)\r\n        if zer > 0:\r\n            zer -= 1\r\n            temp.append(0)\r\n        arr = sorted(temp)\r\n    print(arr[0] if arr else 0)\r\n\r\n'''     // -- Template by A_*_A -- //       '''\r\n\r\n'''\r\nChecklist:\r\n    * Check which cf account\r\n    * Check if tcs == 1 or n\r\n    * Check Fast-IO cf or cc\r\nLet n be the main variable in the problem.\r\n\r\n    If n ≤ 12, the time complexity can be O(n!).\r\n    If n ≤ 25, the time complexity can be O(2n).\r\n    If n ≤ 1e2, the time complexity can be O(n4).\r\n    If n ≤ 500, the time complexity can be O(n3).\r\n    If n ≤ 1e4, the time complexity can be O(n2).\r\n    If n ≤ 1e6, the time complexity can be O(n log n).\r\n    If n ≤ 168, the time complexity can be O(n).\r\n    If n > 1e8, the time complexity can be O(log n) or O(1)\r\n'''",
+    "prob_desc_created_at": "1657982100",
+    "tags": [
+        "brute force",
+        "data structures",
+        "implementation",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

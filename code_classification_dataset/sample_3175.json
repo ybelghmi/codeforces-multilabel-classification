@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"()(())\", \"(((())))\", \"Impossible\"]",
+    "src_uid": "6d03cbb251948f75bdf6061495bb0204",
+    "prob_desc_notes": "NoteThe first example is examined in the statement.In the second example the answer is \"(((())))\". The nesting of the first opening bracket is 0, the nesting of the second is 1, the nesting of the third is 2, the nesting of fourth is 3. So the total sum of nestings equals to 0 + 1 + 2 + 3 = 6.In the third it is impossible to construct a regular bracket sequence, because the maximum possible total sum of nestings for two opening brackets equals to 1. This total sum of nestings is obtained for the sequence \"(())\".",
+    "prob_desc_description": "Recall that the bracket sequence is considered regular if it is possible to insert symbols '+' and '1' into it so that the result is a correct arithmetic expression. For example, a sequence \"(()())\" is regular, because we can get correct arithmetic expression insering symbols '+' and '1': \"((1+1)+(1+1))\". Also the following sequences are regular: \"()()()\", \"(())\" and \"()\". The following sequences are not regular bracket sequences: \")(\", \"(()\" and \"())(()\".In this problem you are given two integers n and k. Your task is to construct a regular bracket sequence consisting of round brackets with length 2·n with total sum of nesting of all opening brackets equals to exactly k. The nesting of a single opening bracket equals to the number of pairs of brackets in which current opening bracket is embedded.For example, in the sequence \"()(())\" the nesting of first opening bracket equals to 0, the nesting of the second opening bracket equals to 0 and the nesting of the third opening bracket equal to 1. So the total sum of nestings equals to 1.",
+    "prob_desc_output_spec": "Print the required regular bracket sequence consisting of round brackets. If there is no solution print \"Impossible\" (without quotes).",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n ≤ 3·105, 0 ≤ k ≤ 1018) — the number of opening brackets and needed total nesting.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_045.jsonl",
+    "code_uid": "f34551abdc32311e82bfc5968cf1a5eb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\", \"4 6\", \"2 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "s = raw_input()\nn = int(s.split()[0])\nk = int(s.split()[1])\nres = ''\n\nsum = 0\nlevel = 0\nopened = 0\n\nwhile level > -1:\n\tif sum + level <= k and opened < n:\n\t\tsum = sum + level\n\t\tres = res + '('\n\t\topened = opened + 1\n\t\tlevel = level + 1;\n\telse:\n\t\tif level > 0:\n\t\t\tres = res + ')'\n\t\tlevel = level - 1\n\nif sum == k and opened == n and level < 0:\n\tprint (res)\nelse:\n\tprint ('Impossible')",
+    "prob_desc_created_at": "1505739900",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

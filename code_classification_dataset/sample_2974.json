@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"3\", \"-1\", \"4\"]",
+    "src_uid": "db5a99701dabe3516f97fd172118807e",
+    "prob_desc_notes": "NoteIn the first sample, the path with largest value is $$$1 \\to 3 \\to 4 \\to 5$$$. The value is $$$3$$$ because the letter 'a' appears $$$3$$$ times.",
+    "prob_desc_description": "You are given a graph with $$$n$$$ nodes and $$$m$$$ directed edges. One lowercase letter is assigned to each node. We define a path's value as the number of the most frequently occurring letter. For example, if letters on a path are \"abaca\", then the value of that path is $$$3$$$. Your task is find a path whose value is the largest.",
+    "prob_desc_output_spec": "Output a single line with a single integer denoting the largest value. If the value can be arbitrarily large, output -1 instead.",
+    "prob_desc_input_spec": "The first line contains two positive integers $$$n, m$$$ ($$$1 \\leq n, m \\leq 300\\,000$$$), denoting that the graph has $$$n$$$ nodes and $$$m$$$ directed edges. The second line contains a string $$$s$$$ with only lowercase English letters. The $$$i$$$-th character is the letter assigned to the $$$i$$$-th node. Then $$$m$$$ lines follow. Each line contains two integers $$$x, y$$$ ($$$1 \\leq x, y \\leq n$$$), describing a directed edge from $$$x$$$ to $$$y$$$. Note that $$$x$$$ can be equal to $$$y$$$ and there can be multiple edges between $$$x$$$ and $$$y$$$. Also the graph can be not connected.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_037.jsonl",
+    "code_uid": "ec63a955276c3bb781bee10661a10341",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 4\\nabaca\\n1 2\\n1 3\\n3 4\\n4 5\", \"6 6\\nxzyabc\\n1 2\\n3 1\\n2 3\\n5 4\\n4 3\\n6 4\", \"10 14\\nxzyzyzyzqx\\n1 2\\n2 4\\n3 5\\n4 5\\n2 6\\n6 8\\n6 5\\n2 10\\n3 9\\n10 9\\n4 6\\n1 10\\n2 8\\n3 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def dfs(dp,node,edges,s,visited):\n    stack = [node]\n    while stack:\n        node = stack[-1]\n        if node not in visited:\n            count = 0\n            for kid in edges[node]:\n                if kid in visited:\n                    count += 1\n                stack.append(kid)\n\n            if count == len(edges[node]):\n                for kid in edges[node]:\n                    for i in xrange(26):\n                        dp[node][i] = max(dp[node][i],dp[kid][i])\n\n                dp[node][ord(s[node-1])-ord('a')] += 1\n                visited.add(node)\n                stack.pop()\n        else:\n            stack.pop()\n                    \ndef dfs2(edges,node,visited,recursion_stack):\n    stack = [node]\n    while stack:\n        node = stack[-1]\n        visited.add(node)\n        recursion_stack.add(node)\n        count = 0\n        for kid in edges[node]:\n            if kid not in visited:\n                stack.append(kid)\n            elif kid in recursion_stack:\n                return True\n            else:\n                count += 1\n\n        if count == len(edges[node]):\n            stack.pop()\n            recursion_stack.remove(node)\n\n    return False\n            \n\ndef cycle(edges,n):\n    visited = set()\n    recursion_stack = set()\n    for i in xrange(1,n+1):\n        if i not in visited:\n            if dfs2(edges,i,visited,recursion_stack):\n                return True\n\n    return False\n\ndef main():\n    n,m = map(int,raw_input().split())\n    edges = {}\n    for i in xrange(1,n+1):\n        edges[i] = []\n\n    incoming = set()\n    for i in xrange(1,n+1):\n        incoming.add(i)\n        \n    s = raw_input()\n    for i in xrange(m):\n        a,b = map(int,raw_input().split())\n        edges[a].append(b)\n        if b in incoming:\n            incoming.remove(b)\n\n    if cycle(edges,n):\n        print -1\n        return\n\n    dp = [[0 for i in xrange(26)] for j in xrange(n+1)]\n    visited = set()\n    for i in incoming:\n        if i not in visited:\n            dfs(dp,i,edges,s,visited)\n\n    ans = 0\n    for i in incoming:\n        ans = max(ans,max(dp[i]))\n\n    print ans\n    \n\nmain()\n",
+    "prob_desc_created_at": "1517403900",
+    "tags": [
+        "dp",
+        "dfs and similar",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

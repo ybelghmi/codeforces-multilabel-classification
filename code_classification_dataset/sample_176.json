@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1110011110\\n0011\\n0110001100101011\\n10\\n0000111\\n1111\\n000\"]",
+    "src_uid": "4bbb078b66b26d6414e30b0aae845b98",
+    "prob_desc_notes": null,
+    "prob_desc_description": "For some binary string $$$s$$$ (i.e. each character $$$s_i$$$ is either '0' or '1'), all pairs of consecutive (adjacent) characters were written. In other words, all substrings of length $$$2$$$ were written. For each pair (substring of length $$$2$$$), the number of '1' (ones) in it was calculated.You are given three numbers:  $$$n_0$$$ — the number of such pairs of consecutive characters (substrings) where the number of ones equals $$$0$$$;  $$$n_1$$$ — the number of such pairs of consecutive characters (substrings) where the number of ones equals $$$1$$$;  $$$n_2$$$ — the number of such pairs of consecutive characters (substrings) where the number of ones equals $$$2$$$. For example, for the string $$$s=$$$\"1110011110\", the following substrings would be written: \"11\", \"11\", \"10\", \"00\", \"01\", \"11\", \"11\", \"11\", \"10\". Thus, $$$n_0=1$$$, $$$n_1=3$$$, $$$n_2=5$$$.Your task is to restore any suitable binary string $$$s$$$ from the given values $$$n_0, n_1, n_2$$$. It is guaranteed that at least one of the numbers $$$n_0, n_1, n_2$$$ is greater than $$$0$$$. Also, it is guaranteed that a solution exists.",
+    "prob_desc_output_spec": "Print $$$t$$$ lines. Each of the lines should contain a binary string corresponding to a test case. If there are several possible solutions, print any of them.",
+    "prob_desc_input_spec": "The first line contains an integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases in the input. Then test cases follow. Each test case consists of one line which contains three integers $$$n_0, n_1, n_2$$$ ($$$0 \\le n_0, n_1, n_2 \\le 100$$$; $$$n_0 + n_1 + n_2 &gt; 0$$$). It is guaranteed that the answer for given $$$n_0, n_1, n_2$$$ exists.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_000.jsonl",
+    "code_uid": "ab934202d948056f7e8caca09d32dc3d",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n1 3 5\\n1 1 1\\n3 9 3\\n0 1 0\\n3 1 2\\n0 0 3\\n2 0 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def ans_v2(n_0, n_1, n_2):\n    ans_left = ''\n    ans_center = ''\n    ans_right = ''\n    if n_1 == 0:\n        if n_0 > 0:\n            ans_left = '0'*(n_0 + 1)\n        else:\n            ans_right = '1'*(n_2 + 1)\n    else:\n        if n_0 == 0:\n            if (n_1 % 2 == 0):\n                ans_left = '10'*(n_1 // 2)\n            else:\n                ans_left = '0' + '10'*((n_1 - 1) // 2)\n            ans_center = '1'*(n_2 + 1)\n        elif n_2 == 0:\n            if (n_1 % 2 == 0):\n                ans_left = '01'*(n_1 // 2)\n            else:\n                ans_left = '1' + '01'*((n_1 - 1) // 2)\n            ans_right = '0'*(n_0 + 1)\n        else: # все ненулевые\n            ans_right = '0'*(n_0 + 1)\n            ans_center = '1'*(n_2 + 1)\n            if (n_1 % 2 == 0): # чётное n_1\n                ans_left = '0' + '10'*((n_1 - 2) // 2)\n            else: # нечётное n_1\n                ans_left = '10'*((n_1 - 1) // 2)\n\n    return ans_left + ans_center + ans_right\n\nt = int(input())\nfor i in range(t):\n    input_nums = input().split(' ')\n    answer = ans_v2(int(input_nums[0]), int(input_nums[1]), int(input_nums[2]))\n    print(answer)",
+    "prob_desc_created_at": "1589034900",
+    "tags": [
+        "constructive algorithms",
+        "dfs and similar",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"42\", \"7\"]",
+    "src_uid": "9044eacc1833c667985c343a71fb4a58",
+    "prob_desc_notes": "NoteThe image for the first example:  Several key points are marked blue, the answer contains some non-marked points as well.The image for the second example:  ",
+    "prob_desc_description": "You are given $$$n$$$ segments on a Cartesian plane. Each segment's endpoints have integer coordinates. Segments can intersect with each other. No two segments lie on the same line.Count the number of distinct points with integer coordinates, which are covered by at least one segment.",
+    "prob_desc_output_spec": "Print a single integer — the number of distinct points with integer coordinates, which are covered by at least one segment.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 1000$$$) — the number of segments. Each of the next $$$n$$$ lines contains four integers $$$Ax_i, Ay_i, Bx_i, By_i$$$ ($$$-10^6 \\le Ax_i, Ay_i, Bx_i, By_i \\le 10^6$$$) — the coordinates of the endpoints $$$A$$$, $$$B$$$ ($$$A \\ne B$$$) of the $$$i$$$-th segment. It is guaranteed that no two segments lie on the same line.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_030.jsonl",
+    "code_uid": "e8da77cb46ac51e2c16d6199d540469a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"9\\n0 0 4 4\\n-1 5 4 0\\n4 0 4 4\\n5 2 11 2\\n6 1 6 7\\n5 6 11 6\\n10 1 10 7\\n7 0 9 8\\n10 -1 11 -1\", \"4\\n-1 2 1 2\\n-1 0 1 0\\n-1 0 0 3\\n0 3 1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import gcd\nfrom bisect import *\n\nclass Point:\n    def __init__(self, x, y):\n        self.x, self.y = x, y\n    def __add__(self, val):\n        return Point(self.x + val.x, self.y + val.y)\n    def __sub__(self, val):\n        return Point(self.x - val.x, self.y - val.y)\n    def __mul__(self, ratio):\n        return Point(self.x * ratio, self.y * ratio)\n    def __truediv__(self, ratio):\n        return Point(self.x / ratio, self.y / ratio)\n\n    @staticmethod\n    def det(A, B):\n        return A.x * B.y - A.y * B.x\n    @staticmethod\n    def dot(A, B):\n        return A.x * B.x + A.y * B.y\n\n    def onSegment(self, A, B):\n        if self.det(B-A, self-A) != 0:\n            return False\n        if self.dot(B-A, self-A) < 0:\n            return False\n        if self.dot(A-B, self-B) < 0:\n            return False\n        return True\n        \n\ndef intPoints(x1, y1, x2, y2):\n    dx, dy = abs(x2 - x1), abs(y2 - y1)\n    return gcd(dx, dy) + 1\n\ndef crosspoint(L1, L2):\n    A, B = Point(L1[0], L1[1]), Point(L1[2], L1[3])\n    C, D = Point(L2[0], L2[1]), Point(L2[2], L2[3])\n    S1, S2 = Point.det(C-A, D-A), Point.det(C-D, B-A)\n    delta = (B - A) * S1\n    if S2 == 0 or delta.x % S2 != 0 or delta.y % S2 != 0:\n        return None\n    delta = delta / S2;\n    P = A + delta\n    if not P.onSegment(A, B) or not P.onSegment(C, D):\n        return None\n    return (P.x, P.y)\n\nn = int(input())\nlines = [ tuple(int(z) for z in input().split()) \\\n          for i in range(n) ]\ncount = dict()\nfor i in range(n):\n    for j in range(i):\n        P = crosspoint(lines[i], lines[j])\n        if P != None:\n            count[P] = count.get(P, 0) + 1\n\nanswer = sum(intPoints(*L) for L in lines)\ntri = [ x*(x+1)//2 for x in range(n+1) ]\nfor z in count:\n    k = bisect_right(tri, count[z])\n    answer -= k - 1;\nprint(answer)\n",
+    "prob_desc_created_at": "1536330900",
+    "tags": [
+        "number theory",
+        "geometry",
+        "fft"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1.0000000000\", \"2.0000000000\"]",
+    "src_uid": "3edd332d8359ead21df4d822af6940c7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Two neighbours, Alan and Bob, live in the city, where there are three buildings only: a cinema, a shop and the house, where they live. The rest is a big asphalt square. Once they went to the cinema, and the film impressed them so deeply, that when they left the cinema, they did not want to stop discussing it.Bob wants to get home, but Alan has to go to the shop first, and only then go home. So, they agreed to cover some distance together discussing the film (their common path might pass through the shop, or they might walk circles around the cinema together), and then to part each other's company and go each his own way. After they part, they will start thinking about their daily pursuits; and even if they meet again, they won't be able to go on with the discussion. Thus, Bob's path will be a continuous curve, having the cinema and the house as its ends. Alan's path — a continuous curve, going through the shop, and having the cinema and the house as its ends.The film ended late, that's why the whole distance covered by Alan should not differ from the shortest one by more than t1, and the distance covered by Bob should not differ from the shortest one by more than t2.Find the maximum distance that Alan and Bob will cover together, discussing the film.",
+    "prob_desc_output_spec": "In the only line output one number — the maximum distance that Alan and Bob will cover together, discussing the film. Output the answer accurate to not less than 4 decimal places.",
+    "prob_desc_input_spec": "The first line contains two integers: t1, t2 (0 ≤ t1, t2 ≤ 100). The second line contains the cinema's coordinates, the third one — the house's, and the last line — the shop's.  All the coordinates are given in meters, are integer, and do not exceed 100 in absolute magnitude. No two given places are in the same building.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_041.jsonl",
+    "code_uid": "177bc4e058b7ada0ca9731369f3f034f",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"0 2\\n0 0\\n4 0\\n-3 0\", \"0 0\\n0 0\\n2 0\\n1 0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "__author__ = 'Darren'\n\n\ndef solve():\n    t1, t2 = map(int, input().split())\n    cinema = complex(*map(int, input().split()))\n    house = complex(*map(int, input().split()))\n    shop = complex(*map(int, input().split()))\n    cinema_to_house = abs(house - cinema)\n    cinema_to_shop = abs(shop - cinema)\n    shop_to_house = abs(house - shop)\n    alice_max = cinema_to_shop + shop_to_house + t1\n    bob_max = cinema_to_house + t2\n\n    def check(d):\n        c1, c2, c3 = (cinema, d), (house, bob_max-d), (shop, alice_max-d-shop_to_house)\n        for i in range(3):\n            status = intersect(c1, c2)\n            if status == 0:\n                return False\n            if status == 1:\n                return intersect(c1 if c1[1] < c2[1] else c2, c3)\n            for intersection in status:\n                if abs(intersection - c3[0]) - 1e-10 <= c3[1]:\n                    return True\n            c1, c2, c3 = c2, c3, c1\n\n    if cinema_to_shop + shop_to_house <= bob_max:\n        print(min(alice_max, bob_max))\n    else:\n        lower, upper = 0, min(alice_max, bob_max)\n        while upper - lower > 1e-10:\n            mid = (lower + upper) * 0.5\n            if check(mid):\n                lower = mid\n            else:\n                upper = mid\n        print(lower)\n\n\n# See http://mathforum.org/library/drmath/view/51836.html\ndef intersect(a, b):\n    dif = b[0] - a[0]\n    dist = abs(dif)\n    if dist > a[1] + b[1] + 1e-10:   # Conservative with this case\n        return 0\n    if dist <= abs(a[1] - b[1]) - 1e-10:\n        return 1\n    k = (dist * dist + a[1] * a[1] - b[1] * b[1]) / (2 * dist)\n    u = dif * k / dist\n    v = dif * 1j / dist * (a[1] * a[1] - k * k) ** 0.5\n    return [a[0]+u+v, a[0]+u-v]\n\nif __name__ == '__main__':\n    solve()\n",
+    "prob_desc_created_at": "1270741500",
+    "tags": [
+        "binary search",
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

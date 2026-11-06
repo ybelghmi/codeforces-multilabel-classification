@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"Yes\\nYes\\nNo\\nYes\\nNo\"]",
+    "src_uid": "2ff40423619cefd8c2fb35a18549c411",
+    "prob_desc_notes": "NoteIn the first test case of the sample, we can do the second operation with $$$i=2$$$: $$$[1,\\color{red}{2,2},4,2]\\to [1,\\color{red}{4},4,2]$$$.In the second testcase of the sample, we can:  do the second operation with $$$i=2$$$: $$$[1,\\color{red}{2,2},8,2,2]\\to [1,\\color{red}{4},8,2,2]$$$.  do the second operation with $$$i=4$$$: $$$[1,4,8,\\color{red}{2,2}]\\to [1,4,8,\\color{red}{4}]$$$.  do the first operation with $$$i=3$$$: $$$[1,4,\\color{red}{8},4]\\to [1,4,\\color{red}{4,4},4]$$$.  do the second operation with $$$i=2$$$: $$$[1,\\color{red}{4,4},4,4]\\to [1,\\color{red}{8},4,4]$$$.  do the second operation with $$$i=3$$$: $$$[1,8,\\color{red}{4,4}]\\to [1,8,\\color{red}{8}]$$$.  do the second operation with $$$i=2$$$: $$$[1,\\color{red}{8,8}]\\to [1,\\color{red}{16}]$$$.",
+    "prob_desc_description": "Fishingprince is playing with an array $$$[a_1,a_2,\\dots,a_n]$$$. He also has a magic number $$$m$$$.He can do the following two operations on it:  Select $$$1\\le i\\le n$$$ such that $$$a_i$$$ is divisible by $$$m$$$ (that is, there exists an integer $$$t$$$ such that $$$m \\cdot t = a_i$$$). Replace $$$a_i$$$ with $$$m$$$ copies of $$$\\frac{a_i}{m}$$$. The order of the other elements doesn't change. For example, when $$$m=2$$$ and $$$a=[2,3]$$$ and $$$i=1$$$, $$$a$$$ changes into $$$[1,1,3]$$$.  Select $$$1\\le i\\le n-m+1$$$ such that $$$a_i=a_{i+1}=\\dots=a_{i+m-1}$$$. Replace these $$$m$$$ elements with a single $$$m \\cdot a_i$$$. The order of the other elements doesn't change. For example, when $$$m=2$$$ and $$$a=[3,2,2,3]$$$ and $$$i=2$$$, $$$a$$$ changes into $$$[3,4,3]$$$. Note that the array length might change during the process. The value of $$$n$$$ above is defined as the current length of the array (might differ from the $$$n$$$ in the input).Fishingprince has another array $$$[b_1,b_2,\\dots,b_k]$$$. Please determine if he can turn $$$a$$$ into $$$b$$$ using any number (possibly zero) of operations.",
+    "prob_desc_output_spec": "For each testcase, print Yes if it is possible to turn $$$a$$$ into $$$b$$$, and No otherwise. You can print each letter in any case (upper or lower).",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10^4$$$). Description of the test cases follows. The first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1\\le n\\le 5\\cdot 10^4$$$, $$$2\\le m\\le 10^9$$$). The second line of each test case contains $$$n$$$ integers $$$a_1,a_2,\\ldots,a_n$$$ ($$$1\\le a_i\\le 10^9$$$). The third line of each test case contains one integer $$$k$$$ ($$$1\\le k\\le 5\\cdot 10^4$$$). The fourth line of each test case contains $$$k$$$ integers $$$b_1,b_2,\\ldots,b_k$$$ ($$$1\\le b_i\\le 10^9$$$). It is guaranteed that the sum of $$$n+k$$$ over all test cases does not exceed $$$2\\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_105.jsonl",
+    "code_uid": "21502cf957cbeeb386dcda2a58c40020",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n5 2\\n\\n1 2 2 4 2\\n\\n4\\n\\n1 4 4 2\\n\\n6 2\\n\\n1 2 2 8 2 2\\n\\n2\\n\\n1 16\\n\\n8 3\\n\\n3 3 3 3 3 3 3 3\\n\\n4\\n\\n6 6 6 6\\n\\n8 3\\n\\n3 9 6 3 12 12 36 12\\n\\n16\\n\\n9 3 2 2 2 3 4 12 4 12 4 12 4 12 4 4\\n\\n8 3\\n\\n3 9 6 3 12 12 36 12\\n\\n7\\n\\n12 2 4 3 4 12 56\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\nrounds=int(input())\r\nfor ii in range(rounds):\r\n  out='Yes'\r\n  length1,magic=map(int,input().split())\r\n  arr1=list(map(int,input().split()))\r\n  length2=int(input())\r\n  arr2=list(map(int,input().split()))\r\n\r\n  a1=[]\r\n  a2=[]\r\n  for a in arr1:\r\n    ori=a\r\n    while a%magic==0:\r\n      a=a//magic\r\n    if len(a1)>0 and a1[-1][0]==a:\r\n      a1[-1][1]+=(ori//a)\r\n    else:\r\n      a1.append([a,ori//a])\r\n\r\n  for aa in arr2:\r\n    ori=aa\r\n    while aa%magic==0:\r\n      aa=aa//magic\r\n    if len(a2)>0 and a2[-1][0]==aa:\r\n      a2[-1][1]+=(ori//aa)\r\n    else:\r\n      a2.append([aa,ori//aa])\r\n\r\n  \r\n  if a1!=a2:\r\n    out='No'\r\n  print(out)",
+    "prob_desc_created_at": "1656167700",
+    "tags": [
+        "constructive algorithms",
+        "greedy",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

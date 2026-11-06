@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"PRINT 1\\nLEFT\\nPRINT R\", \"PRINT R\\nRIGHT\\nPRINT 1\", \"RIGHT\\nRIGHT\\nPRINT !\\nLEFT\\nPRINT O\\nLEFT\\nPRINT G\\nLEFT\\nPRINT ?\\nLEFT\\nPRINT O\\nLEFT\\nPRINT G\"]",
+    "src_uid": "e3a03f3f01a77a1983121bab4218c39c",
+    "prob_desc_notes": "NoteNote that the ladder cannot be shifted by less than one meter. The ladder can only stand in front of some square of the poster. For example, you cannot shift a ladder by half a meter and position it between two squares. Then go up and paint the first character and the second character.",
+    "prob_desc_description": "The R1 company has recently bought a high rise building in the centre of Moscow for its main office. It's time to decorate the new office, and the first thing to do is to write the company's slogan above the main entrance to the building.The slogan of the company consists of n characters, so the decorators hung a large banner, n meters wide and 1 meter high, divided into n equal squares. The first character of the slogan must be in the first square (the leftmost) of the poster, the second character must be in the second square, and so on.Of course, the R1 programmers want to write the slogan on the poster themselves. To do this, they have a large (and a very heavy) ladder which was put exactly opposite the k-th square of the poster. To draw the i-th character of the slogan on the poster, you need to climb the ladder, standing in front of the i-th square of the poster. This action (along with climbing up and down the ladder) takes one hour for a painter. The painter is not allowed to draw characters in the adjacent squares when the ladder is in front of the i-th square because the uncomfortable position of the ladder may make the characters untidy. Besides, the programmers can move the ladder. In one hour, they can move the ladder either a meter to the right or a meter to the left.Drawing characters and moving the ladder is very tiring, so the programmers want to finish the job in as little time as possible. Develop for them an optimal poster painting plan!",
+    "prob_desc_output_spec": "In t lines, print the actions the programmers need to make. In the i-th line print:   \"LEFT\" (without the quotes), if the i-th action was \"move the ladder to the left\";  \"RIGHT\" (without the quotes), if the i-th action was \"move the ladder to the right\";  \"PRINT x\" (without the quotes), if the i-th action was to \"go up the ladder, paint character x, go down the ladder\".  The painting time (variable t) must be minimum possible. If there are multiple optimal painting plans, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains two integers, n and k (1 ≤ k ≤ n ≤ 100) — the number of characters in the slogan and the initial position of the ladder, correspondingly. The next line contains the slogan as n characters written without spaces. Each character of the slogan is either a large English letter, or digit, or one of the characters: '.', '!', ',', '?'.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_008.jsonl",
+    "code_uid": "750ab40e7efa626d1db26b496aef4de8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\nR1\", \"2 1\\nR1\", \"6 4\\nGO?GO!\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "N,K = map(int, input().split())\nS = input()\na = K-1\nb = N-K\nif a ==0:\n    a = 1000\nif b == 0:\n    b =1000\npos = K-1\nprinted = 1\nprint('PRINT '+str(S[pos]))\nif a<=b:\n    while pos!=0:\n      print('LEFT')\n      pos-=1\n      print('PRINT '+str(S[pos]))\n      printed+=1\n    if printed !=N:\n        while pos!=K-1:\n            print('RIGHT')\n            pos+=1\n        while pos!=N-1:\n            print('RIGHT')\n            pos+=1\n            print('PRINT '+str(S[pos]))\n            printed+=1\nelif a>b:\n    while pos!=N-1:\n        print('RIGHT')\n        pos+=1\n        print('PRINT '+str(S[pos]))\n        printed+=1\n    if printed !=N:\n        while pos!=K-1:\n            print('LEFT')\n            pos-=1\n        while pos!=0:\n          print('LEFT')\n          pos-=1\n          print('PRINT '+str(S[pos]))\n          printed+=1\n        \n",
+    "prob_desc_created_at": "1397837400",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

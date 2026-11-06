@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nNO\\nYES\"]",
+    "src_uid": "447c17cba953d6e2da50c242ac431ab4",
+    "prob_desc_notes": "NoteIn the test case of the example, $$$m=3, s=13, b=[3,1,4]$$$. You can append to $$$b$$$ the numbers $$$6,2,5$$$, the sum of which is $$$6+2+5=13$$$. Note that the final array will become $$$[3,1,4,6,2,5]$$$, which is a permutation.In the second test case of the example, $$$m=1, s=1, b=[1]$$$. You cannot append one or more numbers to $$$[1]$$$ such that their sum equals $$$1$$$ and the result is a permutation.In the third test case of the example, $$$m=3, s=3, b=[1,4,2]$$$. You can append the number $$$3$$$ to $$$b$$$. Note that the resulting array will be $$$[1,4,2,3]$$$, which is a permutation.",
+    "prob_desc_description": "A sequence of $$$n$$$ numbers is called a permutation if it contains all integers from $$$1$$$ to $$$n$$$ exactly once. For example, the sequences [$$$3, 1, 4, 2$$$], [$$$1$$$] and [$$$2,1$$$] are permutations, but [$$$1,2,1$$$], [$$$0,1$$$] and [$$$1,3,4$$$] — are not.Polycarp lost his favorite permutation and found only some of its elements — the numbers $$$b_1, b_2, \\dots b_m$$$. He is sure that the sum of the lost elements equals $$$s$$$.Determine whether one or more numbers can be appended to the given sequence $$$b_1, b_2, \\dots b_m$$$ such that the sum of the added numbers equals $$$s$$$, and the resulting new array is a permutation?",
+    "prob_desc_output_spec": "Print $$$t$$$ lines, each of which is the answer to the corresponding test set. Print as the answer YES if you can append several elements to the array $$$b$$$, that their sum equals $$$s$$$ and the result will be a permutation. Output NO otherwise. You can output the answer in any case (for example, yEs, yes, Yes and YES will be recognized as positive answer).",
+    "prob_desc_input_spec": "The first line of input contains a single integer $$$t$$$ ($$$1 \\le t \\le 100$$$) —the number of test cases.  Then the descriptions of the test cases follow. The first line of each test set contains two integers $$$m$$$ and $$$s$$$ ($$$1 \\le m \\le 50$$$, $$$1 \\le s \\le 1000$$$)—-the number of found elements and the sum of forgotten numbers. The second line of each test set contains $$$m$$$ different integers $$$b_1, b_2 \\dots b_m$$$ ($$$1 \\le b_i \\le 50$$$) — the elements Polycarp managed to find.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_086.jsonl",
+    "code_uid": "fc7993bdf580184073f9227a0415db02",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n3 13\\n\\n3 1 4\\n\\n1 1\\n\\n1\\n\\n3 3\\n\\n1 4 2\\n\\n2 1\\n\\n4 3\\n\\n5 6\\n\\n1 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\r\nfor i in range(t):\r\n\tu=input().split()\r\n\tv=input().split()\r\n\tu=[int(i) for i in u]\r\n\tv=[int(t) for t in v]\r\n\tsum=u[1]\r\n\tmi=1\r\n\tma=max(v)\r\n\tcursum=0\r\n\tmissing=[]\r\n\tii=None\r\n\tfor i in range(mi,ma):\r\n\t\tif cursum==sum:\r\n\t\t\tif len(v)==ma:\r\n\t\t\t\tii=True\r\n\t\t\t\tbreak\r\n\t\tif i not in v:\r\n\t\t\tmissing.append(i)\r\n\t\t\tv.append(i)\r\n\t\t\tcursum+=i\r\n\tif ii:\r\n\t\tprint('YES')\t\r\n\telse:\r\n\t\tiu=True \r\n\t\twhile cursum!=sum and len(set(v))==len(v):\r\n\t\t\tif cursum>sum:\r\n\t\t\t\tiu=False\r\n\t\t\t\tprint('NO')\r\n\t\t\t\tbreak\r\n\t\t\tmissing.append(ma+1)\r\n\t\t\tv.append(ma+1)\r\n\t\t\tma=missing[-1]\r\n\t\t\tcursum+=ma\r\n\t\tif iu:\r\n\t\t\tprint('YES')",
+    "prob_desc_created_at": "1668782100",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

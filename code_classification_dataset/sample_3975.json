@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"3 1 0\\n2 0\"]",
+    "src_uid": "f07a78f9317b2d897aca2d9ca62837f0",
+    "prob_desc_notes": "NoteIn the first test case,     If we delete the nodes in order $$$1 \\rightarrow 2 \\rightarrow 3$$$ or $$$1 \\rightarrow 3 \\rightarrow 2$$$, then the obtained sequence will be $$$a = [2, 0, 0]$$$ which has $$$\\operatorname{gcd}$$$ equals to $$$2$$$.  If we delete the nodes in order $$$2 \\rightarrow 1 \\rightarrow 3$$$, then the obtained sequence will be $$$a = [1, 1, 0]$$$ which has $$$\\operatorname{gcd}$$$ equals to $$$1$$$.  If we delete the nodes in order $$$3 \\rightarrow 1 \\rightarrow 2$$$, then the obtained sequence will be $$$a = [1, 0, 1]$$$ which has $$$\\operatorname{gcd}$$$ equals to $$$1$$$.  If we delete the nodes in order $$$2 \\rightarrow 3 \\rightarrow 1$$$ or $$$3 \\rightarrow 2 \\rightarrow 1$$$, then the obtained sequence will be $$$a = [0, 1, 1]$$$ which has $$$\\operatorname{gcd}$$$ equals to $$$1$$$. Note that here we are counting the number of different sequences, not the number of different orders of deleting nodes.",
+    "prob_desc_description": "You are given a tree with $$$n$$$ nodes. As a reminder, a tree is a connected undirected graph without cycles.Let $$$a_1, a_2, \\ldots, a_n$$$ be a sequence of integers. Perform the following operation exactly $$$n$$$ times:   Select an unerased node $$$u$$$. Assign $$$a_u :=$$$ number of unerased nodes adjacent to $$$u$$$. Then, erase the node $$$u$$$ along with all edges that have it as an endpoint. For each integer $$$k$$$ from $$$1$$$ to $$$n$$$, find the number, modulo $$$998\\,244\\,353$$$, of different sequences $$$a_1, a_2, \\ldots, a_n$$$ that satisfy the following conditions:  it is possible to obtain $$$a$$$ by performing the aforementioned operations exactly $$$n$$$ times in some order.  $$$\\operatorname{gcd}(a_1, a_2, \\ldots, a_n) = k$$$. Here, $$$\\operatorname{gcd}$$$ means the greatest common divisor of the elements in $$$a$$$. ",
+    "prob_desc_output_spec": "For each test case, print $$$n$$$ integers in a single line, where for each $$$k$$$ from $$$1$$$ to $$$n$$$, the $$$k$$$-th integer denotes the answer when $$$\\operatorname{gcd}$$$ equals to $$$k$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10\\,000$$$)  — the number of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$). Each of the next $$$n - 1$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1 \\le u, v \\le n$$$) indicating there is an edge between vertices $$$u$$$ and $$$v$$$. It is guaranteed that the given edges form a tree. It is guaranteed that the sum of $$$n$$$ over all test cases doesn't exceed $$$3 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2600,
+    "file_name": "train_087.jsonl",
+    "code_uid": "9a6a374d9337b890aac0a54f793cc58f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n3\\n2 1\\n1 3\\n2\\n1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\nMOD = 998244353\n\nt = int(input())\nwhile t > 0:\n    t -= 1\n    n = int(input())\n    g = [[] for i in range(n)]\n    for i in range(n - 1):\n        x, y = map(int, input().split())\n        g[x - 1] += [y - 1]\n        g[y - 1] += [x - 1]\n    f = [0] * n\n    parent = [0] * n\n    f[1] = pow(2, n - 1, MOD)\n    order = [0]\n    for v in order:\n        for u in g[v]:\n            if u != parent[v]:\n                parent[u] = v\n                order += [u]\n\n\n    def dfs(k):\n        size = [0] * n\n        for v in reversed(order):\n            if size[v] % k == 0:\n                if v != 0:\n                    size[parent[v]] += 1\n            elif v == 0 or (size[v] + 1) % k != 0:\n                return False\n        return True\n\n\n    for i in range(2, n):\n        if (n - 1) % i == 0:\n            f[i] = int(dfs(i))\n    h = [0] * (n + 1)\n    for i in range(n - 1, 0, -1):\n        h[i] = f[i]\n        for j in range(i * 2, n, i):\n            h[i] -= h[j]\n    print(*(x for x in h[1:n + 1]))\n",
+    "prob_desc_created_at": "1627569300",
+    "tags": [
+        "dfs and similar",
+        "dp",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

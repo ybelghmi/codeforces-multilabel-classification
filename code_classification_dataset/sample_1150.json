@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\nh e\\nl o\\nd z\", \"0\", \"-1\"]",
+    "src_uid": "b03895599bd578a83321401428e277da",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Santa Claus decided to disassemble his keyboard to clean it. After he returned all the keys back, he suddenly realized that some pairs of keys took each other's place! That is, Santa suspects that each key is either on its place, or on the place of another key, which is located exactly where the first key should be. In order to make sure that he's right and restore the correct order of keys, Santa typed his favorite patter looking only to his keyboard.You are given the Santa's favorite patter and the string he actually typed. Determine which pairs of keys could be mixed. Each key must occur in pairs at most once.",
+    "prob_desc_output_spec": "If Santa is wrong, and there is no way to divide some of keys into pairs and swap keys in each pair so that the keyboard will be fixed, print «-1» (without quotes). Otherwise, the first line of output should contain the only integer k (k ≥ 0) — the number of pairs of keys that should be swapped. The following k lines should contain two space-separated letters each, denoting the keys which should be swapped. All printed letters must be distinct. If there are several possible answers, print any of them. You are free to choose the order of the pairs and the order of keys in a pair. Each letter must occur at most once. Santa considers the keyboard to be fixed if he can print his favorite patter without mistakes.",
+    "prob_desc_input_spec": "The input consists of only two strings s and t denoting the favorite Santa's patter and the resulting string. s and t are not empty and have the same length, which is at most 1000. Both strings consist only of lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_006.jsonl",
+    "code_uid": "0c11657163d91c43516d88667f54b293",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"helloworld\\nehoolwlroz\", \"hastalavistababy\\nhastalavistababy\", \"merrychristmas\\nchristmasmerry\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "a,b = input(), input()\ns = \"\"\nfor i in range(len(a)):\n        x, y = str(max(a[i], b[i])), str(min(a[i], b[i]))\n        if (x in s and x+y not in s) or (y in s and x+y not in s):\n                print('-1')\n                exit()\n        if x+y not in s:\n                s +=\" \" + x + y\nlis = []\nfor i in s.split():\n        if i[0] != i[1]: lis.append(i[0] + \" \" + i[1])\nprint(len(lis))\nfor i in lis:\n        print(i)",
+    "prob_desc_created_at": "1482656700",
+    "tags": [
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

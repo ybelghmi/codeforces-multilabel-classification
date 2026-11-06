@@ -1,0 +1,29 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"Iwantorderpizza\", \"sampleaseinout\"]",
+    "src_uid": "586341bdd33b1dc3ab8e7f9865b5f6f6",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Amugae has a sentence consisting of $$$n$$$ words. He want to compress this sentence into one word. Amugae doesn't like repetitions, so when he merges two words into one word, he removes the longest prefix of the second word that coincides with a suffix of the first word. For example, he merges \"sample\" and \"please\" into \"samplease\".Amugae will merge his sentence left to right (i.e. first merge the first two words, then merge the result with the third word and so on). Write a program that prints the compressed word after the merging process ends.",
+    "prob_desc_output_spec": "In the only line output the compressed word after the merging process ends as described in the problem.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$), the number of the words in Amugae's sentence. The second line contains $$$n$$$ words separated by single space. Each words is non-empty and consists of uppercase and lowercase English letters and digits ('A', 'B', ..., 'Z', 'a', 'b', ..., 'z', '0', '1', ..., '9'). The total length of the words does not exceed $$$10^6$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_001.jsonl",
+    "code_uid": "b902082ef641b4164a498953a9a0d707",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\nI want to order pizza\", \"5\\nsample please ease in out\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def kmp(s):\n    i,j = -1,0\n    fail    = [0]*len(s)\n    while j < len(s):\n        if i == -1 or s[j] == s[i]:\n            fail[j] = i\n            j   += 1\n            i   += 1\n        else:\n            i   = -1 if i == 0 else fail[i-1]+1\n    return fail[-1]+1\nn       = input()\nwords   = raw_input().split(\" \")\nout     = words[0]\nfor word in words[1:]:\n    com = min(len(word),len(out))\n    l   = kmp(word+\"_\"+out[-com:])\n    out += word[l:]\nprint out\n",
+    "prob_desc_created_at": "1565526900",
+    "tags": [
+        "hashing",
+        "string suffix structures",
+        "implementation",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

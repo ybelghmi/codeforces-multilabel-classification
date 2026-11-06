@@ -1,0 +1,31 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n4\\n0\\n0\"]",
+    "src_uid": "c05426881a7dccc1aa79608b612290a7",
+    "prob_desc_notes": "NoteIn the first example, Gregor can simply advance all $$$3$$$ of his pawns forward. Thus, the answer is $$$3$$$.In the second example, Gregor can guarantee that all $$$4$$$ of his pawns reach the enemy row, by following the colored paths as demonstrated in the diagram below. Remember, only Gregor takes turns in this \"game\"!  In the third example, Gregor's only pawn is stuck behind the enemy pawn, and cannot reach the end.In the fourth example, Gregor has no pawns, so the answer is clearly $$$0$$$.",
+    "prob_desc_description": "There is a chessboard of size $$$n$$$ by $$$n$$$. The square in the $$$i$$$-th row from top and $$$j$$$-th column from the left is labelled $$$(i,j)$$$.Currently, Gregor has some pawns in the $$$n$$$-th row. There are also enemy pawns in the $$$1$$$-st row. On one turn, Gregor moves one of his pawns. A pawn can move one square up (from $$$(i,j)$$$ to $$$(i-1,j)$$$) if there is no pawn in the destination square. Additionally, a pawn can move one square diagonally up (from $$$(i,j)$$$ to either $$$(i-1,j-1)$$$ or $$$(i-1,j+1)$$$) if and only if there is an enemy pawn in that square. The enemy pawn is also removed.Gregor wants to know what is the maximum number of his pawns that can reach row $$$1$$$?Note that only Gregor takes turns in this game, and the enemy pawns never move. Also, when Gregor's pawn reaches row $$$1$$$, it is stuck and cannot make any further moves.",
+    "prob_desc_output_spec": "For each test case, print one integer: the maximum number of Gregor's pawns which can reach the $$$1$$$-st row.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$t$$$ ($$$1\\le t\\le 2\\cdot 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. Each test case consists of three lines. The first line contains a single integer $$$n$$$ ($$$2\\le n\\le 2\\cdot{10}^{5}$$$) — the size of the chessboard. The second line consists of a string of binary digits of length $$$n$$$, where a $$$1$$$ in the $$$i$$$-th position corresponds to an enemy pawn in the $$$i$$$-th cell from the left, and $$$0$$$ corresponds to an empty cell. The third line consists of a string of binary digits of length $$$n$$$, where a $$$1$$$ in the $$$i$$$-th position corresponds to a Gregor's pawn in the $$$i$$$-th cell from the left, and $$$0$$$ corresponds to an empty cell. It is guaranteed that the sum of $$$n$$$ across all test cases is less than $$$2\\cdot{10}^{5}$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_086.jsonl",
+    "code_uid": "76b972cb9757b51f0edb356d0a04c722",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3\\n000\\n111\\n4\\n1111\\n1111\\n3\\n010\\n010\\n5\\n11001\\n00000\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def solve():\r\n    n = int(input())\r\n    e = list(input())\r\n    g = list(input())\r\n    e.insert(0,\"0\")\r\n    e.insert(n+1,\"0\")\r\n   # print(e)\r\n \r\n    \r\n    \r\n   \r\n    c = 0\r\n    for i in range(0,n):\r\n        if g[i] == \"1\":\r\n            if e[i+1] == \"0\":\r\n                c+=1\r\n            elif e[i] ==\"1\":\r\n                c+=1\r\n                e[i] = \"2\"\r\n            elif e[i+2] ==\"1\":\r\n                c+=1\r\n                e[i+2] = \"2\"\r\n    print(c)\r\n                \r\n           \r\ncase = int(input())\r\nfor _ in range(case):\r\n   solve()\r\n",
+    "prob_desc_created_at": "1627828500",
+    "tags": [
+        "dfs and similar",
+        "dp",
+        "flows",
+        "graph matchings",
+        "graphs",
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

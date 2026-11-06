@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 7 7 2\\n2 2 1 1\\n5 5 5 5\"]",
+    "src_uid": "fc54d6febbf1d91e9f0e6121f248d2aa",
+    "prob_desc_notes": "NoteThere is only one way to choose four sticks in the first list, they form a rectangle with sides $$$2$$$ and $$$7$$$, its area is $$$2 \\cdot 7 = 14$$$, perimeter is $$$2(2 + 7) = 18$$$. $$$\\frac{18^2}{14} \\approx 23.143$$$.The second list contains subsets of four sticks that can form rectangles with sides $$$(1, 2)$$$, $$$(2, 8)$$$ and $$$(1, 8)$$$. Their values are $$$\\frac{6^2}{2} = 18$$$, $$$\\frac{20^2}{16} = 25$$$ and $$$\\frac{18^2}{8} = 40.5$$$, respectively. The minimal one of them is the rectangle $$$(1, 2)$$$.You can choose any four of the $$$5$$$ given sticks from the third list, they will form a square with side $$$5$$$, which is still a rectangle with sides $$$(5, 5)$$$.",
+    "prob_desc_description": "You have $$$n$$$ sticks of the given lengths.Your task is to choose exactly four of them in such a way that they can form a rectangle. No sticks can be cut to pieces, each side of the rectangle must be formed by a single stick. No stick can be chosen multiple times. It is guaranteed that it is always possible to choose such sticks.Let $$$S$$$ be the area of the rectangle and $$$P$$$ be the perimeter of the rectangle. The chosen rectangle should have the value $$$\\frac{P^2}{S}$$$ minimal possible. The value is taken without any rounding.If there are multiple answers, print any of them.Each testcase contains several lists of sticks, for each of them you are required to solve the problem separately.",
+    "prob_desc_output_spec": "Print $$$T$$$ lines. The $$$i$$$-th line should contain the answer to the $$$i$$$-th list of the input. That is the lengths of the four sticks you choose from the $$$i$$$-th list, so that they form a rectangle and the value $$$\\frac{P^2}{S}$$$ of this rectangle is minimal possible. You can print these four lengths in arbitrary order. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$T$$$ ($$$T \\ge 1$$$) — the number of lists of sticks in the testcase. Then $$$2T$$$ lines follow — lines $$$(2i - 1)$$$ and $$$2i$$$ of them describe the $$$i$$$-th list. The first line of the pair contains a single integer $$$n$$$ ($$$4 \\le n \\le 10^6$$$) — the number of sticks in the $$$i$$$-th list. The second line of the pair contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_j \\le 10^4$$$) — lengths of the sticks in the $$$i$$$-th list. It is guaranteed that for each list there exists a way to choose four sticks so that they form a rectangle. The total number of sticks in all $$$T$$$ lists doesn't exceed $$$10^6$$$ in each testcase.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_029.jsonl",
+    "code_uid": "a0dc3d583c812d3e67a2c82917d40476",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4\\n7 2 2 7\\n8\\n2 8 1 4 8 2 1 5\\n5\\n5 5 5 5 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nt = input()\nz = []\nwhile t > 0:\n    t -= 1\n\n    n = int(sys.stdin.readline())\n    a = [int(x) for x in sys.stdin.readline().split()]\n    a.sort()\n\n    p = []\n    i = 0\n    while i < n - 1:\n        while i < n - 1 and a[i] != a[i + 1]: i += 1\n        if i < n - 1:\n            p.append(a[i])\n            i += 2\n\n    k = 0\n    d = 1.0 * (p[0] ** 2 + p[1] ** 2) / (p[0] * p[1])\n    for i in xrange(len(p) - 1):\n        y = 1.0 * (p[i] ** 2 + p[i + 1] ** 2) / (p[i] * p[i + 1])\n        if y < d:\n            k = i\n            d = y\n\n    z.append('%d %d %d %d' % (p[k], p[k], p[k + 1], p[k + 1]))\n\nprint '\\n'.join(z)\n",
+    "prob_desc_created_at": "1534602900",
+    "tags": [
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

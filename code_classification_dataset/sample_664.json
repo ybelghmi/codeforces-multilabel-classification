@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\", \"0\"]",
+    "src_uid": "3583a9762191ee8f8c3c2a287cb1ec1d",
+    "prob_desc_notes": "NoteIn the first test case after the first action it becomes clear that the selected letter is one of the following: a, b, c. After the second action we can note that the selected letter is not a. Valentin tells word \"b\" and doesn't get a shock. After that it is clear that the selected letter is c, but Valentin pronounces the word cd and gets an excessive electric shock. In the second test case after the first two electric shocks we understand that the selected letter is e or o. Valentin tries some words consisting of these letters and after the second word it's clear that the selected letter is e, but Valentin makes 3 more actions before he makes a correct hypothesis.In the third example the selected letter can be uniquely determined only when Valentin guesses it, so he didn't get excessive electric shocks.",
+    "prob_desc_description": "Valentin participates in a show called \"Shockers\". The rules are quite easy: jury selects one letter which Valentin doesn't know. He should make a small speech, but every time he pronounces a word that contains the selected letter, he receives an electric shock. He can make guesses which letter is selected, but for each incorrect guess he receives an electric shock too. The show ends when Valentin guesses the selected letter correctly.Valentin can't keep in mind everything, so he could guess the selected letter much later than it can be uniquely determined and get excessive electric shocks. Excessive electric shocks are those which Valentin got after the moment the selected letter can be uniquely determined. You should find out the number of excessive electric shocks.",
+    "prob_desc_output_spec": "Output a single integer — the number of electric shocks that Valentin could have avoided if he had told the selected letter just after it became uniquely determined.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 105) — the number of actions Valentin did. The next n lines contain descriptions of his actions, each line contains description of one action. Each action can be of one of three types:    Valentin pronounced some word and didn't get an electric shock. This action is described by the string \". w\" (without quotes), in which \".\" is a dot (ASCII-code 46), and w is the word that Valentin said.  Valentin pronounced some word and got an electric shock. This action is described by the string \"! w\" (without quotes), in which \"!\" is an exclamation mark (ASCII-code 33), and w is the word that Valentin said.  Valentin made a guess about the selected letter. This action is described by the string \"? s\" (without quotes), in which \"?\" is a question mark (ASCII-code 63), and s is the guess — a lowercase English letter.  All words consist only of lowercase English letters. The total length of all words does not exceed 105. It is guaranteed that last action is a guess about the selected letter. Also, it is guaranteed that Valentin didn't make correct guesses about the selected letter before the last action. Moreover, it's guaranteed that if Valentin got an electric shock after pronouncing some word, then it contains the selected letter; and also if Valentin didn't get an electric shock after pronouncing some word, then it does not contain the selected letter.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_003.jsonl",
+    "code_uid": "96b99887cdaf368867b4fdf5ee5731e1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n! abc\\n. ad\\n. b\\n! cd\\n? c\", \"8\\n! hello\\n! codeforces\\n? c\\n. o\\n? d\\n? h\\n. l\\n? e\", \"7\\n! ababahalamaha\\n? a\\n? b\\n? a\\n? b\\n? a\\n? h\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "'''input\n5\n! abc\n. ad\n. b\n! cd\n? c\n'''\nt = [0] * 26\ne = 0\nn = int(input())\nif n == 1:\n\tprint(0)\n\tquit()\nfor i in range(n-1):\n\tx, y = input().split()\n\tif x == '!':\n\t\tif 1 in t:\n\t\t\tc = [ord(p) - 97 for p in set(y)]\n\t\t\tfor x in range(26):\n\t\t\t\tif not(t[x] == 1 and x in c):\n\t\t\t\t\tt[x] = -1\n\t\telse:\n\t\t\tfor l in set(y):\n\t\t\t\tif t[ord(l) - 97] == 0:\n\t\t\t\t\tt[ord(l) - 97] = 1\n\telif x == '.':\n\t\tfor l in set(y):\n\t\t\tt[ord(l) - 97] = -1\n\telse:\n\t\tt[ord(y) - 97] = -1\n\tif t.count(1) == 1 or (t.count(0) == 1 and max(t) == 0):\n\t\tbreak\ng = [False] * 26\nfor _ in range(i+1, n-1):\n\tx, y = input().split()\n\tif x == '!' or x == '?':\n\t\te += 1\nprint(e)",
+    "prob_desc_created_at": "1514037900",
+    "tags": [
+        "implementation",
+        "bitmasks",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"6.5\", \"20.0\"]",
+    "src_uid": "9df3a94dfa537cabdc52388a771cd24f",
+    "prob_desc_notes": "NoteIn the first example, the chicken will be cooked for 3 minutes on the turned on stove, after this it will be cooked for . Then the chicken will be cooked for one minute on a turned off stove, it will be cooked for . Thus, after four minutes the chicken will be cooked for . Before the fifth minute Julia will turn on the stove and after 2.5 minutes the chicken will be ready .In the second example, when the stove is turned off, Julia will immediately turn it on, so the stove will always be turned on and the chicken will be cooked in 20 minutes.",
+    "prob_desc_description": "Julia is going to cook a chicken in the kitchen of her dormitory. To save energy, the stove in the kitchen automatically turns off after k minutes after turning on.During cooking, Julia goes to the kitchen every d minutes and turns on the stove if it is turned off. While the cooker is turned off, it stays warm. The stove switches on and off instantly.It is known that the chicken needs t minutes to be cooked on the stove, if it is turned on, and 2t minutes, if it is turned off. You need to find out, how much time will Julia have to cook the chicken, if it is considered that the chicken is cooked evenly, with constant speed when the stove is turned on and at a constant speed when it is turned off.",
+    "prob_desc_output_spec": "Print a single number, the total time of cooking in minutes. The relative or absolute error must not exceed 10 - 9. Namely, let's assume that your answer is x and the answer of the jury is y. The checker program will consider your answer correct if .",
+    "prob_desc_input_spec": "The single line contains three integers k, d and t (1 ≤ k, d, t ≤ 1018).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_004.jsonl",
+    "code_uid": "9c599dba93945d3720cdb2ec162ef9d1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2 6\", \"4 2 20\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\nk, d, t = map(int, input().split())\nif d >= k:\n    off = d - k\nelse:\n    off = math.ceil(k / d) * d - k\ntimes = t // (off / 2 + k)\nt1 = times * (off + k)\nt2 = t % (off / 2 + k)\nif t2 > k:\n    t2 = k + (t2 - k) * 2\nans = t1 + t2\nprint (ans)",
+    "prob_desc_created_at": "1519574700",
+    "tags": [
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

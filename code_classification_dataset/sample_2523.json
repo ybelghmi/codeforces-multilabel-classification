@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"12330\", \"1115598\"]",
+    "src_uid": "b4cd60296083ee2ae8a560209433dcaf",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This problem differs from the previous one only in the absence of the constraint on the equal length of all numbers $$$a_1, a_2, \\dots, a_n$$$.A team of SIS students is going to make a trip on a submarine. Their target is an ancient treasure in a sunken ship lying on the bottom of the Great Rybinsk sea. Unfortunately, the students don't know the coordinates of the ship, so they asked Meshanya (who is a hereditary mage) to help them. He agreed to help them, but only if they solve his problem.Let's denote a function that alternates digits of two numbers $$$f(a_1 a_2 \\dots a_{p - 1} a_p, b_1 b_2 \\dots b_{q - 1} b_q)$$$, where $$$a_1 \\dots a_p$$$ and $$$b_1 \\dots b_q$$$ are digits of two integers written in the decimal notation without leading zeros.In other words, the function $$$f(x, y)$$$ alternately shuffles the digits of the numbers $$$x$$$ and $$$y$$$ by writing them from the lowest digits to the older ones, starting with the number $$$y$$$. The result of the function is also built from right to left (that is, from the lower digits to the older ones). If the digits of one of the arguments have ended, then the remaining digits of the other argument are written out. Familiarize with examples and formal definitions of the function below.For example: $$$$$$f(1111, 2222) = 12121212$$$$$$ $$$$$$f(7777, 888) = 7787878$$$$$$ $$$$$$f(33, 44444) = 4443434$$$$$$ $$$$$$f(555, 6) = 5556$$$$$$ $$$$$$f(111, 2222) = 2121212$$$$$$Formally,  if $$$p \\ge q$$$ then $$$f(a_1 \\dots a_p, b_1 \\dots b_q) = a_1 a_2 \\dots a_{p - q + 1} b_1 a_{p - q + 2} b_2 \\dots a_{p - 1} b_{q - 1} a_p b_q$$$;  if $$$p &lt; q$$$ then $$$f(a_1 \\dots a_p, b_1 \\dots b_q) = b_1 b_2 \\dots b_{q - p} a_1 b_{q - p + 1} a_2 \\dots a_{p - 1} b_{q - 1} a_p b_q$$$. Mishanya gives you an array consisting of $$$n$$$ integers $$$a_i$$$, your task is to help students to calculate $$$\\sum_{i = 1}^{n}\\sum_{j = 1}^{n} f(a_i, a_j)$$$ modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_output_spec": "Print the answer modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer $$$n$$$ ($$$1 \\le n \\le 100\\,000$$$) — the number of elements in the array. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^9$$$) — the elements of the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_024.jsonl",
+    "code_uid": "5f978c9edc3021dcd5c96aedb1cf1f43",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n12 3 45\", \"2\\n123 456\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom collections import deque\n\nIS_LOCAL = False\n\n\ndef read_one(dtype=int):\n    return dtype(input())\n\n\ndef read_multiple(f, dtype=int):\n    return f(map(dtype, input().split()))\n\n\ndef swap(x, y):\n    return y, x\n\n\ndef main():\n    n = 3\n    a = [12, 3, 45]\n\n    if not IS_LOCAL:\n        n = read_one()\n        a = read_multiple(list)\n\n    d = 998_244_353\n    s, k = 0, 1\n    tot = n\n    z = 0\n    while tot > 0:\n        zeroed = 0\n\n        for i in range(n):\n            if a[i] == 0:\n                continue\n\n            t = a[i] % 10\n            a[i] //= 10\n            if a[i] == 0:\n                zeroed += 1\n\n            s = (s + t * z * k * 2) % d\n            s = (s + t * tot * k * k * 11) % d\n\n        k *= 10\n        z += k * zeroed\n        tot -= zeroed\n\n    print(s)\n\nif __name__ == \"__main__\":\n    if len(sys.argv) > 1 and sys.argv[1] == 'True':\n        IS_LOCAL = True\n    main()\n",
+    "prob_desc_created_at": "1563374100",
+    "tags": [
+        "combinatorics",
+        "number theory",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

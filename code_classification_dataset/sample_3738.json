@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nYES\\nYES\\nNO\"]",
+    "src_uid": "96b6a96ded46bddb78b118d6d3a9d049",
+    "prob_desc_notes": "NoteExplanations for test cases of the example:  in the first test case, it is enough to send a command to move left.  in the second test case, if you try to send any command, at least one robot explodes.  in the third test case, it is enough to send a command to move left.  in the fourth test case, there is already a robot in the upper left corner.  in the fifth test case, the sequence \"move up, move left, move up\" leads one robot to the upper left corner;  in the sixth test case, if you try to move any robot to the upper left corner, at least one other robot explodes. ",
+    "prob_desc_description": "There is a field divided into $$$n$$$ rows and $$$m$$$ columns. Some cells are empty (denoted as E), other cells contain robots (denoted as R).You can send a command to all robots at the same time. The command can be of one of the four types:  move up;  move right;  move down;  move left. When you send a command, all robots at the same time attempt to take one step in the direction you picked. If a robot tries to move outside the field, it explodes; otherwise, every robot moves to an adjacent cell in the chosen direction.You can send as many commands as you want (possibly, zero), in any order. Your goal is to make at least one robot reach the upper left corner of the field. Can you do this without forcing any of the robots to explode?",
+    "prob_desc_output_spec": "If it is possible to make at least one robot reach the upper left corner of the field so that no robot explodes, print YES. Otherwise, print NO.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 5000$$$) — the number of test cases. Each test case starts with a line containing two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 5$$$) — the number of rows and the number of columns, respectively. Then $$$n$$$ lines follow; each of them contains a string of $$$m$$$ characters. Each character is either E (empty cell} or R (robot). Additional constraint on the input: in each test case, there is at least one robot on the field.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_082.jsonl",
+    "code_uid": "6572d7ebb5340eac12a759e70747404c",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n\\n1 3\\n\\nERR\\n\\n2 2\\n\\nER\\n\\nRE\\n\\n2 2\\n\\nER\\n\\nER\\n\\n1 1\\n\\nR\\n\\n4 3\\n\\nEEE\\n\\nEEE\\n\\nERR\\n\\nEER\\n\\n3 3\\n\\nEEE\\n\\nEER\\n\\nREE\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "# https://codeforces.com/problemset/problem/1680/B\r\n\r\n# SOLUTION:\r\n# find the robot closest to left wall\r\n# find the robot closest to top wall\r\n# make a box with those dimensions\r\n# the robot at coord (cloesr)\r\n\r\ndef parseInput():\r\n    inputCount = int(input())\r\n    inputs = []\r\n\r\n    i = 0\r\n    while i < inputCount:\r\n        dimensions = input().split(' ')\r\n        rows, cols = int(dimensions[0]), int(dimensions[1])\r\n\r\n        inputs.append([])\r\n\r\n        for z in range(rows):\r\n            inputs[-1].append(input())\r\n\r\n        i += 1\r\n    \r\n    return inputs\r\n\r\ndef getMinDists(inputs):\r\n    resX = [None] * len(inputs)\r\n    resY = [None] * len(inputs)\r\n\r\n    for (inpIdx, inp) in enumerate(inputs):\r\n        for (y, row) in enumerate(inp):\r\n            for (x, char) in enumerate(row):\r\n                if char == 'R':\r\n                    resX[inpIdx] = min(resX[inpIdx], x) if resX[inpIdx] is not None else x\r\n                    resY[inpIdx] = min(resY[inpIdx], y) if resY[inpIdx] is not None else y\r\n\r\n    return (resX, resY)\r\n\r\ndef passTest(inputs, xMins, yMins):\r\n    for (idx, inp) in enumerate(inputs):\r\n        print('YES' if inp[yMins[idx]][xMins[idx]] == 'R' else 'NO')\r\n\r\ninputs = parseInput()\r\n\r\nxMins, yMins = getMinDists(inputs)\r\n\r\npassTest(inputs, xMins, yMins)",
+    "prob_desc_created_at": "1652452500",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

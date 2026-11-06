@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n-1\\n2 9 7\\n4 6 3\\n1 8 5\"]",
+    "src_uid": "e215e94dd196dde381adc13406d2d72a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "We will consider the numbers $$$a$$$ and $$$b$$$ as adjacent if they differ by exactly one, that is, $$$|a-b|=1$$$.We will consider cells of a square matrix $$$n \\times n$$$ as adjacent if they have a common side, that is, for cell $$$(r, c)$$$ cells $$$(r, c-1)$$$, $$$(r, c+1)$$$, $$$(r-1, c)$$$ and $$$(r+1, c)$$$ are adjacent to it.For a given number $$$n$$$, construct a square matrix $$$n \\times n$$$ such that:   Each integer from $$$1$$$ to $$$n^2$$$ occurs in this matrix exactly once;  If $$$(r_1, c_1)$$$ and $$$(r_2, c_2)$$$ are adjacent cells, then the numbers written in them must not be adjacent. ",
+    "prob_desc_output_spec": "For each test case, output:    -1, if the required matrix does not exist;  the required matrix, otherwise (any such matrix if many of them exist).  The matrix should be outputted as $$$n$$$ lines, where each line contains $$$n$$$ integers.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$). Then $$$t$$$ test cases follow. Each test case is characterized by one integer $$$n$$$ ($$$1 \\le n \\le 100$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_083.jsonl",
+    "code_uid": "8d5043a6157cea0da02ee0d82f78a775",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1\\n2\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\r\ntests = int(input())\r\nfor i in range(tests):\r\n    #another solution (the matrix doesnt have any adjacent elements)\r\n    n = int(input())\r\n    matrix = [[0 for c in range(n)] for c in range(n)]\r\n    nums = n * n -1\r\n    matrix[0][0] = 1\r\n    matrix[n-1][n-1] = n ** 2\r\n    for j in range(n):\r\n        for k in range(n):\r\n            if j == n-1 and k == n-1 or j == 0 and k == 0:\r\n                continue\r\n            if (j + k) % 2 == 0:\r\n                matrix[j][k] = nums\r\n                nums -= 1\r\n    nums = 2\r\n    for j in range(n-1,-1,-1):\r\n        for k in range(n-1,-1,-1):\r\n            if (j == n-1 and k == n-1) or (j == 0 and k == 0):\r\n                continue\r\n            if (j + k) % 2 == 1:\r\n                matrix[j][k] = nums\r\n                nums += 1\r\n\r\n    if n == 2:\r\n        print(-1)\r\n    elif n == 1:\r\n        print(1)\r\n    else:\r\n        for p in matrix:\r\n            print(*p)\r\n\r\n    # n = int(input())\r\n    # if(n == 2):\r\n    #     print(-1)\r\n    #     continue\r\n    # nums = 1\r\n    # for j in range(n):\r\n    #     for k in range(n):\r\n    #         print(str(nums), end=' ')\r\n    #         nums += 2\r\n    #         if(nums > n*n):\r\n    #             nums = 2\r\n    #     print()\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "prob_desc_created_at": "1620225300",
+    "tags": [
+        "constructive algorithms"
+    ],
+    "hidden_unit_tests": ""
+}

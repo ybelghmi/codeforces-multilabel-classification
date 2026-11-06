@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n2 4\", \"8\\n1 2 3 4 5 6 7 8\"]",
+    "src_uid": "cc928c02b337f2b5ad7aed37bb83d139",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little Vasya's uncle is a postman. The post offices are located on one circular road. Besides, each post office has its own gas station located next to it. Petya's uncle works as follows: in the morning he should leave the house and go to some post office. In the office he receives a portion of letters and a car. Then he must drive in the given car exactly one round along the circular road and return to the starting post office (the uncle can drive along the circle in any direction, counterclockwise or clockwise). Besides, since the car belongs to the city post, it should also be fuelled with gasoline only at the Post Office stations. The total number of stations equals to n. One can fuel the car at the i-th station with no more than ai liters of gasoline. Besides, one can fuel the car no more than once at each station. Also, the distance between the 1-st and the 2-nd station is b1 kilometers, the distance between the 2-nd and the 3-rd one is b2 kilometers, ..., between the (n - 1)-th and the n-th ones the distance is bn - 1 kilometers and between the n-th and the 1-st one the distance is bn kilometers. Petya's uncle's high-tech car uses only one liter of gasoline per kilometer. It is known that the stations are located so that the sum of all ai is equal to the sum of all bi. The i-th gas station and i-th post office are very close, so the distance between them is 0 kilometers.Thus, it becomes clear that if we start from some post offices, then it is not always possible to drive one round along a circular road. The uncle faces the following problem: to what stations can he go in the morning to be able to ride exactly one circle along the circular road and visit all the post offices that are on it?Petya, who used to attend programming classes, has volunteered to help his uncle, but his knowledge turned out to be not enough, so he asks you to help him write the program that will solve the posed problem.",
+    "prob_desc_output_spec": "Print on the first line the number k — the number of possible post offices, from which the car can drive one circle along a circular road. Print on the second line k numbers in the ascending order — the numbers of offices, from which the car can start.",
+    "prob_desc_input_spec": "The first line contains integer n (1 ≤ n ≤ 105). The second line contains n integers ai — amount of gasoline on the i-th station. The third line contains n integers b1, b2, ..., bn. They are the distances between the 1-st and the 2-nd gas stations, between the 2-nd and the 3-rd ones, ..., between the n-th and the 1-st ones, respectively. The sum of all bi equals to the sum of all ai and is no more than 109. Each of the numbers ai, bi is no less than 1 and no more than 109.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_014.jsonl",
+    "code_uid": "36ed662882f04f5e8afe3404223e60e0",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 7 2 3\\n8 1 1 3\", \"8\\n1 2 1 2 1 2 1 2\\n2 1 2 1 2 1 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "##[1,7,2,3]\n##\n##[8,1,1,3]\n##\n##[1,8,10,13]\n##\n##[8,9,10,13]\n##\n##[-7,-1,0,0]\n\nn=int(input())\n\nA=list(map(int,input().split()))\nB=list(map(int,input().split()))\n\nSa=[0]*n\nSb=[0]*n\nSa[0]=A[0]\nSb[0]=B[0]\nfor i in range(1,n):\n    Sa[i]=Sa[i-1]+A[i]\n    Sb[i]=Sb[i-1]+B[i]\n\nD=[0]*n\n\nfor i in range(n):\n    D[i]=Sa[i]-Sb[i]\nm=min(D)\nans=[]\nfor i in range(n):\n    if(D[i]==m):\n        ans.append(i+1)\n        if(ans[-1]==n):\n            ans[-1]=0\nSa[n-1]=A[n-1]\nB=[B[-1]]+B[:n-1]\nSb[n-1]=B[n-1]\nfor i in range(n-2,-1,-1):\n    Sa[i]=Sa[i+1]+A[i]\n    Sb[i]=Sb[i+1]+B[i]\nfor i in range(n):\n    D[i]=Sa[i]-Sb[i]\nm=min(D)\nfor i in range(n):\n    if(D[i]==m):\n        ans.append(i-1)\n        if(ans[-1]==-1):\n            ans[-1]=n-1\nans=sorted(set(ans))\nprint(len(ans))\nfor item in ans:\n    print(item+1,end=\" \")\n",
+    "prob_desc_created_at": "1299513600",
+    "tags": [
+        "data structures",
+        "dp"
+    ],
+    "hidden_unit_tests": ""
+}

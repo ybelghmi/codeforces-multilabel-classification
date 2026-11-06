@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"NO\", \"YES\"]",
+    "src_uid": "3631eba1b28fae473cf438bc2f0552b7",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Consider an n × m grid. Initially all the cells of the grid are colored white. Lenny has painted some of the cells (at least one) black. We call a painted grid convex if one can walk from any black cell to any another black cell using a path of side-adjacent black cells changing his direction at most once during the path. In the figure below, the left grid is convex while the right one is not convex, because there exist two cells which need more than one time to change direction in their path.  You're given a painted grid in the input. Tell Lenny if the grid is convex or not.",
+    "prob_desc_output_spec": "On the only line of the output print \"YES\" if the grid is convex, otherwise print \"NO\". Do not print quotes.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and m (1 ≤ n, m ≤ 50) — the size of the grid. Each of the next n lines contains m characters \"B\" or \"W\". Character \"B\" denotes a black cell of the grid and \"W\" denotes a white cell of the grid. It's guaranteed that the grid has at least one black cell.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_025.jsonl",
+    "code_uid": "a63f2b3215e203477b9d7c674f900444",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 4\\nWWBW\\nBWWW\\nWWWB\", \"3 1\\nB\\nB\\nW\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m=map(int,raw_input().split())\nb=[raw_input() for _ in [0]*n]\nB=map(lambda x:''.join(x), zip(*b))\nimport re\ndef C():\n    if any(not re.match(\"W*B*W*$\", x) for x in b+B): return 1\n    p=[(i,j) for i,r in enumerate(b) for j,e in enumerate(r) if e == 'B']\n    for (x,y) in p:\n        for (w,z) in p:\n            if b[x][z] == 'W' and b[w][y]=='W': return 1\n    return 0\nprint 'YNEOS'[C()::2]\n",
+    "prob_desc_created_at": "1361374200",
+    "tags": [
+        "constructive algorithms",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

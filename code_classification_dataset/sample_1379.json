@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"NO\", \"cbd\", \"abda\"]",
+    "src_uid": "788ae500235ca7b7a7cd320f745d1070",
+    "prob_desc_notes": "NoteString s is lexicographically larger (or simply larger) than string t with the same length, if there is number i, such that s1 = t1, ..., si = ti, si + 1 &gt; ti + 1.The lexicographically next tolerable string is the lexicographically minimum tolerable string which is larger than the given one.A palindrome is a string that reads the same forward or reversed.",
+    "prob_desc_description": "Paul hates palindromes. He assumes that string s is tolerable if each its character is one of the first p letters of the English alphabet and s doesn't contain any palindrome contiguous substring of length 2 or more.Paul has found a tolerable string s of length n. Help him find the lexicographically next tolerable string of the same length or else state that such string does not exist.",
+    "prob_desc_output_spec": "If the lexicographically next tolerable string of the same length exists, print it. Otherwise, print \"NO\" (without the quotes).",
+    "prob_desc_input_spec": "The first line contains two space-separated integers: n and p (1 ≤ n ≤ 1000; 1 ≤ p ≤ 26). The second line contains string s, consisting of n small English letters. It is guaranteed that the string is tolerable (according to the above definition).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_008.jsonl",
+    "code_uid": "a05a078168deb527aed10baa84d17216",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 3\\ncba\", \"3 4\\ncba\", \"4 4\\nabcd\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/python3\n\nimport sys\n\n\ndef solve(s, k):\n    l = len(s)\n    for i in range(l-1, -1, -1):\n        prev = s[max(i-2, 0):i]\n        z = s[i] + 1\n        while z in prev:\n            z += 1\n        if z >= k:\n            continue\n        # Gotcha!\n        ret = s[:i] + [z]\n        while len(ret) < l:\n            prev = ret[max(len(ret)-2, 0):len(ret)]\n            z = 0\n            while z in prev:\n                z += 1\n            ret.append(z)\n        return ret\n    return None\n\n\nif __name__ == '__main__':\n    l, k = map(int, sys.stdin.readline().split())\n    s = [ord(c) - ord('a') for c in sys.stdin.readline().strip()]\n    ans = solve(s, k)\n    if ans is None:\n        print('NO')\n    else:\n        print(''.join(chr(ord('a') + x) for x in ans))\n",
+    "prob_desc_created_at": "1410103800",
+    "tags": [
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

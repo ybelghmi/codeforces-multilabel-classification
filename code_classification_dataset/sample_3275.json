@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"quailty\", \"once again\", \"tokitsukaze\", \"once again\"]",
+    "src_uid": "5e73099c7ec0b82aee54f0841c00f15e",
+    "prob_desc_notes": "NoteIn the first example, no matter how Tokitsukaze moves, there would be three cards with color sides facing the same direction after her move, and Quailty can flip the last card to this direction and win.In the second example, no matter how Tokitsukaze moves, Quailty can choose the same card and flip back to the initial situation, which can allow the game to end in a draw.In the third example, Tokitsukaze can win by flipping the leftmost five cards up or flipping the rightmost five cards down.The fourth example can be explained in the same way as the second example does.",
+    "prob_desc_description": "\"Duel!\"Betting on the lovely princess Claris, the duel between Tokitsukaze and Quailty has started.There are $$$n$$$ cards in a row. Each card has two sides, one of which has color. At first, some of these cards are with color sides facing up and others are with color sides facing down. Then they take turns flipping cards, in which Tokitsukaze moves first. In each move, one should choose exactly $$$k$$$ consecutive cards and flip them to the same side, which means to make their color sides all face up or all face down. If all the color sides of these $$$n$$$ cards face the same direction after one's move, the one who takes this move will win.Princess Claris wants to know who will win the game if Tokitsukaze and Quailty are so clever that they won't make mistakes.",
+    "prob_desc_output_spec": "Print \"once again\" (without quotes) if the total number of their moves can exceed $$$10^9$$$, which is considered a draw. In other cases, print \"tokitsukaze\" (without quotes) if Tokitsukaze will win, or \"quailty\" (without quotes) if Quailty will win. Note that the output characters are case-sensitive, and any wrong spelling would be rejected.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 10^5$$$). The second line contains a single string of length $$$n$$$ that only consists of $$$0$$$ and $$$1$$$, representing the situation of these $$$n$$$ cards, where the color side of the $$$i$$$-th card faces up if the $$$i$$$-th character is $$$1$$$, or otherwise, it faces down and the $$$i$$$-th character is $$$0$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_050.jsonl",
+    "code_uid": "0bb77906a08afd96e4246b8c6077f914",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n0101\", \"6 1\\n010101\", \"6 5\\n010101\", \"4 1\\n0011\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport copy\ninput = sys.stdin.readline\nn,k=map(int,raw_input().split())\nC=list(raw_input().strip())\ndef JUDGE(C):\n    ANS_one=0\n    ANS_zero=0\n    for c in C:\n        if c==\"0\":\n            ANS_zero+=1\n        else:\n            break\n    for c in C[::-1]:\n        if c==\"0\":\n            ANS_zero+=1\n        else:\n            break\n    for c in C:\n        if c==\"1\":\n            ANS_one+=1\n        else:\n            break\n    for c in C[::-1]:\n        if c==\"1\":\n            ANS_one+=1\n        else:\n            break\n    if ANS_zero>=n-k or ANS_one>=n-k:\n        return 1\n    else:\n        return 0\nif JUDGE(C)==1:\n    print(\"tokitsukaze\")\n    sys.exit()\nif k>=n-1:\n    print(\"quailty\")\n    sys.exit()\nif k<n/2:\n    print(\"once again\")\n    sys.exit()\nCAN1=copy.copy(C)\nCAN2=copy.copy(C)\nif C[0]==\"0\":\n    for i in range(1,k+1):\n        CAN1[i]=\"1\"\nelse:\n    for i in range(1,k+1):\n        CAN1[i]=\"0\"\nif C[-1]==\"0\":\n    for i in range(n-1,n-k-1,-1):\n        CAN2[i]=\"1\"\nelse:\n    for i in range(n-2,n-k-2,-1):\n        CAN2[i]=\"0\"\nif JUDGE(CAN1)==1 and JUDGE(CAN2)==1:\n    print(\"quailty\")\n    sys.exit()\nelse:\n    print(\"once again\")\n    sys.exit()",
+    "prob_desc_created_at": "1562942100",
+    "tags": [
+        "greedy",
+        "games",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n1\", \"1\"]",
+    "src_uid": "49009175bae8537e6d51424fab28183a",
+    "prob_desc_notes": "NoteConsider the first example. In the first type 3 query, we have the diagram below.In the first round of the process, noble $$$1$$$ is weaker than all of his friends ($$$2$$$ and $$$3$$$), and is thus killed. No other noble is vulnerable in round 1. In round 2, noble $$$3$$$ is weaker than his only friend, noble $$$4$$$, and is therefore killed. At this point, the process ends, and the answer is $$$2$$$.  In the second type 3 query, the only surviving noble is $$$4$$$.    The second example consists of only one type $$$3$$$ query. In the first round, two nobles are killed, and in the second round, one noble is killed. The final answer is $$$1$$$, since only one noble survives.  ",
+    "prob_desc_description": "When you play the game of thrones, you win, or you die. There is no middle ground.Cersei Lannister, A Game of Thrones by George R. R. MartinThere are $$$n$$$ nobles, numbered from $$$1$$$ to $$$n$$$. Noble $$$i$$$ has a power of $$$i$$$. There are also $$$m$$$ \"friendships\". A friendship between nobles $$$a$$$ and $$$b$$$ is always mutual.A noble is defined to be vulnerable if both of the following conditions are satisfied:   the noble has at least one friend, and  all of that noble's friends have a higher power. You will have to process the following three types of queries.   Add a friendship between nobles $$$u$$$ and $$$v$$$.  Remove a friendship between nobles $$$u$$$ and $$$v$$$.  Calculate the answer to the following process. The process: all vulnerable nobles are simultaneously killed, and all their friendships end. Then, it is possible that new nobles become vulnerable. The process repeats itself until no nobles are vulnerable. It can be proven that the process will end in finite time. After the process is complete, you need to calculate the number of remaining nobles.Note that the results of the process are not carried over between queries, that is, every process starts with all nobles being alive!",
+    "prob_desc_output_spec": "For each type $$$3$$$ query print one integer to a new line. It is guaranteed that there will be at least one type $$$3$$$ query.",
+    "prob_desc_input_spec": "The first line contains the integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 2\\cdot 10^5$$$, $$$0 \\le m \\le 2\\cdot 10^5$$$) — the number of nobles and number of original friendships respectively. The next $$$m$$$ lines each contain the integers $$$u$$$ and $$$v$$$ ($$$1 \\le u,v \\le n$$$, $$$u \\ne v$$$), describing a friendship. No friendship is listed twice. The next line contains the integer $$$q$$$ ($$$1 \\le q \\le 2\\cdot {10}^{5}$$$) — the number of queries.  The next $$$q$$$ lines contain the queries themselves, each query has one of the following three formats.    $$$1$$$ $$$u$$$ $$$v$$$ ($$$1 \\le u,v \\le n$$$, $$$u \\ne v$$$) — add a friendship between $$$u$$$ and $$$v$$$. It is guaranteed that $$$u$$$ and $$$v$$$ are not friends at this moment.  $$$2$$$ $$$u$$$ $$$v$$$ ($$$1 \\le u,v \\le n$$$, $$$u \\ne v$$$) — remove a friendship between $$$u$$$ and $$$v$$$. It is guaranteed that $$$u$$$ and $$$v$$$ are friends at this moment.  $$$3$$$ — print the answer to the process described in the statement. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_083.jsonl",
+    "code_uid": "7be624b8e85fc1c29825223b95508635",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 3\\n2 1\\n1 3\\n3 4\\n4\\n3\\n1 2 3\\n2 3 1\\n3\", \"4 3\\n2 3\\n3 4\\n4 1\\n1\\n3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\nn,m = map(int,input().split())\r\narr = [-1]+[0]*n\r\nct = 0\r\nfor x in range(m):\r\n    a,b = map(int,input().split())\r\n    if a<b:\r\n        c=a\r\n    else:\r\n        c=b\r\n    arr[c]+=1\r\n    if arr[c]==1:\r\n        ct +=1\r\n\r\nfor y in range(int(input())):\r\n    lst = list(map(int,input().split()))\r\n    if lst[0]==3:\r\n        print(n-ct)\r\n        continue\r\n    op,a,b = lst\r\n    if a<b:\r\n        c = a\r\n    else:\r\n        c = b\r\n\r\n    if op==1:\r\n        arr[c]+=1\r\n        if arr[c]==1:\r\n            ct+=1\r\n    elif op==2:\r\n        arr[c]-=1\r\n        if arr[c]==0:\r\n            ct-=1\r\n\r\n    ",
+    "prob_desc_created_at": "1627828500",
+    "tags": [
+        "brute force",
+        "graphs",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

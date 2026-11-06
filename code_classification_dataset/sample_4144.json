@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n0\\n2\\n1\\n1\\n2\"]",
+    "src_uid": "2e6ddb2b11f8ac857e81d4b9b0c7d783",
+    "prob_desc_notes": "NoteIn the first test case the minimal sum is $$$\\operatorname{MEX}(0) + \\operatorname{MEX}(1) = 1 + 0 = 1$$$.In the second test case the minimal sum is $$$\\operatorname{MEX}(1111) = 0$$$.In the third test case the minimal sum is $$$\\operatorname{MEX}(01100) = 2$$$.",
+    "prob_desc_description": "A binary string is a string that consists of characters $$$0$$$ and $$$1$$$.Let $$$\\operatorname{MEX}$$$ of a binary string be the smallest digit among $$$0$$$, $$$1$$$, or $$$2$$$ that does not occur in the string. For example, $$$\\operatorname{MEX}$$$ of $$$001011$$$ is $$$2$$$, because $$$0$$$ and $$$1$$$ occur in the string at least once, $$$\\operatorname{MEX}$$$ of $$$1111$$$ is $$$0$$$, because $$$0$$$ and $$$2$$$ do not occur in the string and $$$0 &lt; 2$$$.A binary string $$$s$$$ is given. You should cut it into any number of substrings such that each character is in exactly one substring. It is possible to cut the string into a single substring — the whole string.A string $$$a$$$ is a substring of a string $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) characters from the beginning and several (possibly, zero or all) characters from the end.What is the minimal sum of $$$\\operatorname{MEX}$$$ of all substrings pieces can be?",
+    "prob_desc_output_spec": "For each test case print a single integer — the minimal sum of $$$\\operatorname{MEX}$$$ of all substrings that it is possible to get by cutting $$$s$$$ optimally.",
+    "prob_desc_input_spec": "The input consists of multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Description of the test cases follows. Each test case contains a single binary string $$$s$$$ ($$$1 \\le |s| \\le 10^5$$$). It's guaranteed that the sum of lengths of $$$s$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_091.jsonl",
+    "code_uid": "3bae3ed11cfb1d7485682bc978c3a4cc",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n01\\n1111\\n01100\\n101\\n0000\\n01010\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nfor _ in range(t):\r\n    s = input()\r\n    n = len(s)\r\n    ans = 0\r\n    chk = False\r\n\r\n    d = {}\r\n    d['0'] = -1\r\n    d['1'] = -1\r\n    for i in range(n):\r\n        if s[i] == '1':\r\n            d['1'] = i\r\n            chk = False\r\n        else:\r\n            d['0'] = i\r\n        if (d['0'] > d['1'] and not chk):\r\n            ans = ans + 1\r\n            chk = True\r\n            if(ans == 2):\r\n                break\r\n    print(ans)",
+    "prob_desc_created_at": "1631457300",
+    "tags": [
+        "bitmasks",
+        "constructive algorithms",
+        "dp",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

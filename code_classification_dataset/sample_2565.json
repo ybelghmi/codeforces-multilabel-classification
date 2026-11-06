@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"d 2\\ns 3\\n! 5\"]",
+    "src_uid": "5e34b8ed812d392799f45c3c3fa1c979",
+    "prob_desc_notes": "NoteIn the first example, the hidden node is node $$$5$$$.  We first ask about the distance between node $$$x$$$ and node $$$2$$$. The answer is $$$3$$$, so node $$$x$$$ is either $$$4$$$ or $$$5$$$. We then ask about the second node in the path from node $$$3$$$ to node $$$x$$$. Note here that node $$$3$$$ is an ancestor of node $$$5$$$. We receive node $$$5$$$ as the answer. Finally, we report that the hidden node is node $$$5$$$.",
+    "prob_desc_description": "This is an interactive problem.You're given a tree consisting of $$$n$$$ nodes, rooted at node $$$1$$$. A tree is a connected graph with no cycles.We chose a hidden node $$$x$$$. In order to find this node, you can ask queries of two types:   d $$$u$$$ ($$$1 \\le u \\le n$$$). We will answer with the distance between nodes $$$u$$$ and $$$x$$$. The distance between two nodes is the number of edges in the shortest path between them.  s $$$u$$$ ($$$1 \\le u \\le n$$$). We will answer with the second node on the path from $$$u$$$ to $$$x$$$. However, there's a plot twist. If $$$u$$$ is not an ancestor of $$$x$$$, you'll receive \"Wrong answer\" verdict! Node $$$a$$$ is called an ancestor of node $$$b$$$ if $$$a \\ne b$$$ and the shortest path from node $$$1$$$ to node $$$b$$$ passes through node $$$a$$$. Note that in this problem a node is not an ancestor of itself.Can you find $$$x$$$ in no more than $$$36$$$ queries? The hidden node is fixed in each test beforehand and does not depend on your queries.",
+    "prob_desc_output_spec": "To print the answer, print \"! x\" (without quotes).",
+    "prob_desc_input_spec": "The first line contains the integer $$$n$$$ ($$$2 \\le n \\le 2 \\cdot 10^5$$$) — the number of nodes in the tree. Each of the next $$$n-1$$$ lines contains two space-separated integers $$$u$$$ and $$$v$$$ ($$$1 \\le u,v \\le n$$$) that mean there's an edge between nodes $$$u$$$ and $$$v$$$. It's guaranteed that the given graph is a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_025.jsonl",
+    "code_uid": "36e9cfe7b32f4fd7e3d06d16f15264f6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2\\n1 3\\n3 4\\n3 5\\n3\\n5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def sec(tup):\n    return -tup[1]\ndef do(graph,top,level):\n    if level==0:\n        print(\"!\",top)\n        return None\n    curr=top\n    for i in range(level):\n        curr=graph[curr]\n    print(\"d\",curr)\n    dist=int(input())\n    if dist==0:\n        print(\"!\",curr)\n        return None\n    newt=top\n    for i in range(level-dist//2):\n        newt=graph[newt]\n    print(\"s\",newt)\n    v=int(input())\n    newt=v\n    newl=dist//2-1\n    do(graph,newt,newl)\n    return None\ndef main():\n    n=int(input())\n    graph=[[] for i in range(n+1)]\n    for i in range(n-1):\n        u,v=map(int,input().split())\n        graph[u].append(v)\n        graph[v].append(u)\n    print(\"d\",1)\n    d=int(input())\n    layers=[[1]]\n    layer=[1]\n    lays=[None]*(n+1)\n    lays[1]=0\n    for i in range(d):\n        newlayer=[]\n        for guy in layer:\n            for neigh in graph[guy]:\n                graph[neigh].remove(guy)\n                newlayer.append(neigh)\n                lays[neigh]=i+1\n        layers.append(newlayer)\n        layer=newlayer\n    des=[0]*(n+1)\n    for guy in layers[-1]:\n        des[guy]=1\n    for i in range(d):\n        for guy in layers[-i-2]:\n            des[guy]=sum(des[boi] for boi in graph[guy])\n    for guy in range(1,n+1):\n        for i in range(len(graph[guy])):\n            graph[guy][i]=(graph[guy][i],des[graph[guy][i]])\n        graph[guy].sort(key=sec)\n    best=[0]*(n+1)\n    for i in range(1,n+1):\n        if len(graph[i])>0:\n            best[i]=graph[i][0][0]\n    do(best,1,d)\nmain()",
+    "prob_desc_created_at": "1559570700",
+    "tags": [
+        "graphs",
+        "constructive algorithms",
+        "implementation",
+        "divide and conquer",
+        "interactive",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

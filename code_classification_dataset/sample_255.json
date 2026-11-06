@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"4\", \"6\"]",
+    "src_uid": "621c82478be3dadcf60c383ba078a49e",
+    "prob_desc_notes": "NoteIn the first sample, you can swap bits that have indexes $$$(1, 4)$$$, $$$(2, 3)$$$, $$$(3, 4)$$$, and $$$(3, 5)$$$.In the second example, you can swap bits that have indexes $$$(1, 2)$$$, $$$(1, 3)$$$, $$$(2, 4)$$$, $$$(3, 4)$$$, $$$(3, 5)$$$, and $$$(3, 6)$$$.",
+    "prob_desc_description": "Rudolf is on his way to the castle. Before getting into the castle, the security staff asked him a question:Given two binary numbers $$$a$$$ and $$$b$$$ of length $$$n$$$. How many different ways of swapping two digits in $$$a$$$ (only in $$$a$$$, not $$$b$$$) so that bitwise OR of these two numbers will be changed? In other words, let $$$c$$$ be the bitwise OR of $$$a$$$ and $$$b$$$, you need to find the number of ways of swapping two bits in $$$a$$$ so that bitwise OR will not be equal to $$$c$$$.Note that binary numbers can contain leading zeros so that length of each number is exactly $$$n$$$.Bitwise OR is a binary operation. A result is a binary number which contains a one in each digit if there is a one in at least one of the two numbers. For example, $$$01010_2$$$ OR $$$10011_2$$$ = $$$11011_2$$$.Well, to your surprise, you are not Rudolf, and you don't need to help him$$$\\ldots$$$ You are the security staff! Please find the number of ways of swapping two bits in $$$a$$$ so that bitwise OR will be changed.",
+    "prob_desc_output_spec": "Print the number of ways to swap two bits in $$$a$$$ so that bitwise OR will be changed.",
+    "prob_desc_input_spec": "The first line contains one integer $$$n$$$ ($$$2\\leq n\\leq 10^5$$$) — the number of bits in each number. The second line contains a binary number $$$a$$$ of length $$$n$$$. The third line contains a binary number $$$b$$$ of length $$$n$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_001.jsonl",
+    "code_uid": "5df4ee4aa023988bc2315c499ab75cba",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n01011\\n11001\", \"6\\n011000\\n010011\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(raw_input())\na=raw_input()\nb=raw_input()\nL=[0]*4\nfor i in range(n):\n    if(a[i]=='1' and b[i]=='1'):\n        L[0]+=1\n    elif(a[i]=='1' and b[i]=='0'):\n        L[1]+=1\n    elif(a[i]=='0' and b[i]=='1'):\n        L[2]+=1\n    else:\n        L[3]+=1\nprint L[1]*L[2]+L[1]*L[3]+L[0]*L[3]\n",
+    "prob_desc_created_at": "1533737100",
+    "tags": [
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

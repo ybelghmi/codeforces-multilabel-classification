@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n1 1\", \"1\\n1 1\", \"2\\n1 1\\n1 2\"]",
+    "src_uid": "e40774a2c34251eec2df869611731a48",
+    "prob_desc_notes": "NoteExample $$$1$$$: one half-queen is enough. Note: a half-queen on $$$(1, 1)$$$ attacks $$$(1, 1)$$$.Example $$$2$$$: one half-queen is enough too. $$$(1, 2)$$$ or $$$(2, 1)$$$ would be wrong solutions, because a half-queen on $$$(1, 2)$$$ does not attack the cell $$$(2, 1)$$$ and vice versa. $$$(2, 2)$$$ is also a valid solution.Example $$$3$$$: it is impossible to cover the board with one half queen. There are multiple solutions for $$$2$$$ half-queens; you can print any of them.",
+    "prob_desc_description": "You are given a board with $$$n$$$ rows and $$$n$$$ columns, numbered from $$$1$$$ to $$$n$$$. The intersection of the $$$a$$$-th row and $$$b$$$-th column is denoted by $$$(a, b)$$$.A half-queen attacks cells in the same row, same column, and on one diagonal. More formally, a half-queen on $$$(a, b)$$$ attacks the cell $$$(c, d)$$$ if $$$a=c$$$ or $$$b=d$$$ or $$$a-b=c-d$$$.    The blue cells are under attack.  What is the minimum number of half-queens that can be placed on that board so as to ensure that each square is attacked by at least one half-queen?Construct an optimal solution.",
+    "prob_desc_output_spec": "In the first line print a single integer $$$k$$$ — the minimum number of half-queens. In each of the next $$$k$$$ lines print two integers $$$a_i$$$, $$$b_i$$$ ($$$1 \\le a_i, b_i \\le n$$$) — the position of the $$$i$$$-th half-queen. If there are multiple solutions, print any.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the size of the board.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_084.jsonl",
+    "code_uid": "025a37247651d6d69ae8d886816565eb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\", \"2\", \"3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n# import numpy\n\ninput = sys.stdin.readline\ninf = float('inf')\n\n\ndef getInt():\n    return int(input())\n\n\ndef getStr():\n    return input().strip()\n\n\ndef getList(split=True):\n    s = getStr()\n    if split:\n        s = s.split()\n    return map(int, s)\n\n\n# t = getInt()\nt = 1\n\n\ndef solve():\n    n = int(input())\n    print((2*n+1) // 3)\n    while n and n % 3 != 2:\n        print(n, n)\n        n -= 1\n    if n == 0:\n        return\n    x = n // 3\n    if x & 1:\n        y = x+1\n    else:\n        x, y = x+1, x\n    for i in range(x):\n        print(i+1, x-i)\n    for i in range(y):\n        print(n-i, n+1-y+i)\n\n    # first fill 1, 1\n    # greediyly choose two fill the two longest symetric dianal on different rrow / column\n    # diag = set(range(n))\n    # diff = 0\n    # res = []\n    # used = [0] * (n+1)\n    # i = 1\n    # while len(diag) > 1:\n    #     while used[i]:\n    #         i += 1\n    #     j = i + diff\n    #     res.append((i, j))\n    #     if i != j:\n    #         res.append((j, i))\n    #     diag.discard(diff)\n    #     diag.discard(n-i)\n    #     diag.discard(n-j)\n    #     used[i] = used[j] = 1\n    #     diff += 1\n    #     print(diag)\n    # if diag:\n    #     res.append((n-diag.pop(), ) * 2)\n    # print(len(res))\n    # for v in res:\n    #     print(*v)\n\n\nfor _ in range(t):\n    solve()\n\n\"\"\"\na + b - 1 <= k\na >= n - k\nb >= n - k\n2 * n - 2 * k - 1 <= k\nk >= ( 2* n - 1 ) / 3\n\nk = 2*n-1 / 3\nn = 3 * x + 2\nk = 2 * x + 1\n\nk can cover a square of size x + 1\nx + 1 and x can cover 2 * x + 1 both size so 2 * x + 1 + x + 1 = 3 * x + 2 perfectly fit the square\n\"\"\"\n",
+    "prob_desc_created_at": "1650378900",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

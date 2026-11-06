@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"9000\", \"1160\"]",
+    "src_uid": "8883f8124092ace99ce0309fb8a511aa",
+    "prob_desc_notes": "NoteIn the first example the best strategy is to run each task on a separate computer, getting average compute per processor during the first round equal to 9.In the second task it is best to run tasks with compute 10 and 9 on one computer, tasks with compute 10 and 8 on another, and tasks with compute 9 and 8 on the last, averaging (10 + 10 + 9) / (10 + 10 + 5) = 1.16 compute power per processor during the first round.",
+    "prob_desc_description": "You need to execute several tasks, each associated with number of processors it needs, and the compute power it will consume.You have sufficient number of analog computers, each with enough processors for any task. Each computer can execute up to one task at a time, and no more than two tasks total. The first task can be any, the second task on each computer must use strictly less power than the first. You will assign between 1 and 2 tasks to each computer. You will then first execute the first task on each computer, wait for all of them to complete, and then execute the second task on each computer that has two tasks assigned.If the average compute power per utilized processor (the sum of all consumed powers for all tasks presently running divided by the number of utilized processors) across all computers exceeds some unknown threshold during the execution of the first tasks, the entire system will blow up. There is no restriction on the second tasks execution. Find the lowest threshold for which it is possible.Due to the specifics of the task, you need to print the answer multiplied by 1000 and rounded up.",
+    "prob_desc_output_spec": "Print a single integer value — the lowest threshold for which it is possible to assign all tasks in such a way that the system will not blow up after the first round of computation, multiplied by 1000 and rounded up.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 50) — the number of tasks. The second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 108), where ai represents the amount of power required for the i-th task. The third line contains n integers b1, b2, ..., bn (1 ≤ bi ≤ 100), where bi is the number of processors that i-th task will utilize.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_000.jsonl",
+    "code_uid": "ed06ba76d606a0c9203d36f090f26fcb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"6\\n8 10 9 9 8 10\\n1 1 1 1 1 1\", \"6\\n8 10 9 9 8 10\\n1 10 5 5 1 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#     Codeforces Round #488 by NEAR (Div. 2)\nimport collections\nfrom functools import cmp_to_key\n#key=cmp_to_key(lambda x,y: 1 if x not in y else -1 )\nimport math\nimport sys\ndef getIntList():\n    return list(map(int, input().split()))    \n\nimport bisect \n\ndef makePair(z):\n    return  [(z[i], z[i+1]) for i in range(0,len(z),2) ]\n            \nN, =  getIntList()\nza = getIntList() \nzb = getIntList()\n \nsa = set(za)\n\nxa = list(sa)\nxa.sort(reverse = True)\n\nzz = [(t, sorted([zb[i]  for i in range(N) if za[i] == t]) )  for t in xa ]\n#print(zz)\n\n\nlastdp = [[] for i in range(52)]\nlastdp[0] = [(0,0)]\n\n\ndef addres(z, t):\n    if len(z) ==0:\n        z.append(t)\n        return\n    i = bisect.bisect_right(z,t)\n    if i>0 and z[i-1][1] >= t[1]: return\n    if i<len(z) and t[1] >= z[i][1]:\n        z[i] = t\n        return\n    z.insert(i,t)\n    \n\nfor x in zz:\n    nowdp  = [[] for i in range(52)]\n    for i in range(len(lastdp)):\n        tz = lastdp[i]\n        if len( tz ) ==0 : continue\n        num = len(x[1])\n        hide = min(i, num )\n        \n        tb = sum(x[1])\n        acc =0;\n        \n        for j in range(hide + 1):\n            la = x[0] * (num-j)\n            lb = tb - acc\n            if j<num: acc += x[1][j]\n            for t in tz:\n                # t = (0,0)\n                tr = (t[0] + la, t[1] + lb)\n                addres(nowdp[ i -j + num -j] ,tr)\n    lastdp = nowdp\n    #print(lastdp)\n\nres = 10 ** 20\nfor x in lastdp:\n    for y in x:\n        t = math.ceil(y[0] *1000   /  y[1] )\n        res = min( res,t)\n\nprint(res)\n",
+    "prob_desc_created_at": "1529166900",
+    "tags": [
+        "dp",
+        "binary search",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

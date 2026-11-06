@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nYES\\nYES\\nNO\\nNO\\nNO\\nNO\\nYES\"]",
+    "src_uid": "e95e2d21777c1d686bede1b0a5dacbf5",
+    "prob_desc_notes": "NoteThe first four test cases of the example are described in the statement.",
+    "prob_desc_description": "You are given a string $$$s$$$. You have to determine whether it is possible to build the string $$$s$$$ out of strings aa, aaa, bb and/or bbb by concatenating them. You can use the strings aa, aaa, bb and/or bbb any number of times and in any order.For example:  aaaabbb can be built as aa $$$+$$$ aa $$$+$$$ bbb;  bbaaaaabbb can be built as bb $$$+$$$ aaa $$$+$$$ aa $$$+$$$ bbb;  aaaaaa can be built as aa $$$+$$$ aa $$$+$$$ aa;  abab cannot be built from aa, aaa, bb and/or bbb. ",
+    "prob_desc_output_spec": "For each test case, print YES if it is possible to build the string $$$s$$$. Otherwise, print NO. You may print each letter in any case (for example, YES, yes, Yes will all be recognized as positive answer, NO, no and nO will all be recognized as negative answer).",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. Each test case consists of one line containing the string $$$s$$$ ($$$1 \\le |s| \\le 50$$$), consisting of characters a and/or b.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_087.jsonl",
+    "code_uid": "3e4a57de64a29b71e548fe27f33fdc40",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n\\naaaabbb\\n\\nbbaaaaabbb\\n\\naaaaaa\\n\\nabab\\n\\na\\n\\nb\\n\\naaaab\\n\\nbbaaa\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input(\"\"))\nfor i in range(t):\n    x = input(\"\")\n    count = 1\n    base = x[0]\n    answer = \"YES\"\n    for i in range(1, len(x)):\n        if x[i] == base:\n            count = count + 1\n        else:\n            if count == 1:\n                answer = \"NO\"\n                break\n            else:\n                base = x[i]\n                count = 1\n    if count == 1:\n        answer = \"NO\"\n    print(answer)\n    x = 2+3",
+    "prob_desc_created_at": "1650638100",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

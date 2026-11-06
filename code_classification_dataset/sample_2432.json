@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"5\", \"36\"]",
+    "src_uid": "1708818cf66de9fa03439f608c897a90",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a non-empty string s consisting of lowercase letters. Find the number of pairs of non-overlapping palindromic substrings of this string.In a more formal way, you have to find the quantity of tuples (a, b, x, y) such that 1 ≤ a ≤ b &lt; x ≤ y ≤ |s| and substrings s[a... b], s[x... y] are palindromes.A palindrome is a string that can be read the same way from left to right and from right to left. For example, \"abacaba\", \"z\", \"abba\" are palindromes.A substring s[i... j] (1 ≤ i ≤ j ≤ |s|) of string s = s1s2... s|s| is a string sisi + 1... sj. For example, substring s[2...4] of string s = \"abacaba\" equals \"bac\".",
+    "prob_desc_output_spec": "Output a single number — the quantity of pairs of non-overlapping palindromic substrings of s. Please do not use the %lld format specifier to read or write 64-bit integers in С++. It is preferred to use cin, cout streams or the %I64d format specifier.",
+    "prob_desc_input_spec": "The first line of input contains a non-empty string s which consists of lowercase letters ('a'...'z'), s contains at most 2000 characters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_022.jsonl",
+    "code_uid": "23cb2a798349c1b6bbdbdd89752a81b6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"aa\", \"aaa\", \"abacaba\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = input()\nn = len(t)\n\na, b = [1] * n, [1] * n\nfor x, y in [(i - 1, i + 1) for i in range(n // 2)]:\n    while x >= 0 and t[x] == t[y]:\n        a[y] += 1\n        b[x] += 1\n        x -= 1\n        y += 1\nfor x, y in [(i, i + 1) for i in range(n // 2)]:\n    while x >= 0 and t[x] == t[y]:\n        a[y] += 1\n        b[x] += 1\n        x -= 1\n        y += 1\nfor x, y in [(i - 1, i + 1) for i in range(n // 2, n)]:\n    while y < n and t[x] == t[y]:\n        a[y] += 1\n        b[x] += 1\n        x -= 1\n        y += 1\nfor x, y in [(i, i + 1) for i in range(n // 2, n)]:\n    while y < n and t[x] == t[y]:\n        a[y] += 1\n        b[x] += 1\n        x -= 1\n        y += 1\nfor i in range(1, n):\n    a[i] += a[i - 1]\nprint(sum(a[i - 1] * b[i] for i in range(1, n)))",
+    "prob_desc_created_at": "1331280000",
+    "tags": [
+        "dp",
+        "*special",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

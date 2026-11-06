@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "98f5b6aac08f48f95b2a8ce0738de657",
+    "prob_desc_notes": "NoteIn the first sample Kirito's strength initially equals 2. As the first dragon's strength is less than 2, Kirito can fight it and defeat it. After that he gets the bonus and his strength increases to 2 + 99 = 101. Now he can defeat the second dragon and move on to the next level.In the second sample Kirito's strength is too small to defeat the only dragon and win.",
+    "prob_desc_description": "Kirito is stuck on a level of the MMORPG he is playing now. To move on in the game, he's got to defeat all n dragons that live on this level. Kirito and the dragons have strength, which is represented by an integer. In the duel between two opponents the duel's outcome is determined by their strength. Initially, Kirito's strength equals s.If Kirito starts duelling with the i-th (1 ≤ i ≤ n) dragon and Kirito's strength is not greater than the dragon's strength xi, then Kirito loses the duel and dies. But if Kirito's strength is greater than the dragon's strength, then he defeats the dragon and gets a bonus strength increase by yi.Kirito can fight the dragons in any order. Determine whether he can move on to the next level of the game, that is, defeat all dragons without a single loss.",
+    "prob_desc_output_spec": "On a single line print \"YES\" (without the quotes), if Kirito can move on to the next level and print \"NO\" (without the quotes), if he can't.",
+    "prob_desc_input_spec": "The first line contains two space-separated integers s and n (1 ≤ s ≤ 104, 1 ≤ n ≤ 103). Then n lines follow: the i-th line contains space-separated integers xi and yi (1 ≤ xi ≤ 104, 0 ≤ yi ≤ 104) — the i-th dragon's strength and the bonus for defeating it.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_000.jsonl",
+    "code_uid": "90ce033e902d98d9883c4706938b4caf",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 2\\n1 99\\n100 0\", \"10 1\\n100 100\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "    \ndef test(s):\n    \n    lines = s.split(\"\\n\")\n    \n    s, n = tuple(map(int,lines[0].split()))\n    \n    li_x = []\n    li_y = []\n    for i in range(1,n+1):\n        x, y =tuple(map(int,lines[i].split()))\n        li_x.append(x)\n        li_y.append(y)\n    \n    lt_both = zip(li_x, li_y)\n    \n    lt_both = sorted(lt_both)\n    \n    for x, y in lt_both:\n        #print s, x\n        if s <= x:\n            print 'NO'\n            return\n        s += y\n    print 'YES'\n\n\n\ns_all = ''\nwhile True:\n    try:\n        s_all += (raw_input()) + '\\n'\n    except:\n        break\ntest(s_all)\n",
+    "prob_desc_created_at": "1349105400",
+    "tags": [
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n4\\n3\", \"4\\n5\\n3\"]",
+    "src_uid": "6d47da375461c228bc70b117887cba33",
+    "prob_desc_notes": "NoteIn the first sample, in all rounds PMP goes from city #1 to city #2, then city #3 and finally city #4. But the sequences of types of the cars he uses are (1, 2, 1) in the first round and (1, 2, 2) in the second round. In the third round, although he can change his car three times, he uses the same strategy as the first round which only needs two car changes.",
+    "prob_desc_description": "PMP is getting a warrior. He is practicing a lot, but the results are not acceptable yet. This time instead of programming contests, he decided to compete in a car racing to increase the spirit of victory. He decides to choose a competition that also exhibits algorithmic features.AlgoRace is a special league of car racing where different teams compete in a country of n cities. Cities are numbered 1 through n. Every two distinct cities in the country are connected with one bidirectional road. Each competing team should introduce one driver and a set of cars.The competition is held in r rounds. In i-th round, drivers will start at city si and finish at city ti. Drivers are allowed to change their cars at most ki times. Changing cars can take place in any city in no time. One car can be used multiple times in one round, but total number of changes should not exceed ki. Drivers can freely choose their path to destination.PMP has prepared m type of purpose-built cars. Beside for PMP’s driving skills, depending on properties of the car and the road, a car traverses each road in each direction in different times. PMP Warriors wants to devise best strategies of choosing car and roads in each round to maximize the chance of winning the cup. For each round they want to find the minimum time required to finish it.",
+    "prob_desc_output_spec": "For each round you should print the minimum required time to complete the round in a single line.",
+    "prob_desc_input_spec": "The first line contains three space-separated integers n, m, r (2 ≤ n ≤ 60, 1 ≤ m ≤ 60, 1 ≤ r ≤ 105) — the number of cities, the number of different types of cars and the number of rounds in the competition, correspondingly. Next m sets of n × n matrices of integers between 0 to 106 (inclusive) will follow — describing the time one car requires to traverse different roads. The k-th integer in j-th line of the i-th set is the time that i-th car requires to traverse the road from j-th city to k-th city. These matrices are not necessarily symmetric, but their diagonal is always zero. Next r lines contain description of the rounds. The i-th of these lines contains space-separated integers si, ti, ki (1 ≤ si, ti ≤ n, si ≠ ti, 0 ≤ ki ≤ 1000) — the number of starting city, finishing city and the number of possible car changes in i-th round, correspondingly.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_041.jsonl",
+    "code_uid": "fc72683a037946329718c203759512b4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2 3\\n0 1 5 6\\n2 0 3 6\\n1 3 0 1\\n6 6 7 0\\n0 3 5 6\\n2 0 1 6\\n1 3 0 2\\n6 6 7 0\\n1 4 2\\n1 4 1\\n1 4 3\", \"4 2 3\\n0 7 3 3\\n8 0 10 5\\n1 1 0 4\\n8 9 2 0\\n0 3 3 9\\n7 0 4 9\\n3 8 0 4\\n4 8 9 0\\n2 3 3\\n2 1 3\\n1 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\n\n\ndef fast2():\n    import os, sys, atexit\n    from cStringIO import StringIO as BytesIO\n    # range = xrange\n    sys.stdout = BytesIO()\n    atexit.register(lambda: os.write(1, sys.stdout.getvalue()))\n    return BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\n\ninput = fast2()\nrints = lambda: [int(x) for x in input().split()]\nMax = 61\nn, m, r = rints()\ncar, qur = [[rints() for _ in range(n)] for _ in range(m)], [rints() for _ in range(r)]\nans = [[[10 ** 9 for _ in range(61)] for _ in range(61)] for _ in range(61)]\n\nfor ix in range(m):\n    for k in range(n):\n        for i in range(n):\n            for j in range(n):\n                car[ix][i][j] = min(car[ix][i][k] + car[ix][k][j], car[ix][i][j])\n\n    for i in range(n):\n        for j in range(n):\n            ans[0][i][j] = min(ans[0][i][j], car[ix][i][j])\n            \n\nfor k in range(1, n):\n    for i in range(n):\n        for j in range(n):\n            ans[k][i][j] = ans[k - 1][i][j]\n            for c in range(n):\n                ans[k][i][j] = min(ans[k][i][j], ans[k - 1][i][c] + ans[0][c][j])\nout = []\nfor i, j, k in qur:\n    out.append(ans[min(k, n - 1)][i - 1][j - 1])\n\nprint('\\n'.join(map(str, out)))\n",
+    "prob_desc_created_at": "1336663800",
+    "tags": [
+        "dp",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

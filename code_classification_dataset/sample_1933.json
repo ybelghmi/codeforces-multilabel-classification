@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\\n1 0 0 1 1 1 1\", \"5\\n1 0 0 1 1 1 1 1 0 1\"]",
+    "src_uid": "ec9b03577868d8999bcc54dfc1aae056",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given an array a with n elements. Each element of a is either 0 or 1.Let's denote the length of the longest subsegment of consecutive elements in a, consisting of only numbers one, as f(a). You can change no more than k zeroes to ones to maximize f(a).",
+    "prob_desc_output_spec": "On the first line print a non-negative integer z — the maximal value of f(a) after no more than k changes of zeroes to ones. On the second line print n integers aj — the elements of the array a after the changes. If there are multiple answers, you can print any one of them.",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n ≤ 3·105, 0 ≤ k ≤ n) — the number of elements in a and the parameter k. The second line contains n integers ai (0 ≤ ai ≤ 1) — the elements of a.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_014.jsonl",
+    "code_uid": "c89355bf5be1dcd37cf23f27d11313b8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 1\\n1 0 0 1 1 0 1\", \"10 2\\n1 0 0 1 0 1 0 1 0 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,k=map(int,input().split())\nl=list(map(int,input().split()))\nki=i=s=0; po=1\nfor j in range(n):\n  s+=(l[j]==0)\n  while s>k: s-=(l[i]==0); i+=1\n  if j-i>ki-po: po,ki=i,j\nprint(ki-po+1)\nl[po:ki+1]=[1]*(ki-po+1)\nprint(' '.join(map(str,l)))\n",
+    "prob_desc_created_at": "1460127600",
+    "tags": [
+        "dp",
+        "two pointers",
+        "binary search"
+    ],
+    "hidden_unit_tests": ""
+}

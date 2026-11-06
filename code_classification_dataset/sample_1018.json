@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"90\", \"-1\", \"33\"]",
+    "src_uid": "4a48b828e35efa065668703edc22bf9b",
+    "prob_desc_notes": "NoteIn the first example you can, for example, choose displays $$$1$$$, $$$4$$$ and $$$5$$$, because $$$s_1 &lt; s_4 &lt; s_5$$$ ($$$2 &lt; 4 &lt; 10$$$), and the rent cost is $$$40 + 10 + 40 = 90$$$.In the second example you can't select a valid triple of indices, so the answer is -1.",
+    "prob_desc_description": "It is the middle of 2018 and Maria Stepanovna, who lives outside Krasnokamensk (a town in Zabaikalsky region), wants to rent three displays to highlight an important problem.There are $$$n$$$ displays placed along a road, and the $$$i$$$-th of them can display a text with font size $$$s_i$$$ only. Maria Stepanovna wants to rent such three displays with indices $$$i &lt; j &lt; k$$$ that the font size increases if you move along the road in a particular direction. Namely, the condition $$$s_i &lt; s_j &lt; s_k$$$ should be held.The rent cost is for the $$$i$$$-th display is $$$c_i$$$. Please determine the smallest cost Maria Stepanovna should pay.",
+    "prob_desc_output_spec": "If there are no three displays that satisfy the criteria, print -1. Otherwise print a single integer — the minimum total rent cost of three displays with indices $$$i &lt; j &lt; k$$$ such that $$$s_i &lt; s_j &lt; s_k$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$3 \\le n \\le 3\\,000$$$) — the number of displays. The second line contains $$$n$$$ integers $$$s_1, s_2, \\ldots, s_n$$$ ($$$1 \\le s_i \\le 10^9$$$) — the font sizes on the displays in the order they stand along the road. The third line contains $$$n$$$ integers $$$c_1, c_2, \\ldots, c_n$$$ ($$$1 \\le c_i \\le 10^8$$$) — the rent costs for each display.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_005.jsonl",
+    "code_uid": "a94a7da1c33946723d590a818d593179",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2 4 5 4 10\\n40 30 20 10 40\", \"3\\n100 101 100\\n2 4 5\", \"10\\n1 2 3 4 5 6 7 8 9 10\\n10 13 11 14 15 12 13 13 18 13\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from operator import __gt__, __lt__\n\ndef helper(op):\n    xx = list(map(float, input().split()))\n    le, ri, a = [], [], xx[0]\n    for b in xx:\n        if a > b:\n            a = b\n        le.append(a)\n    for a in reversed(xx):\n        if op(b, a):\n            b = a\n        ri.append(b)\n    ri.reverse()\n    return xx, le, ri\n\nn, res = int(input()), 9e9\nss, sLe, sRi = helper(__lt__)\ncc, cLe, cRi = helper(__gt__)\nfor j in sorted(range(1, n - 1), key=cc.__getitem__):\n    s, c = ss[j], cc[j]\n    if cLe[j - 1] + c + cRi[j + 1] < res and sLe[j - 1] < s < sRi[j + 1]:\n        a = b = 9e9\n        for i in range(j):\n            if ss[i] < s and a > cc[i]:\n                a = cc[i]\n        for k in range(j + 1, n):\n            if s < ss[k] and b > cc[k]:\n                b = cc[k]\n        if res > a + b + c:\n            res = a + b + c\nprint(int(res) if res < 9e9 else -1)",
+    "prob_desc_created_at": "1527608100",
+    "tags": [
+        "dp",
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

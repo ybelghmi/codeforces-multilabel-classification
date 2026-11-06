@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"11\", \"4\"]",
+    "src_uid": "8476fd1d794448fb961248cd5afbc92d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a tree, which consists of $$$n$$$ vertices. Recall that a tree is a connected undirected graph without cycles.     Example of a tree. Vertices are numbered from $$$1$$$ to $$$n$$$. All vertices have weights, the weight of the vertex $$$v$$$ is $$$a_v$$$.Recall that the distance between two vertices in the tree is the number of edges on a simple path between them.Your task is to find the subset of vertices with the maximum total weight (the weight of the subset is the sum of weights of all vertices in it) such that there is no pair of vertices with the distance $$$k$$$ or less between them in this subset.",
+    "prob_desc_output_spec": "Print one integer — the maximum total weight of the subset in which all pairs of vertices have distance more than $$$k$$$.",
+    "prob_desc_input_spec": "The first line of the input contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n, k \\le 200$$$) — the number of vertices in the tree and the distance restriction, respectively. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 10^5$$$), where $$$a_i$$$ is the weight of the vertex $$$i$$$. The next $$$n - 1$$$ lines contain edges of the tree. Edge $$$i$$$ is denoted by two integers $$$u_i$$$ and $$$v_i$$$ — the labels of vertices it connects ($$$1 \\le u_i, v_i \\le n$$$, $$$u_i \\ne v_i$$$). It is guaranteed that the given edges form a tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_014.jsonl",
+    "code_uid": "26c0930853a343431dd92fae6f53baf4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 1\\n1 2 3 4 5\\n1 2\\n2 3\\n3 4\\n3 5\", \"7 2\\n2 1 2 1 2 1 1\\n6 4\\n1 5\\n3 1\\n2 3\\n7 5\\n7 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\nvisited = [0]*205\ndp = [[0]*205 for i in range(205)]\ndef dfs(node,g):\n    sons = []\n    for nb in g[node]:\n        if not visited[nb]:\n            visited[nb] = 1\n            dfs(nb,g)\n            sons.append(nb)\n\n    dp[node][0] = ws[node-1]\n    for s in sons:\n        dp[node][0] += dp[s][k]\n\n\n    ls = len(sons)\n    # print node,sons,g[node]\n    for i in range(ls):\n        for j in range(k+1):\n            d2 = max(k-1-j,0)\n            maxd = j+1\n            if d2+1<maxd and ls>1:\n                d2 = j\n            tmp = dp[sons[i]][j]\n            for s in range(ls):\n                if s==i:\n                    continue\n                tmp += dp[sons[s]][d2]\n            dp[node][maxd] = max(dp[node][maxd],tmp)\n\n    for i in range(k)[::-1]:\n        dp[node][i] = max(dp[node][i],dp[node][i+1])\n\n\n\nn,k = map(int,raw_input().split(\" \"))\nws = map(int,raw_input().split(\" \"))\nedges = []\n\ndef add(dic,k,v):\n    if not dic.has_key(k):\n        dic[k] = v\n    else:\n        dic[k] += v\n\ng = {}\nfor i in range(n-1):\n    a,b = map(int,raw_input().split(\" \"))\n    edges.append((a,b))\n    add(g,a,[b])\n    add(g,b,[a])\nroot = 1\nvisited[root] = 1\nif g.has_key(root):\n    dfs(root,g)\n    print dp[root][0]\nelse:\n    print ws[root-1]\n",
+    "prob_desc_created_at": "1571754900",
+    "tags": [
+        "dp",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

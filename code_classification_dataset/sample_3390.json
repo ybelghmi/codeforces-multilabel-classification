@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\", \"10\", \"500000003\", \"169316356\"]",
+    "src_uid": "953b8d9405d418b6e9475a845a31b0b2",
+    "prob_desc_notes": null,
+    "prob_desc_description": "A false witness that speaketh lies!You are given a sequence containing n integers. There is a variable res that is equal to 0 initially. The following process repeats k times.Choose an index from 1 to n uniformly at random. Name it x. Add to res the multiply of all ai's such that 1 ≤ i ≤ n, but i ≠ x. Then, subtract ax by 1.You have to find expected value of res at the end of the process. It can be proved that the expected value of res can be represented as an irreducible fraction . You have to find .",
+    "prob_desc_output_spec": "Output a single integer — the value .",
+    "prob_desc_input_spec": "The first line contains two integers n and k (1 ≤ n ≤ 5000, 1 ≤ k ≤ 109) — the number of elements and parameter k that is specified in the statement. The second line contains n space separated integers a1, a2, ..., an (0 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 3000,
+    "file_name": "train_056.jsonl",
+    "code_uid": "0546d4a647fa44824cf2d78123cf6984",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 1\\n5 5\", \"1 10\\n80\", \"2 2\\n0 0\", \"9 4\\n0 11 12 9 20 7 8 18 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n, k = map(int, raw_input().split())\np = 1000000007\nf = [1]\nfor x in map(int, raw_input().split()):\n\tf.append(0)\n\tfor i in range(len(f) - 1)[::-1]:\n\t\tf[i + 1] = (f[i + 1] + f[i] * x) % p\nz = 0\nt = 1\nfor i in range(n + 1)[::-1]:\n\tz = (z + f[i] * pow(-1, n - i, p) % p * t) % p\n\tt = t * (k - n + i) % p * pow(n, p - 2, p) % p\nprint (f[n] - z) % p",
+    "prob_desc_created_at": "1510929300",
+    "tags": [
+        "combinatorics",
+        "math",
+        "matrices"
+    ],
+    "hidden_unit_tests": ""
+}

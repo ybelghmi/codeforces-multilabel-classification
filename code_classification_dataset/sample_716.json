@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"4\", \"5\"]",
+    "src_uid": "0151a87d0f82a9044a0ac8731d369bb9",
+    "prob_desc_notes": "NoteIn the first sample, Vasya can obtain both strings \"aaaa\" and \"bbbb\".In the second sample, the optimal answer is obtained with the string \"aaaaabaa\" or with the string \"aabaaaaa\".",
+    "prob_desc_description": "High school student Vasya got a string of length n as a birthday present. This string consists of letters 'a' and 'b' only. Vasya denotes beauty of the string as the maximum length of a substring (consecutive subsequence) consisting of equal letters.Vasya can change no more than k characters of the original string. What is the maximum beauty of the string he can achieve?",
+    "prob_desc_output_spec": "Print the only integer — the maximum beauty of the string Vasya can achieve by changing no more than k characters.",
+    "prob_desc_input_spec": "The first line of the input contains two integers n and k (1 ≤ n ≤ 100 000, 0 ≤ k ≤ n) — the length of the string and the maximum number of characters to change. The second line contains the string, consisting of letters 'a' and 'b' only.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_003.jsonl",
+    "code_uid": "e312b5d158a67e1ee59db648b992aca9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\nabba\", \"8 1\\naabaabaa\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def getMax(s,i,j,t,k,n):\n    res = 0\n    count = 0 \n    while i<n :\n        while j<n and count<k:\n            if s[j]!=t:\n                count+=1\n            j+=1\n        while j<n and s[j]==t:\n            j+=1\n        res = max(res,j-i)\n        while i<n and s[i]==t:\n            i+=1\n        if i<n :\n            i+=1\n            count-=1\n    return res\n\nn,k =[int(x) for x in input().split()]\ns = input()\nprint(max(getMax(s,0,0,'a',k,n), getMax(s,0,0,'b',k,n)))",
+    "prob_desc_created_at": "1464188700",
+    "tags": [
+        "dp",
+        "two pointers",
+        "binary search",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

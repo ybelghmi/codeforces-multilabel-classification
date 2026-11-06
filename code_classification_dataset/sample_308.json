@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"YES\", \"NO\"]",
+    "src_uid": "03fcf7402397b94edd1d1837e429185d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Toastman came up with a very easy task. He gives it to Appleman, but Appleman doesn't know how to solve it. Can you help him?Given a n × n checkerboard. Each cell of the board has either character 'x', or character 'o'. Is it true that each cell of the board has even number of adjacent cells with 'o'? Two cells of the board are adjacent if they share a side.",
+    "prob_desc_output_spec": "Print \"YES\" or \"NO\" (without the quotes) depending on the answer to the problem.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 100). Then n lines follow containing the description of the checkerboard. Each of them contains n characters (either 'x' or 'o') without spaces.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_001.jsonl",
+    "code_uid": "542f5f5958245f5c94e0cf75c355d839",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\nxxo\\nxox\\noxx\", \"4\\nxxxo\\nxoxo\\noxox\\nxxxx\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\"\"\"Problem: http://codeforces.com/problemset/problem/462/A\"\"\"\n\nlines = int(input())\n\nboard = []\nval = True\n\nfor i in range(0, lines):\n\n\trow = input().strip()\n\tboard.append(row)\n\nfor i in range(0,lines):\n\n\tadjacent = 0\n\n\tfor j in range(0, lines):\n\n\t\tif i < lines - 1:\n\n\t\t\tif board[i + 1][j] == 'o':\n\t\t\t\tadjacent += 1\n\n\t\tif i > 0:\n\n\t\t\tif board[i - 1][j] == 'o':\n\t\t\t\tadjacent += 1\n\n\t\tif j < lines - 1:\n\n\t\t\tif board[i][j + 1] == 'o':\n\t\t\t\tadjacent += 1\n\n\t\tif j > 0:\n\n\t\t\tif board[i][j - 1] == 'o':\n\t\t\t\tadjacent += 1\n\t\t\n\t\tif adjacent % 2 != 0:\n\n\t\t\tval = False\n\t\t\tbreak\n\nif val:\n\tprint(\"YES\")\nelse:\n\tprint(\"NO\")",
+    "prob_desc_created_at": "1409061600",
+    "tags": [
+        "implementation",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"b\\nazaz\\nby\"]",
+    "src_uid": "c02357c4d959e300f970f66f9b3107eb",
+    "prob_desc_notes": "NoteIn the first test case: Alice makes the first move and must change the only letter to a different one, so she changes it to 'b'.In the second test case: Alice changes the first letter to 'a', then Bob changes the second letter to 'z', Alice changes the third letter to 'a' and then Bob changes the fourth letter to 'z'.In the third test case: Alice changes the first letter to 'b', and then Bob changes the second letter to 'y'.",
+    "prob_desc_description": "Homer has two friends Alice and Bob. Both of them are string fans. One day, Alice and Bob decide to play a game on a string $$$s = s_1 s_2 \\dots s_n$$$ of length $$$n$$$ consisting of lowercase English letters. They move in turns alternatively and Alice makes the first move.In a move, a player must choose an index $$$i$$$ ($$$1 \\leq i \\leq n$$$) that has not been chosen before, and change $$$s_i$$$ to any other lowercase English letter $$$c$$$ that $$$c \\neq s_i$$$.When all indices have been chosen, the game ends. The goal of Alice is to make the final string lexicographically as small as possible, while the goal of Bob is to make the final string lexicographically as large as possible. Both of them are game experts, so they always play games optimally. Homer is not a game expert, so he wonders what the final string will be.A string $$$a$$$ is lexicographically smaller than a string $$$b$$$ if and only if one of the following holds:   $$$a$$$ is a prefix of $$$b$$$, but $$$a \\ne b$$$;  in the first position where $$$a$$$ and $$$b$$$ differ, the string $$$a$$$ has a letter that appears earlier in the alphabet than the corresponding letter in $$$b$$$. ",
+    "prob_desc_output_spec": "For each test case, print the final string in a single line.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains $$$t$$$ ($$$1 \\le t \\le 1000$$$)  — the number of test cases. Description of the test cases follows. The only line of each test case contains a single string $$$s$$$ ($$$1 \\leq |s| \\leq 50$$$) consisting of lowercase English letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_101.jsonl",
+    "code_uid": "1bc25b74f2fb82300de7d89b1392d18b",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\na\\nbbbb\\naz\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t = int(input())\r\nwhile t > 0:\r\n    s = str(input())\r\n    arr = []\r\n    for i in range(len(s)):\r\n        if i % 2 == 0 and s[i] != 'a':\r\n            arr.append('a')\r\n        elif i % 2 == 0 and s[i] == 'a':\r\n            arr.append('b')\r\n        elif i % 2 == 1 and s[i] != 'z':\r\n            arr.append('z')\r\n        elif i % 2 == 1 and s[i] == 'z':\r\n            arr.append('y')\r\n        \r\n    \r\n\r\n    print(''.join(arr))\r\n    t = t-1",
+    "prob_desc_created_at": "1612708500",
+    "tags": [
+        "games",
+        "greedy",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

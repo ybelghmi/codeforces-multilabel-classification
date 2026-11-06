@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"2 3\", \"2 2\"]",
+    "src_uid": "31e58e00ae708df90251d7b751272771",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Vasya plays the Need For Brake. He plays because he was presented with a new computer wheel for birthday! Now he is sure that he will win the first place in the championship in his favourite racing computer game! n racers take part in the championship, which consists of a number of races. After each race racers are arranged from place first to n-th (no two racers share the same place) and first m places are awarded. Racer gains bi points for i-th awarded place, which are added to total points, obtained by him for previous races. It is known that current summary score of racer i is ai points. In the final standings of championship all the racers will be sorted in descending order of points. Racers with an equal amount of points are sorted by increasing of the name in lexicographical order.Unfortunately, the championship has come to an end, and there is only one race left. Vasya decided to find out what the highest and lowest place he can take up as a result of the championship.",
+    "prob_desc_output_spec": "Output two numbers — the highest and the lowest place Vasya can take up as a result of the championship.",
+    "prob_desc_input_spec": "The first line contains number n (1 ≤ n ≤ 105) — number of racers. Each of the next n lines contains si and ai — nick of the racer (nonempty string, which consist of no more than 20 lowercase Latin letters) and the racer's points (0 ≤ ai ≤ 106). Racers are given in the arbitrary order. The next line contains the number m (0 ≤ m ≤ n). Then m nonnegative integer numbers bi follow. i-th number is equal to amount of points for the i-th awarded place (0 ≤ bi ≤ 106). The last line contains Vasya's racer nick.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_059.jsonl",
+    "code_uid": "90c5cff8d3ced5d33f24de4b2a59316f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\nteama 10\\nteamb 20\\nteamc 40\\n2\\n10 20\\nteama\", \"2\\nteama 10\\nteamb 10\\n2\\n10 10\\nteamb\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "class Racer:\n    def __init__(self, name, points):\n        self.name = name\n        self.points = points\n    def __str__(self):\n        return '%s %d' % (self.name, self.points)\n\nn = int(input())\nbest = n * [ None ]\nworst = n * [ None ]\nfor i in range(n):\n    name, points = input().split()\n    points = int(points)\n    best[i] = Racer(name, points)\n    worst[i] = Racer(name, points)\nm = int(input())\nplace_bonus = list(reversed(sorted(map(int, input().split()))))\nyour_name = input().strip()\n\ndebugging = False\ndef debug_print(s):\n    if debugging:\n        print(s)\n\ndef find(racers, name):\n    for i in range(n):\n        if racers[i].name == name:\n            return i\n\ndef sort_racers(racers):\n    racers.sort(key=lambda racer: (-racer.points, racer.name))\n\n\n# Highest possible ranking.\nyou = best[find(best, your_name)]\n\n# You get the biggest bonus.\nif m != 0:\n    you.points += place_bonus[0]\nsort_racers(best)\n\n# People ahead of you get the next biggest bonuses.\nbonus_pos = 1\nfor i in range(find(best, your_name) - 1, -1, -1):\n    if bonus_pos >= m:\n        break\n    best[i].points += place_bonus[bonus_pos]\n    bonus_pos += 1\n\n# People at the end get the remaining bonuses.\nfor i in range(n - 1, -1, -1):\n    if bonus_pos >= m:\n        break\n    best[i].points += place_bonus[bonus_pos]\n    bonus_pos += 1\nsort_racers(best)\ndebug_print(list(map(str, best)))\nbest_ranking = find(best, your_name) + 1\ndebug_print('best ranking: %d' % best_ranking)\n\n\n# Lowest possible ranking.\nyou = worst[find(worst, your_name)]\n\n# If you must get a bonus, it's the smallest one.\nif m == n:\n    you.points += place_bonus.pop()\n    m -= 1\nsort_racers(worst)\n\n# Award the smallest possible bonus to the person who can pass you most easily.\nbonus_pos = m - 1\nworst_pos = find(worst, your_name) + 1\nwhile bonus_pos >= 0 and worst_pos < n:\n    debug_print('bonus_pos = %d, worst_pos = %d' % (bonus_pos, worst_pos))\n    candidate = worst[worst_pos]\n    need = you.points - candidate.points\n    if candidate.name > you.name:\n        need += 1\n    if place_bonus[bonus_pos] >= need:\n        candidate.points += place_bonus[bonus_pos]\n        worst_pos += 1\n    bonus_pos -= 1\nsort_racers(worst)\ndebug_print(list(map(str, worst)))\nworst_ranking = find(worst, your_name) + 1\ndebug_print('worst ranking: %d' % worst_ranking)\n\nprint('%d %d' % (best_ranking, worst_ranking))\n",
+    "prob_desc_created_at": "1302422400",
+    "tags": [
+        "binary search",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

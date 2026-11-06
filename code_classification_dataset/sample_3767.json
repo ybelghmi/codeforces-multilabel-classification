@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\\n2\\n10\\n12\\n10\\n15\\n106\"]",
+    "src_uid": "e7f84300e9480a94a2399fcd5f47ecec",
+    "prob_desc_notes": "NoteIn the first test case, the diverse substring is \"7\".In the second test case, the only diverse substring is \"7\", which appears twice, so the answer is $$$2$$$.In the third test case, the diverse substrings are \"0\" ($$$2$$$ times), \"01\", \"010\", \"1\" ($$$2$$$ times), \"10\" ($$$2$$$ times), \"101\" and \"1010\".In the fourth test case, the diverse substrings are \"0\" ($$$3$$$ times), \"01\", \"011\", \"0110\", \"1\" ($$$2$$$ times), \"10\", \"100\", \"110\" and \"1100\".In the fifth test case, the diverse substrings are \"3\", \"39\", \"399\", \"6\", \"9\" ($$$4$$$ times), \"96\" and \"996\".In the sixth test case, all $$$15$$$ non-empty substrings of \"23456\" are diverse.",
+    "prob_desc_description": "A non-empty digit string is diverse if the number of occurrences of each character in it doesn't exceed the number of distinct characters in it.For example:   string \"7\" is diverse because 7 appears in it $$$1$$$ time and the number of distinct characters in it is $$$1$$$;  string \"77\" is not diverse because 7 appears in it $$$2$$$ times and the number of distinct characters in it is $$$1$$$;  string \"1010\" is diverse because both 0 and 1 appear in it $$$2$$$ times and the number of distinct characters in it is $$$2$$$;  string \"6668\" is not diverse because 6 appears in it $$$3$$$ times and the number of distinct characters in it is $$$2$$$. You are given a string $$$s$$$ of length $$$n$$$, consisting of only digits $$$0$$$ to $$$9$$$. Find how many of its $$$\\frac{n(n+1)}{2}$$$ substrings are diverse.A string $$$a$$$ is a substring of a string $$$b$$$ if $$$a$$$ can be obtained from $$$b$$$ by deletion of several (possibly, zero or all) characters from the beginning and several (possibly, zero or all) characters from the end.Note that if the same diverse string appears in $$$s$$$ multiple times, each occurrence should be counted independently. For example, there are two diverse substrings in \"77\" both equal to \"7\", so the answer for the string \"77\" is $$$2$$$.",
+    "prob_desc_output_spec": "For each test case print one integer — the number of diverse substrings of the given string $$$s$$$. ",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the length of the string $$$s$$$. The second line of each test case contains a string $$$s$$$ of length $$$n$$$. It is guaranteed that all characters of $$$s$$$ are digits from $$$0$$$ to $$$9$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_083.jsonl",
+    "code_uid": "abf0b20b85ed3e624ef58aedec0e8cdb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n\\n1\\n\\n7\\n\\n2\\n\\n77\\n\\n4\\n\\n1010\\n\\n5\\n\\n01100\\n\\n6\\n\\n399996\\n\\n5\\n\\n23456\\n\\n18\\n\\n789987887987998798\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\n \r\ninput = sys.stdin.readline\r\nprint = sys.stdout.write\r\n \r\nt = int(input().strip())\r\n \r\ndef solve(n, a):\r\n    s = 0\r\n    for i in range(n):\r\n        ds, m = {}, 0\r\n        for j in range(i, min(n, i+100)):\r\n            if a[j] in ds:\r\n                ds[a[j]] = ds[a[j]]+1\r\n            else:\r\n                ds[a[j]] = 1\r\n            m = max(m, ds[a[j]])\r\n            if m<=len(ds):\r\n                s = s+1\r\n    return str(s)\r\n \r\nfor i in range(t):\r\n    n = int(input().strip())\r\n    a = list(map(int, input().strip()))\r\n    print(solve(n, a)+\"\\n\")\r\n            ",
+    "prob_desc_created_at": "1668263700",
+    "tags": [
+        "brute force",
+        "implementation",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

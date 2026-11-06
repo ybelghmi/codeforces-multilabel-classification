@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2.5 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"1\"]",
+    "src_uid": "16e9f127f58c7682d372863d1d6a3bf1",
+    "prob_desc_notes": "NoteIn the first example, the array is already non-decreasing, so the answer is $$$0$$$.In the second example, you can choose $$$k=2$$$, $$$i_1 = 2$$$, $$$i_2 = 5$$$, the array becomes $$$[0,0,1,3,3]$$$. It is non-decreasing, so the answer is $$$1$$$.",
+    "prob_desc_description": "Toad Zitz has an array of integers, each integer is between $$$0$$$ and $$$m-1$$$ inclusive. The integers are $$$a_1, a_2, \\ldots, a_n$$$.In one operation Zitz can choose an integer $$$k$$$ and $$$k$$$ indices $$$i_1, i_2, \\ldots, i_k$$$ such that $$$1 \\leq i_1 &lt; i_2 &lt; \\ldots &lt; i_k \\leq n$$$. He should then change $$$a_{i_j}$$$ to $$$((a_{i_j}+1) \\bmod m)$$$ for each chosen integer $$$i_j$$$. The integer $$$m$$$ is fixed for all operations and indices.Here $$$x \\bmod y$$$ denotes the remainder of the division of $$$x$$$ by $$$y$$$.Zitz wants to make his array non-decreasing with the minimum number of such operations. Find this minimum number of operations.",
+    "prob_desc_output_spec": "Output one integer: the minimum number of described operations Zitz needs to make his array non-decreasing. If no operations required, print $$$0$$$. It is easy to see that with enough operations Zitz can always make his array non-decreasing.",
+    "prob_desc_input_spec": "The first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\leq n, m \\leq 300\\,000$$$) — the number of integers in the array and the parameter $$$m$$$. The next line contains $$$n$$$ space-separated integers $$$a_1, a_2, \\ldots, a_n$$$ ($$$0 \\leq a_i &lt; m$$$) — the given array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_001.jsonl",
+    "code_uid": "ed5e625f7c2405ea1daaef26f2d49827",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 3\\n0 0 0 1 2\", \"5 7\\n0 6 1 3 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,m = [int(i) for i in input().split()]\narray = [int(i) for i in input().split()]\n\n# def bins(a, b):\n#     if a == b:\n#         return a\n#     mid = (a+b)//2\n#     if good(mid):\n#         return bins(a, mid)\n#     else:\n#         return bins(mid+1, b)\n\n# def good(k):\n#     q = k - m\n#     arr = array[:]\n#     if arr[0] + q >= 0:\n#         arr[0] = 0\n#     for i in range(1, n):\n#         d = arr[i-1] - arr[i]\n#         if d > k:\n#             return False\n#         if d > 0 or d <= q:\n#             arr[i] = arr[i-1]\n        \n#         # if arr[i] < arr[i-1]: #d>0\n#         #     if arr[i-1] - arr[i] > k:#d>k\n#         #         return False\n#         #     else:\n#         #         arr[i] = arr[i-1]\n#         # else:#d<=0\n#         #     if arr[i] + k - m >= arr[i-1]:#d <= k-m\n#         #         arr[i] = arr[i-1]\n#     return True\n\n\n\na=0\nb=m-1\nwhile a < b:\n    mid = (a+b)//2\n    ret = True\n    q = mid - m\n    #arr = array[:]\n    last = array[0]\n    if last + q >= 0:\n        last = 0\n    for i in range(1, n):\n        d = last - array[i]\n        if d > mid:\n            ret = False\n            break\n        if d <= 0 and d > q:\n            last = array[i]\n\n\n    if ret:\n        b = mid\n    else:\n        a = mid + 1\n\nprint(a)",
+    "prob_desc_created_at": "1558884900",
+    "tags": [
+        "binary search",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

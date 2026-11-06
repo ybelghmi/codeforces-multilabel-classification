@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "4 seconds",
+    "prob_desc_sample_outputs": "[\"12 6 3 1 \\n12 6 2 1 \\n8 4 2 1\", \"14 7 3 1 \\n14 6 3 1 \\n14 6 2 1\"]",
+    "src_uid": "d87bbd969c2fcc1541c5d6119e47efae",
+    "prob_desc_notes": "NoteFollowing are the images of the first 4 levels of the tree in the first test case:Original:    After query 1 2 1:    After query 2 4 -1:   ",
+    "prob_desc_description": "You have a full binary tree having infinite levels.Each node has an initial value. If a node has value x, then its left child has value 2·x and its right child has value 2·x + 1. The value of the root is 1. You need to answer Q queries. There are 3 types of queries:  Cyclically shift the values of all nodes on the same level as node with value X by K units. (The values/nodes of any other level are not affected). Cyclically shift the nodes on the same level as node with value X by K units. (The subtrees of these nodes will move along with them). Print the value of every node encountered on the simple path from the node with value X to the root.Positive K implies right cyclic shift and negative K implies left cyclic shift. It is guaranteed that atleast one type 3 query is present.",
+    "prob_desc_output_spec": "For each query of type 3, print the values of all nodes encountered in descending order.",
+    "prob_desc_input_spec": "The first line contains a single integer Q (1 ≤ Q ≤ 105). Then Q queries follow, one per line:   Queries of type 1 and 2 have the following format: T X K (1 ≤ T ≤ 2; 1 ≤ X ≤ 1018; 0 ≤ |K| ≤ 1018), where T is type of the query. Queries of type 3 have the following format: 3 X (1 ≤ X ≤ 1018).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2100,
+    "file_name": "train_028.jsonl",
+    "code_uid": "65cf6f3508f13bf6ca6e240253f5433a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3 12\\n1 2 1\\n3 12\\n2 4 -1\\n3 8\", \"5\\n3 14\\n1 5 -3\\n3 14\\n1 3 1\\n3 14\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "levels=[[0,0] for i in range(61)]\nlevels[0][1]=1\nfor i in range(1,61):\n    levels[i][1]=2*levels[i-1][1]\n\nimport math\nq=int(raw_input())\nfor e in range(q):\n    s=raw_input().split()\n    if(s[0]=='3'):\n        x=int(s[1])\n        high=int(math.log(x,2))\n        pos=(x-(levels[high][1]-levels[high][0]))%levels[high][1]\n        #print(levels[high])\n        ans=[x,]\n        for i in range(high-1,-1,-1):\n            #print(x,pos,levels[i][0])\n            pos//=2\n            if(pos-levels[i][0]<0):\n                ans.append(2*levels[i][1]-levels[i][0]+pos)\n            else:\n                ans.append(levels[i][1]-levels[i][0]+pos)\n        for i in range(len(ans)):\n            ans[i]=str(ans[i])\n        s=' '.join(ans)\n        print(s)\n    elif(s[0]=='1'):\n        x=int(s[1])\n        k=int(s[2])\n        high=int(math.log(x,2))\n        levels[high][0]=(k+levels[high][0])%levels[high][1]\n    else:\n        x=int(s[1])\n        k=int(s[2])\n        high=int(math.log(x,2))\n        for i in range(high,61):\n            levels[i][0]=(k+levels[i][0])%levels[i][1]\n            k*=2",
+    "prob_desc_created_at": "1523117100",
+    "tags": [
+        "implementation",
+        "trees",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

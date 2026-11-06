@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n4\"]",
+    "src_uid": "623a373709e4c4223fbbb9a320f307b1",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There is a sheet of paper that can be represented with a grid of size $$$n \\times m$$$: $$$n$$$ rows and $$$m$$$ columns of cells. All cells are colored in white initially.$$$q$$$ operations have been applied to the sheet. The $$$i$$$-th of them can be described as follows:   $$$x_i$$$ $$$y_i$$$ — choose one of $$$k$$$ non-white colors and color the entire row $$$x_i$$$ and the entire column $$$y_i$$$ in it. The new color is applied to each cell, regardless of whether the cell was colored before the operation. The sheet after applying all $$$q$$$ operations is called a coloring. Two colorings are different if there exists at least one cell that is colored in different colors.How many different colorings are there? Print the number modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_output_spec": "For each testcase, print a single integer — the number of different colorings modulo $$$998\\,244\\,353$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of testcases. The first line of the testcase contains four integers $$$n, m, k$$$ and $$$q$$$ ($$$1 \\le n, m, k, q \\le 2 \\cdot 10^5$$$) — the size of the sheet, the number of non-white colors and the number of operations. The $$$i$$$-th of the following $$$q$$$ lines contains a description of the $$$i$$$-th operation — two integers $$$x_i$$$ and $$$y_i$$$ ($$$1 \\le x_i \\le n$$$; $$$1 \\le y_i \\le m$$$) — the row and the column the operation is applied to. The sum of $$$q$$$ over all testcases doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_108.jsonl",
+    "code_uid": "aaf046dd81af18c0201e58d7a3d53e74",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n\\n1 1 3 2\\n\\n1 1\\n\\n1 1\\n\\n2 2 2 3\\n\\n2 1\\n\\n1 1\\n\\n2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "columns = []\r\nrows = []\r\nfor _ in range(int(input())):\r\n    n, m, k, q = map(int, input().split())\r\n\r\n    columns += [False] * max(0, n - len(columns))\r\n    rows += [False] * max(0, m - len(rows))\r\n\r\n    ls = [None] * q\r\n\r\n    for i in range(q):\r\n        x, y = map(int, input().split())\r\n        ls[i] = (x - 1, y - 1)\r\n\r\n    cf = 0\r\n    rf = 0\r\n\r\n    r = 1\r\n\r\n    for x, y in ls[::-1]:\r\n        fl = False\r\n        if not columns[x]:\r\n            columns[x] = True\r\n            cf += 1\r\n            fl = True\r\n        if not rows[y]:\r\n            rows[y] = True\r\n            rf += 1\r\n            fl = True\r\n        if fl:\r\n            r = r * k % 998244353\r\n        if cf == n or rf == m:\r\n            break\r\n\r\n    for x, y in ls:\r\n        columns[x] = False\r\n        rows[y] = False\r\n\r\n    print(r)",
+    "prob_desc_created_at": "1645540500",
+    "tags": [
+        "data structures",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

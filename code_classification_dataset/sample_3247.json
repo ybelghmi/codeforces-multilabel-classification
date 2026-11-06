@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"88\\n77\\n99\\n28923839\"]",
+    "src_uid": "da6d85aaa51901892b861dcbc5e63536",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Yes, that's another problem with definition of \"beautiful\" numbers.Let's call a positive integer x beautiful if its decimal representation without leading zeroes contains even number of digits, and there exists a permutation of this representation which is palindromic. For example, 4242 is a beautiful number, since it contains 4 digits, and there exists a palindromic permutation 2442.Given a positive integer s, find the largest beautiful number which is less than s.",
+    "prob_desc_output_spec": "For each testcase print one line containing the largest beautiful number which is less than s (it is guaranteed that the answer exists).",
+    "prob_desc_input_spec": "The first line contains one integer t (1 ≤ t ≤ 105) — the number of testcases you have to solve. Then t lines follow, each representing one testcase and containing one string which is the decimal representation of number s. It is guaranteed that this string has even length, contains no leading zeroes, and there exists at least one beautiful number less than s. The sum of lengths of s over all testcases doesn't exceed 2·105.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_049.jsonl",
+    "code_uid": "2ff4f1a1537895dff57ddd918addcb2e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n89\\n88\\n1000\\n28923845\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\ninp = sys.stdin.read().split()\nii = 0\n\nt = int(inp[ii])\nii += 1\n\nout = []\n\nfor _ in range(t):\n    S = [ord(c) - 48 for c in inp[ii]]\n    ii += 1\n\n    n = len(S)\n\n    j = n - 1\n    S[j] -= 1\n    while j > 0 and S[j] == -1:\n        S[j] = 9\n        j -= 1\n        S[j] -= 1\n\n    if S[0] == 0:\n        out.append('9'*(n - 2))\n        continue\n\n    if sum(1 for c in S if c==0) == n - 1:\n        if S[0] == 1:\n            out.append('9'*(n - 2))\n        else:\n            c = str(S[0] - 1)\n            out.append(c + '9'*(n - 2) + c)\n        continue\n    \n    nonzero = [0]\n    for c in S:\n        nonzero.append(nonzero[-1] + (c != 0))\n    \n    ans = []\n\n    count = [0]*10\n    match = True\n    for i in range(n):\n        c = S[i]\n        \n        left = n - i\n        total = sum(count)\n        if match:\n            for j in reversed(range(c + 1)):\n                totaltmp = total + 1 - 2*count[j]\n                \n                \n                if i+1 > n - totaltmp:\n                    continue\n                \n                count[j] ^= 1\n                \n                if j < c and n - i - 1 >= totaltmp:\n                    break\n                #if n - i - 1 >= totaltmp:\n                #    break\n\n                if i + 1 < n - totaltmp and nonzero[n - totaltmp] - nonzero[i + 1]:#any(S[i+1:-totaltmp]):\n                    break\n                \n                k = -totaltmp\n                ind = 0\n                failed = False\n                while k != 0:\n                    while not count[ind]:\n                        ind += 1\n                    if S[k] < ind:\n                        failed = True\n                    elif S[k] > ind:\n                        break\n\n                    ind += 1\n                    k += 1\n                if not failed:break\n\n                count[j] ^= 1\n            else:\n                assert(False)\n            match = c == j\n            ans.append(j)\n        else:\n            if total < left:\n                count[9] ^= 1\n                ans.append(9)\n            else:  \n                j = 9\n                while not count[j]: j -= 1\n                count[j] ^= 1\n                ans.append(j)\n    out.append(''.join(str(x) for x in ans))\n\nprint '\\n'.join(out)\n",
+    "prob_desc_created_at": "1520348700",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

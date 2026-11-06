@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n1\\n1\\n4\\n72\"]",
+    "src_uid": "a58ad54eaf4912f530a7d25a503640d3",
+    "prob_desc_notes": "NoteFor the first test case, the only permutations similar to $$$a=[4,0,3,2,1]$$$ are $$$[4,0,3,2,1]$$$ and $$$[4,0,2,3,1]$$$.For the second and third test cases, the given permutations are only similar to themselves.For the fourth test case, there are $$$4$$$ permutations similar to $$$a=[1,2,4,0,5,3]$$$:   $$$[1,2,4,0,5,3]$$$;  $$$[1,2,5,0,4,3]$$$;  $$$[1,4,2,0,5,3]$$$;  $$$[1,5,2,0,4,3]$$$. ",
+    "prob_desc_description": "You are given a permutation $$$a_1,a_2,\\ldots,a_n$$$ of integers from $$$0$$$ to $$$n - 1$$$. Your task is to find how many permutations $$$b_1,b_2,\\ldots,b_n$$$ are similar to permutation $$$a$$$. Two permutations $$$a$$$ and $$$b$$$ of size $$$n$$$ are considered similar if for all intervals $$$[l,r]$$$ ($$$1 \\le l \\le r \\le n$$$), the following condition is satisfied: $$$$$$\\operatorname{MEX}([a_l,a_{l+1},\\ldots,a_r])=\\operatorname{MEX}([b_l,b_{l+1},\\ldots,b_r]),$$$$$$ where the $$$\\operatorname{MEX}$$$ of a collection of integers $$$c_1,c_2,\\ldots,c_k$$$ is defined as the smallest non-negative integer $$$x$$$ which does not occur in collection $$$c$$$. For example, $$$\\operatorname{MEX}([1,2,3,4,5])=0$$$, and $$$\\operatorname{MEX}([0,1,2,4,5])=3$$$.Since the total number of such permutations can be very large, you will have to print its remainder modulo $$$10^9+7$$$.In this problem, a permutation of size $$$n$$$ is an array consisting of $$$n$$$ distinct integers from $$$0$$$ to $$$n-1$$$ in arbitrary order. For example, $$$[1,0,2,4,3]$$$ is a permutation, while $$$[0,1,1]$$$ is not, since $$$1$$$ appears twice in the array. $$$[0,1,3]$$$ is also not a permutation, since $$$n=3$$$ and there is a $$$3$$$ in the array.",
+    "prob_desc_output_spec": "For each test case, print a single integer, the number of permutations similar to permutation $$$a$$$, taken modulo $$$10^9+7$$$.",
+    "prob_desc_input_spec": "Each test contains multiple test cases. The first line of input contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. The following lines contain the descriptions of the test cases. The first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$) — the size of permutation $$$a$$$. The second line of each test case contains $$$n$$$ distinct integers $$$a_1,a_2,\\ldots,a_n$$$ ($$$0 \\le a_i \\lt n$$$) — the elements of permutation $$$a$$$. It is guaranteed that the sum of $$$n$$$ across all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_088.jsonl",
+    "code_uid": "678772c2986c01d36f6cca116ead1758",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n\\n5\\n\\n4 0 3 2 1\\n\\n1\\n\\n0\\n\\n4\\n\\n0 1 2 3\\n\\n6\\n\\n1 2 4 0 5 3\\n\\n8\\n\\n1 3 7 2 5 0 6 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\nt = int(input())\r\nfor _ in range(t):\r\n    n = int(input())\r\n    a = list(map(int, input().split(' ')))\r\n    mod = 10 ** 9 + 7\r\n    if n <= 3:\r\n        print(1)\r\n        continue\r\n    indices = [0] * n\r\n    for i in range(n):\r\n        indices[a[i]] = i\r\n    res, l, r = 1, min(indices[0], indices[1]), max(indices[0], indices[1])\r\n    for i in range(2, n):\r\n        if l < indices[i] < r:\r\n            res *= r - l + 1 - i\r\n            res %= mod\r\n        else:\r\n            l = min(l, indices[i])\r\n            r = max(r, indices[i])\r\n    print(res)",
+    "prob_desc_created_at": "1656945300",
+    "tags": [
+        "combinatorics",
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

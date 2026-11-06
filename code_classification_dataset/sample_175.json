@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n0\"]",
+    "src_uid": "b12f2784bafb3db74598a22ac4603646",
+    "prob_desc_notes": "NoteIn the example the army consists of two warriors with personalities 3 and 4 after first two events. Then Vova tries to hire a commander with personality 6 and leadership 3, and only one warrior respects him (, and 2 &lt; 3, but , and 5 ≥ 3). Then warrior with personality 4 leaves, and when Vova tries to hire that commander again, there are no warriors who respect him.",
+    "prob_desc_description": "As you might remember from the previous round, Vova is currently playing a strategic game known as Rage of Empires.Vova managed to build a large army, but forgot about the main person in the army - the commander. So he tries to hire a commander, and he wants to choose the person who will be respected by warriors.Each warrior is represented by his personality — an integer number pi. Each commander has two characteristics — his personality pj and leadership lj (both are integer numbers). Warrior i respects commander j only if  ( is the bitwise excluding OR of x and y).Initially Vova's army is empty. There are three different types of events that can happen with the army:  1 pi — one warrior with personality pi joins Vova's army;  2 pi — one warrior with personality pi leaves Vova's army;  3 pi li — Vova tries to hire a commander with personality pi and leadership li. For each event of the third type Vova wants to know how many warriors (counting only those who joined the army and haven't left yet) respect the commander he tries to hire.",
+    "prob_desc_output_spec": "For each event of the third type print one integer — the number of warriors who respect the commander Vova tries to hire in the event.",
+    "prob_desc_input_spec": "The first line contains one integer q (1 ≤ q ≤ 100000) — the number of events. Then q lines follow. Each line describes the event:   1 pi (1 ≤ pi ≤ 108) — one warrior with personality pi joins Vova's army;  2 pi (1 ≤ pi ≤ 108) — one warrior with personality pi leaves Vova's army (it is guaranteed that there is at least one such warrior in Vova's army by this moment);  3 pi li (1 ≤ pi, li ≤ 108) — Vova tries to hire a commander with personality pi and leadership li. There is at least one event of this type. ",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_000.jsonl",
+    "code_uid": "9dd47ff1a6c097b41b91861520e875fe",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 3\\n1 4\\n3 6 3\\n2 4\\n3 6 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin, stdout\nfrom itertools import izip\ndef main(it=int, bi=bin):\n    n = int(stdin.readline())\n    to = [None] * 5800000\n    s = [0] * 5800000\n    c = 1\n    ans = []\n    pu = ans.append\n    for line in stdin:\n        line = line.split()\n        if line[0] == '3':\n            p, l = bi(it(line[1]))[2:].zfill(28), bi(it(line[2]))[2:].zfill(28)\n            t = 0\n            f = 0\n            for pb, lb in izip(p, l):\n                if to[t] is None:\n                    break\n                if lb == '1':\n                    f += s[to[t][pb=='1']]\n                    t = to[t][pb=='0']\n                else:\n                    t = to[t][pb=='1']\n            pu(f)\n        else:\n            p = bi(it(line[1]))[2:].zfill(28)\n            d = 1 if line[0] == '1' else -1\n            t = 0\n            for pb in p:\n                if to[t] is None:\n                    to[t] = (c + 1, c + 2)\n                    c += 2\n                t = to[t][pb=='1']\n                s[t] += d\n    stdout.write('\\n'.join(map(str, ans)))\nmain()\n",
+    "prob_desc_created_at": "1497539100",
+    "tags": [
+        "data structures",
+        "bitmasks",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

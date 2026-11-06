@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"7\", \"110\"]",
+    "src_uid": "301a6dd54b3d404e98f5e1ee014d5c89",
+    "prob_desc_notes": "NoteThe path for the first example:  The path for the second example:  ",
+    "prob_desc_description": "You are given a rectangular table 3 × n. Each cell contains an integer. You can move from one cell to another if they share a side.Find such path from the upper left cell to the bottom right cell of the table that doesn't visit any of the cells twice, and the sum of numbers written in the cells of this path is maximum possible.",
+    "prob_desc_output_spec": "Output the maximum sum of numbers on a path from the upper left cell to the bottom right cell of the table, that doesn't visit any of the cells twice.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 105)  — the number of columns in the table. Next three lines contain n integers each  — the description of the table. The j-th number in the i-th line corresponds to the cell aij ( - 109 ≤ aij ≤ 109) of the table.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_020.jsonl",
+    "code_uid": "1d25792cffe6171ab10ba5ed38519fe8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1 1\\n1 -1 1\\n1 1 1\", \"5\\n10 10 10 -1 -1\\n-1 10 10 10 10\\n-1 10 10 10 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=input()\na=map(int,raw_input().split())\nb=map(int,raw_input().split())\nc=map(int,raw_input().split())\nf=[[0 for i in range(n+1)] for j in range(3)]\ng=[0]*n\nsm=0\nfor i in range(n):\n    g[i]=sm\n    sm+=a[i]+b[i]+c[i]\noo=10**18\nf[0][n]=-oo\nf[1][n]=-oo\nf[2][n]=0\nma=-oo\nmc=sm\nfor i in range(n-1,-1,-1):\n    f[0][i]=max(a[i]+f[0][i+1],mc-g[i],a[i]+b[i]+f[1][i+1],a[i]+b[i]+c[i]+f[2][i+1])\n    f[1][i]=b[i]+max(a[i]+f[0][i+1],f[1][i+1],c[i]+f[2][i+1])\n    f[2][i]=max(c[i]+f[2][i+1],ma-g[i],c[i]+b[i]+f[1][i+1],c[i]+b[i]+a[i]+f[0][i+1])\n    ma=max(ma,f[0][i]+g[i])\n    mc=max(mc,f[2][i]+g[i])\nprint f[0][0]\n\n",
+    "prob_desc_created_at": "1485354900",
+    "tags": [
+        "dp",
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

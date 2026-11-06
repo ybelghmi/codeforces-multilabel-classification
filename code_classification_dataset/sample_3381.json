@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"0\", \"3\"]",
+    "src_uid": "271ebec6b9ec990300f545743a16281b",
+    "prob_desc_notes": "NoteIn the first test one of the optimal permutations is 1 4 2. In the second test the initial order is optimal. In the third test one of the optimal permutations is 2 3 4 4 3 5.",
+    "prob_desc_description": "You've got array A, consisting of n integers and a positive integer k. Array A is indexed by integers from 1 to n.You need to permute the array elements so that value  became minimal possible. In particular, it is allowed not to change order of elements at all.",
+    "prob_desc_output_spec": "Print the minimum possible value of the sum described in the statement.",
+    "prob_desc_input_spec": "The first line contains two integers n, k (2 ≤ n ≤ 3·105, 1 ≤ k ≤ min(5000, n - 1)).  The second line contains n integers A[1], A[2], ..., A[n] ( - 109 ≤ A[i] ≤ 109), separate by spaces — elements of the array A.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_056.jsonl",
+    "code_uid": "cfb0e80c4a71593f541038f9a020c357",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 2\\n1 2 4\", \"5 2\\n3 -5 3 -5 3\", \"6 3\\n4 3 4 3 2 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "f = lambda: map(int, input().split())\nn, k = f()\np = sorted(f())\n\nm, d = n // k, n % k\nu, v = d + 1, k - d + 1\ng = [0] * u * v\n\ni = 0\nfor a in range(u):\n    j = a * m + a - 1\n    for b in range(v):\n        x = g[i - 1] + p[j] - p[j - m + 1] if b else 9e9\n        y = g[i - v] + p[j] - p[j - m] if a else 9e9\n        if i: g[i] = min(x, y)\n        i += 1\n        j += m\nprint(g[-1])\n",
+    "prob_desc_created_at": "1440261000",
+    "tags": [
+        "dp",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

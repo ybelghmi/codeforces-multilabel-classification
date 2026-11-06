@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "5 seconds",
+    "prob_desc_sample_outputs": "[\"9\", \"12\"]",
+    "src_uid": "516ed4dbe4da9883c88888b134d6621f",
+    "prob_desc_notes": "NoteIn the first sample, the array is going to look as follows:2 3 5 6 7 9 11|2 - 2| + |1 - 3| + |5 - 5| + |11 - 6| + |5 - 7| + |9 - 9| + |11 - 11| = 9And for the second sample:1 2 3 4 5|5 - 1| + |4 - 2| + |3 - 3| + |2 - 4| + |1 - 5| = 12",
+    "prob_desc_description": "Sonya was unable to think of a story for this problem, so here comes the formal description.You are given the array containing n positive integers. At one turn you can pick any element and increase or decrease it by 1. The goal is the make the array strictly increasing by making the minimum possible number of operations. You are allowed to change elements in any way, they can become negative or equal to 0.",
+    "prob_desc_output_spec": "Print the minimum number of operation required to make the array strictly increasing.",
+    "prob_desc_input_spec": "The first line of the input contains a single integer n (1 ≤ n ≤ 3000) — the length of the array. Next line contains n integer ai (1 ≤ ai ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_024.jsonl",
+    "code_uid": "e3a617566d0db5a9b8164691f915bd17",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n2 1 5 11 5 9 11\", \"5\\n5 4 3 2 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from heapq import *\nclass Maxheap:\n    def __init__(_): _.h = []\n    def add(_, v): heappush(_.h, -v)\n    def top(_): return -_.h[0]\n    def pop(_): return -heappop(_.h)\n\nclass Graph:\n    def __init__(_):\n        _.change = Maxheap() # increment slope at ...\n        _.change.add(-10**18)\n        _.a = _.y = 0 # last line has slope a, starts from y\n        _.dx = 0      # the whole graph is shifted right by ...\n    def __repr__(_): return f\"<{[x+_.dx for x in _.change]}; {_.a} {_.y}>\"\n    \n    def shiftx(_, v): _.dx+= v\n    def shifty(_, v): _.y+= v\n    def addleft(_, v):\n        if _.change.top() < v-_.dx:\n            dx = v-_.dx - _.change.top()\n            _.y+= _.a*dx\n        _.change.add(v-_.dx)\n    def addright(_, v):\n        if _.change.top() < v-_.dx:\n            dx = v-_.dx - _.change.top()\n            _.y+= _.a*dx; _.a+= 1\n            _.change.add(v-_.dx)\n            return\n        _.change.add(v-_.dx)\n        _.a+= 1; _.y+= _.change.top()-(v-_.dx)\n    def cutright(_):\n        dx = _.change.pop()-_.change.top()\n        _.a-= 1; _.y-= _.a*dx\n \nn = int(input())\nG = Graph()\nfor x in map(int,input().split()):\n    G.shiftx(1)\n    G.addleft(x)\n    G.addright(x)\n    while G.a > 0: G.cutright()\nprint(G.y)",
+    "prob_desc_created_at": "1473784500",
+    "tags": [
+        "dp",
+        "sortings"
+    ],
+    "hidden_unit_tests": ""
+}

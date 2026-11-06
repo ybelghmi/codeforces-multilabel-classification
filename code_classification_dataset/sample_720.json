@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"10\", \"20\", \"1\"]",
+    "src_uid": "5993b5bf231fabd3c2af90124c41f118",
+    "prob_desc_notes": "NoteIn the first example, it is optimal to buy: $$$0 + 0 + 1 + 3 + 6$$$ chocolates.In the second example, it is optimal to buy: $$$1 + 2 + 3 + 4 + 10$$$ chocolates.In the third example, it is optimal to buy: $$$0 + 0 + 0 + 1$$$ chocolates.",
+    "prob_desc_description": "You went to the store, selling $$$n$$$ types of chocolates. There are $$$a_i$$$ chocolates of type $$$i$$$ in stock.You have unlimited amount of cash (so you are not restricted by any prices) and want to buy as many chocolates as possible. However if you buy $$$x_i$$$ chocolates of type $$$i$$$ (clearly, $$$0 \\le x_i \\le a_i$$$), then for all $$$1 \\le j &lt; i$$$ at least one of the following must hold:  $$$x_j = 0$$$ (you bought zero chocolates of type $$$j$$$) $$$x_j &lt; x_i$$$ (you bought less chocolates of type $$$j$$$ than of type $$$i$$$) For example, the array $$$x = [0, 0, 1, 2, 10]$$$ satisfies the requirement above (assuming that all $$$a_i \\ge x_i$$$), while arrays $$$x = [0, 1, 0]$$$, $$$x = [5, 5]$$$ and $$$x = [3, 2]$$$ don't.Calculate the maximum number of chocolates you can buy.",
+    "prob_desc_output_spec": "Print the maximum number of chocolates you can buy.",
+    "prob_desc_input_spec": "The first line contains an integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$), denoting the number of types of chocolate. The next line contains $$$n$$$ integers $$$a_i$$$ ($$$1 \\le a_i \\le 10^9$$$), denoting the number of chocolates of each type.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1000,
+    "file_name": "train_003.jsonl",
+    "code_uid": "fc058ec83e27d17b0bd9e66fc2fbb82a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n1 2 1 3 6\", \"5\\n3 2 5 4 10\", \"4\\n1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nn = int(sys.stdin.readline())\narr = [int(i) for i in sys.stdin.readline().split()]\nres = arr[-1]\nremember = arr[-1]\narr.pop(-1)\nif remember==1:\n    print(1)\nelse:\n    for i in arr[::-1]:\n        if remember==1:\n            break\n        if i==1:\n            res+=1\n            break\n        if i>=remember:\n            res += (remember-1)\n            remember -= 1\n        else:\n            res += i\n            remember = i\n    print(res)\n",
+    "prob_desc_created_at": "1553182500",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

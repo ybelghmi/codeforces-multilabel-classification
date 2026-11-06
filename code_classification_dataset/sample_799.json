@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n2 3 4\\nYES\\n3 5 6\\nNO\"]",
+    "src_uid": "dd55e29ac9756325530ad2f4479d9f6d",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a permutation $$$p_1, p_2, \\dots, p_n$$$. Recall that sequence of $$$n$$$ integers is called a permutation if it contains all integers from $$$1$$$ to $$$n$$$ exactly once.Find three indices $$$i$$$, $$$j$$$ and $$$k$$$ such that:   $$$1 \\le i &lt; j &lt; k \\le n$$$;  $$$p_i &lt; p_j$$$ and $$$p_j &gt; p_k$$$.  Or say that there are no such indices.",
+    "prob_desc_output_spec": "For each test case:    if there are such indices $$$i$$$, $$$j$$$ and $$$k$$$, print YES (case insensitive) and the indices themselves;  if there are no such indices, print NO (case insensitive).  If there are multiple valid triples of indices, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$T$$$ ($$$1 \\le T \\le 200$$$) — the number of test cases. Next $$$2T$$$ lines contain test cases — two lines per test case. The first line of each test case contains the single integer $$$n$$$ ($$$3 \\le n \\le 1000$$$) — the length of the permutation $$$p$$$. The second line contains $$$n$$$ integers $$$p_1, p_2, \\dots, p_n$$$ ($$$1 \\le p_i \\le n$$$; $$$p_i \\neq p_j$$$ if $$$i \\neq j$$$) — the permutation $$$p$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 900,
+    "file_name": "train_004.jsonl",
+    "code_uid": "1840b976bd6bad89e45bef80c3927da9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4\\n2 1 4 3\\n6\\n4 6 1 2 5 3\\n5\\n5 3 1 2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "for ty in range(int(input())):\n\tn=int(input())\n\tt=n\n\ts=input().split()\n\tl=[]\n\tfor i in s:\n\t\tl+=[int(i)]\n\tlc=0\n\trc=len(l)-1\n\tj=l.index(t)\n\twhile((j==lc or j==rc)) and t>0:\n\t\tt=t-1\n\t\tif j==lc:\n\t\t\tlc+=1\n\t\telse:\n\t\t\trc-=1\n\t\tif t==0:\n\t\t\tprint('NO')\n\t\t\tbreak\n\t\tj=l.index(t)\n\tif t!=0:\n\t\tprint('YES')\n\t\tprint(str(j)+' '+str(j+1)+' '+str(j+2))\n\n",
+    "prob_desc_created_at": "1594565100",
+    "tags": [
+        "data structures",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

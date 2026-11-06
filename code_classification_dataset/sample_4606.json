@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"3\\n1\\n3\\n2\\n1\"]",
+    "src_uid": "874e22d4fd8e35f7e0eade2b469ee5dc",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a number $$$k$$$ and a string $$$s$$$ of length $$$n$$$, consisting of the characters '.' and '*'. You want to replace some of the '*' characters with 'x' characters so that the following conditions are met:   The first character '*' in the original string should be replaced with 'x';  The last character '*' in the original string should be replaced with 'x';  The distance between two neighboring replaced characters 'x' must not exceed $$$k$$$ (more formally, if you replaced characters at positions $$$i$$$ and $$$j$$$ ($$$i &lt; j$$$) and at positions $$$[i+1, j-1]$$$ there is no \"x\" symbol, then $$$j-i$$$ must be no more than $$$k$$$). For example, if $$$n=7$$$, $$$s=$$$.**.*** and $$$k=3$$$, then the following strings will satisfy the conditions above:   .xx.*xx;  .x*.x*x;  .xx.xxx.  But, for example, the following strings will not meet the conditions:   .**.*xx (the first character '*' should be replaced with 'x');  .x*.xx* (the last character '*' should be replaced with 'x');  .x*.*xx (the distance between characters at positions $$$2$$$ and $$$6$$$ is greater than $$$k=3$$$). Given $$$n$$$, $$$k$$$, and $$$s$$$, find the minimum number of '*' characters that must be replaced with 'x' in order to meet the above conditions.",
+    "prob_desc_output_spec": "For each test case output the minimum number of '*' characters that must be replaced with 'x' characters in order to satisfy the conditions above.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 500$$$). Then $$$t$$$ test cases follow. The first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 50$$$). The second line of each test case contains a string $$$s$$$ of length $$$n$$$, consisting of the characters '.' and '*'. It is guaranteed that there is at least one '*' in the string $$$s$$$. It is guaranteed that the distance between any two neighboring '*' characters does not exceed $$$k$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 1100,
+    "file_name": "train_101.jsonl",
+    "code_uid": "a66394c4890a284ac282c313b102fabb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n7 3\\n.**.***\\n5 1\\n..*..\\n5 2\\n*.*.*\\n3 2\\n*.*\\n1 1\\n*\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\nlines = list(map(str.strip, sys.stdin.readlines()))\r\n\r\ndef replacefirstlast(s):\r\n    result = 0\r\n    for i in range(len(s)):\r\n        if s[i] == '*':\r\n            s[i] = 'x'\r\n            result+=1\r\n            break\r\n    for i in range(len(s)-1,-1,-1):\r\n        if s[i] =='*':\r\n            s[i] = 'x'\r\n            result +=1\r\n            break\r\n    return (s, result)\r\n\r\nfor i in range(1, len(lines), 2 ):\r\n    n, k = map(int, lines[i].split(\" \"))\r\n    s = list(lines[i+1])\r\n    s, result = replacefirstlast(s)\r\n    # print(s)\r\n    for j in range(len(s)):\r\n        if s[j] == 'x' and 'x' not in s[j+1:j+k+1]:\r\n            for l in range(min(j + k, len(s)-1), j, -1):\r\n                if s[l] == '*':\r\n                    s[l] = 'x'\r\n                    result += 1\r\n                    break\r\n    # print(s)\r\n    print(result)\r\n    # print(\"\\n\\n\")\r\n",
+    "prob_desc_created_at": "1616682900",
+    "tags": [
+        "greedy",
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

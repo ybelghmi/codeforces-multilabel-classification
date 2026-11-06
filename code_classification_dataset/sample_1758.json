@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2012-03-16 16:16:43\", \"-1\", \"2012-03-17 00:00:00\"]",
+    "src_uid": "c3f671243f0aef7b78a7e091b0e8f75e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You've got a list of program warning logs. Each record of a log stream is a string in this format:  \"2012-MM-DD HH:MM:SS:MESSAGE\" (without the quotes). String \"MESSAGE\" consists of spaces, uppercase and lowercase English letters and characters \"!\", \".\", \",\", \"?\". String \"2012-MM-DD\" determines a correct date in the year of 2012. String \"HH:MM:SS\" determines a correct time in the 24 hour format.The described record of a log stream means that at a certain time the record has got some program warning (string \"MESSAGE\" contains the warning's description).Your task is to print the first moment of time, when the number of warnings for the last n seconds was not less than m.",
+    "prob_desc_output_spec": "If there is no sought moment of time, print -1. Otherwise print a string in the format \"2012-MM-DD HH:MM:SS\" (without the quotes) — the first moment of time when the number of warnings for the last n seconds got no less than m.",
+    "prob_desc_input_spec": "The first line of the input contains two space-separated integers n and m (1 ≤ n, m ≤ 10000). The second and the remaining lines of the input represent the log stream. The second line of the input contains the first record of the log stream, the third line contains the second record and so on. Each record of the log stream has the above described format. All records are given in the chronological order, that is, the warning records are given in the order, in which the warnings appeared in the program.  It is guaranteed that the log has at least one record. It is guaranteed that the total length of all lines of the log stream doesn't exceed 5·106 (in particular, this means that the length of some line does not exceed 5·106 characters). It is guaranteed that all given dates and times are correct, and the string 'MESSAGE\" in all records is non-empty.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_012.jsonl",
+    "code_uid": "6dfed102eff84baaf1c4af6a008100a9",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"60 3\\n2012-03-16 16:15:25: Disk size is\\n2012-03-16 16:15:25: Network failute\\n2012-03-16 16:16:29: Cant write varlog\\n2012-03-16 16:16:42: Unable to start process\\n2012-03-16 16:16:43: Disk size is too small\\n2012-03-16 16:16:53: Timeout detected\", \"1 2\\n2012-03-16 23:59:59:Disk size\\n2012-03-17 00:00:00: Network\\n2012-03-17 00:00:01:Cant write varlog\", \"2 2\\n2012-03-16 23:59:59:Disk size is too sm\\n2012-03-17 00:00:00:Network failute dete\\n2012-03-17 00:00:01:Cant write varlogmysq\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys,time,re\nn,m=map(int,raw_input().split())\nt=[]\ni=j=0\nfor s in sys.stdin:\n  t+=[time.mktime(map(int,re.split('[-: ]',s[:19]))+[0]*3)]\n  while j<i and t[j]<=t[i]-n:j+=1\n  i+=1\n  if i-j>=m:\n    print s[:19]\n    exit()\nprint -1\n",
+    "prob_desc_created_at": "1353339000",
+    "tags": [
+        "binary search",
+        "implementation",
+        "brute force",
+        "strings"
+    ],
+    "hidden_unit_tests": ""
+}

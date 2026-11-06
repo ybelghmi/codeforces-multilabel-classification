@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"2 1 4\\n3 5 7\\n6 9 8\"]",
+    "src_uid": "a7da19d857ca09f052718cb69f2cea57",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Find an n × n matrix with different numbers from 1 to n2, so the sum in each row, column and both main diagonals are odd.",
+    "prob_desc_output_spec": "Print n lines with n integers. All the integers should be different and from 1 to n2. The sum in each row, column and both main diagonals should be odd.",
+    "prob_desc_input_spec": "The only line contains odd integer n (1 ≤ n ≤ 49).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_018.jsonl",
+    "code_uid": "cc3f25da0df27998828208b556c23193",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\", \"3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#n = input()\nn = input()\nodds = [i for i in range(1,n*n+1) if i % 2 == 1]\nevens = [i for i in range(1,n*n+1) if i % 2 == 0]\n#print(odds)\n#print(evens)\nmagic = []\nfor i in range(int(n/2)):\n    magic.append(2*i+1)\n    \nmagic2 = magic[::-1]\nmagic = magic + [n] + magic2\n#print(magic)    \n\nresult = []\nfor i in range(n):\n    temp = []\n    #2i + 1 odds\n    # (n - 2i -1) / 2\n    numEvens = int((n-magic[i])/2)\n    numOdds = magic[i]\n    #print(\"numEvens =\", numEvens)\n    temp += evens[:numEvens]\n    evens = evens[numEvens:]\n    temp += odds[:numOdds]\n    odds = odds[numOdds:]\n    temp += evens[:numEvens]\n    evens = evens[numEvens:]\n    result += temp\n    #print(result)\n    \n#print(result)\nprint(\" \".join([str(x) for x in result]))\n#for l in result:\n    #for j in l:\n        #print(j,)\n    #print()\n",
+    "prob_desc_created_at": "1471875000",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

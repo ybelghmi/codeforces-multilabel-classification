@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0\", \"2\"]",
+    "src_uid": "2a6c457012f7ceb589b3dea6b889f7cb",
+    "prob_desc_notes": null,
+    "prob_desc_description": "George has recently entered the BSUCP (Berland State University for Cool Programmers). George has a friend Alex who has also entered the university. Now they are moving into a dormitory. George and Alex want to live in the same room. The dormitory has n rooms in total. At the moment the i-th room has pi people living in it and the room can accommodate qi people in total (pi ≤ qi). Your task is to count how many rooms has free place for both George and Alex.",
+    "prob_desc_output_spec": "Print a single integer — the number of rooms where George and Alex can move in.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 100) — the number of rooms. The i-th of the next n lines contains two integers pi and qi (0 ≤ pi ≤ qi ≤ 100) — the number of people who already live in the i-th room and the room's capacity.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_002.jsonl",
+    "code_uid": "56cdf29447cc258172ff250355237751",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 1\\n2 2\\n3 3\", \"3\\n1 10\\n0 10\\n10 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\nn = int(sys.stdin.readline().split()[0])\n\nrooms = [[0 for x in range(2)] for y in range(n)]\n\nrow = 0\n\nfor line in sys.stdin:\n    column = 0\n    for word in line.split():\n        rooms[row][column] = int(word)\n        column += 1\n    row += 1\n\nrooms_acceptable = 0\n\nfor room in rooms:\n    if room[0] + 2 <= room[1]:\n        rooms_acceptable += 1\n\nprint(rooms_acceptable)\n",
+    "prob_desc_created_at": "1411054200",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

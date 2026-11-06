@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n1 2\\n2 3\\n3 1\"]",
+    "src_uid": "14570079152bbf6c439bfceef9816f7e",
+    "prob_desc_notes": null,
+    "prob_desc_description": "One day, at the \"Russian Code Cup\" event it was decided to play football as an out of competition event. All participants was divided into n teams and played several matches, two teams could not play against each other more than once.The appointed Judge was the most experienced member — Pavel. But since he was the wisest of all, he soon got bored of the game and fell asleep. Waking up, he discovered that the tournament is over and the teams want to know the results of all the matches.Pavel didn't want anyone to discover about him sleeping and not keeping an eye on the results, so he decided to recover the results of all games. To do this, he asked all the teams and learned that the real winner was friendship, that is, each team beat the other teams exactly k times. Help Pavel come up with chronology of the tournir that meets all the conditions, or otherwise report that there is no such table.",
+    "prob_desc_output_spec": "In the first line print an integer m — number of the played games. The following m lines should contain the information about all the matches, one match per line. The i-th line should contain two integers ai and bi (1 ≤ ai, bi ≤ n; ai ≠ bi). The numbers ai and bi mean, that in the i-th match the team with number ai won against the team with number bi. You can assume, that the teams are numbered from 1 to n. If a tournir that meets the conditions of the problem does not exist, then print -1.",
+    "prob_desc_input_spec": "The first line contains two integers — n and k (1 ≤ n, k ≤ 1000).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_050.jsonl",
+    "code_uid": "16b49ac7726f84b0af069d79ebe476fd",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/python\nimport re\nimport inspect\nimport os\nfrom sys import argv, exit\n\ndef rstr():\n    return input()\n\ndef rstrs(splitchar=' '):\n    return [i for i in input().split(splitchar)]\n\ndef rint():\n    return int(input())\n\ndef rints(splitchar=' '):\n    return [int(i) for i in rstrs(splitchar)]\n\ndef varnames(obj, namespace=globals()):\n    return [name for name in namespace if namespace[name] is obj]\n\ndef pvar(var, override=False):\n    prnt(varnames(var), var)\n\ndef prnt(*args, override=False):\n    return\n    if '-v' in argv or override:\n        print(*args)\n\npq = []\ndef penq(thing):\n    pq.append(thing)\n\ndef pdump():\n    s = ('\\n'.join(pq)).encode()\n    os.write(1, s)\n\nif __name__ == '__main__':\n    teams, wins = rints()\n\n    if teams < wins*2+1:\n        print('-1')\n        exit(0)\n\n    penq(str(teams*wins))\n    for team in range(teams):\n        w = 0\n        while w < wins: \n            otherteam = (team + w + 1) % teams\n            penq('{} {}'.format(team + 1, otherteam + 1))\n            w += 1\n\n    pdump()\n",
+    "prob_desc_created_at": "1397749200",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

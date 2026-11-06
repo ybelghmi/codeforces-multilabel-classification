@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"5\\n2 1 1 2 3\", \"2\\n5 5\", \"2\\n4 5\", \"7\\n1 2 2 2 2 3 2\"]",
+    "src_uid": "9b205e01937903236d1c0553dd480c2a",
+    "prob_desc_notes": null,
+    "prob_desc_description": "There are $$$n$$$ people in a row. The height of the $$$i$$$-th person is $$$a_i$$$. You can choose any subset of these people and try to arrange them into a balanced circle.A balanced circle is such an order of people that the difference between heights of any adjacent people is no more than $$$1$$$. For example, let heights of chosen people be $$$[a_{i_1}, a_{i_2}, \\dots, a_{i_k}]$$$, where $$$k$$$ is the number of people you choose. Then the condition $$$|a_{i_j} - a_{i_{j + 1}}| \\le 1$$$ should be satisfied for all $$$j$$$ from $$$1$$$ to $$$k-1$$$ and the condition $$$|a_{i_1} - a_{i_k}| \\le 1$$$ should be also satisfied. $$$|x|$$$ means the absolute value of $$$x$$$. It is obvious that the circle consisting of one person is balanced.Your task is to choose the maximum number of people and construct a balanced circle consisting of all chosen people. It is obvious that the circle consisting of one person is balanced so the answer always exists.",
+    "prob_desc_output_spec": "In the first line of the output print $$$k$$$ — the number of people in the maximum balanced circle. In the second line print $$$k$$$ integers $$$res_1, res_2, \\dots, res_k$$$, where $$$res_j$$$ is the height of the $$$j$$$-th person in the maximum balanced circle. The condition $$$|res_{j} - res_{j + 1}| \\le 1$$$ should be satisfied for all $$$j$$$ from $$$1$$$ to $$$k-1$$$ and the condition $$$|res_{1} - res_{k}| \\le 1$$$ should be also satisfied.",
+    "prob_desc_input_spec": "The first line of the input contains one integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$) — the number of people. The second line of the input contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ ($$$1 \\le a_i \\le 2 \\cdot 10^5$$$), where $$$a_i$$$ is the height of the $$$i$$$-th person.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2000,
+    "file_name": "train_041.jsonl",
+    "code_uid": "4a9392fee51c2567ba904c61329e0b84",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n4 3 5 1 2 2 1\", \"5\\n3 7 5 1 5\", \"3\\n5 1 4\", \"7\\n2 2 3 2 1 2 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nrange = xrange\ninput = raw_input\n\nn = int(input())\nA = [int(x) for x in input().split()]\n\nbig = 2*10**5+10\ncount = [0]*big\nfor a in A:\n    count[a] += 1\n\nbest = -1\nbestl = -1\nbestr = -1\n\ni = 0\nwhile i<big:\n    while i<big and count[i]==0:\n        i += 1\n    if i==big:break\n    s = count[i]\n\n    j = i+1\n    while j<big and count[j]>=2:\n        s += count[j]\n        j += 1\n\n    maybe = j\n    if maybe<big and count[maybe]==1:\n        s += count[maybe]\n        maybe += 1\n\n    if s>best:\n        best = s\n        bestl = i\n        bestr = maybe\n    i = j\n\n\nheights = []\nfor i in range(bestl,bestr):\n    heights += [i]*count[i]\n\nout = heights[::2] + heights[1::2][::-1]\nprint len(out)\nprint ' '.join(str(x) for x in out)\n",
+    "prob_desc_created_at": "1556289300",
+    "tags": [
+        "dp",
+        "constructive algorithms",
+        "two pointers",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

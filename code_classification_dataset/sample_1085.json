@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"0 2 3 1 1\", \"1 0 1\", \"0\"]",
+    "src_uid": "3c63e2e682d3c8051c3cecc3fa9c4e8c",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Bimokh is Mashmokh's boss. For the following n days he decided to pay to his workers in a new way. At the beginning of each day he will give each worker a certain amount of tokens. Then at the end of each day each worker can give some of his tokens back to get a certain amount of money. The worker can save the rest of tokens but he can't use it in any other day to get more money. If a worker gives back w tokens then he'll get  dollars. Mashmokh likes the tokens however he likes money more. That's why he wants to save as many tokens as possible so that the amount of money he gets is maximal possible each day. He has n numbers x1, x2, ..., xn. Number xi is the number of tokens given to each worker on the i-th day. Help him calculate for each of n days the number of tokens he can save.",
+    "prob_desc_output_spec": "Output n space-separated integers. The i-th of them is the number of tokens Mashmokh can save on the i-th day.",
+    "prob_desc_input_spec": "The first line of input contains three space-separated integers n, a, b (1 ≤ n ≤ 105; 1 ≤ a, b ≤ 109). The second line of input contains n space-separated integers x1, x2, ..., xn (1 ≤ xi ≤ 109).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_006.jsonl",
+    "code_uid": "eab5379db215cc0e687d3b4fc2d138c1",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 1 4\\n12 6 11 9 1\", \"3 1 2\\n1 2 3\", \"1 1 1\\n1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nimport string\nimport math\nfrom collections import defaultdict\nfrom functools import lru_cache\nfrom collections import Counter\n\ndef mi(s):\n    return map(int, s.strip().split())\n\ndef lmi(s):\n    return list(mi(s))\n\ndef tmi(s):\n    return tuple(mi(s))\n\ndef mf(f, s):\n    return map(f, s)\n\ndef lmf(f, s):\n    return list(mf(f, s))\n\ndef js(lst):\n    return \" \".join(str(d) for d in lst)\n\ndef line():\n    return sys.stdin.readline().strip()\n\ndef linesp():\n    return line().split()\n\ndef iline():\n    return int(line())\n\ndef dist(x, y):\n    return ((x[0] - y[0])**2 + (x[1] - y[1])**2)**0.5\n\ndef bin_search(a, b, n):\n    form = lambda x: math.floor((x/b)*a)\n    looking = form(n)\n    hi = n\n    lo = 0\n\n    while lo <= hi:\n        if lo == hi:\n            return lo\n        elif lo == hi - 1:\n            if form(lo) == looking:\n                return lo\n            else:\n                return hi\n\n        mid = (hi + lo) // 2\n        if form(mid) < looking:\n            lo = mid\n        else:\n            hi = mid\n\ndef main(a, b, arr):\n    div = b / a\n\n    final = []\n    for n in arr:\n        looking = math.floor((a * n)/b)\n        ans = math.ceil(b * (looking / a))\n        final.append(n - ans)\n        # final.append(n - bin_search(a, b, n))\n    print(js(final))\n\nif __name__ == \"__main__\":\n    _, a, b = mi(line())\n    arr = lmi(line())\n    main(a, b, arr)\n",
+    "prob_desc_created_at": "1396798800",
+    "tags": [
+        "binary search",
+        "implementation",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

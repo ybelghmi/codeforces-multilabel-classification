@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n4 5\", \"3\\n2 3 1\", \"-1\"]",
+    "src_uid": "1e4b638810ea9fa83c60a934ad49bf5e",
+    "prob_desc_notes": "NoteIn sample test 1: lowbit(4) = 4, lowbit(5) = 1, 4 + 1 = 5.In sample test 2: lowbit(1) = 1, lowbit(2) = 2, lowbit(3) = 1, 1 + 2 + 1 = 4.",
+    "prob_desc_description": "At the children's day, the child came to Picks's house, and messed his house up. Picks was angry at him. A lot of important things were lost, in particular the favorite set of Picks.Fortunately, Picks remembers something about his set S:  its elements were distinct integers from 1 to limit;  the value of  was equal to sum; here lowbit(x) equals 2k where k is the position of the first one in the binary representation of x. For example, lowbit(100102) = 102, lowbit(100012) = 12, lowbit(100002) = 100002 (binary representation). Can you help Picks and find any set S, that satisfies all the above conditions?",
+    "prob_desc_output_spec": "In the first line print an integer n (1 ≤ n ≤ 105), denoting the size of S. Then print the elements of set S in any order. If there are multiple answers, print any of them. If it's impossible to find a suitable set, print -1.",
+    "prob_desc_input_spec": "The first line contains two integers: sum, limit (1 ≤ sum, limit ≤ 105).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_000.jsonl",
+    "code_uid": "3c8c80c600ecb9076c9ed60c77c45ad5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5 5\", \"4 3\", \"5 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "\"\"\"http://codeforces.com/problemset/problem/437/B\"\"\"\n\ndef solve(s, limit):\n    res = []\n    bit_length = len('{:b}'.format(limit))\n    # iterate through 2^x with x from 0, 1...bit_length-1\n    for i in range(bit_length - 1, -1, -1):\n        low_bit = 2 ** i\n        for j in range(1, limit + 1, 2):  # odd number: 1, 3, 5\n            t = low_bit * j\n            # print(i, t, res, s)\n            if low_bit > s or t > limit:\n                break\n            s -= low_bit\n            res.append(t)\n    return res if s == 0 else None\n\nif __name__ == '__main__':\n    res = solve(*list(map(int, input().split())))\n    if res is None:\n        print(-1)\n    else:\n        print(len(res))\n        print(' '.join(str(x) for x in res))\n",
+    "prob_desc_created_at": "1401627600",
+    "tags": [
+        "implementation",
+        "bitmasks",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

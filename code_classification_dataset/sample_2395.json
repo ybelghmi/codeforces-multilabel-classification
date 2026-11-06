@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\", \"-1\"]",
+    "src_uid": "0372790cbc07605c7e618dc14196fc67",
+    "prob_desc_notes": "NoteThis is the picture for the first example. $$$1$$$, $$$5$$$, $$$7$$$ also can be a valid answer.  This is the picture for the second example. You can see that it's impossible to find such root vertex.  ",
+    "prob_desc_description": "You have given tree consist of $$$n$$$ vertices. Select a vertex as root vertex that satisfies the condition below.  For all vertices $$$v_{1}$$$ and $$$v_{2}$$$, if $$$distance$$$($$$root$$$, $$$v_{1}$$$) $$$= distance$$$($$$root$$$, $$$v_{2})$$$ then $$$degree$$$($$$v_{1}$$$) $$$= degree$$$($$$v_{2}$$$), where $$$degree$$$ means the number of vertices connected to that vertex, and $$$distance$$$ means the number of edges between two vertices. Determine and find if there is such root vertex in the tree. If there are multiple answers, find any of them.",
+    "prob_desc_output_spec": "If there is such root vertex exists, print any of them. Otherwise, print $$$-1$$$.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^{5}$$$) — the number of vertices. Each of the next $$$n-1$$$ lines contains two integers $$$v_{i}$$$ and $$$u_{i}$$$ ($$$1 \\le v_{i} \\lt u_{i} \\le n$$$) — it means there is an edge exist between $$$v_{i}$$$ and $$$u_{i}$$$. It is guaranteed that the graph forms tree.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 2400,
+    "file_name": "train_021.jsonl",
+    "code_uid": "55ba2d74977865c675ef56e79721ad5c",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n1 2\\n2 3\\n3 4\\n4 5\\n3 6\\n6 7\", \"6\\n1 3\\n2 3\\n3 4\\n4 5\\n4 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "#!/usr/bin/env python\ndef longest_path():\n    try:\n        d = [-1 for _ in range(n)]\n        d[0] = 0; q = [0]\n        for i in range(n):\n            f = q[i]\n            for t in g[f]:\n                if d[t] == -1:\n                    q.append(t)\n                    d[t] = d[f] + 1\n        u = q[-1]\n        d = [-1 for _ in range(n)]\n        p = [-1 for _ in range(n)]\n        d[u] = 0; q = [u]\n        for i in range(n):\n            f = q[i]\n            for t in g[f]:\n                if d[t] == -1:\n                    q.append(t)\n                    d[t] = d[f] + 1\n                    p[t] = f\n        v = q[-1]\n        ld = d[v]\n        w = v\n        if ld & 1:\n            return u, v, None\n        while d[w] != (ld >> 1):\n            w = p[w]\n        return u, v, w\n    except:\n        print(f'Error raised in longest_path()')\n\n\ndef top(u):\n    try:\n        if u is None:\n            return False\n        dist = [-1 for _ in range(n)]\n        deg = [-1 for _ in range(n)]\n        dist[u] = 0; q = [u]\n        for i in range(n):\n            f = q[i]\n            if deg[dist[f]] == -1:\n                deg[dist[f]] = len(g[f])\n            elif len(g[f]) != deg[dist[f]]:\n                return False\n            for t in g[f]:\n                if dist[t] == -1:\n                    q.append(t)\n                    dist[t] = dist[f] + 1\n        return True\n    except:\n        print(f'Error raised in top({u})')\n\n\ndef semitop(w):\n    try:\n        if w is None:\n            return False, None\n        d = [-1 for _ in range(n)]\n        d[w] = 0; q = [w]; i = 0\n        while i < len(q):\n            f = q[i]\n            for t in g[f]:\n                if d[t] == -1:\n                    if len(g[t]) != 2:\n                        d[t] = 100_500\n                        if top(t):\n                            return True, t\n                    else:\n                        d[t] = d[f] + 1\n                        q.append(t)\n            i += 1\n        return False, None\n    except:\n        print(f'Error raised in semitop({w})')\n\n\ntry:\n    n = int(input())\n    g = [[] for _ in range(n)]\n    for _ in range(n - 1):\n        u, v = map(lambda _: int(_) - 1, input().split())\n        g[u].append(v); g[v].append(u)\n    u, v, w = longest_path()\n\n    if top(u):\n        print(u + 1)\n    elif top(v):\n        print(v + 1)\n    elif top(w):\n        print(w + 1)\n    else:\n        k, t = semitop(w)\n        if k:\n            print(t + 1)\n        else:\n            print(-1)\nexcept:\n    print(f'Error raised in main')",
+    "prob_desc_created_at": "1560258300",
+    "tags": [
+        "dp",
+        "hashing",
+        "constructive algorithms",
+        "implementation",
+        "dfs and similar",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

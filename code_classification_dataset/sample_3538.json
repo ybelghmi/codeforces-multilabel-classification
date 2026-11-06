@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\\n......\\n.X.XX.\\n......\", \"2\\n..........\\n..........\\n...XX.....\\n..........\\n..........\\n..........\\n.....XX...\\n..........\\n..........\\n..........\", \"0\\nX....\\n..XXX\\n..XXX\\n..XXX\"]",
+    "src_uid": "9602fa7b9d05560959ee5fdeeb1f6507",
+    "prob_desc_notes": null,
+    "prob_desc_description": "The Berland Forest can be represented as an infinite cell plane. Every cell contains a tree. That is, contained before the recent events.A destructive fire raged through the Forest, and several trees were damaged by it. Precisely speaking, you have a $$$n \\times m$$$ rectangle map which represents the damaged part of the Forest. The damaged trees were marked as \"X\" while the remaining ones were marked as \".\". You are sure that all burnt trees are shown on the map. All the trees outside the map are undamaged.The firemen quickly extinguished the fire, and now they are investigating the cause of it. The main version is that there was an arson: at some moment of time (let's consider it as $$$0$$$) some trees were set on fire. At the beginning of minute $$$0$$$, only the trees that were set on fire initially were burning. At the end of each minute, the fire spread from every burning tree to each of $$$8$$$ neighboring trees. At the beginning of minute $$$T$$$, the fire was extinguished.The firemen want to find the arsonists as quickly as possible. The problem is, they know neither the value of $$$T$$$ (how long the fire has been raging) nor the coordinates of the trees that were initially set on fire. They want you to find the maximum value of $$$T$$$ (to know how far could the arsonists escape) and a possible set of trees that could be initially set on fire.Note that you'd like to maximize value $$$T$$$ but the set of trees can be arbitrary.",
+    "prob_desc_output_spec": "In the first line print the single integer $$$T$$$ — the maximum time the Forest was on fire. In the next $$$n$$$ lines print the certificate: the map ($$$n \\times m$$$ rectangle) where the trees that were set on fire are marked as \"X\" and all other trees are marked as \".\".",
+    "prob_desc_input_spec": "The first line contains two integer $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 10^6$$$, $$$1 \\le n \\cdot m \\le 10^6$$$) — the sizes of the map. Next $$$n$$$ lines contain the map. The $$$i$$$-th line corresponds to the $$$i$$$-th row of the map and contains $$$m$$$-character string. The $$$j$$$-th character of the $$$i$$$-th string is \"X\" if the corresponding tree is burnt and \".\" otherwise. It's guaranteed that the map contains at least one \"X\".",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_067.jsonl",
+    "code_uid": "6ab4bf3de7c1e5d4fee2159522fbe4b7",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"3 6\\nXXXXXX\\nXXXXXX\\nXXXXXX\", \"10 10\\n.XXXXXX...\\n.XXXXXX...\\n.XXXXXX...\\n.XXXXXX...\\n.XXXXXXXX.\\n...XXXXXX.\\n...XXXXXX.\\n...XXXXXX.\\n...XXXXXX.\\n..........\", \"4 5\\nX....\\n..XXX\\n..XXX\\n..XXX\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\ninput = lambda:sys.stdin.readline().rstrip()\n\nh,w=map(int,input().split())\nd=w+2\nb=[0]*(w+2)\nfor i in range(h):\n  b+=([0]+[int(j==\"X\") for j in input()]+[0])\nb+=([0]*(w+2))\nco=sum(b)\nt=10**10\nfor i in range(1,h+1):\n  f=0\n  for j in range(w+2):\n    f+=b[i*d+j]\n    if b[i*d+j]==0 and f:\n      t=min(t,(f-1)//2)\n      f=0\nfor j in range(1,w+1):\n  f=0\n  for i in range(h+2):\n    f+=b[i*d+j]\n    if b[i*d+j]==0 and f:\n      t=min(t,(f-1)//2)\n      f=0\n\ncoo=0\nans=[-1]*(w+2)*(h+2)\nstack=[]\nfor i in range(h+2):\n  for j in range(w+2):\n    if b[i*d+j]==0:\n      stack.append(i*d+j)\n      ans[i*d+j]=0\ndij=[(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]\nfor ij in stack:\n  i,j=divmod(ij,d)\n  for x,y in dij:\n    if 0<=i+x<h+2 and 0<=j+y<w+2:\n      if ans[(i+x)*d+j+y]==-1:\n        ans[(i+x)*d+j+y]=ans[i*d+j]+1\n        if ans[(i+x)*d+j+y]>t:\n          coo+=1\n        stack.append((i+x)*d+(j+y))\nif coo*6<co and t==1:\n  t-=1\nprint(t)\nfor i in range(1,h+1):\n  print(\"\".join([\".X\"[int(t<j)]for j in ans[i*d+1:i*d+w+1]]))",
+    "prob_desc_created_at": "1574582700",
+    "tags": [
+        "data structures",
+        "binary search",
+        "graphs",
+        "shortest paths"
+    ],
+    "hidden_unit_tests": ""
+}

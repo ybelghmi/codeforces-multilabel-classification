@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"2\\n2 1\\n4\\n2 1 4 3\\n9\\n6 9 1 2 3 4 5 7 8\\n3\\n1 2 3\"]",
+    "src_uid": "677972c7d86ce9fd0808105331f77fe0",
+    "prob_desc_notes": "NoteIn the first test case, the subset $$$\\{a_2, a_1\\}$$$ has a sum of $$$9$$$, which is a composite number. The only subset of size $$$3$$$ has a prime sum equal to $$$11$$$. Note that you could also have selected the subset $$$\\{a_1, a_3\\}$$$ with sum $$$8 + 2 = 10$$$, which is composite as it's divisible by $$$2$$$.In the second test case, the sum of all elements equals to $$$21$$$, which is a composite number. Here we simply take the whole array as our subset.",
+    "prob_desc_description": "A bow adorned with nameless flowers that bears the earnest hopes of an equally nameless person.You have obtained the elegant bow known as the Windblume Ode. Inscribed in the weapon is an array of $$$n$$$ ($$$n \\ge 3$$$) positive distinct integers (i.e. different, no duplicates are allowed).Find the largest subset (i.e. having the maximum number of elements) of this array such that its sum is a composite number. A positive integer $$$x$$$ is called composite if there exists a positive integer $$$y$$$ such that $$$1 &lt; y &lt; x$$$ and $$$x$$$ is divisible by $$$y$$$.If there are multiple subsets with this largest size with the composite sum, you can output any of them. It can be proven that under the constraints of the problem such a non-empty subset always exists.",
+    "prob_desc_output_spec": "Each test case should have two lines of output. The first line should contain a single integer $$$x$$$: the size of the largest subset with composite sum. The next line should contain $$$x$$$ space separated integers representing the indices of the subset of the initial array.",
+    "prob_desc_input_spec": "Each test consists of multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 100$$$). Description of the test cases follows. The first line of each test case contains an integer $$$n$$$ ($$$3 \\leq n \\leq 100$$$) — the length of the array. The second line of each test case contains $$$n$$$ distinct integers $$$a_{1},a_{2},\\dots,a_{n}$$$ ($$$1 \\leq a_{i} \\leq 200$$$) — the elements of the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_087.jsonl",
+    "code_uid": "690c00858cc49b20512653923ed3d513",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3\\n8 1 2\\n4\\n6 9 4 2\\n9\\n1 2 3 4 5 6 7 8 9\\n3\\n200 199 198\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "tt = int(input())\r\nfa = []\r\nn = 500000\r\nfor i in range(n + 1):\r\n    fa.append(i)\r\nfa[1] = 0\r\ni = 2\r\nwhile i <= n:\r\n    if fa[i] != 0:\r\n        j = i + i\r\n        while j <= n:\r\n            fa[j] = 0\r\n            j = j + i\r\n    i += 1\r\nfa = set(fa)\r\nfa.remove(0)\r\nfor i in range(tt):\r\n    ar = []\r\n    f = int(input())\r\n    y = input()\r\n    ar = y.split()\r\n    ar = list(map(int, ar))\r\n    a = sum(ar)\r\n    k = 0\r\n    if (a not in fa):\r\n        print(len(ar))\r\n        for x in range(1, len(ar) + 1):\r\n            print(x, end=' ')\r\n        print('')\r\n    else:\r\n        for j in range(len(ar)):\r\n            b = a - ar[j]\r\n            if b not in fa:\r\n                print(len(ar) - 1)\r\n                for y in range(j):\r\n                    print(y + 1, end=' ')\r\n                for y in range(j + 1, len(ar)):\r\n                    print(y + 1, end=' ')\r\n                print('')\r\n                break\r\n        else:\r\n            for j in range(len(ar)):\r\n                ty = False\r\n                for p in range(j, len(ar)):\r\n                    b = a - ar[j] - ar[p]\r\n                    if b not in fa and b > 0:\r\n                        print(len(ar) - 1)\r\n                        for y in range(j):\r\n                            print(y + 1, end=' ')\r\n                        for y in range(j + 1, len(ar)):\r\n                            print(y + 1, end=' ')\r\n                        print('')\r\n                        ty = True\r\n                        break\r\n                if ty:\r\n                    ty = False\r\n                    break\r\n",
+    "prob_desc_created_at": "1634468700",
+    "tags": [
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

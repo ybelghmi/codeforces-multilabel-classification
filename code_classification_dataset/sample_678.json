@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"2\"]",
+    "src_uid": "1f41c017102f4a997be324a4ec9b7fd6",
+    "prob_desc_notes": "NoteIn the first sample, after the operations, the bone becomes at x = 2, x = 5, x = 7, and x = 1, respectively.In the second sample, after the first operation, the bone becomes at x = 2, and falls into the hole onto the ground.",
+    "prob_desc_description": "Zane the wizard is going to perform a magic show shuffling the cups.There are n cups, numbered from 1 to n, placed along the x-axis on a table that has m holes on it. More precisely, cup i is on the table at the position x = i.The problematic bone is initially at the position x = 1. Zane will confuse the audience by swapping the cups k times, the i-th time of which involves the cups at the positions x = ui and x = vi. If the bone happens to be at the position where there is a hole at any time, it will fall into the hole onto the ground and will not be affected by future swapping operations.Do not forget that Zane is a wizard. When he swaps the cups, he does not move them ordinarily. Instead, he teleports the cups (along with the bone, if it is inside) to the intended positions. Therefore, for example, when he swaps the cup at x = 4 and the one at x = 6, they will not be at the position x = 5 at any moment during the operation.  Zane’s puppy, Inzane, is in trouble. Zane is away on his vacation, and Inzane cannot find his beloved bone, as it would be too exhausting to try opening all the cups. Inzane knows that the Codeforces community has successfully helped Zane, so he wants to see if it could help him solve his problem too. Help Inzane determine the final position of the bone.",
+    "prob_desc_output_spec": "Print one integer — the final position along the x-axis of the bone.",
+    "prob_desc_input_spec": "The first line contains three integers n, m, and k (2 ≤ n ≤ 106, 1 ≤ m ≤ n, 1 ≤ k ≤ 3·105) — the number of cups, the number of holes on the table, and the number of swapping operations, respectively. The second line contains m distinct integers h1, h2, ..., hm (1 ≤ hi ≤ n) — the positions along the x-axis where there is a hole on the table. Each of the next k lines contains two integers ui and vi (1 ≤ ui, vi ≤ n, ui ≠ vi) — the positions of the cups to be swapped.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_003.jsonl",
+    "code_uid": "92de02a608bf2662bfc8be7061f4e70f",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7 3 4\\n3 4 6\\n1 2\\n2 5\\n5 7\\n7 1\", \"5 1 2\\n2\\n1 2\\n2 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def inp(n):\n    if n == 1:\n        return map(int, stdin.readline().split())\n    elif n == 2:\n        return map(float, stdin.readline().split())\n    else:\n        return map(str, stdin.readline().split())\n\n\ndef arr_inp():\n    return [int(x) for x in stdin.readline().split()]\n\n\ndef arr_2d(n):\n    return [[int(x) for x in stdin.readline().split()] for i in range(n)]\n\n\nfrom sys import stdin\nfrom collections import defaultdict\n\nn, m, k = inp(1)\nh, swap, bone = arr_inp(), arr_2d(k), 1\nh = defaultdict(int, {h[i]: 1 for i in range(m)})\n\nif h[bone]:\n    exit(print(bone))\nfor i in swap:\n    if i[0] == bone:\n        bone = i[1]\n    elif i[1] == bone:\n        bone = i[0]\n    if h[bone]:\n        exit(print(bone))\nprint(bone)\n",
+    "prob_desc_created_at": "1491842100",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

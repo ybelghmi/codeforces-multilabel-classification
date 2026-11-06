@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nNO\"]",
+    "src_uid": "6cebf9af5cfbb949f22e8b336bf07044",
+    "prob_desc_notes": "NoteThe given test has three numbers. The first number 4 has exactly three divisors — 1, 2 and 4, thus the answer for this number is \"YES\". The second number 5 has two divisors (1 and 5), and the third number 6 has four divisors (1, 2, 3, 6), hence the answer for them is \"NO\".",
+    "prob_desc_description": "We know that prime numbers are positive integers that have exactly two distinct positive divisors. Similarly, we'll call a positive integer t Т-prime, if t has exactly three distinct positive divisors.You are given an array of n positive integers. For each of them determine whether it is Т-prime or not.",
+    "prob_desc_output_spec": "Print n lines: the i-th line should contain \"YES\" (without the quotes), if number xi is Т-prime, and \"NO\" (without the quotes), if it isn't.",
+    "prob_desc_input_spec": "The first line contains a single positive integer, n (1 ≤ n ≤ 105), showing how many numbers are in the array. The next line contains n space-separated integers xi (1 ≤ xi ≤ 1012). Please, do not use the %lld specifier to read or write 64-bit integers in С++. It is advised to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_001.jsonl",
+    "code_uid": "d21fe65e3b4a0c1ee1af187a728f3356",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n4 5 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from math import sqrt\nn = int(input())\ns = [int(i) for i in input().split()]\nd = [1]*1000002\ne = set()\nfor i in range(2,1000002):\n\tif d[i]:\n\t\te.add(i**2)\n\t\tfor j in range(i**2,1000002,i):\n\t\t\td[j]=0\nfor i in range(n):\n\tif s[i] in e:\n\t\tprint(\"YES\")\n\telse:\n\t\tprint(\"NO\")",
+    "prob_desc_created_at": "1349105400",
+    "tags": [
+        "binary search",
+        "number theory",
+        "implementation",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

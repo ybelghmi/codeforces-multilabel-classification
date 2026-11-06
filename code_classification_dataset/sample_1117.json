@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "0.5 seconds",
+    "prob_desc_sample_outputs": "[\"0\", \"2\", \"6\"]",
+    "src_uid": "1cd295e204724335c63e685fcc0708b8",
+    "prob_desc_notes": "NoteIn the first sample the array is already sorted in the non-decreasing order, so the answer is 0.In the second sample you need to perform two operations: first increase numbers from second to third (after that the array will be: [3, 3, 2]), and second increase only the last element (the array will be: [3, 3, 3]).In the third sample you should make at least 6 steps. The possible sequence of the operations is: (2; 3), (2; 3), (2; 3), (3; 3), (3; 3), (3; 3). After that the array converts to [7, 7, 7, 47].",
+    "prob_desc_description": "The Little Elephant loves sortings.He has an array a consisting of n integers. Let's number the array elements from 1 to n, then the i-th element will be denoted as ai. The Little Elephant can make one move to choose an arbitrary pair of integers l and r (1 ≤ l ≤ r ≤ n) and increase ai by 1 for all i such that l ≤ i ≤ r.Help the Little Elephant find the minimum number of moves he needs to convert array a to an arbitrary array sorted in the non-decreasing order. Array a, consisting of n elements, is sorted in the non-decreasing order if for any i (1 ≤ i &lt; n) ai ≤ ai + 1 holds.",
+    "prob_desc_output_spec": "In a single line print a single integer — the answer to the problem. Please, do not use the %lld specifier to read or write 64-bit integers in С++. It is preferred to use the cin, cout streams or the %I64d specifier.",
+    "prob_desc_input_spec": "The first line contains a single integer n (1 ≤ n ≤ 105) — the size of array a. The next line contains n integers, separated by single spaces — array a (1 ≤ ai ≤ 109). The array elements are listed in the line in the order of their index's increasing.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1400,
+    "file_name": "train_006.jsonl",
+    "code_uid": "db991e2a6e7e0e55f4871b44ebabc9c4",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\", \"3\\n3 2 1\", \"4\\n7 4 1 47\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n = int(input())\nl = list(map(int,input().split()))\nl.append(max(l))\nm,ans = l[0],0\nfor i in range(1,n) :\n    if l[i-1]>l[i] :\n        ans += l[i-1]-l[i]\nprint(ans)",
+    "prob_desc_created_at": "1342020600",
+    "tags": [
+        "greedy",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

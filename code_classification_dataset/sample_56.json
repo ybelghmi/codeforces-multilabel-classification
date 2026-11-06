@@ -1,0 +1,30 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"3\\n3 1 4 2 4 2 5\"]",
+    "src_uid": "6443dffb38285b6deb74f2371d8d0cac",
+    "prob_desc_notes": "NoteIn the sample it's not possible to place the ice spheres in any order so that Sage would buy $$$4$$$ of them. If the spheres are placed in the order $$$(3, 1, 4, 2, 4, 2, 5)$$$, then Sage will buy one sphere for $$$1$$$ and two spheres for $$$2$$$ each.",
+    "prob_desc_description": "This is the hard version of the problem. The difference between the versions is that in the easy version all prices $$$a_i$$$ are different. You can make hacks if and only if you solved both versions of the problem.Today is Sage's birthday, and she will go shopping to buy ice spheres. All $$$n$$$ ice spheres are placed in a row and they are numbered from $$$1$$$ to $$$n$$$ from left to right. Each ice sphere has a positive integer price. In this version, some prices can be equal.An ice sphere is cheap if it costs strictly less than two neighboring ice spheres: the nearest to the left and the nearest to the right. The leftmost and the rightmost ice spheres are not cheap. Sage will choose all cheap ice spheres and then buy only them.You can visit the shop before Sage and reorder the ice spheres as you wish. Find out the maximum number of ice spheres that Sage can buy, and show how the ice spheres should be reordered.",
+    "prob_desc_output_spec": "In the first line print the maximum number of ice spheres that Sage can buy. In the second line print the prices of ice spheres in the optimal order. If there are several correct answers, you can print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ $$$(1 \\le n \\le 10^5)$$$ — the number of ice spheres in the shop. The second line contains $$$n$$$ integers $$$a_1, a_2, \\dots, a_n$$$ $$$(1 \\le a_i \\le 10^9)$$$ — the prices of ice spheres.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_000.jsonl",
+    "code_uid": "1d1427274e19446d4f09d814b090d61a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"7\\n1 3 2 2 4 5 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from sys import stdin\nfrom math import ceil, gcd\n\n# Input data\n#stdin = open(\"input\", \"r\")\n\nn = int(stdin.readline())\narr = list(map(int, stdin.readline().split()))\narr.sort()\nans = [0] * n\nj = n - 1\nfor i in range(0, n, 2):\n    ans[i] = arr[j]\n    j -= 1\nj = 0\nif n % 2 == 0:\n    for i in range(n - 3, -1, -2):\n        ans[i] = arr[j]\n        j += 1\n    ans[n - 1] = arr[j]\nelse:\n    for i in range(n - 2, -1, -2):\n        ans[i] = arr[j]\n        j += 1\ncount = 0\nfor i in range(1, n - 1):\n    if ans[i] < ans[i - 1] and ans[i] < ans[i + 1]:\n        count += 1\nprint(count)\nprint(*ans)\n",
+    "prob_desc_created_at": "1600526100",
+    "tags": [
+        "greedy",
+        "constructive algorithms",
+        "two pointers",
+        "sortings",
+        "binary search",
+        "brute force"
+    ],
+    "hidden_unit_tests": ""
+}

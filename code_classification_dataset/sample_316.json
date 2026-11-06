@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 7 \\n2 2 4 \\n2 1 3 \\n1 5\", \"3 7 8 9 \\n2 6 100 \\n1 1 \\n1 2\", \"1 1 \\n1 2 \\n1 3\"]",
+    "src_uid": "bde894dc01c65da67d32c716981926f6",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Little Vasya likes very much to play with sets consisting of positive integers. To make the game more interesting, Vasya chose n non-empty sets in such a way, that no two of them have common elements.One day he wanted to show his friends just how interesting playing with numbers is. For that he wrote out all possible unions of two different sets on n·(n - 1) / 2 pieces of paper. Then he shuffled the pieces of paper. He had written out the numbers in the unions in an arbitrary order.For example, if n = 4, and the actual sets have the following form {1, 3}, {5}, {2, 4}, {7}, then the number of set pairs equals to six. The six pieces of paper can contain the following numbers:   2, 7, 4.  1, 7, 3;  5, 4, 2;  1, 3, 5;  3, 1, 2, 4;  5, 7. Then Vasya showed the pieces of paper to his friends, but kept the n sets secret from them. His friends managed to calculate which sets Vasya had thought of in the first place. And how about you, can you restore the sets by the given pieces of paper?",
+    "prob_desc_output_spec": "Print on n lines Vasya's sets' description. The first number on the line shows how many numbers the current set has. Then the set should be recorded by listing its elements. Separate the numbers by spaces. Each number and each set should be printed exactly once. Print the sets and the numbers in the sets in any order. If there are several answers to that problem, print any of them. It is guaranteed that there is a solution.",
+    "prob_desc_input_spec": "The first input file line contains a number n (2 ≤ n ≤ 200), n is the number of sets at Vasya's disposal. Then follow sets of numbers from the pieces of paper written on n·(n - 1) / 2 lines. Each set starts with the number ki (2 ≤ ki ≤ 200), which is the number of numbers written of the i-th piece of paper, and then follow ki numbers aij (1 ≤ aij ≤ 200). All the numbers on the lines are separated by exactly one space. It is guaranteed that the input data is constructed according to the above given rules from n non-intersecting sets.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_001.jsonl",
+    "code_uid": "f5ad9260c064bb5775d30ee2a598ea9a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n3 2 7 4\\n3 1 7 3\\n3 5 4 2\\n3 1 3 5\\n4 3 1 2 4\\n2 5 7\", \"4\\n5 6 7 8 9 100\\n4 7 8 9 1\\n4 7 8 9 2\\n3 1 6 100\\n3 2 6 100\\n2 1 2\", \"3\\n2 1 2\\n2 1 3\\n2 2 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n=int(input())\nif n!=2:\n    st=[]\n    from collections import *\n    cnt=defaultdict(list)\n    for _ in range((n*(n-1))//2):\n        x=str(_)\n        l=set(int(j) for j in input().split()[1:])\n        for i in l:\n            cnt[i].append(x)\n    for i,j in cnt.items():\n        cnt[i]='#'.join(j)\n    finset=defaultdict(list)\n    for i,j in cnt.items():\n        finset[j].append(i)\n    for i in finset.values():\n        print(len(i),*sorted(i))\nelse:\n    l=[int(j) for j in input().split()[1:]]\n    sz=len(l)\n    l1=l[:sz//2]\n    l2=l[sz//2:]\n    print(len(l1),*l1)\n    print(len(l1),*l2)\n",
+    "prob_desc_created_at": "1304694000",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "hashing"
+    ],
+    "hidden_unit_tests": ""
+}

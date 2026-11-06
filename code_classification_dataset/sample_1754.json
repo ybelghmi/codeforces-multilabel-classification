@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"2 6\", \"0 0\", \"0 0\"]",
+    "src_uid": "a440099306ef411a4deca7fe3305c08b",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Vasya collects coins: he has exactly one coin for every year from 1 to n. Naturally, Vasya keeps all the coins in his collection in the order in which they were released. Once Vasya's younger brother made a change — he took all the coins whose release year dated from l to r inclusively and put them in the reverse order. That is, he took a certain segment [l, r] and reversed it. At that the segment's endpoints did not coincide. For example, if n = 8, then initially Vasya's coins were kept in the order 1 2 3 4 5 6 7 8. If Vasya's younger brother chose the segment [2, 6], then after the reversal the coin order will change to 1 6 5 4 3 2 7 8. Vasya suspects that someone else could have spoilt the permutation after his brother. Help him to find that out. Check if the given permutation can be obtained from the permutation 1 2 ... n using exactly one segment reversal. If it is possible, find the segment itself.",
+    "prob_desc_output_spec": "If it is impossible to obtain the given permutation from the original one in exactly one action, print 0 0. Otherwise, print two numbers l r (1 ≤ l &lt; r ≤ n) which are the endpoints of the segment that needs to be reversed to obtain from permutation 1 2 ... n the given one.",
+    "prob_desc_input_spec": "The first line contains an integer n (1 ≤ n ≤ 1000) which is the number of coins in Vasya's collection. The second line contains space-separated n integers which are the spoilt sequence of coins. It is guaranteed that the given sequence is a permutation, i.e. it contains only integers from 1 to n, and every number is used exactly 1 time.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1300,
+    "file_name": "train_012.jsonl",
+    "code_uid": "de11b6829139e86f5993e812f2b440f8",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"8\\n1 6 5 4 3 2 7 8\", \"4\\n2 3 4 1\", \"4\\n1 2 3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def main():\n    num = int(input())\n    data = [int(x) for x in input().split()]\n    left = 0\n    right = 0\n    sign = True\n    i = 0\n    j = 0\n\n        \n    if len(data)<2:\n        sign = False\n    #find left\n    for i in range(len(data)):\n        if data[i] != i+1:\n            break\n    left = i+1\n    \n    #check left\n    if left>num:\n        sign = False   \n    #find right\n    for j in range(num-1, i,-1):\n        if data[j] != j+1:\n            break           \n    right = j+1\n    \n    #check left\n    if right<1:\n        sign = False\n    if left > right:\n        sign = False\n    #check data from left to right\n    for i in range(left-1, right-1):\n       \n        if data[i]!= data[i+1]+1:\n            sign = False\n            break\n\n        \n   \n    if sign:\n        print(left,right)\n    else:\n        print(\"0 0\\n\")\n\nmain()\n\n    \n        \n\n    \n",
+    "prob_desc_created_at": "1295626200",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

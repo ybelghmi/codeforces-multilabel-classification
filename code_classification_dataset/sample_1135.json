@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"6\", \"0\"]",
+    "src_uid": "6bceaf308c38d234ba931c13e4f70929",
+    "prob_desc_notes": "NoteIn the first example, it is possible to find three publications of the second type, which will take 6 seconds.In the second example, all news categories contain a different number of publications.",
+    "prob_desc_description": "VK news recommendation system daily selects interesting publications of one of $$$n$$$ disjoint categories for each user. Each publication belongs to exactly one category. For each category $$$i$$$ batch algorithm selects $$$a_i$$$ publications.The latest A/B test suggests that users are reading recommended publications more actively if each category has a different number of publications within daily recommendations. The targeted algorithm can find a single interesting publication of $$$i$$$-th category within $$$t_i$$$ seconds. What is the minimum total time necessary to add publications to the result of batch algorithm execution, so all categories have a different number of publications? You can't remove publications recommended by the batch algorithm.",
+    "prob_desc_output_spec": "Print one integer — the minimal required time for the targeted algorithm to get rid of categories with the same size.",
+    "prob_desc_input_spec": "The first line of input consists of single integer $$$n$$$ — the number of news categories ($$$1 \\le n \\le 200\\,000$$$). The second line of input consists of $$$n$$$ integers $$$a_i$$$ — the number of publications of $$$i$$$-th category selected by the batch algorithm ($$$1 \\le a_i \\le 10^9$$$). The third line of input consists of $$$n$$$ integers $$$t_i$$$ — time it takes for targeted algorithm to find one new publication of category $$$i$$$ ($$$1 \\le t_i \\le 10^5)$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1700,
+    "file_name": "train_006.jsonl",
+    "code_uid": "e1644c4fc6295962335c1354c0ce890b",
+    "prob_desc_memory_limit": "512 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n3 7 9 7 8\\n5 2 5 7 5\", \"5\\n1 2 3 4 5\\n1 1 1 1 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import heapq\n\nn=int(input())\na=[int(x) for x in input().split()]\nt=[int(x) for x in input().split()]\n\nat=[]\nfor i in range(n):\n    at.append([a[i],t[i]])\nat.sort(key=lambda x:x[0])\n\ngp=[] #max heap\ngpSum=0\nsize=0\nans=0\nfor i in range(n):\n    a,t=at[i]\n    size=a\n    heapq.heappush(gp,-t)\n    gpSum+=t\n    while True:\n#        print('size:{} a:{} t:{} gpSum:{} ans:{}'.format(size,a,t,gpSum,ans))\n        if gpSum==0 or (i+1<n and size==at[i+1][0]):\n            break\n        if len(gp)>1:\n            ans+=gpSum-(-gp[0])\n        if len(gp)>0:\n            gpSum-=(-gp[0])\n            heapq.heappop(gp)\n        size+=1\n        \n\nprint(ans)",
+    "prob_desc_created_at": "1582473900",
+    "tags": [
+        "data structures",
+        "sortings",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}

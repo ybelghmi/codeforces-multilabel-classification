@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"cccbbabaccbc\", \"cccccc\", \"\"]",
+    "src_uid": "9f095a5f5b39d8c2f99c4162f2d7c5ff",
+    "prob_desc_notes": null,
+    "prob_desc_description": "You are given a string $$$s$$$ consisting of $$$n$$$ lowercase Latin letters. Polycarp wants to remove exactly $$$k$$$ characters ($$$k \\le n$$$) from the string $$$s$$$. Polycarp uses the following algorithm $$$k$$$ times:  if there is at least one letter 'a', remove the leftmost occurrence and stop the algorithm, otherwise go to next item;  if there is at least one letter 'b', remove the leftmost occurrence and stop the algorithm, otherwise go to next item;  ...  remove the leftmost occurrence of the letter 'z' and stop the algorithm. This algorithm removes a single letter from the string. Polycarp performs this algorithm exactly $$$k$$$ times, thus removing exactly $$$k$$$ characters.Help Polycarp find the resulting string.",
+    "prob_desc_output_spec": "Print the string that will be obtained from $$$s$$$ after Polycarp removes exactly $$$k$$$ letters using the above algorithm $$$k$$$ times. If the resulting string is empty, print nothing. It is allowed to print nothing or an empty line (line break).",
+    "prob_desc_input_spec": "The first line of input contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le k \\le n \\le 4 \\cdot 10^5$$$) — the length of the string and the number of letters Polycarp will remove. The second line contains the string $$$s$$$ consisting of $$$n$$$ lowercase Latin letters.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_002.jsonl",
+    "code_uid": "393bb587d0326c056316646809818a5a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"15 3\\ncccaabababaccbc\", \"15 9\\ncccaabababaccbc\", \"1 1\\nu\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "if __name__=='__main__':\n    n, k = input().split()\n    n = int(n)\n    k = int(k)\n    s = input()\n    chars = list(s)\n    appearances = {}\n    for i in range(27):\n        appearances[chr(97+i)] = 0\n\n    for letter in s:\n        appearances[letter] += 1\n\n    # for i in range(27):\n    #     letter = chr(97+i)\n    #     if appearances[letter] <= k:\n    #         k -= appearances[letter]\n    #         s = s.replace(letter, \"\")\n    #     else:\n    #         while k > 0:\n    #             ind = s.index(letter)\n    #             part1 = s[:ind]\n    #             part2 = s[ind + 1:]\n    #             s = part1 + part2\n    #             k -= 1\n    last_remove = \"\"\n    for i in range(27):\n        letter = chr(97+i)\n        if appearances[letter] <= k:\n            k -= appearances[letter]\n            appearances[letter] = 0\n            if k == 0:\n                break\n        else:\n            last_remove = letter\n            k = appearances[letter] - k\n            break\n\n    # for ch in s:\n    #     if appearances[ch] == 0:\n    #         chars.remove(ch)\n    #     elif ch == last_remove:\n    #         if appearances[ch] > k:\n    #             chars.remove(ch)\n    #             appearances[ch] -= 1\n\n    new_s = []\n    for ch in s:\n        # if (k == 0 and ch != last_remove) or appearances[ch] <= k:\n        #     new_s.append(ch)\n        # else:\n        #     appearances[ch] -= 1\n        if ch == last_remove and appearances[ch] > k:\n            appearances[ch] -= 1\n        elif appearances[ch] != 0:\n            new_s.append(ch)\n\n    s = \"\".join(new_s)\n    print(s)",
+    "prob_desc_created_at": "1529591700",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

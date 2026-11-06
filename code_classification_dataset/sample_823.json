@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"8\", \"19210869\"]",
+    "src_uid": "460c075df98b4a61786e76c0ecff8311",
+    "prob_desc_notes": "NoteIn the first example, the sequence $$$P = [1, 2, 2, 1]$$$. It has eight distinct subarrays: $$$[1]$$$, $$$[2]$$$, $$$[1, 2]$$$, $$$[2, 1]$$$, $$$[2, 2]$$$, $$$[1, 2, 2]$$$, $$$[2, 2, 1]$$$ and $$$[1, 2, 2, 1]$$$. ",
+    "prob_desc_description": "Let $$$n$$$ be an integer. Consider all permutations on integers $$$1$$$ to $$$n$$$ in lexicographic order, and concatenate them into one big sequence $$$P$$$. For example, if $$$n = 3$$$, then $$$P = [1, 2, 3, 1, 3, 2, 2, 1, 3, 2, 3, 1, 3, 1, 2, 3, 2, 1]$$$. The length of this sequence is $$$n \\cdot n!$$$.Let $$$1 \\leq i \\leq j \\leq n \\cdot n!$$$ be a pair of indices. We call the sequence $$$(P_i, P_{i+1}, \\dots, P_{j-1}, P_j)$$$ a subarray of $$$P$$$. You are given $$$n$$$. Find the number of distinct subarrays of $$$P$$$. Since this number may be large, output it modulo $$$998244353$$$ (a prime number). ",
+    "prob_desc_output_spec": "Output a single integer — the number of distinct subarrays, modulo $$$998244353$$$.",
+    "prob_desc_input_spec": "The only line contains one integer $$$n$$$ ($$$1 \\leq n \\leq 10^6$$$), as described in the problem statement.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 3300,
+    "file_name": "train_004.jsonl",
+    "code_uid": "1ece8eb559ba06ed9f414fd9be3880f2",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\", \"10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import math\ndef f(n):\n    l = math.factorial(n)*n\n    ans = l * (l-n+2) // 2\n    for i in range(1,n):\n        ans -= math.factorial(n)//math.factorial(i+1)*n*(i*(n-i)-1)\n    return ans\n \ndef solve(n):\n    M = 998244353\n    p = n\n    a = 0\n    for i in range(n,1,-1):\n        a=(a+p*(i-1)*(n-i+1)-p)%M\n        p=p*i%M\n    a = (p*(p-n+2)-2*a)%M\n    if a&1:a+=M\n    return a//2\n \nx = int(input())\nans = solve(x)\nprint(ans)\n",
+    "prob_desc_created_at": "1576595100",
+    "tags": [
+        "string suffix structures"
+    ],
+    "hidden_unit_tests": ""
+}

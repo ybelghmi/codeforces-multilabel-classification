@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"5\", \"20\"]",
+    "src_uid": "0200c1ea8d7e429e7e9e6b5dc36e3093",
+    "prob_desc_notes": "NoteIn the first example the intervals from the answer are (1, 1), (1, 2), (2, 2), (3, 3) and (4, 4).",
+    "prob_desc_description": "You are given a permutation p of length n. Also you are given m foe pairs (ai, bi) (1 ≤ ai, bi ≤ n, ai ≠ bi). Your task is to count the number of different intervals (x, y) (1 ≤ x ≤ y ≤ n) that do not contain any foe pairs. So you shouldn't count intervals (x, y) that contain at least one foe pair in it (the positions and order of the values from the foe pair are not important).Consider some example: p = [1, 3, 2, 4] and foe pairs are {(3, 2), (4, 2)}. The interval (1, 3) is incorrect because it contains a foe pair (3, 2). The interval (1, 4) is also incorrect because it contains two foe pairs (3, 2) and (4, 2). But the interval (1, 2) is correct because it doesn't contain any foe pair.",
+    "prob_desc_output_spec": "Print the only integer c — the number of different intervals (x, y) that does not contain any foe pairs. Note that the answer can be too large, so you should use 64-bit integer type to store it. In C++ you can use the long long integer type and in Java you can use long integer type.",
+    "prob_desc_input_spec": "The first line contains two integers n and m (1 ≤ n, m ≤ 3·105) — the length of the permutation p and the number of foe pairs. The second line contains n distinct integers pi (1 ≤ pi ≤ n) — the elements of the permutation p. Each of the next m lines contains two integers (ai, bi) (1 ≤ ai, bi ≤ n, ai ≠ bi) — the i-th foe pair. Note a foe pair can appear multiple times in the given list.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1800,
+    "file_name": "train_017.jsonl",
+    "code_uid": "8ea6f3dca32345e74667889bf8f75492",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4 2\\n1 3 2 4\\n3 2\\n2 4\", \"9 5\\n9 7 2 3 1 4 6 5 8\\n1 6\\n4 5\\n2 7\\n7 2\\n2 7\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "def f():\n    sizes = input().split(' ')\n    n, m = int(sizes[0]), int(sizes[1]) \n    permStr = input().split(' ')\n    pairsStr = [input() for i in range(m)]\n\n    indexes = [0 for i in range(n+1)]\n    for i in range(n):\n        indexes[int(permStr[i])] = i+1\n    lowerNums = [0 for i in range(n+1)]\n\n    for i in range(m):\n        pair = pairsStr[i].split(\" \")\n        a, b = indexes[int(pair[0])], indexes[int(pair[1])]\n        if a < b:\n            l = a\n            h = b\n        else:\n            l = b\n            h = a\n        if l > lowerNums[h]:\n            lowerNums[h] = l\n\n    counter = 0\n    left = 0\n    for i in range(1,n+1):\n        candidate = lowerNums[i]\n        if candidate > left:\n            r=i-1-left\n            q=i-1-candidate\n            counter += (r*(r-1) - q*(q-1))//2\n            left = candidate\n    r=i-left\n    counter += r*(r-1)//2\n\n    print(counter + n)\n\n\nf() \n",
+    "prob_desc_created_at": "1458910800",
+    "tags": [
+        "two pointers",
+        "sortings",
+        "combinatorics"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"2\"]",
+    "src_uid": "daabf732540e0f66d009dc211c2d7b0b",
+    "prob_desc_notes": "NoteIn the first sample there is only one pair of i = 1 and j = 2.  so the answer is 1.In the second sample the only two pairs are i = 3, j = 4 (since ) and i = 1, j = 5 (since ).A bitwise xor takes two bit integers of equal length and performs the logical xor operation on each pair of corresponding bits. The result in each position is 1 if only the first bit is 1 or only the second bit is 1, but will be 0 if both are 0 or both are 1. You can read more about bitwise xor operation here: https://en.wikipedia.org/wiki/Bitwise_operation#XOR.",
+    "prob_desc_description": "There are some beautiful girls in Arpa’s land as mentioned before.Once Arpa came up with an obvious problem:Given an array and a number x, count the number of pairs of indices i, j (1 ≤ i &lt; j ≤ n) such that , where  is bitwise xor operation (see notes for explanation).  Immediately, Mehrdad discovered a terrible solution that nobody trusted. Now Arpa needs your help to implement the solution to that problem.",
+    "prob_desc_output_spec": "Print a single integer: the answer to the problem.",
+    "prob_desc_input_spec": "First line contains two integers n and x (1 ≤ n ≤ 105, 0 ≤ x ≤ 105) — the number of elements in the array and the integer x. Second line contains n integers a1, a2, ..., an (1 ≤ ai ≤ 105) — the elements of the array.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_002.jsonl",
+    "code_uid": "ea8743b1ea0bdfbe7409d20f9de3fd88",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2 3\\n1 2\", \"6 1\\n5 1 2 3 4 1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "n,x=map(int,input().split())\ncount = 0\nd = {}\nl = list(map(int,input().split()))\ninp = l[0]\nd[inp]=1\nfor i in range(1,n):\n\tinp = l[i]\n\txor = x^inp\n\tif xor in d:\n\t\tcount+=d[xor]\n\tif inp not in d:\n\t\td[inp]=0\n\td[inp]+=1\nprint(count)",
+    "prob_desc_created_at": "1481034900",
+    "tags": [
+        "number theory",
+        "brute force",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

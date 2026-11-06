@@ -1,0 +1,25 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"12\\n32\"]",
+    "src_uid": "42840fc873369e0d0d6a4ad24a43f5a6",
+    "prob_desc_notes": "NoteIn the first test case, Alexey arrives at station $$$1$$$ without any delay at the moment $$$a_1 = 2$$$ (since $$$tm_1 = 0$$$). After that, he departs at moment $$$b_1 = 4$$$. Finally, he arrives at station $$$2$$$ with $$$tm_2 = 2$$$ extra time, or at the moment $$$12$$$.In the second test case, Alexey arrives at the first station with $$$tm_1 = 1$$$ extra time, or at moment $$$2$$$. The train, from one side, should stay at the station at least $$$\\left\\lceil \\frac{b_1 - a_1}{2} \\right\\rceil = 2$$$ units of time and from the other side should depart not earlier than at moment $$$b_1 = 4$$$. As a result, the trains departs right at the moment $$$4$$$.Using the same logic, we can figure out that the train arrives at the second station at the moment $$$9$$$ and departs at the moment $$$10$$$; at the third station: arrives at $$$14$$$ and departs at $$$15$$$; at the fourth: arrives at $$$22$$$ and departs at $$$23$$$. And, finally, arrives at the fifth station at $$$32$$$.",
+    "prob_desc_description": "Alexey is travelling on a train. Unfortunately, due to the bad weather, the train moves slower that it should!Alexey took the train at the railroad terminal. Let's say that the train starts from the terminal at the moment $$$0$$$. Also, let's say that the train will visit $$$n$$$ stations numbered from $$$1$$$ to $$$n$$$ along its way, and that Alexey destination is the station $$$n$$$.Alexey learned from the train schedule $$$n$$$ integer pairs $$$(a_i, b_i)$$$ where $$$a_i$$$ is the expected time of train's arrival at the $$$i$$$-th station and $$$b_i$$$ is the expected time of departure.Also, using all information he has, Alexey was able to calculate $$$n$$$ integers $$$tm_1, tm_2, \\dots, tm_n$$$ where $$$tm_i$$$ is the extra time the train need to travel from the station $$$i - 1$$$ to the station $$$i$$$. Formally, the train needs exactly $$$a_i - b_{i-1} + tm_i$$$ time to travel from station $$$i - 1$$$ to station $$$i$$$ (if $$$i = 1$$$ then $$$b_0$$$ is the moment the train leave the terminal, and it's equal to $$$0$$$).The train leaves the station $$$i$$$, if both conditions are met:   it's on the station for at least $$$\\left\\lceil \\frac{b_i - a_i}{2} \\right\\rceil$$$ units of time (division with ceiling);  current time $$$\\ge b_i$$$. Since Alexey spent all his energy on prediction of time delays, help him to calculate the time of arrival at the station $$$n$$$.",
+    "prob_desc_output_spec": "For each test case, print one integer — the time of Alexey's arrival at the last station.",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 100$$$) — the number of test cases. The first line of each test case contains the single integer $$$n$$$ ($$$1 \\le n \\le 100$$$) — the number of stations. Next $$$n$$$ lines contain two integers each: $$$a_i$$$ and $$$b_i$$$ ($$$1 \\le a_i &lt; b_i \\le 10^6$$$). It's guaranteed that $$$b_i &lt; a_{i+1}$$$.  Next line contains $$$n$$$ integers $$$tm_1, tm_2, \\dots, tm_n$$$ ($$$0 \\le tm_i \\le 10^6$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_096.jsonl",
+    "code_uid": "3c5a896dbf663fd02973a6b4d3d60526",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n2\\n2 4\\n10 12\\n0 2\\n5\\n1 4\\n7 8\\n9 10\\n13 15\\n19 20\\n1 2 3 4 5\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import io,sys,os,math\r\ninput = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline\r\n\r\ndef printArr(arr):\r\n\tsys.stdout.write(\" \".join(map(str,arr)) + \"\\n\")\r\n\r\n\r\n\r\ndef solve(stations,extraTime,n):\r\n\tanswer=stations[0][0]  + extraTime[0]\r\n\tif n==1:\r\n\t\treturn answer\r\n\tanswer += abs(math.ceil((stations[0][1] - stations[0][0])/2))\r\n\tif not answer>=stations[0][1]:\r\n\t\t\tanswer= stations[0][1]\r\n\tfor i in range(1,n):\r\n\t\tanswer+= stations[i][0]  + extraTime[i] - stations[i-1][1]\r\n\t\tif i<n-1:\r\n\t\t\tanswer += abs(math.ceil((stations[i][1] - stations[i][0])/2))\r\n\t\t\tif not answer>=stations[i][1]:\r\n\t\t\t\tanswer=stations[i][1]\r\n\r\n\r\n\treturn answer\r\n\r\nt=int(input().decode())\r\nwhile t>0:\r\n\tn=int(input().decode())\r\n\tstations = list()\r\n\tfor i in range(n):\r\n\t\tarr=[int(i) for i in input().decode().strip().split()]\r\n\t\tstations.append(arr)\r\n\textraTime = [int(i) for i in input().decode().strip().split()]\r\n\tanswer=solve(stations,extraTime,n)\r\n\tsys.stdout.write(str(answer)+'\\n')\r\n\tt-=1\r\n",
+    "prob_desc_created_at": "1615626300",
+    "tags": [
+        "implementation"
+    ],
+    "hidden_unit_tests": ""
+}

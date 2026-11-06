@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"? 1 2\\n\\n? 3 2\\n\\n? 1 3\\n\\n? 2 1\\n\\n! 1 3 2\"]",
+    "src_uid": "9bfbd68e61f4d2f3d404fd0413aded35",
+    "prob_desc_notes": null,
+    "prob_desc_description": "This is an interactive problem.We hid from you a permutation $$$p$$$ of length $$$n$$$, consisting of the elements from $$$1$$$ to $$$n$$$. You want to guess it. To do that, you can give us 2 different indices $$$i$$$ and $$$j$$$, and we will reply with $$$p_{i} \\bmod p_{j}$$$ (remainder of division $$$p_{i}$$$ by $$$p_{j}$$$).We have enough patience to answer at most $$$2 \\cdot n$$$ queries, so you should fit in this constraint. Can you do it?As a reminder, a permutation of length $$$n$$$ is an array consisting of $$$n$$$ distinct integers from $$$1$$$ to $$$n$$$ in arbitrary order. For example, $$$[2,3,1,5,4]$$$ is a permutation, but $$$[1,2,2]$$$ is not a permutation ($$$2$$$ appears twice in the array) and $$$[1,3,4]$$$ is also not a permutation ($$$n=3$$$ but there is $$$4$$$ in the array).",
+    "prob_desc_output_spec": null,
+    "prob_desc_input_spec": "The only line of the input contains a single integer $$$n$$$ ($$$1 \\le n \\le 10^4$$$) — length of the permutation.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1600,
+    "file_name": "train_000.jsonl",
+    "code_uid": "ee560325f27fefa25653b9210ee8221a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n\\n1\\n\\n2\\n\\n1\\n\\n0\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import os\nfrom io import BytesIO, IOBase\nimport sys\nfrom math import *\nfrom collections import Counter\n\n\ndef main():\n    n=int(input())\n    ans=[n]*(n+1)\n    z=set(range(1,n+1))\n    while len(z)!=1:\n        a,b=z.pop(),z.pop()\n        print('?',a,b,flush=True)\n        x=int(input())\n        print('?',b,a,flush=True)\n        y=int(input())\n        if x>y:\n            ans[a]=x\n            z.add(b)\n        else:\n            ans[b]=y\n            z.add(a)\n    print(\"!\",*ans[1:],flush=True)\n\n# region fastio\nBUFSIZE = 8192\n\nclass FastIO(IOBase):\n    newlines = 0\n\n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\n        self.write = self.buffer.write if self.writable else None\n\n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n\n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b\"\\n\") + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n\n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n\n\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\n\n\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\n\nif __name__ == \"__main__\":\n    main()",
+    "prob_desc_created_at": "1599575700",
+    "tags": [
+        "math",
+        "constructive algorithms",
+        "two pointers",
+        "interactive"
+    ],
+    "hidden_unit_tests": ""
+}

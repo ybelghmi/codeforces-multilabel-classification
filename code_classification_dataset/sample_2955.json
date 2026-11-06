@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\n2 1\\n1 2\"]",
+    "src_uid": "1e061d8c4bff217047ddc58e88be0c3f",
+    "prob_desc_notes": "NoteIn the sample from the statement there is a suitable graph consisting of two vertices, connected by a single edge.",
+    "prob_desc_description": "An undirected graph is called k-regular, if the degrees of all its vertices are equal k. An edge of a connected graph is called a bridge, if after removing it the graph is being split into two connected components.Build a connected undirected k-regular graph containing at least one bridge, or else state that such graph doesn't exist.",
+    "prob_desc_output_spec": "Print \"NO\" (without quotes), if such graph doesn't exist.  Otherwise, print \"YES\" in the first line and the description of any suitable graph in the next lines. The description of the made graph must start with numbers n and m — the number of vertices and edges respectively.  Each of the next m lines must contain two integers, a and b (1 ≤ a, b ≤ n, a ≠ b), that mean that there is an edge connecting the vertices a and b. A graph shouldn't contain multiple edges and edges that lead from a vertex to itself. A graph must be connected, the degrees of all vertices of the graph must be equal k. At least one edge of the graph must be a bridge. You can print the edges of the graph in any order. You can print the ends of each edge in any order. The constructed graph must contain at most 106 vertices and 106 edges (it is guaranteed that if at least one graph that meets the requirements exists, then there also exists the graph with at most 106 vertices and at most 106 edges). ",
+    "prob_desc_input_spec": "The single line of the input contains integer k (1 ≤ k ≤ 100) — the required degree of the vertices of the regular graph.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1900,
+    "file_name": "train_036.jsonl",
+    "code_uid": "b7522beb4ed6f6e57bb66f80627c6b5e",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"1\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "k = int(input())\nif k % 2 == 0:\n    print('NO')\nelse:\n    print('YES')\n    reb = [[1, 2]]\n    for v in range(3, k + 2):\n        reb.append([1, v])\n        reb.append([v, k + 2 * v - 4])\n        reb.append([v, k + 2 * v - 3])\n        reb.append([k + 2 * v - 4, k + 2 * v - 3])\n        for u in range(v + 1, k + 2):\n            if v + u != k + 4:\n                reb.append([v, u])\n            reb.append([k + 2 * v - 4, k + 2 * u - 4])\n            reb.append([k + 2 * v - 3, k + 2 * u - 3])\n    for v in range(3 * k, 4 * k - 1):\n        reb.append([2, v])\n        reb.append([v, 2 * v - 2 * k - 1])\n        reb.append([v, 2 * v - 2 * k])\n        reb.append([2 * v - 2 * k, 2 * v - 2 * k - 1])\n        for u in range(v + 1, 4 * k - 1):\n            if v + u != 7 * k - 2:\n                reb.append([v, u])\n            reb.append([2 * v - 2 * k, 2 * u - 2 * k])\n            reb.append([2 * v - 2 * k - 1, 2 * u - 2 * k - 1])\n    print(2 * (3 * k - 2), k * (3 * k - 2))\n    for a, b in reb:\n        print(a, b)\n",
+    "prob_desc_created_at": "1433435400",
+    "tags": [
+        "constructive algorithms",
+        "implementation",
+        "graphs"
+    ],
+    "hidden_unit_tests": ""
+}

@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"70.00000000\", \"55.00000000\"]",
+    "src_uid": "0c3fd1226188cccd013b0842666c3597",
+    "prob_desc_notes": null,
+    "prob_desc_description": "Once Petya was in such a good mood that he decided to help his mum with the washing-up. There were n dirty bowls in the sink. From the geometrical point of view each bowl looks like a blunted cone. We can disregard the width of the walls and bottom. Petya puts the clean bowls one on another naturally, i. e. so that their vertical axes coincide (see the picture). You will be given the order in which Petya washes the bowls. Determine the height of the construction, i.e. the distance from the bottom of the lowest bowl to the top of the highest one.   ",
+    "prob_desc_output_spec": "Output the height of the plate pile accurate to at least 10 - 6.",
+    "prob_desc_input_spec": "The first input line contains integer n (1 ≤ n ≤ 3000). Each of the following n lines contains 3 integers h, r and R (1 ≤ h ≤ 10000, 1 ≤ r &lt; R ≤ 10000). They are the height of a bowl, the radius of its bottom and the radius of its top. The plates are given in the order Petya puts them on the table.",
+    "prob_desc_output_to": "output.txt",
+    "prob_desc_input_from": "input.txt",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_058.jsonl",
+    "code_uid": "ee4e7a89ddb096556d53238cd9cb3a86",
+    "prob_desc_memory_limit": "64 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n40 10 50\\n60 20 30\", \"3\\n50 30 80\\n35 25 70\\n40 10 90\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\nfrom array import array  # noqa: F401\n\n\ndef input1():\n    with open('input.txt') as fp:\n        return fp.readlines()\n\n\ndef output1(ans: str):\n    with open('output.txt', mode='w') as fp:\n        fp.write(ans)\n\n\ndef input2():\n    return [line.decode('utf-8') for line in sys.stdin.buffer.readlines()]\n\n\ndef output2(ans):\n    print(ans)\n\n\nsubmit = 1\nif submit:\n    input = input1\n    output = output1\nelse:\n    input = input2\n    output = output2\n\n\ns = input()\nn = int(s[0])\nbowls = [tuple(map(float, line.split())) for line in s[1:]]\nans = bowls[0][0]\nbottom = [0.0] * n\neps = 1e-9\n\nfor i in range(1, n):\n    hi, ri, Ri = bowls[i]\n    res = bottom[i - 1]\n\n    for j in range(i - 1, -1, -1):\n        hj, rj, Rj = bowls[j]\n        x = 0.0\n\n        if Rj <= ri:\n            x = hj\n        elif Rj >= Ri:\n            x = max((Ri - rj) / (Rj - rj) * hj - hi, (ri - rj) / (Rj - rj) * hj)\n        else:\n            x = max(hj - (Rj - ri) / (Ri - ri) * hi, (ri - rj) / (Rj - rj) * hj)\n\n        res = max(res, x + bottom[j])\n\n    bottom[i] = res\n    ans = max(ans, bottom[i] + hi)\n\noutput('{:.10f}'.format(ans))\n",
+    "prob_desc_created_at": "1287482400",
+    "tags": [
+        "implementation",
+        "geometry"
+    ],
+    "hidden_unit_tests": ""
+}

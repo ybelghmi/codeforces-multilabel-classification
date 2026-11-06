@@ -1,0 +1,27 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"YES\\nNO\\nYES\\nNO\\nNO\"]",
+    "src_uid": "1d9d34dca11a787d6e2345494680e717",
+    "prob_desc_notes": "NoteIn the first test case, Alice and Bob can each take one candy, then both will have a total weight of $$$1$$$.In the second test case, any division will be unfair.In the third test case, both Alice and Bob can take two candies, one of weight $$$1$$$ and one of weight $$$2$$$.In the fourth test case, it is impossible to divide three identical candies between two people.In the fifth test case, any division will also be unfair.",
+    "prob_desc_description": "Alice and Bob received $$$n$$$ candies from their parents. Each candy weighs either 1 gram or 2 grams. Now they want to divide all candies among themselves fairly so that the total weight of Alice's candies is equal to the total weight of Bob's candies.Check if they can do that.Note that candies are not allowed to be cut in half.",
+    "prob_desc_output_spec": "For each test case, output on a separate line:    \"YES\", if all candies can be divided into two sets with the same weight;  \"NO\" otherwise.  You can output \"YES\" and \"NO\" in any case (for example, the strings yEs, yes, Yes and YES will be recognized as positive).",
+    "prob_desc_input_spec": "The first line contains one integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases. Then $$$t$$$ test cases follow. The first line of each test case contains an integer $$$n$$$ ($$$1 \\le n \\le 100$$$) — the number of candies that Alice and Bob received. The next line contains $$$n$$$ integers $$$a_1, a_2, \\ldots, a_n$$$ — the weights of the candies. The weight of each candy is either $$$1$$$ or $$$2$$$. It is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 800,
+    "file_name": "train_089.jsonl",
+    "code_uid": "ada7a69003dca579132e5cce074ae1bb",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"5\\n2\\n1 1\\n2\\n1 2\\n4\\n1 2 1 2\\n3\\n2 2 2\\n3\\n2 1 2\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "t=int(input())\r\nfor _ in range(t):\r\n    n=int(input())\r\n    L=list(map(int,input().split()))\r\n    k1,k2=0,0\r\n    for i in range(n):\r\n        if L[i]==1:\r\n            k1+=1\r\n        else:\r\n            k2+=2\r\n    if (k1+k2)%2==0 and k1!=0 and k2!=0:\r\n        print(\"YES\")\r\n    elif k1%2==0 and k2==0:\r\n        print(\"YES\")\r\n    elif (k2/2)%2==0 and k1==0:\r\n        print(\"YES\")\r\n    else:\r\n        print(\"NO\")",
+    "prob_desc_created_at": "1609770900",
+    "tags": [
+        "dp",
+        "greedy",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

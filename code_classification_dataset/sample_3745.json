@@ -1,0 +1,28 @@
+{
+    "prob_desc_time_limit": "6 seconds",
+    "prob_desc_sample_outputs": "[\"1\", \"3\"]",
+    "src_uid": "6090c7745184ede5a9997dc0dff39ac2",
+    "prob_desc_notes": "NoteIn the first example, there is only $$$1$$$ fence. That fence is interesting since its area is $$$4$$$ and there is $$$1$$$ enclosed cow, marked in red.  In the second example, there are $$$3$$$ interesting fences.   $$$(0,0)$$$ — $$$(30,14)$$$ — $$$(2,10)$$$  $$$(2,16)$$$ — $$$(30,14)$$$ — $$$(2,10)$$$  $$$(30,14)$$$ — $$$(4,6)$$$ — $$$(2,10)$$$ ",
+    "prob_desc_description": "This is the easy version of the problem. The only difference from the hard version is that in this version all coordinates are even.There are $$$n$$$ fence-posts at distinct coordinates on a plane. It is guaranteed that no three fence posts lie on the same line.There are an infinite number of cows on the plane, one at every point with integer coordinates.Gregor is a member of the Illuminati, and wants to build a triangular fence, connecting $$$3$$$ distinct existing fence posts. A cow strictly inside the fence is said to be enclosed. If there are an odd number of enclosed cows and the area of the fence is an integer, the fence is said to be interesting.Find the number of interesting fences.",
+    "prob_desc_output_spec": "Print a single integer, the number of interesting fences. Two fences are considered different if they are constructed with a different set of three fence posts.",
+    "prob_desc_input_spec": "The first line contains the integer $$$n$$$ ($$$3 \\le n \\le 6000$$$), the number of fence posts which Gregor can choose to form the vertices of a fence. Each of the next $$$n$$$ line contains two integers $$$x$$$ and $$$y$$$ ($$$0 \\le x,y \\le 10^7$$$, $$$x$$$ and $$$y$$$ are even), where $$$(x,y)$$$ is the coordinate of a fence post. All fence posts lie at distinct coordinates. No three fence posts are on the same line.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3-64",
+    "lang_cluster": "Python",
+    "difficulty": 2300,
+    "file_name": "train_083.jsonl",
+    "code_uid": "139bc23aab5f49407a7c642c59ce233a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0 0\\n2 0\\n0 4\", \"5\\n0 0\\n2 16\\n30 14\\n4 6\\n2 10\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\r\ninput = sys.stdin.readline\r\nn = int(input())\r\na = 0\r\nb = 0\r\nc = 0\r\nd = 0\r\nfor i in range(n):\r\n    x, y = [int(xx) for xx in input().split()]\r\n    if x % 4 and y % 4:\r\n        a += 1\r\n    elif y % 4:\r\n        b += 1\r\n    elif x % 4:\r\n        c += 1\r\n    else:\r\n        d += 1\r\nprint(a * (a - 1) // 2 * (b + c + d) + \r\n      b * (b - 1) // 2 * (a + c + d) + \r\n      c * (c - 1) // 2 * (a + b + d) +\r\n      d * (d - 1) // 2 * (a + b + c) +\r\n      a * (a - 1) * (a - 2) // 6 +\r\n      b * (b - 1) * (b - 2) // 6 +\r\n      c * (c - 1) * (c - 2) // 6 +\r\n      d * (d - 1) * (d - 2) // 6) \r\n",
+    "prob_desc_created_at": "1627828500",
+    "tags": [
+        "bitmasks",
+        "geometry",
+        "math",
+        "number theory"
+    ],
+    "hidden_unit_tests": ""
+}

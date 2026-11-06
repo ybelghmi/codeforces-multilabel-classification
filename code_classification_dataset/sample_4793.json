@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"1 \\n1 2 \\n2 1 \\n1 3 2\"]",
+    "src_uid": "67de9506ac2458ee67346bae1a9e3926",
+    "prob_desc_notes": "NoteIn the first test case, the sequence $$$a = [1]$$$, there is only one permutation $$$p = [1]$$$.In the second test case, the sequence $$$a = [1, 2]$$$. There is no inversion in $$$a$$$, so there is only one permutation $$$p = [1, 2]$$$ which doesn't increase the number of inversions.In the third test case, $$$a = [1, 2, 1]$$$ and has $$$1$$$ inversion. If we use $$$p = [2, 1]$$$, then $$$b = [p[a[1]], p[a[2]], p[a[3]]] = [2, 1, 2]$$$ and also has $$$1$$$ inversion.In the fourth test case, $$$a = [1, 2, 3, 2]$$$, and since $$$p = [1, 3, 2]$$$ then $$$b = [1, 3, 2, 3]$$$. Both $$$a$$$ and $$$b$$$ have $$$1$$$ inversion and $$$b$$$ is the lexicographically maximum.",
+    "prob_desc_description": "You have a sequence $$$a$$$ with $$$n$$$ elements $$$1, 2, 3, \\dots, k - 1, k, k - 1, k - 2, \\dots, k - (n - k)$$$ ($$$k \\le n &lt; 2k$$$).Let's call as inversion in $$$a$$$ a pair of indices $$$i &lt; j$$$ such that $$$a[i] &gt; a[j]$$$.Suppose, you have some permutation $$$p$$$ of size $$$k$$$ and you build a sequence $$$b$$$ of size $$$n$$$ in the following manner: $$$b[i] = p[a[i]]$$$.Your goal is to find such permutation $$$p$$$ that the total number of inversions in $$$b$$$ doesn't exceed the total number of inversions in $$$a$$$, and $$$b$$$ is lexicographically maximum.Small reminder: the sequence of $$$k$$$ integers is called a permutation if it contains all integers from $$$1$$$ to $$$k$$$ exactly once.Another small reminder: a sequence $$$s$$$ is lexicographically smaller than another sequence $$$t$$$, if either $$$s$$$ is a prefix of $$$t$$$, or for the first $$$i$$$ such that $$$s_i \\ne t_i$$$, $$$s_i &lt; t_i$$$ holds (in the first position that these sequences are different, $$$s$$$ has smaller number than $$$t$$$).",
+    "prob_desc_output_spec": "For each test case, print $$$k$$$ integers — the permutation $$$p$$$ which maximizes $$$b$$$ lexicographically without increasing the total number of inversions. It can be proven that $$$p$$$ exists and is unique.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The first and only line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$k \\le n &lt; 2k$$$; $$$1 \\le k \\le 10^5$$$) — the length of the sequence $$$a$$$ and its maximum. It's guaranteed that the total sum of $$$k$$$ over test cases doesn't exceed $$$10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 1500,
+    "file_name": "train_106.jsonl",
+    "code_uid": "c7b34f3059776d9d8cfb1a099e8a0994",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"4\\n1 1\\n2 2\\n3 2\\n4 3\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "T=int(input())\r\nfor _ in range(T):\r\n  n,k=map(int,input().split())\r\n  ans=[i for i in range(1,k+1)]\r\n  temp=2*k-n-1;k1=k\r\n  for i in range(temp,k):\r\n     ans[i]=k1\r\n     k1-=1\r\n  print(*ans)\r\n",
+    "prob_desc_created_at": "1610634900",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

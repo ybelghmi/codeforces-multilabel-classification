@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "2 seconds",
+    "prob_desc_sample_outputs": "[\"No\", \"Yes\\n4 12 7 31 7 61\"]",
+    "src_uid": "4033eee4e822b9df57e30297e339c17d",
+    "prob_desc_notes": "NoteIn the first example no permutation is valid.In the second example the given answer lead to the sequence $$$a_1 = 4$$$, $$$a_2 = 8$$$, $$$a_3 = 15$$$, $$$a_4 = 16$$$, $$$a_5 = 23$$$, $$$a_6 = 42$$$.",
+    "prob_desc_description": "Vitya has learned that the answer for The Ultimate Question of Life, the Universe, and Everything is not the integer 54 42, but an increasing integer sequence $$$a_1, \\ldots, a_n$$$. In order to not reveal the secret earlier than needed, Vitya encrypted the answer and obtained the sequence $$$b_1, \\ldots, b_n$$$ using the following rules:  $$$b_1 = a_1$$$; $$$b_i = a_i \\oplus a_{i - 1}$$$ for all $$$i$$$ from 2 to $$$n$$$, where $$$x \\oplus y$$$ is the bitwise XOR of $$$x$$$ and $$$y$$$. It is easy to see that the original sequence can be obtained using the rule $$$a_i = b_1 \\oplus \\ldots \\oplus b_i$$$.However, some time later Vitya discovered that the integers $$$b_i$$$ in the cypher got shuffled, and it can happen that when decrypted using the rule mentioned above, it can produce a sequence that is not increasing. In order to save his reputation in the scientific community, Vasya decided to find some permutation of integers $$$b_i$$$ so that the sequence $$$a_i = b_1 \\oplus \\ldots \\oplus b_i$$$ is strictly increasing. Help him find such a permutation or determine that it is impossible.",
+    "prob_desc_output_spec": "If there are no valid permutations, print a single line containing \"No\". Otherwise in the first line print the word \"Yes\", and in the second line print integers $$$b'_1, \\ldots, b'_n$$$ — a valid permutation of integers $$$b_i$$$. The unordered multisets $$$\\{b_1, \\ldots, b_n\\}$$$ and $$$\\{b'_1, \\ldots, b'_n\\}$$$ should be equal, i. e. for each integer $$$x$$$ the number of occurrences of $$$x$$$ in the first multiset should be equal to the number of occurrences of $$$x$$$ in the second multiset. Apart from this, the sequence $$$a_i = b'_1 \\oplus \\ldots \\oplus b'_i$$$ should be strictly increasing. If there are multiple answers, print any of them.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$n$$$ ($$$1 \\leq n \\leq 10^5$$$). The second line contains $$$n$$$ integers $$$b_1, \\ldots, b_n$$$ ($$$1 \\leq b_i &lt; 2^{60}$$$).",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 2",
+    "lang_cluster": "Python",
+    "difficulty": 2200,
+    "file_name": "train_060.jsonl",
+    "code_uid": "d3ccd7f0aa8552894cdc24383c30b5e6",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n1 2 3\", \"6\\n4 7 7 12 31 61\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "import sys\n\ndef interleave(c, b, mask):\n\tlb, ib, s = len(b), 0, False\n\tif ib<lb:\n\t\tyield b[ib]\n\t\tib, s = 1, True\n\tfor e in c:\n\t\tyield e\n\t\ts ^= (e&mask)>0\n\t\tif not s and ib<lb:\n\t\t\tyield b[ib]\n\t\t\tib, s = ib+1, True\n\tif ib<lb: yield -1\n\ndef calprefix(b):\n\tcur = 0\n\tfor e in b:\n\t\tcur ^= e\n\t\tyield cur\n\t\nn = int(raw_input())\nb = [int(t) for t in raw_input().split()]\nc = []\nfor w in range(60,0,-1):\n\tlow, high = 1<<(w-1), (1<<w)-1\n\tbx = filter(lambda x: low<=x and x<=high, b)\n\tc = list(interleave(c, bx, low))\n\tif len(c)>0 and c[-1]==-1:\n\t\tprint \"No\"\n\t\tsys.exit(0)\nprint \"Yes\"\nprint \" \".join(map(lambda x: str(x), c))\n\n#ans = list(calprefix(c))\n#print \" \".join(map(lambda x: str(x), ans))\n#c = 0\n#for e in ans:\n#\tprint c^e\n#\tc = e",
+    "prob_desc_created_at": "1525007700",
+    "tags": [
+        "constructive algorithms",
+        "math"
+    ],
+    "hidden_unit_tests": ""
+}

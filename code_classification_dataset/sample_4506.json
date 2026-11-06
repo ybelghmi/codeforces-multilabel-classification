@@ -1,0 +1,32 @@
+{
+    "prob_desc_time_limit": "3 seconds",
+    "prob_desc_sample_outputs": "[\"2\\n2 5 6 7\\n3 6 4 5\\n0\"]",
+    "src_uid": "cbd550be6982ef259de500194c33eff2",
+    "prob_desc_notes": "NoteNote the graph can be unconnected after a certain operation.Consider the first test case of the example:    The red edges are removed, and the green ones are added.",
+    "prob_desc_description": "Nastia has an unweighted tree with $$$n$$$ vertices and wants to play with it!The girl will perform the following operation with her tree, as long as she needs:  Remove any existing edge.  Add an edge between any pair of vertices. What is the minimum number of operations Nastia needs to get a bamboo from a tree? A bamboo is a tree in which no node has a degree greater than $$$2$$$.",
+    "prob_desc_output_spec": "For each test case in the first line print a single integer $$$k$$$ — the minimum number of operations required to obtain a bamboo from the initial tree. In the next $$$k$$$ lines print $$$4$$$ integers $$$x_1$$$, $$$y_1$$$, $$$x_2$$$, $$$y_2$$$ ($$$1 \\le x_1, y_1, x_2, y_{2} \\le n$$$, $$$x_1 \\neq y_1$$$, $$$x_2 \\neq y_2$$$) — this way you remove the edge $$$(x_1, y_1)$$$ and add an undirected edge $$$(x_2, y_2)$$$. Note that the edge $$$(x_1, y_1)$$$ must be present in the graph at the moment of removing.",
+    "prob_desc_input_spec": "The first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10\\,000$$$) — the number of test cases. The first line of each test case contains a single integer $$$n$$$ ($$$2 \\le n \\le 10^5$$$) — the number of vertices in the tree. Next $$$n - 1$$$ lines of each test cases describe the edges of the tree in form $$$a_i$$$, $$$b_i$$$ ($$$1 \\le a_i, b_i \\le n$$$, $$$a_i \\neq b_i$$$). It's guaranteed the given graph is a tree and the sum of $$$n$$$ in one test doesn't exceed $$$2 \\cdot 10^5$$$.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "PyPy 3",
+    "lang_cluster": "Python",
+    "difficulty": 2500,
+    "file_name": "train_099.jsonl",
+    "code_uid": "200a857939310d5a9e10ea9da1ec289a",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"2\\n7\\n1 2\\n1 3\\n2 4\\n2 5\\n3 6\\n3 7\\n4\\n1 2\\n1 3\\n3 4\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "from types import GeneratorType\ndef bootstrap(f, stack=[]):\n    def wrappedfunc(*args, **kwargs):\n        if stack:\n            return f(*args, **kwargs)\n        else:\n            to = f(*args, **kwargs)\n            while True:\n                if type(to) is GeneratorType:\n                    stack.append(to)\n                    to = next(to)\n                else:\n                    stack.pop()\n                    if not stack:\n                        break\n                    to = stack[-1].send(to)\n            return to\n    return wrappedfunc\n\n@bootstrap\ndef fun(adj,v,p,rem):\n    ans=0\n    f=0\n    nf=0\n    for i in adj[v]:\n        if i==p:\n            continue\n        (cans,cf) = yield fun(adj,i,v,rem)\n        if cf==0:\n            nf+=1\n            rem.add((v,i))\n            ans+=1\n        else:\n            f+=1\n            if f>2:\n                ans+=1\n                rem.add((v,i))\n        ans += cans\n        \n    if f<2:\n        yield (ans,1)\n    else:\n        yield (ans,0)\n\ndef get(parent,a):\n    if parent[a]==a:\n        return a\n    return get(parent,parent[a])\n\ndef merge(parent,a,b):\n    a = get(parent,a)\n    b = get(parent,b)\n    if a>b:\n        a,b = b,a\n    parent[b]=a\n    return\n\nt = int(input())\nfor i in range(t):\n    n = int(input())\n    adj = [[] for i in range(n)]\n    edges = set()\n    for j in range(n-1):\n        [a,b] = [int(i) for i in input().split()]\n        edges.add((a-1,b-1))\n        adj[a-1].append(b-1)\n        adj[b-1].append(a-1)\n    rem = set()\n    print(fun(adj,0,-1,rem)[0])\n    for (a,b) in rem:\n        try:\n            edges.remove((a,b))\n        except:\n            pass\n        try:\n            edges.remove((b,a))\n        except:\n            pass\n    parent = [i for i in range(n)]\n    degree = [0]*n\n    for edge in edges:\n        degree[edge[0]]+=1\n        degree[edge[1]]+=1\n        merge(parent,edge[0],edge[1])\n    d = {}\n    for i in range(n):\n        if degree[i]>1:\n            continue\n        p = get(parent,i)\n        if not p in d:\n            d[p] = (i,i)\n        else:\n            d[p] = (d[p][0],i)\n    l = list(d.values())\n    op = []\n    for i in range(len(l)-1):\n        op.append([l[i][1],l[i+1][0]])\n    rem = list(rem)\n    for i in range(len(op)):\n        print(1+rem[i][1],1+rem[i][0],1+op[i][0],1+op[i][1])\n",
+    "prob_desc_created_at": "1620398100",
+    "tags": [
+        "constructive algorithms",
+        "data structures",
+        "dfs and similar",
+        "dp",
+        "dsu",
+        "greedy",
+        "implementation",
+        "trees"
+    ],
+    "hidden_unit_tests": ""
+}

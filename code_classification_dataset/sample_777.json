@@ -1,0 +1,26 @@
+{
+    "prob_desc_time_limit": "1 second",
+    "prob_desc_sample_outputs": "[\"1\", \"3\", \"2\"]",
+    "src_uid": "9374728643a1ddbe2200a4a125beef26",
+    "prob_desc_notes": "NoteIn the first sample you can assemble all the pieces of information in the optimal manner by assembling first the piece of information in the first computer, then in the third one, then change direction and move to the second one, and then, having 2 pieces of information, collect the last piece.In the second sample to collect all the pieces of information in the optimal manner, Doc can go to the fourth computer and get the piece of information, then go to the fifth computer with one piece and get another one, then go to the second computer in the same manner, then to the third one and finally, to the first one. Changes of direction will take place before moving from the fifth to the second computer, then from the second to the third computer, then from the third to the first computer.In the third sample the optimal order of collecting parts from computers can look like that: 1-&gt;3-&gt;4-&gt;6-&gt;2-&gt;5-&gt;7.",
+    "prob_desc_description": "Robot Doc is located in the hall, with n computers stand in a line, numbered from left to right from 1 to n. Each computer contains exactly one piece of information, each of which Doc wants to get eventually. The computers are equipped with a security system, so to crack the i-th of them, the robot needs to collect at least ai any pieces of information from the other computers. Doc can hack the computer only if he is right next to it.The robot is assembled using modern technologies and can move along the line of computers in either of the two possible directions, but the change of direction requires a large amount of resources from Doc. Tell the minimum number of changes of direction, which the robot will have to make to collect all n parts of information if initially it is next to computer with number 1.It is guaranteed that there exists at least one sequence of the robot's actions, which leads to the collection of all information. Initially Doc doesn't have any pieces of information.",
+    "prob_desc_output_spec": "Print a single number — the minimum number of changes in direction that the robot will have to make in order to collect all n parts of information.",
+    "prob_desc_input_spec": "The first line contains number n (1 ≤ n ≤ 1000). The second line contains n non-negative integers a1, a2, ..., an (0 ≤ ai &lt; n), separated by a space. It is guaranteed that there exists a way for robot to collect all pieces of the information.",
+    "prob_desc_output_to": "standard output",
+    "prob_desc_input_from": "standard input",
+    "lang": "Python 2",
+    "lang_cluster": "Python",
+    "difficulty": 1200,
+    "file_name": "train_004.jsonl",
+    "code_uid": "8fefa928ad44a03700fd1110e8db6ec5",
+    "prob_desc_memory_limit": "256 megabytes",
+    "prob_desc_sample_inputs": "[\"3\\n0 2 0\", \"5\\n4 2 3 0 1\", \"7\\n0 3 1 0 5 2 6\"]",
+    "exec_outcome": "PASSED",
+    "source_code": "r=lambda:map(int,raw_input().split())\n\nn=input()\n\na=r()\n\nc=0\nR=-1\nv=[0 for i in range(n)]\nfor j in range(n):\n    R+=1\n    for i in range(n):\n        if not v[i]:\n            if a[i] <= c:\n                v[i]=1\n                c+=1\n    if c == n:\n        break\n    R+=1\n    for i in range(n-1,-1,-1):\n        if not v[i]:\n            if a[i] <= c:\n                v[i]=1\n                c+=1\n    if c ==n:\n        break\nprint R",
+    "prob_desc_created_at": "1443890700",
+    "tags": [
+        "implementation",
+        "greedy"
+    ],
+    "hidden_unit_tests": ""
+}
